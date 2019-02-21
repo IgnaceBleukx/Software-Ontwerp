@@ -21,14 +21,14 @@ Post conditions may be specified using formal or informal notation. Formal notat
 *Example*
 ```
 /**
-	 * Adds a row to the table.
-	 * @param 	row
-	 * 			The row to be added to the table.
-	 * @post	The table contains one more row 
-	 * 			| new.getNumberOfRows() = old.getNumberOfRows() + 1
-	 * @note	When the table is full, an exception is thrown
-	 */
-	public void addRow(Row row) throws TooManyRowsException {}
+* Adds a row to the table.
+* @param 	row
+* 			The row to be added to the table.
+* @post	The table contains one more row 
+* 			| new.getNumberOfRows() = old.getNumberOfRows() + 1
+* @note	When the table is full, an exception is thrown
+*/
+public void addRow(Row row) throws TooManyRowsException {}
 ```
 
 ### Variable specification
@@ -37,7 +37,7 @@ Each field is preceded by a short description of its meaning.
 *Example*
 ```
 /**
-	 * Variable registering the initial radius of a planetoid.	
-	 */
-	private final double initialRadius;
+* Variable registering the initial radius of a planetoid.	
+*/
+private final double initialRadius;
   ```
