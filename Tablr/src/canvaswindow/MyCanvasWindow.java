@@ -11,7 +11,7 @@ public class MyCanvasWindow extends CanvasWindow {
 	
 	@Override
 	public void paint(Graphics g){
-		
+		g.draw3DRect(100, 100, 50, 100, false);
 	}
 	
 	@Override
