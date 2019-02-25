@@ -1,5 +1,8 @@
 package elements;
 
+import java.awt.Font;
+import java.awt.Graphics;
+
 public class Text extends UIElement {
 
 	/*
@@ -8,8 +11,8 @@ public class Text extends UIElement {
 	 * @param y: The y position of the left top corner of the Text.
 	 * @param t: The text contained by the current Text.
 	 */
-	public Text(double x, double y, String t) {
-		super(x, y);
+	public Text(int x, int y,int w, int h, String t) {
+		super(x, y, w, h);
 		this.setText(t);
 	}
 	
@@ -31,8 +34,8 @@ public class Text extends UIElement {
 	}
 
 	@Override
-	public void paint() {
-		// TODO Auto-generated method stub
+	public void paint(Graphics g) {
+		super.drawCenteredText(g, this.getText());
 
 	}
 

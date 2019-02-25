@@ -1,5 +1,6 @@
 package elements;
 
+import java.awt.Graphics;
 import java.util.ArrayList;
 
 public class ListView extends UIElement {
@@ -10,8 +11,8 @@ public class ListView extends UIElement {
 	 * @param y: The y position of the left top corner of the ListView.
 	 * @param elements: The ArrayList of UIElements in the ListView.
 	 */
-	public ListView(double x, double y, ArrayList<UIElement> elements) {
-		super(x, y);	
+	public ListView(int x, int y,int w, int h, ArrayList<UIElement> elements) {
+		super(x, y, w, h);	
 		this.elements = elements;
 	}
 
@@ -35,7 +36,7 @@ public class ListView extends UIElement {
 	
 	
 	@Override
-	public void paint() {
+	public void paint(Graphics g) {
 		// TODO Auto-generated method stub
 
 	}

@@ -1,5 +1,9 @@
 package elements;
 
+import java.awt.Color;
+import java.awt.FontMetrics;
+import java.awt.Graphics;
+
 public class TextField extends UIElement {
 
 	/*
@@ -8,8 +12,8 @@ public class TextField extends UIElement {
 	 * @param y: The y position of the left top corner of the TextField.
 	 * @param checked: Whether the TextField is checked or not.
 	 */
-	public TextField(double x, double y, String t) {
-		super(x, y);
+	public TextField(int x, int y,int w, int h, String t) {
+		super(x, y, w, h);
 		setText(t);
 	}
 	
@@ -31,8 +35,14 @@ public class TextField extends UIElement {
 	}
 
 	@Override
-	public void paint() {
-		// TODO Auto-generated method stub
+	public void paint(Graphics g) {
+		FontMetrics metrics =  g.getFontMetrics(g.getFont());
+		g.setColor(Color.white);
+		g.fillRect(super.getX(),super.getY(), super.getWidth(), super.getHeight());
+		g.setColor(Color.black);
+		g.drawRect(super.getX(),super.getY(), super.getWidth(), super.getHeight());
+		int y = this.getY() +  ((this.getHeight() - metrics.getHeight()) / 2) + metrics.getAscent();
+		g.drawString(this.getText(), super.getX()+10, y);
 
 	}
 

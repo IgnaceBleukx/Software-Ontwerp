@@ -2,6 +2,8 @@ package canvaswindow;
 
 import java.awt.Graphics;
 
+import elements.*;
+
 public class MyCanvasWindow extends CanvasWindow {
 
 	protected MyCanvasWindow(String title) {
@@ -11,7 +13,8 @@ public class MyCanvasWindow extends CanvasWindow {
 	
 	@Override
 	public void paint(Graphics g){
-		g.draw3DRect(100, 100, 50, 100, false);
+		TextField b = new TextField(100,50,100,50, "Tralalalala");
+		b.paint(g);
 	}
 	
 	@Override

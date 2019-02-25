@@ -1,5 +1,6 @@
 package elements;
 
+import java.awt.Graphics;
 import java.util.ArrayList;
 
 public class UITable extends UIElement {
@@ -11,19 +12,21 @@ public class UITable extends UIElement {
 	 * @param legend: The legendary of the table.
 	 * @param rows: The rows of the table.
 	 */
-	public UITable(double x, double y,UIRow legend, ArrayList<UIElement> rows) {
-		super(x, y);
+	public UITable(int x, int y, int w, int h,UIRow legend, ArrayList<UIRow> rows) {
+		super(x, y,w,h);
 		this.legend = legend;
-		this.rows = new ListView(x,y,rows);
+		this.rows = rows;
 	}
 
-	ListView rows;
+	ArrayList<UIRow> rows;
 	UIRow legend;
 	
 	@Override
-	public void paint() {
-		// TODO Auto-generated method stub
-
+	public void paint(Graphics g) {
+		legend.paint(g);
+		for(UIRow r : rows){
+			r.paint(g);
+		}
 	}
 
 }

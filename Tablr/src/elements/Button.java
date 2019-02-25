@@ -1,5 +1,9 @@
 package elements;
 
+import java.awt.Font;
+import java.awt.FontMetrics;
+import java.awt.Graphics;
+
 public class Button extends UIElement {
 
 	/* Constructor of the Button.
@@ -7,8 +11,8 @@ public class Button extends UIElement {
 	 * @param y: The y position of the left top corner of the Button.
 	 * @param text: The text of the button.
 	 */
-	public Button(double x, double y, String text){
-		super(x,y);
+	public Button(int x, int y,int w, int h, String text){
+		super(x,y, w, h);
 		setText(text);
 	}
 	
@@ -29,9 +33,13 @@ public class Button extends UIElement {
 		this.text = t;
 	}
 
+	
 	@Override
-	public void paint() {
-		// TODO Auto-generated method stub
-		
+	public void paint(Graphics g) {
+		super.drawCenteredText(g, this.getText());
+	    // Drawing button
+	    int arcWidth = (int) Math.round(super.getWidth() / 4);
+		int arcHeight = (int) Math.round(super.getHeight() / 4);
+		g.drawRoundRect(super.getX(), super.getY(), super.getWidth(), super.getHeight(), arcWidth, arcHeight);
 	}
 }
