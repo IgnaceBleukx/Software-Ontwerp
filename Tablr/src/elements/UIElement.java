@@ -55,13 +55,45 @@ public class UIElement {
 	public void paint(Graphics g){
 		
 	}
-	
+
+	/**
+	 * Draws text centered in the UIElement.
+	 * @param g		Graphics object
+	 * @param text	String to draw
+	 */
 	public void drawCenteredText(Graphics g, String text){
 		Font font = g.getFont();
 	    FontMetrics metrics = g.getFontMetrics(font);
 	    int x = this.getX()+ (this.getWidth()- metrics.stringWidth(text)) / 2;
 	    int y = this.getY() +  ((this.getHeight() - metrics.getHeight()) / 2) + metrics.getAscent();
 	    g.drawString(text, this.x, this.y);
+	}
+
+	/**
+	 *	Returns whether (x,y) is inside the bounds of this UIElement
+	 * @param x 	X Coordinate
+	 * @param y 	Y Coordinate
+	 */
+	protected boolean containsPoint(int x,int y) {
+		return (x >= getX() &&
+				y >= getY() &&
+				x <= getX()+getWidth() &&
+				y <= getY()+getHeight());
+	}
+
+
+	/**
+	 * Returns the most specific UIElement located at (x,y)
+	 * @param x		X Coordinate
+	 * @param y		Y Coordinate
+	 * @return		UIElement a at position (x,y)
+	 * @note		If possible and correct, UIElements inside containers will be returned
+	 */
+	public UIElement locatedAt(int x, int y) {
+		if (containsPoint(x,y))
+			return this;
+		else
+			return null;
 	}
 
 }

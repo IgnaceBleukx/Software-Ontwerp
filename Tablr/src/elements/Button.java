@@ -36,10 +36,12 @@ public class Button extends UIElement {
 	
 	@Override
 	public void paint(Graphics g) {
-		super.drawCenteredText(g, this.getText());
+		drawCenteredText(g, this.getText());
 	    // Drawing button
 	    int arcWidth = (int) Math.round(super.getWidth() / 4);
 		int arcHeight = (int) Math.round(super.getHeight() / 4);
 		g.drawRoundRect(super.getX(), super.getY(), super.getWidth(), super.getHeight(), arcWidth, arcHeight);
 	}
+
+
 }

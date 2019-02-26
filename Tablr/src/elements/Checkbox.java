@@ -15,11 +15,17 @@ public class Checkbox extends UIElement {
 		super(x, y,w,h);
 		this.checked = checked;
 	}
-	
+
+	/**
+	 * 	Toggles the state of this checkbox ON->OFF or OFF->ON
+	 */
 	public void toggle(){
 		checked = !checked;
 	}
-	
+
+	/**
+	 * Whether this checkbox is checked or not
+	 */
 	private boolean checked = true;
 	
 	@Override

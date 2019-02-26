@@ -29,4 +29,26 @@ public class UITable extends UIElement {
 		}
 	}
 
+	/**
+	 * Returns the most specific UIElement located at (x,y) by searching in its rows and legend
+	 * @param x		X Coordinate
+	 * @param y		Y Coordinate
+	 * @return		UIElement a at position (x,y)
+	 * @note		If possible and correct, UIElements inside containers will be returned
+	 */
+	@Override
+	public UIElement locatedAt(int x, int y) {
+		UIElement found = null;
+
+		found = legend.locatedAt(x,y); //Look in legend
+		if (found != null) return found;
+
+		for (UIRow e : rows) { //Look in rows
+			found = e.locatedAt(x,y);
+			if (found != null)
+				return found;
+		}
+		return this; //If no elements in the table match, return this.
+	}
+
 }

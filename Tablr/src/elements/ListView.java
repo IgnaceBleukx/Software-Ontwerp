@@ -37,8 +37,27 @@ public class ListView extends UIElement {
 	
 	@Override
 	public void paint(Graphics g) {
-		// TODO Auto-generated method stub
+		g.drawRect(getX(),getY(),getWidth(),getHeight());
 
 	}
+
+	/**
+	 * Returns the most specific UIElement located at (x,y) by searching in elements
+	 * @param x		X Coordinate
+	 * @param y		Y Coordinate
+	 * @return		UIElement a at position (x,y)
+	 * @note		If possible and correct, UIElements inside containers will be returned
+	 */
+	@Override
+	public UIElement locatedAt(int x, int y) {
+		UIElement found = null;
+		for (UIElement e : elements) {
+			found = e.locatedAt(x,y);
+			if (found != null)
+				return found;
+		}
+		return this; //If no elements inside the list match, return this.
+	}
+
 
 }
