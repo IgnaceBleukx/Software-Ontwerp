@@ -1,3 +1,4 @@
+import java.awt.Graphics;
 import java.util.ArrayList;
 
 import elements.UIElement;
@@ -34,9 +35,9 @@ public class UI {
 	/*
 	 * This method paints the current UI.
 	 */
-	public void paint(){
+	public void paint(Graphics g){
 		for (UIElement e : getElements()){
-			e.paint();
+			e.paint(g);
 		}
 	}
 }
