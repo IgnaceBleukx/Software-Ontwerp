@@ -64,9 +64,9 @@ public class UIElement {
 	public void drawCenteredText(Graphics g, String text){
 		Font font = g.getFont();
 	    FontMetrics metrics = g.getFontMetrics(font);
-	    int x = this.getX()+ (this.getWidth()- metrics.stringWidth(text)) / 2;
-	    int y = this.getY() +  ((this.getHeight() - metrics.getHeight()) / 2) + metrics.getAscent();
-	    g.drawString(text, this.x, this.y);
+	    int centeredX = this.getX()+ (this.getWidth()- metrics.stringWidth(text)) / 2;
+	    int centeredY = this.getY() +  ((this.getHeight() - metrics.getHeight()) / 2) + metrics.getAscent();
+	    g.drawString(text, centeredX,centeredY);
 	}
 
 	/**
