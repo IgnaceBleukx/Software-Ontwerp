@@ -1,15 +1,52 @@
 package domain;
 
+import java.util.ArrayList;
+
 public class Column {
+	
+	/**
+	 * Extended constructor of the column.
+	 * @param newName
+	 * @param newColumnType
+	 * @param newAllowsBlanks
+	 * @param newDefaultValue
+	 * @param newTable
+	 * @param newCells
+	 */
+	public Column(String name, Type type, Boolean allowsBlanks, String defaultValue, Table table, ArrayList<Cell> cells) {
+		this.name= name;
+		this.type = type;
+		this.allowsBlanks = allowsBlanks;
+		this.defaultValue = defaultValue;
+		this.table = table;
+		this.cells = cells;
+	}
+	
+	/**
+	 * Constructor of the column
+	 * @param newTable
+	 * @param newCells
+	 */
+	public Column(Table newTable, Cell[] newCells) {
+		type = Type.STRING;
+		allowsBlanks = true;
+		defaultValue = "";
+		this.table = newTable;
+		//TODO: this.name: Hangt af van de Table!
+		//TODO: cells kunnen ook hier gecreëerd worden, moeten niet noodzakelijk meegegeven worden.
+	}
+	
 	/**
 	 * the name of the Column
 	 */
 	private String name;
+	
 	/**
 	 * holds the Type of the Column as a string value
 	 * default value: "String"
 	 */
-	private String columnType = "String";
+	private Type type = Type.STRING;
+	
 	/**
 	 * does the column allow a blank field
 	 */
@@ -24,55 +61,30 @@ public class Column {
 	 * the parent of the column
 	 */
 	private Table table;
+	
 	/**
 	 * the cells this column contains
 	 */
-	private Cell[] cells;
+	private ArrayList<Cell> cells;
+	
 	
 	/**
-	 * uitgebreide constructor, meer als voorbeeld dan om echt te gebruiken.
-	 * @param newName
-	 * @param newColumnType
-	 * @param newAllowsBlanks
-	 * @param newDefaultValue
-	 * @param newTable
-	 * @param newCells
+	 * This method sets the next type for the column, the order of which is: STRING -> EMAIL -> BOOLEAN -> INTEGER
+	 * 
 	 */
-	public Column(String newName, String newColumnType, Boolean newAllowsBlanks, String newDefaultValue, Table newTable, Cell[] newCells) {
-		this.name= newName;
-		this.columnType = newColumnType;
-		this.allowsBlanks = newAllowsBlanks;
-		this.defaultValue = newDefaultValue;
-		this.table = newTable;
-		this.cells = newCells;
-	}
-	
-	/**
-	 * dit wordt waarschijnlijk de constructor die meestal gebruikt gaat worden: zie default values in opgave
-	 * @param newTable
-	 * @param newCells
-	 */
-	public Column(Table newTable, Cell[] newCells) {
-		columnType = "String";
-		allowsBlanks = true;
-		defaultValue = "";
-		this.table = newTable;
-		//TODO: this.name: Hangt af van de Table!
-		//TODO: cells kunnen ook hier gecreëerd worden, moeten niet noodzakelijk meegegeven worden.
-	}
-	
-	/**
-	 * bij een single click gaat het type van de column ééntje opschuiven volgens deze lijst (zie opgave)
-	 */
-	void NextType() {
-		switch (getColumnType()) {
-			case "String": setColumnType("Email");
-			case "Email": setColumnType("Boolean");
-			case "Boolean": setColumnType("Integer");
-			case "Integer": setColumnType("String");
+	public void setNextType(){
+		switch(getColumnType()){
+			case STRING : setColumnType(Type.EMAIL);
+			case EMAIL: setColumnType(Type.BOOLEAN);
+			case BOOLEAN: setColumnType(Type.INTEGER);
+			case INTEGER: setColumnType(Type.STRING);
+		
 		}
 	}
 
+	/**
+	 * This method returns the name of the Column
+	 */
 	public String getName() {
 		return name;
 	}
@@ -81,12 +93,12 @@ public class Column {
 		this.name = name;
 	}
 
-	public String getColumnType() {
-		return columnType;
+	public Type getColumnType() {
+		return this.type;
 	}
 
-	public void setColumnType(String columnType) {
-		this.columnType = columnType;
+	public void setColumnType(Type type) {
+		this.type = type;
 	}
 	public Boolean getAllowsBlanks() {
 		return allowsBlanks;
@@ -112,11 +124,11 @@ public class Column {
 		this.table = table;
 	}
 
-	public Cell[] getCells() {
+	public ArrayList<Cell> getCells() {
 		return cells;
 	}
 
-	public void setCells(Cell[] cells) {
+	public void setCells(ArrayList<Cell> cells) {
 		this.cells = cells;
 	}
 }

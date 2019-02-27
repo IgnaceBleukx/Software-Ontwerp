@@ -1,4 +1,4 @@
-package elements;
+package uielements;
 
 import java.awt.Color;
 import java.awt.FontMetrics;

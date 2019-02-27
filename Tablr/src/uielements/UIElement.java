@@ -1,4 +1,4 @@
-package elements;
+package uielements;
 
 import java.awt.Font;
 import java.awt.FontMetrics;
@@ -19,35 +19,35 @@ public class UIElement {
 	private int h;
 	
 	
-	/*
+	/**
 	 * This method returns the x-position of the current UIElement.
 	 */
 	public int getX(){
 		return this.x;
 	}
 	
-	/*
+	/**
 	 * This method returns the y-position of the current UIElement.
 	 */
 	public int getY(){
 		return this.y;
 	}
 	
-	/*
+	/**
 	 * This method returns the width of the current UIElement.
 	 */
 	public int getWidth(){
 		return this.w;
 	}
 	
-	/*
+	/**
 	 * This method returns the height of the current UIElement.
 	 */
 	public int getHeight(){
 		return this.h;
 	}
 	
-	/*
+	/**
 	 * This method paints the UIElement on the canvas window specified by the Graphics element.
 	 * This method should be overwritten by every subclass of UIElement.
 	 * @param g: The graphics engine on which the UIElement is painted.

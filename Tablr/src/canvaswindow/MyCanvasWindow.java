@@ -2,7 +2,8 @@ package canvaswindow;
 
 import java.awt.Graphics;
 import canvaswindow.UI;
-import elements.*;
+import uielements.*;
+
 import java.util.ArrayList;
 
 public class MyCanvasWindow extends CanvasWindow {
