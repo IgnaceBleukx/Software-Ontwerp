@@ -10,6 +10,7 @@ public class UIRow extends UIElement {
 		this.elements = elements;
 	}
 	
+	
 	private ArrayList<UIElement> elements;
 
 	public void paint(Graphics g){
@@ -29,6 +30,8 @@ public class UIRow extends UIElement {
 	 */
 	@Override
 	public UIElement locatedAt(int x, int y) {
+		if (!containsPoint(x,y)) return null;
+
 		UIElement found = null;
 		for (UIElement e : elements) {
 			found = e.locatedAt(x,y);

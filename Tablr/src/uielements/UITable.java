@@ -38,6 +38,8 @@ public class UITable extends UIElement {
 	 */
 	@Override
 	public UIElement locatedAt(int x, int y) {
+		if (!containsPoint(x,y)) return null;
+
 		UIElement found = null;
 
 		found = legend.locatedAt(x,y); //Look in legend
