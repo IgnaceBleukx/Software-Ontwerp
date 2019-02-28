@@ -24,21 +24,52 @@ public class Table {
 	 */
 	private ArrayList<Cell> cells;
 	
+	/**
+	 * create a new cell in the intersection of Row row and Column column
+	 * @param row
+	 * @param column
+	 */
+	private void createCell(Row row, Column column){
+		Cell cell = new Cell("", this, row, column);
+		this.add(cell);
+		row.add(cell);
+		column.add(cell);
+	}
+	
+	/**
+	 * add a cell to the collection of cells in this table (not in order)
+	 * @param cell
+	 */
+	private void add(Cell cell){
+		this.cells.add(cell);
+	}
+	
+	/**
+	 * add a new Column at the end of the list of columns (e.g. to the right)
+	 */
+	private void addColumn(){
+		Column newColumn = new Column(newColumnName(), this, new ArrayList<Cell>());
+		for (int i = 0; i<rows.size(); i++){
+			createCell(rows.get(i), newColumn);
+		}
+		columns.add(newColumn);
+	}
+	
 	//TODO: voor de volgende 2, errors catchen als de column niet in de lijst staat!
 	/**
 	 * removes a column from the list
 	 * @param column
 	 */
-	private void removeColumn(Column column) {
-		this.getColumns().remove(column);
+	public void remove(Column column) {
+		columns.remove(column);
 	}
 	
 	/**
-	 * removes a column from the list, based on its place in the list
-	 * @param column
+	 * removes a row from the list
+	 * @param row
 	 */
-	private void removeColumn(int column) {
-		this.getColumns().remove(column);
+	public void remove(Row row) {
+		rows.remove(row);
 	}
 	
 	/**

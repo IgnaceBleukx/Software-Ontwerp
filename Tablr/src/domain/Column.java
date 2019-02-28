@@ -85,6 +85,14 @@ public class Column {
 		
 		}
 	}
+	
+	/**
+	 * add a cell to the end of this column
+	 * @param cell
+	 */
+	public void add(Cell cell){
+		cells.add(cell);
+	}
 
 	/**
 	 * This method returns the name of the Column
