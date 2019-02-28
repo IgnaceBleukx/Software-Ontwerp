@@ -30,7 +30,7 @@ public class Table {
 	 * @param column
 	 */
 	private void createCell(Row row, Column column){
-		Cell cell = new Cell("", this, row, column);
+		Cell cell = new Cell(, row, column, this);
 		this.add(cell);
 		row.add(cell);
 		column.add(cell);

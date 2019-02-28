@@ -1,63 +1,62 @@
 package domain;
 
-public class Cell {
+public class Cell<T> {
 
-	private String value;
-	
-	private Column column;
-	private Row row;
-	private Table table;
-	
-	
-	public Cell(String newValue) {
-		value = newValue;
+	/**
+	 * The constructor of the Cell
+	 * @param v: the value of the cell
+	 */
+	public Cell(T v, Row r, Column c, Table t){
+		this.setValue(v);
+		this.row = r;
+		this.column = c;
+		this.table = t;
 	}
 	
+	/**
+	 * This method returns the value of the current cell.
+	 */
+	public T getValue(){
+		return this.value;
+	}
 	
+	/**
+	 * This method sets the value of the current cell.
+	 * @param v: the value to be set.
+	 */
+	public void setValue(T v){
+		this.value = v;
+	}
+	
+	/**
+	 * This method returns the row of the current Cell.
+	 */
 	public Row getRow() {
 		return row;
 	}
 
-	public void setRow(Row row) {
-		this.row = row;
-	}
-
+	/**
+	 * This method returns the table of the current Cell.
+	 */
 	public Table getTable() {
 		return table;
 	}
 
-	public void setTable(Table table) {
-		this.table = table;
-	}
-	
-	public String getValue() {
-		return value;
-	}
-	
-	public void setValue(String value) {
-		this.value = value;
-	}
-	
-	public Type getType(){
-		return this.type;
-	}
-	
-	public void setType(Type newType){
-		this.type = newType;
-	}
-	
+	/**
+	 * This method returns the column of the current Cell.
+	 */
 	public Column getColumn() {
 		return column;
 	}
 
-	public void setColumn(Column column) {
-		this.column = column;
-	}
+	private final Row row;
+	private final Table table;
+	private final Column column;
+	
 	
 	public void delete(){
 		
 	}
-
-
-	private Type type;
+	
+	private T value;
 }

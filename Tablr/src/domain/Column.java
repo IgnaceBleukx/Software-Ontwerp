@@ -82,7 +82,6 @@ public class Column {
 			case EMAIL: setColumnType(Type.BOOLEAN);
 			case BOOLEAN: setColumnType(Type.INTEGER);
 			case INTEGER: setColumnType(Type.STRING);
-		
 		}
 	}
 	
