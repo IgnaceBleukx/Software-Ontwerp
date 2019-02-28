@@ -164,11 +164,11 @@ public class Column {
 		}
 	}
 	
-	private void changeAllowsBlanks(){
-		if (allowsBlanks && defaultValue){
-			
-		}
-	}
+//	private void changeAllowsBlanks(){
+//		if (allowsBlanks && defaultValue){
+//			
+//		}
+//	}
 
 	/**
 	 * This method returns the name of the Column

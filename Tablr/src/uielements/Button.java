@@ -38,8 +38,8 @@ public class Button extends UIElement {
 	public void paint(Graphics g) {
 		drawCenteredText(g, this.getText());
 	    // Drawing button
-	    int arcWidth = (int) Math.round(super.getWidth() / 4);
-		int arcHeight = (int) Math.round(super.getHeight() / 4);
+	    int arcWidth = 8;
+		int arcHeight = 8;
 		g.drawRoundRect(super.getX(), super.getY(), super.getWidth(), super.getHeight(), arcWidth, arcHeight);
 	}
 
