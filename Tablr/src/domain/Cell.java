@@ -6,11 +6,8 @@ public class Cell<T> {
 	 * The constructor of the Cell
 	 * @param v: the value of the cell
 	 */
-	public Cell(T v, Row r, Column c, Table t){
+	public Cell(T v){
 		this.setValue(v);
-		this.row = r;
-		this.column = c;
-		this.table = t;
 	}
 	
 	/**
@@ -34,6 +31,14 @@ public class Cell<T> {
 	public Row getRow() {
 		return row;
 	}
+	
+	/**
+	 * This method sets the row of the current row.
+	 * @param row: The row to be set.
+	 */
+	public void setRow(Row row) {
+		this.row = row;
+	}
 
 	/**
 	 * This method returns the table of the current Cell.
@@ -43,20 +48,33 @@ public class Cell<T> {
 	}
 
 	/**
+	 * This method sets the table of the current Cell.
+	 * @param table: the table to be set.
+	 */
+	public void setTable(Table table) {
+		this.table = table;
+	}
+
+	/**
 	 * This method returns the column of the current Cell.
 	 */
 	public Column getColumn() {
 		return column;
 	}
 
-	private final Row row;
-	private final Table table;
-	private final Column column;
-	
-	
-	public void delete(){
-		
+	/**
+	 * This method sets the column of the current cell.
+	 * @param column
+	 */
+	public void setColumn(Column column) {
+		this.column = column;
 	}
+
+	private Row row;
+	private Table table;
+	private Column column;
 	
+	
+
 	private T value;
 }

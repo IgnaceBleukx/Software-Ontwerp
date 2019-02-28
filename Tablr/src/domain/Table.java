@@ -19,40 +19,36 @@ public class Table {
 	 */
 	private ArrayList<Row> rows;
 	
+	public void addRow(Row r){
+		this.rows.add(r);
+		r.setTable(this);
+	}
+	
 	/**
 	 * the table's cells
 	 */
-	private ArrayList<Cell> cells;
-	
-	/**
-	 * create a new cell in the intersection of Row row and Column column
-	 * @param row
-	 * @param column
-	 */
-	private void createCell(Row row, Column column){
-		Cell cell = new Cell(, row, column, this);
-		this.add(cell);
-		row.add(cell);
-		column.add(cell);
-	}
-	
+	private ArrayList<Cell<?>> cells;
+		
 	/**
 	 * add a cell to the collection of cells in this table (not in order)
 	 * @param cell
 	 */
-	private void add(Cell cell){
+	public void add(Cell<?> cell){
 		this.cells.add(cell);
 	}
 	
 	/**
 	 * add a new Column at the end of the list of columns (e.g. to the right)
 	 */
-	private void addColumn(){
-		Column newColumn = new Column(newColumnName(), this, new ArrayList<Cell>());
-		for (int i = 0; i<rows.size(); i++){
-			createCell(rows.get(i), newColumn);
+	public void addColumn(){
+		ArrayList<Cell<?>> columnCells = new ArrayList<Cell<?>>();
+		for(int i=0;i<=this.getColumns().size(); i++){
+			Cell<Blank> cell = new Cell<Blank>(new Blank());
+			columnCells.add(cell);
 		}
-		columns.add(newColumn);
+		Column newCol = new Column(newColumnName(), this, columnCells);
+		this.columns.add(newCol);
+		
 	}
 	
 	//TODO: voor de volgende 2, errors catchen als de column niet in de lijst staat!
@@ -76,7 +72,7 @@ public class Table {
 	 * Method can be used to generate a column name that is not yet in use for a column.
 	 * This is used when creating new columns.
 	 */
-	String newColumnName() {
+	private String newColumnName() {
 		ArrayList<String> names = getColumnNames();
 		String name = "Column";
 		int i = 0;
@@ -113,23 +109,9 @@ public class Table {
 		return columns;
 	}
 
-	public void setColumns(ArrayList<Column> columns) {
-		this.columns = columns;
-	}
 
 	public ArrayList<Row> getRows() {
 		return rows;
 	}
 
-	public void setRows(ArrayList<Row> rows) {
-		this.rows = rows;
-	}
-
-	public ArrayList<Cell> getCells() {
-		return cells;
-	}
-
-	public void setCells(ArrayList<Cell> cells) {
-		this.cells = cells;
-	}
 }

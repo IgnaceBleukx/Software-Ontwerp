@@ -33,7 +33,27 @@ public class Column {
 		defaultValue = "";
 		table = newTable;
 		name = newName;
-		cells = newCells;
+		addAllcells(newCells);
+	}
+
+	/**
+	 * This method adds a cell to the column and updates its table.
+	 * @param c: The cell to be added.
+	 */
+	public void addCell(Cell<?> c){
+		c.setColumn(this);
+		c.setTable(this.getTable());
+		cells.add(c);
+	}
+	
+	/**
+	 * This method adds a collection of cells to the current column.
+	 * @param newCells: The cells to be added to the column.
+	 */
+	private void addAllcells(ArrayList<Cell<?>> newCells) {
+		for (Cell<?> c: cells){
+			addCell(c);
+		}
 	}
 
 	/**
