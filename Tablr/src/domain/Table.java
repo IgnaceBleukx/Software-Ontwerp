@@ -51,7 +51,7 @@ public class Table {
 	public void addColumn(){
 		ArrayList<Cell<?>> columnCells = new ArrayList<Cell<?>>();
 		for(int i=0;i<=this.getColumns().size(); i++){
-			Cell<Blank> cell = new Cell<Blank>(new Blank());
+			Cell<String> cell = new Cell<String>(null);
 			columnCells.add(cell);
 		}
 		Column newCol = new Column(newColumnName(), this, columnCells);
@@ -59,7 +59,6 @@ public class Table {
 		
 	}
 	
-	//TODO: voor de volgende 2, errors catchen als de column niet in de lijst staat!
 	/**
 	 * removes a column from the list
 	 * @param column
@@ -101,18 +100,6 @@ public class Table {
 		return name;
 	}
 	
-	/**
-	 * puts all the names of the table's columns into one ArrayList
-	 * @return that list
-	 */
-	private ArrayList<String> getColumnNames() {
-		ArrayList<String> names = new ArrayList<String>();
-		for (Column column: this.getColumns()){
-			names.add(column.getName());
-		}
-		return names;
-	}
-	
 	public String getName() {
 		return name;
 	}
@@ -121,13 +108,43 @@ public class Table {
 		this.name = name;
 	}
 
-	public ArrayList<Column> getColumns() {
+	/**
+	 * puts all the names of the table's columns into one ArrayList
+	 * @return that list
+	 */
+	public ArrayList<String> getColumnNames() {
+		ArrayList<String> names = new ArrayList<String>();
+		for (Column column: this.getColumns()){
+			names.add(column.getName());
+		}
+		return names;
+	}
+	
+	/**
+	 * This method returns the columns of the current Table.
+	 * @return
+	 */
+ 	public ArrayList<Column> getColumns() {
 		return columns;
 	}
 
-
+	/**
+	 * This method returns the rows of the current Table.
+	 */
 	public ArrayList<Row> getRows() {
 		return rows;
 	}
 
+	/**
+	 * This method removes the table and all its contents.
+	 */
+	public void terminate(){
+		for (Column c: columns){
+			c.terminate();
+		}
+		for (Row r: rows){
+			r.terminate();
+		}
+		//TODO: remove table from top level table collection.
+	}
 }
