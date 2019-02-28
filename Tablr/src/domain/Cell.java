@@ -1,36 +1,57 @@
 package domain;
 
-public class Cell {
+public class Cell<T> {
 
-	private String value;
-	
-	public Cell(String newValue) {
-		value = newValue;
-	}
-	/*
-	 * TODO: deze 3 moeten volgens het domeinmodel in de opgave ook bewaard worden, maar dat lijkt me maar vreemd
-	 * 
-	private Column column;
-	private Row row;
-	private Table table;
-	*/
-	
-	
-	public String getValue() {
-		return value;
+	/**
+	 * The constructor of the Cell
+	 * @param v: the value of the cell
+	 */
+	public Cell(T v, Row r, Column c, Table t){
+		this.setValue(v);
+		this.row = r;
+		this.column = c;
+		this.table = t;
 	}
 	
-	public void setValue(String value) {
-		this.value = value;
+	/**
+	 * This method returns the value of the current cell.
+	 */
+	public T getValue(){
+		return this.value;
 	}
 	
-	public Type getType(){
-		return this.type;
+	/**
+	 * This method sets the value of the current cell.
+	 * @param v: the value to be set.
+	 */
+	public void setValue(T v){
+		this.value = v;
 	}
 	
-	public void setType(Type newType){
-		this.type = newType;
+	/**
+	 * This method returns the row of the current Cell.
+	 */
+	public Row getRow() {
+		return row;
 	}
+
+	/**
+	 * This method returns the table of the current Cell.
+	 */
+	public Table getTable() {
+		return table;
+	}
+
+	/**
+	 * This method returns the column of the current Cell.
+	 */
+	public Column getColumn() {
+		return column;
+	}
+
+	private final Row row;
+	private final Table table;
+	private final Column column;
 	
-	private Type type;
+	private T value;
 }
