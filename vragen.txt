@@ -1,0 +1,2 @@
+1. VALUE in cell, hoe best verschillende types ondersteunen? Generics, subklassen, instanceof, ...?
+2. Bij het toevoegen van een row, en die column laat geen blanks toe, wat is dan de defaultvalue?
