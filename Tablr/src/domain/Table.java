@@ -51,12 +51,11 @@ public class Table {
 		
 	}
 	
-	//TODO: voor de volgende 2, errors catchen als de column niet in de lijst staat!
 	/**
 	 * removes a column from the list
 	 * @param column
 	 */
-	public void remove(Column column) {
+	public void removeColumn(Column column) {
 		columns.remove(column);
 	}
 	
@@ -64,10 +63,18 @@ public class Table {
 	 * removes a row from the list
 	 * @param row
 	 */
-	public void remove(Row row) {
+	public void removeRow(Row row) {
 		rows.remove(row);
 	}
 	
+	/**
+	 * This method removes a cell of the table.
+	 * @param cell
+	 */
+	public void removeCell(Cell<?> cell){
+		this.cells.remove(cell);
+		cell.setTable(null);
+	}
 	/**
 	 * Method can be used to generate a column name that is not yet in use for a column.
 	 * This is used when creating new columns.

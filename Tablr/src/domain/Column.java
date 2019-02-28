@@ -56,6 +56,11 @@ public class Column {
 		}
 	}
 
+	
+	public void removeCell(Cell<?> cell){
+		this.cells.remove(cell);
+		cell.setColumn(null);
+	}
 	/**
 	 * the name of the Column
 	 * default value: "Column"
@@ -89,11 +94,7 @@ public class Column {
 	 * the cells this column contains
 	 */
 	private ArrayList<Cell<?>> cells;
-	
-	
-	
-	
-	
+		
 	/**
 	 * This method sets the next type for the column, the order of which is: STRING -> EMAIL -> BOOLEAN -> INTEGER
 	 * 
@@ -107,16 +108,6 @@ public class Column {
 		}
 	}
 	
-	/**
-	 * add a cell to the end of this column
-	 * @param cell
-	 */
-	public void add(Cell cell){
-		cell.setColumn(this);
-		cell.setTable(this.getTable());
-		cells.add(cell);
-	}
-
 	/**
 	 * This method returns the name of the Column
 	 */
@@ -163,7 +154,6 @@ public class Column {
 		return cells;
 	}
 
-	public void setCells(ArrayList<Cell<?>> cells) {
-		this.cells = cells;
-	}
+		
+	
 }

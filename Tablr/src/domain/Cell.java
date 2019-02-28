@@ -75,6 +75,15 @@ public class Cell<T> {
 	private Column column;
 	
 	
+	/**
+	 * This method terminates the cell and all its connections to other objects.
+	 */
+	public void terminate(){
+		this.getTable().removeCell(this);
+		this.getColumn().removeCell(this);
+		this.getRow().removeCell(this);
+	}
+	
 
 	private T value;
 }
