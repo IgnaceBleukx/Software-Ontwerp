@@ -3,6 +3,42 @@ package domain;
 import java.util.ArrayList;
 
 public class Column {
+
+	/**
+	 * the name of the Column
+	 * default value: "Column"
+	 */
+	private String name = "Column";
+	
+	/**
+	 * holds the Type of the Column
+	 * default value: String
+	 */
+	private Type type = Type.STRING;
+	
+	/**
+	 * does the column allow a blank field
+	 * default value: true
+	 */
+	private Boolean allowsBlanks = true;
+
+	/**
+	 * the default value of a column which allows blanks.
+	 * default value: "", or blank
+	 */
+	private String defaultValue = "";
+	
+	/**
+	 * the parent table of the column
+	 */
+	private Table table;
+	
+	/**
+	 * the cells this column contains
+	 */
+	private ArrayList<Cell> cells;
+	
+	
 	
 	/**
 	 * Extended constructor of the column.
@@ -23,50 +59,18 @@ public class Column {
 	}
 	
 	/**
-	 * Constructor of the column
+	 * Constructor of the column. This is the standard constructor that will mostly be used in the program.
 	 * @param newTable
 	 * @param newCells
 	 */
-	public Column(Table newTable, Cell[] newCells) {
+	public Column(String newName, Table newTable, ArrayList<Cell> newCells) {
 		type = Type.STRING;
 		allowsBlanks = true;
 		defaultValue = "";
-		this.table = newTable;
-		//TODO: this.name: Hangt af van de Table!
-		//TODO: cells kunnen ook hier gecreëerd worden, moeten niet noodzakelijk meegegeven worden.
+		table = newTable;
+		name = newName;
+		cells = newCells;
 	}
-	
-	/**
-	 * the name of the Column
-	 */
-	private String name;
-	
-	/**
-	 * holds the Type of the Column as a string value
-	 * default value: "String"
-	 */
-	private Type type = Type.STRING;
-	
-	/**
-	 * does the column allow a blank field
-	 */
-	private Boolean allowsBlanks = true;
-
-	/**
-	 * the default value of a column which allows blanks.
-	 */
-	private String defaultValue = "";
-	
-	/**
-	 * the parent of the column
-	 */
-	private Table table;
-	
-	/**
-	 * the cells this column contains
-	 */
-	private ArrayList<Cell> cells;
-	
 	
 	/**
 	 * This method sets the next type for the column, the order of which is: STRING -> EMAIL -> BOOLEAN -> INTEGER
