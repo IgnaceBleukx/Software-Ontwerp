@@ -3,7 +3,64 @@ package domain;
 import java.util.ArrayList;
 
 public class Column {
+	
+	/**
+	 * Extended constructor of the column.
+	 * @param newName
+	 * @param newColumnType
+	 * @param newAllowsBlanks
+	 * @param newDefaultValue
+	 * @param newTable
+	 * @param newCells
+	 */
+	public Column(String name, Type type, Boolean allowsBlanks, String defaultValue, Table table, ArrayList<Cell<?>> cells) {
+		this.name= name;
+		this.type = type;
+		this.allowsBlanks = allowsBlanks;
+		this.defaultValue = defaultValue;
+		this.table = table;
+		this.cells = cells;
+	}
+	
+	/**
+	 * Constructor of the column. This is the standard constructor that will mostly be used in the program.
+	 * @param newTable
+	 * @param newCells
+	 */
+	public Column(String newName, Table newTable, ArrayList<Cell<?>> newCells) {
+		type = Type.STRING;
+		allowsBlanks = true;
+		defaultValue = "";
+		table = newTable;
+		name = newName;
+		addAllcells(newCells);
+	}
 
+	/**
+	 * This method adds a cell to the column and updates its table.
+	 * @param c: The cell to be added.
+	 */
+	public void addCell(Cell<?> c){
+		c.setColumn(this);
+		c.setTable(this.getTable());
+		cells.add(c);
+	}
+	
+	/**
+	 * This method adds a collection of cells to the current column.
+	 * @param newCells: The cells to be added to the column.
+	 */
+	private void addAllcells(ArrayList<Cell<?>> newCells) {
+		for (Cell<?> c: cells){
+			addCell(c);
+		}
+	}
+
+	
+	public void removeCell(Cell<?> cell){
+		this.cells.remove(cell);
+		cell.setColumn(null);
+	}
 	/**
 	 * the name of the Column
 	 * default value: "Column"
@@ -36,42 +93,8 @@ public class Column {
 	/**
 	 * the cells this column contains
 	 */
-	private ArrayList<Cell> cells;
-	
-	
-	
-	/**
-	 * Extended constructor of the column.
-	 * @param newName
-	 * @param newColumnType
-	 * @param newAllowsBlanks
-	 * @param newDefaultValue
-	 * @param newTable
-	 * @param newCells
-	 */
-	public Column(String name, Type type, Boolean allowsBlanks, String defaultValue, Table table, ArrayList<Cell> cells) {
-		this.name= name;
-		this.type = type;
-		this.allowsBlanks = allowsBlanks;
-		this.defaultValue = defaultValue;
-		this.table = table;
-		this.cells = cells;
-	}
-	
-	/**
-	 * Constructor of the column. This is the standard constructor that will mostly be used in the program.
-	 * @param newTable
-	 * @param newCells
-	 */
-	public Column(String newName, Table newTable, ArrayList<Cell> newCells) {
-		type = Type.STRING;
-		allowsBlanks = true;
-		defaultValue = "";
-		table = newTable;
-		name = newName;
-		cells = newCells;
-	}
-	
+	private ArrayList<Cell<?>> cells;
+		
 	/**
 	 * This method sets the next type for the column, the order of which is: STRING -> EMAIL -> BOOLEAN -> INTEGER
 	 * 
@@ -82,10 +105,9 @@ public class Column {
 			case EMAIL: setColumnType(Type.BOOLEAN);
 			case BOOLEAN: setColumnType(Type.INTEGER);
 			case INTEGER: setColumnType(Type.STRING);
-		
 		}
 	}
-
+	
 	/**
 	 * This method returns the name of the Column
 	 */
@@ -128,11 +150,10 @@ public class Column {
 		this.table = table;
 	}
 
-	public ArrayList<Cell> getCells() {
+	public ArrayList<Cell<?>> getCells() {
 		return cells;
 	}
 
-	public void setCells(ArrayList<Cell> cells) {
-		this.cells = cells;
-	}
+		
+	
 }

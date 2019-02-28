@@ -1,36 +1,89 @@
 package domain;
 
-public class Cell {
+public class Cell<T> {
 
-	private String value;
-	
-	public Cell(String newValue) {
-		value = newValue;
+	/**
+	 * The constructor of the Cell
+	 * @param v: the value of the cell
+	 */
+	public Cell(T v){
+		this.setValue(v);
 	}
-	/*
-	 * TODO: deze 3 moeten volgens het domeinmodel in de opgave ook bewaard worden, maar dat lijkt me maar vreemd
-	 * 
-	private Column column;
+	
+	/**
+	 * This method returns the value of the current cell.
+	 */
+	public T getValue(){
+		return this.value;
+	}
+	
+	/**
+	 * This method sets the value of the current cell.
+	 * @param v: the value to be set.
+	 */
+	public void setValue(T v){
+		this.value = v;
+	}
+	
+	/**
+	 * This method returns the row of the current Cell.
+	 */
+	public Row getRow() {
+		return row;
+	}
+	
+	/**
+	 * This method sets the row of the current row.
+	 * @param row: The row to be set.
+	 */
+	public void setRow(Row row) {
+		this.row = row;
+	}
+
+	/**
+	 * This method returns the table of the current Cell.
+	 */
+	public Table getTable() {
+		return table;
+	}
+
+	/**
+	 * This method sets the table of the current Cell.
+	 * @param table: the table to be set.
+	 */
+	public void setTable(Table table) {
+		this.table = table;
+	}
+
+	/**
+	 * This method returns the column of the current Cell.
+	 */
+	public Column getColumn() {
+		return column;
+	}
+
+	/**
+	 * This method sets the column of the current cell.
+	 * @param column
+	 */
+	public void setColumn(Column column) {
+		this.column = column;
+	}
+
 	private Row row;
 	private Table table;
-	*/
+	private Column column;
 	
 	
-	public String getValue() {
-		return value;
+	/**
+	 * This method terminates the cell and all its connections to other objects.
+	 */
+	public void terminate(){
+		this.getTable().removeCell(this);
+		this.getColumn().removeCell(this);
+		this.getRow().removeCell(this);
 	}
 	
-	public void setValue(String value) {
-		this.value = value;
-	}
-	
-	public Type getType(){
-		return this.type;
-	}
-	
-	public void setType(Type newType){
-		this.type = newType;
-	}
-	
-	private Type type;
+
+	private T value;
 }
