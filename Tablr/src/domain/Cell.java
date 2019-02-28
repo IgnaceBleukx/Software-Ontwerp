@@ -54,8 +54,10 @@ public class Cell<T> {
 	private final Column column;
 	
 	
-	public void delete(){
-		
+	public void terminate(){
+		row.remove(this);
+		column.remove(this);
+		table.remove(this);
 	}
 	
 	private T value;

@@ -30,7 +30,7 @@ public class Table {
 	 * @param column
 	 */
 	private void createCell(Row row, Column column){
-		Cell cell = new Cell(, row, column, this);
+		Cell cell = new Cell(column.getDefault(), row, column, this);
 		this.add(cell);
 		row.add(cell);
 		column.add(cell);
@@ -53,6 +53,15 @@ public class Table {
 			createCell(rows.get(i), newColumn);
 		}
 		columns.add(newColumn);
+	}
+	
+	/**
+	 * TODO: error check voor cell niet in cells
+	 * removes a cell from the list of cells
+	 * @param cell
+	 */
+	public void remove(Cell cell){
+		cells.remove(cell);
 	}
 	
 	//TODO: voor de volgende 2, errors catchen als de column niet in de lijst staat!

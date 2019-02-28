@@ -1,6 +1,8 @@
 package domain;
 
+import java.awt.List;
 import java.util.ArrayList;
+import java.util.HashMap;
 
 public class Column {
 
@@ -26,7 +28,8 @@ public class Column {
 	 * the default value of a column which allows blanks.
 	 * default value: "", or blank
 	 */
-	private String defaultValue = "";
+	private HashMap<Type, Object> defaultValues = new HashMap<>();
+	
 	
 	/**
 	 * the parent table of the column
@@ -49,11 +52,11 @@ public class Column {
 	 * @param newTable
 	 * @param newCells
 	 */
-	public Column(String name, Type type, Boolean allowsBlanks, String defaultValue, Table table, ArrayList<Cell> cells) {
+	public Column(String name, Type type, Boolean allowsBlanks, HashMap<Type, Object> defaultValues, Table table, ArrayList<Cell> cells) {
 		this.name= name;
 		this.type = type;
 		this.allowsBlanks = allowsBlanks;
-		this.defaultValue = defaultValue;
+		this.defaultValues = defaultValues;
 		this.table = table;
 		this.cells = cells;
 	}
@@ -66,10 +69,36 @@ public class Column {
 	public Column(String newName, Table newTable, ArrayList<Cell> newCells) {
 		type = Type.STRING;
 		allowsBlanks = true;
-		defaultValue = "";
+		
+		//TODO: mijn instinct=dit is lelijk, maar hoe doe je dit anders
+		defaultValues.put(Type.STRING, "");
+		defaultValues.put(Type.BOOLEAN, null);
+		defaultValues.put(Type.EMAIL, "");
+		defaultValues.put(Type.INTEGER, null);
 		table = newTable;
 		name = newName;
 		cells = newCells;
+	}
+	
+	/**
+	 * @return the current default value for the current column Type.
+	 */
+	public String getDefault(){
+		return (String) defaultValues.get(getColumnType());
+	}
+	
+	public void setDefault(Type t, Object o){
+		try {
+			switch (t){
+				case STRING : defaultValues.put(Type.STRING,(String)o);
+				case BOOLEAN : defaultValues.put(Type.BOOLEAN, (Boolean) o);
+				case EMAIL : defaultValues.put(Type.EMAIL,(String)o);
+				case INTEGER : defaultValues.put(Type.INTEGER, (Integer) o);
+			}
+		} catch (ClassCastException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
 	
 	/**
@@ -91,6 +120,30 @@ public class Column {
 	 */
 	public void add(Cell cell){
 		cells.add(cell);
+	}	
+	
+	/**
+	 * removes a cell from the list of cells
+	 * @param cell
+	 */
+	public void remove(Cell cell){
+		cells.remove(cell);
+	}
+
+	/**
+	 * delete this column
+	 */
+	public void terminate(){
+		table.remove(this);
+		for (Cell cell: this.getCells()){
+			cell.terminate();
+		}
+	}
+	
+	private void changeAllowsBlanks(){
+		if (allowsBlanks && defaultValue){
+			
+		}
 	}
 
 	/**
@@ -117,14 +170,6 @@ public class Column {
 
 	public void setAllowsBlanks(Boolean allowsBlanks) {
 		this.allowsBlanks = allowsBlanks;
-	}
-
-	public String getDefaultValue() {
-		return defaultValue;
-	}
-
-	public void setDefaultValue(String defaultValue) {
-		this.defaultValue = defaultValue;
 	}
 
 	public Table getTable() {
