@@ -3,6 +3,38 @@ package domain;
 import java.util.ArrayList;
 
 public class Column {
+	
+	/**
+	 * Extended constructor of the column.
+	 * @param newName
+	 * @param newColumnType
+	 * @param newAllowsBlanks
+	 * @param newDefaultValue
+	 * @param newTable
+	 * @param newCells
+	 */
+	public Column(String name, Type type, Boolean allowsBlanks, String defaultValue, Table table, ArrayList<Cell<?>> cells) {
+		this.name= name;
+		this.type = type;
+		this.allowsBlanks = allowsBlanks;
+		this.defaultValue = defaultValue;
+		this.table = table;
+		this.cells = cells;
+	}
+	
+	/**
+	 * Constructor of the column. This is the standard constructor that will mostly be used in the program.
+	 * @param newTable
+	 * @param newCells
+	 */
+	public Column(String newName, Table newTable, ArrayList<Cell<?>> newCells) {
+		type = Type.STRING;
+		allowsBlanks = true;
+		defaultValue = "";
+		table = newTable;
+		name = newName;
+		cells = newCells;
+	}
 
 	/**
 	 * the name of the Column
@@ -36,41 +68,11 @@ public class Column {
 	/**
 	 * the cells this column contains
 	 */
-	private ArrayList<Cell> cells;
+	private ArrayList<Cell<?>> cells;
 	
 	
 	
-	/**
-	 * Extended constructor of the column.
-	 * @param newName
-	 * @param newColumnType
-	 * @param newAllowsBlanks
-	 * @param newDefaultValue
-	 * @param newTable
-	 * @param newCells
-	 */
-	public Column(String name, Type type, Boolean allowsBlanks, String defaultValue, Table table, ArrayList<Cell> cells) {
-		this.name= name;
-		this.type = type;
-		this.allowsBlanks = allowsBlanks;
-		this.defaultValue = defaultValue;
-		this.table = table;
-		this.cells = cells;
-	}
 	
-	/**
-	 * Constructor of the column. This is the standard constructor that will mostly be used in the program.
-	 * @param newTable
-	 * @param newCells
-	 */
-	public Column(String newName, Table newTable, ArrayList<Cell> newCells) {
-		type = Type.STRING;
-		allowsBlanks = true;
-		defaultValue = "";
-		table = newTable;
-		name = newName;
-		cells = newCells;
-	}
 	
 	/**
 	 * This method sets the next type for the column, the order of which is: STRING -> EMAIL -> BOOLEAN -> INTEGER
@@ -90,6 +92,8 @@ public class Column {
 	 * @param cell
 	 */
 	public void add(Cell cell){
+		cell.setColumn(this);
+		cell.setTable(this.getTable());
 		cells.add(cell);
 	}
 
@@ -135,11 +139,11 @@ public class Column {
 		this.table = table;
 	}
 
-	public ArrayList<Cell> getCells() {
+	public ArrayList<Cell<?>> getCells() {
 		return cells;
 	}
 
-	public void setCells(ArrayList<Cell> cells) {
+	public void setCells(ArrayList<Cell<?>> cells) {
 		this.cells = cells;
 	}
 }
