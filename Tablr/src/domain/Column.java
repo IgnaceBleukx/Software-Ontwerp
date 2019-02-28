@@ -7,6 +7,31 @@ import java.util.HashMap;
 public class Column {
 
 	/**
+	 * This method adds a cell to the column and updates its table.
+	 * @param c: The cell to be added.
+	 */
+	public void addCell(Cell<?> c){
+		c.setColumn(this);
+		c.setTable(this.getTable());
+		cells.add(c);
+	}
+	
+	/**
+	 * This method adds a collection of cells to the current column.
+	 * @param newCells: The cells to be added to the column.
+	 */
+	private void addAllcells(ArrayList<Cell<?>> newCells) {
+		for (Cell<?> c: cells){
+			addCell(c);
+		}
+	}
+
+	
+	public void removeCell(Cell<?> cell){
+		this.cells.remove(cell);
+		cell.setColumn(null);
+	}
+	/**
 	 * the name of the Column
 	 * default value: "Column"
 	 */
@@ -36,10 +61,6 @@ public class Column {
 	 */
 	private Table table;
 	
-	/**
-	 * the cells this column contains
-	 */
-	private ArrayList<Cell> cells;
 	
 	
 	
@@ -52,7 +73,7 @@ public class Column {
 	 * @param newTable
 	 * @param newCells
 	 */
-	public Column(String name, Type type, Boolean allowsBlanks, HashMap<Type, Object> defaultValues, Table table, ArrayList<Cell> cells) {
+	public Column(String name, Type type, Boolean allowsBlanks, HashMap<Type, Object> defaultValues, Table table, ArrayList<Cell<?>> newCells) {
 		this.name= name;
 		this.type = type;
 		this.allowsBlanks = allowsBlanks;
@@ -66,7 +87,7 @@ public class Column {
 	 * @param newTable
 	 * @param newCells
 	 */
-	public Column(String newName, Table newTable, ArrayList<Cell> newCells) {
+	public Column(String newName, Table newTable, ArrayList<Cell<?>> newCells) {
 		type = Type.STRING;
 		allowsBlanks = true;
 		
@@ -77,8 +98,11 @@ public class Column {
 		defaultValues.put(Type.INTEGER, null);
 		table = newTable;
 		name = newName;
-		cells = newCells;
+		addAllcells(newCells);
+		//cells = newCells;
 	}
+	
+	private ArrayList<Cell<?>> cells;
 	
 	/**
 	 * @return the current default value for the current column Type.
@@ -134,7 +158,7 @@ public class Column {
 	 * delete this column
 	 */
 	public void terminate(){
-		table.remove(this);
+		table.removeColumn(this);
 		for (Cell cell: this.getCells()){
 			cell.terminate();
 		}
@@ -180,11 +204,10 @@ public class Column {
 		this.table = table;
 	}
 
-	public ArrayList<Cell> getCells() {
+	public ArrayList<Cell<?>> getCells() {
 		return cells;
 	}
 
-	public void setCells(ArrayList<Cell> cells) {
-		this.cells = cells;
-	}
+		
+	
 }

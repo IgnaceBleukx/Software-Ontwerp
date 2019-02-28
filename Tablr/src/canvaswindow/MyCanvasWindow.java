@@ -1,9 +1,9 @@
 package canvaswindow;
 
 import java.awt.Graphics;
-import canvaswindow.UI;
-import uielements.*;
 
+import uielements.*;
+import ui.Loadable_Interfaces;
 import java.util.ArrayList;
 
 public class MyCanvasWindow extends CanvasWindow {
@@ -16,32 +16,12 @@ public class MyCanvasWindow extends CanvasWindow {
 	protected MyCanvasWindow(String title) {
 		super(title);
 
-		UI interface1 = new UI();
-
-		TextField b = new TextField(100,50,400,50, "TextField 1");
-		Button b1 = new Button(175, 125, 100, 50, "Button 1");
-		Button b2 = new Button(325, 125, 100, 50, "Button 2");
-		Checkbox c1 = new Checkbox(525, 63, 25,25, true);
-
-		interface1.addUIElement(b);
-		interface1.addUIElement(b1);
-		interface1.addUIElement(b2);
-		interface1.addUIElement(c1);
-
-		Button b3 = new Button(100, 200, 50, 50, "Button 3");
-		Button b4 = new Button(150, 200, 50, 50, "Button 4");
-		Button b5 = new Button(200, 200, 50, 50, "Button 5");
-		Button b6 = new Button(250, 200, 50, 50, "Button 6");
-		ArrayList<UIElement> buttons = new ArrayList<>();
-		buttons.add(b3);
-		buttons.add(b4);
-		buttons.add(b5);
-		buttons.add(b6);
-
-		UIRow row1 = new UIRow(85,185,230,80,buttons);
-		interface1.addUIElement(row1);
-
-		setActiveUI(interface1);
+		UI test = new UI(Loadable_Interfaces.TEST);
+		UI tables = new UI(Loadable_Interfaces.TABLES);
+		UI design = new UI(Loadable_Interfaces.TABLE_DESIGN);
+		UI rows = new UI(Loadable_Interfaces.TABLE_ROWS);
+			
+		setActiveUI(test);
 
 	}
 

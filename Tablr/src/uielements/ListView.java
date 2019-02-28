@@ -1,6 +1,7 @@
 package uielements;
 
 import java.awt.Graphics;
+import java.io.ObjectInputStream.GetField;
 import java.util.ArrayList;
 
 public class ListView extends UIElement {
@@ -32,14 +33,35 @@ public class ListView extends UIElement {
 		this.elements.remove(e);
 	}
 	
+	
 	ArrayList<UIElement> elements;
 	
+	private UIElement selectedElement = null;
+	
+	public void setSelectedElement(UIElement e) {
+		this.selectedElement = e;
+	}
+	
+	public UIElement GetSelectedElement() {
+		return this.selectedElement;
+	}
 	
 	@Override
 	public void paint(Graphics g) {
 		g.drawRect(getX(),getY(),getWidth(),getHeight());
-
+		
+		if (elements != null) {
+			for (UIElement e : elements) {
+				e.paint(g);
+			}
+		}
+		
+		if (selectedElement != null) {
+			UIElement s = this.selectedElement;
+			g.drawOval(s.getX()+s.getWidth()+10, s.getY()+s.getHeight()/2, 5, 5);
+		}
 	}
+	
 
 	/**
 	 * Returns the most specific UIElement located at (x,y) by searching in elements
@@ -50,13 +72,22 @@ public class ListView extends UIElement {
 	 */
 	@Override
 	public UIElement locatedAt(int x, int y) {
+		if (!containsPoint(x,y)) return null;
+		
 		UIElement found = null;
-		for (UIElement e : elements) {
-			found = e.locatedAt(x,y);
-			if (found != null)
-				return found;
+		
+		if (elements != null) {
+			for (UIElement e : elements) {
+				found = e.locatedAt(x,y);
+				if (found != null)
+					return found;
+			}
 		}
-		return this; //If no elements inside the list match, return this.
+		
+		return this;
+		 
+		//If no elements inside the list match, return this.
+		
 	}
 
 

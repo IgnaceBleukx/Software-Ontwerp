@@ -1,14 +1,59 @@
-package canvaswindow;
+package uielements;
 
 import java.awt.Graphics;
+import ui.Loadable_Interfaces;
 import java.util.ArrayList;
 
-import uielements.UIElement;
+import uielements.*;
 
 
 public class UI {
+	
+	/**
+	 * Creates an empty UI
+	 */
+	public UI() {}
+	
+	/**
+	 * Creates a UI and loads a preprogrammed interface in it.
+	 */
+	public UI(Loadable_Interfaces i) {
+		switch (i) {
+			case TABLES: loadTableDesignInterface();
+			case TABLE_DESIGN: loadTableDesignInterface();
+			case TABLE_ROWS: loadTableRowsInterface();
+			case TEST: loadTestInterface();
+		}
+	}
 
 	
+	private void loadTestInterface() {
+		Text text1 = new Text(40,40,100,100,"Interface: test");
+		ListView l = new ListView(10, 10, 580, 500, null);
+		Button createTableButton = new Button(10,520,580,70, "Create table");
+		
+		this.addUIElement(text1);
+		this.addUIElement(l);
+		this.addUIElement(createTableButton);
+		
+	}
+
+	private void loadTableRowsInterface() {
+		Text text1 = new Text(40,40,100,100,"Interface: rows mode");
+		this.addUIElement(text1);		
+	}
+
+	private void loadTableDesignInterface() {
+		Text text1 = new Text(40,40,100,100,"Interface: table design");
+		this.addUIElement(text1);		
+	}
+
+	private void loadTablesInterface() {
+		Text text1 = new Text(40,40,100,100,"Interface: tables");
+		this.addUIElement(text1);
+	}
+
+
 	private ArrayList<UIElement> elements = new ArrayList<UIElement>();
 	
 	/**
@@ -26,6 +71,7 @@ public class UI {
 		this.elements.add(e);
 	}
 	
+	
 	/**
 	 * @param e: The UIElement to be removed from the current canvaswindow.UI.
 	 * This method removes a UIElement from the current canvaswindow.UI. If the given UIElement is not part of the canvaswindow.UI, nothing happens.
@@ -42,6 +88,8 @@ public class UI {
 			e.paint(g);
 		}
 	}
+	
+	
 
 	/**
 	 * Returns the most specific UIElement that is an element of this canvaswindow.UI at position (x,y)
