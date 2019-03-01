@@ -9,11 +9,7 @@ public class Row {
 	 * @param cells 	The cells of the row.
 	 */
 	public Row(ArrayList<Cell<?>> cells){
-		for (Cell<?> c: cells){
-			c.setRow(this);
-			c.setTable(this.table);
-		}
-		this.cells.addAll(cells);
+		addAllCells(cells);
 	}
 	
 	/**
@@ -23,7 +19,10 @@ public class Row {
 	public void setTable(Table t){
 		this.table = t;
 		for (int i=0; i < t.getColumns().size(); i++){
-			t.getColumns().get(i).addCell(this.getCells().get(i));
+			t.getColumns().get(i).addCell(cells.get(i));
+		}
+		for (Cell<?> c : cells){
+			c.setTable(t);
 		}
 	}
 	
@@ -35,7 +34,8 @@ public class Row {
 	/**
 	 * the row's cells from left to right
 	 */
-	private ArrayList<Cell<?>> cells;
+	private ArrayList<Cell<?>> cells = new ArrayList<Cell<?>>();
+	
 	
 	/**
 	 * add a cell to the end of this row
@@ -45,6 +45,15 @@ public class Row {
 		cell.setTable(this.getTable());
 		cell.setRow(this);
 		cells.add(cell);
+	}
+	
+	/**
+	 * This method adds a collection of cells to the current row.
+	 */
+	public void addAllCells(ArrayList<Cell<?>> newCells){
+		for (Cell<?> c : newCells){
+			this.addCell(c);
+		}
 	}
 
 	/**
@@ -75,6 +84,10 @@ public class Row {
 		}
 	}
 	
+	/**
+	 * This method returns a copy of the cells contained in the current row.
+	 * @return
+	 */
 	@SuppressWarnings("unchecked")
 	public ArrayList<Cell<?>> getCells(){
 		return (ArrayList<Cell<?>>) this.cells.clone();

@@ -12,16 +12,22 @@ public class Table {
 	/**
 	 * the table's columns from left to right
 	 */
-	private ArrayList<Column> columns;
+	private ArrayList<Column> columns = new ArrayList<Column>();
 	
 	/**
 	 * the table's rows from up to down
 	 */
-	private ArrayList<Row> rows;
+	private ArrayList<Row> rows = new ArrayList<Row>();
 	
 	public void addRow(Row r){
-		this.rows.add(r);
-		r.setTable(this);
+		if (isValidRow(r)){
+			this.rows.add(r);
+			r.setTable(this);
+		}
+	}
+	
+	public boolean isValidRow(Row r){
+		return r.getCells().size() == this.getColumns().size();
 	}
 	
 	/*
@@ -35,7 +41,7 @@ public class Table {
 	/**
 	 * the table's cells
 	 */
-	private ArrayList<Cell<?>> cells;
+	private ArrayList<Cell<?>> cells = new ArrayList<Cell<?>>();
 	
 	/**
 	 * add a cell to the collection of cells in this table (not in order)
@@ -50,9 +56,10 @@ public class Table {
 	 */
 	public void addColumn(){
 		ArrayList<Cell<?>> columnCells = new ArrayList<Cell<?>>();
-		for(int i=0;i<=this.getColumns().size(); i++){
+		for(int i=0;i<this.getRows().size(); i++){
 			Cell<String> cell = new Cell<String>(null);
 			columnCells.add(cell);
+			this.getRows().get(i).addCell(cell);
 		}
 		Column newCol = new Column(newColumnName(), this, columnCells);
 		this.columns.add(newCol);

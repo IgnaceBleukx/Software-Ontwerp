@@ -1,3 +1,4 @@
 1. VALUE in cell, hoe best verschillende types ondersteunen? Generics, subklassen, instanceof, ...?
 2. Bij het toevoegen van een row, en die column laat geen blanks toe, wat is dan de defaultvalue?
 3. Bij het editen van een default value, blijft die value bewaard voor die Type Value en heeft iedere Type een andere default?
+

@@ -20,7 +20,7 @@ public class Column {
 		this.allowsBlanks = allowsBlanks;
 		this.defaultValues = defaultValues;
 		this.table = table;
-		this.cells = cells;
+		this.cells = newCells;
 	}
 	
 	/**
@@ -33,9 +33,9 @@ public class Column {
 		allowsBlanks = true;
 		
 		//TODO: mijn instinct=dit is lelijk, maar hoe doe je dit anders
-		defaultValues.put(Type.STRING, "");
+		defaultValues.put(Type.STRING,  null);
 		defaultValues.put(Type.BOOLEAN, null);
-		defaultValues.put(Type.EMAIL, "");
+		defaultValues.put(Type.EMAIL,   null);
 		defaultValues.put(Type.INTEGER, null);
 		table = newTable;
 		name = newName;
@@ -58,7 +58,7 @@ public class Column {
 	 * @param newCells: The cells to be added to the column.
 	 */
 	private void addAllcells(ArrayList<Cell<?>> newCells) {
-		for (Cell<?> c: cells){
+		for (Cell<?> c: newCells){
 			addCell(c);
 		}
 	}
@@ -98,7 +98,7 @@ public class Column {
 	 */
 	private Table table;
 	
-	private ArrayList<Cell<?>> cells;
+	private ArrayList<Cell<?>> cells = new ArrayList<Cell<?>>();
 	
 	/**
 	 * This method returns the default value of the current columnType.
