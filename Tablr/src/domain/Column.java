@@ -67,7 +67,24 @@ public class Column {
 	public void removeCell(Cell<?> cell){
 		this.cells.remove(cell);
 		cell.setColumn(null);
+		cell.setTable(null);
 	}
+	
+	/**
+	 * This method removes a cell from the column based on the index of the cell
+	 * @param index 	The index on which the cell must be removed.
+	 * @return 	The removed cell.
+	 */
+	public Cell<?> removeCell(int index){
+		Cell<?> c = this.cells.remove(index);
+		if (c != null){
+			c.setColumn(null);
+			c.setTable(null);
+		}
+		return c;
+	}
+	
+	
 	/**
 	 * the name of the Column
 	 * default value: "Column"

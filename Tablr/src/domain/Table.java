@@ -19,13 +19,29 @@ public class Table {
 	 */
 	private ArrayList<Row> rows = new ArrayList<Row>();
 	
-	public void addRow(Row r){
+	/**
+	 * This method adds a row to the current Table.
+	 * @param r 	The row to be added.
+	 * @throws IllegealDimensionException
+	 */
+	public void addRow(Row r) throws IllegealDimensionException{
 		if (isValidRow(r)){
 			this.rows.add(r);
 			r.setTable(this);
+			for (int i=0;i<columns.size();i++){
+				columns.get(i).addCell(r.getCells().get(i));
+			}
+		}
+		else{
+			throw new IllegealDimensionException();
 		}
 	}
 	
+	/**
+	 * This method returns whether the row given is a valid one for the current Table.
+	 * @param r 	The row to be checked.
+	 * @return
+	 */
 	public boolean isValidRow(Row r){
 		return r.getCells().size() == this.getColumns().size();
 	}
@@ -47,7 +63,7 @@ public class Table {
 	 * add a cell to the collection of cells in this table (not in order)
 	 * @param cell
 	 */
-	public void add(Cell<?> cell){
+	public void addCell(Cell<?> cell){
 		this.cells.add(cell);
 	}
 	
@@ -67,19 +83,62 @@ public class Table {
 	}
 	
 	/**
-	 * removes a column from the list
+	 * This method removes a Column from the current table.
 	 * @param column
 	 */
 	public void removeColumn(Column column) {
+		int index = this.columns.indexOf(column);
+		columns.remove(column);
+		for (Row r: rows){
+			r.removeCell(index);
+		}
+		column.setTable(null);
 		columns.remove(column);
 	}
 	
 	/**
-	 * removes a row from the list
-	 * @param row
+	 * This method removes a Column from the current table based on an index.
+	 * @param index 	The index on which the column must be removed.
+	 * @return 	The removed Column.
+	 */
+	public Column removeColumn(int index){
+		Column column = columns.get(index);
+		columns.remove(column);
+		for (Row r: rows){
+			r.removeCell(index);
+		}
+		column.setTable(null);
+		columns.remove(column);
+		return column;
+	}
+	
+	
+	/**
+	 * This method removes a row from the current table.
+	 * @param row 	The row to be removed.
 	 */
 	public void removeRow(Row row) {
+		int index = this.rows.indexOf(row);
+		for (Column c: columns){
+			c.removeCell(index);
+		}
+		row.setTable(null);
 		rows.remove(row);
+	}
+	
+	
+	/**
+	 * This method removes a row from the table based on index.
+	 * @param index 	The index of the row to be removed.
+	 * @return The removed row.
+	 */
+	public Row removeRow(int index){
+		Row r = rows.get(index);
+		for (Column c: columns){
+			c.removeCell(index);
+		}
+		r.setTable(null);
+		return rows.remove(index);
 	}
 	
 	/**

@@ -79,9 +79,10 @@ public class Cell<T> {
 	 * This method terminates the cell and all its connections to other objects.
 	 */
 	public void terminate(){
-		this.getTable().removeCell(this);
-		this.getColumn().removeCell(this);
-		this.getRow().removeCell(this);
+		if (getTable() != null) 	this.getTable().removeCell(this);
+		if (getColumn() != null) 	this.getColumn().removeCell(this);
+		if (getRow() != null) 		this.getRow().removeCell(this);
+		
 	}
 	
 

@@ -18,9 +18,6 @@ public class Row {
 	 */
 	public void setTable(Table t){
 		this.table = t;
-		for (int i=0; i < t.getColumns().size(); i++){
-			t.getColumns().get(i).addCell(cells.get(i));
-		}
 		for (Cell<?> c : cells){
 			c.setTable(t);
 		}
@@ -66,6 +63,20 @@ public class Row {
 	}
 	
 	/**
+	 * This method removes a cell from the row, based on an index.
+	 * @param index 	The index on which the cell must be removed from the row. 
+	 * @return The cell removed from te row.
+	 */
+	public Cell<?> removeCell(int index){
+		Cell<?> c = this.cells.remove(index);
+		if(c != null){
+			c.setRow(null);
+			c.setTable(null);
+		}
+		return c;
+	}
+	
+	/**
 	 * This method returns the table of the current Row.
 	 * @return
 	 */
@@ -79,9 +90,10 @@ public class Row {
 	 */
 	public void terminate(){
 		table.removeRow(this);
-		for (Cell<?> cell: cells){
-			cell.terminate();
+		while(!cells.isEmpty()){
+			cells.get(0).terminate();
 		}
+		this.setTable(null);
 	}
 	
 	/**
