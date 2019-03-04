@@ -2,6 +2,6 @@ package domain;
 
 public enum Type {
 	
-	EMAIL, INTEGER, BOOLEAN, STRING;
+	EMAIL,INTEGER,BOOLEAN,STRING;
 
 }

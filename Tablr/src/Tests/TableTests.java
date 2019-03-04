@@ -11,6 +11,7 @@ import domain.Column;
 import domain.IllegealDimensionException;
 import domain.Row;
 import domain.Table;
+import domain.Type;
 
 public class TableTests {
 	
@@ -99,7 +100,52 @@ public class TableTests {
 	public void removeColumn(){
 		Table table = buildTable();
 		table.removeColumn(0);
+		assertEquals(table.getColumns().size(), 2);
+		assertEquals(table.getRows().get(0).getCells().size(), 2);
 		
 	}
+	
+	@Test
+	public void removeCellFromRow(){
+		Table table = buildTable();
+		Row row = table.getRows().get(0);
+		Cell<?> c = row.removeCell(0);
+		assertEquals(row.getCells().size(), 2);
+		assertEquals(c.getTable(), table);
+		assertNull(c.getRow());
+		assertNotNull(c.getColumn());
+	}
+	
+	@Test
+	public void removeCellFromColumn(){
+		Table table = buildTable();
+		Column col = table.getColumns().get(0);
+		Cell<?> c = col.removeCell(0);
+		for(Cell<?> cell : col.getCells()){
+			assertNotEquals(c,cell);
+		}
+		assertEquals(table,c.getTable());
+		assertNotNull(c.getRow());
+		
+	}
+	
+	@Test
+	public void toggleColumnTypes(){
+		Table table = buildTable();
+		Column col = table.getColumns().get(0);
+		assertEquals(Type.STRING, col.getColumnType());
+		System.out.println(col.getColumnType());
+		col.setNextType();
+		assertEquals(Type.EMAIL, col.getColumnType());
+		col.setNextType();
+		assertEquals(Type.BOOLEAN, col.getColumnType());
+		col.setNextType();
+		assertEquals(Type.INTEGER, col.getColumnType());
+		col.setNextType();
+		assertEquals(Type.STRING, col.getColumnType());
+		
+	}
+	
+	
 
 }

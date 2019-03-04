@@ -58,8 +58,7 @@ public class Row {
 	 * @param cell	The cell to be removed.
 	 */
 	public void removeCell(Cell<?> cell){
-		this.cells.remove(cell);
-		cell.setRow(null);
+		removeCell(cells.indexOf(cell));
 	}
 	
 	/**
@@ -71,7 +70,6 @@ public class Row {
 		Cell<?> c = this.cells.remove(index);
 		if(c != null){
 			c.setRow(null);
-			c.setTable(null);
 		}
 		return c;
 	}

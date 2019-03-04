@@ -29,61 +29,13 @@ public class Column {
 	 * @param newCells
 	 */
 	public Column(String newName, Table newTable, ArrayList<Cell<?>> newCells) {
-		type = Type.STRING;
-		allowsBlanks = true;
-		
-		//TODO: mijn instinct=dit is lelijk, maar hoe doe je dit anders
-		defaultValues.put(Type.STRING,  null);
-		defaultValues.put(Type.BOOLEAN, null);
-		defaultValues.put(Type.EMAIL,   null);
-		defaultValues.put(Type.INTEGER, null);
-		table = newTable;
-		name = newName;
+		setColumnType(Type.STRING);
+		allowBlanks();
+		setTable(newTable);
+		setName(newName);
 		addAllcells(newCells);
-		//cells = newCells;
 	}
 
-	/**
-	 * This method adds a cell to the column and updates its table.
-	 * @param c: The cell to be added.
-	 */
-	public void addCell(Cell<?> c){
-		c.setColumn(this);
-		c.setTable(this.getTable());
-		cells.add(c);
-	}
-	
-	/**
-	 * This method adds a collection of cells to the current column.
-	 * @param newCells: The cells to be added to the column.
-	 */
-	private void addAllcells(ArrayList<Cell<?>> newCells) {
-		for (Cell<?> c: newCells){
-			addCell(c);
-		}
-	}
-
-	
-	public void removeCell(Cell<?> cell){
-		this.cells.remove(cell);
-		cell.setColumn(null);
-		cell.setTable(null);
-	}
-	
-	/**
-	 * This method removes a cell from the column based on the index of the cell
-	 * @param index 	The index on which the cell must be removed.
-	 * @return 	The removed cell.
-	 */
-	public Cell<?> removeCell(int index){
-		Cell<?> c = this.cells.remove(index);
-		if (c != null){
-			c.setColumn(null);
-			c.setTable(null);
-		}
-		return c;
-	}
-	
 	
 	/**
 	 * the name of the Column
@@ -91,77 +43,6 @@ public class Column {
 	 */
 	private String name = "Column";
 	
-	/**
-	 * holds the Type of the Column
-	 * default value: String
-	 */
-	private Type type = Type.STRING;
-	
-	/**
-	 * does the column allow a blank field
-	 * default value: true
-	 */
-	private Boolean allowsBlanks = true;
-
-	/**
-	 * the default value of a column which allows blanks.
-	 * default value: "", or blank
-	 */
-	private HashMap<Type, Object> defaultValues = new HashMap<>();
-	
-	
-	/**
-	 * the parent table of the column
-	 */
-	private Table table;
-	
-	private ArrayList<Cell<?>> cells = new ArrayList<Cell<?>>();
-	
-	/**
-	 * This method returns the default value of the current columnType.
-	 */
-	public String getDefault(){
-		return (String) defaultValues.get(getColumnType());
-	}
-	
-	public void setDefault(Type t, Object o) throws ClassCastException{
-		switch (t){
-				case STRING : defaultValues.put(Type.STRING,(String)o);
-				case BOOLEAN : defaultValues.put(Type.BOOLEAN, (Boolean) o);
-				case EMAIL : defaultValues.put(Type.EMAIL,(String)o);
-				case INTEGER : defaultValues.put(Type.INTEGER, (Integer) o);
-			}
-	}
-	
-	/**
-	 * This method sets the next type for the column, the order of which is: STRING -> EMAIL -> BOOLEAN -> INTEGER
-	 * 
-	 */
-	public void setNextType(){
-		switch(getColumnType()){
-			case STRING : setColumnType(Type.EMAIL);
-			case EMAIL: setColumnType(Type.BOOLEAN);
-			case BOOLEAN: setColumnType(Type.INTEGER);
-			case INTEGER: setColumnType(Type.STRING);
-		}
-	}
-	
-	/**
-	 * Delete all the contents of the column and the references to it.
-	 */
-	public void terminate(){
-		table.removeColumn(this);
-		for (Cell cell: this.getCells()){
-			cell.terminate();
-		}
-	}
-	
-//	private void changeAllowsBlanks(){
-//		if (allowsBlanks && defaultValue){
-//			
-//		}
-//	}
-
 	/**
 	 * This method returns the name of the Column
 	 */
@@ -184,11 +65,18 @@ public class Column {
 	 * @param name 	The name to be checked.
 	 */
 	public boolean isValidName(String name){
-		return this.getTable().getColumnNames().contains(name);
+		return !this.getTable().getColumnNames().contains(name);
 	}
 	
+	
 	/**
-	 * This method returns the type of the current column.-
+	 * Holds the Type of the Column
+	 * default value: String
+	 */
+	private Type type = Type.STRING;
+	
+	/**
+	 * This method returns the type of the current column.
 	 */
 	public Type getColumnType() {
 		return this.type;
@@ -200,6 +88,27 @@ public class Column {
 	public void setColumnType(Type type) {
 		this.type = type;
 	}
+	
+	/**
+	 * This method sets the next type for the column, the order of which is: STRING -> EMAIL -> BOOLEAN -> INTEGER
+	 * 
+	 */
+	public void setNextType(){
+		Type t = this.getColumnType();
+		switch (t) {
+			case STRING: 	setColumnType(Type.EMAIL);   break;
+			case EMAIL: 	setColumnType(Type.BOOLEAN); break;
+			case BOOLEAN: 	setColumnType(Type.INTEGER); break;
+			case INTEGER: 	setColumnType(Type.STRING);  break;
+		}
+	}
+	
+	
+	/**
+	 * does the column allow a blank field
+	 * default value: true
+	 */
+	private Boolean allowsBlanks = true;
 	
 	/**
 	 * This method returns whether the column allows blanks or not.
@@ -222,7 +131,97 @@ public class Column {
 	public void forbidBlanks(){
 		this.allowsBlanks = false;
 	}
+	
+	
+	/**
+	 * The default value of a column which allows blanks.
+	 */
+	private HashMap<Type, Object> defaultValues = new HashMap<Type, Object>(){{
+													put(Type.STRING,  null);
+													put(Type.BOOLEAN, null);
+													put(Type.EMAIL,   null);
+													put(Type.INTEGER, null);
+	}};
+	
+	/**
+	 * This method sets the default value for a given type.
+	 * @param t 	The type of which the default value must be set.
+	 * @param o 	The Value of the type.
+	 * @throws ClassCastException 	This exception is thrown when the given value is non-valid for the given Type.
+	 */
+	public void setDefault(Type t, Object o) throws ClassCastException{
+		switch (t){
+				case STRING : defaultValues.put(Type.STRING,(String)o);
+				case BOOLEAN : defaultValues.put(Type.BOOLEAN, (Boolean) o);
+				case EMAIL : defaultValues.put(Type.EMAIL,(String)o);
+				case INTEGER : defaultValues.put(Type.INTEGER, (Integer) o);
+			}
+	}
+		
+	/**
+	 * This method returns the default value of the current columnType.
+	 */
+	public String getDefault(){
+		return (String) defaultValues.get(getColumnType());
+	}
+		
+	
+	private ArrayList<Cell<?>> cells = new ArrayList<Cell<?>>();
+	
+	/**
+	 * This method adds a cell to the column and updates its table.
+	 * @param c: The cell to be added.
+	 */
+	public void addCell(Cell<?> c){
+		c.setColumn(this);
+		c.setTable(this.getTable());
+		cells.add(c);
+	}
+	
+	/**
+	 * This method adds a collection of cells to the current column.
+	 * @param newCells: The cells to be added to the column.
+	 */
+	private void addAllcells(ArrayList<Cell<?>> newCells) {
+		for (Cell<?> c: newCells){
+			addCell(c);
+		}
+	}
 
+	/**
+	 * This method returns a copy of the cells the column contains.
+	 */
+	public ArrayList<Cell<?>> getCells() {
+		return (ArrayList<Cell<?>>) this.cells.clone();
+	}
+	
+	/**
+	 * This method removes a cell from the Column.
+	 * @param cell 	The cell to be removed.
+	 */
+	public void removeCell(Cell<?> cell){
+		removeCell(cells.indexOf(cell));
+	}
+	
+	/**
+	 * This method removes a cell from the column based on the index of the cell
+	 * @param index 	The index on which the cell must be removed.
+	 * @return 	The removed cell.
+	 */
+	public Cell<?> removeCell(int index){
+		Cell<?> c = this.cells.remove(index);
+		if (c != null){
+			c.setColumn(null);
+		}
+		return c;
+	}
+	
+
+	/**
+	 * The parent table of the column
+	 */
+	private Table table;
+	
 	/**
 	 * This method returns the table of the current column.
 	 * @return
@@ -237,17 +236,27 @@ public class Column {
 	 */
 	public void setTable(Table table) {
 		this.table = table;
-		for (Cell c: this.getCells()){
+		for (Cell<?> c: this.getCells()){
 			c.setTable(table);
 		}
 	}
+	
 
 	/**
-	 * This method returns a copy of the cells the column contains.
+	 * Delete all the contents of the column and the references to it.
 	 */
-	public ArrayList<Cell<?>> getCells() {
-		return (ArrayList<Cell<?>>) this.cells.clone();
+	public void terminate(){
+		table.removeColumn(this);
+		for (Cell<?> cell: this.getCells()){
+			cell.terminate();
+		}
 	}
+	
+	
+
+	
+
+	
 
 		
 	
