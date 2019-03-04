@@ -9,7 +9,7 @@ import org.junit.Test;
 
 import domain.Cell;
 import domain.Column;
-import domain.IllegealDimensionException;
+import domain.IllegalDimensionException;
 import domain.Row;
 import domain.Table;
 import domain.TableManager;
@@ -32,7 +32,7 @@ public class TableTests {
 		Row row  = new Row(cells);
 		try {
 			table.addRow(row);
-		} catch (IllegealDimensionException e) {
+		} catch (IllegalDimensionException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
@@ -49,7 +49,7 @@ public class TableTests {
 	}
 	
 	@Test
-	public void addRow() throws IllegealDimensionException{
+	public void addRow() throws IllegalDimensionException{
 		Table table = new Table("name");
 		table.addColumn();
 		table.addColumn();
@@ -67,8 +67,8 @@ public class TableTests {
 		assertTrue(c1.getTable().equals(table));
 	}
 	
-	@Test(expected = IllegealDimensionException.class)
-	public void badRow() throws IllegealDimensionException{
+	@Test(expected = IllegalDimensionException.class)
+	public void badRow() throws IllegalDimensionException{
 		Table table = new Table("name");
 		Cell<String> c = new Cell<String>("Test");
 		ArrayList<Cell<?>> cells = new ArrayList<Cell<?>>();
@@ -77,7 +77,7 @@ public class TableTests {
 	}
 	
 	@Test
-	public void terminateRow() throws IllegealDimensionException{
+	public void terminateRow() throws IllegalDimensionException{
 		Table table = new Table("name");
 		table.addColumn();
 		ArrayList<Cell<?>> cells = new ArrayList<Cell<?>>();
@@ -194,7 +194,7 @@ public class TableTests {
 		Row r = new Row(l);
 		try {
 			table.addRow(r);
-		} catch (IllegealDimensionException e) {
+		} catch (IllegalDimensionException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}

@@ -99,7 +99,7 @@ public class Table {
 	 * @param r 	The row to be added.
 	 * @throws IllegealDimensionException
 	 */
-	public void addRow(Row r) throws IllegealDimensionException{
+	public void addRow(Row r) throws IllegalDimensionException{
 		if (isValidRow(r)){
 			this.rows.add(r);
 			r.setTable(this);
@@ -108,7 +108,7 @@ public class Table {
 			}
 		}
 		else{
-			throw new IllegealDimensionException();
+			throw new IllegalDimensionException();
 		}
 	}
 	
