@@ -46,4 +46,14 @@ public class TextField extends UIElement {
 
 	}
 
+	@Override
+	public void handleSingleClick() {
+		
+	}
+
+	@Override
+	public void handleDoubleClick() {
+		
+	}
+
 }

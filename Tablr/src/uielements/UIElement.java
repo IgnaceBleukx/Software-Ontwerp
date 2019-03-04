@@ -3,8 +3,35 @@ package uielements;
 import java.awt.Font;
 import java.awt.FontMetrics;
 import java.awt.Graphics;
+import java.util.ArrayList;
 
-public class UIElement {
+import listeners.*;
+
+public abstract class UIElement {
+	
+	
+	/**
+	 * All objects that get notified when this UIElement is clicked.
+	 */
+	protected ArrayList<Runnable> singleClickListeners = new ArrayList();
+	
+	/**
+	 * All objects that get notified when this UIElement is doubleclicked.
+	 */
+	protected ArrayList<Runnable> doubleClickListeners = new ArrayList();
+	
+	
+	public void addSingleClickListener(Runnable l) {
+		singleClickListeners.add(l);
+	}
+	
+	public void addDoubleClickListener(Runnable l) {
+		doubleClickListeners.add(l);
+	}
+	
+	public abstract void handleSingleClick();
+	
+	public abstract void handleDoubleClick();
 	
 	public UIElement(int x, int y, int w, int h){
 		this.x = x;

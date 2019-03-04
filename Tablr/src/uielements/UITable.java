@@ -53,4 +53,16 @@ public class UITable extends UIElement {
 		return this; //If no elements in the table match, return this.
 	}
 
+	@Override
+	public void handleSingleClick() {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void handleDoubleClick() {
+		// TODO Auto-generated method stub
+		
+	}
+
 }

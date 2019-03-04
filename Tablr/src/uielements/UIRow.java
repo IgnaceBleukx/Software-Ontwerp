@@ -41,4 +41,16 @@ public class UIRow extends UIElement {
 		return this; //If no elements of this row match, return this
 	}
 
+	@Override
+	public void handleSingleClick() {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void handleDoubleClick() {
+		// TODO Auto-generated method stub
+		
+	}
+
 }

@@ -43,5 +43,24 @@ public class Button extends UIElement {
 		g.drawRoundRect(super.getX(), super.getY(), super.getWidth(), super.getHeight(), arcWidth, arcHeight);
 	}
 
+	@Override
+	public void handleSingleClick() {
+		System.out.println(this.toString() + " CLICKED!");
+		
+		for (Runnable r : this.singleClickListeners) {
+			r.run();
+		}
+	}
 
+	@Override
+	public void handleDoubleClick() {
+		System.out.println(this.toString() + "DOUBLE CLICKED!");
+		
+		for (Runnable r : this.doubleClickListeners ) {
+			r.run();
+		}
+	}
+	
+
+	
 }

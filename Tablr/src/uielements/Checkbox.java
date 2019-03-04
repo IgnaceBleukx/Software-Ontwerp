@@ -40,4 +40,16 @@ public class Checkbox extends UIElement {
 		
 	}
 
+	@Override
+	public void handleSingleClick() {
+		toggle();
+		
+	}
+
+	@Override
+	public void handleDoubleClick() {
+		// TODO Auto-generated method stub
+		
+	}
+
 }

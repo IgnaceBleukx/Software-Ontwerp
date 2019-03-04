@@ -39,4 +39,14 @@ public class Text extends UIElement {
 
 	}
 
+	@Override
+	public void handleSingleClick() {
+		
+	}
+
+	@Override
+	public void handleDoubleClick() {
+		
+	}
+
 }

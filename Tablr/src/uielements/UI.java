@@ -4,6 +4,7 @@ import java.awt.Graphics;
 import ui.Loadable_Interfaces;
 import java.util.ArrayList;
 
+import domain.TableManager;
 import uielements.*;
 
 
@@ -28,6 +29,7 @@ public class UI {
 
 	
 	private void loadTestInterface() {
+		tableManager = new TableManager();
 		Text text1 = new Text(40,40,100,100,"Interface: test");
 		ListView l = new ListView(10, 10, 580, 500, null);
 		Button createTableButton = new Button(10,520,580,70, "Create table");
@@ -35,6 +37,9 @@ public class UI {
 		this.addUIElement(text1);
 		this.addUIElement(l);
 		this.addUIElement(createTableButton);
+		createTableButton.addSingleClickListener(() -> {tableManager.addEmptyTable();});
+		
+		
 		
 	}
 
@@ -52,7 +57,8 @@ public class UI {
 		Text text1 = new Text(40,40,100,100,"Interface: tables");
 		this.addUIElement(text1);
 	}
-
+	
+	private TableManager tableManager;
 
 	private ArrayList<UIElement> elements = new ArrayList<UIElement>();
 	
