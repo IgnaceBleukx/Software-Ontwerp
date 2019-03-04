@@ -1,7 +1,7 @@
 1. VALUE in cell, hoe best verschillende types ondersteunen? Generics, subklassen, instanceof, ...?
 2. Bij het toevoegen van een row, en die column laat geen blanks toe, wat is dan de defaultvalue?
 3. Bij het editen van een default value, blijft die value bewaard voor die Type Value en heeft iedere Type een andere default?
-4. Is het nodig om een verbinding te hebben tussen Table en Cell, want wij vinden dit vreemd?
+4. Is het nodig om een verbinding te hebben tussen Table en Cell, want wij vinden dit vreemd? (ook van Column en Row en Cell naar Table)
 5. Window repainten, is het gneoeg om dat na elk mouse of keyboard event uit te voeren? Of zou het kunnen dat er gevallen komen waarin iets anders het nodig maakt om te repainten?
 6. Hoe gedetailleerd moeten we de use cases omzetten in UML?
 7. Hoeveel code coverage qua testen?
