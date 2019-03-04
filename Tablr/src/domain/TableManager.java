@@ -8,14 +8,9 @@ import java.util.ArrayList;
 	public class TableManager {
 		
 		/**
-		 * Tables
+		 * Default constructor.
 		 */
-		ArrayList<Table> tables = new ArrayList<Table>();
-		
-		/**
-		 * Default constructor, no tables
-		 */
-		public TableManager() {}
+		public TableManager(){};
 		
 		/**
 		 * Creates a TableManager from a list of Tables
@@ -24,7 +19,13 @@ import java.util.ArrayList;
 		public TableManager(ArrayList<Table> l) {
 			this.tables = l;
 		}
+	
 		
+		/**
+		 * Tables
+		 */
+		ArrayList<Table> tables = new ArrayList<Table>();
+				
 		/**
 		 * Adds a new table to the list of tables
 		 * @param table		Table to add
@@ -37,7 +38,8 @@ import java.util.ArrayList;
 		 * Adds an empty table to the list of tables
 		 */
 		public void addEmptyTable() {
-			addTable(new Table());
+			String name = nextName();
+			addTable(new Table(name));
 		}
 		
 		/**
@@ -53,6 +55,43 @@ import java.util.ArrayList;
 		 */
 		public ArrayList<Table> getTables() {
 			return new ArrayList<Table>(tables);
+		}
+		
+		/**
+		 * This method returns a table from the list of tables, specified using a name.
+		 * @param name 	The name of the Table to be found.
+		 * @return 	Returns the table with the corresponding name
+		 * @return 	Returns null if the table name does not exist in the table manager.s
+		 */
+		public Table getTable(String name){
+			for (Table t: getTables()){
+				if (t.getName().equals(name)){
+					return t;
+				}
+			}
+			return null;
+		}
+		
+		private String nextName(){
+			String name = "Table";
+			int i = 0;
+			while(name == "Table"){
+				if (!getNames().contains(name)){
+					name = "Table"+i;
+				}
+				else{
+					i++;
+				}
+			}
+			return name;
+		}
+
+		private ArrayList<String> getNames() {
+			ArrayList<String> names = new ArrayList<String>();
+			for(Table t : getTables()){
+				names.add(t.getName());
+			}
+			return names;
 		}
 
 }

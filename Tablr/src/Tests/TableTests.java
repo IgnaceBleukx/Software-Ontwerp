@@ -3,6 +3,7 @@ package Tests;
 import static org.junit.Assert.*;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import org.junit.Test;
 
@@ -157,17 +158,44 @@ public class TableTests {
 	
 	
 	@Test
-	public void addTableToTableManager(){
+	public void addAndRemoveTableToTableManager(){
 		Table table = buildTable();
 		TableManager man = new TableManager();
 		man.addTable(table);
 		assertEquals(1, man.getTables().size());
 		man.addEmptyTable();
 		assertEquals(2, man.getTables().size());
+		man.removeTable(table);
+		assertEquals(1, man.getTables().size());
 	}
 	
 	@Test
-	public void 
+	public void getTable(){
+		Table table = buildTable();
+		TableManager man = new TableManager();
+		man.addTable(table);
+		table.setName("Table1");
+		assertEquals(table, man.getTable("Table1"));
+		assertNull(man.getTable("TableNameDoesNotExist"));
+	}
+	
+	@Test
+	public void terminateCell(){
+		Table table = new Table();
+		Cell<String> c1 = new Cell<String>("Cell1");
+		Cell<String> c2 = new Cell<String>("Cell2");
+		table.addColumn();
+		table.addColumn();
+		ArrayList<Cell<?>> l = new ArrayList<Cell<?>>(){{ add(c1);add(c2);}};
+		Row r = new Row(new ArrayList<>(){{ add(c1); add(c2);}};
+		
+		
+		
+		
+		
+	}
+	
+
 	
 
 }

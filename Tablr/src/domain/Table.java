@@ -4,6 +4,10 @@ import java.util.ArrayList;
 
 public class Table {
 	
+	public Table(String name){
+		setName(name);
+	}
+	
 	/**
 	 * The table's name
 	 */
