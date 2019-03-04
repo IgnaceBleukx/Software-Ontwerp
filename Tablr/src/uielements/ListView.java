@@ -4,6 +4,8 @@ import java.awt.Graphics;
 import java.io.ObjectInputStream.GetField;
 import java.util.ArrayList;
 
+import domain.Table;
+
 public class ListView extends UIElement {
 
 	/*
@@ -58,7 +60,7 @@ public class ListView extends UIElement {
 		
 		if (selectedElement != null) {
 			UIElement s = this.selectedElement;
-			g.drawOval(s.getX()+s.getWidth()+10, s.getY()+s.getHeight()/2, 5, 5);
+			g.fillOval(s.getX()+s.getWidth()+10, s.getY()+s.getHeight()/2, 8, 8);
 		}
 	}
 	
@@ -89,7 +91,27 @@ public class ListView extends UIElement {
 		//If no elements inside the list match, return this.
 		
 	}
-
+	
+	public void loadFromTables(ArrayList<Table> tables) {
+		
+		elements.clear();
+		for (int i=0;i<tables.size();i++) { 
+			Table curr = tables.get(i);
+			UIRow currRow = new UIRow(getX()+1, getY()+1+i*40, getWidth()-2, 40, new ArrayList<UIElement>());
+			
+			Button deleteButton = new Button(getX()+2, getY()+2+i*40,38,38,"");
+			deleteButton.addSingleClickListener(() -> {this.setSelectedElement(currRow);});
+			currRow.addElement(deleteButton);
+			
+			Text tableNameLabel = new Text(getX()+40, getY()+2+i*40, 300, 38, curr.getName());
+			currRow.addElement(tableNameLabel);
+			
+			elements.add(currRow);
+		}
+		
+		
+		
+	}
 	@Override
 	public void handleSingleClick() {
 		

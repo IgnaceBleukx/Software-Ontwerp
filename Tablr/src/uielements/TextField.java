@@ -42,12 +42,32 @@ public class TextField extends UIElement {
 		g.setColor(Color.black);
 		g.drawRect(super.getX(),super.getY(), super.getWidth(), super.getHeight());
 		int y = this.getY() +  ((this.getHeight() - metrics.getHeight()) / 2) + metrics.getAscent();
-		g.drawString(this.getText(), super.getX()+10, y);
+		
+		if (editing == false)
+			g.drawString(this.getText(), super.getX()+10, y);
+		else
+			g.drawString(this.getText() + "<", super.getX()+10, y);
 
 	}
+	
+	/**
+	 * Variable that indicates whether this TextField is currently accepting keyboard input
+	 */
+	private boolean editing = false;
 
+	public void startEditing() {
+		this.editing = true;
+	}
+	
+	public void endEditing() {
+		this.editing = false;
+	}
+	
+	
 	@Override
 	public void handleSingleClick() {
+		if (!editing)
+			startEditing();
 		
 	}
 

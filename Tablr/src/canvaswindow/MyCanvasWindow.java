@@ -61,10 +61,11 @@ public class MyCanvasWindow extends CanvasWindow {
 		else if (clickCount == 2) {
 			clicked.handleDoubleClick();
 		}
+		repaint();
 	}
 
 	@Override
 	public void handleKeyEvent(int id, int keyCode, char keyChar){
-		
+		repaint();
 	}
 }

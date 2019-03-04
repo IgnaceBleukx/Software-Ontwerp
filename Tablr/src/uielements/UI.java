@@ -1,11 +1,10 @@
 package uielements;
 
 import java.awt.Graphics;
-import ui.Loadable_Interfaces;
 import java.util.ArrayList;
 
 import domain.TableManager;
-import uielements.*;
+import ui.Loadable_Interfaces;
 
 
 public class UI {
@@ -31,13 +30,17 @@ public class UI {
 	private void loadTestInterface() {
 		tableManager = new TableManager();
 		Text text1 = new Text(40,40,100,100,"Interface: test");
-		ListView l = new ListView(10, 10, 580, 500, null);
+		ListView l = new ListView(10, 10, 560, 500, new ArrayList<UIElement>());
 		Button createTableButton = new Button(10,520,580,70, "Create table");
 		
 		this.addUIElement(text1);
 		this.addUIElement(l);
 		this.addUIElement(createTableButton);
-		createTableButton.addSingleClickListener(() -> {tableManager.addEmptyTable();});
+		createTableButton.addSingleClickListener(() -> {
+			tableManager.addEmptyTable();
+			l.loadFromTables(tableManager.getTables());
+		});
+		
 		
 		
 		
@@ -80,7 +83,7 @@ public class UI {
 	
 	/**
 	 * @param e: The UIElement to be removed from the current canvaswindow.UI.
-	 * This method removes a UIElement from the current canvaswindow.UI. If the given UIElement is not part of the canvaswindow.UI, nothing happens.
+//	 * This method removes a UIElement from the current canvaswindow.UI. If the given UIElement is not part of the canvaswindow.UI, nothing happens.
 	 */
 	public void removeUIElement(UIElement e){
 		this.elements.remove(e);
@@ -115,3 +118,5 @@ public class UI {
 		return null;
 	}
 }
+
+

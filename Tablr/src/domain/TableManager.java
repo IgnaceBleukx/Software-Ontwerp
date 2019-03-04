@@ -76,7 +76,7 @@ import java.util.ArrayList;
 			String name = "Table";
 			int i = 0;
 			while(name == "Table"){
-				if (!getNames().contains(name)){
+				if (!getNames().contains(name+i)){
 					name = "Table"+i;
 				}
 				else{

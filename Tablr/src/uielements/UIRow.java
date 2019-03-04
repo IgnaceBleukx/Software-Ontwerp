@@ -20,6 +20,14 @@ public class UIRow extends UIElement {
 			e.paint(g);
 		}
 	}
+	
+	/**
+	 * Adds a UIElement to this row.
+	 * @param e		The element to add
+	 */
+	public void addElement(UIElement e) {
+		this.elements.add(e);
+	}
 
 	/**
 	 * Returns the most specific UIElement located at (x,y) by searching in its elements
