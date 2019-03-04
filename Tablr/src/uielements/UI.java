@@ -29,8 +29,10 @@ public class UI {
 	
 	private void loadTestInterface() {
 		tableManager = new TableManager();
+		
+		
 		Text text1 = new Text(40,40,100,100,"Interface: test");
-		ListView l = new ListView(10, 10, 560, 500, new ArrayList<UIElement>());
+		ListView l = new ListView(10, 10, 100, 500, new ArrayList<UIElement>());
 		Button createTableButton = new Button(10,520,580,70, "Create table");
 		
 		this.addUIElement(text1);
@@ -40,6 +42,8 @@ public class UI {
 			tableManager.addEmptyTable();
 			l.loadFromTables(tableManager.getTables());
 		});
+		
+
 		
 		
 		

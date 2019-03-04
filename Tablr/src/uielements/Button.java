@@ -50,13 +50,23 @@ public class Button extends UIElement {
 		for (Runnable r : this.singleClickListeners) {
 			r.run();
 		}
-	}
+	} 
 
 	@Override
 	public void handleDoubleClick() {
 		System.out.println(this.toString() + "DOUBLE CLICKED!");
 		
 		for (Runnable r : this.doubleClickListeners ) {
+			r.run();
+		}
+	}
+	
+	@Override
+	public void handleKeyboardEvent(int keyCode, char keyChar) {
+		if (keyboardListeners.get(keyCode) == null)
+			return;
+		
+		for (Runnable r : keyboardListeners.get(keyCode)) {
 			r.run();
 		}
 	}

@@ -48,5 +48,16 @@ public class Text extends UIElement {
 	public void handleDoubleClick() {
 		
 	}
+	
+	@Override
+	public void handleKeyboardEvent(int keyCode, char keyChar) {
+		
+		if (keyboardListeners.get(keyCode) == null)
+			return;
+		
+		for (Runnable r : keyboardListeners.get(keyCode)) {
+			r.run();
+		}
+	}
 
 }

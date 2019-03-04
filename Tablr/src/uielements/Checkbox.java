@@ -48,8 +48,18 @@ public class Checkbox extends UIElement {
 
 	@Override
 	public void handleDoubleClick() {
-		// TODO Auto-generated method stub
-		
+		return;
 	}
+
+	@Override
+	public void handleKeyboardEvent(int keyCode, char keyChar) {
+		if (keyboardListeners.get(keyCode) == null)
+			return;
+		
+		for (Runnable r : keyboardListeners.get(keyCode)) {
+			r.run();
+		}
+	}
+
 
 }

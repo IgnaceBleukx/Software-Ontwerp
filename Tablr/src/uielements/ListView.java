@@ -103,7 +103,7 @@ public class ListView extends UIElement {
 			deleteButton.addSingleClickListener(() -> {this.setSelectedElement(currRow);});
 			currRow.addElement(deleteButton);
 			
-			Text tableNameLabel = new Text(getX()+40, getY()+2+i*40, 300, 38, curr.getName());
+			TextField tableNameLabel = new TextField(getX()+40, getY()+2+i*40, 300, 38, curr.getName());
 			currRow.addElement(tableNameLabel);
 			
 			elements.add(currRow);
@@ -122,5 +122,14 @@ public class ListView extends UIElement {
 		
 	}
 
+	@Override
+	public void handleKeyboardEvent(int keyCode, char keyChar) {
+		if (keyboardListeners.get(keyCode) == null)
+			return;
+		
+		for (Runnable r : keyboardListeners.get(keyCode)) {
+			r.run();
+		}
+	}
 
 }

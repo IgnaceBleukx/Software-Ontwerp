@@ -4,6 +4,7 @@ import java.awt.Font;
 import java.awt.FontMetrics;
 import java.awt.Graphics;
 import java.util.ArrayList;
+import java.util.HashMap;
 
 
 public abstract class UIElement {
@@ -19,18 +20,32 @@ public abstract class UIElement {
 	 */
 	protected ArrayList<Runnable> doubleClickListeners = new ArrayList();
 	
+	/**
+	 * HashMap that maps keycodes to a list of runnables that are to be executed
+	 */
+	protected HashMap<Integer, ArrayList<Runnable>> keyboardListeners = new HashMap<Integer, ArrayList<Runnable>>();
 	
-	public void addSingleClickListener(Runnable l) {
-		singleClickListeners.add(l);
+	
+	public void addKeyboardListener(int keyCode, Runnable f) {
+		keyboardListeners.get(keyCode).add(f);
 	}
 	
-	public void addDoubleClickListener(Runnable l) {
-		doubleClickListeners.add(l);
+	public void addSingleClickListener(Runnable f) {
+		singleClickListeners.add(f);
 	}
+	
+	public void addDoubleClickListener(Runnable f) {
+		doubleClickListeners.add(f);
+	}
+	
 	
 	public abstract void handleSingleClick();
 	
 	public abstract void handleDoubleClick();
+	
+	public abstract void handleKeyboardEvent(int keyCode, char keyChar);
+	
+	
 	
 	public UIElement(int x, int y, int w, int h){
 		this.x = x;

@@ -60,5 +60,16 @@ public class UIRow extends UIElement {
 		// TODO Auto-generated method stub
 		
 	}
+	
+	@Override
+	public void handleKeyboardEvent(int keyCode, char keyChar) {
+		
+		if (keyboardListeners.get(keyCode) == null)
+			return;
+		
+		for (Runnable r : keyboardListeners.get(keyCode)) {
+			r.run();
+		}
+	}
 
 }

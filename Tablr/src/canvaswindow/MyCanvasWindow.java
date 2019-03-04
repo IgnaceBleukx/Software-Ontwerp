@@ -48,6 +48,7 @@ public class MyCanvasWindow extends CanvasWindow {
 	@Override
 	public void handleMouseEvent(int id, int x, int y, int clickCount){
 		UIElement clicked = getActiveUI().locatedAt(x, y);
+		System.out.println("Clicked on "+clicked);
 		
 		if (clicked == null)
 			return;
@@ -64,8 +65,12 @@ public class MyCanvasWindow extends CanvasWindow {
 		repaint();
 	}
 
+	
 	@Override
 	public void handleKeyEvent(int id, int keyCode, char keyChar){
+		for (UIElement e : getActiveUI().getElements())
+			e.handleKeyboardEvent(keyCode, keyChar);
+		
 		repaint();
 	}
 }

@@ -66,14 +66,45 @@ public class TextField extends UIElement {
 	
 	@Override
 	public void handleSingleClick() {
-		if (!editing)
+		if (!editing) {
 			startEditing();
+			System.out.println("Edit mode...");
+		}
+		
 		
 	}
 
 	@Override
 	public void handleDoubleClick() {
 		
+	}
+	
+	@Override
+	public void handleKeyboardEvent(int keyCode, char keyChar) {
+		if (keyCode == 10 && editing == true) { //Enter, end editing
+			endEditing();
+		}
+				
+		if (keyCode == 8 && editing == true) { //Backspace remove character
+			if (getText().length() > 0) {
+				String newText = getText().substring(0, getText().length() - 1);
+				setText(newText);
+			}
+				
+			
+		}
+		if (Character.isLetterOrDigit(keyChar) && editing == true) {
+			setText(getText()+keyChar);
+		}
+		
+		
+		if (keyboardListeners.get(keyCode) == null)
+			return;
+		
+		for (Runnable r : keyboardListeners.get(keyCode)) {
+			r.run();
+		}
+
 	}
 
 }
