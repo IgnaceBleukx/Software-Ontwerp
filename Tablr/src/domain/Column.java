@@ -127,11 +127,11 @@ public class Column {
 	/**
 	 * The default value of a column which allows blanks.
 	 */
-	private HashMap<Type, Object> defaultValues = new HashMap<Type, Object>(){{
+	private HashMap<Type, Object> defaultValues = new HashMap<Type, Object>(){{ //TODO: nog steeds probleem dat je gewoon "banaan" kunt ingeven in INTEGER
 													put(Type.STRING,  "");
 													put(Type.BOOLEAN, false);
 													put(Type.EMAIL,   "");
-													put(Type.INTEGER, 0);
+													put(Type.INTEGER, 0);//TODO: dit moet eigenlijk null zijn, nee?
 	}};
 	
 	/**
@@ -165,7 +165,7 @@ public class Column {
 	 */
 	public void addCell(Cell<?> c){
 		c.setColumn(this);
-		c.setTable(this.getTable());
+		c.setTable(this.getTable()); //TODO: dit kan dubbel werk zijn.
 		cells.add(c);
 	}
 	
