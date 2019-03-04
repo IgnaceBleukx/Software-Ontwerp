@@ -34,6 +34,13 @@ import java.util.ArrayList;
 		}
 		
 		/**
+		 * Adds an empty table to the list of tables
+		 */
+		public void addEmptyTable() {
+			addTable(new Table());
+		}
+		
+		/**
 		 * Remove tables from the list of tables
 		 * @param table		Table to remove
 		 */
