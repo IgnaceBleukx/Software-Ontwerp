@@ -4,8 +4,8 @@
   <element>
     <id>UMLActor</id>
     <coordinates>
-      <x>90</x>
-      <y>150</y>
+      <x>340</x>
+      <y>220</y>
       <w>60</w>
       <h>110</h>
     </coordinates>
@@ -15,41 +15,41 @@
   <element>
     <id>UMLClass</id>
     <coordinates>
-      <x>340</x>
-      <y>220</y>
+      <x>590</x>
+      <y>290</y>
       <w>100</w>
       <h>30</h>
     </coordinates>
-    <panel_attributes>TableManager</panel_attributes>
+    <panel_attributes>UI</panel_attributes>
     <additional_attributes/>
   </element>
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>110</x>
-      <y>250</y>
+      <x>360</x>
+      <y>320</y>
       <w>30</w>
-      <h>420</h>
+      <h>290</h>
     </coordinates>
     <panel_attributes>lt=.</panel_attributes>
-    <additional_attributes>10.0;400.0;10.0;10.0</additional_attributes>
+    <additional_attributes>10.0;270.0;10.0;10.0</additional_attributes>
   </element>
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>380</x>
-      <y>250</y>
+      <x>630</x>
+      <y>320</y>
       <w>30</w>
-      <h>420</h>
+      <h>290</h>
     </coordinates>
     <panel_attributes>lt=.</panel_attributes>
-    <additional_attributes>10.0;400.0;10.0;10.0</additional_attributes>
+    <additional_attributes>10.0;270.0;10.0;10.0</additional_attributes>
   </element>
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>110</x>
-      <y>270</y>
+      <x>360</x>
+      <y>340</y>
       <w>300</w>
       <h>40</h>
     </coordinates>
@@ -60,8 +60,8 @@ Double click below list of tables</panel_attributes>
   <element>
     <id>UMLUseCase</id>
     <coordinates>
-      <x>120</x>
-      <y>40</y>
+      <x>620</x>
+      <y>110</y>
       <w>120</w>
       <h>40</h>
     </coordinates>
@@ -72,8 +72,8 @@ Double click below list of tables</panel_attributes>
   <element>
     <id>UMLClass</id>
     <coordinates>
-      <x>250</x>
-      <y>40</y>
+      <x>760</x>
+      <y>90</y>
       <w>220</w>
       <h>80</h>
     </coordinates>
@@ -83,5 +83,120 @@ This mode can be entered
 from Table design or 
 Table Rows by pressing Escape</panel_attributes>
     <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>780</x>
+      <y>290</y>
+      <w>100</w>
+      <h>30</h>
+    </coordinates>
+    <panel_attributes>/UIElement/
+</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>820</x>
+      <y>320</y>
+      <w>30</w>
+      <h>290</h>
+    </coordinates>
+    <panel_attributes>lt=.</panel_attributes>
+    <additional_attributes>10.0;270.0;10.0;10.0</additional_attributes>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>630</x>
+      <y>380</y>
+      <w>220</w>
+      <h>40</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;&lt;.
+locatedAt(x, y)</panel_attributes>
+    <additional_attributes>200.0;20.0;10.0;20.0</additional_attributes>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>1140</x>
+      <y>290</y>
+      <w>140</w>
+      <h>30</h>
+    </coordinates>
+    <panel_attributes>SingleClickListener</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>1200</x>
+      <y>320</y>
+      <w>30</w>
+      <h>290</h>
+    </coordinates>
+    <panel_attributes>lt=.</panel_attributes>
+    <additional_attributes>10.0;270.0;10.0;10.0</additional_attributes>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>1000</x>
+      <y>450</y>
+      <w>230</w>
+      <h>40</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;&lt;.
+listener.run()</panel_attributes>
+    <additional_attributes>210.0;20.0;10.0;20.0</additional_attributes>
+  </element>
+  <element>
+    <id>Text</id>
+    <coordinates>
+      <x>1220</x>
+      <y>470</y>
+      <w>130</w>
+      <h>60</h>
+    </coordinates>
+    <panel_attributes>tableManager. addEmptyTable()
+style=wordwrap</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>960</x>
+      <y>290</y>
+      <w>100</w>
+      <h>30</h>
+    </coordinates>
+    <panel_attributes>Button</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>1000</x>
+      <y>320</y>
+      <w>30</w>
+      <h>290</h>
+    </coordinates>
+    <panel_attributes>lt=.</panel_attributes>
+    <additional_attributes>10.0;270.0;10.0;10.0</additional_attributes>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>820</x>
+      <y>410</y>
+      <w>210</w>
+      <h>40</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;&lt;.
+handleSingleClick()</panel_attributes>
+    <additional_attributes>190.0;20.0;10.0;20.0</additional_attributes>
   </element>
 </diagram>
