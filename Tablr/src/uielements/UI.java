@@ -3,7 +3,10 @@ package uielements;
 import java.awt.Graphics;
 import java.util.ArrayList;
 
+import domain.Column;
+import domain.Table;
 import domain.TableManager;
+import domain.Type;
 import ui.Loadable_Interfaces;
 
 
@@ -19,10 +22,10 @@ public class UI {
 	 */
 	public UI(Loadable_Interfaces i) {
 		switch (i) {
-			case TABLES: loadTableDesignInterface();
-			case TABLE_DESIGN: loadTableDesignInterface();
-			case TABLE_ROWS: loadTableRowsInterface();
-			case TEST: loadTestInterface();
+			case TABLES: loadTableDesignInterface(); break;
+			case TABLE_DESIGN: loadTableDesignInterface(); break;
+			case TABLE_ROWS: loadTableRowsInterface(); break;
+			case TEST: loadTestInterface(); break;
 		}
 	}
 
@@ -41,8 +44,7 @@ public class UI {
 			l.loadFromTables(tableManager.getTables());
 		});
 		
-		
-		
+
 		
 	}
 
@@ -51,10 +53,52 @@ public class UI {
 		this.addUIElement(text1);		
 	}
 
+	
 	private void loadTableDesignInterface() {
-		Text text1 = new Text(40,40,100,100,"Interface: table design");
-		this.addUIElement(text1);		
+		// Creating title
+		ListView l = new ListView(10, 30, 560, 500, new ArrayList<UIElement>());
+		Text name = new Text(10,10,200, 20,"Name");
+		Text type = new Text(210,10,150, 20,"Type");
+		Text blanks_al = new Text(360,10,50, 20,"Blanks_al");
+		Text def = new Text(410,10,200, 20,"Default");
+		
+		this.addUIElement(l);
+		this.addUIElement(name);
+		this.addUIElement(type);
+		this.addUIElement(blanks_al);
+		this.addUIElement(def);
+
+		currentTable.addColumn();
+		currentTable.addColumn();
+		currentTable.addColumn();
+		
+		currentTable.getColumns().get(1).setColumnType(Type.BOOLEAN);
+		currentTable.getColumns().get(2).setColumnType(Type.INTEGER);
+		
+		
+		ArrayList<Column> cols = currentTable.getColumns();
+		
+		
+		int y = 30;
+		for(Column col : cols){
+			Text colName = new Text(10,y,200,50,  col.getName());
+			Text colType = new Text(210,y,150,50, col.getColumnType().toString());
+			Checkbox colBlankPol = new Checkbox(375,y+15,20,20, col.getBlankingPolicy());
+			Text colDef = new Text(410,y,200,50, col.getDefault());
+			
+			
+			
+			ArrayList<UIElement> list = new ArrayList<UIElement>(){{ add(colName); add(colType); add(colBlankPol); add(colDef);}};		
+		
+			UIRow row = new UIRow(10,y,560,50,list);
+			l.addElement(row);
+			y += 50;
+		}
+		
+		
 	}
+	
+	Table currentTable = new Table("name");
 
 	private void loadTablesInterface() {
 		Text text1 = new Text(40,40,100,100,"Interface: tables");
@@ -94,6 +138,7 @@ public class UI {
 	 */
 	public void paint(Graphics g){
 		for (UIElement e : getElements()){
+			System.out.println(e);
 			e.paint(g);
 		}
 	}
