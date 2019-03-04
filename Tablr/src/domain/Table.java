@@ -5,70 +5,42 @@ import java.util.ArrayList;
 public class Table {
 	
 	/**
-	 * the table's name
+	 * The table's name
 	 */
 	private String name;
 
 	/**
-	 * the table's columns from left to right
+	 * This method returns the name of the current Table.
+	 * @return
+	 */
+	public String getName() {
+		return name;
+	}
+
+	/**
+	 * This method sets the name of the current Table.
+	 * @param name 	The name to be set.
+	 */
+	public void setName(String name) {
+		this.name = name;
+	}
+	
+	
+	/**
+	 * The table's columns from left to right
 	 */
 	private ArrayList<Column> columns = new ArrayList<Column>();
 	
 	/**
-	 * the table's rows from up to down
-	 */
-	private ArrayList<Row> rows = new ArrayList<Row>();
-	
-	/**
-	 * This method adds a row to the current Table.
-	 * @param r 	The row to be added.
-	 * @throws IllegealDimensionException
-	 */
-	public void addRow(Row r) throws IllegealDimensionException{
-		if (isValidRow(r)){
-			this.rows.add(r);
-			r.setTable(this);
-			for (int i=0;i<columns.size();i++){
-				columns.get(i).addCell(r.getCells().get(i));
-			}
-		}
-		else{
-			throw new IllegealDimensionException();
-		}
-	}
-	
-	/**
-	 * This method returns whether the row given is a valid one for the current Table.
-	 * @param r 	The row to be checked.
+	 * This method returns the columns of the current Table.
 	 * @return
 	 */
-	public boolean isValidRow(Row r){
-		return r.getCells().size() == this.getColumns().size();
-	}
-	
-	/*
-	private void createCell(Row row, Column column){
-		Cell cell = new Cell(column.getDefault(), row, column, this);
-		this.add(cell);
-		row.add(cell);
-		column.add(cell);
-	}*/
-
-	/**
-	 * the table's cells
-	 */
-	private ArrayList<Cell<?>> cells = new ArrayList<Cell<?>>();
-	
-	/**
-	 * add a cell to the collection of cells in this table (not in order)
-	 * @param cell
-	 */
-	public void addCell(Cell<?> cell){
-		this.cells.add(cell);
+ 	public ArrayList<Column> getColumns() {
+		return columns;
 	}
 	
 	/**
-	 * add a new Column at the end of the list of columns (e.g. to the right)
+	 * Add a new Column at the end of the list of columns (e.g. to the right)
 	 */
 	public void addColumn(){
 		ArrayList<Cell<?>> columnCells = new ArrayList<Cell<?>>();
@@ -79,7 +51,6 @@ public class Table {
 		}
 		Column newCol = new Column(newColumnName(), this, columnCells);
 		this.columns.add(newCol);
-		
 	}
 	
 	/**
@@ -87,13 +58,7 @@ public class Table {
 	 * @param column
 	 */
 	public void removeColumn(Column column) {
-		int index = this.columns.indexOf(column);
-		columns.remove(column);
-		for (Row r: rows){
-			r.removeCell(index);
-		}
-		column.setTable(null);
-		columns.remove(column);
+		removeColumn(columns.indexOf(column));
 	}
 	
 	/**
@@ -114,19 +79,43 @@ public class Table {
 	
 	
 	/**
+	 * The table's rows from up to down
+	 */
+	private ArrayList<Row> rows = new ArrayList<Row>();
+	
+	/**
+	 * This method returns the rows of the current Table.
+	 */
+	public ArrayList<Row> getRows() {
+		return rows;
+	}
+	
+	/**
+	 * This method adds a row to the current Table.
+	 * @param r 	The row to be added.
+	 * @throws IllegealDimensionException
+	 */
+	public void addRow(Row r) throws IllegealDimensionException{
+		if (isValidRow(r)){
+			this.rows.add(r);
+			r.setTable(this);
+			for (int i=0;i<columns.size();i++){
+				columns.get(i).addCell(r.getCells().get(i));
+			}
+		}
+		else{
+			throw new IllegealDimensionException();
+		}
+	}
+	
+	/**
 	 * This method removes a row from the current table.
 	 * @param row 	The row to be removed.
 	 */
 	public void removeRow(Row row) {
-		int index = this.rows.indexOf(row);
-		for (Column c: columns){
-			c.removeCell(index);
-		}
-		row.setTable(null);
-		rows.remove(row);
+		removeRow(rows.indexOf(row));
 	}
-	
-	
+		
 	/**
 	 * This method removes a row from the table based on index.
 	 * @param index 	The index of the row to be removed.
@@ -142,6 +131,29 @@ public class Table {
 	}
 	
 	/**
+	 * This method returns whether the row given is a valid one for the current Table.
+	 * @param r 	The row to be checked.
+	 * @return
+	 */
+	public boolean isValidRow(Row r){
+		return r.getCells().size() == this.getColumns().size();
+	}
+	
+	
+	/**
+	 * The table's cells
+	 */
+	private ArrayList<Cell<?>> cells = new ArrayList<Cell<?>>();
+	
+	/**
+	 * add a cell to the collection of cells in this table (not in order)
+	 * @param cell
+	 */
+	public void addCell(Cell<?> cell){
+		this.cells.add(cell);
+	}
+	
+	/**
 	 * This method removes a cell of the table.
 	 * @param cell
 	 */
@@ -149,9 +161,10 @@ public class Table {
 		this.cells.remove(cell);
 		cell.setTable(null);
 	}
+	
+	
 	/**
-	 * Method can be used to generate a column name that is not yet in use for a column.
-	 * This is used when creating new columns.
+	 * This method returns the next logic column name for the current table.
 	 */
 	private String newColumnName() {
 		ArrayList<String> names = getColumnNames();
@@ -166,17 +179,9 @@ public class Table {
 		return name;
 	}
 	
-	public String getName() {
-		return name;
-	}
-
-	public void setName(String name) {
-		this.name = name;
-	}
-
 	/**
-	 * puts all the names of the table's columns into one ArrayList
-	 * @return that list
+	 * This method returns an ArrayList of all the names of the columns of the current Table.
+	 * @return 
 	 */
 	public ArrayList<String> getColumnNames() {
 		ArrayList<String> names = new ArrayList<String>();
@@ -186,21 +191,7 @@ public class Table {
 		return names;
 	}
 	
-	/**
-	 * This method returns the columns of the current Table.
-	 * @return
-	 */
- 	public ArrayList<Column> getColumns() {
-		return columns;
-	}
-
-	/**
-	 * This method returns the rows of the current Table.
-	 */
-	public ArrayList<Row> getRows() {
-		return rows;
-	}
-
+	
 	/**
 	 * This method removes the table and all its contents.
 	 */
@@ -211,6 +202,6 @@ public class Table {
 		for (Row r: rows){
 			r.terminate();
 		}
-		//TODO: remove table from top level table collection.
 	}
+	
 }

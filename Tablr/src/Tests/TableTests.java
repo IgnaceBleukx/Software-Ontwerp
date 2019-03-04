@@ -11,6 +11,7 @@ import domain.Column;
 import domain.IllegealDimensionException;
 import domain.Row;
 import domain.Table;
+import domain.TableManager;
 import domain.Type;
 
 public class TableTests {
@@ -134,7 +135,6 @@ public class TableTests {
 		Table table = buildTable();
 		Column col = table.getColumns().get(0);
 		assertEquals(Type.STRING, col.getColumnType());
-		System.out.println(col.getColumnType());
 		col.setNextType();
 		assertEquals(Type.EMAIL, col.getColumnType());
 		col.setNextType();
@@ -145,7 +145,29 @@ public class TableTests {
 		assertEquals(Type.STRING, col.getColumnType());
 		
 	}
+
+	@Test (expected = ClassCastException.class)
+	public void changeColumnDefaults(){
+		Table table = buildTable();
+		Column col = table.getColumns().get(0);
+		col.setDefault(Type.STRING,"NewDefault");
+		assertEquals("NewDefault", col.getDefault());
+		col.setDefault(Type.BOOLEAN,"WrongValue");
+	}
 	
+	
+	@Test
+	public void addTableToTableManager(){
+		Table table = buildTable();
+		TableManager man = new TableManager();
+		man.addTable(table);
+		assertEquals(1, man.getTables().size());
+		man.addEmptyTable();
+		assertEquals(2, man.getTables().size());
+	}
+	
+	@Test
+	public void 
 	
 
 }

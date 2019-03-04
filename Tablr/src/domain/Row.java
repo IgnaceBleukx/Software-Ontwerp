@@ -9,8 +9,14 @@ public class Row {
 	 * @param cells 	The cells of the row.
 	 */
 	public Row(ArrayList<Cell<?>> cells){
-		addAllCells(cells);
+	 	addAllCells(cells);
 	}
+	
+	
+	/**
+	 * The row's parent table
+	 */
+	private Table table;
 	
 	/**
 	 * This method sets the table of the current Row.
@@ -24,18 +30,30 @@ public class Row {
 	}
 	
 	/**
-	 * the row's parent table
+	 * This method returns the table of the current Row.
+	 * @return
 	 */
-	private Table table;
+	public Table getTable() {
+		return this.table;
+	}
+	
 	
 	/**
-	 * the row's cells from left to right
+	 * The row's cells from left to right
 	 */
 	private ArrayList<Cell<?>> cells = new ArrayList<Cell<?>>();
 	
+	/**
+	 * This method returns a copy of the cells contained in the current row.
+	 * @return
+	 */
+	@SuppressWarnings("unchecked")
+	public ArrayList<Cell<?>> getCells(){
+		return (ArrayList<Cell<?>>) this.cells.clone();
+	}
 	
 	/**
-	 * add a cell to the end of this row
+	 * This method adds a cell to the row at the back of the row.
 	 * @param cell
 	 */
 	public void addCell(Cell<?> cell){
@@ -74,15 +92,7 @@ public class Row {
 		return c;
 	}
 	
-	/**
-	 * This method returns the table of the current Row.
-	 * @return
-	 */
-	public Table getTable() {
-		return this.table;
-	}
-
-
+	
 	/**
 	 * This method terminates the Row and all it's cells
 	 */
@@ -92,14 +102,5 @@ public class Row {
 			cells.get(0).terminate();
 		}
 		this.setTable(null);
-	}
-	
-	/**
-	 * This method returns a copy of the cells contained in the current row.
-	 * @return
-	 */
-	@SuppressWarnings("unchecked")
-	public ArrayList<Cell<?>> getCells(){
-		return (ArrayList<Cell<?>>) this.cells.clone();
 	}
 }
