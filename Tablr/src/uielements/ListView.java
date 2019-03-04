@@ -4,6 +4,7 @@ import java.awt.Graphics;
 import java.io.ObjectInputStream.GetField;
 import java.util.ArrayList;
 
+import domain.Column;
 import domain.Table;
 
 public class ListView extends UIElement {
@@ -109,12 +110,31 @@ public class ListView extends UIElement {
 			elements.add(currRow);
 		}
 		
+	}
+	
+	public void loadColumnAttributes(Table table){
+		int y = 30;
+		for(Column col : table.getColumns()){
+			TextField colName = new TextField(10,y,200,50,  col.getName());
+			TextField colType = new TextField(210,y,150,50, col.getColumnType().toString());
+			Checkbox colBlankPol = new Checkbox(375,y+15,20,20, col.getBlankingPolicy());
+			TextField colDef = new TextField(410,y,160,50, col.getDefault());
+			
+			colBlankPol.addSingleClickListener(() -> {
+				col.toggleBlanks();
+			});
+			
+			ArrayList<UIElement> list = new ArrayList<UIElement>(){{ add(colName); add(colType); add(colBlankPol); add(colDef);}};		
 		
+			UIRow row = new UIRow(10,y,560,50,list);
+			this.addElement(row);
+			y += 50;
+		}
 		
 	}
 	@Override
 	public void handleSingleClick() {
-		
+				
 	}
 
 	@Override
@@ -124,12 +144,18 @@ public class ListView extends UIElement {
 
 	@Override
 	public void handleKeyboardEvent(int keyCode, char keyChar) {
+		for(UIElement i: elements){
+			i.handleKeyboardEvent(keyCode, keyChar);
+		}
+		
 		if (keyboardListeners.get(keyCode) == null)
 			return;
 		
 		for (Runnable r : keyboardListeners.get(keyCode)) {
 			r.run();
 		}
+		
+		
 	}
 
 }

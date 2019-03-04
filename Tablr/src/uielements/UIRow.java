@@ -63,13 +63,16 @@ public class UIRow extends UIElement {
 	
 	@Override
 	public void handleKeyboardEvent(int keyCode, char keyChar) {
-		
+		for(UIElement i: elements){
+			i.handleKeyboardEvent(keyCode, keyChar);
+		}
 		if (keyboardListeners.get(keyCode) == null)
 			return;
 		
 		for (Runnable r : keyboardListeners.get(keyCode)) {
 			r.run();
 		}
+		
 	}
 
 }

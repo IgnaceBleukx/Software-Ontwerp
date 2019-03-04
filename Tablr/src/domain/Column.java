@@ -30,7 +30,7 @@ public class Column {
 	 */
 	public Column(String newName, Table newTable, ArrayList<Cell<?>> newCells) {
 		setColumnType(Type.STRING);
-		allowBlanks();
+		allowsBlanks = true;
 		setTable(newTable);
 		setName(newName);
 		addAllcells(newCells);
@@ -118,18 +118,9 @@ public class Column {
 		return allowsBlanks;
 	}
 
-	/**
-	 * This methods allows the column to have blanks.
-	 */
-	public void allowBlanks() {
-		this.allowsBlanks = true;
-	}
-	
-	/**
-	 * This method forbids the method to have blanks.
-	 */
-	public void forbidBlanks(){
-		this.allowsBlanks = false;
+	public void toggleBlanks(){
+		allowsBlanks = !allowsBlanks;
+		System.out.println(allowsBlanks);
 	}
 	
 	

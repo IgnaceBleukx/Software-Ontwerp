@@ -47,7 +47,8 @@ public class UI {
 		});
 		
 
-		
+		TextField field = new TextField(200,200,200,50,"textfield");
+		this.addUIElement(field);
 
 		
 	}
@@ -79,29 +80,12 @@ public class UI {
 		currentTable.getColumns().get(1).setColumnType(Type.BOOLEAN);
 		currentTable.getColumns().get(2).setColumnType(Type.INTEGER);
 		
-		
-		ArrayList<Column> cols = currentTable.getColumns();
-		
-		
-		int y = 30;
-		for(Column col : cols){
-			Text colName = new Text(10,y,200,50,  col.getName());
-			Text colType = new Text(210,y,150,50, col.getColumnType().toString());
-			Checkbox colBlankPol = new Checkbox(375,y+15,20,20, col.getBlankingPolicy());
-			Text colDef = new Text(410,y,200,50, col.getDefault());
-			
-			
-			
-			ArrayList<UIElement> list = new ArrayList<UIElement>(){{ add(colName); add(colType); add(colBlankPol); add(colDef);}};		
-		
-			UIRow row = new UIRow(10,y,560,50,list);
-			l.addElement(row);
-			y += 50;
-		}
-		
-		
+		l.loadColumnAttributes(currentTable);
+				
 	}
 
+	Table currentTable = new Table("name");
+	
 	private void loadTablesInterface() {
 		Text text1 = new Text(40,40,100,100,"Interface: tables");
 		this.addUIElement(text1);

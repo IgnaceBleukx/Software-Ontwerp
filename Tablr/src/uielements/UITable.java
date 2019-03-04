@@ -67,13 +67,16 @@ public class UITable extends UIElement {
 	
 	@Override
 	public void handleKeyboardEvent(int keyCode, char keyChar) {
-		
+		for(UIElement i: rows){
+			i.handleKeyboardEvent(keyCode, keyChar);
+		}
 		if (keyboardListeners.get(keyCode) == null)
 			return;
 		
 		for (Runnable r : keyboardListeners.get(keyCode)) {
 			r.run();
 		}
+		
 	}
 
 }
