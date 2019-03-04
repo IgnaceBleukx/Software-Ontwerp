@@ -137,10 +137,10 @@ public class Column {
 	 * The default value of a column which allows blanks.
 	 */
 	private HashMap<Type, Object> defaultValues = new HashMap<Type, Object>(){{
-													put(Type.STRING,  null);
-													put(Type.BOOLEAN, null);
-													put(Type.EMAIL,   null);
-													put(Type.INTEGER, null);
+													put(Type.STRING,  "");
+													put(Type.BOOLEAN, false);
+													put(Type.EMAIL,   "");
+													put(Type.INTEGER, 0);
 	}};
 	
 	/**
@@ -162,7 +162,7 @@ public class Column {
 	 * This method returns the default value of the current columnType.
 	 */
 	public String getDefault(){
-		return (String) defaultValues.get(getColumnType());
+		return defaultValues.get(getColumnType()).toString();
 	}
 		
 	

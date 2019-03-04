@@ -154,6 +154,10 @@ public class TableTests {
 		col.setDefault(Type.STRING,"NewDefault");
 		assertEquals("NewDefault", col.getDefault());
 		col.setDefault(Type.BOOLEAN,"WrongValue");
+		col.setColumnType(Type.BOOLEAN);
+		col.setDefault(Type.BOOLEAN, false);
+		assertEquals("False", col.getDefault());
+		
 	}
 	
 	

@@ -21,7 +21,7 @@ public class MyCanvasWindow extends CanvasWindow {
 		UI design = new UI(Loadable_Interfaces.TABLE_DESIGN);
 		UI rows = new UI(Loadable_Interfaces.TABLE_ROWS);
 			
-		setActiveUI(test);
+		setActiveUI(design);
 
 	}
 
