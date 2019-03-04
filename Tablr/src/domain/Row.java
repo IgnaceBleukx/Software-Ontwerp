@@ -82,7 +82,7 @@ public class Row {
 	/**
 	 * This method removes a cell from the row, based on an index.
 	 * @param index 	The index on which the cell must be removed from the row. 
-	 * @return The cell removed from te row.
+	 * @return The cell removed from the row.
 	 */
 	public Cell<?> removeCell(int index){
 		Cell<?> c = this.cells.remove(index);

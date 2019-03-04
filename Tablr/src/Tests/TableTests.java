@@ -18,7 +18,7 @@ import domain.Type;
 public class TableTests {
 	
 	public Table buildTable() {
-		Table table = new Table();
+		Table table = new Table("name");
 		table.addColumn();
 		table.addColumn();
 		table.addColumn();
@@ -41,7 +41,7 @@ public class TableTests {
 
 	@Test
 	public void addColumn() {
-		Table table = new Table();
+		Table table = new Table("name");
 		table.addColumn();
 		assertTrue(table.getColumns().size() == 1);
 		assertTrue(table.getColumnNames().contains("Column0"));
@@ -50,7 +50,7 @@ public class TableTests {
 	
 	@Test
 	public void addRow() throws IllegealDimensionException{
-		Table table = new Table();
+		Table table = new Table("name");
 		table.addColumn();
 		table.addColumn();
 		table.addColumn();
@@ -69,7 +69,7 @@ public class TableTests {
 	
 	@Test(expected = IllegealDimensionException.class)
 	public void badRow() throws IllegealDimensionException{
-		Table table = new Table();
+		Table table = new Table("name");
 		Cell<String> c = new Cell<String>("Test");
 		ArrayList<Cell<?>> cells = new ArrayList<Cell<?>>();
 		cells.add(c);
@@ -78,7 +78,7 @@ public class TableTests {
 	
 	@Test
 	public void terminateRow() throws IllegealDimensionException{
-		Table table = new Table();
+		Table table = new Table("name");
 		table.addColumn();
 		ArrayList<Cell<?>> cells = new ArrayList<Cell<?>>();
 		cells.add(new Cell<String>("Test"));
@@ -181,18 +181,27 @@ public class TableTests {
 	
 	@Test
 	public void terminateCell(){
-		Table table = new Table();
+		Table table = new Table("name");
 		Cell<String> c1 = new Cell<String>("Cell1");
 		Cell<String> c2 = new Cell<String>("Cell2");
 		table.addColumn();
 		table.addColumn();
 		ArrayList<Cell<?>> l = new ArrayList<Cell<?>>(){{ add(c1);add(c2);}};
-		Row r = new Row(new ArrayList<>(){{ add(c1); add(c2);}};
-		
-		
-		
-		
-		
+		Row r = new Row(l);
+		try {
+			table.addRow(r);
+		} catch (IllegealDimensionException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		c1.terminate();
+		assertNull(c1.getTable());
+		assertNull(c1.getColumn());
+		assertNull(c1.getRow());
+		for (Cell<?> c : r.getCells()){
+			assertNotEquals(c, c1);
+		}
+		assertEquals(1, r.getCells().size());
 	}
 	
 
