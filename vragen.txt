@@ -4,4 +4,4 @@
 4. Is het nodig om een verbinding te hebben tussen Table en Cell, want wij vinden dit vreemd?
 5. Window repainten, is het gneoeg om dat na elk mouse of keyboard event uit te voeren? Of zou het kunnen dat er gevallen komen waarin iets anders het nodig maakt om te repainten?
 6. Hoe gedetailleerd moeten we de use cases omzetten in UML?
-
+7. Hoeveel code coverage qua testen?
