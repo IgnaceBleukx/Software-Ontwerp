@@ -1,7 +1,5 @@
-1. VALUE in cell, hoe best verschillende types ondersteunen? Generics, subklassen, instanceof, ...?
-2. Bij het toevoegen van een row, en die column laat geen blanks toe, wat is dan de defaultvalue?
-3. Bij het editen van een default value, blijft die value bewaard voor die Type Value en heeft iedere Type een andere default?
-4. Is het nodig om een verbinding te hebben tussen Table en Cell, want wij vinden dit vreemd? (ook van Column en Row en Cell naar Table)
-5. Window repainten, is het gneoeg om dat na elk mouse of keyboard event uit te voeren? Of zou het kunnen dat er gevallen komen waarin iets anders het nodig maakt om te repainten?
-6. Hoe gedetailleerd moeten we de use cases omzetten in UML?
-7. Hoeveel code coverage qua testen?
+1. A cell needs to have different types of values (string, boolean, ...). Currently we implement this by using Generics: Value<Boolean>, ... Is this a good approach?
+2. Is it necessary to have a association between Table and Cell? Isn't it enough to have Table -> Column or Row -> Cell?
+3. Is it okay to just repaint the canvas after each mouse or keyboard event? Or can we assume that in the future other types of events might create the need to repaint?
+4. How detailed should sequence diagrams be? Should they be a complete trace through our program of just be an interaction between USER and TABLR?
+5. How much code coverage should we aim for when testing?
