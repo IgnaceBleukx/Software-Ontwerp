@@ -3,6 +3,9 @@ package uielements;
 import java.awt.Graphics;
 import java.util.ArrayList;
 
+import domain.Column;
+import domain.Table;
+
 public class UITable extends UIElement {
 
 	/*
@@ -15,11 +18,15 @@ public class UITable extends UIElement {
 	public UITable(int x, int y, int w, int h,UIRow legend, ArrayList<UIRow> rows) {
 		super(x, y,w,h);
 		this.legend = legend;
-		this.rows = rows;
+		this.rows.addAll(rows);
 	}
 
-	ArrayList<UIRow> rows;
+	ArrayList<UIRow> rows =  new ArrayList<UIRow>();
 	UIRow legend;
+	
+	public void addRow(UIRow row){
+		this.rows.add(row);
+	}
 	
 	@Override
 	public void paint(Graphics g) {
@@ -29,6 +36,25 @@ public class UITable extends UIElement {
 		}
 	}
 
+	public void loadTable(Table tab) {
+		System.out.println(communicationManager);
+		int rows = tab.getRows().size();
+		int width = (int) super.getWidth()/(rows+1);
+		int y = super.getY();
+		for(int i=0;i<rows;i++){
+			int x = super.getX();
+			ArrayList<UIElement> rowElements = new ArrayList<UIElement>();
+			for(Column col : communicationManager.getColumns(tab)){
+				String value = communicationManager.getValue(col,i).toString();
+				rowElements.add(new TextField(x,y,width,30, value));
+				x += width;
+			}
+			this.addRow(new UIRow(super.getX(), y, super.getWidth(), 30,rowElements));
+			y+=30;
+		}
+		
+	}
+	
 	/**
 	 * Returns the most specific UIElement located at (x,y) by searching in its rows and legend
 	 * @param x		X Coordinate

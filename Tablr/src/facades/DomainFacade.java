@@ -138,7 +138,7 @@ public class DomainFacade {
 	}
 
 	public Object getValue(Column col, int i) {
-		return col.getCell(i);
+		return col.getCell(i).getValue();
 	}
 
 	

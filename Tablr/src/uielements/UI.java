@@ -41,20 +41,29 @@ public class UI {
 	}
 
 	public void loadTableRowsInterface() {
-		ListView l = new ListView(10, 30, 560, 520, new ArrayList<UIElement>());
+		ArrayList<UIElement> legend = new ArrayList<UIElement>();
+		ArrayList<String> names = communicationManager.getTableNames();
+		for(String name:names){
+			
+		}
+		
+		
+		UITable t = new UITable(10, 30, 560, 520, new ArrayList<UIRow>());
+		this.addUIElement(t);
+		t.setCommunicationManager(getCommunicationManager());
+
 		communicationManager.addEmptyTable();
 		Table tab = communicationManager.getTables().get(0);
 		communicationManager.addEmptyColumn(tab);
 		communicationManager.addEmptyColumn(tab);
 		communicationManager.addEmptyColumn(tab);
+		communicationManager.addEmptyColumn(tab);
 		communicationManager.addRow(tab);
 		communicationManager.addRow(tab);
 		
-		System.out.println("comManager in UI:" + communicationManager);
 		
-		l.loadTable(tab);
+		t.loadTable(tab);
 		
-		this.addUIElement(l);
 		
 	}
 
@@ -130,6 +139,7 @@ public class UI {
 	 */
 	public void addUIElement(UIElement e){
 		this.elements.add(e);
+		e.setCommunicationManager(getCommunicationManager());
 	}
 	
 	
@@ -139,6 +149,7 @@ public class UI {
 	 */
 	public void removeUIElement(UIElement e){
 		this.elements.remove(e);
+		e.setCommunicationManager(null);
 	}
 	
 	/**

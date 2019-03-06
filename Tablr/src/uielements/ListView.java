@@ -161,24 +161,6 @@ public class ListView extends UIElement {
 		}
 	}
 	
-	public void loadTable(Table tab) {
-		int rows = tab.getRows().size();
-		int width = (int) super.getWidth()/rows;
-		int y = super.getY();
-		for(int i=0;i<rows;i++){
-			int x = super.getX();
-			ArrayList<UIElement> rowElements = new ArrayList<UIElement>();
-			for(Column col : communicationManager.getColumns(tab)){
-				String value = communicationManager.getValue(col,i).toString();
-				rowElements.add(new TextField(x,y,width,30, value));
-				x += width;
-			}
-			this.addElement(new UIRow(super.getX(), y, super.getWidth(), 30,rowElements));
-			y+=30;
-		}
-		
-	}
-	
 	private void addAllElements(ArrayList<UIElement> list) {
 		for(UIElement e: list){
 			this.addElement(e);

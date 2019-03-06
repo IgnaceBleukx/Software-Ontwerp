@@ -48,7 +48,7 @@ public class DomainTests {
 		table.addEmptyColumn();
 		table.addEmptyColumn();
 		table.addEmptyColumn();
-		table.addRow(new Row());
+		table.addRow();
 		assertEquals(1,table.getRows().size());
 	}
 	
@@ -164,7 +164,7 @@ public class DomainTests {
 	public void terminateColumn(){
 		Table table = new Table("name");
 		Column col = table.addEmptyColumn();
-		table.addRow(new Row());
+		table.addRow();
 		col.terminate();
 		assertEquals(0,table.getColumns().size());
 	}

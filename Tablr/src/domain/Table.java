@@ -70,17 +70,17 @@ public class Table extends DomainElement {
  		return col;
  	}
 	
-	/**
-	 * This method adds a column to the current table.s
-	 * @param col 	The column to be added.
-	 */
-	public void addColumn(Column col){
-		this.columns.add(col);
-		while(this.rows.size() < col.getCells().size()){
-			this.addRow();
-		}
-		col.setTable(this);
-	}
+//	/**
+//	 * This method adds a column to the current table.s
+//	 * @param col 	The column to be added.
+//	 */
+//	public void addColumn(Column col){
+//		this.columns.add(col);
+//		while(this.rows.size() < col.getCells().size()){
+//			this.addRow();
+//		}
+//		col.setTable(this);
+//	}
 	
 	/**
 	 * This method removes a Column from the current table.
@@ -119,24 +119,13 @@ public class Table extends DomainElement {
 	 * This method adds a row to the current Table.
 	 * @param r 	The row to be added.
 	 */
-	public void addRow(Row r){
+	public void addRow(){
+		Row r = new Row();
 		this.rows.add(r);
 		for (Column col: columns){
 			col.addBlankCell();
 		}
 		r.setTable(this);
-	}
-	
-	/**
-	 * This method adds an empty row to the current table.
-	 * The columns' length is not updated.
-	 * @return Returns the added row.
-	 */
-	public Row addRow(){
-		Row r = new Row();
-		rows.add(r);
-		r.setTable(this);
-		return r;
 	}
 	
 	/**
