@@ -56,7 +56,7 @@ public class TableTests {
 		assertEquals(1,table.getRows().size());
 	}
 	
-		
+
 	@Test
 	public void terminateRow() throws IllegalDimensionException{
 		
@@ -105,16 +105,29 @@ public class TableTests {
 	}
 
 	@Test (expected = ClassCastException.class)
+	public void changeColumnDefaultsError(){
+		Table table = buildTable();
+		Column col = table.getColumns().get(0);
+		col.setDefault(Type.STRING,false);		
+	}
+	
+	@Test
 	public void changeColumnDefaults(){
 		Table table = buildTable();
 		Column col = table.getColumns().get(0);
-		col.setDefault(Type.STRING,"NewDefault");
-		assertEquals("NewDefault", col.getDefault());
-		col.setDefault(Type.BOOLEAN,"WrongValue");
-		col.setColumnType(Type.BOOLEAN);
-		col.setDefault(Type.BOOLEAN, false);
-		assertEquals("False", col.getDefault());
 		
+		col.setDefault(Type.STRING, "string");
+		col.setDefault(Type.BOOLEAN, false);
+		col.setDefault(Type.EMAIL, "sampleEmail@tests.com");
+		col.setDefault(Type.INTEGER, 100);
+		
+		assertEquals("string", col.getDefault());
+		col.setColumnType(Type.BOOLEAN);
+		assertEquals(false, col.getDefault());
+		col.setColumnType(Type.EMAIL);
+		assertEquals("sampleEmail@tests.com", col.getDefault());
+		col.setColumnType(Type.INTEGER);
+		assertEquals(100, col.getDefault());		
 	}
 	
 	
@@ -141,8 +154,12 @@ public class TableTests {
 	}
 	
 	@Test
-	public void terminateCell(){
-		
+	public void terminateColumn(){
+		Table table = new Table("name");
+		Column col = table.addEmptyColumn();
+		table.addRow(new Row());
+		col.terminate();
+		assertEquals(0,table.getColumns().size());
 	}
 	
 

@@ -132,29 +132,6 @@ public class Table {
 		return rows.remove(index);
 	}
 	
-//	/**
-//	 * The table's cells
-//	 */
-//	private ArrayList<Cell<?>> cells = new ArrayList<Cell<?>>();
-//	
-//	/**
-//	 * add a cell to the collection of cells in this table (not in order)
-//	 * @param cell
-//	 */
-//	public void addCell(Cell<?> cell){
-//		this.cells.add(cell);
-//	}
-//	
-//	/**
-//	 * This method removes a cell of the table.
-//	 * @param cell
-//	 */
-//	public void removeCell(Cell<?> cell){
-//		this.cells.remove(cell);
-//		cell.setTable(null);
-//	}
-//	
-	
 	/**
 	 * This method returns the next logic column name for the current table.
 	 */
