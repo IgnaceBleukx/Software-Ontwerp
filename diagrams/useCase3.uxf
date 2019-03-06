@@ -2,21 +2,10 @@
 <diagram program="umlet" version="14.3.0">
   <zoom_level>10</zoom_level>
   <element>
-    <id>UMLActor</id>
-    <coordinates>
-      <x>0</x>
-      <y>120</y>
-      <w>60</w>
-      <h>110</h>
-    </coordinates>
-    <panel_attributes>User</panel_attributes>
-    <additional_attributes/>
-  </element>
-  <element>
     <id>UMLUseCase</id>
     <coordinates>
-      <x>290</x>
-      <y>10</y>
+      <x>490</x>
+      <y>190</y>
       <w>190</w>
       <h>60</h>
     </coordinates>
@@ -27,8 +16,8 @@
   <element>
     <id>UMLClass</id>
     <coordinates>
-      <x>490</x>
-      <y>0</y>
+      <x>690</x>
+      <y>180</y>
       <w>220</w>
       <h>80</h>
     </coordinates>
@@ -42,193 +31,8 @@ Table Rows by pressing Escape</panel_attributes>
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>20</x>
-      <y>220</y>
-      <w>30</w>
-      <h>370</h>
-    </coordinates>
-    <panel_attributes>lt=.</panel_attributes>
-    <additional_attributes>10.0;350.0;10.0;10.0</additional_attributes>
-  </element>
-  <element>
-    <id>Relation</id>
-    <coordinates>
-      <x>20</x>
-      <y>240</y>
-      <w>330</w>
-      <h>40</h>
-    </coordinates>
-    <panel_attributes>lt=&lt;&lt;.
-clicks the margin to the left of a tabe name</panel_attributes>
-    <additional_attributes>310.0;20.0;10.0;20.0</additional_attributes>
-  </element>
-  <element>
-    <id>Relation</id>
-    <coordinates>
-      <x>320</x>
-      <y>230</y>
-      <w>30</w>
-      <h>360</h>
-    </coordinates>
-    <panel_attributes>lt=.</panel_attributes>
-    <additional_attributes>10.0;340.0;10.0;10.0</additional_attributes>
-  </element>
-  <element>
-    <id>UMLClass</id>
-    <coordinates>
-      <x>280</x>
-      <y>200</y>
-      <w>100</w>
-      <h>30</h>
-    </coordinates>
-    <panel_attributes>UI</panel_attributes>
-    <additional_attributes/>
-  </element>
-  <element>
-    <id>Relation</id>
-    <coordinates>
-      <x>320</x>
-      <y>290</y>
-      <w>220</w>
-      <h>50</h>
-    </coordinates>
-    <panel_attributes>lt=&lt;&lt;.
-. . .
-See use case 1</panel_attributes>
-    <additional_attributes>200.0;20.0;10.0;20.0</additional_attributes>
-  </element>
-  <element>
-    <id>Relation</id>
-    <coordinates>
-      <x>510</x>
-      <y>230</y>
-      <w>30</w>
-      <h>360</h>
-    </coordinates>
-    <panel_attributes>lt=.</panel_attributes>
-    <additional_attributes>10.0;340.0;10.0;10.0</additional_attributes>
-  </element>
-  <element>
-    <id>UMLClass</id>
-    <coordinates>
-      <x>470</x>
-      <y>200</y>
-      <w>100</w>
-      <h>30</h>
-    </coordinates>
-    <panel_attributes>Row</panel_attributes>
-    <additional_attributes/>
-  </element>
-  <element>
-    <id>Relation</id>
-    <coordinates>
-      <x>20</x>
-      <y>430</y>
-      <w>520</w>
-      <h>40</h>
-    </coordinates>
-    <panel_attributes>lt=&lt;&lt;.
-Presses the delete key</panel_attributes>
-    <additional_attributes>500.0;20.0;10.0;20.0</additional_attributes>
-  </element>
-  <element>
-    <id>Relation</id>
-    <coordinates>
-      <x>510</x>
-      <y>470</y>
-      <w>400</w>
-      <h>40</h>
-    </coordinates>
-    <panel_attributes>lt=&lt;&lt;.
-listener.run()</panel_attributes>
-    <additional_attributes>380.0;20.0;10.0;20.0</additional_attributes>
-  </element>
-  <element>
-    <id>Relation</id>
-    <coordinates>
-      <x>880</x>
-      <y>230</y>
-      <w>30</w>
-      <h>360</h>
-    </coordinates>
-    <panel_attributes>lt=.</panel_attributes>
-    <additional_attributes>10.0;340.0;10.0;10.0</additional_attributes>
-  </element>
-  <element>
-    <id>UMLClass</id>
-    <coordinates>
-      <x>820</x>
-      <y>200</y>
-      <w>140</w>
-      <h>30</h>
-    </coordinates>
-    <panel_attributes>KeyboardListener</panel_attributes>
-    <additional_attributes/>
-  </element>
-  <element>
-    <id>UMLClass</id>
-    <coordinates>
-      <x>620</x>
-      <y>200</y>
-      <w>140</w>
-      <h>30</h>
-    </coordinates>
-    <panel_attributes>SingleClickListener</panel_attributes>
-    <additional_attributes/>
-  </element>
-  <element>
-    <id>Relation</id>
-    <coordinates>
-      <x>510</x>
-      <y>330</y>
-      <w>200</w>
-      <h>40</h>
-    </coordinates>
-    <panel_attributes>lt=&lt;&lt;.
-listener.run()</panel_attributes>
-    <additional_attributes>180.0;20.0;10.0;20.0</additional_attributes>
-  </element>
-  <element>
-    <id>Relation</id>
-    <coordinates>
-      <x>680</x>
-      <y>230</y>
-      <w>30</w>
-      <h>200</h>
-    </coordinates>
-    <panel_attributes>lt=.</panel_attributes>
-    <additional_attributes>10.0;180.0;10.0;10.0</additional_attributes>
-  </element>
-  <element>
-    <id>Text</id>
-    <coordinates>
-      <x>700</x>
-      <y>340</y>
-      <w>100</w>
-      <h>60</h>
-    </coordinates>
-    <panel_attributes>UI indicates that the table is selected
-style=wordwrap</panel_attributes>
-    <additional_attributes/>
-  </element>
-  <element>
-    <id>Text</id>
-    <coordinates>
-      <x>900</x>
-      <y>480</y>
-      <w>200</w>
-      <h>50</h>
-    </coordinates>
-    <panel_attributes>- tableManager.removeTable()
-- Listview.loadFromTables()
-</panel_attributes>
-    <additional_attributes/>
-  </element>
-  <element>
-    <id>Relation</id>
-    <coordinates>
-      <x>960</x>
-      <y>900</y>
+      <x>870</x>
+      <y>520</y>
       <w>240</w>
       <h>40</h>
     </coordinates>
@@ -239,8 +43,8 @@ highlightTableName()</panel_attributes>
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>1170</x>
-      <y>770</y>
+      <x>1080</x>
+      <y>390</y>
       <w>30</w>
       <h>210</h>
     </coordinates>
@@ -250,8 +54,8 @@ highlightTableName()</panel_attributes>
   <element>
     <id>UMLClass</id>
     <coordinates>
-      <x>1120</x>
-      <y>730</y>
+      <x>1030</x>
+      <y>350</y>
       <w>130</w>
       <h>30</h>
     </coordinates>
@@ -261,8 +65,8 @@ highlightTableName()</panel_attributes>
   <element>
     <id>UMLActor</id>
     <coordinates>
-      <x>190</x>
-      <y>660</y>
+      <x>100</x>
+      <y>280</y>
       <w>60</w>
       <h>110</h>
     </coordinates>
@@ -272,8 +76,8 @@ highlightTableName()</panel_attributes>
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>210</x>
-      <y>760</y>
+      <x>120</x>
+      <y>380</y>
       <w>30</w>
       <h>520</h>
     </coordinates>
@@ -283,8 +87,8 @@ highlightTableName()</panel_attributes>
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>210</x>
-      <y>780</y>
+      <x>120</x>
+      <y>400</y>
       <w>330</w>
       <h>40</h>
     </coordinates>
@@ -295,8 +99,8 @@ Clicks the margin to the left of a table name</panel_attributes>
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>510</x>
-      <y>770</y>
+      <x>420</x>
+      <y>390</y>
       <w>30</w>
       <h>510</h>
     </coordinates>
@@ -306,8 +110,8 @@ Clicks the margin to the left of a table name</panel_attributes>
   <element>
     <id>UMLClass</id>
     <coordinates>
-      <x>470</x>
-      <y>730</y>
+      <x>380</x>
+      <y>350</y>
       <w>100</w>
       <h>30</h>
     </coordinates>
@@ -317,8 +121,8 @@ Clicks the margin to the left of a table name</panel_attributes>
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>960</x>
-      <y>760</y>
+      <x>870</x>
+      <y>380</y>
       <w>30</w>
       <h>520</h>
     </coordinates>
@@ -328,8 +132,8 @@ Clicks the margin to the left of a table name</panel_attributes>
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>690</x>
-      <y>880</y>
+      <x>600</x>
+      <y>500</y>
       <w>300</w>
       <h>40</h>
     </coordinates>
@@ -340,8 +144,8 @@ getCommunicationManager()</panel_attributes>
   <element>
     <id>UMLClass</id>
     <coordinates>
-      <x>870</x>
-      <y>730</y>
+      <x>780</x>
+      <y>350</y>
       <w>180</w>
       <h>30</h>
     </coordinates>
@@ -351,8 +155,8 @@ getCommunicationManager()</panel_attributes>
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>690</x>
-      <y>770</y>
+      <x>600</x>
+      <y>390</y>
       <w>30</w>
       <h>170</h>
     </coordinates>
@@ -362,8 +166,8 @@ getCommunicationManager()</panel_attributes>
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>510</x>
-      <y>820</y>
+      <x>420</x>
+      <y>440</y>
       <w>210</w>
       <h>60</h>
     </coordinates>
@@ -376,8 +180,8 @@ See how click is handled</panel_attributes>
   <element>
     <id>UMLClass</id>
     <coordinates>
-      <x>640</x>
-      <y>960</y>
+      <x>550</x>
+      <y>580</y>
       <w>140</w>
       <h>30</h>
     </coordinates>
@@ -387,8 +191,8 @@ See how click is handled</panel_attributes>
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>510</x>
-      <y>1060</y>
+      <x>420</x>
+      <y>680</y>
       <w>210</w>
       <h>60</h>
     </coordinates>
@@ -401,8 +205,8 @@ See how click is handled</panel_attributes>
   <element>
     <id>UMLClass</id>
     <coordinates>
-      <x>640</x>
-      <y>730</y>
+      <x>550</x>
+      <y>350</y>
       <w>140</w>
       <h>30</h>
     </coordinates>
@@ -412,8 +216,8 @@ See how click is handled</panel_attributes>
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>690</x>
-      <y>990</y>
+      <x>600</x>
+      <y>610</y>
       <w>30</w>
       <h>290</h>
     </coordinates>
@@ -423,8 +227,8 @@ See how click is handled</panel_attributes>
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>690</x>
-      <y>1080</y>
+      <x>600</x>
+      <y>700</y>
       <w>300</w>
       <h>40</h>
     </coordinates>
@@ -435,20 +239,20 @@ getCommunicationManager()</panel_attributes>
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>210</x>
-      <y>1020</y>
+      <x>120</x>
+      <y>640</y>
       <w>330</w>
       <h>40</h>
     </coordinates>
     <panel_attributes>lt=&lt;&lt;.
-Press Delete key</panel_attributes>
+Presses Delete key</panel_attributes>
     <additional_attributes>310.0;20.0;10.0;20.0</additional_attributes>
   </element>
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>960</x>
-      <y>1110</y>
+      <x>870</x>
+      <y>730</y>
       <w>240</w>
       <h>40</h>
     </coordinates>
@@ -459,8 +263,8 @@ RemoveTable()</panel_attributes>
   <element>
     <id>UMLClass</id>
     <coordinates>
-      <x>1120</x>
-      <y>1010</y>
+      <x>1030</x>
+      <y>630</y>
       <w>130</w>
       <h>30</h>
     </coordinates>
@@ -470,12 +274,24 @@ RemoveTable()</panel_attributes>
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>1170</x>
-      <y>1050</y>
+      <x>1080</x>
+      <y>670</y>
       <w>30</w>
       <h>220</h>
     </coordinates>
     <panel_attributes>lt=.</panel_attributes>
     <additional_attributes>10.0;200.0;10.0;10.0</additional_attributes>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>870</x>
+      <y>780</y>
+      <w>240</w>
+      <h>40</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;&lt;.
+ListView.loadFromTables()</panel_attributes>
+    <additional_attributes>220.0;20.0;10.0;20.0</additional_attributes>
   </element>
 </diagram>
