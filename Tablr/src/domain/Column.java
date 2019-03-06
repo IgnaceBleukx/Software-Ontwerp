@@ -3,7 +3,9 @@ package domain;
 import java.util.ArrayList;
 import java.util.HashMap;
 
-public class Column {
+import facades.CommunicationManager;
+
+public class Column extends DomainElement {
 	
 	/**
 	 * Extended constructor of the column.
@@ -243,7 +245,10 @@ public class Column {
 		}
 	}
 	
-	
+	@Override
+	public void setCommunicationManager(CommunicationManager c) {
+		
+	}
 
 	
 

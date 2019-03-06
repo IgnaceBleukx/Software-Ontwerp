@@ -4,7 +4,7 @@ import java.util.ArrayList;
 
 public class Table {
 	
-	public Table(String name){
+	public Table(String name) extends DomainElement {
 		setName(name);
 	}
 	

@@ -2,7 +2,7 @@ package domain;
 
 import java.util.ArrayList;
 
-public class Row {
+public class Row extends DomainElement {
 	
 	/**
 	 * Constructor of the row

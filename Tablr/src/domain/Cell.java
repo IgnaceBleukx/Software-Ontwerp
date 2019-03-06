@@ -1,6 +1,6 @@
 package domain;
 
-public class Cell<T> {
+public class Cell<T> extends DomainElement {
 
 	/**
 	 * The constructor of the Cell

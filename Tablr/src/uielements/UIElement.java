@@ -6,8 +6,23 @@ import java.awt.Graphics;
 import java.util.ArrayList;
 import java.util.HashMap;
 
+import facades.CommunicationManager;
+
 
 public abstract class UIElement {
+	
+	/**
+	 * Reference to the communicationsmanager that is used to talk to the UI.
+	 */
+	private CommunicationManager communicationManager;
+
+	public void setCommunicationsManager(CommunicationManager c) {
+		this.communicationManager = c;
+	}
+	
+	public CommunicationManager getCommunicationsManager() {
+		return this.communicationManager;
+	}
 	
 	
 	/**
