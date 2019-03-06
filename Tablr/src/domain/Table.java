@@ -66,6 +66,10 @@ public class Table extends DomainElement {
 	 */
 	public void addColumn(Column col){
 		this.columns.add(col);
+		while(this.rows.size() < col.getCells().size()){
+			this.addEmptyRow();
+		}
+		col.setTable(this);
 	}
 	
 	/**
@@ -110,6 +114,19 @@ public class Table extends DomainElement {
 		for (Column col: columns){
 			col.addBlankCell();
 		}
+		r.setTable(this);
+	}
+	
+	/**
+	 * This method adds an empty row to the current table.
+	 * The columns' length is not updated.
+	 * @return Returns the added row.
+	 */
+	public Row addEmptyRow(){
+		Row r = new Row();
+		rows.add(r);
+		r.setTable(this);
+		return r;
 	}
 	
 	/**
@@ -133,29 +150,6 @@ public class Table extends DomainElement {
 		r.setTable(null);
 		return rows.remove(index);
 	}
-	
-//	/**
-//	 * The table's cells
-//	 */
-//	private ArrayList<Cell<?>> cells = new ArrayList<Cell<?>>();
-//	
-//	/**
-//	 * add a cell to the collection of cells in this table (not in order)
-//	 * @param cell
-//	 */
-//	public void addCell(Cell<?> cell){
-//		this.cells.add(cell);
-//	}
-//	
-//	/**
-//	 * This method removes a cell of the table.
-//	 * @param cell
-//	 */
-//	public void removeCell(Cell<?> cell){
-//		this.cells.remove(cell);
-//		cell.setTable(null);
-//	}
-//	
 	
 	/**
 	 * This method returns the next logic column name for the current table.
@@ -190,11 +184,11 @@ public class Table extends DomainElement {
 	 * This method removes the table and all its contents.
 	 */
 	public void terminate(){
-		for (Column c: columns){
-			c.terminate();
+		while(! columns.isEmpty()){
+			columns.get(0).terminate();
 		}
-		for (Row r: rows){
-			r.terminate();
+		while(! rows.isEmpty()){
+			rows.get(0).terminate();
 		}
 	}
 	

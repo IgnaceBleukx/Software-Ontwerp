@@ -16,14 +16,14 @@ public class Column extends DomainElement {
 	 * @param newTable
 	 * @param newCells
 	 */
-	public Column(String name, Type type, Boolean allowsBlanks, HashMap<Type, Object> defaultValues, Table table, ArrayList<Cell<?>> newCells) {
-		this.name= name;
-		this.type = type;
-		this.allowsBlanks = allowsBlanks;
-		this.defaultValues = defaultValues;
-		this.table = table;
-		this.cells = newCells;
-	}
+//	public Column(String name, Type type, Boolean allowsBlanks, HashMap<Type, Object> defaultValues, Table table, ArrayList<Cell<?>> newCells) {
+//		this.name= name;
+//		this.type = type;
+//		this.allowsBlanks = allowsBlanks;
+//		this.defaultValues = defaultValues;
+//		this.table = table;
+//		this.cells = newCells;
+//	}
 	
 	/**
 	 * Constructor of the column. This is the standard constructor that will mostly be used in the program.
@@ -121,7 +121,6 @@ public class Column extends DomainElement {
 
 	public void toggleBlanks(){
 		allowsBlanks = !allowsBlanks;
-		System.out.println(allowsBlanks);
 	}
 	
 	
@@ -143,10 +142,10 @@ public class Column extends DomainElement {
 	 */
 	public void setDefault(Type t, Object o) throws ClassCastException{
 		switch (t){
-				case STRING : defaultValues.put(Type.STRING,(String)o);
-				case BOOLEAN : defaultValues.put(Type.BOOLEAN, (Boolean) o);
-				case EMAIL : defaultValues.put(Type.EMAIL,(String)o);
-				case INTEGER : defaultValues.put(Type.INTEGER, (Integer) o);
+				case STRING : defaultValues.put(Type.STRING,(String)o); break;
+				case BOOLEAN : defaultValues.put(Type.BOOLEAN, (Boolean) o); break;
+				case EMAIL : defaultValues.put(Type.EMAIL,(String)o); break;
+				case INTEGER : defaultValues.put(Type.INTEGER, (Integer) o); break;
 			}
 	}
 		
@@ -174,6 +173,7 @@ public class Column extends DomainElement {
 	 * @param newCells: The cells to be added to the column.
 	 */
 	private void addAllcells(ArrayList<Cell<?>> newCells) {
+		if (newCells == null) return;
 		for (Cell<?> c: newCells){
 			addCell(c);
 		}
