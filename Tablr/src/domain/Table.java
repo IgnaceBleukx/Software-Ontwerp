@@ -46,15 +46,24 @@ public class Table {
 	/**
 	 * Add a new Column at the end of the list of columns (e.g. to the right)
 	 */
-	public void addColumn(){
+	public Column addEmptyColumn(){
 		ArrayList<Cell<?>> columnCells = new ArrayList<Cell<?>>();
 		for(int i=0;i<this.getRows().size(); i++){
 			Cell<String> cell = new Cell<String>(null);
 			columnCells.add(cell);
-			this.getRows().get(i).addCell(cell);
 		}
-		Column newCol = new Column(newColumnName(), this, columnCells);
+		Column newCol = new Column(newColumnName(), columnCells);
+		newCol.setTable(this);
 		this.columns.add(newCol);
+		return newCol;
+	}
+	
+	/**
+	 * This method adds a column to the current table.s
+	 * @param col 	The column to be added.
+	 */
+	public void addColumn(Column col){
+		this.columns.add(col);
 	}
 	
 	/**
@@ -73,11 +82,7 @@ public class Table {
 	public Column removeColumn(int index){
 		Column column = columns.get(index);
 		columns.remove(column);
-		for (Row r: rows){
-			r.removeCell(index);
-		}
 		column.setTable(null);
-		columns.remove(column);
 		return column;
 	}
 	
@@ -97,18 +102,11 @@ public class Table {
 	/**
 	 * This method adds a row to the current Table.
 	 * @param r 	The row to be added.
-	 * @throws IllegealDimensionException
 	 */
-	public void addRow(Row r) throws IllegalDimensionException{
-		if (isValidRow(r)){
-			this.rows.add(r);
-			r.setTable(this);
-			for (int i=0;i<columns.size();i++){
-				columns.get(i).addCell(r.getCells().get(i));
-			}
-		}
-		else{
-			throw new IllegalDimensionException();
+	public void addRow(Row r){
+		this.rows.add(r);
+		for (Column col: columns){
+			col.addBlankCell();
 		}
 	}
 	
@@ -134,38 +132,28 @@ public class Table {
 		return rows.remove(index);
 	}
 	
-	/**
-	 * This method returns whether the row given is a valid one for the current Table.
-	 * @param r 	The row to be checked.
-	 * @return
-	 */
-	public boolean isValidRow(Row r){
-		return r.getCells().size() == this.getColumns().size();
-	}
-	
-	
-	/**
-	 * The table's cells
-	 */
-	private ArrayList<Cell<?>> cells = new ArrayList<Cell<?>>();
-	
-	/**
-	 * add a cell to the collection of cells in this table (not in order)
-	 * @param cell
-	 */
-	public void addCell(Cell<?> cell){
-		this.cells.add(cell);
-	}
-	
-	/**
-	 * This method removes a cell of the table.
-	 * @param cell
-	 */
-	public void removeCell(Cell<?> cell){
-		this.cells.remove(cell);
-		cell.setTable(null);
-	}
-	
+//	/**
+//	 * The table's cells
+//	 */
+//	private ArrayList<Cell<?>> cells = new ArrayList<Cell<?>>();
+//	
+//	/**
+//	 * add a cell to the collection of cells in this table (not in order)
+//	 * @param cell
+//	 */
+//	public void addCell(Cell<?> cell){
+//		this.cells.add(cell);
+//	}
+//	
+//	/**
+//	 * This method removes a cell of the table.
+//	 * @param cell
+//	 */
+//	public void removeCell(Cell<?> cell){
+//		this.cells.remove(cell);
+//		cell.setTable(null);
+//	}
+//	
 	
 	/**
 	 * This method returns the next logic column name for the current table.
