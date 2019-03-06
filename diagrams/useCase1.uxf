@@ -4,8 +4,8 @@
   <element>
     <id>UMLActor</id>
     <coordinates>
-      <x>297</x>
-      <y>144</y>
+      <x>288</x>
+      <y>126</y>
       <w>54</w>
       <h>99</h>
     </coordinates>
@@ -15,8 +15,8 @@
   <element>
     <id>UMLClass</id>
     <coordinates>
-      <x>522</x>
-      <y>207</y>
+      <x>513</x>
+      <y>189</y>
       <w>90</w>
       <h>27</h>
     </coordinates>
@@ -26,8 +26,8 @@
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>315</x>
-      <y>234</y>
+      <x>306</x>
+      <y>216</y>
       <w>27</w>
       <h>261</h>
     </coordinates>
@@ -37,8 +37,8 @@
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>558</x>
-      <y>234</y>
+      <x>549</x>
+      <y>216</y>
       <w>27</w>
       <h>261</h>
     </coordinates>
@@ -48,8 +48,8 @@
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>315</x>
-      <y>252</y>
+      <x>306</x>
+      <y>234</y>
       <w>270</w>
       <h>36</h>
     </coordinates>
@@ -60,35 +60,19 @@ Double-clicks below list of tables</panel_attributes>
   <element>
     <id>UMLUseCase</id>
     <coordinates>
-      <x>477</x>
-      <y>45</y>
-      <w>180</w>
-      <h>54</h>
-    </coordinates>
-    <panel_attributes>Use case 4.1: Create table
-</panel_attributes>
-    <additional_attributes/>
-  </element>
-  <element>
-    <id>UMLClass</id>
-    <coordinates>
-      <x>675</x>
+      <x>450</x>
       <y>27</y>
       <w>198</w>
-      <h>72</h>
+      <h>54</h>
     </coordinates>
-    <panel_attributes>*Tables Mode*
---
-This mode can be entered 
-from Table design or 
-Table Rows by pressing Escape</panel_attributes>
+    <panel_attributes>Example how a click is handled</panel_attributes>
     <additional_attributes/>
   </element>
   <element>
     <id>UMLClass</id>
     <coordinates>
-      <x>693</x>
-      <y>207</y>
+      <x>684</x>
+      <y>189</y>
       <w>90</w>
       <h>27</h>
     </coordinates>
@@ -99,8 +83,8 @@ Table Rows by pressing Escape</panel_attributes>
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>729</x>
-      <y>234</y>
+      <x>720</x>
+      <y>216</y>
       <w>27</w>
       <h>261</h>
     </coordinates>
@@ -110,8 +94,8 @@ Table Rows by pressing Escape</panel_attributes>
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>558</x>
-      <y>288</y>
+      <x>549</x>
+      <y>270</y>
       <w>198</w>
       <h>36</h>
     </coordinates>
@@ -122,8 +106,8 @@ locatedAt(x, y)</panel_attributes>
   <element>
     <id>UMLClass</id>
     <coordinates>
-      <x>1017</x>
-      <y>207</y>
+      <x>1008</x>
+      <y>189</y>
       <w>126</w>
       <h>27</h>
     </coordinates>
@@ -133,8 +117,8 @@ locatedAt(x, y)</panel_attributes>
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>1071</x>
-      <y>234</y>
+      <x>1062</x>
+      <y>216</y>
       <w>27</w>
       <h>261</h>
     </coordinates>
@@ -144,8 +128,8 @@ locatedAt(x, y)</panel_attributes>
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>891</x>
-      <y>351</y>
+      <x>882</x>
+      <y>333</y>
       <w>207</w>
       <h>36</h>
     </coordinates>
@@ -156,20 +140,20 @@ listener.run()</panel_attributes>
   <element>
     <id>Text</id>
     <coordinates>
-      <x>1089</x>
-      <y>369</y>
-      <w>117</w>
-      <h>54</h>
+      <x>1080</x>
+      <y>351</y>
+      <w>108</w>
+      <h>27</h>
     </coordinates>
-    <panel_attributes>tableManager. addEmptyTable()
+    <panel_attributes>doSomething()
 style=wordwrap</panel_attributes>
     <additional_attributes/>
   </element>
   <element>
     <id>UMLClass</id>
     <coordinates>
-      <x>855</x>
-      <y>207</y>
+      <x>846</x>
+      <y>189</y>
       <w>90</w>
       <h>27</h>
     </coordinates>
@@ -179,8 +163,8 @@ style=wordwrap</panel_attributes>
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>891</x>
-      <y>234</y>
+      <x>882</x>
+      <y>216</y>
       <w>27</w>
       <h>261</h>
     </coordinates>
@@ -190,8 +174,8 @@ style=wordwrap</panel_attributes>
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>729</x>
-      <y>315</y>
+      <x>720</x>
+      <y>297</y>
       <w>189</w>
       <h>36</h>
     </coordinates>
@@ -202,8 +186,8 @@ handleDoubleClick()</panel_attributes>
   <element>
     <id>UMLActor</id>
     <coordinates>
-      <x>576</x>
-      <y>684</y>
+      <x>567</x>
+      <y>666</y>
       <w>54</w>
       <h>99</h>
     </coordinates>
@@ -213,65 +197,53 @@ handleDoubleClick()</panel_attributes>
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>594</x>
-      <y>774</y>
+      <x>585</x>
+      <y>756</y>
       <w>27</w>
-      <h>162</h>
+      <h>252</h>
     </coordinates>
     <panel_attributes>lt=.</panel_attributes>
-    <additional_attributes>10.0;160.0;10.0;10.0</additional_attributes>
+    <additional_attributes>10.0;260.0;10.0;10.0</additional_attributes>
   </element>
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>594</x>
-      <y>792</y>
-      <w>270</w>
+      <x>585</x>
+      <y>774</y>
+      <w>252</w>
       <h>36</h>
     </coordinates>
     <panel_attributes>lt=&lt;&lt;.
 Double click below list of tables</panel_attributes>
-    <additional_attributes>280.0;20.0;10.0;20.0</additional_attributes>
+    <additional_attributes>260.0;20.0;10.0;20.0</additional_attributes>
   </element>
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>837</x>
-      <y>783</y>
+      <x>810</x>
+      <y>765</y>
       <w>27</w>
-      <h>153</h>
+      <h>243</h>
     </coordinates>
     <panel_attributes>lt=.</panel_attributes>
-    <additional_attributes>10.0;150.0;10.0;10.0</additional_attributes>
+    <additional_attributes>10.0;250.0;10.0;10.0</additional_attributes>
   </element>
   <element>
     <id>UMLClass</id>
     <coordinates>
-      <x>801</x>
-      <y>747</y>
+      <x>774</x>
+      <y>729</y>
       <w>90</w>
       <h>27</h>
     </coordinates>
-    <panel_attributes>Program</panel_attributes>
-    <additional_attributes/>
-  </element>
-  <element>
-    <id>Text</id>
-    <coordinates>
-      <x>855</x>
-      <y>828</y>
-      <w>117</w>
-      <h>54</h>
-    </coordinates>
-    <panel_attributes>The programs adds a table
-style=wordwrap</panel_attributes>
+    <panel_attributes>UI</panel_attributes>
     <additional_attributes/>
   </element>
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>9</x>
-      <y>540</y>
+      <x>0</x>
+      <y>522</y>
       <w>1395</w>
       <h>27</h>
     </coordinates>
@@ -281,8 +253,8 @@ style=wordwrap</panel_attributes>
   <element>
     <id>UMLClass</id>
     <coordinates>
-      <x>684</x>
-      <y>567</y>
+      <x>1044</x>
+      <y>576</y>
       <w>198</w>
       <h>72</h>
     </coordinates>
@@ -296,26 +268,142 @@ Table Rows by pressing Escape</panel_attributes>
   <element>
     <id>UMLUseCase</id>
     <coordinates>
-      <x>558</x>
+      <x>792</x>
       <y>585</y>
-      <w>108</w>
-      <h>36</h>
+      <w>162</w>
+      <h>45</h>
     </coordinates>
-    <panel_attributes>Use case 4.1
+    <panel_attributes>Use case 4.1: create table
 </panel_attributes>
     <additional_attributes/>
   </element>
   <element>
-    <id>UMLNote</id>
+    <id>Relation</id>
     <coordinates>
-      <x>927</x>
-      <y>567</y>
-      <w>126</w>
-      <h>63</h>
+      <x>999</x>
+      <y>756</y>
+      <w>27</w>
+      <h>261</h>
     </coordinates>
-    <panel_attributes>This version is too short =&gt; delete
-bg=blue
+    <panel_attributes>lt=.</panel_attributes>
+    <additional_attributes>10.0;270.0;10.0;10.0</additional_attributes>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>810</x>
+      <y>810</y>
+      <w>216</w>
+      <h>36</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;&lt;.
+getCommunicationManager()</panel_attributes>
+    <additional_attributes>220.0;20.0;10.0;20.0</additional_attributes>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>999</x>
+      <y>837</y>
+      <w>189</w>
+      <h>36</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;&lt;.
+addEmptyTable()</panel_attributes>
+    <additional_attributes>190.0;20.0;10.0;20.0</additional_attributes>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>1161</x>
+      <y>756</y>
+      <w>27</w>
+      <h>153</h>
+    </coordinates>
+    <panel_attributes>lt=.</panel_attributes>
+    <additional_attributes>10.0;150.0;10.0;10.0</additional_attributes>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>1116</x>
+      <y>729</y>
+      <w>117</w>
+      <h>27</h>
+    </coordinates>
+    <panel_attributes>domainFacade</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>918</x>
+      <y>729</y>
+      <w>162</w>
+      <h>27</h>
+    </coordinates>
+    <panel_attributes>CommunicationManager</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>Text</id>
+    <coordinates>
+      <x>1179</x>
+      <y>846</y>
+      <w>117</w>
+      <h>27</h>
+    </coordinates>
+    <panel_attributes>addEmptyTable()
 style=wordwrap</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>999</x>
+      <y>927</y>
+      <w>405</w>
+      <h>36</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;&lt;.
+loadFromTables(getTables())</panel_attributes>
+    <additional_attributes>430.0;20.0;10.0;20.0</additional_attributes>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>1332</x>
+      <y>729</y>
+      <w>117</w>
+      <h>27</h>
+    </coordinates>
+    <panel_attributes>UIFacade</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>1377</x>
+      <y>756</y>
+      <w>27</w>
+      <h>261</h>
+    </coordinates>
+    <panel_attributes>lt=.</panel_attributes>
+    <additional_attributes>10.0;270.0;10.0;10.0</additional_attributes>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>666</x>
+      <y>9</y>
+      <w>198</w>
+      <h>72</h>
+    </coordinates>
+    <panel_attributes>*Tables Mode*
+--
+This mode can be entered 
+from Table design or 
+Table Rows by pressing Escape</panel_attributes>
     <additional_attributes/>
   </element>
 </diagram>

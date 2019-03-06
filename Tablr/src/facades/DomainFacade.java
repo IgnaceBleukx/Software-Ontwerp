@@ -2,6 +2,7 @@ package facades;
 
 import java.util.ArrayList;
 
+import domain.Column;
 import domain.Table;
 import uielements.UI;
 
@@ -110,6 +111,34 @@ public class DomainFacade {
 	
 	public void renameTable(Table t, String newName) {
 		t.setName(newName);
+	}
+
+	public void toggleBlanks(Column col) {
+		col.toggleBlanks();
+		
+	}
+
+	public void addEmptyColumn(Table table) {
+		table.addEmptyColumn();
+		
+	}
+
+	public void changeColumnName(Column col, String text) {
+		col.setName(text);
+		
+	}
+
+	public void addRow(Table tab) {
+		tab.addRow();
+		
+	}
+
+	public ArrayList<Column> getColumns(Table tab) {
+		return tab.getColumns();
+	}
+
+	public Object getValue(Column col, int i) {
+		return col.getCell(i);
 	}
 
 	

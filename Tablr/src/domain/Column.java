@@ -207,6 +207,10 @@ public class Column extends DomainElement {
 		return c;
 	}
 	
+	public Cell<?> getCell(int index){
+		return this.cells.get(index);
+	}
+	
 
 	/**
 	 * The parent table of the column

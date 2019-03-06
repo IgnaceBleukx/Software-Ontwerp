@@ -2,6 +2,7 @@ package facades;
 
 import java.util.ArrayList;
 
+import domain.Column;
 import domain.Table;
 import ui.Loadable_Interfaces;
 import uielements.UI;
@@ -64,6 +65,36 @@ public class CommunicationManager {
 	
 	public void renameTable(Table t, String name) {
 		domainFacade.renameTable(t, name);
+	}
+	
+	public void toggleBlanks(Column col){
+		domainFacade.toggleBlanks(col);
+	}
+	
+	public Table getTable(String name){
+		return domainFacade.getTable(name);
+	}
+
+	public void addEmptyColumn(Table table) {
+		domainFacade.addEmptyColumn(table);
+		
+	}
+
+	public void setColumnName(Column col, String text) {
+		domainFacade.changeColumnName(col,text);
+		
+	}
+
+	public void addRow(Table tab) {
+		domainFacade.addRow(tab);		
+	}
+
+	public ArrayList<Column> getColumns(Table tab) {
+		return domainFacade.getColumns(tab);
+	}
+
+	public Object getValue(Column col, int i) {
+		return domainFacade.getValue(col,i);
 	}
 	
 		

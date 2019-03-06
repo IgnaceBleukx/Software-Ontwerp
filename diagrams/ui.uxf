@@ -1,0 +1,277 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<diagram program="umlet" version="14.3.0">
+  <zoom_level>10</zoom_level>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>150</x>
+      <y>240</y>
+      <w>210</w>
+      <h>200</h>
+    </coordinates>
+    <panel_attributes>UI
+--
+currentTable
+elements
+communicationManager
+--
+loadTablesInterface()
+loadTableRowsInterface()
+loadTableDesignInterface()
+addUIElement()
+RemoveUIElement()
+paint()
+locatedAt()</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>150</x>
+      <y>830</y>
+      <w>140</w>
+      <h>100</h>
+    </coordinates>
+    <panel_attributes>&lt;&lt;enumeration&gt;&gt;
+Loadable_Interfaces
+--
+TABLES
+TABLE_ROWS
+TABLE_DESIGN</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>480</x>
+      <y>240</y>
+      <w>200</w>
+      <h>330</h>
+    </coordinates>
+    <panel_attributes>UIElement
+--
+communicationManager
+singleClickListeners
+doubleClickListeners
+keyboardListeners
+x
+y
+w
+h
+--
+addSingleClickListener()
+addDoubleClickListener()
+addKeyboardListener()
+handleSingleClick()
+handleDoubleClick()
+handleKeyboardEvent()
+paint()
+drawCenteredText()
+containsPoint()
+locatedAt()</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>350</x>
+      <y>240</y>
+      <w>150</w>
+      <h>50</h>
+    </coordinates>
+    <panel_attributes>lt=-
+m1=0..*
+m2=1
+has</panel_attributes>
+    <additional_attributes>130.0;20.0;10.0;20.0</additional_attributes>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>670</x>
+      <y>90</y>
+      <w>230</w>
+      <h>180</h>
+    </coordinates>
+    <panel_attributes>lt=.&gt;
+&lt;&lt;extends&gt;&gt;</panel_attributes>
+    <additional_attributes>210.0;10.0;100.0;10.0;100.0;160.0;10.0;160.0</additional_attributes>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>880</x>
+      <y>80</y>
+      <w>160</w>
+      <h>50</h>
+    </coordinates>
+    <panel_attributes>Button
+--
+text</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>760</x>
+      <y>230</y>
+      <w>140</w>
+      <h>40</h>
+    </coordinates>
+    <panel_attributes>lt=.
+&lt;&lt;extends&gt;&gt;</panel_attributes>
+    <additional_attributes>120.0;20.0;10.0;20.0</additional_attributes>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>880</x>
+      <y>230</y>
+      <w>160</w>
+      <h>80</h>
+    </coordinates>
+    <panel_attributes>Checkbox
+--
+checked
+--
+toggle()</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>880</x>
+      <y>360</y>
+      <w>160</w>
+      <h>110</h>
+    </coordinates>
+    <panel_attributes>ListView
+--
+elements
+selectedElements
+--
+loadFromTables()
+loadColumnAttributes()</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>760</x>
+      <y>240</y>
+      <w>140</w>
+      <h>150</h>
+    </coordinates>
+    <panel_attributes>lt=.
+&lt;&lt;extends&gt;&gt;</panel_attributes>
+    <additional_attributes>120.0;130.0;10.0;130.0;10.0;10.0</additional_attributes>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>880</x>
+      <y>520</y>
+      <w>160</w>
+      <h>50</h>
+    </coordinates>
+    <panel_attributes>Text
+--
+text</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>880</x>
+      <y>620</y>
+      <w>160</w>
+      <h>100</h>
+    </coordinates>
+    <panel_attributes>TextField
+--
+text
+editing
+--
+startEditing
+endEditing</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>760</x>
+      <y>360</y>
+      <w>140</w>
+      <h>190</h>
+    </coordinates>
+    <panel_attributes>lt=.
+&lt;&lt;extends&gt;&gt;</panel_attributes>
+    <additional_attributes>120.0;170.0;10.0;170.0;10.0;10.0</additional_attributes>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>760</x>
+      <y>520</y>
+      <w>140</w>
+      <h>130</h>
+    </coordinates>
+    <panel_attributes>lt=.
+&lt;&lt;extends&gt;&gt;</panel_attributes>
+    <additional_attributes>120.0;110.0;10.0;110.0;10.0;10.0</additional_attributes>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>880</x>
+      <y>750</y>
+      <w>160</w>
+      <h>70</h>
+    </coordinates>
+    <panel_attributes>UIRow
+--
+elements
+--
+addElements</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>880</x>
+      <y>860</y>
+      <w>160</w>
+      <h>70</h>
+    </coordinates>
+    <panel_attributes>UITable
+--
+rows
+legend
+</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>760</x>
+      <y>620</y>
+      <w>140</w>
+      <h>160</h>
+    </coordinates>
+    <panel_attributes>lt=.
+&lt;&lt;extends&gt;&gt;</panel_attributes>
+    <additional_attributes>120.0;140.0;10.0;140.0;10.0;10.0</additional_attributes>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>760</x>
+      <y>750</y>
+      <w>140</w>
+      <h>140</h>
+    </coordinates>
+    <panel_attributes>lt=.
+&lt;&lt;extends&gt;&gt;</panel_attributes>
+    <additional_attributes>120.0;120.0;10.0;120.0;10.0;10.0</additional_attributes>
+  </element>
+</diagram>

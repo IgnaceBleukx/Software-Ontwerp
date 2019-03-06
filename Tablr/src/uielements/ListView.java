@@ -143,19 +143,49 @@ public class ListView extends UIElement {
 			TextField colType = new TextField(210,y,150,50, col.getColumnType().toString());
 			Checkbox colBlankPol = new Checkbox(375,y+15,20,20, col.getBlankingPolicy());
 			TextField colDef = new TextField(410,y,160,50, col.getDefault().toString());
-			
+						
 			colBlankPol.addSingleClickListener(() -> {
-				col.toggleBlanks();
+				communicationManager.toggleBlanks(col);
 			});
 			
+			
+			
+			
 			ArrayList<UIElement> list = new ArrayList<UIElement>(){{ add(colName); add(colType); add(colBlankPol); add(colDef);}};		
-		
+			this.addAllElements(list);
+			
+			
 			UIRow row = new UIRow(10,y,560,50,list);
 			this.addElement(row);
 			y += 50;
 		}
 	}
 	
+	public void loadTable(Table tab) {
+		int rows = tab.getRows().size();
+		int width = (int) super.getWidth()/rows;
+		int y = super.getY();
+		for(int i=0;i<rows;i++){
+			int x = super.getX();
+			ArrayList<UIElement> rowElements = new ArrayList<UIElement>();
+			for(Column col : communicationManager.getColumns(tab)){
+				String value = communicationManager.getValue(col,i).toString();
+				rowElements.add(new TextField(x,y,width,30, value));
+				x += width;
+			}
+			this.addElement(new UIRow(super.getX(), y, super.getWidth(), 30,rowElements));
+			y+=30;
+		}
+		
+	}
+	
+	private void addAllElements(ArrayList<UIElement> list) {
+		for(UIElement e: list){
+			this.addElement(e);
+		}
+		
+	}
+
 	@Override
 	public void handleSingleClick() {
 				
@@ -185,5 +215,7 @@ public class ListView extends UIElement {
 		
 		
 	}
+
+	
 
 }

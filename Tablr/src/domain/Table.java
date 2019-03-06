@@ -45,20 +45,30 @@ public class Table extends DomainElement {
 		return columns;
 	}
 	
-	/**
-	 * Add a new Column at the end of the list of columns (e.g. to the right)
-	 */
-	public Column addEmptyColumn(){
-		ArrayList<Cell<?>> columnCells = new ArrayList<Cell<?>>();
-		for(int i=0;i<this.getRows().size(); i++){
-			Cell<String> cell = new Cell<String>(null);
-			columnCells.add(cell);
-		}
-		Column newCol = new Column(newColumnName(), columnCells);
-		newCol.setTable(this);
-		this.columns.add(newCol);
-		return newCol;
-	}
+//	/**
+//	 * Add a new Column at the end of the list of columns (e.g. to the right)
+//	 */
+//	public Column addEmptyColumn(){
+//		ArrayList<Cell<?>> columnCells = new ArrayList<Cell<?>>();
+//		for(int i=0;i<this.getRows().size(); i++){
+//			Cell<String> cell = new Cell<String>(null);
+//			columnCells.add(cell);
+//		}
+//		Column newCol = new Column(newColumnName(), columnCells);
+//		newCol.setTable(this);
+//		this.columns.add(newCol);
+//		return newCol;
+//	}
+ 	
+ 	public Column addEmptyColumn(){
+ 		Column col = new Column(newColumnName(), null);
+ 		while(col.getCells().size() != rows.size()){
+ 			col.addBlankCell();
+ 		}
+ 		col.setTable(this);
+ 		this.columns.add(col);
+ 		return col;
+ 	}
 	
 	/**
 	 * This method adds a column to the current table.s
@@ -67,7 +77,7 @@ public class Table extends DomainElement {
 	public void addColumn(Column col){
 		this.columns.add(col);
 		while(this.rows.size() < col.getCells().size()){
-			this.addEmptyRow();
+			this.addRow();
 		}
 		col.setTable(this);
 	}
@@ -122,7 +132,7 @@ public class Table extends DomainElement {
 	 * The columns' length is not updated.
 	 * @return Returns the added row.
 	 */
-	public Row addEmptyRow(){
+	public Row addRow(){
 		Row r = new Row();
 		rows.add(r);
 		r.setTable(this);

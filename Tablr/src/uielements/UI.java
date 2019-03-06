@@ -41,18 +41,37 @@ public class UI {
 	}
 
 	public void loadTableRowsInterface() {
-		Text text1 = new Text(40,40,100,100,"Interface: rows mode");
-		this.addUIElement(text1);		
+		ListView l = new ListView(10, 30, 560, 520, new ArrayList<UIElement>());
+		communicationManager.addEmptyTable();
+		Table tab = communicationManager.getTables().get(0);
+		communicationManager.addEmptyColumn(tab);
+		communicationManager.addEmptyColumn(tab);
+		communicationManager.addEmptyColumn(tab);
+		communicationManager.addRow(tab);
+		communicationManager.addRow(tab);
+		
+		System.out.println("comManager in UI:" + communicationManager);
+		
+		l.loadTable(tab);
+		
+		this.addUIElement(l);
+		
 	}
 
 	
 	public void loadTableDesignInterface() {
 		// Creating title
-		ListView l = new ListView(10, 30, 560, 500, new ArrayList<UIElement>());
+		ListView l = new ListView(10, 30, 560, 520, new ArrayList<UIElement>());
 		Text name = new Text(10,10,200, 20,"Name");
 		Text type = new Text(210,10,150, 20,"Type");
 		Text blanks_al = new Text(360,10,50, 20,"Blanks_al");
 		Text def = new Text(410,10,200, 20,"Default");
+		
+		l.addKeyboardListener(27, () -> {
+			communicationManager.loadUI(Loadable_Interfaces.TABLES);
+		});
+		
+		
 		
 		this.addUIElement(l);
 		this.addUIElement(name);
@@ -60,18 +79,22 @@ public class UI {
 		this.addUIElement(blanks_al);
 		this.addUIElement(def);
 
-		currentTable.addEmptyColumn();
-		currentTable.addEmptyColumn();
-		currentTable.addEmptyColumn();
+		communicationManager.addEmptyTable();
+		Table currentTable = communicationManager.getTables().get(0);
+		communicationManager.addEmptyColumn(currentTable);
+		communicationManager.addEmptyColumn(currentTable);
+		communicationManager.addEmptyColumn(currentTable);
+		
 		
 		currentTable.getColumns().get(1).setColumnType(Type.BOOLEAN);
 		currentTable.getColumns().get(2).setColumnType(Type.INTEGER);
 		
 		l.loadColumnAttributes(currentTable);
+		
+		
 				
 	}
 
-	Table currentTable = new Table("name");
 	
 	public void loadTablesInterface() {
 		Text text1 = new Text(40,40,100,100,"Interface: tables");
