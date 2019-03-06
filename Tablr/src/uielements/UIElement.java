@@ -14,7 +14,7 @@ public abstract class UIElement {
 	/**
 	 * Reference to the communicationsmanager that is used to talk to the UI.
 	 */
-	private CommunicationManager communicationManager;
+	protected CommunicationManager communicationManager;
 
 	public void setCommunicationsManager(CommunicationManager c) {
 		this.communicationManager = c;
@@ -42,7 +42,16 @@ public abstract class UIElement {
 	
 	
 	public void addKeyboardListener(int keyCode, Runnable f) {
-		keyboardListeners.get(keyCode).add(f);
+		ArrayList<Runnable> r = keyboardListeners.get(keyCode);
+		if (r == null) { //No Runnables for this keycode, create new ArrayList
+			ArrayList<Runnable> singleton = new ArrayList<Runnable>();
+			singleton.add(f);
+			keyboardListeners.put(keyCode, singleton);
+		}
+		else { 			 //Already some Runnables, add to existing ArrayList
+			keyboardListeners.get(keyCode).add(f);
+		}
+		
 	}
 	
 	public void addSingleClickListener(Runnable f) {

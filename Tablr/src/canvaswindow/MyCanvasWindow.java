@@ -12,10 +12,10 @@ public class MyCanvasWindow extends CanvasWindow {
 	
 	private CommunicationManager communicationManager;
 	
-	/**
-	 * The currently active UI that is painted
-	 */
-	private UI activeUI;
+//	/**
+//	 * The currently active UI that is painted
+//	 */
+//	private UI activeUI;
 
 	
 	protected MyCanvasWindow(String title) {
@@ -33,29 +33,29 @@ public class MyCanvasWindow extends CanvasWindow {
 
 	}
 
-	/**
-	 * Returns the active UI
-	 */
-	public UI getActiveUI() {
-		return this.activeUI;
-	}
-
-	/**
-	 * Sets the active UI to a given UI
-	 * @param ui	The UI
-	 */
-	public void setActiveUI(UI ui) {
-		this.activeUI = ui;
-	}
+//	/**
+//	 * Returns the active UI
+//	 */
+//	public UI getActiveUI() {
+//		return this.activeUI;
+//	}
+//
+//	/**
+//	 * Sets the active UI to a given UI
+//	 * @param ui	The UI
+//	 */
+//	public void setActiveUI(UI ui) {
+//		this.activeUI = ui;
+//	}
 
 	@Override
 	public void paint(Graphics g){
-		getActiveUI().paint(g);
+		communicationManager.getActiveUI().paint(g);
 	}
 	
 	@Override
 	public void handleMouseEvent(int id, int x, int y, int clickCount){
-		UIElement clicked = getActiveUI().locatedAt(x, y);
+		UIElement clicked = communicationManager.getActiveUI().locatedAt(x, y);
 		System.out.println("Clicked on "+clicked);
 		
 		if (clicked == null)
@@ -76,7 +76,8 @@ public class MyCanvasWindow extends CanvasWindow {
 	
 	@Override
 	public void handleKeyEvent(int id, int keyCode, char keyChar){
-		for (UIElement e : getActiveUI().getElements())
+		System.out.println("Keycode: "+keyCode);
+		for (UIElement e : communicationManager.getActiveUI().getElements())
 			e.handleKeyboardEvent(keyCode, keyChar);
 		
 		repaint();

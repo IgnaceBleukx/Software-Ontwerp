@@ -3,9 +3,11 @@ package uielements;
 import java.awt.Graphics;
 import java.io.ObjectInputStream.GetField;
 import java.util.ArrayList;
+import java.util.Iterator;
 
 import domain.Column;
 import domain.Table;
+import facades.CommunicationManager;
 
 public class ListView extends UIElement {
 
@@ -101,7 +103,18 @@ public class ListView extends UIElement {
 			UIRow currRow = new UIRow(getX()+1, getY()+1+i*40, getWidth()-2, 40, new ArrayList<UIElement>());
 			
 			Button deleteButton = new Button(getX()+2, getY()+2+i*40,38,38,"");
-			deleteButton.addSingleClickListener(() -> {this.setSelectedElement(currRow);});
+			deleteButton.addSingleClickListener(() -> {
+				this.setSelectedElement(currRow);
+			});
+			
+			deleteButton.addKeyboardListener(127, () -> {
+				if (GetSelectedElement() == currRow) {
+					removeElement((UIElement) currRow); //Remove row from ListView
+					//System.out.println(curr);
+					//communicationManager.removeTable(curr); //Remove table from list of tables
+				}
+			});
+			
 			currRow.addElement(deleteButton);
 			
 			TextField tableNameLabel = new TextField(getX()+40, getY()+2+i*40, 300, 38, curr.getName());
@@ -109,6 +122,7 @@ public class ListView extends UIElement {
 			
 			elements.add(currRow);
 		}
+
 		
 	}
 	
@@ -132,6 +146,7 @@ public class ListView extends UIElement {
 		}
 		
 	}
+	
 	@Override
 	public void handleSingleClick() {
 				
@@ -144,8 +159,13 @@ public class ListView extends UIElement {
 
 	@Override
 	public void handleKeyboardEvent(int keyCode, char keyChar) {
-		for(UIElement i: elements){
-			i.handleKeyboardEvent(keyCode, keyChar);
+//		for(UIElement i: elements){
+//			i.handleKeyboardEvent(keyCode, keyChar);
+//		}
+		
+		for (Iterator<UIElement> it = elements.iterator(); it.hasNext(); ) {
+		    UIElement e = it.next();
+		    e.handleKeyboardEvent(keyCode, keyChar);
 		}
 		
 		if (keyboardListeners.get(keyCode) == null)

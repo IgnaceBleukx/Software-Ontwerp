@@ -31,8 +31,9 @@ public class DomainFacade {
 	 * @param table		Table to add
 	 */
 	public void addTable(Table table) {
+		System.out.println("Adding table: "+table);
 		this.tables.add(table);
-		
+		System.out.println("Number of tables: "+tables.size());
 	}
 	
 	/**
@@ -48,7 +49,9 @@ public class DomainFacade {
 	 * @param table		Table to remove
 	 */
 	public void removeTable(Table table) {
+		System.out.println("Removing table: "+table);
 		this.tables.remove(table);
+		System.out.println("Number of tables: "+tables.size());
 	}
 	
 	/**

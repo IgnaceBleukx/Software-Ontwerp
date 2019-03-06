@@ -29,6 +29,10 @@ public class UIFacade {
 		}
 		
 	}
+
+	public UI getActiveUI() {
+		return ui;
+	}
 	
 	
 

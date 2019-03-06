@@ -24,7 +24,7 @@ public class UI {
 	public UI(Loadable_Interfaces i) {
 		switch (i) {
 			case TABLES: loadTableDesignInterface(); break;
-			case TABLE_DESIGN: loadTableDesignInterface(); break;
+			case TABLE_DESIGN: loadTablesInterface(); break;
 			case TABLE_ROWS: loadTableRowsInterface(); break;
 			case TEST: loadTestInterface(); break;
 		}
@@ -34,20 +34,7 @@ public class UI {
 	public void loadTestInterface() {		
 		
 		Text text1 = new Text(40,40,100,100,"Interface: test");
-		ListView l = new ListView(10, 10, 100, 500, new ArrayList<UIElement>());
-		Button createTableButton = new Button(10,520,580,70, "Create table");
 		
-		this.addUIElement(text1);
-		this.addUIElement(l);
-		this.addUIElement(createTableButton);
-		createTableButton.addSingleClickListener(() -> {
-			this.communicationManager.addEmptyTable();
-			l.loadFromTables(communicationManager.getTables());
-		});
-		
-
-		TextField field = new TextField(200,200,200,50,"textfield");
-		this.addUIElement(field);
 
 		
 	}
@@ -88,6 +75,20 @@ public class UI {
 	public void loadTablesInterface() {
 		Text text1 = new Text(40,40,100,100,"Interface: tables");
 		this.addUIElement(text1);
+		
+		ListView l = new ListView(10, 10, 560, 500, new ArrayList<UIElement>());
+		this.addUIElement(l);
+
+		Button createTableButton = new Button(10,520,580,70, "Create table");
+		this.addUIElement(createTableButton);
+
+		createTableButton.addSingleClickListener(() -> {
+			this.communicationManager.addEmptyTable();
+			l.loadFromTables(communicationManager.getTables());
+		});
+		
+
+		
 	}
 	
 	private ArrayList<UIElement> elements = new ArrayList<UIElement>();
@@ -121,7 +122,6 @@ public class UI {
 	 */
 	public void paint(Graphics g){
 		for (UIElement e : getElements()){
-			System.out.println(e);
 			e.paint(g);
 		}
 	}
