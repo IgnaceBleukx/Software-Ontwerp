@@ -59,18 +59,22 @@ public class UI {
 		this.addUIElement(blanks_al);
 		this.addUIElement(def);
 
-		currentTable.addEmptyColumn();
-		currentTable.addEmptyColumn();
-		currentTable.addEmptyColumn();
+		communicationManager.addEmptyTable();
+		Table currentTable = communicationManager.getTables().get(0);
+		communicationManager.addEmptyColumn(currentTable);
+		communicationManager.addEmptyColumn(currentTable);
+		communicationManager.addEmptyColumn(currentTable);
+		
 		
 		currentTable.getColumns().get(1).setColumnType(Type.BOOLEAN);
 		currentTable.getColumns().get(2).setColumnType(Type.INTEGER);
 		
 		l.loadColumnAttributes(currentTable);
+		
+		
 				
 	}
 
-	Table currentTable = new Table("name");
 	
 	public void loadTablesInterface() {
 		Text text1 = new Text(40,40,100,100,"Interface: tables");

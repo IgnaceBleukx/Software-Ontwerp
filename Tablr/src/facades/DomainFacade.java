@@ -2,6 +2,7 @@ package facades;
 
 import java.util.ArrayList;
 
+import domain.Column;
 import domain.Table;
 import uielements.UI;
 
@@ -96,6 +97,17 @@ public class DomainFacade {
 			names.add(t.getName());
 		}
 		return names;
+	}
+
+	public void toggleBlanks(Column col) {
+		System.out.println("Toggeling blanks");
+		col.toggleBlanks();
+		
+	}
+
+	public void addEmptyColumn(Table table) {
+		table.addEmptyColumn();
+		
 	}
 
 	

@@ -2,6 +2,7 @@ package facades;
 
 import java.util.ArrayList;
 
+import domain.Column;
 import domain.Table;
 import ui.Loadable_Interfaces;
 import uielements.UI;
@@ -34,6 +35,20 @@ public class CommunicationManager {
 	
 	public void removeTable(Table t) {
 		domainFacade.removeTable(t);
+	}
+	
+	public void toggleBlanks(Column col){
+		System.out.println("Toggeling blanks");
+		domainFacade.toggleBlanks(col);
+	}
+	
+	public Table getTable(String name){
+		return domainFacade.getTable(name);
+	}
+
+	public void addEmptyColumn(Table table) {
+		domainFacade.addEmptyColumn(table);
+		
 	}
 	
 		

@@ -120,6 +120,7 @@ public class Column extends DomainElement {
 	}
 
 	public void toggleBlanks(){
+		System.out.println("Toggeling blanks of " + this.toString());
 		allowsBlanks = !allowsBlanks;
 	}
 	

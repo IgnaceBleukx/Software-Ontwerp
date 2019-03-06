@@ -133,13 +133,16 @@ public class ListView extends UIElement {
 			TextField colType = new TextField(210,y,150,50, col.getColumnType().toString());
 			Checkbox colBlankPol = new Checkbox(375,y+15,20,20, col.getBlankingPolicy());
 			TextField colDef = new TextField(410,y,160,50, col.getDefault().toString());
-			
+						
 			colBlankPol.addSingleClickListener(() -> {
-				col.toggleBlanks();
+				System.out.println("Command received");
+				communicationManager.toggleBlanks(col);
 			});
 			
 			ArrayList<UIElement> list = new ArrayList<UIElement>(){{ add(colName); add(colType); add(colBlankPol); add(colDef);}};		
-		
+			this.addAllElements(list);
+			
+			
 			UIRow row = new UIRow(10,y,560,50,list);
 			this.addElement(row);
 			y += 50;
@@ -147,6 +150,13 @@ public class ListView extends UIElement {
 		
 	}
 	
+	private void addAllElements(ArrayList<UIElement> list) {
+		for(UIElement e: list){
+			this.addElement(e);
+		}
+		
+	}
+
 	@Override
 	public void handleSingleClick() {
 				
