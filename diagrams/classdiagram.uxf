@@ -102,20 +102,6 @@ has</panel_attributes>
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>352</x>
-      <y>660</y>
-      <w>275</w>
-      <h>55</h>
-    </coordinates>
-    <panel_attributes>lt=-
-m1=1
-m2=0..*
-has</panel_attributes>
-    <additional_attributes>10.0;20.0;230.0;20.0</additional_attributes>
-  </element>
-  <element>
-    <id>Relation</id>
-    <coordinates>
       <x>649</x>
       <y>506</y>
       <w>55</w>
@@ -126,20 +112,6 @@ m1=1
 m2=0..*
 has</panel_attributes>
     <additional_attributes>10.0;10.0;10.0;150.0</additional_attributes>
-  </element>
-  <element>
-    <id>Relation</id>
-    <coordinates>
-      <x>352</x>
-      <y>440</y>
-      <w>308</w>
-      <h>253</h>
-    </coordinates>
-    <panel_attributes>lt=-
-m1=1
-m2=0..*
-has</panel_attributes>
-    <additional_attributes>10.0;10.0;130.0;10.0;130.0;160.0;240.0;160.0;240.0;210.0</additional_attributes>
   </element>
   <element>
     <id>UMLClass</id>
