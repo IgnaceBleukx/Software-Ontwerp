@@ -27,6 +27,7 @@ public class UIFacade {
 		case TABLES: ui.loadTablesInterface(); break;
 		case TEST: ui.loadTestInterface(); break;
 		}
+		ui.setCommunicationManager(getCommunicationManager());
 		
 	}
 
