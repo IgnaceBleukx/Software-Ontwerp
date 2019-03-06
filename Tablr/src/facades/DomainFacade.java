@@ -97,6 +97,20 @@ public class DomainFacade {
 		}
 		return names;
 	}
+	
+	public boolean isValidTableName(String name) {
+		int c = 0;
+		for (Table t : getTables()) {
+			if (t.getName().equals(name)) {
+				c++;
+			}
+		}
+		return (c>1);
+	}
+	
+	public void renameTable(Table t, String newName) {
+		t.setName(newName);
+	}
 
 	
 

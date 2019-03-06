@@ -28,6 +28,7 @@ public class UI {
 			case TABLE_ROWS: loadTableRowsInterface(); break;
 			case TEST: loadTestInterface(); break;
 		}
+		
 	}
 
 	
@@ -83,7 +84,7 @@ public class UI {
 		this.addUIElement(createTableButton);
 
 		createTableButton.addSingleClickListener(() -> {
-			this.communicationManager.addEmptyTable();
+			communicationManager.addEmptyTable();
 			l.loadFromTables(communicationManager.getTables());
 		});
 		
@@ -156,7 +157,7 @@ public class UI {
 	public void setCommunicationManager(CommunicationManager c) {
 		this.communicationManager = c;
 		for (UIElement e : getElements() ) {
-			e.setCommunicationsManager(c);
+			e.setCommunicationManager(c);
 		}
 		
 	}

@@ -36,6 +36,36 @@ public class CommunicationManager {
 		domainFacade.removeTable(t);
 	}
 	
+	public boolean isValidTableName(String name) {
+		return domainFacade.isValidTableName(name);
+	}
+	
+	public ArrayList<Table> getTablesByName(String name) {
+		ArrayList<Table> tlist = new ArrayList<Table>();
+		ArrayList<Table> tables = domainFacade.getTables();
+		for (Table t : tables) {
+			if (t.getName().equals(name)) {
+				tlist.add(t);
+			}
+		}
+		return new ArrayList<Table>(tlist);
+	}
+	
+	public int getNumberOfTablesByName(String name) {
+		int count = 0;
+		ArrayList<Table> tables = domainFacade.getTables();
+		for (Table t : tables) {
+			if (t.getName().equals(name)) {
+				count++;
+			}
+		}
+		return count;
+	}
+	
+	public void renameTable(Table t, String name) {
+		domainFacade.renameTable(t, name);
+	}
+	
 		
 
 	

@@ -22,7 +22,7 @@ public class MyCanvasWindow extends CanvasWindow {
 		super(title);
 		
 		communicationManager = new CommunicationManager();
-		communicationManager.loadUI(Loadable_Interfaces.TABLE_DESIGN);
+		communicationManager.loadUI(Loadable_Interfaces.TABLES);
 		
 //		UI test = new UI(Loadable_Interfaces.TEST);
 //		UI tables = new UI(Loadable_Interfaces.TABLES);
@@ -77,9 +77,13 @@ public class MyCanvasWindow extends CanvasWindow {
 	@Override
 	public void handleKeyEvent(int id, int keyCode, char keyChar){
 		System.out.println("Keycode: "+keyCode);
-		for (UIElement e : communicationManager.getActiveUI().getElements())
+		for (UIElement e : communicationManager.getActiveUI().getElements()) {
 			e.handleKeyboardEvent(keyCode, keyChar);
-		
+			if (Character.isLetterOrDigit(keyChar)) {
+				e.handleKeyboardEvent(-1, Character.MIN_VALUE);
+			}
+		}
+
 		repaint();
 	}
 }

@@ -110,21 +110,31 @@ public class ListView extends UIElement {
 			deleteButton.addKeyboardListener(127, () -> {
 				if (GetSelectedElement() == currRow) {
 					removeElement((UIElement) currRow); //Remove row from ListView
-					//System.out.println(curr);
-					//communicationManager.removeTable(curr); //Remove table from list of tables
+					communicationManager.removeTable(curr); //Remove table from list of tables
+					loadFromTables(communicationManager.getTables());
 				}
 			});
 			
 			currRow.addElement(deleteButton);
 			
 			TextField tableNameLabel = new TextField(getX()+40, getY()+2+i*40, 300, 38, curr.getName());
+			tableNameLabel.addKeyboardListener(-1, () -> {
+				communicationManager.renameTable(curr, tableNameLabel.getText());
+				ArrayList<Table> tablesSameName = communicationManager.getTablesByName(curr.getName());
+			
+				if (tablesSameName.size() > 1) {
+					tableNameLabel.isError();
+				}
+				else {
+					tableNameLabel.isNotError();
+				}
+			});
 			currRow.addElement(tableNameLabel);
 			
 			elements.add(currRow);
-		}
-
-		
+		}	
 	}
+	
 	
 	public void loadColumnAttributes(Table table){
 		int y = 30;
@@ -144,7 +154,6 @@ public class ListView extends UIElement {
 			this.addElement(row);
 			y += 50;
 		}
-		
 	}
 	
 	@Override
@@ -163,9 +172,8 @@ public class ListView extends UIElement {
 //			i.handleKeyboardEvent(keyCode, keyChar);
 //		}
 		
-		for (Iterator<UIElement> it = elements.iterator(); it.hasNext(); ) {
-		    UIElement e = it.next();
-		    e.handleKeyboardEvent(keyCode, keyChar);
+		for (int i=0;i<elements.size();i++) {
+			elements.get(i).handleKeyboardEvent(keyCode, keyChar);
 		}
 		
 		if (keyboardListeners.get(keyCode) == null)

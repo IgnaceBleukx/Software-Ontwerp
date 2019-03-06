@@ -16,11 +16,11 @@ public abstract class UIElement {
 	 */
 	protected CommunicationManager communicationManager;
 
-	public void setCommunicationsManager(CommunicationManager c) {
+	public void setCommunicationManager(CommunicationManager c) {
 		this.communicationManager = c;
 	}
 	
-	public CommunicationManager getCommunicationsManager() {
+	public CommunicationManager getCommunicationManager() {
 		return this.communicationManager;
 	}
 	
@@ -40,7 +40,11 @@ public abstract class UIElement {
 	 */
 	protected HashMap<Integer, ArrayList<Runnable>> keyboardListeners = new HashMap<Integer, ArrayList<Runnable>>();
 	
-	
+	/**
+	 * Attaches a function to a keyCode; the function will be executed when the key is pressed
+	 * @param keyCode	Key code
+	 * @param f			Function
+	 */
 	public void addKeyboardListener(int keyCode, Runnable f) {
 		ArrayList<Runnable> r = keyboardListeners.get(keyCode);
 		if (r == null) { //No Runnables for this keycode, create new ArrayList
@@ -50,8 +54,7 @@ public abstract class UIElement {
 		}
 		else { 			 //Already some Runnables, add to existing ArrayList
 			keyboardListeners.get(keyCode).add(f);
-		}
-		
+		}	
 	}
 	
 	public void addSingleClickListener(Runnable f) {
@@ -96,6 +99,20 @@ public abstract class UIElement {
 	 */
 	public int getY(){
 		return this.y;
+	}
+	
+	/**
+	 * Sets a new X coordinate for this UIElement
+	 */
+	public void setX(int x) {
+		this.x = x;
+	}
+	
+	/**
+	 * Sets a new Y coordinate for this UIElement
+	 */
+	public void setY(int y) {
+		this.y = y;
 	}
 	
 	/**
@@ -151,7 +168,7 @@ public abstract class UIElement {
 	 * Returns the most specific UIElement located at (x,y)
 	 * @param x		X Coordinate
 	 * @param y		Y Coordinate
-	 * @return		UIElement a at position (x,y)
+	 * @return		UIElement at position (x,y)
 	 * @note		If possible and correct, UIElements inside containers will be returned
 	 */
 	public UIElement locatedAt(int x, int y) {

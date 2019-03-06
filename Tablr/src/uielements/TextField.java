@@ -39,8 +39,15 @@ public class TextField extends UIElement {
 		FontMetrics metrics =  g.getFontMetrics(g.getFont());
 		g.setColor(Color.white);
 		g.fillRect(super.getX(),super.getY(), super.getWidth(), super.getHeight());
-		g.setColor(Color.black);
+					
+		
+		if (error)
+			g.setColor(Color.red);
+		else
+			g.setColor(Color.black);
+		System.out.println(this + ": " + error);
 		g.drawRect(super.getX(),super.getY(), super.getWidth(), super.getHeight());
+		g.setColor(Color.black);
 		int y = this.getY() +  ((this.getHeight() - metrics.getHeight()) / 2) + metrics.getAscent();
 		
 		if (editing == false)
@@ -73,7 +80,22 @@ public class TextField extends UIElement {
 		
 		
 	}
-
+	
+	/**
+	 * Indicates whether the text in this textfield is faulty.
+	 */
+	private boolean error = false;
+	
+	public void isError() {
+		this.error = true;
+	}
+	
+	public void isNotError() {
+		this.error = false;
+	}
+	
+	
+	
 	@Override
 	public void handleDoubleClick() {
 		
