@@ -1,0 +1,4 @@
+TODO:
+
+- Onderscheid maken tussen STRING en EMAIL
+- 
