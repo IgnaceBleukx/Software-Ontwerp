@@ -150,6 +150,10 @@ public class DomainFacade {
 		return tab.getRows();
 	}
 
+	public void removeRow(Table tab, int index) {
+		tab.removeRow(index);
+		
+	}
 	
 
 }

@@ -41,7 +41,9 @@ public class Text extends UIElement {
 
 	@Override
 	public void handleSingleClick() {
-		
+		for(Runnable r : this.singleClickListeners){
+			r.run();
+		}
 	}
 
 	@Override

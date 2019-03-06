@@ -2,6 +2,7 @@ package facades;
 
 import domain.Table;
 import ui.Loadable_Interfaces;
+import uielements.Text;
 import uielements.UI;
 
 public class UIFacade {
@@ -35,6 +36,7 @@ public class UIFacade {
 	public UI getActiveUI() {
 		return ui;
 	}
+
 
 
 	

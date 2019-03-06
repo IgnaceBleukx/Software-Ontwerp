@@ -22,7 +22,7 @@ public class MyCanvasWindow extends CanvasWindow {
 		super(title);
 		
 		communicationManager = new CommunicationManager();
-		communicationManager.loadUI(Loadable_Interfaces.TABLES);
+		communicationManager.loadUI(Loadable_Interfaces.TABLE_ROWS);
 
 //		UI test = new UI(Loadable_Interfaces.TEST);
 //		UI tables = new UI(Loadable_Interfaces.TABLES);

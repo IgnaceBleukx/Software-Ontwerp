@@ -21,7 +21,7 @@ public class Cell<T> extends DomainElement {
 	 * This method sets the value of the current cell.
 	 * @param v: the value to be set.
 	 */
-	public void setValue(T v){
+	public void setValue (T v){
 		this.value = v;
 	}
 	

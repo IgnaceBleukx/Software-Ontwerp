@@ -6,6 +6,9 @@ import java.util.ArrayList;
 import domain.Cell;
 import domain.Column;
 import domain.Table;
+import domain.Type;
+import facades.UIFacade;
+import ui.Loadable_Interfaces;
 
 public class UITable extends UIElement {
 
@@ -38,22 +41,48 @@ public class UITable extends UIElement {
 	}
 
 	public void loadTable(Table tab,int cellWidth, int cellHeigth) {
+		rows.clear();
 		int rows = communicationManager.getRows(tab).size();
 		int y = super.getY()+cellHeigth;
 		for(int i=0;i<rows;i++){
-			int x = super.getX();
+			int x = super.getX()+20;
 			ArrayList<UIElement> emts = new ArrayList<UIElement>();
 			for(Column col : communicationManager.getColumns(tab)){
 				String val = communicationManager.getValue(col,i).toString();
 				TextField field =  new TextField(x,y,cellWidth, cellHeigth,val);
 				emts.add(field);
 				x += cellWidth;
+				
 			}
-			UIRow uiRow = new UIRow(super.getX(),y,super.getWidth(),super.getHeight(),emts);
+			UIRow uiRow = new UIRow(super.getX(),y,super.getWidth(),cellHeigth,emts);
 			addRow(uiRow);
 			y += cellHeigth;
+			
+			//Adding listeners:
+			uiRow.addSingleClickListener(()->{
+				if(selected == null) {
+					this.selected = uiRow; 
+					uiRow.select();
+				}
+				else if(uiRow.equals(selected)) {
+						uiRow.unselect();
+						this.selected = null;
+				}
+			});
+			uiRow.addKeyboardListener(127, () -> {
+				if(uiRow.equals(this.selected)){
+					int index = this.rows.indexOf(uiRow);
+					communicationManager.removeRow(tab,index);
+					this.rows.remove(uiRow);
+					this.selected = null;
+					System.out.println("Amount of rows in table: " + tab.getRows().size());					
+					loadTable(tab, cellWidth, cellHeigth);
+				}
+			});
 		}
 	}
+	
+	private UIElement selected;
 	
 	/**
 	 * Returns the most specific UIElement located at (x,y) by searching in its rows and legend
@@ -93,8 +122,8 @@ public class UITable extends UIElement {
 	
 	@Override
 	public void handleKeyboardEvent(int keyCode, char keyChar) {
-		for(UIElement i: rows){
-			i.handleKeyboardEvent(keyCode, keyChar);
+		for(int i=0;i<rows.size();i++){
+			rows.get(i).handleKeyboardEvent(keyCode, keyChar);
 		}
 		if (keyboardListeners.get(keyCode) == null)
 			return;

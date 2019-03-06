@@ -105,6 +105,12 @@ public class CommunicationManager {
 	public ArrayList<Row> getRows(Table tab) {
 		return domainFacade.getRows(tab);
 	}
+
+	public void removeRow(Table tab, int index) {
+		domainFacade.removeRow(tab,index);
+		
+	}
+
 	
 		
 

@@ -41,12 +41,14 @@ public class UI {
 	}
 
 	public void loadTableRowsInterface() {
+		//Temporary table
 		communicationManager.addEmptyTable();
 		Table table = communicationManager.getTables().get(0);
 		communicationManager.addEmptyColumn(table);
 		communicationManager.addEmptyColumn(table);
 		communicationManager.addEmptyColumn(table);
 		communicationManager.addEmptyColumn(table);
+		communicationManager.addRow(table);
 		communicationManager.addRow(table);
 		communicationManager.addRow(table);
 		
@@ -62,16 +64,16 @@ public class UI {
 		//Creating the legend of the UITable
 		ArrayList<UIElement> legend = new ArrayList<UIElement>();
 		ArrayList<String> names = communicationManager.getColumnNames(table);
-		int legendX = x;
-		int cellWidth = width / (names.size());
+		int legendX = x+20;
+		int cellWidth = (width-20) / (names.size());
 		for(String name:names){
 			System.out.println(name);
 			legend.add(new Text(legendX,y,cellWidth, cellHeight,name));
 			legendX += cellWidth;
 		}
 		
-		UIRow legendRow = new UIRow(x,y,width,30,legend);
-		
+		UIRow legendRow = new UIRow(x+20,y,width-20,30,legend);
+	
 		//Creating the UITable
 		UITable t = new UITable(x, y, width, height,legendRow, new ArrayList<UIRow>());
 		this.addUIElement(t);
