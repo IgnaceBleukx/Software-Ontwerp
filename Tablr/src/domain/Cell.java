@@ -25,35 +25,35 @@ public class Cell<T> {
 		this.value = v;
 	}
 	
-	/**
-	 * This method returns the row of the current Cell.
-	 */
-	public Row getRow() {
-		return row;
-	}
-	
-	/**
-	 * This method sets the row of the current row.
-	 * @param row: The row to be set.
-	 */
-	public void setRow(Row row) {
-		this.row = row;
-	}
+//	/**
+//	 * This method returns the row of the current Cell.
+//	 */
+//	public Row getRow() {
+//		return row;
+//	}
+//	
+//	/**
+//	 * This method sets the row of the current row.
+//	 * @param row: The row to be set.
+//	 */
+//	public void setRow(Row row) {
+//		this.row = row;
+//	}
 
-	/**
-	 * This method returns the table of the current Cell.
-	 */
-	public Table getTable() {
-		return table;
-	}
-
-	/**
-	 * This method sets the table of the current Cell.
-	 * @param table: the table to be set.
-	 */
-	public void setTable(Table table) {
-		this.table = table;
-	}
+//	/**
+//	 * This method returns the table of the current Cell.
+//	 */
+//	public Table getTable() {
+//		return table;
+//	}
+//
+//	/**
+//	 * This method sets the table of the current Cell.
+//	 * @param table: the table to be set.
+//	 */
+//	public void setTable(Table table) {
+//		this.table = table;
+//	}
 
 	/**
 	 * This method returns the column of the current Cell.
@@ -70,8 +70,6 @@ public class Cell<T> {
 		this.column = column;
 	}
 
-	private Row row;
-	private Table table;
 	private Column column;
 	
 	
@@ -79,9 +77,7 @@ public class Cell<T> {
 	 * This method terminates the cell and all its connections to other objects.
 	 */
 	public void terminate(){
-		if (getTable() != null) 	this.getTable().removeCell(this);
-		if (getColumn() != null) 	this.getColumn().removeCell(this);
-		if (getRow() != null) 		this.getRow().removeCell(this);
+		if (getColumn() != null) this.getColumn().removeCell(this);
 		
 	}
 	

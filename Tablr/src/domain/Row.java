@@ -5,15 +5,6 @@ import java.util.ArrayList;
 public class Row {
 	
 	/**
-	 * Constructor of the row
-	 * @param cells 	The cells of the row.
-	 */
-	public Row(ArrayList<Cell<?>> cells){
-	 	addAllCells(cells);
-	}
-	
-	
-	/**
 	 * The row's parent table
 	 */
 	private Table table;
@@ -24,9 +15,6 @@ public class Row {
 	 */
 	public void setTable(Table t){
 		this.table = t;
-		for (Cell<?> c : cells){
-			c.setTable(t);
-		}
 	}
 	
 	/**
@@ -38,59 +26,59 @@ public class Row {
 	}
 	
 	
-	/**
-	 * The row's cells from left to right
-	 */
-	private ArrayList<Cell<?>> cells = new ArrayList<Cell<?>>();
-	
-	/**
-	 * This method returns a copy of the cells contained in the current row.
-	 * @return
-	 */
-	@SuppressWarnings("unchecked")
-	public ArrayList<Cell<?>> getCells(){
-		return (ArrayList<Cell<?>>) this.cells.clone();
-	}
-	
-	/**
-	 * This method adds a cell to the row at the back of the row.
-	 * @param cell
-	 */
-	public void addCell(Cell<?> cell){
-		cell.setTable(this.getTable());
-		cell.setRow(this);
-		cells.add(cell);
-	}
-	
-	/**
-	 * This method adds a collection of cells to the current row.
-	 */
-	public void addAllCells(ArrayList<Cell<?>> newCells){
-		for (Cell<?> c : newCells){
-			this.addCell(c);
-		}
-	}
-
-	/**
-	 * This method removes a cell of the row.
-	 * @param cell	The cell to be removed.
-	 */
-	public void removeCell(Cell<?> cell){
-		removeCell(cells.indexOf(cell));
-	}
-	
-	/**
-	 * This method removes a cell from the row, based on an index.
-	 * @param index 	The index on which the cell must be removed from the row. 
-	 * @return The cell removed from the row.
-	 */
-	public Cell<?> removeCell(int index){
-		Cell<?> c = this.cells.remove(index);
-		if(c != null){
-			c.setRow(null);
-		}
-		return c;
-	}
+//	/**
+//	 * The row's cells from left to right
+//	 */
+//	private ArrayList<Cell<?>> cells = new ArrayList<Cell<?>>();
+//	
+//	/**
+//	 * This method returns a copy of the cells contained in the current row.
+//	 * @return
+//	 */
+//	@SuppressWarnings("unchecked")
+//	public ArrayList<Cell<?>> getCells(){
+//		return (ArrayList<Cell<?>>) this.cells.clone();
+//	}
+//	
+//	/**
+//	 * This method adds a cell to the row at the back of the row.
+//	 * @param cell
+//	 */
+//	public void addCell(Cell<?> cell){
+//		cell.setTable(this.getTable());
+//		cell.setRow(this);
+//		cells.add(cell);
+//	}
+//	
+//	/**
+//	 * This method adds a collection of cells to the current row.
+//	 */
+//	public void addAllCells(ArrayList<Cell<?>> newCells){
+//		for (Cell<?> c : newCells){
+//			this.addCell(c);
+//		}
+//	}
+//
+//	/**
+//	 * This method removes a cell of the row.
+//	 * @param cell	The cell to be removed.
+//	 */
+//	public void removeCell(Cell<?> cell){
+//		removeCell(cells.indexOf(cell));
+//	}
+//	
+//	/**
+//	 * This method removes a cell from the row, based on an index.
+//	 * @param index 	The index on which the cell must be removed from the row. 
+//	 * @return The cell removed from the row.
+//	 */
+//	public Cell<?> removeCell(int index){
+//		Cell<?> c = this.cells.remove(index);
+//		if(c != null){
+//			c.setRow(null);
+//		}
+//		return c;
+//	}
 	
 	
 	/**
@@ -98,9 +86,6 @@ public class Row {
 	 */
 	public void terminate(){
 		table.removeRow(this);
-		while(!cells.isEmpty()){
-			cells.get(0).terminate();
-		}
 		this.setTable(null);
 	}
 }

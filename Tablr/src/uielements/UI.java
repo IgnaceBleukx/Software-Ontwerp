@@ -73,9 +73,9 @@ public class UI {
 		this.addUIElement(blanks_al);
 		this.addUIElement(def);
 
-		currentTable.addColumn();
-		currentTable.addColumn();
-		currentTable.addColumn();
+		currentTable.addEmptyColumn();
+		currentTable.addEmptyColumn();
+		currentTable.addEmptyColumn();
 		
 		currentTable.getColumns().get(1).setColumnType(Type.BOOLEAN);
 		currentTable.getColumns().get(2).setColumnType(Type.INTEGER);

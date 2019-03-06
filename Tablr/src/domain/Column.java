@@ -28,10 +28,9 @@ public class Column {
 	 * @param newTable
 	 * @param newCells
 	 */
-	public Column(String newName, Table newTable, ArrayList<Cell<?>> newCells) {
+	public Column(String newName, ArrayList<Cell<?>> newCells) {
 		setColumnType(Type.STRING);
 		allowsBlanks = true;
-		setTable(newTable);
 		setName(newName);
 		addAllcells(newCells);
 	}
@@ -65,7 +64,7 @@ public class Column {
 	 * @param name 	The name to be checked.
 	 */
 	public boolean isValidName(String name){
-		return !this.getTable().getColumnNames().contains(name);
+		return table == null ? true : !this.getTable().getColumnNames().contains(name);
 	}
 	
 	
@@ -152,8 +151,8 @@ public class Column {
 	/**
 	 * This method returns the default value of the current columnType.
 	 */
-	public String getDefault(){
-		return defaultValues.get(getColumnType()).toString();
+	public Object getDefault(){
+		return defaultValues.get(getColumnType());
 	}
 		
 	
@@ -165,7 +164,6 @@ public class Column {
 	 */
 	public void addCell(Cell<?> c){
 		c.setColumn(this);
-		c.setTable(this.getTable()); //TODO: dit kan dubbel werk zijn.
 		cells.add(c);
 	}
 	
@@ -227,9 +225,6 @@ public class Column {
 	 */
 	public void setTable(Table table) {
 		this.table = table;
-		for (Cell<?> c: this.getCells()){
-			c.setTable(table);
-		}
 	}
 	
 
@@ -241,6 +236,15 @@ public class Column {
 		for (Cell<?> cell: this.getCells()){
 			cell.terminate();
 		}
+	}
+
+	public void addBlankCell() {
+		switch(getColumnType()){
+			case BOOLEAN : cells.add(new Cell<Boolean>((Boolean) getDefault())); break;
+			case INTEGER : cells.add(new Cell<Integer>((Integer) getDefault())); break;
+			case EMAIL   : cells.add(new Cell<String> ((String)  getDefault())); break;
+			case STRING  : cells.add(new Cell<String> ((String)  getDefault())); break;
+		}		
 	}
 	
 	
