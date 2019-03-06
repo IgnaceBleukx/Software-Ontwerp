@@ -100,7 +100,6 @@ public class DomainFacade {
 	}
 
 	public void toggleBlanks(Column col) {
-		System.out.println("Toggeling blanks");
 		col.toggleBlanks();
 		
 	}
@@ -108,6 +107,24 @@ public class DomainFacade {
 	public void addEmptyColumn(Table table) {
 		table.addEmptyColumn();
 		
+	}
+
+	public void changeColumnName(Column col, String text) {
+		col.setName(text);
+		
+	}
+
+	public void addRow(Table tab) {
+		tab.addRow();
+		
+	}
+
+	public ArrayList<Column> getColumns(Table tab) {
+		return tab.getColumns();
+	}
+
+	public Object getValue(Column col, int i) {
+		return col.getCell(i);
 	}
 
 	

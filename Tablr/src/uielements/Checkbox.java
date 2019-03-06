@@ -43,7 +43,7 @@ public class Checkbox extends UIElement {
 
 	@Override
 	public void handleSingleClick() {
-		System.out.println("Checkbox pressed");
+		//System.out.println("Checkbox pressed");
 		toggle();
 		for (Runnable r : this.singleClickListeners) {
 			r.run();

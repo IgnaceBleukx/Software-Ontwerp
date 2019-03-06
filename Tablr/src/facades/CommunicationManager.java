@@ -38,7 +38,6 @@ public class CommunicationManager {
 	}
 	
 	public void toggleBlanks(Column col){
-		System.out.println("Toggeling blanks");
 		domainFacade.toggleBlanks(col);
 	}
 	
@@ -49,6 +48,23 @@ public class CommunicationManager {
 	public void addEmptyColumn(Table table) {
 		domainFacade.addEmptyColumn(table);
 		
+	}
+
+	public void setColumnName(Column col, String text) {
+		domainFacade.changeColumnName(col,text);
+		
+	}
+
+	public void addRow(Table tab) {
+		domainFacade.addRow(tab);		
+	}
+
+	public ArrayList<Column> getColumns(Table tab) {
+		return domainFacade.getColumns(tab);
+	}
+
+	public Object getValue(Column col, int i) {
+		return domainFacade.getValue(col,i);
 	}
 	
 		
