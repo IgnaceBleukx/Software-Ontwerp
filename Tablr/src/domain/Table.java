@@ -2,9 +2,11 @@ package domain;
 
 import java.util.ArrayList;
 
-public class Table {
+import facades.CommunicationManager;
+
+public class Table extends DomainElement {
 	
-	public Table(String name){
+	public Table(String name) {
 		setName(name);
 	}
 	
@@ -170,6 +172,14 @@ public class Table {
 		}
 		for (Row r: rows){
 			r.terminate();
+		}
+	}
+	
+	@Override
+	public void setCommunicationManager(CommunicationManager c) {
+		this.communicationManager = c;
+		for (Column e : getColumns()) {
+			e.setCommunicationManager(c);
 		}
 	}
 	

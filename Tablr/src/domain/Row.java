@@ -2,7 +2,9 @@ package domain;
 
 import java.util.ArrayList;
 
-public class Row {
+import facades.CommunicationManager;
+
+public class Row extends DomainElement {
 	
 	/**
 	 * The row's parent table
@@ -32,4 +34,5 @@ public class Row {
 		table.removeRow(this);
 		this.setTable(null);
 	}
+	
 }

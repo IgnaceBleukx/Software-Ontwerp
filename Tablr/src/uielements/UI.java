@@ -5,8 +5,9 @@ import java.util.ArrayList;
 
 import domain.Column;
 import domain.Table;
-import domain.TableManager;
 import domain.Type;
+import facades.CommunicationManager;
+import facades.UIFacade;
 import ui.Loadable_Interfaces;
 
 
@@ -30,9 +31,7 @@ public class UI {
 	}
 
 	
-	private void loadTestInterface() {
-		tableManager = new TableManager();
-		
+	public void loadTestInterface() {		
 		
 		Text text1 = new Text(40,40,100,100,"Interface: test");
 		ListView l = new ListView(10, 10, 100, 500, new ArrayList<UIElement>());
@@ -42,8 +41,8 @@ public class UI {
 		this.addUIElement(l);
 		this.addUIElement(createTableButton);
 		createTableButton.addSingleClickListener(() -> {
-			tableManager.addEmptyTable();
-			l.loadFromTables(tableManager.getTables());
+			this.communicationManager.addEmptyTable();
+			l.loadFromTables(communicationManager.getTables());
 		});
 		
 
@@ -53,13 +52,13 @@ public class UI {
 		
 	}
 
-	private void loadTableRowsInterface() {
+	public void loadTableRowsInterface() {
 		Text text1 = new Text(40,40,100,100,"Interface: rows mode");
 		this.addUIElement(text1);		
 	}
 
 	
-	private void loadTableDesignInterface() {
+	public void loadTableDesignInterface() {
 		// Creating title
 		ListView l = new ListView(10, 30, 560, 500, new ArrayList<UIElement>());
 		Text name = new Text(10,10,200, 20,"Name");
@@ -86,13 +85,11 @@ public class UI {
 
 	Table currentTable = new Table("name");
 	
-	private void loadTablesInterface() {
+	public void loadTablesInterface() {
 		Text text1 = new Text(40,40,100,100,"Interface: tables");
 		this.addUIElement(text1);
 	}
 	
-	private TableManager tableManager;
-
 	private ArrayList<UIElement> elements = new ArrayList<UIElement>();
 	
 	/**
@@ -147,6 +144,21 @@ public class UI {
 			if (found != null) return found;
 		}
 		return null;
+	}
+	
+	private CommunicationManager communicationManager;
+	
+	
+	public CommunicationManager getCommunicationManager() {
+		return this.communicationManager;
+	}
+	
+	public void setCommunicationManager(CommunicationManager c) {
+		this.communicationManager = c;
+		for (UIElement e : getElements() ) {
+			e.setCommunicationsManager(c);
+		}
+		
 	}
 }
 

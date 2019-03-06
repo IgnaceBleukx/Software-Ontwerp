@@ -6,22 +6,30 @@ import uielements.*;
 import ui.Loadable_Interfaces;
 import java.util.ArrayList;
 
-public class MyCanvasWindow extends CanvasWindow {
+import facades.CommunicationManager;
 
+public class MyCanvasWindow extends CanvasWindow {
+	
+	private CommunicationManager communicationManager;
+	
 	/**
 	 * The currently active UI that is painted
 	 */
 	private UI activeUI;
 
+	
 	protected MyCanvasWindow(String title) {
 		super(title);
-
-		UI test = new UI(Loadable_Interfaces.TEST);
-		UI tables = new UI(Loadable_Interfaces.TABLES);
-		UI design = new UI(Loadable_Interfaces.TABLE_DESIGN);
-		UI rows = new UI(Loadable_Interfaces.TABLE_ROWS);
-			
-		setActiveUI(design);
+		
+		communicationManager = new CommunicationManager();
+		communicationManager.loadUI(Loadable_Interfaces.TABLE_DESIGN);
+		
+//		UI test = new UI(Loadable_Interfaces.TEST);
+//		UI tables = new UI(Loadable_Interfaces.TABLES);
+//		UI design = new UI(Loadable_Interfaces.TABLE_DESIGN);
+//		UI rows = new UI(Loadable_Interfaces.TABLE_ROWS);
+//			
+//		setActiveUI(design);
 
 	}
 
