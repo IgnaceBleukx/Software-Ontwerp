@@ -173,6 +173,7 @@ public class Column extends DomainElement {
 	 * @param newCells: The cells to be added to the column.
 	 */
 	private void addAllcells(ArrayList<Cell<?>> newCells) {
+		if (newCells == null) return;
 		for (Cell<?> c: newCells){
 			addCell(c);
 		}

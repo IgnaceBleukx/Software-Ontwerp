@@ -9,13 +9,11 @@ import org.junit.Test;
 
 import domain.Cell;
 import domain.Column;
-import domain.IllegalDimensionException;
 import domain.Row;
 import domain.Table;
-import domain.TableManager;
 import domain.Type;
 
-public class TableTests {
+public class DomainTests {
 	
 	/**
 	 * This method creates a table with two rows and tree columns
@@ -32,8 +30,6 @@ public class TableTests {
 		table.addColumn(col1);
 		table.addColumn(col2);
 		table.addColumn(col3);
-		table.addRow(new Row());
-		table.addRow(new Row());
 		return table;
 	}
 
@@ -57,11 +53,6 @@ public class TableTests {
 	}
 	
 
-	@Test
-	public void terminateRow() throws IllegalDimensionException{
-		
-	}
-	
 	@Test
 	public void removeRow(){
 		Table table = buildTable();
@@ -131,26 +122,42 @@ public class TableTests {
 	}
 	
 	
-	@Test
-	public void addAndRemoveTableToTableManager(){
-		Table table = buildTable();
-		TableManager man = new TableManager();
-		man.addTable(table);
-		assertEquals(1, man.getTables().size());
-		man.addEmptyTable();
-		assertEquals(2, man.getTables().size());
-		man.removeTable(table);
-		assertEquals(1, man.getTables().size());
-	}
+//	@Test
+//	public void addAndRemoveTableToTableManager(){
+//		Table table = buildTable();
+//		TableManager man = new TableManager();
+//		man.addTable(table);
+//		assertEquals(1, man.getTables().size());
+//		man.addEmptyTable();
+//		assertEquals(2, man.getTables().size());
+//		man.removeTable(table);
+//		assertEquals(1, man.getTables().size());
+//	}
+//	
+//	@Test
+//	public void getTable(){
+//		Table table = buildTable();
+//		TableManager man = new TableManager();
+//		man.addTable(table);
+//		table.setName("Table1");
+//		assertEquals(table, man.getTable("Table1"));
+//		assertNull(man.getTable("TableNameDoesNotExist"));
+//	}
 	
 	@Test
-	public void getTable(){
-		Table table = buildTable();
-		TableManager man = new TableManager();
-		man.addTable(table);
-		table.setName("Table1");
-		assertEquals(table, man.getTable("Table1"));
-		assertNull(man.getTable("TableNameDoesNotExist"));
+	public void addBlankCells(){
+		Column c = new Column("Column1", null);
+		c.addBlankCell();
+		assertEquals("",c.removeCell(0).getValue());
+		c.setColumnType(Type.BOOLEAN);
+		c.addBlankCell();
+		assertEquals(false,c.removeCell(0).getValue());
+		c.setColumnType(Type.EMAIL);
+		c.addBlankCell();
+		assertEquals("",c.removeCell(0).getValue());
+		c.setColumnType(Type.INTEGER);
+		c.addBlankCell();
+		assertEquals(0,c.removeCell(0).getValue());
 	}
 	
 	@Test
@@ -162,7 +169,24 @@ public class TableTests {
 		assertEquals(0,table.getColumns().size());
 	}
 	
-
+	@Test
+	public void terminateRow(){
+		Table table = buildTable();
+		Row row = table.getRows().get(0);
+		row.terminate();
+		for (Column col: table.getColumns()){
+			assertEquals(1, col.getCells().size());
+		}
+		assertNull(row.getTable());
+	}
+	
+	@Test
+	public void terminateTable(){
+		Table table = buildTable();
+		table.terminate();
+		assertEquals(0, table.getRows().size());
+		assertEquals(0, table.getColumns().size());
+	}
 	
 
 }
