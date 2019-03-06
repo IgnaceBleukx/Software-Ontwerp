@@ -118,7 +118,7 @@ public class ListView extends UIElement {
 			TextField colName = new TextField(10,y,200,50,  col.getName());
 			TextField colType = new TextField(210,y,150,50, col.getColumnType().toString());
 			Checkbox colBlankPol = new Checkbox(375,y+15,20,20, col.getBlankingPolicy());
-			TextField colDef = new TextField(410,y,160,50, col.getDefault());
+			TextField colDef = new TextField(410,y,160,50, col.getDefault().toString());
 			
 			colBlankPol.addSingleClickListener(() -> {
 				col.toggleBlanks();

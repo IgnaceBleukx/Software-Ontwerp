@@ -41,8 +41,8 @@ public class UI {
 		this.addUIElement(l);
 		this.addUIElement(createTableButton);
 		createTableButton.addSingleClickListener(() -> {
-			CommunicationManager.addEmptyTable();
-			l.loadFromTables(tableManager.getTables());
+			this.communicationManager.addEmptyTable();
+			l.loadFromTables(communicationManager.getTables());
 		});
 		
 
@@ -90,8 +90,6 @@ public class UI {
 		this.addUIElement(text1);
 	}
 	
-	private TableManager tableManager;
-
 	private ArrayList<UIElement> elements = new ArrayList<UIElement>();
 	
 	/**
@@ -147,9 +145,16 @@ public class UI {
 		}
 		return null;
 	}
-
+	
+	private CommunicationManager communicationManager;
+	
+	
+	public CommunicationManager getCommunicationManager() {
+		return this.communicationManager;
+	}
+	
 	public void setCommunicationManager(CommunicationManager c) {
-		this.setCommunicationManager(c);
+		this.communicationManager = c;
 		for (UIElement e : getElements() ) {
 			e.setCommunicationsManager(c);
 		}

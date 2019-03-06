@@ -2,6 +2,8 @@ package domain;
 
 import java.util.ArrayList;
 
+import facades.CommunicationManager;
+
 public class Row extends DomainElement {
 	
 	/**
@@ -88,4 +90,5 @@ public class Row extends DomainElement {
 		table.removeRow(this);
 		this.setTable(null);
 	}
+	
 }

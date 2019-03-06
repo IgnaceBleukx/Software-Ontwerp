@@ -251,7 +251,10 @@ public class Column extends DomainElement {
 	
 	@Override
 	public void setCommunicationManager(CommunicationManager c) {
-		
+		this.communicationManager = c;
+		for (Cell e : getCells()) {
+			e.setCommunicationManager(c);
+		}
 	}
 
 	
