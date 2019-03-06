@@ -78,7 +78,6 @@ public class Cell<T> extends DomainElement {
 	 */
 	public void terminate(){
 		if (getColumn() != null) this.getColumn().removeCell(this);
-		
 	}
 	
 
