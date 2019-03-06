@@ -4,8 +4,8 @@
   <element>
     <id>UMLActor</id>
     <coordinates>
-      <x>120</x>
-      <y>340</y>
+      <x>290</x>
+      <y>170</y>
       <w>60</w>
       <h>110</h>
     </coordinates>
@@ -15,8 +15,8 @@
   <element>
     <id>UMLUseCase</id>
     <coordinates>
-      <x>210</x>
-      <y>190</y>
+      <x>380</x>
+      <y>20</y>
       <w>210</w>
       <h>60</h>
     </coordinates>
@@ -27,8 +27,8 @@
   <element>
     <id>UMLClass</id>
     <coordinates>
-      <x>440</x>
-      <y>170</y>
+      <x>610</x>
+      <y>0</y>
       <w>220</w>
       <h>80</h>
     </coordinates>
@@ -42,8 +42,8 @@ Table Rows by pressing Escape</panel_attributes>
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>140</x>
-      <y>450</y>
+      <x>310</x>
+      <y>280</y>
       <w>30</w>
       <h>370</h>
     </coordinates>
@@ -53,8 +53,8 @@ Table Rows by pressing Escape</panel_attributes>
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>140</x>
-      <y>470</y>
+      <x>310</x>
+      <y>300</y>
       <w>300</w>
       <h>40</h>
     </coordinates>
@@ -65,8 +65,8 @@ clicks a table name</panel_attributes>
   <element>
     <id>UMLClass</id>
     <coordinates>
-      <x>370</x>
-      <y>430</y>
+      <x>540</x>
+      <y>260</y>
       <w>100</w>
       <h>30</h>
     </coordinates>
@@ -76,8 +76,8 @@ clicks a table name</panel_attributes>
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>410</x>
-      <y>460</y>
+      <x>580</x>
+      <y>290</y>
       <w>30</w>
       <h>360</h>
     </coordinates>
@@ -87,8 +87,8 @@ clicks a table name</panel_attributes>
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>410</x>
-      <y>520</y>
+      <x>580</x>
+      <y>350</y>
       <w>220</w>
       <h>40</h>
     </coordinates>
@@ -99,8 +99,8 @@ locatedAt(x, y)</panel_attributes>
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>600</x>
-      <y>460</y>
+      <x>770</x>
+      <y>290</y>
       <w>30</w>
       <h>360</h>
     </coordinates>
@@ -110,8 +110,8 @@ locatedAt(x, y)</panel_attributes>
   <element>
     <id>UMLClass</id>
     <coordinates>
-      <x>560</x>
-      <y>430</y>
+      <x>730</x>
+      <y>260</y>
       <w>100</w>
       <h>30</h>
     </coordinates>
@@ -122,8 +122,8 @@ locatedAt(x, y)</panel_attributes>
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>600</x>
-      <y>550</y>
+      <x>770</x>
+      <y>380</y>
       <w>250</w>
       <h>40</h>
     </coordinates>
@@ -134,8 +134,8 @@ handleSingleClick()</panel_attributes>
   <element>
     <id>UMLClass</id>
     <coordinates>
-      <x>780</x>
-      <y>430</y>
+      <x>950</x>
+      <y>260</y>
       <w>100</w>
       <h>30</h>
     </coordinates>
@@ -145,8 +145,8 @@ handleSingleClick()</panel_attributes>
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>820</x>
-      <y>460</y>
+      <x>990</x>
+      <y>290</y>
       <w>30</w>
       <h>360</h>
     </coordinates>
@@ -156,8 +156,8 @@ handleSingleClick()</panel_attributes>
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>820</x>
-      <y>590</y>
+      <x>990</x>
+      <y>420</y>
       <w>250</w>
       <h>40</h>
     </coordinates>
@@ -168,8 +168,8 @@ listener.run()</panel_attributes>
   <element>
     <id>UMLClass</id>
     <coordinates>
-      <x>990</x>
-      <y>430</y>
+      <x>1160</x>
+      <y>260</y>
       <w>130</w>
       <h>30</h>
     </coordinates>
@@ -179,8 +179,8 @@ listener.run()</panel_attributes>
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>1040</x>
-      <y>470</y>
+      <x>1210</x>
+      <y>300</y>
       <w>30</w>
       <h>350</h>
     </coordinates>
@@ -190,8 +190,8 @@ listener.run()</panel_attributes>
   <element>
     <id>Text</id>
     <coordinates>
-      <x>1060</x>
-      <y>600</y>
+      <x>1230</x>
+      <y>430</y>
       <w>170</w>
       <h>90</h>
     </coordinates>
@@ -202,8 +202,8 @@ style=wordwrap</panel_attributes>
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>140</x>
-      <y>710</y>
+      <x>310</x>
+      <y>540</y>
       <w>930</w>
       <h>40</h>
     </coordinates>
@@ -214,8 +214,8 @@ clicks 'enter' or outside the table name</panel_attributes>
   <element>
     <id>Text</id>
     <coordinates>
-      <x>1070</x>
-      <y>730</y>
+      <x>1240</x>
+      <y>560</y>
       <w>100</w>
       <h>70</h>
     </coordinates>
@@ -226,8 +226,8 @@ style=wordwrap</panel_attributes>
   <element>
     <id>UMLNote</id>
     <coordinates>
-      <x>690</x>
-      <y>170</y>
+      <x>860</x>
+      <y>0</y>
       <w>140</w>
       <h>70</h>
     </coordinates>
@@ -235,5 +235,186 @@ style=wordwrap</panel_attributes>
 bg=blue
 style=wordwrap</panel_attributes>
     <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLActor</id>
+    <coordinates>
+      <x>330</x>
+      <y>690</y>
+      <w>60</w>
+      <h>110</h>
+    </coordinates>
+    <panel_attributes>Actor</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>350</x>
+      <y>790</y>
+      <w>30</w>
+      <h>280</h>
+    </coordinates>
+    <panel_attributes>lt=.</panel_attributes>
+    <additional_attributes>10.0;260.0;10.0;10.0</additional_attributes>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>350</x>
+      <y>810</y>
+      <w>280</w>
+      <h>40</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;&lt;.
+Double click below list of tables</panel_attributes>
+    <additional_attributes>260.0;20.0;10.0;20.0</additional_attributes>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>600</x>
+      <y>800</y>
+      <w>30</w>
+      <h>270</h>
+    </coordinates>
+    <panel_attributes>lt=.</panel_attributes>
+    <additional_attributes>10.0;250.0;10.0;10.0</additional_attributes>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>560</x>
+      <y>760</y>
+      <w>100</w>
+      <h>30</h>
+    </coordinates>
+    <panel_attributes>UI</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>810</x>
+      <y>790</y>
+      <w>30</w>
+      <h>290</h>
+    </coordinates>
+    <panel_attributes>lt=.</panel_attributes>
+    <additional_attributes>10.0;270.0;10.0;10.0</additional_attributes>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>600</x>
+      <y>850</y>
+      <w>240</w>
+      <h>40</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;&lt;.
+getCommunicationManager()</panel_attributes>
+    <additional_attributes>220.0;20.0;10.0;20.0</additional_attributes>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>810</x>
+      <y>880</y>
+      <w>210</w>
+      <h>40</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;&lt;.
+addEmptyTable()</panel_attributes>
+    <additional_attributes>190.0;20.0;10.0;20.0</additional_attributes>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>990</x>
+      <y>790</y>
+      <w>30</w>
+      <h>170</h>
+    </coordinates>
+    <panel_attributes>lt=.</panel_attributes>
+    <additional_attributes>10.0;150.0;10.0;10.0</additional_attributes>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>940</x>
+      <y>760</y>
+      <w>130</w>
+      <h>30</h>
+    </coordinates>
+    <panel_attributes>domainFacade</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>720</x>
+      <y>760</y>
+      <w>180</w>
+      <h>30</h>
+    </coordinates>
+    <panel_attributes>CommunicationManager</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>Text</id>
+    <coordinates>
+      <x>1010</x>
+      <y>890</y>
+      <w>130</w>
+      <h>30</h>
+    </coordinates>
+    <panel_attributes>addEmptyTable()
+style=wordwrap</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>810</x>
+      <y>980</y>
+      <w>450</w>
+      <h>40</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;&lt;.
+loadFromTables(getTables())</panel_attributes>
+    <additional_attributes>430.0;20.0;10.0;20.0</additional_attributes>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>1180</x>
+      <y>760</y>
+      <w>130</w>
+      <h>30</h>
+    </coordinates>
+    <panel_attributes>UIFacade</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>1230</x>
+      <y>790</y>
+      <w>30</w>
+      <h>290</h>
+    </coordinates>
+    <panel_attributes>lt=.</panel_attributes>
+    <additional_attributes>10.0;270.0;10.0;10.0</additional_attributes>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>110</x>
+      <y>640</y>
+      <w>1440</w>
+      <h>40</h>
+    </coordinates>
+    <panel_attributes>lt=-</panel_attributes>
+    <additional_attributes>10.0;10.0;1420.0;20.0</additional_attributes>
   </element>
 </diagram>
