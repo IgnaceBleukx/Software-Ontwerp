@@ -3,6 +3,7 @@ package facades;
 import java.util.ArrayList;
 
 import domain.Column;
+import domain.Row;
 import domain.Table;
 import ui.Loadable_Interfaces;
 import uielements.UI;
@@ -95,6 +96,14 @@ public class CommunicationManager {
 
 	public Object getValue(Column col, int i) {
 		return domainFacade.getValue(col,i);
+	}
+
+	public ArrayList<String> getColumnNames(Table table) {
+		return domainFacade.getColumnNames(table);
+	}
+
+	public ArrayList<Row> getRows(Table tab) {
+		return domainFacade.getRows(tab);
 	}
 	
 		

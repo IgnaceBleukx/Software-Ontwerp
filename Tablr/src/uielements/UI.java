@@ -41,29 +41,46 @@ public class UI {
 	}
 
 	public void loadTableRowsInterface() {
+		communicationManager.addEmptyTable();
+		Table table = communicationManager.getTables().get(0);
+		communicationManager.addEmptyColumn(table);
+		communicationManager.addEmptyColumn(table);
+		communicationManager.addEmptyColumn(table);
+		communicationManager.addEmptyColumn(table);
+		communicationManager.addRow(table);
+		communicationManager.addRow(table);
+		
+		
+		//Properties of the UITable
+		int x = 10;
+		int y = 30;
+		int width = 560;
+		int height = 520;
+		
+		int cellHeight = 30;
+		
+		//Creating the legend of the UITable
 		ArrayList<UIElement> legend = new ArrayList<UIElement>();
-		ArrayList<String> names = communicationManager.getTableNames();
+		ArrayList<String> names = communicationManager.getColumnNames(table);
+		int legendX = x;
+		int cellWidth = width / (names.size());
 		for(String name:names){
-			
+			System.out.println(name);
+			legend.add(new Text(legendX,y,cellWidth, cellHeight,name));
+			legendX += cellWidth;
 		}
 		
+		UIRow legendRow = new UIRow(x,y,width,30,legend);
 		
-		UITable t = new UITable(10, 30, 560, 520, new ArrayList<UIRow>());
+		//Creating the UITable
+		UITable t = new UITable(x, y, width, height,legendRow, new ArrayList<UIRow>());
 		this.addUIElement(t);
-		t.setCommunicationManager(getCommunicationManager());
-
-		communicationManager.addEmptyTable();
-		Table tab = communicationManager.getTables().get(0);
-		communicationManager.addEmptyColumn(tab);
-		communicationManager.addEmptyColumn(tab);
-		communicationManager.addEmptyColumn(tab);
-		communicationManager.addEmptyColumn(tab);
-		communicationManager.addRow(tab);
-		communicationManager.addRow(tab);
 		
-		
-		t.loadTable(tab);
-		
+		//Filling the UITable with the cells of the table.
+		t.loadTable(table,cellWidth, cellHeight);
+		t.addKeyboardListener(27,() ->{
+			communicationManager.loadUI(Loadable_Interfaces.TABLES);
+		});
 		
 	}
 

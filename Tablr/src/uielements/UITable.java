@@ -3,6 +3,7 @@ package uielements;
 import java.awt.Graphics;
 import java.util.ArrayList;
 
+import domain.Cell;
 import domain.Column;
 import domain.Table;
 
@@ -36,23 +37,22 @@ public class UITable extends UIElement {
 		}
 	}
 
-	public void loadTable(Table tab) {
-		System.out.println(communicationManager);
-		int rows = tab.getRows().size();
-		int width = (int) super.getWidth()/(rows+1);
-		int y = super.getY();
+	public void loadTable(Table tab,int cellWidth, int cellHeigth) {
+		int rows = communicationManager.getRows(tab).size();
+		int y = super.getY()+cellHeigth;
 		for(int i=0;i<rows;i++){
 			int x = super.getX();
-			ArrayList<UIElement> rowElements = new ArrayList<UIElement>();
+			ArrayList<UIElement> emts = new ArrayList<UIElement>();
 			for(Column col : communicationManager.getColumns(tab)){
-				String value = communicationManager.getValue(col,i).toString();
-				rowElements.add(new TextField(x,y,width,30, value));
-				x += width;
+				String val = communicationManager.getValue(col,i).toString();
+				TextField field =  new TextField(x,y,cellWidth, cellHeigth,val);
+				emts.add(field);
+				x += cellWidth;
 			}
-			this.addRow(new UIRow(super.getX(), y, super.getWidth(), 30,rowElements));
-			y+=30;
+			UIRow uiRow = new UIRow(super.getX(),y,super.getWidth(),super.getHeight(),emts);
+			addRow(uiRow);
+			y += cellHeigth;
 		}
-		
 	}
 	
 	/**

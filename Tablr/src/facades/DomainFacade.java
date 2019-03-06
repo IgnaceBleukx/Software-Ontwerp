@@ -3,6 +3,7 @@ package facades;
 import java.util.ArrayList;
 
 import domain.Column;
+import domain.Row;
 import domain.Table;
 import uielements.UI;
 
@@ -139,6 +140,14 @@ public class DomainFacade {
 
 	public Object getValue(Column col, int i) {
 		return col.getCell(i).getValue();
+	}
+
+	public ArrayList<String> getColumnNames(Table table) {
+		return table.getColumnNames();
+	}
+
+	public ArrayList<Row> getRows(Table tab) {
+		return tab.getRows();
 	}
 
 	
