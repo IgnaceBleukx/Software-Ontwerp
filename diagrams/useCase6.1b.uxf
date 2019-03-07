@@ -5,7 +5,7 @@
     <id>UMLClass</id>
     <coordinates>
       <x>1020</x>
-      <y>350</y>
+      <y>170</y>
       <w>130</w>
       <h>30</h>
     </coordinates>
@@ -16,7 +16,7 @@
     <id>UMLClass</id>
     <coordinates>
       <x>760</x>
-      <y>350</y>
+      <y>170</y>
       <w>180</w>
       <h>30</h>
     </coordinates>
@@ -27,19 +27,19 @@
     <id>Relation</id>
     <coordinates>
       <x>140</x>
-      <y>400</y>
+      <y>220</y>
       <w>280</w>
       <h>40</h>
     </coordinates>
     <panel_attributes>lt=&lt;&lt;.
-Clicks the type of some column</panel_attributes>
+Clicks the checkbox</panel_attributes>
     <additional_attributes>260.0;20.0;10.0;20.0</additional_attributes>
   </element>
   <element>
     <id>Relation</id>
     <coordinates>
       <x>390</x>
-      <y>420</y>
+      <y>240</y>
       <w>210</w>
       <h>60</h>
     </coordinates>
@@ -53,7 +53,7 @@ See how click is handled</panel_attributes>
     <id>Relation</id>
     <coordinates>
       <x>570</x>
-      <y>460</y>
+      <y>280</y>
       <w>300</w>
       <h>40</h>
     </coordinates>
@@ -65,19 +65,19 @@ getCommunicationManager()</panel_attributes>
     <id>Relation</id>
     <coordinates>
       <x>840</x>
-      <y>490</y>
+      <y>310</y>
       <w>260</w>
       <h>40</h>
     </coordinates>
     <panel_attributes>lt=&lt;&lt;.
-toggleColumnType()</panel_attributes>
+toggleBlanks()</panel_attributes>
     <additional_attributes>240.0;20.0;10.0;20.0</additional_attributes>
   </element>
   <element>
     <id>Relation</id>
     <coordinates>
       <x>1070</x>
-      <y>390</y>
+      <y>210</y>
       <w>30</w>
       <h>160</h>
     </coordinates>
@@ -88,9 +88,9 @@ toggleColumnType()</panel_attributes>
     <id>UMLClass</id>
     <coordinates>
       <x>80</x>
-      <y>610</y>
-      <w>1150</w>
-      <h>140</h>
+      <y>430</y>
+      <w>1090</w>
+      <h>200</h>
     </coordinates>
     <panel_attributes/>
     <additional_attributes/>
@@ -99,7 +99,7 @@ toggleColumnType()</panel_attributes>
     <id>UMLClass</id>
     <coordinates>
       <x>80</x>
-      <y>610</y>
+      <y>430</y>
       <w>50</w>
       <h>30</h>
     </coordinates>
@@ -110,14 +110,14 @@ toggleColumnType()</panel_attributes>
   <element>
     <id>Text</id>
     <coordinates>
-      <x>150</x>
-      <y>620</y>
+      <x>160</x>
+      <y>440</y>
       <w>190</w>
-      <h>100</h>
+      <h>120</h>
     </coordinates>
-    <panel_attributes>[new type is such that the column’s
-default value or the value of some row of the table for this column
-is now invalid]
+    <panel_attributes>[column’s default value was
+blank or the value of any of the table’s rows for this column was
+blank and blanks are now no longer allowed]
 style=wordwrap</panel_attributes>
     <additional_attributes/>
   </element>
@@ -125,7 +125,7 @@ style=wordwrap</panel_attributes>
     <id>Relation</id>
     <coordinates>
       <x>840</x>
-      <y>680</y>
+      <y>500</y>
       <w>260</w>
       <h>40</h>
     </coordinates>
@@ -134,21 +134,10 @@ redBorder()</panel_attributes>
     <additional_attributes>240.0;20.0;10.0;20.0</additional_attributes>
   </element>
   <element>
-    <id>Relation</id>
-    <coordinates>
-      <x>1070</x>
-      <y>590</y>
-      <w>30</w>
-      <h>190</h>
-    </coordinates>
-    <panel_attributes>lt=.</panel_attributes>
-    <additional_attributes>10.0;170.0;10.0;10.0</additional_attributes>
-  </element>
-  <element>
     <id>UMLClass</id>
     <coordinates>
       <x>1010</x>
-      <y>560</y>
+      <y>380</y>
       <w>130</w>
       <h>30</h>
     </coordinates>
@@ -156,54 +145,10 @@ redBorder()</panel_attributes>
     <additional_attributes/>
   </element>
   <element>
-    <id>Relation</id>
-    <coordinates>
-      <x>570</x>
-      <y>390</y>
-      <w>30</w>
-      <h>400</h>
-    </coordinates>
-    <panel_attributes>lt=.</panel_attributes>
-    <additional_attributes>10.0;380.0;10.0;10.0</additional_attributes>
-  </element>
-  <element>
-    <id>Relation</id>
-    <coordinates>
-      <x>840</x>
-      <y>390</y>
-      <w>30</w>
-      <h>400</h>
-    </coordinates>
-    <panel_attributes>lt=.</panel_attributes>
-    <additional_attributes>10.0;380.0;10.0;10.0</additional_attributes>
-  </element>
-  <element>
-    <id>Relation</id>
-    <coordinates>
-      <x>390</x>
-      <y>390</y>
-      <w>30</w>
-      <h>400</h>
-    </coordinates>
-    <panel_attributes>lt=.</panel_attributes>
-    <additional_attributes>10.0;380.0;10.0;10.0</additional_attributes>
-  </element>
-  <element>
-    <id>Relation</id>
-    <coordinates>
-      <x>140</x>
-      <y>390</y>
-      <w>30</w>
-      <h>410</h>
-    </coordinates>
-    <panel_attributes>lt=.</panel_attributes>
-    <additional_attributes>10.0;390.0;10.0;10.0</additional_attributes>
-  </element>
-  <element>
     <id>UMLActor</id>
     <coordinates>
       <x>120</x>
-      <y>280</y>
+      <y>100</y>
       <w>60</w>
       <h>110</h>
     </coordinates>
@@ -214,7 +159,7 @@ redBorder()</panel_attributes>
     <id>UMLClass</id>
     <coordinates>
       <x>350</x>
-      <y>350</y>
+      <y>170</y>
       <w>100</w>
       <h>30</h>
     </coordinates>
@@ -225,7 +170,7 @@ redBorder()</panel_attributes>
     <id>UMLClass</id>
     <coordinates>
       <x>530</x>
-      <y>350</y>
+      <y>170</y>
       <w>140</w>
       <h>30</h>
     </coordinates>
@@ -236,11 +181,11 @@ redBorder()</panel_attributes>
     <id>UMLUseCase</id>
     <coordinates>
       <x>340</x>
-      <y>210</y>
+      <y>30</y>
       <w>280</w>
       <h>70</h>
     </coordinates>
-    <panel_attributes>Use case 4.6.1a: Edit Column Characteristic
+    <panel_attributes>Use case 4.6.1b: Edit Column Characteristic
 </panel_attributes>
     <additional_attributes/>
   </element>
@@ -248,13 +193,102 @@ redBorder()</panel_attributes>
     <id>UMLClass</id>
     <coordinates>
       <x>680</x>
-      <y>210</y>
+      <y>30</y>
       <w>220</w>
       <h>70</h>
     </coordinates>
     <panel_attributes>*Table Design Mode*
 --
 The application is in Table Design mode for some table.
+style=wordwrap</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>390</x>
+      <y>210</y>
+      <w>30</w>
+      <h>400</h>
+    </coordinates>
+    <panel_attributes>lt=.</panel_attributes>
+    <additional_attributes>10.0;380.0;10.0;10.0</additional_attributes>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>570</x>
+      <y>210</y>
+      <w>30</w>
+      <h>400</h>
+    </coordinates>
+    <panel_attributes>lt=.</panel_attributes>
+    <additional_attributes>10.0;380.0;10.0;10.0</additional_attributes>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>840</x>
+      <y>210</y>
+      <w>30</w>
+      <h>400</h>
+    </coordinates>
+    <panel_attributes>lt=.</panel_attributes>
+    <additional_attributes>10.0;380.0;10.0;10.0</additional_attributes>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>1070</x>
+      <y>410</y>
+      <w>30</w>
+      <h>200</h>
+    </coordinates>
+    <panel_attributes>lt=.</panel_attributes>
+    <additional_attributes>10.0;180.0;10.0;10.0</additional_attributes>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>140</x>
+      <y>210</y>
+      <w>30</w>
+      <h>400</h>
+    </coordinates>
+    <panel_attributes>lt=.</panel_attributes>
+    <additional_attributes>10.0;380.0;10.0;10.0</additional_attributes>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>640</x>
+      <y>450</y>
+      <w>500</w>
+      <h>120</h>
+    </coordinates>
+    <panel_attributes/>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>640</x>
+      <y>450</y>
+      <w>50</w>
+      <h>30</h>
+    </coordinates>
+    <panel_attributes>loop</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>Text</id>
+    <coordinates>
+      <x>660</x>
+      <y>490</y>
+      <w>170</w>
+      <h>60</h>
+    </coordinates>
+    <panel_attributes>[User clicked dit not click the checkbox yet]
 style=wordwrap</panel_attributes>
     <additional_attributes/>
   </element>
