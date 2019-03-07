@@ -45,41 +45,17 @@ public class TextField extends UIElement {
 			g.setColor(Color.red);
 		else
 			g.setColor(Color.black);
-	//	System.out.println(this + ": " + error);
 		g.drawRect(super.getX(),super.getY(), super.getWidth(), super.getHeight());
 		g.setColor(Color.black);
 		int y = this.getY() +  ((this.getHeight() - metrics.getHeight()) / 2) + metrics.getAscent();
 		
-		if (editing == false)
+		if (isSelected == false)
 			g.drawString(this.getText(), super.getX()+10, y);
 		else
 			g.drawString(this.getText() + "<", super.getX()+10, y);
 
 	}
 	
-	/**
-	 * Variable that indicates whether this TextField is currently accepting keyboard input
-	 */
-	private boolean editing = false;
-
-	public void startEditing() {
-		this.editing = true;
-	}
-	
-	public void endEditing() {
-		this.editing = false;
-	}
-	
-	
-	@Override
-	public void handleSingleClick() {
-		if (!editing) {
-			startEditing();
-			System.out.println("Edit mode...");
-		}
-		
-		
-	}
 	
 	/**
 	 * Indicates whether the text in this textfield is faulty.
@@ -94,6 +70,18 @@ public class TextField extends UIElement {
 		this.error = false;
 	}
 	
+
+	
+	@Override
+	public void handleSingleClick() {
+		if (!isSelected) {
+			setSelected();
+			communicationManager.notifyNewSelected((UIElement) this);
+			System.out.println("Edit mode...");
+		}
+		
+		
+	}
 	
 	
 	@Override
@@ -103,11 +91,12 @@ public class TextField extends UIElement {
 	
 	@Override
 	public void handleKeyboardEvent(int keyCode, char keyChar) {
-		if (keyCode == 10 && editing == true) { //Enter, end editing
-			endEditing();
+		if (keyCode == 10 && isSelected == true) { //Enter, end editing
+			if (!error)
+				setNotSelected();
 		}
 				
-		if (keyCode == 8 && editing == true) { //Backspace remove character
+		if (keyCode == 8 && isSelected) { //Backspace: remove character
 			if (getText().length() > 0) {
 				String newText = getText().substring(0, getText().length() - 1);
 				setText(newText);
@@ -115,7 +104,7 @@ public class TextField extends UIElement {
 				
 			
 		}
-		if (Character.isLetterOrDigit(keyChar) && editing == true) {
+		if (Character.isLetterOrDigit(keyChar) && isSelected == true) {
 			setText(getText()+keyChar);
 		}
 		

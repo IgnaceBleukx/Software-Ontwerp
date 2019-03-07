@@ -122,8 +122,12 @@ public class Table extends DomainElement {
 	public void addRow(){
 		Row r = new Row();
 		this.rows.add(r);
+		r.setCommunicationManager(getCommunicationManager());
+		System.out.println();
 		for (Column col: columns){
 			col.addBlankCell();
+			System.out.println("[Table.java:129] "+col.getCommunicationManager());
+			col.setCommunicationManager(getCommunicationManager());
 		}
 		r.setTable(this);
 	}

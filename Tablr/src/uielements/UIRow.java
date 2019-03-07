@@ -3,6 +3,8 @@ package uielements;
 import java.awt.Graphics;
 import java.util.ArrayList;
 
+import facades.CommunicationManager;
+
 public class UIRow extends UIElement {
 
 	public UIRow(int x, int y,int w, int h,  ArrayList<UIElement> elements) {
@@ -26,6 +28,7 @@ public class UIRow extends UIElement {
 	 */
 	public void addElement(UIElement e) {
 		this.elements.add(e);
+		e.setCommunicationManager(getCommunicationManager());
 	}
 
 	
@@ -75,6 +78,26 @@ public class UIRow extends UIElement {
 			r.run();
 		}
 		
+	}
+	
+	@Override
+	public void selectElement(UIElement e) {
+		if (e == this) {
+			isSelected = true;
+		}
+		else {
+			for (UIElement el : elements) {
+				el.selectElement(e);
+			}
+		}
+	}
+	
+	@Override
+	public void setCommunicationManager(CommunicationManager c) {
+		this.communicationManager = c;
+		for (UIElement e : elements) {
+			e.setCommunicationManager(c);
+		}
 	}
 
 	

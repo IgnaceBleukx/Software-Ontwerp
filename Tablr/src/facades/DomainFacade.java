@@ -41,9 +41,13 @@ public class DomainFacade {
 	/**
 	 * Adds an empty table to the list of tables
 	 */
-	public void addEmptyTable() {
+	public Table addEmptyTable() {
 		String name = nextName();
-		addTable(new Table(name));
+		Table t = new Table(name);
+		addTable(t);
+		System.out.println("[DomainFacade.java:48] "+getCommunicationManager());
+		t.setCommunicationManager(getCommunicationManager());
+		return t;
 	}
 	
 	/**

@@ -4,6 +4,7 @@ import domain.Table;
 import ui.Loadable_Interfaces;
 import uielements.Text;
 import uielements.UI;
+import uielements.UIElement;
 
 public class UIFacade {
 	private CommunicationManager communicationManager;
@@ -35,6 +36,10 @@ public class UIFacade {
 
 	public UI getActiveUI() {
 		return ui;
+	}
+
+	public void newSelected(UIElement e) {
+		getActiveUI().selectElement(e);
 	}
 
 

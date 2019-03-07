@@ -42,8 +42,7 @@ public class UI {
 
 	public void loadTableRowsInterface() {
 		//Temporary table
-		communicationManager.addEmptyTable();
-		Table table = communicationManager.getTables().get(0);
+		Table table = communicationManager.addEmptyTable();
 		communicationManager.addEmptyColumn(table);
 		communicationManager.addEmptyColumn(table);
 		communicationManager.addEmptyColumn(table);
@@ -51,6 +50,7 @@ public class UI {
 		communicationManager.addRow(table);
 		communicationManager.addRow(table);
 		communicationManager.addRow(table);
+		
 		
 		
 		//Properties of the UITable
@@ -80,7 +80,8 @@ public class UI {
 		
 		//Filling the UITable with the cells of the table.
 		t.loadTable(table,cellWidth, cellHeight);
-		t.addKeyboardListener(27,() ->{
+		
+		t.addKeyboardListener(27,() ->{ //ESCAPE, go to TABLES interface
 			communicationManager.loadUI(Loadable_Interfaces.TABLES);
 		});
 		
@@ -141,15 +142,13 @@ public class UI {
 		this.addUIElement(l);
 
 		Button createTableButton = new Button(10,520,580,70, "Create table");
-		this.addUIElement(createTableButton);
 
 		createTableButton.addSingleClickListener(() -> {
 			communicationManager.addEmptyTable();
 			l.loadFromTables(communicationManager.getTables());
 		});
 		
-
-		
+		this.addUIElement(createTableButton);
 	}
 	
 	private ArrayList<UIElement> elements = new ArrayList<UIElement>();
@@ -167,6 +166,7 @@ public class UI {
 	 */
 	public void addUIElement(UIElement e){
 		this.elements.add(e);
+		System.out.println("Commman: "+getCommunicationManager());
 		e.setCommunicationManager(getCommunicationManager());
 	}
 	
@@ -221,7 +221,12 @@ public class UI {
 		for (UIElement e : getElements() ) {
 			e.setCommunicationManager(c);
 		}
-		
+	}
+	
+	public void selectElement(UIElement newElement) {
+		for (UIElement e : getElements()) {
+			e.selectElement(newElement);
+		}
 	}
 }
 

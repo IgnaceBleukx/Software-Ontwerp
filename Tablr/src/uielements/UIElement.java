@@ -177,5 +177,31 @@ public abstract class UIElement {
 		else
 			return null;
 	}
+	
+	/**
+	 * Is this element selected? (Only one UIElement can be selected per UI)
+	 */
+	protected boolean isSelected;
+	
+	public boolean isSelected() {
+		return this.isSelected;
+	}
+	
+	public void setSelected() {
+		this.isSelected = true;
+	}
+	
+	public void setNotSelected() {
+		this.isSelected = false;
+	}
+
+	protected void selectElement(UIElement newElement) {
+		if (newElement == this) {
+			setSelected();
+		}
+		else {
+			setNotSelected();
+		}
+	}
 
 }

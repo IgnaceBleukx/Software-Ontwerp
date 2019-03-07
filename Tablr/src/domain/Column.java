@@ -245,18 +245,23 @@ public class Column extends DomainElement {
 	}
 
 	public void addBlankCell() {
+		Cell<?> newCell;
 		switch(getColumnType()){
-			case BOOLEAN : cells.add(new Cell<Boolean>((Boolean) getDefault())); break;
-			case INTEGER : cells.add(new Cell<Integer>((Integer) getDefault())); break;
-			case EMAIL   : cells.add(new Cell<String> ((String)  getDefault())); break;
-			case STRING  : cells.add(new Cell<String> ((String)  getDefault())); break;
-		}		
+			case BOOLEAN : newCell = new Cell<Boolean>((Boolean) getDefault()); break;
+			case INTEGER : newCell = new Cell<Integer>((Integer) getDefault()); break;
+			case EMAIL   : newCell = new Cell<String> ((String)  getDefault()); break;
+			case STRING  : newCell = new Cell<String> ((String)  getDefault()); break;
+			default: throw new ClassCastException();
+		}	
+		cells.add(newCell);
+		System.out.println("[Column.java:257] "+getCommunicationManager());
+		newCell.setCommunicationManager(getCommunicationManager());
 	}
 	
 	@Override
 	public void setCommunicationManager(CommunicationManager c) {
 		this.communicationManager = c;
-		for (Cell e : getCells()) {
+		for (Cell<?> e : getCells()) {
 			e.setCommunicationManager(c);
 		}
 	}

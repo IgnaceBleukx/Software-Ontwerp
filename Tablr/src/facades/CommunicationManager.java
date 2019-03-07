@@ -6,7 +6,9 @@ import domain.Column;
 import domain.Row;
 import domain.Table;
 import ui.Loadable_Interfaces;
+import uielements.TextField;
 import uielements.UI;
+import uielements.UIElement;
 
 public class CommunicationManager {
 	
@@ -22,8 +24,8 @@ public class CommunicationManager {
 		UIFacade.loadUI(i);
 	}
 	
-	public void addEmptyTable() {
-		domainFacade.addEmptyTable();
+	public Table addEmptyTable() {
+		return domainFacade.addEmptyTable();
 	}
 	
 	public ArrayList<Table> getTables() {
@@ -118,6 +120,10 @@ public class CommunicationManager {
 
 	public int getIndexOfColumn(Table table, String name) {
 		return domainFacade.getIndexOfColumn(table,name);
+	}
+
+	public void notifyNewSelected(UIElement e) {
+		UIFacade.newSelected(e);
 	}
 
 	

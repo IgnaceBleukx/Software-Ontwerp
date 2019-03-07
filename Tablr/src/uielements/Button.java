@@ -70,7 +70,6 @@ public class Button extends UIElement {
 			r.run();
 		}
 	}
-	
 
 	
 }

@@ -28,6 +28,7 @@ public class ListView extends UIElement {
 	 */
 	public void addElement(UIElement e){
 		this.elements.add(e);
+		e.setCommunicationManager(getCommunicationManager());
 	}
 	
 	/*
@@ -117,12 +118,12 @@ public class ListView extends UIElement {
 			
 			currRow.addElement(deleteButton);
 			
-			TextField tableNameLabel = new TextField(getX()+40, getY()+2+i*40, 300, 38, curr.getName());
+			TextField tableNameLabel = new TextField(getX()+40, getY()+2+i*40, 520, 38, curr.getName());
 			tableNameLabel.addKeyboardListener(-1, () -> {
 				communicationManager.renameTable(curr, tableNameLabel.getText());
 				ArrayList<Table> tablesSameName = communicationManager.getTablesByName(curr.getName());
 			
-				if (tablesSameName.size() > 1) {
+				if (tablesSameName.size() > 1 && tableNameLabel.isSelected) {
 					tableNameLabel.isError();
 				}
 				else {
@@ -131,7 +132,7 @@ public class ListView extends UIElement {
 			});
 			currRow.addElement(tableNameLabel);
 			
-			elements.add(currRow);
+			addElement(currRow);
 		}	
 	}
 	
@@ -202,9 +203,28 @@ public class ListView extends UIElement {
 			r.run();
 		}
 		
-		
+	}
+	
+	
+	@Override
+	public void selectElement(UIElement e) {
+		if (e == this) {
+			isSelected = true;
+		}
+		else {
+			for (UIElement el : elements) {
+				el.selectElement(e);
+			}
+		}
 	}
 
+	@Override
+	public void setCommunicationManager(CommunicationManager c) {
+		this.communicationManager = c;
+		for (UIElement e : elements) {
+			e.setCommunicationManager(c);
+		}
+	}
 	
 
 }
