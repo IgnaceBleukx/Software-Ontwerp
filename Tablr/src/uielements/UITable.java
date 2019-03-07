@@ -55,9 +55,17 @@ public class UITable extends UIElement {
 			for(Column col : communicationManager.getColumns(tab)){
 				String val = communicationManager.getValue(col,i).toString();
 				TextField field =  new TextField(x,y,cellWidth, cellHeigth,val);
-				field.setCommunicationManager(getCommunicationManager());
+				//field.setCommunicationManager(getCommunicationManager());
 				emts.add(field);
 				x += cellWidth;
+				int index = i;
+				field.addKeyboardListener(10, () -> {
+					try{
+						communicationManager.changeCellValue(col,index,field.getText());
+					}catch(ClassCastException e){
+						field.isError();
+					}
+				});
 				
 			}
 			UIRow uiRow = new UIRow(super.getX(),y,super.getWidth(),cellHeigth,emts);

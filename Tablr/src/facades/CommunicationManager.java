@@ -126,6 +126,11 @@ public class CommunicationManager {
 		UIFacade.newSelected(e);
 	}
 
+	public void changeCellValue(Column col, int i, String string) throws ClassCastException {
+		domainFacade.changeCellValue(col,i,string);
+		
+	}
+
 	
 		
 

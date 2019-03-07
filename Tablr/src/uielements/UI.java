@@ -47,6 +47,8 @@ public class UI {
 		communicationManager.addEmptyColumn(table);
 		communicationManager.addEmptyColumn(table);
 		communicationManager.addEmptyColumn(table);
+		table.getColumns().get(0).setColumnType(Type.BOOLEAN);
+		table.getColumns().get(1).setColumnType(Type.INTEGER);
 		communicationManager.addRow(table);
 		communicationManager.addRow(table);
 		communicationManager.addRow(table);
@@ -58,7 +60,6 @@ public class UI {
 		int y = 30;
 		int width = 560;
 		int height = 520;
-		
 		int cellHeight = 30;
 		
 		//Creating the legend of the UITable
@@ -102,12 +103,10 @@ public class UI {
 		Text blanks_al = new Text(360,10,50, 20,"Blanks_al");
 		Text def = new Text(410,10,200, 20,"Default");
 		
-		this.addUIElement(l);
-		this.addUIElement(name);
-		this.addUIElement(type);
-		this.addUIElement(blanks_al);
-		this.addUIElement(def);
-
+		this.addAllUIElements(new ArrayList<UIElement>(){{add(l);add(name);add(type);add(blanks_al);add(def);}});
+	
+		
+		//Creating temporary test table
 		communicationManager.addEmptyTable();
 		Table currentTable = communicationManager.getTables().get(0);
 		communicationManager.addEmptyColumn(currentTable);
@@ -120,11 +119,6 @@ public class UI {
 		
 		l.loadColumnAttributes(currentTable);
 		
-		// Adding listeners to elements.
-		l.addKeyboardListener(27, () -> {
-			communicationManager.loadUI(Loadable_Interfaces.TABLES);
-		});
-		
 		l.addDoubleClickListener(() -> {
 			communicationManager.addEmptyColumn(currentTable);
 			l.loadColumnAttributes(currentTable);
@@ -134,6 +128,13 @@ public class UI {
 	}
 
 	
+	private void addAllUIElements(ArrayList<UIElement> list) {
+		for(UIElement e : list){
+			this.addUIElement(e);
+		}
+		
+	}
+
 	public void loadTablesInterface() {
 		Text text1 = new Text(40,40,100,100,"Interface: tables");
 		this.addUIElement(text1);

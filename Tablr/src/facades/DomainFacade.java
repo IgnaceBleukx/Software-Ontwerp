@@ -167,6 +167,11 @@ public class DomainFacade {
 		table.removeColumn(index);
 		
 	}
+
+	public void changeCellValue(Column col, int i, String string) throws ClassCastException {
+		col.changeCellValue(i,string);
+		
+	}
 	
 
 }

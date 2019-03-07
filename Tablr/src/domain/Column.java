@@ -266,6 +266,33 @@ public class Column extends DomainElement {
 		}
 	}
 
+	public void changeCellValue(int i, String string) throws ClassCastException{
+		Cell<?> newCell;
+		switch(getColumnType()){
+			case BOOLEAN : {
+				if (string == "False" || string == "false" || string == "True" || string == "true") newCell = new Cell<Boolean>(Boolean.parseBoolean(string));
+				else throw new ClassCastException();
+				break;
+			}
+			case INTEGER : {
+				try{
+					newCell = new Cell<Integer>(Integer.parseInt(string));
+				}catch(NumberFormatException e) {
+					throw new ClassCastException();
+				}
+				break;
+			}
+			case EMAIL:  newCell = new Cell<String>(string); break;
+			case STRING: newCell = new Cell<String>(string); break;
+			default : throw new ClassCastException();
+		}
+		newCell.setCommunicationManager(getCommunicationManager());
+		newCell.setColumn(this);
+		cells.remove(i);
+		cells.add(i,newCell);
+		
+	}
+
 
 	
 
