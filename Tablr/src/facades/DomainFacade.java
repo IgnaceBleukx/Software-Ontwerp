@@ -154,6 +154,15 @@ public class DomainFacade {
 		tab.removeRow(index);
 		
 	}
+
+	public int getIndexOfColumn(Table table, String name) {
+		return table.getColumnNames().indexOf(name);
+	}
+
+	public void removeColumn(Table table, int index) {
+		table.removeColumn(index);
+		
+	}
 	
 
 }

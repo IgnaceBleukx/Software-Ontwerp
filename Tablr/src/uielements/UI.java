@@ -84,6 +84,12 @@ public class UI {
 			communicationManager.loadUI(Loadable_Interfaces.TABLES);
 		});
 		
+		t.addDoubleClickListener(() -> {
+			System.out.println("adding row");
+			communicationManager.addRow(table);
+			t.loadTable(table, cellWidth, cellHeight);
+		});
+		
 	}
 
 	
@@ -94,12 +100,6 @@ public class UI {
 		Text type = new Text(210,10,150, 20,"Type");
 		Text blanks_al = new Text(360,10,50, 20,"Blanks_al");
 		Text def = new Text(410,10,200, 20,"Default");
-		
-		l.addKeyboardListener(27, () -> {
-			communicationManager.loadUI(Loadable_Interfaces.TABLES);
-		});
-		
-		
 		
 		this.addUIElement(l);
 		this.addUIElement(name);
@@ -119,6 +119,15 @@ public class UI {
 		
 		l.loadColumnAttributes(currentTable);
 		
+		// Adding listeners to elements.
+		l.addKeyboardListener(27, () -> {
+			communicationManager.loadUI(Loadable_Interfaces.TABLES);
+		});
+		
+		l.addDoubleClickListener(() -> {
+			communicationManager.addEmptyColumn(currentTable);
+			l.loadColumnAttributes(currentTable);
+		});
 		
 				
 	}

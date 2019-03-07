@@ -45,7 +45,7 @@ public class TextField extends UIElement {
 			g.setColor(Color.red);
 		else
 			g.setColor(Color.black);
-		System.out.println(this + ": " + error);
+	//	System.out.println(this + ": " + error);
 		g.drawRect(super.getX(),super.getY(), super.getWidth(), super.getHeight());
 		g.setColor(Color.black);
 		int y = this.getY() +  ((this.getHeight() - metrics.getHeight()) / 2) + metrics.getAscent();

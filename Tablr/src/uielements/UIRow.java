@@ -12,10 +12,8 @@ public class UIRow extends UIElement {
 	
 	
 	private ArrayList<UIElement> elements;
-	private boolean selected;
 
 	public void paint(Graphics g){
-		if(selected) g.drawOval(getX()-7, getY()+10, 5, 5);
 		g.drawRect(getX(),getY(),getWidth(),getHeight());
 		for (UIElement e : this.elements){
 			e.paint(g);
@@ -30,14 +28,6 @@ public class UIRow extends UIElement {
 		this.elements.add(e);
 	}
 
-	public void select() {
-		this.selected = true;
-	}
-	
-	public void unselect(){
-		this.selected = false;
-	}
-	
 	
 	/**
 	 * Returns the most specific UIElement located at (x,y) by searching in its elements

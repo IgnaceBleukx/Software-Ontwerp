@@ -111,6 +111,15 @@ public class CommunicationManager {
 		
 	}
 
+	public void removeColumn(Table table, int index) {
+		domainFacade.removeColumn(table, index);
+		
+	}
+
+	public int getIndexOfColumn(Table table, String name) {
+		return domainFacade.getIndexOfColumn(table,name);
+	}
+
 	
 		
 

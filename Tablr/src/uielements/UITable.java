@@ -38,6 +38,10 @@ public class UITable extends UIElement {
 		for(UIRow r : rows){
 			r.paint(g);
 		}
+		if (selected != null) {
+			UIElement s = this.selected;
+			g.fillOval(s.getX()+s.getWidth()+10, s.getY()+s.getHeight()/2, 8, 8);
+		}
 	}
 
 	public void loadTable(Table tab,int cellWidth, int cellHeigth) {
@@ -60,15 +64,9 @@ public class UITable extends UIElement {
 			
 			//Adding listeners:
 			uiRow.addSingleClickListener(()->{
-				if(selected == null) {
-					this.selected = uiRow; 
-					uiRow.select();
-				}
-				else if(uiRow.equals(selected)) {
-						uiRow.unselect();
-						this.selected = null;
-				}
+				this.selected = uiRow; 
 			});
+			
 			uiRow.addKeyboardListener(127, () -> {
 				if(uiRow.equals(this.selected)){
 					int index = this.rows.indexOf(uiRow);
@@ -110,13 +108,17 @@ public class UITable extends UIElement {
 
 	@Override
 	public void handleSingleClick() {
-		// TODO Auto-generated method stub
+		for(Runnable r: singleClickListeners){
+			r.run();
+		}
 		
 	}
 
 	@Override
 	public void handleDoubleClick() {
-		// TODO Auto-generated method stub
+		for(Runnable r: doubleClickListeners){
+			r.run();
+		}
 		
 	}
 	

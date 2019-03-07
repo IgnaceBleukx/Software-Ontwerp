@@ -41,13 +41,13 @@ public class ListView extends UIElement {
 	
 	ArrayList<UIElement> elements;
 	
-	private UIElement selectedElement = null;
+	private UIElement selectedElement;
 	
 	public void setSelectedElement(UIElement e) {
 		this.selectedElement = e;
 	}
 	
-	public UIElement GetSelectedElement() {
+	public UIElement getSelectedElement() {
 		return this.selectedElement;
 	}
 	
@@ -108,7 +108,7 @@ public class ListView extends UIElement {
 			});
 			
 			deleteButton.addKeyboardListener(127, () -> {
-				if (GetSelectedElement() == currRow) {
+				if (getSelectedElement() == currRow) {
 					removeElement((UIElement) currRow); //Remove row from ListView
 					communicationManager.removeTable(curr); //Remove table from list of tables
 					loadFromTables(communicationManager.getTables());
@@ -137,27 +137,30 @@ public class ListView extends UIElement {
 	
 	
 	public void loadColumnAttributes(Table table){
+		int margin = 20;
 		int y = 30;
-		for(Column col : table.getColumns()){
-			TextField colName = new TextField(10,y,200,50,  col.getName());
-			TextField colType = new TextField(210,y,150,50, col.getColumnType().toString());
-			Checkbox colBlankPol = new Checkbox(375,y+15,20,20, col.getBlankingPolicy());
-			TextField colDef = new TextField(410,y,160,50, col.getDefault().toString());
+		elements.clear();
+		for(Column col : communicationManager.getColumns(table)){
+			TextField colName = new TextField(10+margin,y,200,50,  col.getName());
+			TextField colType = new TextField(210+margin,y,150,50, col.getColumnType().toString());
+			Checkbox colBlankPol = new Checkbox(375+margin,y+15,20,20, col.getBlankingPolicy());
+			TextField colDef = new TextField(410+margin,y,160-margin,50, col.getDefault().toString());
 						
 			colBlankPol.addSingleClickListener(() -> {
 				communicationManager.toggleBlanks(col);
 			});
 			
-			
-			
-			
 			ArrayList<UIElement> list = new ArrayList<UIElement>(){{ add(colName); add(colType); add(colBlankPol); add(colDef);}};		
 			this.addAllElements(list);
-			
-			
-			UIRow row = new UIRow(10,y,560,50,list);
-			this.addElement(row);
+						
+			UIRow uiRow = new UIRow(10,y,560,50,list);
+			this.addElement(uiRow);
 			y += 50;
+			
+			uiRow.addSingleClickListener(() -> {
+				setSelectedElement(uiRow);
+			});
+			
 		}
 	}
 	
@@ -170,12 +173,16 @@ public class ListView extends UIElement {
 
 	@Override
 	public void handleSingleClick() {
-				
+		for (Runnable r: singleClickListeners){
+			r.run();
+		}
 	}
 
 	@Override
 	public void handleDoubleClick() {
-		
+		for (Runnable r: doubleClickListeners){
+			r.run();
+		}
 	}
 
 	@Override
