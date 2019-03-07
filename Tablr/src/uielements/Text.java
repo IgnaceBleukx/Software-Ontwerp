@@ -17,7 +17,12 @@ public class Text extends UIElement {
 	}
 	
 	private String text;
+	private boolean border = false;
 	
+	public void setBorder(boolean b){
+		border = b;
+	}
+
 	/*
 	 * This method sets the text of the current Text.
 	 * @param t: the text to be set.
@@ -36,6 +41,7 @@ public class Text extends UIElement {
 	@Override
 	public void paint(Graphics g) {
 		super.drawCenteredText(g, this.getText());
+		if(border) g.drawRect(super.getX(), super.getY(), super.getWidth(), super.getHeight());
 
 	}
 

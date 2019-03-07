@@ -97,11 +97,12 @@ public class UI {
 	
 	public void loadTableDesignInterface() {
 		// Creating title
+		int margin = 20;
 		ListView l = new ListView(10, 30, 560, 520, new ArrayList<UIElement>());
-		Text name = new Text(10,10,200, 20,"Name");
-		Text type = new Text(210,10,150, 20,"Type");
-		Text blanks_al = new Text(360,10,50, 20,"Blanks_al");
-		Text def = new Text(410,10,200, 20,"Default");
+		Text name = new Text(10+margin,10,200, 20,"Name");
+		Text type = new Text(210+margin,10,150, 20,"Type");
+		Text blanks_al = new Text(360+margin,10,50, 20,"Blanks_al");
+		Text def = new Text(410,10,200-margin, 20,"Default");
 		
 		this.addAllUIElements(new ArrayList<UIElement>(){{add(l);add(name);add(type);add(blanks_al);add(def);}});
 	

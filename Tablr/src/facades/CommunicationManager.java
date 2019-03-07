@@ -131,6 +131,11 @@ public class CommunicationManager {
 		
 	}
 
+	public void toggleColumnType(Column col) {
+		domainFacade.toggleColumnType(col);
+		
+	}
+
 	
 		
 

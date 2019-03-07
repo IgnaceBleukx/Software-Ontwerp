@@ -172,6 +172,11 @@ public class DomainFacade {
 		col.changeCellValue(i,string);
 		
 	}
+
+	public void toggleColumnType(Column col) {
+		col.setNextType();
+		
+	}
 	
 
 }

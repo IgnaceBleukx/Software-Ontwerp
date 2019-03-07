@@ -23,7 +23,19 @@ public class Cell<T> extends DomainElement {
 	 */
 	public void setValue (T v){
 		this.value = v;
+		this.blank = false;
 	}
+	
+	public void setBlank(){
+		blank = false;
+	}
+	
+	public void makeBlank(){
+		this.value = (T) getColumn().getDefault();
+		this.blank = false;
+	}
+	
+	private boolean blank = true;
 	
 //	/**
 //	 * This method returns the row of the current Cell.

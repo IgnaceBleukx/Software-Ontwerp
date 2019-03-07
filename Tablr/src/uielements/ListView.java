@@ -143,14 +143,10 @@ public class ListView extends UIElement {
 		elements.clear();
 		for(Column col : communicationManager.getColumns(table)){
 			TextField colName = new TextField(10+margin,y,200,50,  col.getName());
-			TextField colType = new TextField(210+margin,y,150,50, col.getColumnType().toString());
+			Text colType = new Text(210+margin,y,150,50, col.getColumnType().toString()); colType.setBorder(true);
 			Checkbox colBlankPol = new Checkbox(375+margin,y+15,20,20, col.getBlankingPolicy());
 			TextField colDef = new TextField(410+margin,y,160-margin,50, col.getDefault().toString());
 						
-			colBlankPol.addSingleClickListener(() -> {
-				communicationManager.toggleBlanks(col);
-			});
-			
 			ArrayList<UIElement> list = new ArrayList<UIElement>(){{ add(colName); add(colType); add(colBlankPol); add(colDef);}};		
 			this.addAllElements(list);
 						
@@ -158,8 +154,16 @@ public class ListView extends UIElement {
 			this.addElement(uiRow);
 			y += 50;
 			
+			//Adding listeners
 			uiRow.addSingleClickListener(() -> {
 				setSelectedElement(uiRow);
+			});
+			colBlankPol.addSingleClickListener(() -> {
+				communicationManager.toggleBlanks(col);
+			});
+			colType.addSingleClickListener(() -> {
+				communicationManager.toggleColumnType(col);
+				loadColumnAttributes(table);
 			});
 			
 		}
