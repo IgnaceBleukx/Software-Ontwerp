@@ -4,20 +4,20 @@
   <element>
     <id>UMLUseCase</id>
     <coordinates>
-      <x>370</x>
-      <y>230</y>
+      <x>390</x>
+      <y>130</y>
       <w>200</w>
       <h>50</h>
     </coordinates>
-    <panel_attributes>Use case 4.5: Add Column
+    <panel_attributes>Use case 4.8: Add Row
 </panel_attributes>
     <additional_attributes/>
   </element>
   <element>
     <id>UMLClass</id>
     <coordinates>
-      <x>630</x>
-      <y>210</y>
+      <x>650</x>
+      <y>110</y>
       <w>220</w>
       <h>80</h>
     </coordinates>
@@ -30,20 +30,20 @@ style=wordwrap</panel_attributes>
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>770</x>
-      <y>550</y>
+      <x>790</x>
+      <y>450</y>
       <w>240</w>
       <h>40</h>
     </coordinates>
     <panel_attributes>lt=&lt;&lt;.
-addEmptyColumn()</panel_attributes>
+addRow()</panel_attributes>
     <additional_attributes>220.0;20.0;10.0;20.0</additional_attributes>
   </element>
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>980</x>
-      <y>390</y>
+      <x>1000</x>
+      <y>290</y>
       <w>30</w>
       <h>400</h>
     </coordinates>
@@ -53,8 +53,8 @@ addEmptyColumn()</panel_attributes>
   <element>
     <id>UMLClass</id>
     <coordinates>
-      <x>930</x>
-      <y>350</y>
+      <x>950</x>
+      <y>250</y>
       <w>130</w>
       <h>30</h>
     </coordinates>
@@ -64,8 +64,8 @@ addEmptyColumn()</panel_attributes>
   <element>
     <id>UMLActor</id>
     <coordinates>
-      <x>50</x>
-      <y>280</y>
+      <x>70</x>
+      <y>180</y>
       <w>60</w>
       <h>110</h>
     </coordinates>
@@ -75,20 +75,20 @@ addEmptyColumn()</panel_attributes>
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>70</x>
-      <y>400</y>
+      <x>90</x>
+      <y>300</y>
       <w>280</w>
       <h>40</h>
     </coordinates>
     <panel_attributes>lt=&lt;&lt;.
-Double-clicks below the list of columns</panel_attributes>
+Double-clicks below the list of rows</panel_attributes>
     <additional_attributes>260.0;20.0;10.0;20.0</additional_attributes>
   </element>
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>320</x>
-      <y>390</y>
+      <x>340</x>
+      <y>290</y>
       <w>30</w>
       <h>410</h>
     </coordinates>
@@ -98,8 +98,8 @@ Double-clicks below the list of columns</panel_attributes>
   <element>
     <id>UMLClass</id>
     <coordinates>
-      <x>280</x>
-      <y>350</y>
+      <x>300</x>
+      <y>250</y>
       <w>100</w>
       <h>30</h>
     </coordinates>
@@ -109,8 +109,8 @@ Double-clicks below the list of columns</panel_attributes>
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>770</x>
-      <y>380</y>
+      <x>790</x>
+      <y>280</y>
       <w>30</w>
       <h>410</h>
     </coordinates>
@@ -120,8 +120,8 @@ Double-clicks below the list of columns</panel_attributes>
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>500</x>
-      <y>500</y>
+      <x>520</x>
+      <y>400</y>
       <w>300</w>
       <h>40</h>
     </coordinates>
@@ -132,8 +132,8 @@ getCommunicationManager()</panel_attributes>
   <element>
     <id>UMLClass</id>
     <coordinates>
-      <x>680</x>
-      <y>350</y>
+      <x>700</x>
+      <y>250</y>
       <w>180</w>
       <h>30</h>
     </coordinates>
@@ -143,8 +143,8 @@ getCommunicationManager()</panel_attributes>
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>500</x>
-      <y>390</y>
+      <x>520</x>
+      <y>290</y>
       <w>30</w>
       <h>400</h>
     </coordinates>
@@ -154,8 +154,8 @@ getCommunicationManager()</panel_attributes>
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>320</x>
-      <y>440</y>
+      <x>340</x>
+      <y>340</y>
       <w>210</w>
       <h>60</h>
     </coordinates>
@@ -168,8 +168,8 @@ See how click is handled</panel_attributes>
   <element>
     <id>UMLClass</id>
     <coordinates>
-      <x>450</x>
-      <y>350</y>
+      <x>470</x>
+      <y>250</y>
       <w>140</w>
       <h>30</h>
     </coordinates>
@@ -179,33 +179,20 @@ See how click is handled</panel_attributes>
   <element>
     <id>Text</id>
     <coordinates>
-      <x>1010</x>
-      <y>560</y>
+      <x>1030</x>
+      <y>460</y>
       <w>180</w>
-      <h>90</h>
+      <h>50</h>
     </coordinates>
-    <panel_attributes>Columns name is ColumnN, type = String, blanks are allowed and default value is blank
-style=wordwrap</panel_attributes>
-    <additional_attributes/>
-  </element>
-  <element>
-    <id>UMLNote</id>
-    <coordinates>
-      <x>920</x>
-      <y>210</y>
-      <w>140</w>
-      <h>70</h>
-    </coordinates>
-    <panel_attributes>Nog geen functie die de kolommen herlaadt?
-bg=blue
+    <panel_attributes>Value for each column is column's default value
 style=wordwrap</panel_attributes>
     <additional_attributes/>
   </element>
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>70</x>
-      <y>390</y>
+      <x>90</x>
+      <y>290</y>
       <w>30</w>
       <h>410</h>
     </coordinates>

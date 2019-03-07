@@ -4,20 +4,20 @@
   <element>
     <id>UMLUseCase</id>
     <coordinates>
-      <x>370</x>
-      <y>230</y>
+      <x>500</x>
+      <y>280</y>
       <w>200</w>
       <h>50</h>
     </coordinates>
-    <panel_attributes>Use case 4.5: Add Column
+    <panel_attributes>Use case 4.5: Delete Column
 </panel_attributes>
     <additional_attributes/>
   </element>
   <element>
     <id>UMLClass</id>
     <coordinates>
-      <x>630</x>
-      <y>210</y>
+      <x>760</x>
+      <y>260</y>
       <w>220</w>
       <h>80</h>
     </coordinates>
@@ -30,42 +30,42 @@ style=wordwrap</panel_attributes>
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>770</x>
-      <y>550</y>
+      <x>900</x>
+      <y>570</y>
       <w>240</w>
       <h>40</h>
     </coordinates>
     <panel_attributes>lt=&lt;&lt;.
-addEmptyColumn()</panel_attributes>
+highlightColumn()</panel_attributes>
     <additional_attributes>220.0;20.0;10.0;20.0</additional_attributes>
   </element>
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>980</x>
-      <y>390</y>
+      <x>1110</x>
+      <y>430</y>
       <w>30</w>
-      <h>400</h>
+      <h>210</h>
     </coordinates>
     <panel_attributes>lt=.</panel_attributes>
-    <additional_attributes>10.0;380.0;10.0;10.0</additional_attributes>
+    <additional_attributes>10.0;190.0;10.0;10.0</additional_attributes>
   </element>
   <element>
     <id>UMLClass</id>
     <coordinates>
-      <x>930</x>
-      <y>350</y>
+      <x>1060</x>
+      <y>630</y>
       <w>130</w>
       <h>30</h>
     </coordinates>
-    <panel_attributes>DomainFacade</panel_attributes>
+    <panel_attributes>UIFacade</panel_attributes>
     <additional_attributes/>
   </element>
   <element>
     <id>UMLActor</id>
     <coordinates>
-      <x>50</x>
-      <y>280</y>
+      <x>70</x>
+      <y>340</y>
       <w>60</w>
       <h>110</h>
     </coordinates>
@@ -75,20 +75,20 @@ addEmptyColumn()</panel_attributes>
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>70</x>
-      <y>400</y>
-      <w>280</w>
+      <x>90</x>
+      <y>450</y>
+      <w>390</w>
       <h>40</h>
     </coordinates>
     <panel_attributes>lt=&lt;&lt;.
-Double-clicks below the list of columns</panel_attributes>
-    <additional_attributes>260.0;20.0;10.0;20.0</additional_attributes>
+Clicks the margin to the left of some column's name</panel_attributes>
+    <additional_attributes>370.0;20.0;10.0;20.0</additional_attributes>
   </element>
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>320</x>
-      <y>390</y>
+      <x>450</x>
+      <y>440</y>
       <w>30</w>
       <h>410</h>
     </coordinates>
@@ -98,8 +98,8 @@ Double-clicks below the list of columns</panel_attributes>
   <element>
     <id>UMLClass</id>
     <coordinates>
-      <x>280</x>
-      <y>350</y>
+      <x>410</x>
+      <y>400</y>
       <w>100</w>
       <h>30</h>
     </coordinates>
@@ -109,8 +109,8 @@ Double-clicks below the list of columns</panel_attributes>
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>770</x>
-      <y>380</y>
+      <x>900</x>
+      <y>430</y>
       <w>30</w>
       <h>410</h>
     </coordinates>
@@ -120,8 +120,8 @@ Double-clicks below the list of columns</panel_attributes>
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>500</x>
-      <y>500</y>
+      <x>630</x>
+      <y>550</y>
       <w>300</w>
       <h>40</h>
     </coordinates>
@@ -132,8 +132,8 @@ getCommunicationManager()</panel_attributes>
   <element>
     <id>UMLClass</id>
     <coordinates>
-      <x>680</x>
-      <y>350</y>
+      <x>810</x>
+      <y>400</y>
       <w>180</w>
       <h>30</h>
     </coordinates>
@@ -143,19 +143,19 @@ getCommunicationManager()</panel_attributes>
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>500</x>
-      <y>390</y>
+      <x>630</x>
+      <y>410</y>
       <w>30</w>
-      <h>400</h>
+      <h>220</h>
     </coordinates>
     <panel_attributes>lt=.</panel_attributes>
-    <additional_attributes>10.0;380.0;10.0;10.0</additional_attributes>
+    <additional_attributes>10.0;200.0;10.0;10.0</additional_attributes>
   </element>
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>320</x>
-      <y>440</y>
+      <x>450</x>
+      <y>490</y>
       <w>210</w>
       <h>60</h>
     </coordinates>
@@ -168,48 +168,117 @@ See how click is handled</panel_attributes>
   <element>
     <id>UMLClass</id>
     <coordinates>
-      <x>450</x>
-      <y>350</y>
+      <x>580</x>
+      <y>630</y>
       <w>140</w>
       <h>30</h>
     </coordinates>
-    <panel_attributes>DoubleClickListener</panel_attributes>
-    <additional_attributes/>
-  </element>
-  <element>
-    <id>Text</id>
-    <coordinates>
-      <x>1010</x>
-      <y>560</y>
-      <w>180</w>
-      <h>90</h>
-    </coordinates>
-    <panel_attributes>Columns name is ColumnN, type = String, blanks are allowed and default value is blank
-style=wordwrap</panel_attributes>
-    <additional_attributes/>
-  </element>
-  <element>
-    <id>UMLNote</id>
-    <coordinates>
-      <x>920</x>
-      <y>210</y>
-      <w>140</w>
-      <h>70</h>
-    </coordinates>
-    <panel_attributes>Nog geen functie die de kolommen herlaadt?
-bg=blue
-style=wordwrap</panel_attributes>
+    <panel_attributes>KeyboardListener</panel_attributes>
     <additional_attributes/>
   </element>
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>70</x>
-      <y>390</y>
+      <x>90</x>
+      <y>450</y>
       <w>30</w>
       <h>410</h>
     </coordinates>
     <panel_attributes>lt=.</panel_attributes>
     <additional_attributes>10.0;390.0;10.0;10.0</additional_attributes>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>90</x>
+      <y>670</y>
+      <w>390</w>
+      <h>40</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;&lt;.
+Presses the Delete key</panel_attributes>
+    <additional_attributes>370.0;20.0;10.0;20.0</additional_attributes>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>580</x>
+      <y>390</y>
+      <w>140</w>
+      <h>30</h>
+    </coordinates>
+    <panel_attributes>SingleClickListener</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>630</x>
+      <y>660</y>
+      <w>30</w>
+      <h>190</h>
+    </coordinates>
+    <panel_attributes>lt=.</panel_attributes>
+    <additional_attributes>10.0;170.0;10.0;10.0</additional_attributes>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>450</x>
+      <y>700</y>
+      <w>210</w>
+      <h>60</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;&lt;.
+. . .
+
+See how click is handled</panel_attributes>
+    <additional_attributes>190.0;20.0;10.0;20.0</additional_attributes>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>630</x>
+      <y>730</y>
+      <w>300</w>
+      <h>40</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;&lt;.
+getCommunicationManager()</panel_attributes>
+    <additional_attributes>280.0;20.0;10.0;20.0</additional_attributes>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>1110</x>
+      <y>660</y>
+      <w>30</w>
+      <h>190</h>
+    </coordinates>
+    <panel_attributes>lt=.</panel_attributes>
+    <additional_attributes>10.0;170.0;10.0;10.0</additional_attributes>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>1060</x>
+      <y>400</y>
+      <w>130</w>
+      <h>30</h>
+    </coordinates>
+    <panel_attributes>UIFacade</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>900</x>
+      <y>760</y>
+      <w>240</w>
+      <h>40</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;&lt;.
+removeColumn()</panel_attributes>
+    <additional_attributes>220.0;20.0;10.0;20.0</additional_attributes>
   </element>
 </diagram>
