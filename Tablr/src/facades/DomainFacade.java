@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import domain.Column;
 import domain.Row;
 import domain.Table;
+import domain.Type;
 import uielements.UI;
 
 public class DomainFacade {
@@ -176,6 +177,28 @@ public class DomainFacade {
 	public void toggleColumnType(Column col) {
 		col.setNextType();
 		
+	}
+
+	public void setDefault(Column col, String def) throws ClassCastException {
+		Object o = Column.parseValue(col.getColumnType(), def);
+		col.setDefault(col.getColumnType(), o);
+	}
+
+	public Type getColumnType(Column col) {
+		return col.getColumnType();
+		
+	}
+
+	public String getColumnName(Column col) {
+		return col.getName();
+	}
+
+	public boolean getBlankingPolicy(Column col) {
+		return col.getBlankingPolicy();
+	}
+
+	public Object getDefault(Column col) {
+		return col.getDefault();
 	}
 	
 

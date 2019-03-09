@@ -142,9 +142,9 @@ public class Column extends DomainElement {
 	 */
 	public void setDefault(Type t, Object o) throws ClassCastException{
 		switch (t){
-				case STRING : defaultValues.put(Type.STRING,(String)o); break;
-				case BOOLEAN : defaultValues.put(Type.BOOLEAN, (Boolean) o); break;
-				case EMAIL : defaultValues.put(Type.EMAIL,(String)o); break;
+				case STRING :	 defaultValues.put(Type.STRING,(String)o); break;
+				case BOOLEAN :  defaultValues.put(Type.BOOLEAN, (Boolean) o); break;
+				case EMAIL : 	 defaultValues.put(Type.EMAIL,(String)o); break;
 				case INTEGER : defaultValues.put(Type.INTEGER, (Integer) o); break;
 			}
 	}
@@ -268,31 +268,48 @@ public class Column extends DomainElement {
 
 	public void changeCellValue(int i, String string) throws ClassCastException{
 		Cell<?> newCell;
+		Object v = parseValue(getColumnType(),string);
 		switch(getColumnType()){
-			case BOOLEAN : {
-				if (string == "False" || string == "false" || string == "True" || string == "true") newCell = new Cell<Boolean>(Boolean.parseBoolean(string));
-				else throw new ClassCastException();
-				break;
-			}
-			case INTEGER : {
-				try{
-					newCell = new Cell<Integer>(Integer.parseInt(string));
-				}catch(NumberFormatException e) {
-					throw new ClassCastException();
-				}
-				break;
-			}
-			case EMAIL:  newCell = new Cell<String>(string); break;
-			case STRING: newCell = new Cell<String>(string); break;
+			case BOOLEAN : newCell = new Cell<Boolean>((Boolean) v);break;
+			case INTEGER : newCell = new Cell<Integer>((Integer) v);break;
+			case EMAIL:  	newCell = new Cell<String>(string); break;
+			case STRING: 	newCell = new Cell<String>(string); break;
 			default : throw new ClassCastException();
 		}
 		newCell.setCommunicationManager(getCommunicationManager());
 		newCell.setColumn(this);
 		cells.remove(i);
-		cells.add(i,newCell);
-		
+		cells.add(i,newCell);		
 	}
-
+	
+	public static boolean isValidValue(Type type, String string){
+		switch(type){
+			case BOOLEAN : return (string == "False" || string == "false" || string == "True" || string == "true");
+			case INTEGER : try {
+				Integer.parseInt(string);
+				return true;
+			}catch (NumberFormatException e){
+				return false;
+			}
+			case STRING : return true;
+			case EMAIL : return true;
+			default :  return false;
+		}
+	}
+	
+	public static Object parseValue(Type type, String string) throws ClassCastException {
+		if (!isValidValue(type, string)) throw new ClassCastException();
+		else{
+			switch(type){
+				case BOOLEAN: return Boolean.parseBoolean(string); 
+				case INTEGER : return Integer.parseInt(string);
+				case STRING : return string;
+				case EMAIL: return string;
+				default : return string;
+			}
+			 
+		}
+	}
 
 	
 

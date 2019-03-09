@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import domain.Column;
 import domain.Row;
 import domain.Table;
+import domain.Type;
 import ui.Loadable_Interfaces;
 import uielements.TextField;
 import uielements.UI;
@@ -134,6 +135,26 @@ public class CommunicationManager {
 	public void toggleColumnType(Column col) {
 		domainFacade.toggleColumnType(col);
 		
+	}
+	
+	public void setDefault(Column col, String def) throws ClassCastException {
+		domainFacade.setDefault(col,def);
+	}
+
+	public Type getColumnType(Column col) {
+		return domainFacade.getColumnType(col);
+	}
+
+	public String getColumnName(Column col) {
+		return domainFacade.getColumnName(col);
+	}
+
+	public boolean getBlankingPolicy(Column col) {
+		return domainFacade.getBlankingPolicy(col);
+	}
+
+	public Object getDefault(Column col) {
+		return domainFacade.getDefault(col);
 	}
 
 	
