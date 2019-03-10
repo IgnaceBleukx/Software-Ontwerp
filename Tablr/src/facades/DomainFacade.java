@@ -3,6 +3,7 @@ package facades;
 import java.util.ArrayList;
 
 import domain.Column;
+import domain.InvalidNameException;
 import domain.Row;
 import domain.Table;
 import domain.Type;
@@ -129,7 +130,7 @@ public class DomainFacade {
 		
 	}
 
-	public void changeColumnName(Column col, String text) {
+	public void setColumnName(Column col, String text) throws InvalidNameException {
 		col.setName(text);
 		
 	}
@@ -181,7 +182,7 @@ public class DomainFacade {
 
 	public void setDefault(Column col, String def) throws ClassCastException {
 		Object o = Column.parseValue(col.getColumnType(), def);
-		col.setDefault(col.getColumnType(), o);
+		col.changeDefaultValue(col.getColumnType(), o);
 	}
 
 	public Type getColumnType(Column col) {

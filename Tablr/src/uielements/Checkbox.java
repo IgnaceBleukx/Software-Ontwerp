@@ -22,16 +22,25 @@ public class Checkbox extends UIElement {
 	public void toggle(){
 		checked = !checked;
 	}
+	
+	public void greyOut(){
+		this.greyedOut = true;
+	}
+	
+	public void unGreyOut(){
+		this.greyedOut = false;
+	}
 
 	/**
 	 * Whether this checkbox is checked or not
 	 */
 	private boolean checked = true;
+	private boolean greyedOut = false;
 	
 	@Override
 	public void paint(Graphics g){
-		g.drawRect(super.getX(), super.getY(), super.getWidth(), super.getHeight());
-		if(checked){
+		if (greyedOut) g.fillRect(super.getX(), super.getY(), super.getWidth(), super.getHeight());	
+		else if(checked){
 			int x1 = super.getX();
 			int y1 = super.getY();
 			int x2 = super.getX()+super.getWidth();
@@ -39,6 +48,7 @@ public class Checkbox extends UIElement {
 			g.drawLine(x1, y1, x2, y2);
 			g.drawLine(x1, y2, x2, y1);
 		}
+		g.drawRect(super.getX(), super.getY(), super.getWidth(), super.getHeight());
 	}
 
 	@Override

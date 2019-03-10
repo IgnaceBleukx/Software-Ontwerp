@@ -41,9 +41,10 @@ public class TextField extends UIElement {
 		g.fillRect(super.getX(),super.getY(), super.getWidth(), super.getHeight());
 					
 		
-		if (error)
+		if (error){
 			g.setColor(Color.red);
-		else
+			g.drawRect(super.getX()+1,super.getY()+1, super.getWidth()-2, super.getHeight()-2);
+		}else
 			g.setColor(Color.black);
 		g.drawRect(super.getX(),super.getY(), super.getWidth(), super.getHeight());
 		g.setColor(Color.black);
@@ -76,7 +77,7 @@ public class TextField extends UIElement {
 	public void handleSingleClick() {
 		if (!isSelected) {
 			setSelected();
-			communicationManager.notifyNewSelected((UIElement) this);
+			coMan.notifyNewSelected((UIElement) this);
 			System.out.println("Edit mode...");
 		}
 		

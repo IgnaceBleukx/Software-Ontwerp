@@ -94,7 +94,7 @@ public class UIRow extends UIElement {
 	
 	@Override
 	public void setCommunicationManager(CommunicationManager c) {
-		this.communicationManager = c;
+		this.coMan = c;
 		for (UIElement e : elements) {
 			e.setCommunicationManager(c);
 		}

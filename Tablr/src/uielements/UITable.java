@@ -47,13 +47,13 @@ public class UITable extends UIElement {
 
 	public void loadTable(Table tab,int cellWidth, int cellHeigth) {
 		rows.clear();
-		int rows = communicationManager.getRows(tab).size();
+		int rows = coMan.getRows(tab).size();
 		int y = super.getY()+cellHeigth;
 		for(int i=0;i<rows;i++){
 			int x = super.getX()+20;
 			ArrayList<UIElement> emts = new ArrayList<UIElement>();
-			for(Column col : communicationManager.getColumns(tab)){
-				String val = communicationManager.getValue(col,i).toString();
+			for(Column col : coMan.getColumns(tab)){
+				String val = coMan.getValue(col,i).toString();
 				TextField field =  new TextField(x,y,cellWidth, cellHeigth,val);
 				//field.setCommunicationManager(getCommunicationManager());
 				emts.add(field);
@@ -61,7 +61,7 @@ public class UITable extends UIElement {
 				int index = i;
 				field.addKeyboardListener(10, () -> {
 					try{
-						communicationManager.changeCellValue(col,index,field.getText());
+						coMan.changeCellValue(col,index,field.getText());
 					}catch(ClassCastException e){
 						field.isError();
 					}
@@ -81,7 +81,7 @@ public class UITable extends UIElement {
 			uiRow.addKeyboardListener(127, () -> {
 				if(uiRow.equals(this.selected)){
 					int index = this.rows.indexOf(uiRow);
-					communicationManager.removeRow(tab,index);
+					coMan.removeRow(tab,index);
 					this.rows.remove(uiRow);
 					this.selected = null;
 					System.out.println("Amount of rows in table: " + tab.getRows().size());					
@@ -161,7 +161,7 @@ public class UITable extends UIElement {
 	
 	@Override
 	public void setCommunicationManager(CommunicationManager c) {
-		this.communicationManager = c;
+		this.coMan = c;
 		for (UIElement e : rows) {
 			e.setCommunicationManager(c);
 		}

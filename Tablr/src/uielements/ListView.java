@@ -6,7 +6,9 @@ import java.util.ArrayList;
 import java.util.Iterator;
 
 import domain.Column;
+import domain.InvalidNameException;
 import domain.Table;
+import domain.Type;
 import facades.CommunicationManager;
 
 public class ListView extends UIElement {
@@ -111,8 +113,8 @@ public class ListView extends UIElement {
 			deleteButton.addKeyboardListener(127, () -> {
 				if (getSelectedElement() == currRow) {
 					removeElement((UIElement) currRow); //Remove row from ListView
-					communicationManager.removeTable(curr); //Remove table from list of tables
-					loadFromTables(communicationManager.getTables());
+					coMan.removeTable(curr); //Remove table from list of tables
+					loadFromTables(coMan.getTables());
 				}
 			});
 			
@@ -120,8 +122,8 @@ public class ListView extends UIElement {
 			
 			TextField tableNameLabel = new TextField(getX()+40, getY()+2+i*40, 520, 38, curr.getName());
 			tableNameLabel.addKeyboardListener(-1, () -> {
-				communicationManager.renameTable(curr, tableNameLabel.getText());
-				ArrayList<Table> tablesSameName = communicationManager.getTablesByName(curr.getName());
+				coMan.renameTable(curr, tableNameLabel.getText());
+				ArrayList<Table> tablesSameName = coMan.getTablesByName(curr.getName());
 			
 				if (tablesSameName.size() > 1 && tableNameLabel.isSelected) {
 					tableNameLabel.isError();
@@ -141,14 +143,32 @@ public class ListView extends UIElement {
 		int margin = 20;
 		int y = 30;
 		elements.clear();
-		for(Column col : communicationManager.getColumns(table)){
-			TextField colName = new TextField(10+margin,y,200,50,  communicationManager.getColumnName(col));
-			Text colType = new Text(210+margin,y,150,50, communicationManager.getColumnType(col).toString()); colType.setBorder(true);
-			Checkbox colBlankPol = new Checkbox(375+margin,y+15,20,20, communicationManager.getBlankingPolicy(col));
-			TextField colDef = new TextField(410+margin,y,160-margin,50, communicationManager.getDefault(col).toString());
-						
-			ArrayList<UIElement> list = new ArrayList<UIElement>(){{ add(colName); add(colType); add(colBlankPol); add(colDef);}};		
-
+		for(Column col : coMan.getColumns(table)){
+			TextField colName = new TextField(10+margin,y,200,50,  coMan.getColumnName(col));
+			Text colType = new Text(210+margin,y,150,50, coMan.getColumnType(col).toString()); colType.setBorder(true);
+			Checkbox colBlankPol = new Checkbox(375+margin,y+15,20,20, coMan.getBlankingPolicy(col));
+			
+			Checkbox colDefCheck;
+			//TextField colDefText = null;
+			ArrayList<UIElement> list;
+			if(coMan.getColumnType(col) == Type.BOOLEAN){
+				colDefCheck = new Checkbox(480, y+15,20,20,(boolean) coMan.getDefault(col));
+				list = new ArrayList<UIElement>(){{ add(colName); add(colType); add(colBlankPol); add(colDefCheck);}};
+			}
+			else{
+				TextField colDefText = new TextField(410+margin,y,160-margin,50, coMan.getDefault(col).toString());
+				list = new ArrayList<UIElement>(){{ add(colName); add(colType); add(colBlankPol); add(colDefText);}};
+				colDefText.addKeyboardListener(-1, () -> {
+					if(!Column.isValidValue(coMan.getColumnType(col), colDefText.getText()) && colDefText.isSelected){
+						System.out.println("Non valid value for type");
+						colDefText.isError();
+					}else{
+						System.out.println("Valid value");
+						colDefText.isNotError();
+					}
+				});
+			}
+			
 			UIRow uiRow = new UIRow(10,y,560,50,list);
 			this.addElement(uiRow);
 			y += 50;
@@ -157,21 +177,31 @@ public class ListView extends UIElement {
 			uiRow.addSingleClickListener(() -> {
 				setSelectedElement(uiRow);
 			});
+			uiRow.addKeyboardListener(127,() -> {
+				if(uiRow.equals(getSelectedElement())){
+					coMan.removeColumn(table, elements.indexOf(uiRow));
+					setSelectedElement(null);
+					loadColumnAttributes(table);
+				}
+			});
 			colBlankPol.addSingleClickListener(() -> {
-				communicationManager.toggleBlanks(col);
+				coMan.toggleBlanks(col);
 			});
 			colType.addSingleClickListener(() -> {
-				communicationManager.toggleColumnType(col);
+				coMan.toggleColumnType(col);
 				loadColumnAttributes(table);
+								
 			});
-			colDef.addKeyboardListener(-1, () -> {
-				System.out.println("Keyboard event for " + colDef.toString());
-				if(!Column.isValidValue(communicationManager.getColumnType(col), colDef.getText()) && colDef.isSelected){
-					System.out.println("Non valid value for type");
-					colDef.isError();
-				}else{
-					System.out.println("Valid value");
-					colDef.isNotError();
+			
+			
+			colName.addKeyboardListener(-1,() -> {
+				try{
+					if (colName.isSelected){
+						colName.isNotError();
+						coMan.setColumnName(col, colName.getText());
+					}
+				}catch (InvalidNameException e){
+					colName.isError();
 				}
 			});
 			
@@ -233,7 +263,7 @@ public class ListView extends UIElement {
 
 	@Override
 	public void setCommunicationManager(CommunicationManager c) {
-		this.communicationManager = c;
+		this.coMan = c;
 		for (UIElement e : elements) {
 			e.setCommunicationManager(c);
 		}

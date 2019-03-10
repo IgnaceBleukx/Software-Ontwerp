@@ -3,6 +3,7 @@ package facades;
 import java.util.ArrayList;
 
 import domain.Column;
+import domain.InvalidNameException;
 import domain.Row;
 import domain.Table;
 import domain.Type;
@@ -84,8 +85,8 @@ public class CommunicationManager {
 		
 	}
 
-	public void setColumnName(Column col, String text) {
-		domainFacade.changeColumnName(col,text);
+	public void setColumnName(Column col, String text) throws InvalidNameException {
+		domainFacade.setColumnName(col,text);
 		
 	}
 

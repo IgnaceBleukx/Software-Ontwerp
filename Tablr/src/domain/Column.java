@@ -16,7 +16,7 @@ public class Column extends DomainElement {
 	 * @param newTable
 	 * @param newCells
 	 */
-//	public Column(String name, Type type, Boolean allowsBlanks, HashMap<Type, Object> defaultValues, Table table, ArrayList<Cell<?>> newCells) {
+//	public Column(String name, Type type, defaultValues, Table table, ArrayList<Cell<?>> newCells) {
 //		this.name= name;
 //		this.type = type;
 //		this.allowsBlanks = allowsBlanks;
@@ -29,8 +29,9 @@ public class Column extends DomainElement {
 	 * Constructor of the column. This is the standard constructor that will mostly be used in the program.
 	 * @param newTable
 	 * @param newCells
+	 * @throws InvalidNameException 
 	 */
-	public Column(String newName, ArrayList<Cell<?>> newCells) {
+	public Column(String newName, ArrayList<Cell<?>> newCells) throws InvalidNameException {
 		setColumnType(Type.STRING);
 		allowsBlanks = true;
 		setName(newName);
@@ -54,11 +55,12 @@ public class Column extends DomainElement {
 	/**
 	 * This method sets the name of the column.
 	 * @param name	The name to be set.
+	 * @throws InvalidNameException 
 	 */
-	public void setName(String name) {
+	public void setName(String name) throws InvalidNameException {
 		if (isValidName(name)){
 			this.name = name;
-		}
+		}else throw new InvalidNameException();
 	}
 
 	/**
@@ -66,7 +68,7 @@ public class Column extends DomainElement {
 	 * @param name 	The name to be checked.
 	 */
 	public boolean isValidName(String name){
-		return table == null ? true : !this.getTable().getColumnNames().contains(name);
+		return table == null ? true : name != "" && !this.getTable().getColumnNames().contains(name);
 	}
 	
 	
@@ -88,6 +90,7 @@ public class Column extends DomainElement {
 	 */
 	public void setColumnType(Type type) {
 		this.type = type;
+		this.defaultValue = defaultValues.get(type);
 	}
 	
 	/**
@@ -97,10 +100,10 @@ public class Column extends DomainElement {
 	public void setNextType(){
 		Type t = this.getColumnType();
 		switch (t) {
-			case STRING: 	setColumnType(Type.EMAIL);   break;
-			case EMAIL: 	setColumnType(Type.BOOLEAN); break;
-			case BOOLEAN: 	setColumnType(Type.INTEGER); break;
-			case INTEGER: 	setColumnType(Type.STRING);  break;
+			case STRING: 	this.type = (Type.EMAIL);   break;
+			case EMAIL: 	this.type = (Type.BOOLEAN); break;
+			case BOOLEAN: 	this.type = (Type.INTEGER); break;
+			case INTEGER: 	this.type = (Type.STRING);  break;
 		}
 	}
 	
@@ -140,7 +143,7 @@ public class Column extends DomainElement {
 	 * @param o 	The Value of the type.
 	 * @throws ClassCastException 	This exception is thrown when the given value is non-valid for the given Type.
 	 */
-	public void setDefault(Type t, Object o) throws ClassCastException{
+	public void changeDefaultValue(Type t, Object o) throws ClassCastException{
 		switch (t){
 				case STRING :	 defaultValues.put(Type.STRING,(String)o); break;
 				case BOOLEAN :  defaultValues.put(Type.BOOLEAN, (Boolean) o); break;
@@ -148,12 +151,14 @@ public class Column extends DomainElement {
 				case INTEGER : defaultValues.put(Type.INTEGER, (Integer) o); break;
 			}
 	}
+	
+	private Object defaultValue;
 		
 	/**
 	 * This method returns the default value of the current columnType.
 	 */
 	public Object getDefault(){
-		return defaultValues.get(getColumnType());
+		return defaultValue;
 	}
 		
 	

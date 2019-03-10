@@ -1,5 +1,6 @@
 package uielements;
 
+import java.awt.Color;
 import java.awt.Font;
 import java.awt.Graphics;
 
@@ -18,9 +19,19 @@ public class Text extends UIElement {
 	
 	private String text;
 	private boolean border = false;
+	private boolean error;
 	
 	public void setBorder(boolean b){
 		border = b;
+	}
+	
+	public void isError() {
+		this.error = true;
+		
+	}
+	
+	public void isNotError(){
+		this.error = false;
 	}
 
 	/*
@@ -41,6 +52,8 @@ public class Text extends UIElement {
 	@Override
 	public void paint(Graphics g) {
 		super.drawCenteredText(g, this.getText());
+		if(error) g.setColor(Color.red);
+		else g.setColor(Color.black);
 		if(border) g.drawRect(super.getX(), super.getY(), super.getWidth(), super.getHeight());
 
 	}
@@ -67,5 +80,7 @@ public class Text extends UIElement {
 			r.run();
 		}
 	}
+
+	
 
 }

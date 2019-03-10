@@ -14,14 +14,14 @@ public abstract class UIElement {
 	/**
 	 * Reference to the communicationsmanager that is used to talk to the UI.
 	 */
-	protected CommunicationManager communicationManager;
+	protected CommunicationManager coMan;
 
 	public void setCommunicationManager(CommunicationManager c) {
-		this.communicationManager = c;
+		this.coMan = c;
 	}
 	
 	public CommunicationManager getCommunicationManager() {
-		return this.communicationManager;
+		return this.coMan;
 	}
 	
 	

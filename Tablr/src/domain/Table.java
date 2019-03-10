@@ -61,13 +61,18 @@ public class Table extends DomainElement {
 //	}
  	
  	public Column addEmptyColumn(){
- 		Column col = new Column(newColumnName(), null);
- 		while(col.getCells().size() != rows.size()){
- 			col.addBlankCell();
- 		}
- 		col.setTable(this);
- 		this.columns.add(col);
- 		return col;
+ 		Column col;
+		try {
+			col = new Column(newColumnName(), null);
+			while(col.getCells().size() != rows.size()){
+				col.addBlankCell();
+			}
+			col.setTable(this);
+			this.columns.add(col);
+			return col;
+		} catch (InvalidNameException e) {
+			return null;
+		}
  	}
 	
 //	/**
