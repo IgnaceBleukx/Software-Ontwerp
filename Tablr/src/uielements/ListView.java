@@ -11,6 +11,7 @@ import domain.InvalidTypeException;
 import domain.Table;
 import domain.Type;
 import facades.CommunicationManager;
+import ui.Loadable_Interfaces;
 
 public class ListView extends UIElement {
 
@@ -136,10 +137,10 @@ public class ListView extends UIElement {
 					loadFromTables(c.getTables());
 				}
 			});
-			
 			currRow.addElement(deleteButton);
 			
 			TextField tableNameLabel = new TextField(getX()+40, getY()+2+i*40, 520, 38, curr.getName());
+			//Table name textfields listen to alphanumeric keyboard input
 			tableNameLabel.addKeyboardListener(-1, () -> {
 				c.renameTable(curr, tableNameLabel.getText());
 				ArrayList<Table> tablesSameName = c.getTablesByName(curr.getName());
@@ -151,6 +152,12 @@ public class ListView extends UIElement {
 					tableNameLabel.isNotError();
 				}
 			});
+			//Table name textfields listen to double click events to switch modes
+			tableNameLabel.addDoubleClickListener(() -> {
+				getCommunicationManager().setActiveTable(curr);
+				getCommunicationManager().loadUI(Loadable_Interfaces.TABLE_DESIGN);
+			});
+
 			currRow.addElement(tableNameLabel);
 			
 			addElement(currRow);

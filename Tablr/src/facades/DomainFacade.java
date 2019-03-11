@@ -20,7 +20,16 @@ public class DomainFacade {
 	/**
 	 * Tables
 	 */
-	ArrayList<Table> tables = new ArrayList<Table>();
+	ArrayList<Table> tables = new ArrayList<>();
+
+	/**
+	 * The active table is the table that is used when in
+	 * TABLE_DESIGN or TABLE_ROWS mode. UI Elements need to
+	 * manually set a new table as active before switching modes.
+	 * While in TABLES mode, the variable activeTable may be set
+	 * but is not used.
+	 */
+	private Table activeTable;
 	
 	private CommunicationManager communicationManager;
 	
@@ -35,7 +44,17 @@ public class DomainFacade {
 	public CommunicationManager getCommunicationManager() {
 		return communicationManager;
 	}
-	
+
+	/**
+	 * Sets the active table to some table t
+	 */
+	public void setActiveTable(Table t) {
+		this.activeTable = t;
+	}
+
+	public Table getActiveTable() {
+		return this.activeTable;
+	}
 	/**
 	 * Adds a new table to the list of tables
 	 * @param table		Table to add

@@ -84,7 +84,6 @@ public class TextField extends UIElement {
 			//setSelected();
 			c.notifyNewSelected(this);
 			this.prevText = getText();
-			System.out.println("[Textfield.java: 87] setting prevText to "+getText());
 		}
 	}
 	
@@ -93,6 +92,10 @@ public class TextField extends UIElement {
 	public void handleDoubleClick() {
 		if(getCommunicationManager().getLockedElement() != (null) && !getCommunicationManager().getLockedElement().equals(this)){
 			return;
+		}
+
+		for (Runnable r : this.doubleClickListeners ) {
+			r.run();
 		}
 		
 	}
@@ -109,7 +112,6 @@ public class TextField extends UIElement {
 		}
 
 		if (keyCode == 27 && !getError() && isSelected) {
-			System.out.println("[TextField.java:112] Restoring text: "+getPrevText());
 			restoreText();
 			setNotSelected();
 		}

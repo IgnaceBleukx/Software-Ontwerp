@@ -30,6 +30,18 @@ public class CommunicationManager {
 		domainFacade = new DomainFacade(this);
 		UIFacade = new UIFacade(this);
 	}
+
+	public Table getActiveTable() {
+		return domainFacade.getActiveTable();
+	}
+
+	public void setActiveTable(Table t) {
+		domainFacade.setActiveTable(t);
+	}
+
+	public void loadInterface(Loadable_Interfaces i) {
+		UIFacade.loadUI(i);
+	}
 	
 	public void loadUI(Loadable_Interfaces i) {
 		UIFacade.loadUI(i);
