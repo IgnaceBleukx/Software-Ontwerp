@@ -29,7 +29,7 @@ public class TablesModeTests {
 		assertTrue(coMan.getTables().size() == 0);
 		// Step 2: The user double-clicks below the list of tables
 		myCW.handleMouseEvent(0, 40, 530 , 2);
-		// Step 3: Therer is a table added to the tables list
+		// Step 3: Thereris a table added to the tables list
 		assertTrue(coMan.getTables().size() == 1);
 	}
 	
