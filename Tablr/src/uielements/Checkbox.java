@@ -62,11 +62,15 @@ public class Checkbox extends UIElement {
 			g.drawLine(x1, y1, x2, y2);
 			g.drawLine(x1, y2, x2, y1);
 		}
+		if (getError()) g.setColor(Color.red);
 		g.drawRect(super.getX(), super.getY(), super.getWidth(), super.getHeight());
 	}
 
 	@Override
 	public void handleSingleClick() {
+		if(getCommunicationManager().getLockedElement() != (null) && !getCommunicationManager().getLockedElement().equals(this)){
+			return;
+		}
 		//System.out.println("Checkbox pressed");
 		toggle();
 		for (Runnable r : this.singleClickListeners) {
@@ -77,11 +81,17 @@ public class Checkbox extends UIElement {
 
 	@Override
 	public void handleDoubleClick() {
+		if(getCommunicationManager().getLockedElement() != (null) && !getCommunicationManager().getLockedElement().equals(this)){
+			return;
+		}
 		return;
 	}
 
 	@Override
 	public void handleKeyboardEvent(int keyCode, char keyChar) {
+		if(getCommunicationManager().getLockedElement() != (null) && !getCommunicationManager().getLockedElement().equals(this)){
+			return;
+		}
 		if (keyboardListeners.get(keyCode) == null)
 			return;
 		

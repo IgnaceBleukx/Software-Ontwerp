@@ -139,7 +139,8 @@ public class Column extends DomainElement {
 		return allowsBlanks;
 	}
 
-	public void toggleBlanks(){
+	public void toggleBlanks() throws Exception{
+		if (allowsBlanks && getDefault() == null) throw new Exception("The column default is blank");
 		allowsBlanks = !allowsBlanks;
 	}
 	
@@ -161,6 +162,7 @@ public class Column extends DomainElement {
 	 * @throws ClassCastException 	This exception is thrown when the given value is non-valid for the given Type.
 	 */
 	public void changeDefaultValue(Type t, Object o) throws ClassCastException{
+		if(o != null && o.equals("") && !getBlankingPolicy()) throw new ClassCastException();
 		switch (t){
 				case STRING :	 defaultValues.put(Type.STRING,(String)o); break;
 				case BOOLEAN :  defaultValues.put(Type.BOOLEAN, (Boolean) o); break;
@@ -351,6 +353,7 @@ public class Column extends DomainElement {
 	 * @param string	Value 
 	 */
 	public static boolean isValidValue(Type type, String string){
+		if (string == "") return true;
 		switch(type){
 			case BOOLEAN : return (string == "False" || string == "false" || string == "True" || string == "true");
 			case INTEGER : try {
@@ -375,6 +378,7 @@ public class Column extends DomainElement {
 	 */
 	public static Object parseValue(Type type, String string) throws ClassCastException {
 		if (!isValidValue(type, string)) throw new ClassCastException();
+		else if (string == "") return null;
 		else{
 			switch(type){
 				case BOOLEAN: return Boolean.parseBoolean(string); 

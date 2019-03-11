@@ -85,7 +85,7 @@ public class CommunicationManager {
 		domainFacade.renameTable(t, name);
 	}
 	
-	public void toggleBlanks(Column col){
+	public void toggleBlanks(Column col) throws Exception{
 		domainFacade.toggleBlanks(col);
 	}
 	
@@ -181,6 +181,20 @@ public class CommunicationManager {
 
 	public void toggleDefault(Column col) {
 		domainFacade.toggleDefault(col);
+	}
+
+	public void getLock(UIElement e) {
+		UIFacade.getLock(e);
+		
+	}
+
+	public void releaseLock(UIElement e) {
+		UIFacade.releaseLock(e);
+		
+	}
+
+	public UIElement getLockedElement() {
+		return UIFacade.getLockedElement();
 	}
 	
 		

@@ -185,13 +185,6 @@ public class ListView extends UIElement {
 			else{
 				TextField colDefText = new TextField(410+margin,y,160-margin,50, c.getDefault(col).toString());
 				list = new ArrayList<UIElement>(){{ add(colName); add(colType); add(colBlankPol); add(colDefText);}};
-				colDefText.addKeyboardListener(-1, () -> {
-					if(!Column.isValidValue(c.getColumnType(col), colDefText.getText()) && colDefText.isSelected){
-						System.out.println("Non valid value for type");
-						colDefText.isError();
-					}else if (colDefText.getError()) colDefText.isNotError();
-		
-				});
 			}
 			
 			UIRow uiRow = new UIRow(10,y,560,50,list);
@@ -211,7 +204,17 @@ public class ListView extends UIElement {
 			});
 			
 			colBlankPol.addSingleClickListener(() -> {
-				c.toggleBlanks(col);
+				if (!colBlankPol.getError()){
+					try {
+						c.toggleBlanks(col);
+					} catch (Exception e) {
+						colBlankPol.isError();
+						c.getLock(colBlankPol);
+					}
+				}else {
+					colBlankPol.isNotError();
+					c.releaseLock(colBlankPol);
+				}
 			});
 			
 			colType.addSingleClickListener(() -> {
@@ -251,6 +254,9 @@ public class ListView extends UIElement {
 
 	@Override
 	public void handleSingleClick() {
+		if(getCommunicationManager().getLockedElement() != (null) && !getCommunicationManager().getLockedElement().equals(this)){
+			return;
+		}
 		c.notifyNewSelected((UIElement) this);
 		
 		for (Runnable r: singleClickListeners){
@@ -260,6 +266,9 @@ public class ListView extends UIElement {
 
 	@Override
 	public void handleDoubleClick() {
+		if(getCommunicationManager().getLockedElement() != (null) && !getCommunicationManager().getLockedElement().equals(this)){
+			return;
+		}
 		for (Runnable r: doubleClickListeners){
 			r.run();
 		}
@@ -267,6 +276,9 @@ public class ListView extends UIElement {
 
 	@Override
 	public void handleKeyboardEvent(int keyCode, char keyChar) {
+		if(getCommunicationManager().getLockedElement() != (null) && !getCommunicationManager().getLockedElement().equals(this)){
+			return;
+		}
 		for (int i=0;i<elements.size();i++) {
 			elements.get(i).handleKeyboardEvent(keyCode, keyChar);
 		}

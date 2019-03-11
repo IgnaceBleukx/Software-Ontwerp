@@ -123,7 +123,7 @@ public class DomainFacade {
 		t.setName(newName);
 	}
 
-	public void toggleBlanks(Column col) {
+	public void toggleBlanks(Column col) throws Exception {
 		col.toggleBlanks();
 		
 	}
@@ -184,6 +184,7 @@ public class DomainFacade {
 	}
 
 	public void setDefault(Column col, String def) throws ClassCastException {
+		System.out.println("Trying to set default value to : " + def);
 		Object o = Column.parseValue(col.getColumnType(), def);
 		col.changeDefaultValue(col.getColumnType(), o);
 	}
