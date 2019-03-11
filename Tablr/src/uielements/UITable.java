@@ -149,13 +149,13 @@ public class UITable extends UIElement {
 	
 	@Override
 	public void selectElement(UIElement e) {
-		if (e == this) {
-			isSelected = true;
-		}
-		else {
-			for (UIElement el : rows) {
-				el.selectElement(e);
-			}
+		if (e==this) 
+			setSelected();
+		else
+			setNotSelected();
+		
+		for (UIElement el : rows) {
+			el.selectElement(e);
 		}
 	}
 	

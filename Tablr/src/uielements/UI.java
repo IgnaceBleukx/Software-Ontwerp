@@ -23,8 +23,8 @@ public class UI {
 	 */
 	public UI(Loadable_Interfaces i) {
 		switch (i) {
-			case TABLES: loadTableDesignInterface(); break;
-			case TABLE_DESIGN: loadTablesInterface(); break;
+			case TABLES: loadTablesInterface(); break;
+			case TABLE_DESIGN: loadTableDesignInterface(); break;
 			case TABLE_ROWS: loadTableRowsInterface(); break;
 			case TEST: loadTestInterface(); break;
 		}
@@ -33,8 +33,7 @@ public class UI {
 
 	
 	public void loadTestInterface() {				
-
-		
+	
 	}
 	
 	/**
@@ -189,6 +188,10 @@ public class UI {
 		e.setCommunicationManager(null);
 	}
 	
+	public void clear() {
+		this.elements.clear();
+	}
+	
 	/**
 	 * This method paints the current canvaswindow.UI.
 	 */
@@ -237,12 +240,14 @@ public class UI {
 	public void selectElement(UIElement newElement) {
 		//An element has placed a lock on selecting other elements
 		if (lockedSelectedElement != null) { 
+			System.out.println("[UI.java:243] cannot select because locked.");
 			return;
 		}
 		
 		for (UIElement e : getElements()) {
+			//Notify all elements that a new element has been selected.
 			e.selectElement(newElement);
-			newElement.setSelected();
+			System.out.println("[UI.java:250] Selected "+newElement);
 		}
 	}
 }

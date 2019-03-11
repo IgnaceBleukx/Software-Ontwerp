@@ -9,10 +9,18 @@ import domain.Row;
 import domain.Table;
 import domain.Type;
 import ui.Loadable_Interfaces;
-import uielements.TextField;
 import uielements.UI;
 import uielements.UIElement;
 
+/**
+ * Class holding all methods that are used by elements in the UI
+ * to modify the domain, and by domain elements to modify the UI.
+ * The CommunicationManager delegates its calls to one of its 
+ * facades (domainFacade or UIFacade) to reduce coupling between
+ * UI and Domain, because objects only need a reference to the
+ * CommunicationManager.
+ *
+ */
 public class CommunicationManager {
 	
 	DomainFacade domainFacade;
@@ -25,6 +33,10 @@ public class CommunicationManager {
 	
 	public void loadUI(Loadable_Interfaces i) {
 		UIFacade.loadUI(i);
+	}
+	
+	public void clearUI() {
+		UIFacade.clearUI();
 	}
 	
 	public Table addEmptyTable() {
@@ -169,7 +181,6 @@ public class CommunicationManager {
 
 	public void toggleDefault(Column col) {
 		domainFacade.toggleDefault(col);
-		
 	}
 	
 		

@@ -199,6 +199,9 @@ public class Table extends DomainElement {
 		}
 	}
 	
+	/**
+	 * Sets the communication manager for this table, and all its columns.
+	 */
 	@Override
 	public void setCommunicationManager(CommunicationManager c) {
 		this.communicationManager = c;

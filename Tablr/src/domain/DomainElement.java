@@ -11,7 +11,7 @@ public class DomainElement {
 	protected CommunicationManager communicationManager;
 	
 	/**
-	 * Sets the communicationManager for this DomainElement
+	 * Sets the communicationManager for this DomainElement.
 	 * @param c
 	 */
 	public void setCommunicationManager(CommunicationManager c) {
@@ -25,11 +25,21 @@ public class DomainElement {
 		return this.communicationManager;
 	}
 	
+	/**
+	 * Variable representing whether this DomainElement is in the Error state.
+	 */
 	private boolean isError = false;
 	
+	/**
+	 * Sets the state of this DomainElement to the Error state.
+	 */
 	public void isError(){
 		isError = true;
 	}
+	
+	/**
+	 * Sets the state of this DomainElement to the 'not-Error' state.
+	 */
 	public void isNotError(){
 		isError = false;
 	}

@@ -30,12 +30,14 @@ public abstract class UIElement {
 	private boolean error = false;
 	
 	public void isError() {
+		System.out.println("[UIElement.java:33] Acquired selection lock on "+this);
 		getCommunicationManager().getSelectionLock(this);
 		this.error = true;
 	}
 	
 	public void isNotError() {
 		this.error = false;
+		System.out.println("[UIElement.java:40] Released selection lock on "+this);
 		getCommunicationManager().releaseSelectionLock(this);
 	}
 	
@@ -223,5 +225,4 @@ public abstract class UIElement {
 			setNotSelected();
 		}
 	}
-
 }

@@ -82,13 +82,13 @@ public class UIRow extends UIElement {
 	
 	@Override
 	public void selectElement(UIElement e) {
-		if (e == this) {
-			isSelected = true;
-		}
-		else {
-			for (UIElement el : elements) {
-				el.selectElement(e);
-			}
+		if (e==this) 
+			setSelected();
+		else
+			setNotSelected();
+		
+		for (UIElement el : elements) {
+			el.selectElement(e);
 		}
 	}
 	
