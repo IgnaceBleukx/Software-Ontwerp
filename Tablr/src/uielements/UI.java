@@ -240,12 +240,14 @@ public class UI {
 	public void selectElement(UIElement newElement) {
 		//An element has placed a lock on selecting other elements
 		if (lockedSelectedElement != null) { 
+			System.out.println("[UI.java:243] cannot select because locked.");
 			return;
 		}
 		
 		for (UIElement e : getElements()) {
+			//Notify all elements that a new element has been selected.
 			e.selectElement(newElement);
-			newElement.setSelected();
+			System.out.println("[UI.java:250] Selected "+newElement);
 		}
 	}
 }

@@ -55,11 +55,10 @@ public class TextField extends UIElement {
 		g.setColor(Color.black);
 		int y = this.getY() +  ((this.getHeight() - metrics.getHeight()) / 2) + metrics.getAscent();
 		
-		if (isSelected == false)
+		if (!this.isSelected())
 			g.drawString(this.getText(), super.getX()+10, y);
 		else
 			g.drawString(this.getText() + "<", super.getX()+10, y);
-
 	}
 	
 	@Override
