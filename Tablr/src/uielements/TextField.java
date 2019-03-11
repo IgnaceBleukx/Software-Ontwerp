@@ -23,6 +23,20 @@ public class TextField extends UIElement {
 	 * The text in this Textfield
 	 */
 	private String text;
+
+	/**
+	 * Last text before started editing
+	 */
+	private String prevText;
+
+	public String getPrevText() {
+		return prevText;
+	}
+
+	public void restoreText() {
+		System.out.println("[Textfield.java:37] Restoring text: "+getPrevText());
+		setText(getPrevText());
+	}
 	
 	/**
 	 * This method sets the text of the current TextBox
@@ -68,7 +82,9 @@ public class TextField extends UIElement {
 		}
 		if (!isSelected) {
 			//setSelected();
-			c.notifyNewSelected((UIElement) this);
+			c.notifyNewSelected(this);
+			this.prevText = getText();
+			System.out.println("[Textfield.java: 87] setting prevText to "+getText());
 		}
 	}
 	
@@ -83,12 +99,19 @@ public class TextField extends UIElement {
 	
 	@Override
 	public void handleKeyboardEvent(int keyCode, char keyChar) {
+		//Some element has a selection lock (not this one). Ignore keyboard events
 		if(getCommunicationManager().getLockedElement() != (null) && !getCommunicationManager().getLockedElement().equals(this)){
 			return;
 		}
 		if (keyCode == 10 && isSelected == true) { //Enter, end editing
 			if (!getError())
 				setNotSelected();
+		}
+
+		if (keyCode == 27 && !getError() && isSelected) {
+			System.out.println("[TextField.java:112] Restoring text: "+getPrevText());
+			restoreText();
+			setNotSelected();
 		}
 				
 		if (keyCode == 8 && isSelected) { //Backspace: remove character
