@@ -16,6 +16,9 @@ public class Button extends UIElement {
 		setText(text);
 	}
 	
+	/**
+	 * The (optional) text inside the button
+	 */
 	private String text ;
 	
 	/**
@@ -33,7 +36,6 @@ public class Button extends UIElement {
 		this.text = t;
 	}
 
-	
 	@Override
 	public void paint(Graphics g) {
 		drawCenteredText(g, this.getText());

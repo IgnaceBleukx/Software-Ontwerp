@@ -6,7 +6,7 @@ import java.awt.Graphics;
 
 public class Text extends UIElement {
 
-	/*
+	/**
 	 * Constructor of the Text.
 	 * @param x: The x position of the left top corner of the Text.
 	 * @param y: The y position of the left top corner of the Text.
@@ -17,24 +17,45 @@ public class Text extends UIElement {
 		this.setText(t);
 	}
 	
+	/**
+	 * The text held in this Text class
+	 */
 	private String text;
+	
+	/**
+	 * Holds whether or not a border is displayed around the text
+	 */
 	private boolean border = false;
+	
+	/**
+	 * Holds whether or not the Text is displayed as an error (e.g. it has an incorrect value for its position
+	 * in the table)
+	 */
 	private boolean error;
 	
+	/**
+	 * turns the border on or off (true or false)
+	 * @param b: the value of the border
+	 */
 	public void setBorder(boolean b){
 		border = b;
 	}
 	
+	/**
+	 * Sets the Text as an error (its text is not correct)
+	 */
 	public void isError() {
 		this.error = true;
-		
 	}
 	
+	/**
+	 * Sets the Text as not an error (its text is correct)
+	 */
 	public void isNotError(){
 		this.error = false;
 	}
 
-	/*
+	/**
 	 * This method sets the text of the current Text.
 	 * @param t: the text to be set.
 	 */
@@ -42,7 +63,7 @@ public class Text extends UIElement {
 		this.text = t;
 	}
 	
-	/*
+	/**
 	 * This method returns the text the current Text returns.
 	 */
 	public String getText(){

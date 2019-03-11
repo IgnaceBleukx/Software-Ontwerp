@@ -8,7 +8,7 @@ import javax.naming.CommunicationException;
 
 public class TextField extends UIElement {
 
-	/*
+	/**
 	 * Constructor of the TextField.
 	 * @param x: The x position of the left top corner of the TextField.
 	 * @param y: The y position of the left top corner of the TextField.
@@ -19,9 +19,12 @@ public class TextField extends UIElement {
 		setText(t);
 	}
 	
+	/**
+	 * The text in this Textfield
+	 */
 	private String text;
 	
-	/*
+	/**
 	 * This method sets the text of the current TextBox
 	 * @param t: The text to be set.
 	 */
@@ -29,7 +32,7 @@ public class TextField extends UIElement {
 		this.text = t;
 	}
 	
-	/*
+	/**
 	 * This method returns the text of the current TextBox.
 	 */
 	public String getText(){
@@ -59,18 +62,12 @@ public class TextField extends UIElement {
 
 	}
 	
-	
-	
-
-	
 	@Override
 	public void handleSingleClick() {
 		if (!isSelected) {
 			//setSelected();
 			coMan.notifyNewSelected((UIElement) this);
 		}
-		
-		
 	}
 	
 	

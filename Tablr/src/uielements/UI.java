@@ -37,6 +37,9 @@ public class UI {
 		
 	}
 	
+	/**
+	 * Loads the Tables interface: the interface in which the user can add or delete tables
+	 */
 	public void loadTablesInterface() {	
 		ListView l = new ListView(10, 10, 560, 570, new ArrayList<UIElement>());
 		this.addUIElement(l);
@@ -49,6 +52,10 @@ public class UI {
 		});
 	}
 
+	/**
+	 * Loads the TableRows interface: the interface in which the user can edit fields of the rows of a table
+	 * (a standard view of a table)
+	 */
 	public void loadTableRowsInterface() {
 		//Temporary table
 		Table table = communicationManager.addEmptyTable();
@@ -101,7 +108,9 @@ public class UI {
 		
 	}
 
-	
+	/**
+	 * Loads the TableDesign interface: the interface in which the user can edit the variables of the columns of a table.
+	 */
 	public void loadTableDesignInterface() {
 		// Creating title
 		int margin = 20;
@@ -136,7 +145,10 @@ public class UI {
 				
 	}
 
-	
+	/**
+	 * add the elements of a given list to the current UIElements-list in this UI
+	 * @param list: the UIElements to be added
+	 */
 	private void addAllUIElements(ArrayList<UIElement> list) {
 		for(UIElement e : list){
 			this.addUIElement(e);
@@ -145,7 +157,9 @@ public class UI {
 	}
 
 	
-	
+	/**
+	 * All of the UIElements that make up this UI
+	 */
 	private ArrayList<UIElement> elements = new ArrayList<UIElement>();
 	
 	/**
@@ -155,11 +169,9 @@ public class UI {
 		return this.elements;
 	}
 	
-
-	
 	/**
-	 * @param e: The UIElement to be added to the current canvaswindow.UI.
 	 * This method adds an element to the current canvaswindow.UI.
+	 * @param e: The UIElement to be added to the current canvaswindow.UI.
 	 */
 	public void addUIElement(UIElement e){
 		this.elements.add(e);

@@ -32,7 +32,11 @@ public class DomainTests {
 		table.addColumn(col3);
 		return table;
 	}
-
+	
+	/**
+	 * This method adds a column to an empty table, 
+	 * and verifies its existence in the table and vice versa
+	 */
 	@Test
 	public void addColumn() {
 		Table table = new Table("name");
@@ -42,6 +46,10 @@ public class DomainTests {
 		assertEquals(table.getColumns().get(0).getTable(),table);
 	}
 	
+	/**
+	 * This method adds a new row to a table with 3 columns and
+	 * verifies that afterwards the table has exactly one row
+	 */
 	@Test
 	public void addRow() {
 		Table table = new Table("name");
