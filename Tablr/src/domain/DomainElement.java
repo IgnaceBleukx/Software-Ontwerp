@@ -6,7 +6,7 @@ import facades.CommunicationManager;
 public class DomainElement {
 	
 	/**
-	 * Reference to the communicationsmanager that is used to talk to the UI.
+	 * Reference to the communicationmanager that is used to talk to the UI.
 	 */
 	protected CommunicationManager communicationManager;
 

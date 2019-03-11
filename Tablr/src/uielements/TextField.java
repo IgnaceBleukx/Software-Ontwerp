@@ -90,9 +90,7 @@ public class TextField extends UIElement {
 			if (getText().length() > 0) {
 				String newText = getText().substring(0, getText().length() - 1);
 				setText(newText);
-			}
-				
-			
+			}	
 		}
 		if (Character.isLetterOrDigit(keyChar) && isSelected == true) {
 			setText(getText()+keyChar);

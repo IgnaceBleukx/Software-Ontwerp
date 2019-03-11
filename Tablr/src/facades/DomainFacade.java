@@ -48,7 +48,6 @@ public class DomainFacade {
 		String name = nextName();
 		Table t = new Table(name);
 		addTable(t);
-		System.out.println("[DomainFacade.java:48] "+getCommunicationManager());
 		t.setCommunicationManager(getCommunicationManager());
 		return t;
 	}
