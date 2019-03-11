@@ -28,7 +28,7 @@ public class Row extends DomainElement {
 	}
 	
 	/**
-	 * This method terminates the Row and all it's cells
+	 * This method terminates the Row and all its cells
 	 */
 	public void terminate(){
 		table.removeRow(this);
