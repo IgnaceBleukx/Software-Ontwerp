@@ -39,8 +39,12 @@ public class Checkbox extends UIElement {
 	
 	@Override
 	public void paint(Graphics g){
-		if (greyedOut) g.fillRect(super.getX(), super.getY(), super.getWidth(), super.getHeight());	
+		if (greyedOut) {
+			g.setColor(Color.gray);
+			g.fillRect(super.getX(), super.getY(), super.getWidth(), super.getHeight());	
+		}
 		else if(checked){
+			g.setColor(Color.black);
 			int x1 = super.getX();
 			int y1 = super.getY();
 			int x2 = super.getX()+super.getWidth();

@@ -109,6 +109,8 @@ public class Column extends DomainElement {
 	public void setColumnType(Type type) throws InvalidTypeException {
 		for (Cell<?> cell : getCells()){
 			if (!isValidValue(type,cell.getValue().toString())) {
+				this.type = type;
+				this.isError();
 				throw new InvalidTypeException();
 			}
 		}
@@ -186,6 +188,10 @@ public class Column extends DomainElement {
 	}
 	
 	public void setDefaultValue(Object v){
+		if (v == null) {
+			this.defaultValue = null; 
+			return;
+		}
 		if (isValidValue(getColumnType(),v.toString())) this.defaultValue = v;
 	}
 		
@@ -342,6 +348,14 @@ public class Column extends DomainElement {
 			}
 			 
 		}
+	}
+
+	public void toggleDefault() {
+		if (getColumnType() != Type.BOOLEAN) return;
+		if (getDefault() == null) setDefaultValue(true);
+		else if ((boolean)getDefault() == true) setDefaultValue(false);
+		else if ((boolean)getDefault() == false && getBlankingPolicy()) setDefaultValue(null);
+		else if ((boolean)getDefault() == false && !getBlankingPolicy()) setDefaultValue(true);
 	}
 
 	
