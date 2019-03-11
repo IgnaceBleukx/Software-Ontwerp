@@ -193,6 +193,7 @@ public class Column extends DomainElement {
 			return;
 		}
 		if (isValidValue(getColumnType(),v.toString())) this.defaultValue = v;
+		else throw new IllegalArgumentException();
 	}
 		
 	
