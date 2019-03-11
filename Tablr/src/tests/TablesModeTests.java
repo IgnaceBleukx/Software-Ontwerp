@@ -26,11 +26,12 @@ public class TablesModeTests {
 		MyCanvasWindow myCW = new MyCanvasWindow("Tables Mode");
 		CommunicationManager coMan = myCW.getCommunicationManager();
 		// There are no tables yet
-		assertTrue(coMan.getTables().size() == 0);
+		System.out.println("hh: " + coMan.getTables().size());
+		assertEquals(coMan.getTables().size(), 0);
 		// Step 2: The user double-clicks below the list of tables
 		myCW.handleMouseEvent(0, 40, 530 , 2);
-		// Step 3: Thereris a table added to the tables list
-		assertTrue(coMan.getTables().size() == 1);
+		// Step 3: There is a table added to the tables list
+		assertEquals(coMan.getTables().size(), 1);
 	}
 	
 	
@@ -52,7 +53,12 @@ public class TablesModeTests {
 		// Step 3: Remove the last character of the highlighted table name
 		// (8 is backspace)
 		myCW.handleKeyEvent(1, 8, ' ');
+		System.out.println(coMan.getTables().get(0).getName());
 		assertEquals("Table", coMan.getTables().get(0).getName());
+		// Step 4: Add a character to the highlighted table name
+		myCW.handleKeyEvent(1, 65, 'a');
+		System.out.println(coMan.getTables().get(0).getName());
+		assertEquals("Tablea", coMan.getTables().get(0).getName());
 	}
 	
 }

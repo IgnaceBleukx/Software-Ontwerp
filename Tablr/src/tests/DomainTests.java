@@ -136,7 +136,8 @@ public class DomainTests {
 //		TableManager man = new TableManager();
 //		man.addTable(table);
 //		assertEquals(1, man.getTables().size());
-//		man.addEmptyTable();
+//		man.ad
+}dEmptyTable();
 //		assertEquals(2, man.getTables().size());
 //		man.removeTable(table);
 //		assertEquals(1, man.getTables().size());

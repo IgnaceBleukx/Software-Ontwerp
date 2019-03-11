@@ -23,8 +23,8 @@ public class UI {
 	 */
 	public UI(Loadable_Interfaces i) {
 		switch (i) {
-			case TABLES: loadTableDesignInterface(); break;
-			case TABLE_DESIGN: loadTablesInterface(); break;
+			case TABLES: loadTablesInterface(); break;
+			case TABLE_DESIGN: loadTableDesignInterface(); break;
 			case TABLE_ROWS: loadTableRowsInterface(); break;
 			case TEST: loadTestInterface(); break;
 		}
