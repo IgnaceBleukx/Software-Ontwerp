@@ -7,14 +7,27 @@ import facades.CommunicationManager;
 
 public class UIRow extends UIElement {
 
+	/**
+	 * constructor
+	 * @param x: The x position of the left top corner of the Table.
+	 * @param y: The y position of the left top corner of the Table.
+	 * @param w: width of the row.
+	 * @param h: height of the row.
+	 * @param elements: the elements of this row
+	 */
 	public UIRow(int x, int y,int w, int h,  ArrayList<UIElement> elements) {
 		super(x, y, w, h);
 		this.elements = elements;
 	}
 	
-	
+	/**
+	 * the elements of this row
+	 */
 	private ArrayList<UIElement> elements;
 
+	/**
+	 * draws the Row in the UI
+	 */
 	public void paint(Graphics g){
 		g.drawRect(getX(),getY(),getWidth(),getHeight());
 		for (UIElement e : this.elements){
