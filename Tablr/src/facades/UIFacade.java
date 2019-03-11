@@ -60,4 +60,20 @@ public class UIFacade {
 	public void clearUI() {
 		getActiveUI().clear();
 	}
+
+	public void getLock(UIElement e) {
+		getActiveUI().hardLockedElement = e;
+		
+	}
+
+	public void releaseLock(UIElement e) {
+		if (getActiveUI().hardLockedElement != e)
+			throw new IllegalArgumentException("Trying to release hard lock from non-selected element");
+		getActiveUI().hardLockedElement = null;
+		
+	}
+
+	public UIElement getLockedElement() {
+		return getActiveUI().hardLockedElement;
+	}
 }

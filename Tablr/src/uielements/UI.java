@@ -236,6 +236,7 @@ public class UI {
 	}
 	
 	public UIElement lockedSelectedElement = null;
+	public UIElement hardLockedElement = null;
 	
 	public void selectElement(UIElement newElement) {
 		//An element has placed a lock on selecting other elements

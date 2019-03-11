@@ -46,7 +46,10 @@ public class Button extends UIElement {
 	}
 
 	@Override
-	public void handleSingleClick() {		
+	public void handleSingleClick() {
+		if(!getCommunicationManager().getLockedElement().equals(null) && !getCommunicationManager().getLockedElement().equals(this)){
+			return;
+		}
 		for (Runnable r : this.singleClickListeners) {
 			r.run();
 		}

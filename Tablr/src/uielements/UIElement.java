@@ -28,6 +28,8 @@ public abstract class UIElement {
 	 * Indicates whether UIElement is faulty.
 	 */
 	private boolean error = false;
+
+	private boolean lock;
 	
 	public void isError() {
 		System.out.println("[UIElement.java:33] Acquired selection lock on "+this);
@@ -45,6 +47,21 @@ public abstract class UIElement {
 		return this.error;
 	}
 	
+	public void lock(){
+		this.lock = true;
+		System.out.println("[UIElement.java:49 Aquired hard lock on " + this);
+		getCommunicationManager().getLock(this);
+	}
+	
+	public void unlock(){
+		this.lock = false;
+		System.out.println("[UIElement.java:54 Released hard lock on " + this);
+		getCommunicationManager().releaseLock(this);
+	}
+	
+	public boolean getLocked(){
+		return this.lock;
+	}
 	
 	
 	/**
