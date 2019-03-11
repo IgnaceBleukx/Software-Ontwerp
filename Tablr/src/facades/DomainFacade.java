@@ -201,6 +201,11 @@ public class DomainFacade {
 	public Object getDefault(Column col) {
 		return col.getDefault();
 	}
+
+	public void toggleDefault(Column col) {
+		col.toggleDefault();
+		
+	}
 	
 
 }
