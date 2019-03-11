@@ -177,13 +177,6 @@ public class ListView extends UIElement {
 			else{
 				TextField colDefText = new TextField(410+margin,y,160-margin,50, c.getDefault(col).toString());
 				list = new ArrayList<UIElement>(){{ add(colName); add(colType); add(colBlankPol); add(colDefText);}};
-				colDefText.addKeyboardListener(-1, () -> {
-					if(!Column.isValidValue(c.getColumnType(col), colDefText.getText()) && colDefText.isSelected){
-						System.out.println("Non valid value for type");
-						colDefText.isError();
-					}else if (colDefText.getError()) colDefText.isNotError();
-		
-				});
 			}
 			
 			UIRow uiRow = new UIRow(10,y,560,50,list);
@@ -203,7 +196,13 @@ public class ListView extends UIElement {
 			});
 			
 			colBlankPol.addSingleClickListener(() -> {
-				c.toggleBlanks(col);
+				if (!colBlankPol.getError()){
+					try {
+						c.toggleBlanks(col);
+					} catch (Exception e) {
+						colBlankPol.isError();
+					}
+				}else colBlankPol.isNotError();
 			});
 			
 			colType.addSingleClickListener(() -> {

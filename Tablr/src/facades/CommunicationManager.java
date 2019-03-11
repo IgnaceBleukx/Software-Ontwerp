@@ -73,7 +73,7 @@ public class CommunicationManager {
 		domainFacade.renameTable(t, name);
 	}
 	
-	public void toggleBlanks(Column col){
+	public void toggleBlanks(Column col) throws Exception{
 		domainFacade.toggleBlanks(col);
 	}
 	

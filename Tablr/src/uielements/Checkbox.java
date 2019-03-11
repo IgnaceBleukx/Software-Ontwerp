@@ -62,6 +62,7 @@ public class Checkbox extends UIElement {
 			g.drawLine(x1, y1, x2, y2);
 			g.drawLine(x1, y2, x2, y1);
 		}
+		if (getError()) g.setColor(Color.red);
 		g.drawRect(super.getX(), super.getY(), super.getWidth(), super.getHeight());
 	}
 
