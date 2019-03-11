@@ -66,7 +66,7 @@ public class TextField extends UIElement {
 	public void handleSingleClick() {
 		if (!isSelected) {
 			//setSelected();
-			coMan.notifyNewSelected((UIElement) this);
+			c.notifyNewSelected((UIElement) this);
 		}
 	}
 	
