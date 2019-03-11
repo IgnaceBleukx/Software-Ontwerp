@@ -18,11 +18,11 @@ public class MyCanvasWindow extends CanvasWindow {
 //	private UI activeUI;
 
 	
-	protected MyCanvasWindow(String title) {
+	public MyCanvasWindow(String title) {
 		super(title);
 		
 		communicationManager = new CommunicationManager();
-		communicationManager.loadUI(Loadable_Interfaces.TABLE_DESIGN);
+		communicationManager.loadUI(Loadable_Interfaces.TABLES);
 
 //		UI test = new UI(Loadable_Interfaces.TEST);
 //		UI tables = new UI(Loadable_Interfaces.TABLES);
@@ -47,6 +47,10 @@ public class MyCanvasWindow extends CanvasWindow {
 //	public void setActiveUI(UI ui) {
 //		this.activeUI = ui;
 //	}
+	
+	public CommunicationManager getCommunicationManager() {
+		return communicationManager;
+	}
 
 	@Override
 	public void paint(Graphics g){
@@ -57,6 +61,10 @@ public class MyCanvasWindow extends CanvasWindow {
 	public void handleMouseEvent(int id, int x, int y, int clickCount){
 		UIElement clicked = communicationManager.getActiveUI().locatedAt(x, y);
 		System.out.println("Clicked on "+clicked);
+		//System.out.println(clicked.getX());
+		//System.out.println(clicked.getY());
+		//System.out.println(clicked.getWidth());
+		//System.out.println(clicked.getHeight());
 		
 		if (clicked == null)
 			return;
@@ -73,7 +81,7 @@ public class MyCanvasWindow extends CanvasWindow {
 		repaint();
 	}
 
-	
+
 	@Override
 	public void handleKeyEvent(int id, int keyCode, char keyChar){
 		System.out.println("Keycode: "+keyCode);
