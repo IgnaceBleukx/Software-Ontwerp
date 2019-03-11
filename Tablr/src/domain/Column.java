@@ -105,7 +105,12 @@ public class Column extends DomainElement {
 				throw new InvalidTypeException();
 			}
 		}
-		if (!isValidValue(type,getDefault().toString())) throw new InvalidTypeException();
+		if (!isValidValue(type,getDefault().toString())) {
+			this.type = type;
+			this.isError();
+			throw new InvalidTypeException();
+		}
+		this.isNotError();
 		this.type = type;
 	}
 	
@@ -115,13 +120,7 @@ public class Column extends DomainElement {
 	 * 
 	 */
 	public void setNextType() throws InvalidTypeException{
-		Type t = this.getColumnType();
-		switch (t) {
-			case STRING: 	this.setColumnType(Type.EMAIL);   break;
-			case EMAIL: 	this.setColumnType(Type.BOOLEAN); break;
-			case BOOLEAN: 	this.setColumnType(Type.INTEGER); break;
-			case INTEGER: 	this.setColumnType(Type.STRING);  break;
-		}
+		this.setColumnType(getNextType(getColumnType()));
 	}
 	
 	
@@ -355,7 +354,9 @@ public class Column extends DomainElement {
 	public static boolean isValidValue(Type type, String string){
 		if (string == "") return true;
 		switch(type){
-			case BOOLEAN : return (string == "False" || string == "false" || string == "True" || string == "true");
+			case BOOLEAN : {
+				return (string.equals("False") || string.equals("false") || string.equals("True") || string.equals("true"));
+			}
 			case INTEGER : try {
 				Integer.parseInt(string);
 				return true;
@@ -397,6 +398,16 @@ public class Column extends DomainElement {
 		else if ((boolean)getDefault() == true) setDefaultValue(false);
 		else if ((boolean)getDefault() == false && getBlankingPolicy()) setDefaultValue(null);
 		else if ((boolean)getDefault() == false && !getBlankingPolicy()) setDefaultValue(true);
+	}
+	
+	public static Type getNextType(Type type){
+		switch (type) {
+			case STRING: 	return (Type.EMAIL);   
+			case EMAIL: 	return (Type.BOOLEAN); 
+			case BOOLEAN: 	return (Type.INTEGER); 
+			case INTEGER: 	return (Type.STRING); 
+			default:  return null;
+		}
 	}
 
 	

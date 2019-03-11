@@ -7,6 +7,7 @@ import java.util.Iterator;
 
 import domain.Column;
 import domain.InvalidNameException;
+import domain.InvalidTypeException;
 import domain.Table;
 import domain.Type;
 import facades.CommunicationManager;
@@ -176,12 +177,16 @@ public class ListView extends UIElement {
 					colDefCheck.greyOut();
 				}
 				else colDefCheck = new Checkbox(480, y+15,20,20,(boolean) c.getDefault(col));
+				
 				list = new ArrayList<UIElement>(){{ add(colName); add(colType); add(colBlankPol); add(colDefCheck);}};
+				
 				colDefCheck.addSingleClickListener(() -> {
 					c.toggleDefault(col);
 					loadColumnAttributes(table);
 				});
 			}
+			
+			
 			else{
 				TextField colDefText = new TextField(410+margin,y,160-margin,50, c.getDefault(col).toString());
 				list = new ArrayList<UIElement>(){{ add(colName); add(colType); add(colBlankPol); add(colDefText);}};
@@ -218,13 +223,17 @@ public class ListView extends UIElement {
 			});
 			
 			colType.addSingleClickListener(() -> {
-				try {
+				try{
 					c.toggleColumnType(col);
-					colType.isNotError();
-				} catch (Exception e) {
+					if (colType.getError()) colType.isNotError();
+					if (colType.equals(c.getLockedElement())) c.releaseLock(colType);
+					loadColumnAttributes(table);
+				}catch (InvalidTypeException e){
+					colType.setText(Column.getNextType(c.getColumnType(col)).toString());
 					colType.isError();
+					c.getLock(colType);
 				}
-				loadColumnAttributes(table);				
+								
 			});
 			
 			colName.addKeyboardListener(-1,() -> {
