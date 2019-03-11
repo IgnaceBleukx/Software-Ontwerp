@@ -23,49 +23,7 @@ public class Cell<T> extends DomainElement {
 	 */
 	public void setValue (T v){
 		this.value = v;
-		this.blank = false;
 	}
-	
-	public void setBlank(){
-		blank = false;
-	}
-	
-	public void makeBlank(){
-		this.value = (T) getColumn().getDefault();
-		this.blank = false;
-	}
-	
-	private boolean blank = true;
-	
-//	/**
-//	 * This method returns the row of the current Cell.
-//	 */
-//	public Row getRow() {
-//		return row;
-//	}
-//	
-//	/**
-//	 * This method sets the row of the current row.
-//	 * @param row: The row to be set.
-//	 */
-//	public void setRow(Row row) {
-//		this.row = row;
-//	}
-
-//	/**
-//	 * This method returns the table of the current Cell.
-//	 */
-//	public Table getTable() {
-//		return table;
-//	}
-//
-//	/**
-//	 * This method sets the table of the current Cell.
-//	 * @param table: the table to be set.
-//	 */
-//	public void setTable(Table table) {
-//		this.table = table;
-//	}
 
 	/**
 	 * This method returns the column of the current Cell.
@@ -92,6 +50,8 @@ public class Cell<T> extends DomainElement {
 		if (getColumn() != null) this.getColumn().removeCell(this);
 	}
 	
-
+	/**
+	 * Value in this cell. Null iff this cell is 'blank'.
+	 */
 	private T value;
 }

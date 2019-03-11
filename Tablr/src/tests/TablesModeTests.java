@@ -44,10 +44,15 @@ public class TablesModeTests {
 		CommunicationManager coMan = myCW.getCommunicationManager();
 		// Create an empty table with a simulated double click
 		myCW.handleMouseEvent(0, 40, 530, 2);
+		// Check the name of the added table
+		System.out.println(coMan.getTables().get(0).getName());
+		assertEquals("Table0",coMan.getTables().get(0).getName());
 		// Step 2: The user clicks a table name
 		myCW.handleMouseEvent(0, 51, 13, 1);
-		// Step 
-		System.out.println(coMan.getActiveUI().locatedAt(51, 13));
+		// Step 3: Remove the last character of the highlighted table name
+		// (8 is backspace)
+		myCW.handleKeyEvent(1, 8, ' ');
+		assertEquals("Table", coMan.getTables().get(0).getName());
 	}
 	
 }

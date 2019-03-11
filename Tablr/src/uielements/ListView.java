@@ -13,7 +13,7 @@ import facades.CommunicationManager;
 
 public class ListView extends UIElement {
 
-	/*
+	/**
 	 * Constructor of the ListView.
 	 * @param x: The x position of the left top corner of the ListView.
 	 * @param y: The y position of the left top corner of the ListView.
@@ -24,16 +24,16 @@ public class ListView extends UIElement {
 		this.elements = elements;
 	}
 
-	/*
+	/**
 	 * This method adds an element to the current ListView.
-	 * @param e: The element to be added to the ListVieuw.
+	 * @param e: The element to be added to the ListView.
 	 */
 	public void addElement(UIElement e){
 		this.elements.add(e);
 		e.setCommunicationManager(getCommunicationManager());
 	}
 	
-	/*
+	/**
 	 * This method removes an element of the ListVieuw.
 	 * @param e: the UIElement to be removed. 
 	 */
@@ -41,15 +41,28 @@ public class ListView extends UIElement {
 		this.elements.remove(e);
 	}
 	
-	
+	/**
+	 * The elements of the ListView (the rows)
+	 */
 	ArrayList<UIElement> elements;
 	
+	/**
+	 * the currently selected element of the ListView (optional, sometimes null)
+	 */
 	private UIElement selectedElement;
 	
+	/**
+	 * Set element e as the currently selected element of the list
+	 * @param e: the element to be selected
+	 */
 	public void setSelectedElement(UIElement e) {
 		this.selectedElement = e;
 	}
 	
+	/**
+	 * returns the currently selected element
+	 * @return the selected element
+	 */
 	public UIElement getSelectedElement() {
 		return this.selectedElement;
 	}
@@ -70,14 +83,6 @@ public class ListView extends UIElement {
 		}
 	}
 	
-
-	/**
-	 * Returns the most specific UIElement located at (x,y) by searching in elements
-	 * @param x		X Coordinate
-	 * @param y		Y Coordinate
-	 * @return		UIElement a at position (x,y)
-	 * @note		If possible and correct, UIElements inside containers will be returned
-	 */
 	@Override
 	public UIElement locatedAt(int x, int y) {
 		if (!containsPoint(x,y)) return null;
@@ -98,6 +103,10 @@ public class ListView extends UIElement {
 		
 	}
 	
+	/**
+	 * 
+	 * @param tables
+	 */
 	public void loadFromTables(ArrayList<Table> tables) {
 		
 		elements.clear();
@@ -221,6 +230,10 @@ public class ListView extends UIElement {
 		}
 	}
 	
+	/**
+	 * add all of the elements in the given list to this ListView
+	 * @param list: the elements to be added
+	 */
 	private void addAllElements(ArrayList<UIElement> list) {
 		for(UIElement e: list){
 			this.addElement(e);

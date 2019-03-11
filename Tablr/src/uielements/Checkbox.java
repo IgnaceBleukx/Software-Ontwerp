@@ -5,7 +5,7 @@ import java.awt.Graphics;
 
 public class Checkbox extends UIElement {
 
-	/*
+	/**
 	 * Constructor of the checkbox.
 	 * @param x: The x position of the left top corner of the checkbox.
 	 * @param y: The y position of the left top corner of the checkbox.
@@ -23,10 +23,16 @@ public class Checkbox extends UIElement {
 		checked = !checked;
 	}
 	
+	/**
+	 * Sets the value of greyedout to true (Button is now grey)
+	 */
 	public void greyOut(){
 		this.greyedOut = true;
 	}
 	
+	/**
+	 * Sets the value of greyedout to false (Button is now white)
+	 */
 	public void unGreyOut(){
 		this.greyedOut = false;
 	}
@@ -35,6 +41,10 @@ public class Checkbox extends UIElement {
 	 * Whether this checkbox is checked or not
 	 */
 	private boolean checked = true;
+	
+	/**
+	 * Whether this checkbox is greyed out or not
+	 */
 	private boolean greyedOut = false;
 	
 	@Override

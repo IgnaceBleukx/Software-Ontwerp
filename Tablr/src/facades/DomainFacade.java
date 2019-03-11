@@ -57,9 +57,7 @@ public class DomainFacade {
 	 * @param table		Table to remove
 	 */
 	public void removeTable(Table table) {
-		System.out.println("Removing table: "+table);
 		this.tables.remove(table);
-		System.out.println("Number of tables: "+tables.size());
 	}
 	
 	/**
