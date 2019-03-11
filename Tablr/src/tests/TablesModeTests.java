@@ -9,6 +9,8 @@ import canvaswindow.CanvasWindow;
 import canvaswindow.MyCanvasWindow;
 import facades.CommunicationManager;
 import ui.Loadable_Interfaces;
+import uielements.Button;
+import uielements.ListView;
 import uielements.TextField;
 import uielements.UI;
 
@@ -83,6 +85,27 @@ public class TablesModeTests {
 		assertEquals(t.isSelected(), true);
 		myCW.handleMouseEvent(0, 51, 300, 1);
 		assertEquals(t.isSelected(), false);
+	}
+	
+	/**
+	 * use case 4.3: Delete Table
+	 * 
+	 */
+	@Test
+	public void useCase3() {
+		// Step 1: Load the window
+		MyCanvasWindow myCW = new MyCanvasWindow("Tables Mode");
+		CommunicationManager coMan = myCW.getCommunicationManager();
+		coMan.clearUI();
+		coMan.loadUI(Loadable_Interfaces.TABLES);
+		// Create an empty table with a simulated double click
+		myCW.handleMouseEvent(0, 40, 530, 2);
+		// Step 1: The user clicks the margin to the left of a table name.
+		Button b = (Button) coMan.getActiveUI().locatedAt(13, 13);
+		myCW.handleMouseEvent(0, 13, 13, 1);
+		//Kijken naar de row via listview.getSelectedElement of die geselecteerd is of niet
+		ListView l = (ListView) coMan.getActiveUI().locatedAt(200, 200);
+		System.out.println(l.getElements());
 	}
 	
 }

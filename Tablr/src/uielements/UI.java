@@ -188,6 +188,9 @@ public class UI {
 		e.setCommunicationManager(null);
 	}
 	
+	/**
+	 * remove all UIElements from this UI
+	 */
 	public void clear() {
 		this.elements.clear();
 	}
@@ -221,13 +224,22 @@ public class UI {
 		return null;
 	}
 	
+	/**
+	 * the CommunicationManager that handles interactions with the Domain
+	 */
 	private CommunicationManager communicationManager;
 	
-	
+	/**
+	 * @return the communicationManager
+	 */
 	public CommunicationManager getCommunicationManager() {
 		return this.communicationManager;
 	}
 	
+	/**
+	 * set c as the new CommunicationManager, and do so for all UIElements as well
+	 * @param c
+	 */
 	public void setCommunicationManager(CommunicationManager c) {
 		this.communicationManager = c;
 		for (UIElement e : getElements() ) {
@@ -235,9 +247,17 @@ public class UI {
 		}
 	}
 	
+	/**
+	 * an element that currently locks the UI from selecting other elements
+	 */
 	public UIElement lockedSelectedElement = null;
 	public UIElement hardLockedElement = null;
 	
+	/**
+	 * Select element newElement. 
+	 * Behaviour varies depending on whether or not an element is blocking the UI from selecting different elements.
+	 * @param newElement: the element that wants to be selected
+	 */
 	public void selectElement(UIElement newElement) {
 		//An element has placed a lock on selecting other elements
 		if (lockedSelectedElement != null) { 

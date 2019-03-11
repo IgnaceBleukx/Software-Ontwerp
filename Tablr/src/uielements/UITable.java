@@ -13,7 +13,7 @@ import ui.Loadable_Interfaces;
 
 public class UITable extends UIElement {
 
-	/*
+	/**
 	 * Constructor of the Table.
 	 * @param x: The x position of the left top corner of the Table.
 	 * @param y: The y position of the left top corner of the Table.
@@ -26,9 +26,20 @@ public class UITable extends UIElement {
 		this.rows.addAll(rows);
 	}
 
+	/**
+	 * the rows stored in this table
+	 */
 	ArrayList<UIRow> rows =  new ArrayList<UIRow>();
+	
+	/**
+	 * the upper row of this table that contains the legend of all the columns
+	 */
 	UIRow legend;
 	
+	/**
+	 * adds a row to the table
+	 * @param row: the row to be added
+	 */
 	public void addRow(UIRow row){
 		this.rows.add(row);
 	}
@@ -45,6 +56,12 @@ public class UITable extends UIElement {
 		}
 	}
 
+	/**
+	 * TODO: dit was mij niet helemaal duidelijk!
+	 * @param tab
+	 * @param cellWidth
+	 * @param cellHeigth
+	 */
 	public void loadTable(Table tab,int cellWidth, int cellHeigth) {
 		rows.clear();
 		int rows = c.getRows(tab).size();
@@ -91,6 +108,9 @@ public class UITable extends UIElement {
 		}
 	}
 	
+	/**
+	 * the currently selected element in this table
+	 */
 	private UIElement selected;
 	
 	/**

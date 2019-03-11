@@ -45,8 +45,16 @@ public class ListView extends UIElement {
 	/**
 	 * The elements of the ListView (the rows)
 	 */
-	ArrayList<UIElement> elements;
+	private ArrayList<UIElement> elements;
 	
+	public ArrayList<UIElement> getElements() {
+		return new ArrayList<UIElement>(elements);
+	}
+
+	public void setElements(ArrayList<UIElement> elements) {
+		this.elements = elements;
+	}
+
 	/**
 	 * the currently selected element of the ListView (optional, sometimes null)
 	 */

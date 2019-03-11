@@ -16,10 +16,17 @@ public abstract class UIElement {
 	 */
 	protected CommunicationManager c;
 
+	/**
+	 * set c as the new CommManager for this element
+	 * @param c: the CommManager to be set
+	 */
 	public void setCommunicationManager(CommunicationManager c) {
 		this.c = c;
 	}
 	
+	/**
+	 * @return the CommunicationManager linked to this element
+	 */
 	public CommunicationManager getCommunicationManager() {
 		return this.c;
 	}
@@ -29,36 +36,57 @@ public abstract class UIElement {
 	 */
 	private boolean error = false;
 
+	/**
+	 * Indicates whether the UIElement is locked (thus needs to be resolved before other actions can occur)
+	 */
 	private boolean lock;
 	
+	/**
+	 * sets this element as an error element: it's value is incorrect and should be resolved
+	 */
 	public void isError() {
 		System.out.println("[UIElement.java:33] Acquired selection lock on "+this);
 		getCommunicationManager().getSelectionLock(this);
 		this.error = true;
 	}
 	
+	/**
+	 * relieves the error state of this element
+	 */
 	public void isNotError() {
 		this.error = false;
 		System.out.println("[UIElement.java:40] Released selection lock on "+this);
 		getCommunicationManager().releaseSelectionLock(this);
 	}
 	
+	/**
+	 * @return the error state of this element
+	 */
 	public boolean getError() {
 		return this.error;
 	}
 	
+	/**
+	 * locks this element up: no other actions can be performed in the UI until the lock is resolved
+	 */
 	public void lock(){
 		this.lock = true;
 		System.out.println("[UIElement.java:49 Aquired hard lock on " + this);
 		getCommunicationManager().getLock(this);
 	}
 	
+	/**
+	 * relieves the lock state and unlocks the UI
+	 */
 	public void unlock(){
 		this.lock = false;
 		System.out.println("[UIElement.java:54 Released hard lock on " + this);
 		getCommunicationManager().releaseLock(this);
 	}
 	
+	/**
+	 * @return the lock state of this element
+	 */
 	public boolean getLocked(){
 		return this.lock;
 	}
@@ -96,10 +124,18 @@ public abstract class UIElement {
 		}	
 	}
 	
+	/**
+	 * adds a listener for a singleClick action
+	 * @param f: the listener to be added
+	 */
 	public void addSingleClickListener(Runnable f) {
 		singleClickListeners.add(f);
 	}
-	
+
+	/**
+	 * adds a listener for a doubleClick action
+	 * @param f: the listener to be added
+	 */
 	public void addDoubleClickListener(Runnable f) {
 		doubleClickListeners.add(f);
 	}
@@ -112,7 +148,13 @@ public abstract class UIElement {
 	public abstract void handleKeyboardEvent(int keyCode, char keyChar);
 	
 	
-	
+	/**
+	 * constructor: x and y being the coordinates of the new element, w and h the dimensions
+	 * @param x: The x position of the left top corner of the Table.
+	 * @param y: The y position of the left top corner of the Table.
+	 * @param w: width of the table.
+	 * @param h: height of the table.
+	 */
 	public UIElement(int x, int y, int w, int h){
 		this.x = x;
 		this.y = y;
@@ -120,6 +162,9 @@ public abstract class UIElement {
 		this.h = h;
 	}
 
+	/**
+	 * coordinates and dimensions of the element
+	 */
 	private int x;
 	private int y;
 	private int w;
@@ -222,18 +267,31 @@ public abstract class UIElement {
 	 */
 	protected boolean isSelected;
 	
+	/**
+	 * @return if the element is selected or not
+	 */
 	public boolean isSelected() {
 		return this.isSelected;
 	}
 	
+	/**
+	 * set the element as selected
+	 */
 	public void setSelected() {
 		this.isSelected = true;
 	}
 	
+	/**
+	 * set the element as not selected
+	 */
 	public void setNotSelected() {
 		this.isSelected = false;
 	}
 
+	/**
+	 * sets this element as selected if the given argument IS this element
+	 * @param newElement: the element to be compared with this one
+	 */
 	protected void selectElement(UIElement newElement) {
 		if (newElement == this) {
 			setSelected();
