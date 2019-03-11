@@ -166,6 +166,11 @@ public class CommunicationManager {
 	public void releaseSelectionLock(UIElement e) {
 		UIFacade.releaseSelectionLock(e);
 	}
+
+	public void toggleDefault(Column col) {
+		domainFacade.toggleDefault(col);
+		
+	}
 	
 		
 

@@ -25,4 +25,13 @@ public class DomainElement {
 		return this.communicationManager;
 	}
 	
+	private boolean isError = false;
+	
+	public void isError(){
+		isError = true;
+	}
+	public void isNotError(){
+		isError = false;
+	}
+	
 }
