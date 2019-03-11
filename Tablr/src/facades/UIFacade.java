@@ -6,6 +6,11 @@ import uielements.Text;
 import uielements.UI;
 import uielements.UIElement;
 
+/**
+ * Facade for the UI part of the program. 
+ * Methods should always be called via a reference to the CommunicationManager,
+ * and not directly via this class.
+ */
 public class UIFacade {
 	private CommunicationManager communicationManager;
 	private UI ui = new UI();
@@ -51,10 +56,4 @@ public class UIFacade {
 			throw new IllegalArgumentException("Trying to release selection lock from non-selected element");
 		getActiveUI().lockedSelectedElement = null;
 	}
-
-
-
-	
-	
-
 }

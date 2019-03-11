@@ -10,6 +10,11 @@ import domain.Table;
 import domain.Type;
 import uielements.UI;
 
+/**
+ * Facade for the Domain part of the program. 
+ * Methods should always be called via a reference to the communicationManager,
+ * and not directly via this class.
+ */
 public class DomainFacade {
 	
 	/**
