@@ -4,6 +4,7 @@ import java.util.ArrayList;
 
 import domain.Column;
 import domain.InvalidNameException;
+import domain.InvalidTypeException;
 import domain.Row;
 import domain.Table;
 import domain.Type;
@@ -125,8 +126,8 @@ public class DomainFacade {
 		
 	}
 
-	public void addEmptyColumn(Table table) {
-		table.addEmptyColumn();
+	public void addEmptyColumn(Table table, Type type, Object defaultValue) {
+		table.addEmptyColumn(type, defaultValue);
 		
 	}
 
@@ -175,7 +176,7 @@ public class DomainFacade {
 		
 	}
 
-	public void toggleColumnType(Column col) {
+	public void toggleColumnType(Column col) throws InvalidTypeException {
 		col.setNextType();
 		
 	}

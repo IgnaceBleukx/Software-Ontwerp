@@ -60,10 +60,10 @@ public class Table extends DomainElement {
 //		return newCol;
 //	}
  	
- 	public Column addEmptyColumn(){
+ 	public Column addEmptyColumn(Type type, Object defaultValue){
  		Column col;
 		try {
-			col = new Column(newColumnName(), null);
+			col = new Column(newColumnName(), null,type,defaultValue);
 			while(col.getCells().size() != rows.size()){
 				col.addBlankCell();
 			}

@@ -43,12 +43,10 @@ public class UI {
 	public void loadTableRowsInterface() {
 		//Temporary table
 		Table table = communicationManager.addEmptyTable();
-		communicationManager.addEmptyColumn(table);
-		communicationManager.addEmptyColumn(table);
-		communicationManager.addEmptyColumn(table);
-		communicationManager.addEmptyColumn(table);
-		table.getColumns().get(0).setColumnType(Type.BOOLEAN);
-		table.getColumns().get(1).setColumnType(Type.INTEGER);
+		communicationManager.addEmptyColumn(table,Type.BOOLEAN,true);
+		communicationManager.addEmptyColumn(table,Type.INTEGER,0);
+		communicationManager.addEmptyColumn(table,Type.STRING,"");
+		communicationManager.addEmptyColumn(table,Type.EMAIL,"");
 		communicationManager.addRow(table);
 		communicationManager.addRow(table);
 		communicationManager.addRow(table);
@@ -110,18 +108,15 @@ public class UI {
 		//Creating temporary test table
 		communicationManager.addEmptyTable();
 		Table currentTable = communicationManager.getTables().get(0);
-		communicationManager.addEmptyColumn(currentTable);
-		communicationManager.addEmptyColumn(currentTable);
-		communicationManager.addEmptyColumn(currentTable);
+		communicationManager.addEmptyColumn(currentTable,Type.STRING,"");
+		communicationManager.addEmptyColumn(currentTable,Type.BOOLEAN,false);
+		communicationManager.addEmptyColumn(currentTable,Type.INTEGER,0);
 		
-		
-		currentTable.getColumns().get(1).setColumnType(Type.BOOLEAN);
-		currentTable.getColumns().get(2).setColumnType(Type.INTEGER);
 		
 		l.loadColumnAttributes(currentTable);
 		
 		l.addDoubleClickListener(() -> {
-			communicationManager.addEmptyColumn(currentTable);
+			communicationManager.addEmptyColumn(currentTable,Type.STRING,"");
 			l.loadColumnAttributes(currentTable);
 		});
 		

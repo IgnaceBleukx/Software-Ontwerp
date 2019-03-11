@@ -188,8 +188,14 @@ public class ListView extends UIElement {
 				coMan.toggleBlanks(col);
 			});
 			colType.addSingleClickListener(() -> {
-				coMan.toggleColumnType(col);
+				try {
+					coMan.toggleColumnType(col);
+					colType.isNotError();
+				} catch (Exception e) {
+					colType.isError();
+				}
 				loadColumnAttributes(table);
+				
 								
 			});
 			
