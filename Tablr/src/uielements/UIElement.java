@@ -24,6 +24,26 @@ public abstract class UIElement {
 		return this.coMan;
 	}
 	
+	/**
+	 * Indicates whether UIElement is faulty.
+	 */
+	private boolean error = false;
+	
+	public void isError() {
+		getCommunicationManager().getSelectionLock(this);
+		this.error = true;
+	}
+	
+	public void isNotError() {
+		this.error = false;
+		getCommunicationManager().releaseSelectionLock(this);
+	}
+	
+	public boolean getError() {
+		return this.error;
+	}
+	
+	
 	
 	/**
 	 * All objects that get notified when this UIElement is clicked.

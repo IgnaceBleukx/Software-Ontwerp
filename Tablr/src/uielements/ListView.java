@@ -111,9 +111,10 @@ public class ListView extends UIElement {
 			});
 			
 			deleteButton.addKeyboardListener(127, () -> {
-				if (getSelectedElement() == currRow) {
+				if (getSelectedElement() == currRow && this.getError() == false) {
 					removeElement((UIElement) currRow); //Remove row from ListView
 					coMan.removeTable(curr); //Remove table from list of tables
+					setSelectedElement(null);
 					loadFromTables(coMan.getTables());
 				}
 			});
@@ -125,10 +126,10 @@ public class ListView extends UIElement {
 				coMan.renameTable(curr, tableNameLabel.getText());
 				ArrayList<Table> tablesSameName = coMan.getTablesByName(curr.getName());
 			
-				if (tablesSameName.size() > 1 && tableNameLabel.isSelected) {
+				if ((tablesSameName.size() > 1 && tableNameLabel.isSelected) | tableNameLabel.getText().length() == 0) {
 					tableNameLabel.isError();
 				}
-				else {
+				else if (tableNameLabel.getError() == true){
 					tableNameLabel.isNotError();
 				}
 			});
@@ -267,6 +268,20 @@ public class ListView extends UIElement {
 		for (UIElement e : elements) {
 			e.setCommunicationManager(c);
 		}
+	}
+	
+	/**
+	 * Overrides the method in UIElement:
+	 * A listview is in the Error state if one of its elements are
+	 * in the Error state
+	 */
+	@Override
+	public boolean getError() {
+		for (UIElement e : elements) {
+			if (e.getError())
+				return true;
+		}
+		return false;
 	}
 	
 

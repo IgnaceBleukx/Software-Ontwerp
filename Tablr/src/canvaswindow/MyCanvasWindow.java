@@ -22,7 +22,7 @@ public class MyCanvasWindow extends CanvasWindow {
 		super(title);
 		
 		communicationManager = new CommunicationManager();
-		communicationManager.loadUI(Loadable_Interfaces.TABLE_DESIGN);
+		communicationManager.loadUI(Loadable_Interfaces.TABLES);
 
 //		UI test = new UI(Loadable_Interfaces.TEST);
 //		UI tables = new UI(Loadable_Interfaces.TABLES);
@@ -48,7 +48,10 @@ public class MyCanvasWindow extends CanvasWindow {
 //		this.activeUI = ui;
 //	}
 
-	@Override
+	
+	/**
+	 * Paints the active UI on the Canvas
+	 */
 	public void paint(Graphics g){
 		communicationManager.getActiveUI().paint(g);
 	}
@@ -86,4 +89,5 @@ public class MyCanvasWindow extends CanvasWindow {
 
 		repaint();
 	}
+	
 }

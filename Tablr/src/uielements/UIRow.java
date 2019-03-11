@@ -99,6 +99,15 @@ public class UIRow extends UIElement {
 			e.setCommunicationManager(c);
 		}
 	}
+	
+	@Override
+	public boolean getError() {
+		for (UIElement e : this.elements) {
+			if (e.getError())
+				return true;
+		}
+		return false;
+	}
 
 	
 

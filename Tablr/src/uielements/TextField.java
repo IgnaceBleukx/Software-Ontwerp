@@ -4,6 +4,8 @@ import java.awt.Color;
 import java.awt.FontMetrics;
 import java.awt.Graphics;
 
+import javax.naming.CommunicationException;
+
 public class TextField extends UIElement {
 
 	/*
@@ -41,7 +43,7 @@ public class TextField extends UIElement {
 		g.fillRect(super.getX(),super.getY(), super.getWidth(), super.getHeight());
 					
 		
-		if (error){
+		if (getError()){
 			g.setColor(Color.red);
 			g.drawRect(super.getX()+1,super.getY()+1, super.getWidth()-2, super.getHeight()-2);
 		}else
@@ -58,27 +60,14 @@ public class TextField extends UIElement {
 	}
 	
 	
-	/**
-	 * Indicates whether the text in this textfield is faulty.
-	 */
-	private boolean error = false;
-	
-	public void isError() {
-		this.error = true;
-	}
-	
-	public void isNotError() {
-		this.error = false;
-	}
 	
 
 	
 	@Override
 	public void handleSingleClick() {
 		if (!isSelected) {
-			setSelected();
+			//setSelected();
 			coMan.notifyNewSelected((UIElement) this);
-			System.out.println("Edit mode...");
 		}
 		
 		
@@ -93,7 +82,7 @@ public class TextField extends UIElement {
 	@Override
 	public void handleKeyboardEvent(int keyCode, char keyChar) {
 		if (keyCode == 10 && isSelected == true) { //Enter, end editing
-			if (!error)
+			if (!getError())
 				setNotSelected();
 		}
 				

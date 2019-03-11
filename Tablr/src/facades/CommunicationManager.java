@@ -157,7 +157,14 @@ public class CommunicationManager {
 	public Object getDefault(Column col) {
 		return domainFacade.getDefault(col);
 	}
-
+	
+	public void getSelectionLock(UIElement e) {
+		UIFacade.getSelectionLock(e);
+	}
+	
+	public void releaseSelectionLock(UIElement e) {
+		UIFacade.releaseSelectionLock(e);
+	}
 	
 		
 

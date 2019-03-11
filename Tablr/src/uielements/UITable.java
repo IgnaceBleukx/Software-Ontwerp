@@ -166,5 +166,14 @@ public class UITable extends UIElement {
 			e.setCommunicationManager(c);
 		}
 	}
+	
+	@Override
+	public boolean getError() {
+		for (UIElement e : this.rows) {
+			if (e.getError())
+				return true;
+		}
+		return false;
+	}
 
 }
