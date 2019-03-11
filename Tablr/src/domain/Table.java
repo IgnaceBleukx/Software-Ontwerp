@@ -131,7 +131,6 @@ public class Table extends DomainElement {
 		System.out.println();
 		for (Column col: columns){
 			col.addBlankCell();
-			System.out.println("[Table.java:129] "+col.getCommunicationManager());
 			col.setCommunicationManager(getCommunicationManager());
 		}
 		r.setTable(this);

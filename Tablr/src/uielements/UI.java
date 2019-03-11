@@ -38,17 +38,15 @@ public class UI {
 	}
 	
 	public void loadTablesInterface() {	
-		ListView l = new ListView(10, 10, 560, 500, new ArrayList<UIElement>());
+		ListView l = new ListView(10, 10, 560, 570, new ArrayList<UIElement>());
 		this.addUIElement(l);
 
-		Button createTableButton = new Button(10,520,580,70, "Create table");
+		//Button createTableButton = new Button(10,520,580,70, "Create table");
 
-		createTableButton.addSingleClickListener(() -> {
+		l.addDoubleClickListener(() -> {
 			communicationManager.addEmptyTable();
 			l.loadFromTables(communicationManager.getTables());
 		});
-		
-		this.addUIElement(createTableButton);
 	}
 
 	public void loadTableRowsInterface() {
