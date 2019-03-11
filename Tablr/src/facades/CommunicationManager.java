@@ -35,6 +35,10 @@ public class CommunicationManager {
 		UIFacade.loadUI(i);
 	}
 	
+	public void clearUI() {
+		UIFacade.clearUI();
+	}
+	
 	public Table addEmptyTable() {
 		return domainFacade.addEmptyTable();
 	}

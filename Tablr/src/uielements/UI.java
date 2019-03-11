@@ -33,8 +33,7 @@ public class UI {
 
 	
 	public void loadTestInterface() {				
-
-		
+	
 	}
 	
 	/**
@@ -187,6 +186,10 @@ public class UI {
 	public void removeUIElement(UIElement e){
 		this.elements.remove(e);
 		e.setCommunicationManager(null);
+	}
+	
+	public void clear() {
+		this.elements.clear();
 	}
 	
 	/**

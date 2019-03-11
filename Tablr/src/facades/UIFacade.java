@@ -56,4 +56,8 @@ public class UIFacade {
 			throw new IllegalArgumentException("Trying to release selection lock from non-selected element");
 		getActiveUI().lockedSelectedElement = null;
 	}
+	
+	public void clearUI() {
+		getActiveUI().clear();
+	}
 }
