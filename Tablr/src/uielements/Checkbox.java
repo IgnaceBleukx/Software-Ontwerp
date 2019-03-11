@@ -68,6 +68,9 @@ public class Checkbox extends UIElement {
 
 	@Override
 	public void handleSingleClick() {
+		if(getCommunicationManager().getLockedElement() != (null) && !getCommunicationManager().getLockedElement().equals(this)){
+			return;
+		}
 		//System.out.println("Checkbox pressed");
 		toggle();
 		for (Runnable r : this.singleClickListeners) {
@@ -78,11 +81,17 @@ public class Checkbox extends UIElement {
 
 	@Override
 	public void handleDoubleClick() {
+		if(getCommunicationManager().getLockedElement() != (null) && !getCommunicationManager().getLockedElement().equals(this)){
+			return;
+		}
 		return;
 	}
 
 	@Override
 	public void handleKeyboardEvent(int keyCode, char keyChar) {
+		if(getCommunicationManager().getLockedElement() != (null) && !getCommunicationManager().getLockedElement().equals(this)){
+			return;
+		}
 		if (keyboardListeners.get(keyCode) == null)
 			return;
 		

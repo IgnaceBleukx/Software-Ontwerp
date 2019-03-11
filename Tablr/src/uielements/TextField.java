@@ -63,6 +63,9 @@ public class TextField extends UIElement {
 	
 	@Override
 	public void handleSingleClick() {
+		if(getCommunicationManager().getLockedElement() != (null) && !getCommunicationManager().getLockedElement().equals(this)){
+			return;
+		}
 		if (!isSelected) {
 			//setSelected();
 			c.notifyNewSelected((UIElement) this);
@@ -72,11 +75,17 @@ public class TextField extends UIElement {
 	
 	@Override
 	public void handleDoubleClick() {
+		if(getCommunicationManager().getLockedElement() != (null) && !getCommunicationManager().getLockedElement().equals(this)){
+			return;
+		}
 		
 	}
 	
 	@Override
 	public void handleKeyboardEvent(int keyCode, char keyChar) {
+		if(getCommunicationManager().getLockedElement() != (null) && !getCommunicationManager().getLockedElement().equals(this)){
+			return;
+		}
 		if (keyCode == 10 && isSelected == true) { //Enter, end editing
 			if (!getError())
 				setNotSelected();

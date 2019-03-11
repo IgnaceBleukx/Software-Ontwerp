@@ -201,8 +201,12 @@ public class ListView extends UIElement {
 						c.toggleBlanks(col);
 					} catch (Exception e) {
 						colBlankPol.isError();
+						c.getLock(colBlankPol);
 					}
-				}else colBlankPol.isNotError();
+				}else {
+					colBlankPol.isNotError();
+					c.releaseLock(colBlankPol);
+				}
 			});
 			
 			colType.addSingleClickListener(() -> {
@@ -242,6 +246,9 @@ public class ListView extends UIElement {
 
 	@Override
 	public void handleSingleClick() {
+		if(getCommunicationManager().getLockedElement() != (null) && !getCommunicationManager().getLockedElement().equals(this)){
+			return;
+		}
 		c.notifyNewSelected((UIElement) this);
 		
 		for (Runnable r: singleClickListeners){
@@ -251,6 +258,9 @@ public class ListView extends UIElement {
 
 	@Override
 	public void handleDoubleClick() {
+		if(getCommunicationManager().getLockedElement() != (null) && !getCommunicationManager().getLockedElement().equals(this)){
+			return;
+		}
 		for (Runnable r: doubleClickListeners){
 			r.run();
 		}
@@ -258,6 +268,9 @@ public class ListView extends UIElement {
 
 	@Override
 	public void handleKeyboardEvent(int keyCode, char keyChar) {
+		if(getCommunicationManager().getLockedElement() != (null) && !getCommunicationManager().getLockedElement().equals(this)){
+			return;
+		}
 		for (int i=0;i<elements.size();i++) {
 			elements.get(i).handleKeyboardEvent(keyCode, keyChar);
 		}

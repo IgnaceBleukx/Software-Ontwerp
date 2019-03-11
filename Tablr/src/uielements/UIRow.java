@@ -54,6 +54,9 @@ public class UIRow extends UIElement {
 
 	@Override
 	public void handleSingleClick() {
+		if(getCommunicationManager().getLockedElement() != (null) && !getCommunicationManager().getLockedElement().equals(this)){
+			return;
+		}
 		for(Runnable r : singleClickListeners){
 			r.run();
 		}
@@ -62,12 +65,18 @@ public class UIRow extends UIElement {
 
 	@Override
 	public void handleDoubleClick() {
+		if(getCommunicationManager().getLockedElement() != (null) && !getCommunicationManager().getLockedElement().equals(this)){
+			return;
+		}
 		// TODO Auto-generated method stub
 		
 	}
 	
 	@Override
 	public void handleKeyboardEvent(int keyCode, char keyChar) {
+		if(getCommunicationManager().getLockedElement() != (null) && !getCommunicationManager().getLockedElement().equals(this)){
+			return;
+		}
 		for(UIElement i: elements){
 			i.handleKeyboardEvent(keyCode, keyChar);
 		}
