@@ -52,7 +52,10 @@ public class MyCanvasWindow extends CanvasWindow {
 		return communicationManager;
 	}
 
-	@Override
+	
+	/**
+	 * Paints the active UI on the Canvas
+	 */
 	public void paint(Graphics g){
 		communicationManager.getActiveUI().paint(g);
 	}
@@ -94,4 +97,5 @@ public class MyCanvasWindow extends CanvasWindow {
 
 		repaint();
 	}
+	
 }

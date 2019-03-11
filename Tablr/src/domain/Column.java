@@ -15,6 +15,7 @@ public class Column extends DomainElement {
 	 * @param newDefaultValue
 	 * @param newTable
 	 * @param newCells
+	 * @throws InvalidNameException 
 	 */
 //	public Column(String name, Type type, defaultValues, Table table, ArrayList<Cell<?>> newCells) {
 //		this.name= name;
@@ -25,6 +26,18 @@ public class Column extends DomainElement {
 //		this.cells = newCells;
 //	}
 	
+	public Column(String newName, ArrayList<Cell<?>> newCells, Type type, Object defaultValue) throws InvalidNameException{
+		this.setName(newName);
+		this.setDefaultValue(defaultValue);
+		try {
+			setColumnType(type);
+		} catch (InvalidTypeException e) {
+			//This exception is never thrown because the column is still empty.
+		}
+		allowsBlanks = true;
+		addAllcells(newCells);
+	}
+	
 	/**
 	 * Constructor of the column. This is the standard constructor that will mostly be used in the program.
 	 * @param newTable
@@ -32,7 +45,11 @@ public class Column extends DomainElement {
 	 * @throws InvalidNameException 
 	 */
 	public Column(String newName, ArrayList<Cell<?>> newCells) throws InvalidNameException {
-		setColumnType(Type.STRING);
+		try {
+			setColumnType(Type.STRING);
+		} catch (InvalidTypeException e) {
+			//This exception is never thrown because the column is still empty.
+		}
 		allowsBlanks = true;
 		setName(newName);
 		addAllcells(newCells);
@@ -87,23 +104,30 @@ public class Column extends DomainElement {
 
 	/**
 	 * This method sets the column type of the current column.
+	 * @throws InvalidTypeException 
 	 */
-	public void setColumnType(Type type) {
+	public void setColumnType(Type type) throws InvalidTypeException {
+		for (Cell<?> cell : getCells()){
+			if (!isValidValue(type,cell.getValue().toString())) {
+				throw new InvalidTypeException();
+			}
+		}
+		if (!isValidValue(type,getDefault().toString())) throw new InvalidTypeException();
 		this.type = type;
-		this.defaultValue = defaultValues.get(type);
 	}
 	
 	/**
 	 * This method sets the next type for the column, the order of which is: STRING -> EMAIL -> BOOLEAN -> INTEGER
+	 * @throws InvalidTypeException 
 	 * 
 	 */
-	public void setNextType(){
+	public void setNextType() throws InvalidTypeException{
 		Type t = this.getColumnType();
 		switch (t) {
-			case STRING: 	this.type = (Type.EMAIL);   break;
-			case EMAIL: 	this.type = (Type.BOOLEAN); break;
-			case BOOLEAN: 	this.type = (Type.INTEGER); break;
-			case INTEGER: 	this.type = (Type.STRING);  break;
+			case STRING: 	this.setColumnType(Type.EMAIL);   break;
+			case EMAIL: 	this.setColumnType(Type.BOOLEAN); break;
+			case BOOLEAN: 	this.setColumnType(Type.INTEGER); break;
+			case INTEGER: 	this.setColumnType(Type.STRING);  break;
 		}
 	}
 	
@@ -159,6 +183,10 @@ public class Column extends DomainElement {
 	 */
 	public Object getDefault(){
 		return defaultValue;
+	}
+	
+	public void setDefaultValue(Object v){
+		if (isValidValue(getColumnType(),v.toString())) this.defaultValue = v;
 	}
 		
 	

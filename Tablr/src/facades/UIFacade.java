@@ -41,6 +41,16 @@ public class UIFacade {
 	public void newSelected(UIElement e) {
 		getActiveUI().selectElement(e);
 	}
+	
+	public void getSelectionLock(UIElement e) {
+		getActiveUI().lockedSelectedElement = e;
+	}
+	
+	public void releaseSelectionLock(UIElement e) {
+		if (getActiveUI().lockedSelectedElement != e)
+			throw new IllegalArgumentException("Trying to release selection lock from non-selected element");
+		getActiveUI().lockedSelectedElement = null;
+	}
 
 
 

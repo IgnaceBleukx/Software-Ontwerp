@@ -4,6 +4,7 @@ import java.util.ArrayList;
 
 import domain.Column;
 import domain.InvalidNameException;
+import domain.InvalidTypeException;
 import domain.Row;
 import domain.Table;
 import domain.Type;
@@ -80,8 +81,8 @@ public class CommunicationManager {
 		return domainFacade.getTable(name);
 	}
 
-	public void addEmptyColumn(Table table) {
-		domainFacade.addEmptyColumn(table);
+	public void addEmptyColumn(Table table, Type type, Object defaultValue) {
+		domainFacade.addEmptyColumn(table,type, defaultValue);
 		
 	}
 
@@ -133,7 +134,7 @@ public class CommunicationManager {
 		
 	}
 
-	public void toggleColumnType(Column col) {
+	public void toggleColumnType(Column col) throws InvalidTypeException {
 		domainFacade.toggleColumnType(col);
 		
 	}
@@ -157,7 +158,14 @@ public class CommunicationManager {
 	public Object getDefault(Column col) {
 		return domainFacade.getDefault(col);
 	}
-
+	
+	public void getSelectionLock(UIElement e) {
+		UIFacade.getSelectionLock(e);
+	}
+	
+	public void releaseSelectionLock(UIElement e) {
+		UIFacade.releaseSelectionLock(e);
+	}
 	
 		
 

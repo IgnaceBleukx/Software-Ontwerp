@@ -44,18 +44,14 @@ public class Button extends UIElement {
 	}
 
 	@Override
-	public void handleSingleClick() {
-		System.out.println(this.toString() + " CLICKED!");
-		
+	public void handleSingleClick() {		
 		for (Runnable r : this.singleClickListeners) {
 			r.run();
 		}
 	} 
 
 	@Override
-	public void handleDoubleClick() {
-		System.out.println(this.toString() + "DOUBLE CLICKED!");
-		
+	public void handleDoubleClick() {		
 		for (Runnable r : this.doubleClickListeners ) {
 			r.run();
 		}

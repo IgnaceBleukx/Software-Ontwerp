@@ -32,23 +32,32 @@ public class UI {
 	}
 
 	
-	public void loadTestInterface() {		
-		
-		Text text1 = new Text(40,40,100,100,"Interface: test");
-		
+	public void loadTestInterface() {				
 
 		
+	}
+	
+	public void loadTablesInterface() {	
+		ListView l = new ListView(10, 10, 560, 500, new ArrayList<UIElement>());
+		this.addUIElement(l);
+
+		Button createTableButton = new Button(10,520,580,70, "Create table");
+
+		createTableButton.addSingleClickListener(() -> {
+			communicationManager.addEmptyTable();
+			l.loadFromTables(communicationManager.getTables());
+		});
+		
+		this.addUIElement(createTableButton);
 	}
 
 	public void loadTableRowsInterface() {
 		//Temporary table
 		Table table = communicationManager.addEmptyTable();
-		communicationManager.addEmptyColumn(table);
-		communicationManager.addEmptyColumn(table);
-		communicationManager.addEmptyColumn(table);
-		communicationManager.addEmptyColumn(table);
-		table.getColumns().get(0).setColumnType(Type.BOOLEAN);
-		table.getColumns().get(1).setColumnType(Type.INTEGER);
+		communicationManager.addEmptyColumn(table,Type.BOOLEAN,true);
+		communicationManager.addEmptyColumn(table,Type.INTEGER,0);
+		communicationManager.addEmptyColumn(table,Type.STRING,"");
+		communicationManager.addEmptyColumn(table,Type.EMAIL,"");
 		communicationManager.addRow(table);
 		communicationManager.addRow(table);
 		communicationManager.addRow(table);
@@ -110,19 +119,20 @@ public class UI {
 		//Creating temporary test table
 		communicationManager.addEmptyTable();
 		Table currentTable = communicationManager.getTables().get(0);
-		communicationManager.addEmptyColumn(currentTable);
-		communicationManager.addEmptyColumn(currentTable);
-		communicationManager.addEmptyColumn(currentTable);
+		communicationManager.addEmptyColumn(currentTable,Type.STRING,"");
+		communicationManager.addEmptyColumn(currentTable,Type.BOOLEAN,false);
+		communicationManager.addEmptyColumn(currentTable,Type.INTEGER,0);
 		
-		
-		currentTable.getColumns().get(1).setColumnType(Type.BOOLEAN);
-		currentTable.getColumns().get(2).setColumnType(Type.INTEGER);
 		
 		l.loadColumnAttributes(currentTable);
 		
 		l.addDoubleClickListener(() -> {
-			communicationManager.addEmptyColumn(currentTable);
+			communicationManager.addEmptyColumn(currentTable,Type.STRING,"");
 			l.loadColumnAttributes(currentTable);
+		});
+		
+		l.addKeyboardListener(27,() ->{ //ESCAPE, go to TABLES interface
+			communicationManager.loadUI(Loadable_Interfaces.TABLES);
 		});
 		
 				
@@ -136,22 +146,7 @@ public class UI {
 		
 	}
 
-	public void loadTablesInterface() {
-		Text text1 = new Text(40,40,100,100,"Interface: tables");
-		this.addUIElement(text1);
-		
-		ListView l = new ListView(10, 10, 560, 500, new ArrayList<UIElement>());
-		this.addUIElement(l);
-
-		Button createTableButton = new Button(10,520,580,70, "Create table");
-
-		createTableButton.addSingleClickListener(() -> {
-			communicationManager.addEmptyTable();
-			l.loadFromTables(communicationManager.getTables());
-		});
-		
-		this.addUIElement(createTableButton);
-	}
+	
 	
 	private ArrayList<UIElement> elements = new ArrayList<UIElement>();
 	
@@ -161,6 +156,8 @@ public class UI {
 	public ArrayList<UIElement> getElements(){
 		return this.elements;
 	}
+	
+
 	
 	/**
 	 * @param e: The UIElement to be added to the current canvaswindow.UI.
@@ -225,9 +222,17 @@ public class UI {
 		}
 	}
 	
+	public UIElement lockedSelectedElement = null;
+	
 	public void selectElement(UIElement newElement) {
+		//An element has placed a lock on selecting other elements
+		if (lockedSelectedElement != null) { 
+			return;
+		}
+		
 		for (UIElement e : getElements()) {
 			e.selectElement(newElement);
+			newElement.setSelected();
 		}
 	}
 }
