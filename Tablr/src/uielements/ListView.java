@@ -161,18 +161,14 @@ public class ListView extends UIElement {
 			//TextField colDefText = null;
 			ArrayList<UIElement> list;
 			if(c.getColumnType(col) == Type.BOOLEAN){
-				
 				Object defaultValue = c.getDefault(col);
 				Checkbox colDefCheck;
 				if (defaultValue == null) {
 					colDefCheck = new Checkbox(480, y+15,20,20, false);
 					colDefCheck.greyOut();
-				}else
-					colDefCheck = new Checkbox(480, y+15,20,20,(boolean) c.getDefault(col));
-				
-				
+				}
+				else colDefCheck = new Checkbox(480, y+15,20,20,(boolean) c.getDefault(col));
 				list = new ArrayList<UIElement>(){{ add(colName); add(colType); add(colBlankPol); add(colDefCheck);}};
-				if (c.getDefault(col) == null) colDefCheck.greyOut();
 				colDefCheck.addSingleClickListener(() -> {
 					c.toggleDefault(col);
 					loadColumnAttributes(table);
