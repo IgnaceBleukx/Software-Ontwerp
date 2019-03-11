@@ -17,15 +17,6 @@ public class Column extends DomainElement {
 	 * @param newCells
 	 * @throws InvalidNameException 
 	 */
-//	public Column(String name, Type type, defaultValues, Table table, ArrayList<Cell<?>> newCells) {
-//		this.name= name;
-//		this.type = type;
-//		this.allowsBlanks = allowsBlanks;
-//		this.defaultValues = defaultValues;
-//		this.table = table;
-//		this.cells = newCells;
-//	}
-	
 	public Column(String newName, ArrayList<Cell<?>> newCells, Type type, Object defaultValue) throws InvalidNameException{
 		this.setName(newName);
 		this.setDefaultValue(defaultValue);
@@ -185,11 +176,18 @@ public class Column extends DomainElement {
 		return defaultValue;
 	}
 	
+	/**
+	 * Sets the default value for this column. 
+	 * Succeeds only when the new default value is a valid value for the current column type.
+	 * @param v		New default value
+	 */
 	public void setDefaultValue(Object v){
 		if (isValidValue(getColumnType(),v.toString())) this.defaultValue = v;
 	}
 		
-	
+	/**
+	 * List of cells in this Column.
+	 */
 	private ArrayList<Cell<?>> cells = new ArrayList<Cell<?>>();
 	
 	/**
@@ -240,6 +238,11 @@ public class Column extends DomainElement {
 		return c;
 	}
 	
+	/**
+	 * Returns the cell at the position specified by 'index'.
+	 * @param index		Position of the returned cell
+	 * @return			Cell c
+	 */
 	public Cell<?> getCell(int index){
 		return this.cells.get(index);
 	}
@@ -276,7 +279,14 @@ public class Column extends DomainElement {
 			cell.terminate();
 		}
 	}
-
+	
+	/**
+	 * Adds a blank cell to the column. 
+	 * This new blank cell gets its default value from the column type.
+	 * @throws 		ClassCastException
+	 * 				The column's type is set to an incorrect value. 
+	 * 				As a result, no sensible value for the new cell can be found.
+	 */
 	public void addBlankCell() {
 		Cell<?> newCell;
 		switch(getColumnType()){
@@ -291,6 +301,11 @@ public class Column extends DomainElement {
 		newCell.setCommunicationManager(getCommunicationManager());
 	}
 	
+	/**
+	 * Sets he communication manager for this column.
+	 * Also sets the communication manager for all cells in this column.
+	 * @param c		New CommunicationManager instance for this column.
+	 */
 	@Override
 	public void setCommunicationManager(CommunicationManager c) {
 		this.communicationManager = c;
@@ -298,7 +313,15 @@ public class Column extends DomainElement {
 			e.setCommunicationManager(c);
 		}
 	}
-
+	
+	/**
+	 * Changes the value of a cell to a value supplied by a string.
+	 * This involves casting the string to the correct value
+	 * @param i			Index of the cell to change
+	 * @param string	String representation of the new value
+	 * @throws ClassCastException
+	 * 					The column's type is not set correctly.
+	 */
 	public void changeCellValue(int i, String string) throws ClassCastException{
 		Cell<?> newCell;
 		Object v = parseValue(getColumnType(),string);
@@ -315,6 +338,11 @@ public class Column extends DomainElement {
 		cells.add(i,newCell);		
 	}
 	
+	/**
+	 * Returns whether a value supplied in a string is a valid value for a certain column type.
+	 * @param type		Column type
+	 * @param string	Value 
+	 */
 	public static boolean isValidValue(Type type, String string){
 		switch(type){
 			case BOOLEAN : return (string == "False" || string == "false" || string == "True" || string == "true");
@@ -330,6 +358,14 @@ public class Column extends DomainElement {
 		}
 	}
 	
+	/**
+	 * Parses a value in a string to a certain type, if possible.
+	 * @param type		Type to parse to
+	 * @param string	Value in string form
+	 * @throws ClassCastException
+	 * 					The string cannot be parsed to the supplied type.
+	 * 					E.G. "abc" cannot be parsed to Int
+	 */
 	public static Object parseValue(Type type, String string) throws ClassCastException {
 		if (!isValidValue(type, string)) throw new ClassCastException();
 		else{
