@@ -9,6 +9,7 @@ import canvaswindow.CanvasWindow;
 import canvaswindow.MyCanvasWindow;
 import facades.CommunicationManager;
 import ui.Loadable_Interfaces;
+import uielements.TextField;
 import uielements.UI;
 
 public class TablesModeTests {
@@ -25,8 +26,9 @@ public class TablesModeTests {
 		// Step 1: Load the window
 		MyCanvasWindow myCW = new MyCanvasWindow("Tables Mode");
 		CommunicationManager coMan = myCW.getCommunicationManager();
+		coMan.clearUI();
+		coMan.loadUI(Loadable_Interfaces.TABLES);
 		// There are no tables yet
-		System.out.println("hh: " + coMan.getTables().size());
 		assertEquals(coMan.getTables().size(), 0);
 		// Step 2: The user double-clicks below the list of tables
 		myCW.handleMouseEvent(0, 40, 530 , 2);
@@ -37,28 +39,50 @@ public class TablesModeTests {
 	
 	/**
 	 * use case 4.2: Edit table name
+	 * 
+	 * TODO: 5.a en 6.a (nog niet geimplementeerd op 11/03/2019 om 15:31
 	 */
 	@Test
 	public void useCase2() {
 		// Step 1: Load the window
 		MyCanvasWindow myCW = new MyCanvasWindow("Tables Mode");
 		CommunicationManager coMan = myCW.getCommunicationManager();
+		coMan.clearUI();
+		coMan.loadUI(Loadable_Interfaces.TABLES);
 		// Create an empty table with a simulated double click
 		myCW.handleMouseEvent(0, 40, 530, 2);
 		// Check the name of the added table
-		System.out.println(coMan.getTables().get(0).getName());
 		assertEquals("Table0",coMan.getTables().get(0).getName());
-		// Step 2: The user clicks a table name
+		// Step 2: The user clicks a table name and the textfield gets selected
 		myCW.handleMouseEvent(0, 51, 13, 1);
+		TextField t = (TextField) coMan.getActiveUI().locatedAt(51, 13);
+		assertEquals(t.isSelected(), true);
 		// Step 3: Remove the last character of the highlighted table name
 		// (8 is backspace)
 		myCW.handleKeyEvent(1, 8, ' ');
-		System.out.println(coMan.getTables().get(0).getName());
 		assertEquals("Table", coMan.getTables().get(0).getName());
+		
+		// Check to see if table name gets red when it is empty or equal to name of another table
+		assertEquals(t.getError(), false);
+		for(int i = 0; i<5; i++){
+			myCW.handleKeyEvent(1, 8, ' ');
+		}
+		assertEquals("", coMan.getTables().get(0).getName());
+		assertEquals(t.getError(), true);
+		
 		// Step 4: Add a character to the highlighted table name
 		myCW.handleKeyEvent(1, 65, 'a');
-		System.out.println(coMan.getTables().get(0).getName());
-		assertEquals("Tablea", coMan.getTables().get(0).getName());
+		assertEquals("a", coMan.getTables().get(0).getName());
+		
+		// Step 5: Press Enter to finish editing
+		myCW.handleKeyEvent(1, 10, ' ');
+		assertEquals(t.isSelected(), false);
+		
+		// Or click outside table name 
+		myCW.handleMouseEvent(0, 51, 13, 1);
+		assertEquals(t.isSelected(), true);
+		myCW.handleMouseEvent(0, 51, 300, 1);
+		assertEquals(t.isSelected(), false);
 	}
 	
 }
