@@ -152,10 +152,17 @@ public class ListView extends UIElement {
 					tableNameLabel.isNotError();
 				}
 			});
+
 			//Table name textfields listen to double click events to switch modes
 			tableNameLabel.addDoubleClickListener(() -> {
 				getCommunicationManager().setActiveTable(curr);
-				getCommunicationManager().loadUI(Loadable_Interfaces.TABLE_DESIGN);
+
+				if (getCommunicationManager().isEmptyTable(curr))
+					getCommunicationManager().loadUI(Loadable_Interfaces.TABLE_DESIGN);
+				else
+					getCommunicationManager().loadUI(Loadable_Interfaces.TABLE_ROWS);
+
+				System.out.println("[ListView.java:159] Switching modes to TABLE_DESIGN for table "+curr);
 			});
 
 			currRow.addElement(tableNameLabel);

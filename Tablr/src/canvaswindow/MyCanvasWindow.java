@@ -68,11 +68,9 @@ public class MyCanvasWindow extends CanvasWindow {
 			return;
 		
 		if (clickCount == 2) {
-			System.out.println("[MyCanvaswindow.java:72] Double click on " + clicked);
 			clicked.handleDoubleClick();
 		}
 		else if (clickCount == 1) {
-			System.out.println("[MyCanvaswindow.java:75] single click on " + clicked);
 			clicked.handleSingleClick();
 		}
 		repaint();

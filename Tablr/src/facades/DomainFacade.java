@@ -30,7 +30,11 @@ public class DomainFacade {
 	 * but is not used.
 	 */
 	private Table activeTable;
-	
+
+	/**
+	 * Reference to the communication manager used to pass this reference
+	 * to domain objects.
+	 */
 	private CommunicationManager communicationManager;
 	
 	public DomainFacade(CommunicationManager c) {

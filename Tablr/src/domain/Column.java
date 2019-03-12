@@ -305,7 +305,6 @@ public class Column extends DomainElement {
 			default: throw new ClassCastException();
 		}	
 		cells.add(newCell);
-		System.out.println("[Column.java:257] "+getCommunicationManager());
 		newCell.setCommunicationManager(getCommunicationManager());
 	}
 	

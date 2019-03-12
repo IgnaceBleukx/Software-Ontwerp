@@ -42,6 +42,10 @@ public class CommunicationManager {
 	public void loadInterface(Loadable_Interfaces i) {
 		UIFacade.loadUI(i);
 	}
+
+	public boolean isEmptyTable(Table t) {
+		return (domainFacade.getColumns(t).size() == 0);
+	}
 	
 	public void loadUI(Loadable_Interfaces i) {
 		UIFacade.loadUI(i);

@@ -71,7 +71,6 @@ public class Checkbox extends UIElement {
 		if(getCommunicationManager().getLockedElement() != (null) && !getCommunicationManager().getLockedElement().equals(this)){
 			return;
 		}
-		//System.out.println("Checkbox pressed");
 		toggle();
 		for (Runnable r : this.singleClickListeners) {
 			r.run();
