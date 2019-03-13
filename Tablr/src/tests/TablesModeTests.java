@@ -137,19 +137,31 @@ public class TablesModeTests {
 		myCW.handleMouseEvent(0, 40, 530 , 2);
 
 		assertEquals(1, coMan.getTables().size());
+		/*
 		// Step 1: The user double-clicks a table name.
-		//myCW.handleMouseEvent(0, 51, 13, 2);
+		myCW.handleMouseEvent(0, 51, 13, 2);
 		
 		// Step 2: The system moves into Table Design mode for the double-clicked table
 		// (if the table has no columns), or into Table Rows mode for the doubleclicked table (otherwise).
 		
-		/*
-		 * Bij geen columns: 
-			assertEquals(Loadable_Interfaces.TABLE_DESIGN, coMan.getMode());
-			
-			Nieuwe tabel met Column toevoegen. Dubbel klikken en dan naar TABLE_ROWS gaan
-			assertEquals(Loadable_Interfaces.TABLE_ROWS, coMan.getMode());
+		
+		// Table has no columns 
+		assertEquals(Loadable_Interfaces.TABLE_DESIGN, coMan.getMode());
+		
+		// The user double-clicks below the list of tables to create a column
+		myCW.handleMouseEvent(0, 40, 530 , 2);
+		
+		// go back to TABLES_MODE
+		myCW.handleKeyEvent(0, 27, ' ');
+		
+		// The user double-clicks a table name.
+		myCW.handleMouseEvent(0, 51, 13, 2);
+		
+		// Table has a column
+		assertEquals(Loadable_Interfaces.TABLE_ROWS, coMan.getMode());
 		*/
 		
 	}
+	
+	
 }
