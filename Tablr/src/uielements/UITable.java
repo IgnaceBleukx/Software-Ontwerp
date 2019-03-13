@@ -31,6 +31,10 @@ public class UITable extends UIElement {
 	 */
 	ArrayList<UIRow> rows =  new ArrayList<UIRow>();
 	
+	public ArrayList<UIRow> getRows() {
+		return rows;
+	}
+
 	/**
 	 * the upper row of this table that contains the legend of all the columns
 	 */
@@ -126,6 +130,10 @@ public class UITable extends UIElement {
 	 */
 	private UIElement selected;
 	
+	public UIElement getSelected() {
+		return selected;
+	}
+
 	/**
 	 * Returns the most specific UIElement located at (x,y) by searching in its rows and legend
 	 * @param x		X Coordinate
