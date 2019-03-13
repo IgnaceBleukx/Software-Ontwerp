@@ -45,8 +45,8 @@ public class TableDesignTests {
 				coMan.setActiveTable(coMan.getTables().get(0));
 				//add 2 rows so we can check if they update accordingly when columns get added
 				coMan.getActiveTable().addRow();
-				coMan.getActiveTable().addRow();
-
+				coMan.getActiveTable().addRow();				
+				
 				//Step 1 --
 				
 				//the table is empty, no columns yet. Add a column by clicking anywhere in the ListView.
