@@ -55,6 +55,10 @@ public class CommunicationManager {
 		UIFacade.clearUI();
 	}
 	
+	public Loadable_Interfaces getMode() {
+		return UIFacade.getMode();
+	}
+	
 	public Table addEmptyTable() {
 		return domainFacade.addEmptyTable();
 	}

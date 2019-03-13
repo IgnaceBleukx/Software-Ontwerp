@@ -22,6 +22,7 @@ public class TablesModeTests {
 	}
 
 	// TODO: clearUI werkt nog niet. Wanneer er in MyCanvasWindow een TABLE_DESIGN wordt geladen, wordt er al een tabel geladen, die ervoor zorgt dat testen fout zijn
+	// TODO: use Case 4 werkt niet wegens error in CanvasWindow!! Bij fix, uncomment de volgende lijnen
 	
 	/**
 	 * use case 4.1: Create a table
@@ -119,5 +120,36 @@ public class TablesModeTests {
 		// Step 4: The system removes the table and shows the updated list of tables
 		assertEquals(coMan.getTables().size(), 0);
 		assertEquals(l.getElements().size(), 0);
+	}
+	
+	/**
+	 * use case 4.4: Open Table
+	 */
+	@Test
+	public void useCase4() {
+		// Step 1: Load the window
+		MyCanvasWindow myCW = new MyCanvasWindow("Tables Mode");
+		CommunicationManager coMan = myCW.getCommunicationManager();
+		coMan.clearUI();
+		coMan.loadUI(Loadable_Interfaces.TABLES);
+		assertEquals(coMan.getMode(), Loadable_Interfaces.TABLES);
+		// The user double-clicks below the list of tables to create a table
+		myCW.handleMouseEvent(0, 40, 530 , 2);
+
+		assertEquals(1, coMan.getTables().size());
+		// Step 1: The user double-clicks a table name.
+		//myCW.handleMouseEvent(0, 51, 13, 2);
+		
+		// Step 2: The system moves into Table Design mode for the double-clicked table
+		// (if the table has no columns), or into Table Rows mode for the doubleclicked table (otherwise).
+		
+		/*
+		 * Bij geen columns: 
+			assertEquals(Loadable_Interfaces.TABLE_DESIGN, coMan.getMode());
+			
+			Nieuwe tabel met Column toevoegen. Dubbel klikken en dan naar TABLE_ROWS gaan
+			assertEquals(Loadable_Interfaces.TABLE_ROWS, coMan.getMode());
+		*/
+		
 	}
 }
