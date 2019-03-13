@@ -13,6 +13,7 @@ import uielements.Button;
 import uielements.ListView;
 import uielements.TextField;
 import uielements.UI;
+import uielements.UIRow;
 
 public class TablesModeTests {
 	
@@ -20,6 +21,8 @@ public class TablesModeTests {
 	public void setUp() throws Exception {
 	}
 
+	// TODO: clearUI werkt nog niet. Wanneer er in MyCanvasWindow een TABLE_DESIGN wordt geladen, wordt er al een tabel geladen, die ervoor zorgt dat testen fout zijn
+	
 	/**
 	 * use case 4.1: Create a table
 	 */
@@ -100,12 +103,20 @@ public class TablesModeTests {
 		coMan.loadUI(Loadable_Interfaces.TABLES);
 		// Create an empty table with a simulated double click
 		myCW.handleMouseEvent(0, 40, 530, 2);
+		
+		ListView l = (ListView) coMan.getActiveUI().locatedAt(200, 200);
+		UIRow r = (UIRow) l.getElements().get(0);
+		
 		// Step 1: The user clicks the margin to the left of a table name.
 		Button b = (Button) coMan.getActiveUI().locatedAt(13, 13);
+		System.out.println(r.getElements());
+		System.out.println(b.isSelected());
 		myCW.handleMouseEvent(0, 13, 13, 1);
+		//myCW.handleMouseEvent(0, 93, 13, 1);
+		TextField t = (TextField) coMan.getActiveUI().locatedAt(93, 13);
 		//Kijken naar de row via listview.getSelectedElement of die geselecteerd is of niet
-		ListView l = (ListView) coMan.getActiveUI().locatedAt(200, 200);
-		System.out.println(l.getElements());
+		System.out.println(t.isSelected());
+		assertEquals(t.isSelected(), true);
+		
 	}
-	
 }

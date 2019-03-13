@@ -131,6 +131,10 @@ public class UIRow extends UIElement {
 		return false;
 	}
 
+	public ArrayList<UIElement> getElements() {
+		return new ArrayList<UIElement>(elements);
+	}
+
 	
 
 }
