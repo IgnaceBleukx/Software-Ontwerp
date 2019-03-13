@@ -72,13 +72,13 @@ public class UITable extends UIElement {
 			for(Column col : c.getColumns(tab)){
 				String val = c.getValue(col,i).toString();
 				TextField field =  new TextField(x,y,cellWidth, cellHeigth,val);
-				//field.setCommunicationManager(getCommunicationManager());
 				emts.add(field);
 				x += cellWidth;
 				int index = i;
-				field.addKeyboardListener(10, () -> {
+				field.addKeyboardListener(-1, () -> {
 					try{
 						c.changeCellValue(col,index,field.getText());
+						if(field.getError()) field.isNotError();
 					}catch(ClassCastException e){
 						field.isError();
 					}
@@ -139,7 +139,7 @@ public class UITable extends UIElement {
 
 	@Override
 	public void handleSingleClick() {
-		if(!getCommunicationManager().getLockedElement().equals(null) && !getCommunicationManager().getLockedElement().equals(this)){
+		if(getCommunicationManager().getLockedElement() != (null) && !getCommunicationManager().getLockedElement().equals(this)){
 			return;
 		}
 		for(Runnable r: singleClickListeners){
@@ -150,7 +150,7 @@ public class UITable extends UIElement {
 
 	@Override
 	public void handleDoubleClick() {
-		if(!getCommunicationManager().getLockedElement().equals(null) && !getCommunicationManager().getLockedElement().equals(this)){
+		if(getCommunicationManager().getLockedElement() != (null) && !getCommunicationManager().getLockedElement().equals(this)){
 			return;
 		}
 		for(Runnable r: doubleClickListeners){
@@ -161,7 +161,7 @@ public class UITable extends UIElement {
 	
 	@Override
 	public void handleKeyboardEvent(int keyCode, char keyChar) {
-		if(!getCommunicationManager().getLockedElement().equals(null) && !getCommunicationManager().getLockedElement().equals(this)){
+		if(getCommunicationManager().getLockedElement() != (null) && !getCommunicationManager().getLockedElement().equals(this)){
 			return;
 		}
 		for(int i=0;i<rows.size();i++){

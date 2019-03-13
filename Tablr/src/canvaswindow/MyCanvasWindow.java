@@ -23,6 +23,10 @@ public class MyCanvasWindow extends CanvasWindow {
 		
 		communicationManager = new CommunicationManager();
 		communicationManager.loadUI(Loadable_Interfaces.TABLES);
+		
+		communicationManager.addTitleChangeRunnable(() -> {
+			this.setTitle(communicationManager.getNewTitle());
+		});
 
 	}
 
@@ -57,10 +61,9 @@ public class MyCanvasWindow extends CanvasWindow {
 	@Override
 	public void handleMouseEvent(int id, int x, int y, int clickCount){
 		UIElement clicked = communicationManager.getActiveUI().locatedAt(x, y);
-		System.out.println("Clicked on "+clicked);
-		System.out.println(clicked.getX());
-		System.out.println(clicked.getY());
-
+		//System.out.println(clicked.getX());
+		//System.out.println(clicked.getY());
+		System.out.println("[MyCanvasWindow.java:62]: Clicked on: " + clicked);
 		
 		if (clicked == null)
 			return;
@@ -68,11 +71,11 @@ public class MyCanvasWindow extends CanvasWindow {
 		if (id % 3 != 0) 
 			return;
 		
-		if (clickCount == 1) {
-			clicked.handleSingleClick();
-		}
-		else if (clickCount == 2) {
+		if (clickCount == 2) {
 			clicked.handleDoubleClick();
+		}
+		else if (clickCount == 1) {
+			clicked.handleSingleClick();
 		}
 		repaint();
 	}

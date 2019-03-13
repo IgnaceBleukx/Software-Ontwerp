@@ -128,7 +128,6 @@ public class Table extends DomainElement {
 		Row r = new Row();
 		this.rows.add(r);
 		r.setCommunicationManager(getCommunicationManager());
-		System.out.println();
 		for (Column col: columns){
 			col.addBlankCell();
 			col.setCommunicationManager(getCommunicationManager());

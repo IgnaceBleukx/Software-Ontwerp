@@ -32,7 +32,7 @@ public class Button extends UIElement {
 	 * @param t: The text to be set to the current Button.
 	 * This method sets the text of the current Button.
 	 */
-	public void setText(String t){
+	private void setText(String t){
 		this.text = t;
 	}
 
@@ -60,9 +60,7 @@ public class Button extends UIElement {
 		if(getCommunicationManager().getLockedElement() != (null) && !getCommunicationManager().getLockedElement().equals(this)){
 			return;
 		}
-		for (Runnable r : this.doubleClickListeners ) {
-			r.run();
-		}
+
 	}
 	
 	@Override

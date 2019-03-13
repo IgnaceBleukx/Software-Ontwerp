@@ -20,8 +20,21 @@ public class DomainFacade {
 	/**
 	 * Tables
 	 */
-	ArrayList<Table> tables = new ArrayList<Table>();
-	
+	ArrayList<Table> tables = new ArrayList<>();
+
+	/**
+	 * The active table is the table that is used when in
+	 * TABLE_DESIGN or TABLE_ROWS mode. UI Elements need to
+	 * manually set a new table as active before switching modes.
+	 * While in TABLES mode, the variable activeTable may be set
+	 * but is not used.
+	 */
+	private Table activeTable;
+
+	/**
+	 * Reference to the communication manager used to pass this reference
+	 * to domain objects.
+	 */
 	private CommunicationManager communicationManager;
 	
 	public DomainFacade(CommunicationManager c) {
@@ -35,15 +48,23 @@ public class DomainFacade {
 	public CommunicationManager getCommunicationManager() {
 		return communicationManager;
 	}
-	
+
+	/**
+	 * Sets the active table to some table t
+	 */
+	public void setActiveTable(Table t) {
+		this.activeTable = t;
+	}
+
+	public Table getActiveTable() {
+		return this.activeTable;
+	}
 	/**
 	 * Adds a new table to the list of tables
 	 * @param table		Table to add
 	 */
 	public void addTable(Table table) {
-		System.out.println("Adding table: "+table);
 		this.tables.add(table);
-		System.out.println("Number of tables: "+tables.size());
 	}
 	
 	/**
@@ -208,6 +229,11 @@ public class DomainFacade {
 
 	public void toggleDefault(Column col) {
 		col.toggleDefault();
+		
+	}
+
+	public void setColumnType(Column col, Type type) throws InvalidTypeException {
+		col.setColumnType(type);
 		
 	}
 	

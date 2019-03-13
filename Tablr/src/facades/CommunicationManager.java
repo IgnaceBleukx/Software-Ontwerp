@@ -30,6 +30,22 @@ public class CommunicationManager {
 		domainFacade = new DomainFacade(this);
 		UIFacade = new UIFacade(this);
 	}
+
+	public Table getActiveTable() {
+		return domainFacade.getActiveTable();
+	}
+
+	public void setActiveTable(Table t) {
+		domainFacade.setActiveTable(t);
+	}
+
+	public void loadInterface(Loadable_Interfaces i) {
+		UIFacade.loadUI(i);
+	}
+
+	public boolean isEmptyTable(Table t) {
+		return (domainFacade.getColumns(t).size() == 0);
+	}
 	
 	public void loadUI(Loadable_Interfaces i) {
 		UIFacade.loadUI(i);
@@ -195,6 +211,30 @@ public class CommunicationManager {
 
 	public UIElement getLockedElement() {
 		return UIFacade.getLockedElement();
+	}
+
+	public void setColumnType(Column col, Type type) throws InvalidTypeException {
+		domainFacade.setColumnType(col,type);
+		
+	}
+	
+	private ArrayList<Runnable> titleChangeRunnables = new ArrayList<>();
+	
+	public void addTitleChangeRunnable(Runnable r) {
+		titleChangeRunnables.add(r);
+	}
+	
+	private String newTitle;
+	
+	public String getNewTitle() {
+		return newTitle;
+	}
+	
+	public void changeTitle(String title) {
+		this.newTitle = title;
+		for (Runnable r : titleChangeRunnables) {
+			r.run();
+		}
 	}
 	
 		

@@ -39,7 +39,8 @@ public class UI {
 	/**
 	 * Loads the Tables interface: the interface in which the user can add or delete tables
 	 */
-	public void loadTablesInterface() {	
+	public void loadTablesInterface() {
+		this.clear();
 		ListView l = new ListView(10, 10, 560, 570, new ArrayList<UIElement>());
 		this.addUIElement(l);
 
@@ -49,6 +50,9 @@ public class UI {
 			communicationManager.addEmptyTable();
 			l.loadFromTables(communicationManager.getTables());
 		});
+
+		l.loadFromTables(communicationManager.getTables());
+
 	}
 
 	/**
@@ -56,17 +60,20 @@ public class UI {
 	 * (a standard view of a table)
 	 */
 	public void loadTableRowsInterface() {
+		this.clear();
+
 		//Temporary table
-		Table table = communicationManager.addEmptyTable();
-		communicationManager.addEmptyColumn(table,Type.BOOLEAN,true);
-		communicationManager.addEmptyColumn(table,Type.INTEGER,0);
-		communicationManager.addEmptyColumn(table,Type.STRING,"");
-		communicationManager.addEmptyColumn(table,Type.EMAIL,"");
-		communicationManager.addRow(table);
-		communicationManager.addRow(table);
-		communicationManager.addRow(table);
-		
-		
+//		Table table = communicationManager.addEmptyTable();
+//		communicationManager.addEmptyColumn(table,Type.BOOLEAN,true);
+//		communicationManager.addEmptyColumn(table,Type.INTEGER,0);
+//		communicationManager.addEmptyColumn(table,Type.STRING,"");
+//		communicationManager.addEmptyColumn(table,Type.EMAIL,"");
+//		communicationManager.addRow(table);
+//		communicationManager.addRow(table);
+//		communicationManager.addRow(table);
+
+		Table table = communicationManager.getActiveTable();
+
 		
 		//Properties of the UITable
 		int x = 10;
@@ -96,6 +103,7 @@ public class UI {
 		t.loadTable(table,cellWidth, cellHeight);
 		
 		t.addKeyboardListener(27,() ->{ //ESCAPE, go to TABLES interface
+			communicationManager.changeTitle("Tables Mode");
 			communicationManager.loadUI(Loadable_Interfaces.TABLES);
 		});
 		
@@ -104,13 +112,16 @@ public class UI {
 			communicationManager.addRow(table);
 			t.loadTable(table, cellWidth, cellHeight);
 		});
-		
+
+
 	}
 
 	/**
 	 * Loads the TableDesign interface: the interface in which the user can edit the variables of the columns of a table.
 	 */
 	public void loadTableDesignInterface() {
+		this.clear();
+
 		// Creating title
 		int margin = 20;
 		ListView l = new ListView(10, 30, 560, 520, new ArrayList<UIElement>());
@@ -123,11 +134,13 @@ public class UI {
 	
 		
 		//Creating temporary test table
-		communicationManager.addEmptyTable();
-		Table currentTable = communicationManager.getTables().get(0);
-		communicationManager.addEmptyColumn(currentTable,Type.STRING,"");
-		communicationManager.addEmptyColumn(currentTable,Type.BOOLEAN,false);
-		communicationManager.addEmptyColumn(currentTable,Type.INTEGER,0);
+//		communicationManager.addEmptyTable();
+//		Table currentTable = communicationManager.getTables().get(0);
+//		communicationManager.addEmptyColumn(currentTable,Type.STRING,"");
+//		communicationManager.addEmptyColumn(currentTable,Type.BOOLEAN,false);
+//		communicationManager.addEmptyColumn(currentTable,Type.INTEGER,0);
+
+		Table currentTable = communicationManager.getActiveTable();
 		
 		
 		l.loadColumnAttributes(currentTable);
@@ -138,6 +151,7 @@ public class UI {
 		});
 		
 		l.addKeyboardListener(27,() ->{ //ESCAPE, go to TABLES interface
+			communicationManager.changeTitle("Tables Mode");
 			communicationManager.loadUI(Loadable_Interfaces.TABLES);
 		});
 		
@@ -174,7 +188,6 @@ public class UI {
 	 */
 	public void addUIElement(UIElement e){
 		this.elements.add(e);
-		System.out.println("Commman: "+getCommunicationManager());
 		e.setCommunicationManager(getCommunicationManager());
 	}
 	
@@ -268,7 +281,6 @@ public class UI {
 		for (UIElement e : getElements()) {
 			//Notify all elements that a new element has been selected.
 			e.selectElement(newElement);
-			System.out.println("[UI.java:250] Selected "+newElement);
 		}
 	}
 }
