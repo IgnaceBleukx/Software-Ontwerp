@@ -231,6 +231,11 @@ public class DomainFacade {
 		col.toggleDefault();
 		
 	}
+
+	public void setColumnType(Column col, Type type) throws InvalidTypeException {
+		col.setColumnType(type);
+		
+	}
 	
 
 }

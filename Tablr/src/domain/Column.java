@@ -100,18 +100,18 @@ public class Column extends DomainElement {
 	public void setColumnType(Type type) throws InvalidTypeException {
 		for (Cell<?> cell : getCells()){
 			if (!isValidValue(type,cell.getValue().toString())) {
-				this.type = type;
 				this.isError();
 				throw new InvalidTypeException();
 			}
 		}
 		if (!isValidValue(type,getDefault().toString())) {
-			this.type = type;
 			this.isError();
+			System.out.println("[Column.java:110] Throwing invalidTypeException" );
 			throw new InvalidTypeException();
+		}else{
+			this.isNotError();
+			this.type = type;
 		}
-		this.isNotError();
-		this.type = type;
 	}
 	
 	/**

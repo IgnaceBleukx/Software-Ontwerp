@@ -212,6 +212,11 @@ public class CommunicationManager {
 	public UIElement getLockedElement() {
 		return UIFacade.getLockedElement();
 	}
+
+	public void setColumnType(Column col, Type type) throws InvalidTypeException {
+		domainFacade.setColumnType(col,type);
+		
+	}
 	
 		
 

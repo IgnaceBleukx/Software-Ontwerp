@@ -181,7 +181,6 @@ public class ListView extends UIElement {
 			Text colType = new Text(210+margin,y,150,50, c.getColumnType(col).toString()); colType.setBorder(true);
 			Checkbox colBlankPol = new Checkbox(375+margin,y+15,20,20, c.getBlankingPolicy(col));
 						
-			//TextField colDefText = null;
 			ArrayList<UIElement> list;
 			if(c.getColumnType(col) == Type.BOOLEAN){
 				Object defaultValue = c.getDefault(col);
@@ -199,11 +198,17 @@ public class ListView extends UIElement {
 					loadColumnAttributes(table);
 				});
 			}
-			
-			
 			else{
 				TextField colDefText = new TextField(410+margin,y,160-margin,50, c.getDefault(col).toString());
 				list = new ArrayList<UIElement>(){{ add(colName); add(colType); add(colBlankPol); add(colDefText);}};
+				colDefText.addKeyboardListener(-1,()-> {
+					try{
+						c.setDefault(col,colDefText.getText());
+						if (colDefText.getError()) colDefText.isNotError();
+					}catch(ClassCastException e){
+						colDefText.isError();
+					}
+				});
 			}
 			
 			UIRow uiRow = new UIRow(10,y,560,50,list);
@@ -237,15 +242,27 @@ public class ListView extends UIElement {
 			});
 			
 			colType.addSingleClickListener(() -> {
-				try{
-					c.toggleColumnType(col);
-					if (colType.getError()) colType.isNotError();
-					if (colType.equals(c.getLockedElement())) c.releaseLock(colType);
-					loadColumnAttributes(table);
-				}catch (InvalidTypeException e){
-					colType.setText(Column.getNextType(c.getColumnType(col)).toString());
-					colType.isError();
-					c.getLock(colType);
+				if (colType.getError()){
+					try{
+						c.setColumnType(col, Column.getNextType(Type.valueOf(colType.getText())));
+						colType.isNotError();
+						c.releaseLock(colType);
+						loadColumnAttributes(table);
+					}catch(InvalidTypeException e){
+						colType.setText(Column.getNextType(Type.valueOf(colType.getText())).toString());
+						colType.isError();
+						c.getLock(colType);
+					}
+				}
+				else{
+					try{
+						c.toggleColumnType(col);
+						loadColumnAttributes(table);
+					}catch (InvalidTypeException e){
+						colType.setText(Column.getNextType(c.getColumnType(col)).toString());
+						colType.isError();
+						c.getLock(colType);
+					}
 				}
 								
 			});
