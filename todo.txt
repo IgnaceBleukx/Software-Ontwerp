@@ -1,4 +1,4 @@
 TODO:
 
 - Onderscheid maken tussen STRING en EMAIL
-- 
+- !!!! In ListView regel 162 en 166 code uncommenten!!! EN in MyCanvasWindow regel 28

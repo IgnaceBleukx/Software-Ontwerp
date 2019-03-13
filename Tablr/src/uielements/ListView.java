@@ -159,11 +159,15 @@ public class ListView extends UIElement {
 
 				if (getCommunicationManager().isEmptyTable(curr)) {
 					getCommunicationManager().loadUI(Loadable_Interfaces.TABLE_DESIGN);
+<<<<<<< HEAD
 	//				getCommunicationManager().changeTitle("Table Design Mode: "+curr.getName());
+=======
+					//getCommunicationManager().changeTitle("Table Design Mode: "+curr.getName());
+>>>>>>> 7b2155d631c99a572cff055ddaf29c5a33b780d2
 				}
 				else {
 					getCommunicationManager().loadUI(Loadable_Interfaces.TABLE_ROWS);
-					getCommunicationManager().changeTitle("Table Rows Mode: "+curr.getName());
+					//getCommunicationManager().changeTitle("Table Rows Mode: "+curr.getName());
 
 				}
 			});
