@@ -157,12 +157,15 @@ public class ListView extends UIElement {
 			tableNameLabel.addDoubleClickListener(() -> {
 				getCommunicationManager().setActiveTable(curr);
 
-				if (getCommunicationManager().isEmptyTable(curr))
+				if (getCommunicationManager().isEmptyTable(curr)) {
 					getCommunicationManager().loadUI(Loadable_Interfaces.TABLE_DESIGN);
-				else
+					getCommunicationManager().changeTitle("Table Design Mode: "+curr.getName());
+				}
+				else {
 					getCommunicationManager().loadUI(Loadable_Interfaces.TABLE_ROWS);
+					getCommunicationManager().changeTitle("Table Rows Mode: "+curr.getName());
 
-				System.out.println("[ListView.java:159] Switching modes to TABLE_DESIGN for table "+curr);
+				}
 			});
 
 			currRow.addElement(tableNameLabel);

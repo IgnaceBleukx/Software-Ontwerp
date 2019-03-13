@@ -103,6 +103,7 @@ public class UI {
 		t.loadTable(table,cellWidth, cellHeight);
 		
 		t.addKeyboardListener(27,() ->{ //ESCAPE, go to TABLES interface
+			communicationManager.changeTitle("Tables Mode");
 			communicationManager.loadUI(Loadable_Interfaces.TABLES);
 		});
 		
@@ -150,6 +151,7 @@ public class UI {
 		});
 		
 		l.addKeyboardListener(27,() ->{ //ESCAPE, go to TABLES interface
+			communicationManager.changeTitle("Tables Mode");
 			communicationManager.loadUI(Loadable_Interfaces.TABLES);
 		});
 		

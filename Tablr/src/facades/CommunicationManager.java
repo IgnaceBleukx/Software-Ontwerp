@@ -218,6 +218,25 @@ public class CommunicationManager {
 		
 	}
 	
+	private ArrayList<Runnable> titleChangeRunnables = new ArrayList<>();
+	
+	public void addTitleChangeRunnable(Runnable r) {
+		titleChangeRunnables.add(r);
+	}
+	
+	private String newTitle;
+	
+	public String getNewTitle() {
+		return newTitle;
+	}
+	
+	public void changeTitle(String title) {
+		this.newTitle = title;
+		for (Runnable r : titleChangeRunnables) {
+			r.run();
+		}
+	}
+	
 		
 
 	

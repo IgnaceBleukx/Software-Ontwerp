@@ -23,6 +23,10 @@ public class MyCanvasWindow extends CanvasWindow {
 		
 		communicationManager = new CommunicationManager();
 		communicationManager.loadUI(Loadable_Interfaces.TABLES);
+		
+		communicationManager.addTitleChangeRunnable(() -> {
+			this.setTitle(communicationManager.getNewTitle());
+		});
 
 	}
 
