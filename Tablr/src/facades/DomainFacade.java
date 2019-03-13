@@ -242,6 +242,11 @@ public class DomainFacade {
 		col.toggleCellValueBoolean(i);
 		
 	}
+
+	public Object getValue(Column col, int index) {
+		return col.getCell(index).getValue();
+		
+	}
 	
 
 }

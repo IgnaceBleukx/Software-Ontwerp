@@ -250,6 +250,10 @@ public class CommunicationManager {
 		
 	}
 	
+	public Object getValue(Column col, int index){
+		return domainFacade.getValue(col,index);
+	}
+	
 		
 
 	
