@@ -368,12 +368,20 @@ public class Column extends DomainElement {
 		}
 	}
 
-	public void toggleDefault() {
+	public void toggleDefaultBoolean() {
 		if (getColumnType() != Type.BOOLEAN) return;
-		if (getDefault() == null) setDefaultValue(true);
-		else if ((boolean)getDefault() == true) setDefaultValue(false);
-		else if ((boolean)getDefault() == false && getBlankingPolicy()) setDefaultValue(null);
-		else if ((boolean)getDefault() == false && !getBlankingPolicy()) setDefaultValue(true);
+//		if (getDefault() == null) setDefaultValue(true);
+//		else if ((boolean)getDefault() == true) setDefaultValue(false);
+//		else if ((boolean)getDefault() == false && getBlankingPolicy()) setDefaultValue(null);
+//		else if ((boolean)getDefault() == false && !getBlankingPolicy()) setDefaultValue(true);
+		System.out.println("[Column.java:377] : current default value = " + getDefault());
+		Boolean current;
+		if (getDefault() == null) current = (Boolean) null;
+		else current = (boolean) getDefault();
+		setDefaultValue(
+				nextValueBoolean(
+						current,
+						getBlankingPolicy()));
 	}
 	
 	public static Type getNextType(Type type){
@@ -384,6 +392,19 @@ public class Column extends DomainElement {
 			case INTEGER: 	return (Type.STRING); 
 			default:  return null;
 		}
+	}
+
+	public void toggleCellValueBoolean(int index){
+		if (this.getColumnType() != Type.BOOLEAN) return;
+		boolean value = nextValueBoolean((Boolean)getCell(index).getValue(),getBlankingPolicy());
+		changeCellValue(index,Boolean.toString(value));
+	}
+	
+	public static Boolean nextValueBoolean(Boolean current, boolean blanks){
+		if (current == (Boolean) null) return true;
+		if (current == true) return false;
+		if (current == false && blanks) return null;
+		return true;
 	}
 
 	

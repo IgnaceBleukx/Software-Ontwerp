@@ -229,12 +229,17 @@ public class DomainFacade {
 	}
 
 	public void toggleDefault(Column col) {
-		col.toggleDefault();
+		col.toggleDefaultBoolean();
 		
 	}
 
 	public void setColumnType(Column col, Type type) throws InvalidTypeException {
 		col.setColumnType(type);
+		
+	}
+
+	public void toggleCellValueBoolean(Column col, int i) {
+		col.toggleCellValueBoolean(i);
 		
 	}
 	

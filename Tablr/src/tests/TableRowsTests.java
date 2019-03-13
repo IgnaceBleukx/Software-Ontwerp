@@ -25,19 +25,24 @@ public class TableRowsTests {
 	myCW.handleMouseEvent(0, 40, 530 , 2);
 	//Going into tables mode:
 	myCW.handleMouseEvent(0,85, 30, 2);
-	assertEquals(Loadable_Interfaces.TABLE_DESIGN, coMan.getMode());
 	myCW.handleMouseEvent(0, 260, 230, 2);
-	assertEquals(1,coMan.getColumns(coMan.getActiveTable()).size());
 	myCW.handleMouseEvent(0,500,60, 1);
+	//Changing default value for column0.
 	String d = "default";
 	for(int i=0;i<d.length();i++){
 		myCW.handleKeyEvent(0, 0, d.charAt(i));
 	}
 	myCW.handleKeyEvent(0,10,' ');
+	//Adding a second column:
+	myCW.handleMouseEvent(0, 260, 330, 2);
+	myCW.handleMouseEvent(0, 300, 100, 1);
 	myCW.handleKeyEvent(0,27,' ');
 	myCW.handleMouseEvent(0,85, 30, 2);
 	assertEquals(Loadable_Interfaces.TABLE_ROWS,coMan.getMode());
+	// Step 1: The user double clicks below the list of tables:
 	myCW.handleMouseEvent(0, 40, 530 , 2);
+	/* Step 2: The system adds a new row to the end of the table.
+				Its value for each column is the columns default. */
 	assertEquals(1,coMan.getActiveTable().getRows().size());
 }
 

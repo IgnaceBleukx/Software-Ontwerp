@@ -215,7 +215,7 @@ public class TableDesignTests {
 		myCW.handleKeyEvent(1, 97, '1');
 		myCW.handleKeyEvent(1, 97, '1');
 		assert(tf.getError()); //11 is NOT a valid email
-		myCW.handleKeyEvent(1, ???, '@'); //TODO: waar vind ik een @, hoe doe je dat
+		myCW.handleKeyEvent(1, -1, '@'); //TODO: waar vind ik een @, hoe doe je dat -> -1 gebruiken
 		assert(!tf.getError()); //11@ is a valid email
 
 		//Loop for boolean: null-true-false-_, or true-false-_

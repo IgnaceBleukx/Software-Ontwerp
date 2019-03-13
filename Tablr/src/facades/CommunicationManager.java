@@ -244,6 +244,11 @@ public class CommunicationManager {
 	public ArrayList<UIElement> getActiveUIElements() {
 		return UIFacade.getActiveUIElements();
 	}
+
+	public void toggleCellValueBoolean(Column col, int i) {
+		domainFacade.toggleCellValueBoolean(col,i);
+		
+	}
 	
 		
 

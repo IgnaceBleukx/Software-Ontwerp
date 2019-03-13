@@ -71,18 +71,31 @@ public class UITable extends UIElement {
 			ArrayList<UIElement> emts = new ArrayList<UIElement>();
 			for(Column col : c.getColumns(tab)){
 				String val = c.getValueString(col,i);
-				TextField field =  new TextField(x,y,cellWidth, cellHeigth,val);
-				emts.add(field);
+				if(c.getColumnType(col).equals(Type.BOOLEAN)){
+					Boolean value = (Boolean) Column.parseValue(Type.BOOLEAN,val);
+					Checkbox check = new Checkbox(x + (int)(cellWidth/2) - 10,y+(int)(cellHeigth/2)-10,20,20,value == null ? false : value);
+					if (value == null) check.greyOut();
+					emts.add(check);
+					int index = i;
+					check.addSingleClickListener(() ->{
+						c.toggleCellValueBoolean(col, index);
+					});
+				}
+				else{				
+					TextField field =  new TextField(x,y,cellWidth, cellHeigth,val);
+					emts.add(field);
+					int index = i;
+					field.addKeyboardListener(-1, () -> {
+						try{
+							c.changeCellValue(col,index,field.getText());
+							if(field.getError()) field.isNotError();
+						}catch(ClassCastException e){
+							field.isError();
+						}
+					});
+				}
 				x += cellWidth;
-				int index = i;
-				field.addKeyboardListener(-1, () -> {
-					try{
-						c.changeCellValue(col,index,field.getText());
-						if(field.getError()) field.isNotError();
-					}catch(ClassCastException e){
-						field.isError();
-					}
-				});
+				
 				
 			}
 			UIRow uiRow = new UIRow(super.getX(),y,super.getWidth(),cellHeigth,emts);
