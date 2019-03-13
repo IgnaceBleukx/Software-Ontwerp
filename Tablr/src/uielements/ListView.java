@@ -207,6 +207,7 @@ public class ListView extends UIElement {
 				colDefText.addKeyboardListener(-1,()-> {
 					try{
 						c.setDefault(col,colDefText.getText());
+						System.out.println("Default value changed to: " + c.getDefault(col));
 						if (colDefText.getError()) colDefText.isNotError();
 					}catch(ClassCastException e){
 						colDefText.isError();

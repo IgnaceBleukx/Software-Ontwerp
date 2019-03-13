@@ -104,8 +104,8 @@ public class Column extends DomainElement {
 				throw new InvalidTypeException();
 			}
 		}
+		System.out.println("[Column.java:107]: Trying to set type "+ type + "while default value is: " + getDefault());
 		if (!isValidValue(type,getDefault().toString())) {
-			this.isError();
 			System.out.println("[Column.java:110] Throwing invalidTypeException" );
 			throw new InvalidTypeException();
 		}else{
@@ -154,21 +154,22 @@ public class Column extends DomainElement {
 													put(Type.INTEGER, 0);//TODO: dit moet eigenlijk null zijn, nee?
 	}};
 	
-	/**
-	 * This method sets the default value for a given type.
-	 * @param t 	The type of which the default value must be set.
-	 * @param o 	The Value of the type.
-	 * @throws ClassCastException 	This exception is thrown when the given value is non-valid for the given Type.
-	 */
-	public void changeDefaultValue(Type t, Object o) throws ClassCastException{
-		if(o != null && o.equals("") && !getBlankingPolicy()) throw new ClassCastException();
-		switch (t){
-				case STRING :	 defaultValues.put(Type.STRING,(String)o); break;
-				case BOOLEAN :  defaultValues.put(Type.BOOLEAN, (Boolean) o); break;
-				case EMAIL : 	 defaultValues.put(Type.EMAIL,(String)o); break;
-				case INTEGER : defaultValues.put(Type.INTEGER, (Integer) o); break;
-			}
-	}
+//	/**
+//	 * This method sets the default value for a given type.
+//	 * @param t 	The type of which the default value must be set.
+//	 * @param o 	The Value of the type.
+//	 * @throws ClassCastException 	This exception is thrown when the given value is non-valid for the given Type.
+//	 */
+//	public void changeDefaultValue(Type t, Object o) throws ClassCastException{
+//		if(o == null && !getBlankingPolicy()) throw new ClassCastException();
+//		switch (t){
+//				case STRING :	 defaultValues.put(Type.STRING,(String)o); break;
+//				case BOOLEAN :  defaultValues.put(Type.BOOLEAN, (Boolean) o); break;
+//				case EMAIL : 	 defaultValues.put(Type.EMAIL,(String)o); break;
+//				case INTEGER : defaultValues.put(Type.INTEGER, (Integer) o); break;
+//			}
+//		
+//	}
 	
 	private Object defaultValue;
 		
@@ -377,8 +378,8 @@ public class Column extends DomainElement {
 	 * 					E.G. "abc" cannot be parsed to Int
 	 */
 	public static Object parseValue(Type type, String string) throws ClassCastException {
-		if (!isValidValue(type, string)) throw new ClassCastException();
-		else if (string == "") return null;
+		if (string == "") return null;
+		else if (!isValidValue(type, string)) throw new ClassCastException();
 		else{
 			switch(type){
 				case BOOLEAN: return Boolean.parseBoolean(string); 
