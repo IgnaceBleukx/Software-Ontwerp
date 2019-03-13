@@ -364,7 +364,7 @@ public class Column extends DomainElement {
 				return false;
 			}
 			case STRING : return true;
-			case EMAIL : return true;
+			case EMAIL : return (string.indexOf("@") == string.lastIndexOf("@") && string.indexOf("@") != -1);
 			default :  return false;
 		}
 	}

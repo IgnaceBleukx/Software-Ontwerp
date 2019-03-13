@@ -237,6 +237,10 @@ public class CommunicationManager {
 		}
 	}
 	
+	public ArrayList<UIElement> getActiveUIElements() {
+		return UIFacade.getActiveUIElements();
+	}
+	
 		
 
 	

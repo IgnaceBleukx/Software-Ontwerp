@@ -267,8 +267,7 @@ public class ListView extends UIElement {
 						colType.isError();
 						c.getLock(colType);
 					}
-				}
-								
+				}				
 			});
 			
 			colName.addKeyboardListener(-1,() -> {
