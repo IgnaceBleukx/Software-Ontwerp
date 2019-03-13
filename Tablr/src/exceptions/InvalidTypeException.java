@@ -1,4 +1,4 @@
-package domain;
+package exceptions;
 
 public class InvalidTypeException extends Exception {
 

@@ -3,6 +3,8 @@ package domain;
 import java.util.ArrayList;
 import java.util.HashMap;
 
+import exceptions.InvalidNameException;
+import exceptions.InvalidTypeException;
 import facades.CommunicationManager;
 
 public class Column extends DomainElement {

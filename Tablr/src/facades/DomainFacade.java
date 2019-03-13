@@ -3,11 +3,11 @@ package facades;
 import java.util.ArrayList;
 
 import domain.Column;
-import domain.InvalidNameException;
-import domain.InvalidTypeException;
 import domain.Row;
 import domain.Table;
 import domain.Type;
+import exceptions.InvalidNameException;
+import exceptions.InvalidTypeException;
 import uielements.UI;
 
 /**

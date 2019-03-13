@@ -6,10 +6,10 @@ import java.util.ArrayList;
 import java.util.Iterator;
 
 import domain.Column;
-import domain.InvalidNameException;
-import domain.InvalidTypeException;
 import domain.Table;
 import domain.Type;
+import exceptions.InvalidNameException;
+import exceptions.InvalidTypeException;
 import facades.CommunicationManager;
 import ui.Loadable_Interfaces;
 
@@ -272,7 +272,7 @@ public class ListView extends UIElement {
 				}
 			});
 			
-			colName.addKeyboardListener(-1,() -> {
+			colName.addKeyboardListener(-1,() -> {	
 				try{
 					if (colName.isSelected){
 						c.setColumnName(col, colName.getText());
