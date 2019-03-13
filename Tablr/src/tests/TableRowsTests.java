@@ -8,8 +8,10 @@ import org.junit.Test;
 import canvaswindow.MyCanvasWindow;
 import facades.CommunicationManager;
 import ui.Loadable_Interfaces;
+import uielements.ListView;
 import uielements.TextField;
 import uielements.UIRow;
+import uielements.UITable;
 
 public class TableRowsTests {
 	
@@ -48,7 +50,6 @@ public class TableRowsTests {
 
 	/**
 	 * use case 4.10: Delete Row 
-	 * TODO: Add row werkt hier niet
 	 */
 	@Test
 	public void useCase10() {
@@ -63,31 +64,34 @@ public class TableRowsTests {
 		//The user double-clicks a table name.
 		myCW.handleMouseEvent(0, 51, 13, 2);
 		
-		// The user double-clicks below the list of tables to create a column
+		// The user double-clicks to create a column
 		myCW.handleMouseEvent(0, 40, 530 , 2);
 		
 		// go back to TABLES_MODE
 		myCW.handleKeyEvent(0, 27, ' ');
 		
-		// Step 1: The user double-clicks a table name.
+		// Step 1: The user double-clicks the table name.
 		myCW.handleMouseEvent(0, 51, 13, 2);
 		
 		assertEquals(Loadable_Interfaces.TABLE_ROWS, coMan.getMode());
 		
 		// Add a row
-		myCW.handleMouseEvent(0, 11, 31 , 1);
-
-		System.out.println(coMan.getActiveTable().getRows());
+		myCW.handleMouseEvent(0, 11, 31 , 2);
 		
 		// Step 1: The user clicks the margin to the left of first row.
 		myCW.handleMouseEvent(0, 11, 61 , 1);
 		
+		// Step 2: The system indicates that this row is now selected.
+		UIRow r = (UIRow) coMan.getActiveUI().locatedAt(11, 61);
+		UITable table = (UITable) coMan.getActiveUI().locatedAt(200, 200);
+		assertEquals(table.getSelected(), r);
+
+		// Step 3: User presses Delete key
+		myCW.handleKeyEvent(0, 127, ' ');
 		
-		//Step 2: The system indicates that this row is now selected.
-		UIRow r = (UIRow) coMan.getActiveUI().locatedAt(10, 60);
-		assertEquals(r.isSelected(), true);
-		
-		// ...
+		// Step 4: The system removes the row from the table and shows the updated list of rows
+		assertEquals(coMan.getTables().get(0).getRows().size(), 0);
+		assertEquals(table.getRows().size(), 0);
 	}
 	
 }
