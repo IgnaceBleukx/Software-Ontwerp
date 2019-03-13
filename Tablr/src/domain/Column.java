@@ -1,9 +1,7 @@
 package domain;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 
-import facades.CommunicationManager;
 
 public class Column extends DomainElement {
 	
@@ -278,21 +276,9 @@ public class Column extends DomainElement {
 			default: throw new ClassCastException();
 		}	
 		cells.add(newCell);
-		newCell.setCommunicationManager(getCommunicationManager());
 	}
 	
-	/**
-	 * Sets he communication manager for this column.
-	 * Also sets the communication manager for all cells in this column.
-	 * @param c		New CommunicationManager instance for this column.
-	 */
-	@Override
-	public void setCommunicationManager(CommunicationManager c) {
-		this.communicationManager = c;
-		for (Cell<?> e : getCells()) {
-			e.setCommunicationManager(c);
-		}
-	}
+
 	
 	/**
 	 * Changes the value of a cell to a value supplied by a string.
@@ -312,7 +298,6 @@ public class Column extends DomainElement {
 			case STRING: 	newCell = new Cell<String>(string); break;
 			default : throw new ClassCastException();
 		}
-		newCell.setCommunicationManager(getCommunicationManager());
 		newCell.setColumn(this);
 		cells.remove(i);
 		cells.add(i,newCell);		

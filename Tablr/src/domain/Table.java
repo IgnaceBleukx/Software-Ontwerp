@@ -2,7 +2,6 @@ package domain;
 
 import java.util.ArrayList;
 
-import facades.CommunicationManager;
 
 public class Table extends DomainElement {
 	
@@ -44,21 +43,7 @@ public class Table extends DomainElement {
  	public ArrayList<Column> getColumns() {
 		return columns;
 	}
-	
-//	/**
-//	 * Add a new Column at the end of the list of columns (e.g. to the right)
-//	 */
-//	public Column addEmptyColumn(){
-//		ArrayList<Cell<?>> columnCells = new ArrayList<Cell<?>>();
-//		for(int i=0;i<this.getRows().size(); i++){
-//			Cell<String> cell = new Cell<String>(null);
-//			columnCells.add(cell);
-//		}
-//		Column newCol = new Column(newColumnName(), columnCells);
-//		newCol.setTable(this);
-//		this.columns.add(newCol);
-//		return newCol;
-//	}
+
  	
  	public Column addEmptyColumn(Type type, Object defaultValue){
  		Column col;
@@ -74,18 +59,7 @@ public class Table extends DomainElement {
 			return null;
 		}
  	}
-	
-//	/**
-//	 * This method adds a column to the current table.s
-//	 * @param col 	The column to be added.
-//	 */
-//	public void addColumn(Column col){
-//		this.columns.add(col);
-//		while(this.rows.size() < col.getCells().size()){
-//			this.addRow();
-//		}
-//		col.setTable(this);
-//	}
+
 	
 	/**
 	 * This method removes a Column from the current table.
@@ -127,10 +101,8 @@ public class Table extends DomainElement {
 	public void addRow(){
 		Row r = new Row();
 		this.rows.add(r);
-		r.setCommunicationManager(getCommunicationManager());
 		for (Column col: columns){
 			col.addBlankCell();
-			col.setCommunicationManager(getCommunicationManager());
 		}
 		r.setTable(this);
 	}
@@ -195,17 +167,6 @@ public class Table extends DomainElement {
 		}
 		while(! rows.isEmpty()){
 			rows.get(0).terminate();
-		}
-	}
-	
-	/**
-	 * Sets the communication manager for this table, and all its columns.
-	 */
-	@Override
-	public void setCommunicationManager(CommunicationManager c) {
-		this.communicationManager = c;
-		for (Column e : getColumns()) {
-			e.setCommunicationManager(c);
 		}
 	}
 	
