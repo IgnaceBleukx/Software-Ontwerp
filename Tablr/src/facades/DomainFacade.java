@@ -205,9 +205,8 @@ public class DomainFacade {
 	}
 
 	public void setDefault(Column col, String def) throws ClassCastException {
-		System.out.println("Trying to set default value to : " + def);
-		Object o = Column.parseValue(col.getColumnType(), def);
-		col.changeDefaultValue(col.getColumnType(), o);
+		System.out.println("[DomainFacade.java: 208] : Trying to set default value to : " + def);
+		col.setDefaultValue(Column.parseValue(col.getColumnType(),def));
 	}
 
 	public Type getColumnType(Column col) {
