@@ -103,9 +103,9 @@ public class Column extends DomainElement {
 				throw new InvalidTypeException();
 			}
 		}
-		System.out.println("[Column.java:107]: Trying to set type "+ type + "while default value is: " + getDefault());
-		if (!isValidValue(type,getDefault().toString())) {
-			System.out.println("[Column.java:110] Throwing invalidTypeException" );
+		System.out.println("[Column.java:106]: Trying to set type "+ type + "while default value is: " + getDefault());
+		if (!isValidValue(type,(String) getDefault())){
+			System.out.println("[Column.java:108] Throwing invalidTypeException" );
 			throw new InvalidTypeException();
 		}else{
 			this.type = type;
@@ -141,34 +141,6 @@ public class Column extends DomainElement {
 		if (allowsBlanks && getDefault() == null) throw new Exception("The column default is blank");
 		allowsBlanks = !allowsBlanks;
 	}
-	
-	
-	/**
-	 * The default value of a column which allows blanks.
-	 */
-	private HashMap<Type, Object> defaultValues = new HashMap<Type, Object>(){{ //TODO: nog steeds probleem dat je gewoon "banaan" kunt ingeven in INTEGER
-													put(Type.STRING,  "");
-													put(Type.BOOLEAN, false);
-													put(Type.EMAIL,   "");
-													put(Type.INTEGER, 0);//TODO: dit moet eigenlijk null zijn, nee?
-	}};
-	
-//	/**
-//	 * This method sets the default value for a given type.
-//	 * @param t 	The type of which the default value must be set.
-//	 * @param o 	The Value of the type.
-//	 * @throws ClassCastException 	This exception is thrown when the given value is non-valid for the given Type.
-//	 */
-//	public void changeDefaultValue(Type t, Object o) throws ClassCastException{
-//		if(o == null && !getBlankingPolicy()) throw new ClassCastException();
-//		switch (t){
-//				case STRING :	 defaultValues.put(Type.STRING,(String)o); break;
-//				case BOOLEAN :  defaultValues.put(Type.BOOLEAN, (Boolean) o); break;
-//				case EMAIL : 	 defaultValues.put(Type.EMAIL,(String)o); break;
-//				case INTEGER : defaultValues.put(Type.INTEGER, (Integer) o); break;
-//			}
-//		
-//	}
 	
 	private Object defaultValue;
 		
@@ -351,7 +323,7 @@ public class Column extends DomainElement {
 	 * @param string	Value 
 	 */
 	public static boolean isValidValue(Type type, String string){
-		if (string == "") return true;
+		if (string == "" || string == null) return true;
 		switch(type){
 			case BOOLEAN : {
 				return (string.equals("False") || string.equals("false") || string.equals("True") || string.equals("true"));
@@ -363,7 +335,7 @@ public class Column extends DomainElement {
 				return false;
 			}
 			case STRING : return true;
-			case EMAIL : return true;
+			case EMAIL : return (string.indexOf("@") == string.lastIndexOf("@") && string.indexOf("@") != -1);
 			default :  return false;
 		}
 	}
