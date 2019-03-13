@@ -108,15 +108,16 @@ public class TablesModeTests {
 		UIRow r = (UIRow) l.getElements().get(0);
 		
 		// Step 1: The user clicks the margin to the left of a table name.
-		Button b = (Button) coMan.getActiveUI().locatedAt(13, 13);
-		System.out.println(r.getElements());
-		System.out.println(b.isSelected());
 		myCW.handleMouseEvent(0, 13, 13, 1);
-		//myCW.handleMouseEvent(0, 93, 13, 1);
-		TextField t = (TextField) coMan.getActiveUI().locatedAt(93, 13);
-		//Kijken naar de row via listview.getSelectedElement of die geselecteerd is of niet
-		System.out.println(t.isSelected());
-		assertEquals(t.isSelected(), true);
+
+		// Step 2: row is selected
+		assertEquals(l.getSelectedElement(), r);
+
+		// Step 3: User presses Delete key
+		myCW.handleKeyEvent(0, 127, ' ');
 		
+		// Step 4: The system removes the table and shows the updated list of tables
+		assertEquals(coMan.getTables().size(), 0);
+		assertEquals(l.getElements().size(), 0);
 	}
 }

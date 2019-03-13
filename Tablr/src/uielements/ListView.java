@@ -192,7 +192,7 @@ public class ListView extends UIElement {
 					colDefCheck = new Checkbox(480, y+15,20,20, false);
 					colDefCheck.greyOut();
 				}
-				else colDefCheck = new Checkbox(480, y+15,20,20,(boolean) c.getDefault(col));
+				else colDefCheck = new Checkbox(480, y+15,20,20,Boolean.parseBoolean((String) c.getDefault(col)));
 				
 				list = new ArrayList<UIElement>(){{ add(colName); add(colType); add(colBlankPol); add(colDefCheck);}};
 				
@@ -202,7 +202,7 @@ public class ListView extends UIElement {
 				});
 			}
 			else{
-				TextField colDefText = new TextField(410+margin,y,160-margin,50, c.getDefault(col).toString());
+				TextField colDefText = new TextField(410+margin,y,160-margin,50, (String) c.getDefault(col));
 				list = new ArrayList<UIElement>(){{ add(colName); add(colType); add(colBlankPol); add(colDefText);}};
 				colDefText.addKeyboardListener(-1,()-> {
 					try{
