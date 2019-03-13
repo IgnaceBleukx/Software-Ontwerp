@@ -8,11 +8,14 @@ import org.junit.Test;
 import canvaswindow.MyCanvasWindow;
 import facades.CommunicationManager;
 import ui.Loadable_Interfaces;
+import uielements.TextField;
+import uielements.UIRow;
 
 public class TableRowsTests {
 	
 	/**
-	 * use case 4.10: Delete Row
+	 * use case 4.10: Delete Row 
+	 * TODO: Add row werkt hier niet
 	 */
 	@Test
 	public void useCase10() {
@@ -30,7 +33,6 @@ public class TableRowsTests {
 		
 		// The user double-clicks below the list of tables to create a column
 		myCW.handleMouseEvent(0, 40, 530 , 2);
-		System.out.println(coMan.getTables().get(0).getColumns());
 		
 		// go back to TABLES_MODE
 		myCW.handleKeyEvent(0, 27, ' ');
@@ -39,9 +41,21 @@ public class TableRowsTests {
 		myCW.handleMouseEvent(0, 51, 13, 2);
 		
 		assertEquals(Loadable_Interfaces.TABLE_ROWS, coMan.getMode());
-				
-		// Step 1: The user clicks the margin to the left of some row.
-		myCW.handleMouseEvent(0, 10, 60 , 1);
+		
+		// Add a row
+		myCW.handleMouseEvent(0, 11, 31 , 1);
+
+		System.out.println(coMan.getActiveTable().getRows());
+		
+		// Step 1: The user clicks the margin to the left of first row.
+		myCW.handleMouseEvent(0, 11, 61 , 1);
+		
+		
+		//Step 2: The system indicates that this row is now selected.
+		UIRow r = (UIRow) coMan.getActiveUI().locatedAt(10, 60);
+		assertEquals(r.isSelected(), true);
+		
+		// ...
 	}
 
 }
