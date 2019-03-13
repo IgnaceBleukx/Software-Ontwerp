@@ -49,6 +49,44 @@ public class TableRowsTests {
 }
 
 	/**
+	 * use Case 4.9: Edit row value
+	 */
+	@Test
+	public void useCase9() {
+		// Step 1: Load the window
+		MyCanvasWindow myCW = new MyCanvasWindow("Tables Mode");
+		CommunicationManager coMan = myCW.getCommunicationManager();
+		coMan.clearUI();
+		coMan.loadUI(Loadable_Interfaces.TABLES);
+		// The user double-clicks below the list of tables to create a table
+		myCW.handleMouseEvent(0, 40, 530 , 2);
+		
+		//The user double-clicks a table name.
+		myCW.handleMouseEvent(0, 51, 13, 2);
+		
+		// The user double-clicks to create a column
+		myCW.handleMouseEvent(0, 40, 530 , 2);
+				
+		// go back to TABLES_MODE
+		myCW.handleKeyEvent(0, 27, ' ');
+			
+		//The user double-clicks the table name. (Go back to TABLE_ROWS
+		myCW.handleMouseEvent(0, 51, 13, 2);
+				
+		assertEquals(Loadable_Interfaces.TABLE_ROWS, coMan.getMode());
+				
+		// Add a row
+		myCW.handleMouseEvent(0, 11, 31 , 2);
+		
+		// Step 1: Click value of first row for first column
+		myCW.handleMouseEvent(0, 40, 70 , 1);
+
+		// Step 2: The system indicates that this row is now selected.
+		TextField textField = (TextField) coMan.getActiveUI().locatedAt(40, 70);
+		assertEquals(true, textField.isSelected());
+	}
+	
+	/**
 	 * use case 4.10: Delete Row 
 	 */
 	@Test
