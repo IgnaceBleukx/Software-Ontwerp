@@ -7,8 +7,5 @@ package domain;
  */
 public class Email {
 
-	public static boolean isValid(String string) {
-		return string.contains('@');
-	}
 
 }
