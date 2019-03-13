@@ -192,7 +192,7 @@ public class ListView extends UIElement {
 					colDefCheck = new Checkbox(480, y+15,20,20, false);
 					colDefCheck.greyOut();
 				}
-				else colDefCheck = new Checkbox(480, y+15,20,20,Boolean.parseBoolean((String) c.getDefault(col)));
+				else colDefCheck = new Checkbox(480, y+15,20,20,Boolean.parseBoolean(c.getDefault(col).toString()));
 				
 				list = new ArrayList<UIElement>(){{ add(colName); add(colType); add(colBlankPol); add(colDefCheck);}};
 				
@@ -247,6 +247,7 @@ public class ListView extends UIElement {
 			
 			colType.addSingleClickListener(() -> {
 				if (colType.getError()){
+					System.out.println("[ListVieuw.java:250] : colType is in error");
 					try{
 						c.setColumnType(col, Column.getNextType(Type.valueOf(colType.getText())));
 						colType.isNotError();
@@ -258,6 +259,7 @@ public class ListView extends UIElement {
 						c.getLock(colType);
 					}
 				}
+				
 				else{
 					try{
 						c.toggleColumnType(col);
@@ -267,7 +269,7 @@ public class ListView extends UIElement {
 						colType.isError();
 						c.getLock(colType);
 					}
-				}				
+				}
 			});
 			
 			colName.addKeyboardListener(-1,() -> {
