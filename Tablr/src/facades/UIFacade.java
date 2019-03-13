@@ -1,5 +1,7 @@
 package facades;
 
+import java.util.ArrayList;
+
 import domain.Table;
 import ui.Loadable_Interfaces;
 import uielements.Text;
@@ -79,5 +81,9 @@ public class UIFacade {
 
 	public UIElement getLockedElement() {
 		return getActiveUI().hardLockedElement;
+	}
+
+	public ArrayList<UIElement> getActiveUIElements() {
+		return new ArrayList<UIElement>(getActiveUI().getElements());
 	}
 }

@@ -27,12 +27,7 @@ public class Text extends UIElement {
 	 */
 	private boolean border = false;
 	
-	/**
-	 * Holds whether or not the Text is displayed as an error (e.g. it has an incorrect value for its position
-	 * in the table)
-	 */
-	private boolean error;
-	
+
 	/**
 	 * turns the border on or off (true or false)
 	 * @param b: the value of the border
@@ -41,20 +36,6 @@ public class Text extends UIElement {
 		border = b;
 	}
 	
-	/**
-	 * Sets the Text as an error (its text is not correct)
-	 */
-	public void isError() {
-		this.error = true;
-	}
-	
-	/**
-	 * Sets the Text as not an error (its text is correct)
-	 */
-	public void isNotError(){
-		this.error = false;
-	}
-
 	/**
 	 * This method sets the text of the current Text.
 	 * @param t: the text to be set.
@@ -73,7 +54,7 @@ public class Text extends UIElement {
 	@Override
 	public void paint(Graphics g) {
 		super.drawCenteredText(g, this.getText());
-		if(error) g.setColor(Color.red);
+		if(getError()) g.setColor(Color.red);
 		else g.setColor(Color.black);
 		if(border) g.drawRect(super.getX(), super.getY(), super.getWidth(), super.getHeight());
 

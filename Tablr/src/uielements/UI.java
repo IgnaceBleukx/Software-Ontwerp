@@ -119,6 +119,10 @@ public class UI {
 			communicationManager.loadUI(Loadable_Interfaces.TABLES);
 		});
 		
+		t.addKeyboardListener(17, () -> {
+			communicationManager.loadUI(Loadable_Interfaces.TABLE_DESIGN);
+		});
+		
 		t.addDoubleClickListener(() -> {
 			System.out.println("adding row");
 			communicationManager.addRow(table);
@@ -143,7 +147,15 @@ public class UI {
 		Text blanks_al = new Text(360+margin,10,50, 20,"Blanks_al");
 		Text def = new Text(410,10,200-margin, 20,"Default");
 		
-		this.addAllUIElements(new ArrayList<UIElement>(){{add(l);add(name);add(type);add(blanks_al);add(def);}});
+		this.addAllUIElements(new ArrayList<UIElement>()
+			{{
+				add(l);
+				add(name);
+				add(type);
+				add(blanks_al);
+				add(def);
+			}}
+		);
 	
 		
 		//Creating temporary test table

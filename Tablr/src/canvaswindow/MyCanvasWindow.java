@@ -92,13 +92,22 @@ public class MyCanvasWindow extends CanvasWindow {
 	@Override
 	public void handleKeyEvent(int id, int keyCode, char keyChar){
 		System.out.println("Keycode: "+keyCode);
-		for (UIElement e : communicationManager.getActiveUI().getElements()) {
+//		for (UIElement e : communicationManager.getActiveUI().getElements()) {
+//			e.handleKeyboardEvent(keyCode, keyChar);
+//			if (Character.isLetterOrDigit(keyChar) || keyCode == 8) {
+//				e.handleKeyboardEvent(-1, Character.MIN_VALUE);
+//			}
+//		}
+		
+		for (int i=0;i<communicationManager.getActiveUIElements().size();i++) {
+			UIElement e = communicationManager.getActiveUIElements().get(i);
 			e.handleKeyboardEvent(keyCode, keyChar);
-			if (Character.isLetterOrDigit(keyChar) || keyCode == 8) {
+
+			if (Character.isLetterOrDigit(keyChar) || keyCode == 8 || keyChar == '@') {
 				e.handleKeyboardEvent(-1, Character.MIN_VALUE);
 			}
 		}
-
+		
 		repaint();
 	}
 	

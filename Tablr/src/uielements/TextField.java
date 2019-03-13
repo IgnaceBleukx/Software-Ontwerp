@@ -43,7 +43,8 @@ public class TextField extends UIElement {
 	 * @param t: The text to be set.
 	 */
 	public void setText(String t){
-		this.text = t;
+		if (t == null) this.text = "";
+		else this.text = t;
 	}
 	
 	/**
@@ -111,9 +112,10 @@ public class TextField extends UIElement {
 				setNotSelected();
 		}
 
-		if (keyCode == 27 && !getError() && isSelected) {
+		if (keyCode == 27 &&  isSelected) {
 			restoreText();
 			setNotSelected();
+			isNotError();
 		}
 				
 		if (keyCode == 8 && isSelected) { //Backspace: remove character
@@ -122,7 +124,9 @@ public class TextField extends UIElement {
 				setText(newText);
 			}	
 		}
-		if (Character.isLetterOrDigit(keyChar) && isSelected == true) {
+
+		
+		if ((Character.isLetterOrDigit(keyChar) || keyChar == '@') && isSelected == true ) {
 			setText(getText()+keyChar);
 		}
 		

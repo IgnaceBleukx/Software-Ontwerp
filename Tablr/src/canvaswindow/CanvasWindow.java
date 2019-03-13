@@ -289,7 +289,7 @@ public class CanvasWindow {
 	}
 	
 	private void handleKeyEvent_(KeyEvent e) {
-		//System.out.println(e);
+		System.out.println(e);
 		if (recording != null)
 			recording.items.add(new KeyEventItem(e.getID(), e.getKeyCode(), e.getKeyChar()));
 		handleKeyEvent(e.getID(), e.getKeyCode(), e.getKeyChar());
