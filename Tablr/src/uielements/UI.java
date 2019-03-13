@@ -36,10 +36,21 @@ public class UI {
 	
 	}
 	
+	private Loadable_Interfaces mode;
+	
+	public Loadable_Interfaces getMode() {
+		return mode;
+	}
+
+	public void setMode(Loadable_Interfaces mode) {
+		this.mode = mode;
+	}
+
 	/**
 	 * Loads the Tables interface: the interface in which the user can add or delete tables
 	 */
 	public void loadTablesInterface() {
+		setMode(Loadable_Interfaces.TABLES);
 		this.clear();
 		ListView l = new ListView(10, 10, 560, 570, new ArrayList<UIElement>());
 		this.addUIElement(l);
@@ -60,6 +71,7 @@ public class UI {
 	 * (a standard view of a table)
 	 */
 	public void loadTableRowsInterface() {
+		setMode(Loadable_Interfaces.TABLE_ROWS);
 		this.clear();
 
 		//Temporary table
@@ -124,6 +136,7 @@ public class UI {
 	 * Loads the TableDesign interface: the interface in which the user can edit the variables of the columns of a table.
 	 */
 	public void loadTableDesignInterface() {
+		setMode(Loadable_Interfaces.TABLE_DESIGN);
 		this.clear();
 
 		// Creating title

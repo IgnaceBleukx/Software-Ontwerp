@@ -231,6 +231,7 @@ public class CanvasWindow {
 	private CanvasWindowRecording recording;
 	
 	void updateFrameTitle() {
+		
 		frame.setTitle(recording == null ? title : title + " - Recording: " + recording.items.size() + " items recorded");
 	}
 

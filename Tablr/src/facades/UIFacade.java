@@ -45,6 +45,10 @@ public class UIFacade {
 		return ui;
 	}
 
+	public Loadable_Interfaces getMode() {
+		return ui.getMode();
+	}
+	
 	public void newSelected(UIElement e) {
 		getActiveUI().selectElement(e);
 	}

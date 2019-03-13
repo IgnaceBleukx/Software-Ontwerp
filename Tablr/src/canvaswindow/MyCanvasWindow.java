@@ -61,8 +61,8 @@ public class MyCanvasWindow extends CanvasWindow {
 	@Override
 	public void handleMouseEvent(int id, int x, int y, int clickCount){
 		UIElement clicked = communicationManager.getActiveUI().locatedAt(x, y);
-		//System.out.println(clicked.getX());
-		//System.out.println(clicked.getY());
+		System.out.println(clicked.getX());
+		System.out.println(clicked.getY());
 		System.out.println("[MyCanvasWindow.java:62]: Clicked on: " + clicked);
 		
 		if (clicked == null)
