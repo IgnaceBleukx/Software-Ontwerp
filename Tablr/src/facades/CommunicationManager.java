@@ -27,7 +27,7 @@ public class CommunicationManager {
 	UIFacade UIFacade;
 	
 	public CommunicationManager() {
-		domainFacade = new DomainFacade(this);
+		domainFacade = new DomainFacade();
 		UIFacade = new UIFacade(this);
 	}
 

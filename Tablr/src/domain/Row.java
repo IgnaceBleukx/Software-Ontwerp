@@ -1,8 +1,5 @@
 package domain;
 
-import java.util.ArrayList;
-
-import facades.CommunicationManager;
 
 public class Row extends DomainElement {
 	

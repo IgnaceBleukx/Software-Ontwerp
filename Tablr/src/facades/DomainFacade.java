@@ -32,24 +32,6 @@ public class DomainFacade {
 	private Table activeTable;
 
 	/**
-	 * Reference to the communication manager used to pass this reference
-	 * to domain objects.
-	 */
-	private CommunicationManager communicationManager;
-	
-	public DomainFacade(CommunicationManager c) {
-		communicationManager = c;
-	}
-	
-	public void setCommunicationManager(CommunicationManager c) {
-		communicationManager = c;
-	}
-	
-	public CommunicationManager getCommunicationManager() {
-		return communicationManager;
-	}
-
-	/**
 	 * Sets the active table to some table t
 	 */
 	public void setActiveTable(Table t) {
@@ -74,7 +56,6 @@ public class DomainFacade {
 		String name = nextName();
 		Table t = new Table(name);
 		addTable(t);
-		t.setCommunicationManager(getCommunicationManager());
 		return t;
 	}
 	
