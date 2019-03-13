@@ -104,11 +104,12 @@ public class Column extends DomainElement {
 			}
 		}
 		System.out.println("[Column.java:106]: Trying to set type "+ type + "while default value is: " + getDefault());
-		if (!isValidValue(type,(String) getDefault())){
+		if (getDefault() != null && !isValidValue(type,getDefault().toString())){
 			System.out.println("[Column.java:108] Throwing invalidTypeException" );
 			throw new InvalidTypeException();
 		}else{
 			this.type = type;
+			if (getDefault() == null) return;
 			this.defaultValue = parseValue(type,getDefault().toString());
 		}
 	}
@@ -349,12 +350,16 @@ public class Column extends DomainElement {
 	 * 					E.G. "abc" cannot be parsed to Int
 	 */
 	public static Object parseValue(Type type, String string) throws ClassCastException {
-		if (string == "" && type != Type.STRING && type != Type.EMAIL) return null;
+		if (string == "" && type != Type.STRING && type != Type.EMAIL || string == null) return null;
 		else if (!isValidValue(type, string)) throw new ClassCastException();
 		else{
 			switch(type){
-				case BOOLEAN: return Boolean.parseBoolean(string); 
-				case INTEGER : return Integer.parseInt(string);
+				case BOOLEAN: {
+					return Boolean.parseBoolean(string); 
+				}
+				case INTEGER : {
+					return Integer.parseInt(string);
+				}
 				case STRING : return string;
 				case EMAIL: return string;
 				default : return string;

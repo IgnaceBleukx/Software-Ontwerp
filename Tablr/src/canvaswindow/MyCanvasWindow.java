@@ -102,7 +102,7 @@ public class MyCanvasWindow extends CanvasWindow {
 		for (int i=0;i<communicationManager.getActiveUIElements().size();i++) {
 			UIElement e = communicationManager.getActiveUIElements().get(i);
 			e.handleKeyboardEvent(keyCode, keyChar);
-			if (Character.isLetterOrDigit(keyChar) || keyCode == 8 ) {
+			if (Character.isLetterOrDigit(keyChar) || keyCode == 8 || keyCode == 50) {
 				e.handleKeyboardEvent(-1, Character.MIN_VALUE);
 			}
 		}

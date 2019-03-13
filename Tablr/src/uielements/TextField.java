@@ -43,7 +43,8 @@ public class TextField extends UIElement {
 	 * @param t: The text to be set.
 	 */
 	public void setText(String t){
-		this.text = t;
+		if (t == null) this.text = "";
+		else this.text = t;
 	}
 	
 	/**
