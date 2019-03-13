@@ -183,16 +183,16 @@ public class ListView extends UIElement {
 			TextField colName = new TextField(10+margin,y,200,50,  c.getColumnName(col));
 			Text colType = new Text(210+margin,y,150,50, c.getColumnType(col).toString()); colType.setBorder(true);
 			Checkbox colBlankPol = new Checkbox(375+margin,y+15,20,20, c.getBlankingPolicy(col));
-						
+			String defaultValue = c.getDefaultString(col);
+
 			ArrayList<UIElement> list;
 			if(c.getColumnType(col) == Type.BOOLEAN){
-				Object defaultValue = c.getDefault(col);
 				Checkbox colDefCheck;
-				if (defaultValue == null) {
+				if (defaultValue == "") {
 					colDefCheck = new Checkbox(480, y+15,20,20, false);
 					colDefCheck.greyOut();
 				}
-				else colDefCheck = new Checkbox(480, y+15,20,20,Boolean.parseBoolean(c.getDefault(col).toString()));
+				else colDefCheck = new Checkbox(480, y+15,20,20,Boolean.parseBoolean(defaultValue));
 				
 				list = new ArrayList<UIElement>(){{ add(colName); add(colType); add(colBlankPol); add(colDefCheck);}};
 				
@@ -202,12 +202,12 @@ public class ListView extends UIElement {
 				});
 			}
 			else{
-				TextField colDefText = new TextField(410+margin,y,160-margin,50, (String) c.getDefault(col));
+				TextField colDefText = new TextField(410+margin,y,160-margin,50, defaultValue);
 				list = new ArrayList<UIElement>(){{ add(colName); add(colType); add(colBlankPol); add(colDefText);}};
 				colDefText.addKeyboardListener(-1,()-> {
 					try{
 						c.setDefault(col,colDefText.getText());
-						System.out.println("Default value changed to: " + c.getDefault(col));
+						System.out.println("Default value changed to: " + defaultValue);
 						if (colDefText.getError()) colDefText.isNotError();
 					}catch(ClassCastException e){
 						colDefText.isError();

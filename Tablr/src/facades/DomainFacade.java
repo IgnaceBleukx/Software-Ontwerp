@@ -168,8 +168,9 @@ public class DomainFacade {
 		return tab.getColumns();
 	}
 
-	public Object getValue(Column col, int i) {
-		return col.getCell(i).getValue();
+	public String getValueString(Column col, int i) {
+		Object v = col.getCell(i).getValue();
+		return v == null ? "" : v.toString();
 	}
 
 	public ArrayList<String> getColumnNames(Table table) {
@@ -222,8 +223,9 @@ public class DomainFacade {
 		return col.getBlankingPolicy();
 	}
 
-	public Object getDefault(Column col) {
-		return col.getDefault();
+	public String getDefaultString(Column col) {
+		Object v = col.getDefault();
+		return v == null ? "" : v.toString();
 	}
 
 	public void toggleDefault(Column col) {

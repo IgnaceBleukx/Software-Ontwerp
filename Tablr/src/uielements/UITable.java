@@ -70,7 +70,7 @@ public class UITable extends UIElement {
 			int x = super.getX()+20;
 			ArrayList<UIElement> emts = new ArrayList<UIElement>();
 			for(Column col : c.getColumns(tab)){
-				String val = c.getValue(col,i).toString();
+				String val = c.getValueString(col,i);
 				TextField field =  new TextField(x,y,cellWidth, cellHeigth,val);
 				emts.add(field);
 				x += cellWidth;

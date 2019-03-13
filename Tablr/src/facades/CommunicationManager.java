@@ -127,8 +127,8 @@ public class CommunicationManager {
 		return domainFacade.getColumns(tab);
 	}
 
-	public Object getValue(Column col, int i) {
-		return domainFacade.getValue(col,i);
+	public String getValueString(Column col, int i) {
+		return domainFacade.getValueString(col,i);
 	}
 
 	public ArrayList<String> getColumnNames(Table table) {
@@ -183,8 +183,8 @@ public class CommunicationManager {
 		return domainFacade.getBlankingPolicy(col);
 	}
 
-	public Object getDefault(Column col) {
-		return domainFacade.getDefault(col);
+	public String getDefaultString(Column col) {
+		return domainFacade.getDefaultString(col);
 	}
 	
 	public void getSelectionLock(UIElement e) {
