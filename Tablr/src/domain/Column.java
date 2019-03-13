@@ -100,7 +100,6 @@ public class Column extends DomainElement {
 	public void setColumnType(Type type) throws InvalidTypeException {
 		for (Cell<?> cell : getCells()){
 			if (!isValidValue(type,cell.getValue().toString())) {
-				this.isError();
 				throw new InvalidTypeException();
 			}
 		}
@@ -109,8 +108,8 @@ public class Column extends DomainElement {
 			System.out.println("[Column.java:110] Throwing invalidTypeException" );
 			throw new InvalidTypeException();
 		}else{
-			this.isNotError();
 			this.type = type;
+			this.defaultValue = parseValue(type,getDefault().toString());
 		}
 	}
 	
@@ -378,7 +377,7 @@ public class Column extends DomainElement {
 	 * 					E.G. "abc" cannot be parsed to Int
 	 */
 	public static Object parseValue(Type type, String string) throws ClassCastException {
-		if (string == "") return null;
+		if (string == "" && type != Type.STRING && type != Type.EMAIL) return null;
 		else if (!isValidValue(type, string)) throw new ClassCastException();
 		else{
 			switch(type){
