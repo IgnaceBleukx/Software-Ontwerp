@@ -126,7 +126,7 @@ public class TextField extends UIElement {
 		}
 
 		
-		if ((Character.isLetterOrDigit(keyChar) || keyChar == '@') && isSelected == true ) {
+		if ((Character.isLetterOrDigit(keyChar) || keyChar == '@') && isSelected == true || keyChar == '.') {
 			setText(getText()+keyChar);
 		}
 		
