@@ -249,19 +249,20 @@ public class TableRowsTests {
 		
 		
 		// Column 4: 
+		assertTrue(((Checkbox) coMan.getActiveUI().locatedAt(330, 70)).getGreyedOut());
 		myCW.handleMouseEvent(0, 330, 70 , 1);
-		Checkbox checkbox = (Checkbox) coMan.getActiveUI().locatedAt(330, 70);
+		assertFalse(((Checkbox) coMan.getActiveUI().locatedAt(330, 70)).getGreyedOut());
+		assertTrue(((Checkbox) coMan.getActiveUI().locatedAt(330, 70)).isChecked());
 		myCW.handleMouseEvent(0, 330, 70, 1);
-		//assertEquals(true, checkbox.isChecked());
-		myCW.handleMouseEvent(0, 330, 70, 1);
-		//assertEquals(false, checkbox.isChecked());
+		assertFalse(((Checkbox) coMan.getActiveUI().locatedAt(330, 70)).isChecked());
 		
 		
 		// Click on checkbox of column 5 
-		checkbox = (Checkbox) coMan.getActiveUI().locatedAt(400, 70);
-		assertTrue(checkbox.isChecked());
+		assertFalse(((Checkbox) coMan.getActiveUI().locatedAt(400, 70)).getGreyedOut());
+		assertTrue(((Checkbox) coMan.getActiveUI().locatedAt(400, 70)).isChecked());
 		myCW.handleMouseEvent(0, 400, 70, 1);
-		assertFalse(checkbox.isChecked());
+		assertFalse(((Checkbox) coMan.getActiveUI().locatedAt(400, 70)).getGreyedOut());
+		assertFalse(((Checkbox) coMan.getActiveUI().locatedAt(400, 70)).isChecked());
 		
 		
 		

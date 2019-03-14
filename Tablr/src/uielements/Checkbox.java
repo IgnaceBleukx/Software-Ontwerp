@@ -29,13 +29,6 @@ public class Checkbox extends UIElement {
 	public void greyOut(){
 		this.greyedOut = true;
 	}
-	
-	/**
-	 * Sets the value of greyedout to false (Button is now white)
-	 */
-	public void unGreyOut(){
-		this.greyedOut = false;
-	}
 
 	/**
 	 * Whether this checkbox is checked or not
