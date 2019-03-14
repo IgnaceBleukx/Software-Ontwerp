@@ -37,7 +37,7 @@ public abstract class UIElement {
 	private boolean error = false;
 
 	/**
-	 * Indicates whether the UIElement is locked (thus needs to be resolved before other actions can occur)
+	 * Indicates whether the UIElement is locked (thus needs to be unlocked before other actions can occur)
 	 */
 	private boolean lock;
 	
