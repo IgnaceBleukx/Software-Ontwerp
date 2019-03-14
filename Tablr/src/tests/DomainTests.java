@@ -60,7 +60,7 @@ public class DomainTests {
 		assertTrue(!col2.getCells().contains(c));
 	}
 	
-	@Test
+	@Test (expected = ClassCastException.class)
 	public void testColumnBasic() throws Exception {
 		Column col1 = new Column("Col1",null,Type.BOOLEAN,true);
 		assertEquals(col1.getColumnType(),Type.BOOLEAN);
@@ -87,7 +87,7 @@ public class DomainTests {
 		
 	}
 	
-	@Test // (expected = ClassCastException.class)
+	@Test  (expected = ClassCastException.class)
 	public void changeColumnDefaultsError() {
 		Table table = buildTable();
 		Column col = table.getColumns().get(0);
