@@ -13,6 +13,7 @@ import domain.Row;
 import domain.Table;
 import domain.Type;
 import exceptions.InvalidNameException;
+import exceptions.InvalidTypeException;
 
 public class DomainTests {
 	
@@ -91,12 +92,16 @@ public class DomainTests {
 		Table table = buildTable();
 		Column col = table.getColumns().get(0);
 		try {
-			col.setDefaultValue(false);}
-		catch (ClassCastException c){
+			col.setNextType();
+		} catch (InvalidTypeException e1) {}
+		
+		try {
+			col.setDefaultValue("blub");}
+		catch (IllegalArgumentException e){
 			assert(true);
 			return;
 		}
-		assert(false);
+		assert(false);//if no error is caught, fail the test
 	}
 	
 	@Test
