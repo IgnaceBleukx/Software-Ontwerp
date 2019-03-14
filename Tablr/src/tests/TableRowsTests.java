@@ -265,7 +265,7 @@ public class TableRowsTests {
 		
 		
 		
-		// Column 6: @ verwijderen
+		// Column 6: Remove all digits
 		myCW.handleMouseEvent(0, 450, 70 , 1);
 		textField = (TextField) coMan.getActiveUI().locatedAt(450, 70);
 		assertTrue(textField.isSelected());
@@ -276,7 +276,7 @@ public class TableRowsTests {
 		assertEquals(false, textField.getError());
 		
 		
-		// Column 7: @ verwijderen
+		// Column 7: Remove all the digits
 		myCW.handleMouseEvent(0, 510, 70 , 1);
 		textField = (TextField) coMan.getActiveUI().locatedAt(510, 70);
 		assertTrue(textField.isSelected());
