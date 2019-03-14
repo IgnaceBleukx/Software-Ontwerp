@@ -148,13 +148,13 @@ public class TableRowsTests {
 		myCW.handleMouseEvent(0, 400, 200, 1);
 		
 		//Changing default value for column4:
-		// Boolean met default = grijs  en Blanks_al = true
+		// Boolean: default = Blank  && Blanks_al = true
 		myCW.handleMouseEvent(0, 300,250,1);
 		myCW.handleMouseEvent(0, 300,250,1);
 		
 
 		//Changing default value for column5:
-		// Boolean met default = true  en Blanks_al = false
+		// Boolean: default = true && Blanks_al = false
 		myCW.handleMouseEvent(0, 300,300,1);
 		myCW.handleMouseEvent(0, 300,300,1);
 		//set default
@@ -164,7 +164,7 @@ public class TableRowsTests {
 		
 		
 		//Changing default value for column6:
-		// Integer met default = 999  en Blanks_al = true
+		// Integer: default = 999  && Blanks_al = true
 		myCW.handleMouseEvent(0, 300,350,1);
 		myCW.handleMouseEvent(0, 300,350,1);
 		myCW.handleMouseEvent(0, 300,350,1);
@@ -231,7 +231,7 @@ public class TableRowsTests {
 			System.out.println(textField.getText());
 		}
 		// Error when the field is blank
-		assertEquals(true, textField.getError());
+		assertTrue(textField.getError());
 		// Add @ to prevent lock
 		myCW.handleKeyEvent(0, 0, '@');
 		
@@ -243,7 +243,7 @@ public class TableRowsTests {
 			myCW.handleKeyEvent(0, 8, ' ');
 		}
 		// Error when the field is blank
-		assertEquals(true, textField.getError());
+		assertTrue(textField.getError());
 		// Add @ to prevent lock
 		myCW.handleKeyEvent(0, 0, '@');
 		
@@ -259,9 +259,9 @@ public class TableRowsTests {
 		
 		// Click on checkbox of column 5 
 		checkbox = (Checkbox) coMan.getActiveUI().locatedAt(400, 70);
-		assertEquals(true, checkbox.isChecked());
+		assertTrue(checkbox.isChecked());
 		myCW.handleMouseEvent(0, 400, 70, 1);
-		assertEquals(false, checkbox.isChecked());
+		assertFalse(checkbox.isChecked());
 		
 		
 		
