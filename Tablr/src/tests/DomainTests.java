@@ -96,8 +96,9 @@ public class DomainTests {
 		} catch (InvalidTypeException e1) {}
 		
 		try {
-			col.setDefaultValue("blub");}
-		catch (IllegalArgumentException e){
+			col.setDefaultValue("blub");
+		}
+		catch (ClassCastException c){
 			assert(true);
 			return;
 		}
