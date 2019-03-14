@@ -111,16 +111,6 @@ public class DomainFacade {
 		return names;
 	}
 	
-	public boolean isValidTableName(String name) {
-		int c = 0;
-		for (Table t : getTables()) {
-			if (t.getName().equals(name)) {
-				c++;
-			}
-		}
-		return (c>1);
-	}
-	
 	public void renameTable(Table t, String newName) {
 		t.setName(newName);
 	}
@@ -166,14 +156,9 @@ public class DomainFacade {
 		tab.removeRow(index);
 		
 	}
-
-	public int getIndexOfColumn(Table table, String name) {
-		return table.getColumnNames().indexOf(name);
-	}
-
+	
 	public void removeColumn(Table table, int index) {
 		table.removeColumn(index);
-		
 	}
 
 	public void changeCellValue(Column col, int i, String string) throws ClassCastException {
@@ -232,8 +217,4 @@ public class DomainFacade {
 		return col.getCell(index).getValue();
 		
 	}
-
-	
-	
-
 }

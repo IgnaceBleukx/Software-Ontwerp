@@ -7,7 +7,7 @@ import exceptions.InvalidTypeException;
 import facades.CommunicationManager;
 
 
-public class Column extends DomainElement {
+public class Column {
 	
 	/**
 	 * Extended constructor of the column.

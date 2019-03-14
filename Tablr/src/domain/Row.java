@@ -1,7 +1,9 @@
 package domain;
 
 
-public class Row extends DomainElement {
+public class Row {
+	
+	public Row() {}
 	
 	/**
 	 * The row's parent table

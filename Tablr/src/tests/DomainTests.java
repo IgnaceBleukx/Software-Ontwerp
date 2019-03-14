@@ -142,18 +142,6 @@ public class DomainTests {
 		r.terminate();
 		assertEquals(r.getTable(),null);
 	}
-	
-	@Test
-	public void testDomainElementBasic() {
-		//Because DomainElement is abstract, we test its methods
-		//through a Row object (Row inherits from DomainElement).
-		Row r = new Row();
-		assertFalse(r.getError());
-		r.isError();
-		assertTrue(r.getError());
-		r.isNotError();
-		assertFalse(r.getError());
-	}
 		
 	public void terminateColumn(){
 		Table table = new Table("name");

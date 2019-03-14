@@ -167,7 +167,6 @@ class CanvasWindowRecording {
 	}
 	
 	void load(String basePath, BufferedReader reader) throws IOException {
-		Component dummyComponent = new JPanel();
 		for (int itemIndex = 0;; itemIndex++) {
 			String line = reader.readLine();
 			if (line == null) break;

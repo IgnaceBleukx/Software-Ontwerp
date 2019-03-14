@@ -21,10 +21,6 @@ public class UIFacade {
 		communicationManager = c;
 	}
 	
-	public void setCommunicationManager(CommunicationManager c) {
-		communicationManager = c;
-	}
-	
 	public CommunicationManager getCommunicationManager() {
 		return communicationManager;
 	}

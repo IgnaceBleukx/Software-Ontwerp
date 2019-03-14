@@ -103,8 +103,4 @@ public class Checkbox extends UIElement {
 			r.run();
 		}
 	}
-
-	
-
-
 }

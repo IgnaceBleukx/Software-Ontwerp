@@ -216,16 +216,6 @@ public class UI {
 		e.setCommunicationManager(getCommunicationManager());
 	}
 	
-	
-	/**
-	 * @param e: The UIElement to be removed from the current canvaswindow.UI.
-//	 * This method removes a UIElement from the current canvaswindow.UI. If the given UIElement is not part of the canvaswindow.UI, nothing happens.
-	 */
-	public void removeUIElement(UIElement e){
-		this.elements.remove(e);
-		e.setCommunicationManager(null);
-	}
-	
 	/**
 	 * remove all UIElements from this UI
 	 */

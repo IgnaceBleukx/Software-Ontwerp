@@ -39,10 +39,6 @@ public class CommunicationManager {
 		domainFacade.setActiveTable(t);
 	}
 
-	public void loadInterface(Loadable_Interfaces i) {
-		UIFacade.loadUI(i);
-	}
-
 	public boolean isEmptyTable(Table t) {
 		return (domainFacade.getColumns(t).size() == 0);
 	}
@@ -75,10 +71,6 @@ public class CommunicationManager {
 		domainFacade.removeTable(t);
 	}
 	
-	public boolean isValidTableName(String name) {
-		return domainFacade.isValidTableName(name);
-	}
-	
 	public ArrayList<Table> getTablesByName(String name) {
 		ArrayList<Table> tlist = new ArrayList<Table>();
 		ArrayList<Table> tables = domainFacade.getTables();
@@ -88,17 +80,6 @@ public class CommunicationManager {
 			}
 		}
 		return new ArrayList<Table>(tlist);
-	}
-	
-	public int getNumberOfTablesByName(String name) {
-		int count = 0;
-		ArrayList<Table> tables = domainFacade.getTables();
-		for (Table t : tables) {
-			if (t.getName().equals(name)) {
-				count++;
-			}
-		}
-		return count;
 	}
 	
 	public void renameTable(Table t, String name) {
@@ -152,11 +133,7 @@ public class CommunicationManager {
 		domainFacade.removeColumn(table, index);
 		
 	}
-
-	public int getIndexOfColumn(Table table, String name) {
-		return domainFacade.getIndexOfColumn(table,name);
-	}
-
+	
 	public void notifyNewSelected(UIElement e) {
 		UIFacade.newSelected(e);
 	}
@@ -256,10 +233,4 @@ public class CommunicationManager {
 	public Object getValue(Column col, int index){
 		return domainFacade.getValue(col,index);
 	}
-
-	
-	
-		
-
-	
 }

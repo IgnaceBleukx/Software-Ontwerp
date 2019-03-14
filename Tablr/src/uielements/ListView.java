@@ -53,10 +53,6 @@ public class ListView extends UIElement {
 		return new ArrayList<UIElement>(elements);
 	}
 
-	public void setElements(ArrayList<UIElement> elements) {
-		this.elements = elements;
-	}
-
 	/**
 	 * the currently selected element of the ListView (optional, sometimes null)
 	 */
@@ -295,17 +291,6 @@ public class ListView extends UIElement {
 			});
 			
 		}
-	}
-	
-	/**
-	 * add all of the elements in the given list to this ListView
-	 * @param list: the elements to be added
-	 */
-	private void addAllElements(ArrayList<UIElement> list) {
-		for(UIElement e: list){
-			this.addElement(e);
-		}
-		
 	}
 
 	@Override

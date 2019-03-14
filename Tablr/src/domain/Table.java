@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import exceptions.InvalidNameException;
 
 
-public class Table extends DomainElement {
+public class Table {
 	
 	public Table(String name) {
 		setName(name);
