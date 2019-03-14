@@ -78,11 +78,15 @@ public class UITable extends UIElement {
 				if(c.getColumnType(col).equals(Type.BOOLEAN)){
 					Boolean value = (Boolean) Column.parseValue(Type.BOOLEAN,val);
 					Checkbox check = new Checkbox(x + (int)(cellWidth/2) - 10,y+(int)(cellHeigth/2)-10,20,20,value == null ? false : value);
+					Text dummy = new Text(x,y,cellWidth,cellHeigth,"");
+					dummy.setBorder(true);
 					if (value == null) check.greyOut();
 					emts.add(check);
+					emts.add(dummy);
 					int index = i;
 					check.addSingleClickListener(() ->{
 						c.toggleCellValueBoolean(col, index);
+						loadTable(tab,cellWidth, cellHeigth);
 					});
 				}
 				else{				

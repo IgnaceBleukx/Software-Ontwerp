@@ -387,8 +387,9 @@ public class Column extends DomainElement {
 
 	public void toggleCellValueBoolean(int index){
 		if (this.getColumnType() != Type.BOOLEAN) return;
-		boolean value = nextValueBoolean((Boolean)getCell(index).getValue(),getBlankingPolicy());
-		changeCellValue(index,Boolean.toString(value));
+		Boolean value = nextValueBoolean((Boolean)getCell(index).getValue(),getBlankingPolicy());
+		if (value == null) changeCellValue(index,null);
+		else changeCellValue(index,Boolean.toString(value));
 	}
 	
 	public static Boolean nextValueBoolean(Boolean current, boolean blanks){
