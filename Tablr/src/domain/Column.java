@@ -78,7 +78,12 @@ public class Column extends DomainElement {
 	 * @param name 	The name to be checked.
 	 */
 	public boolean isValidName(String name){
-		return table == null ? true : name != "" && !this.getTable().getColumnNames().contains(name);
+		if (this.getTable() == null) return true;
+		if (name == "") return false;
+		ArrayList<String> columnNames = this.getTable().getColumnNames();
+		columnNames.remove(this.getName());
+		columnNames.add(name);
+		return columnNames.indexOf(name) == columnNames.lastIndexOf(name);
 	}
 	
 	
@@ -141,7 +146,7 @@ public class Column extends DomainElement {
 	}
 
 	public void toggleBlanks() throws Exception{
-		if (allowsBlanks && getDefault() == null) throw new Exception("The column default is blank");
+		if (allowsBlanks && getDefault() == null || allowsBlanks && getDefault() == "") throw new Exception("The column default is blank");
 		allowsBlanks = !allowsBlanks;
 	}
 	

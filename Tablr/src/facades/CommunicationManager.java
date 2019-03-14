@@ -191,6 +191,10 @@ public class CommunicationManager {
 		return domainFacade.getDefaultString(col);
 	}
 	
+	public Object getDefaultValue(Column col) {
+		return domainFacade.getDefaultValue(col);
+	}
+	
 	public void getSelectionLock(UIElement e) {
 		UIFacade.getSelectionLock(e);
 	}
@@ -253,6 +257,8 @@ public class CommunicationManager {
 	public Object getValue(Column col, int index){
 		return domainFacade.getValue(col,index);
 	}
+
+	
 	
 		
 

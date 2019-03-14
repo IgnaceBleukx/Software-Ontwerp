@@ -205,6 +205,10 @@ public class ListView extends UIElement {
 				TextField colDefText = new TextField(410+margin,y,160-margin,50, defaultValue);
 				list = new ArrayList<UIElement>(){{ add(colName); add(colType); add(colBlankPol); add(colDefText);}};
 				colDefText.addKeyboardListener(-1,()-> {
+					if (colDefText.getText().length() == 0) {
+						c.setDefault(col,"");
+						return;
+					}
 					try{
 						c.setDefault(col,colDefText.getText());
 						System.out.println("Default value changed to: " + defaultValue);
@@ -273,6 +277,10 @@ public class ListView extends UIElement {
 			});
 			
 			colName.addKeyboardListener(-1,() -> {	
+				if (colName.getText().length() == 0) {
+					colName.isError(); 
+					return;
+				}
 				try{
 					if (colName.isSelected){
 						c.setColumnName(col, colName.getText());

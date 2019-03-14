@@ -47,6 +47,10 @@ public class Checkbox extends UIElement {
 	 */
 	private boolean greyedOut = false;
 	
+	public boolean getGreyedOut() {
+		return greyedOut;
+	}
+	
 	@Override
 	public void paint(Graphics g){
 		if (greyedOut) {
@@ -98,6 +102,8 @@ public class Checkbox extends UIElement {
 			r.run();
 		}
 	}
+
+	
 
 
 }

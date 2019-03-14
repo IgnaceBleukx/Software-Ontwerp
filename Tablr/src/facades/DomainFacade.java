@@ -208,6 +208,10 @@ public class DomainFacade {
 		Object v = col.getDefault();
 		return v == null ? "" : v.toString();
 	}
+	
+	public Object getDefaultValue(Column col) {
+		return col.getDefault();
+	}
 
 	public void toggleDefault(Column col) {
 		col.toggleDefaultBoolean();
@@ -228,6 +232,8 @@ public class DomainFacade {
 		return col.getCell(index).getValue();
 		
 	}
+
+	
 	
 
 }
