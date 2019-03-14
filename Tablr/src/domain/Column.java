@@ -296,6 +296,7 @@ public class Column {
 	 * 					The column's type is not set correctly.
 	 */
 	public void changeCellValue(int i, String string) throws ClassCastException{
+		if((string == "" || string == null) && !getBlankingPolicy()) throw new ClassCastException();
 		Cell<?> newCell;
 		Object v = parseValue(getColumnType(),string);
 		switch(getColumnType()){
