@@ -65,14 +65,6 @@ public class DomainTests {
 		assertEquals(col1.getColumnType(),Type.BOOLEAN);
 		assertEquals(col1.getDefault(),true);
 		assertEquals(col1.getName(),"Col1");
-	public void removeCellFromColumn(){
-		Column col = table.getColumns().get(0);
-		Table table = buildTable();
-		for(Cell<?> cell : col.getCells()){
-		Cell<?> c = col.removeCell(0);
-			assertNotEquals(c,cell);
-	}
-		}		
 		
 		Column col2 = new Column("Col2",null);
 		
@@ -93,19 +85,19 @@ public class DomainTests {
 		
 		
 	}
-	}
-		assert(false);
-			return;
-		}
-			assert(true);
-		}
-		try {
-		catch (ClassCastException c){
-			col.setDefaultValue(false);
+	
+	@Test // (expected = ClassCastException.class)
+	public void changeColumnDefaultsError() {
 		Table table = buildTable();
 		Column col = table.getColumns().get(0);
-	public void changeColumnDefaultsError(){
-	@Test (expected = ClassCastException.class)
+		try {
+			col.setDefaultValue(false);}
+		catch (ClassCastException c){
+			assert(true);
+			return;
+		}
+		assert(false);
+	}
 	
 	@Test
 	public void testColumnInTable() throws InvalidNameException {
@@ -155,6 +147,7 @@ public class DomainTests {
 		assertTrue(r.getError());
 		r.isNotError();
 		assertFalse(r.getError());
+	}
 		
 	public void terminateColumn(){
 		Table table = new Table("name");
@@ -162,10 +155,4 @@ public class DomainTests {
 		table.addRow();
 		col.terminate();
 		assertEquals(0,table.getColumns().size());
-	}
-	
-	
-	
-	
-
-}
+	}}
