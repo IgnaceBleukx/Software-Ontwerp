@@ -16,6 +16,24 @@ import exceptions.InvalidNameException;
 
 public class DomainTests {
 	
+	/**
+	 * This method creates a table with two rows and tree columns
+	 * @return 	The created table.
+	 */
+	public Table buildTable() {
+		Table table = new Table("name");
+		table.addRow();
+		table.addRow();
+		table.addEmptyColumn(Type.STRING, "");
+		table.addEmptyColumn(Type.STRING, "");
+		table.addEmptyColumn(Type.STRING, "");
+		return table;
+	}
+	
+	/**
+	 * This method adds a column to an empty table, 
+	 * and verifies its existence in the table and vice versa
+	 */
 	@Test
 	public void testCellBasic() throws InvalidNameException {
 		Cell<Boolean> c = new Cell<Boolean>(true);
@@ -47,6 +65,14 @@ public class DomainTests {
 		assertEquals(col1.getColumnType(),Type.BOOLEAN);
 		assertEquals(col1.getDefault(),true);
 		assertEquals(col1.getName(),"Col1");
+	public void removeCellFromColumn(){
+		Column col = table.getColumns().get(0);
+		Table table = buildTable();
+		for(Cell<?> cell : col.getCells()){
+		Cell<?> c = col.removeCell(0);
+			assertNotEquals(c,cell);
+	}
+		}		
 		
 		Column col2 = new Column("Col2",null);
 		
@@ -67,6 +93,19 @@ public class DomainTests {
 		
 		
 	}
+	}
+		assert(false);
+			return;
+		}
+			assert(true);
+		}
+		try {
+		catch (ClassCastException c){
+			col.setDefaultValue(false);
+		Table table = buildTable();
+		Column col = table.getColumns().get(0);
+	public void changeColumnDefaultsError(){
+	@Test (expected = ClassCastException.class)
 	
 	@Test
 	public void testColumnInTable() throws InvalidNameException {
@@ -117,6 +156,12 @@ public class DomainTests {
 		r.isNotError();
 		assertFalse(r.getError());
 		
+	public void terminateColumn(){
+		Table table = new Table("name");
+		Column col = table.addEmptyColumn(Type.STRING, "");
+		table.addRow();
+		col.terminate();
+		assertEquals(0,table.getColumns().size());
 	}
 	
 	
