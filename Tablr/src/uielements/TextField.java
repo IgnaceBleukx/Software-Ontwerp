@@ -115,7 +115,7 @@ public class TextField extends UIElement {
 		if (keyCode == 27 &&  isSelected) {
 			restoreText();
 			setNotSelected();
-			isNotError();
+			if(getError()) isNotError();
 		}
 				
 		if (keyCode == 8 && isSelected) { //Backspace: remove character
@@ -126,7 +126,7 @@ public class TextField extends UIElement {
 		}
 
 		
-		if ((Character.isLetterOrDigit(keyChar) || keyChar == '@') && isSelected == true || keyChar == '.') {
+		if ((Character.isLetterOrDigit(keyChar) || keyChar == '@' || keyChar == '.') && isSelected == true) {
 			setText(getText()+keyChar);
 		}
 		
