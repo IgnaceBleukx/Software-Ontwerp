@@ -9,6 +9,7 @@ import canvaswindow.MyCanvasWindow;
 import domain.Type;
 import facades.CommunicationManager;
 import ui.Loadable_Interfaces;
+import uielements.Checkbox;
 import uielements.TextField;
 import uielements.UIRow;
 import uielements.UITable;
@@ -121,7 +122,6 @@ public class TableRowsTests {
 		//Changing default value for column1.
 		// String met default = "default" en Blanks_al = false
 		myCW.handleMouseEvent(0,500,100, 1);
-		d1 = "default";
 		for(int i=0;i<d1.length();i++){
 			myCW.handleKeyEvent(0, 0, d1.charAt(i));
 		}		
@@ -141,7 +141,6 @@ public class TableRowsTests {
 		// Email met default = "default@email" en Blanks_al = false
 		myCW.handleMouseEvent(0, 300, 200, 1);
 		myCW.handleMouseEvent(0, 500, 200, 1);
-		d2 = "default@email";
 		for(int i=0;i<d2.length();i++){
 			myCW.handleKeyEvent(0, 0, d2.charAt(i));
 		}
@@ -155,7 +154,7 @@ public class TableRowsTests {
 		
 
 		//Changing default value for column5:
-		// Boolean met default = grijs  en Blanks_al = false
+		// Boolean met default = true  en Blanks_al = false
 		myCW.handleMouseEvent(0, 300,300,1);
 		myCW.handleMouseEvent(0, 300,300,1);
 		//set default
@@ -181,7 +180,6 @@ public class TableRowsTests {
 		myCW.handleMouseEvent(0, 300,400,1);
 		myCW.handleMouseEvent(0, 300,400,1);
 		myCW.handleMouseEvent(0, 500,400, 1);
-		d4 = "999";
 		for(int i=0;i<d4.length();i++){
 			myCW.handleKeyEvent(0, 0, d4.charAt(i));
 		}
@@ -203,12 +201,92 @@ public class TableRowsTests {
 		myCW.handleMouseEvent(0, 40, 70 , 1);
 
 		// Step 2: The system indicates that this row is now selected.
+		//Column 0
 		TextField textField = (TextField) coMan.getActiveUI().locatedAt(40, 70);
 		assertTrue(textField.isSelected());
 		for(int i=0;i<d1.length();i++){
 			myCW.handleKeyEvent(0, 8, ' ');
 		}
-
+		// No error when the field is blank
+		assertEquals(false, textField.getError());
+		
+		//Column 1
+		myCW.handleMouseEvent(0, 100, 70 , 1);
+		textField = (TextField) coMan.getActiveUI().locatedAt(100, 70);
+		assertTrue(textField.isSelected());
+		for(int i=0;i<d1.length();i++){
+			myCW.handleKeyEvent(0, 8, ' ');
+		}
+		// Error when the field is blank
+		assertEquals(true, textField.getError());
+		// Add char to prevent lock
+		myCW.handleKeyEvent(0, 0, '5');
+		
+		
+		// Column 2: @ verwijderen
+		myCW.handleMouseEvent(0, 180, 70 , 1);
+		textField = (TextField) coMan.getActiveUI().locatedAt(180, 70);
+		for(int i=0;i<6;i++){
+			myCW.handleKeyEvent(0, 8, ' ');
+			System.out.println(textField.getText());
+		}
+		// Error when the field is blank
+		assertEquals(true, textField.getError());
+		// Add @ to prevent lock
+		myCW.handleKeyEvent(0, 0, '@');
+		
+		
+		// Column 3: @ verwijderen
+		myCW.handleMouseEvent(0, 250, 70 , 1);
+		textField = (TextField) coMan.getActiveUI().locatedAt(250, 70);
+		for(int i=0;i<d2.length();i++){
+			myCW.handleKeyEvent(0, 8, ' ');
+		}
+		// Error when the field is blank
+		assertEquals(true, textField.getError());
+		// Add @ to prevent lock
+		myCW.handleKeyEvent(0, 0, '@');
+		
+		
+		// Column 4: 
+		myCW.handleMouseEvent(0, 330, 70 , 1);
+		Checkbox checkbox = (Checkbox) coMan.getActiveUI().locatedAt(330, 70);
+		myCW.handleMouseEvent(0, 330, 70, 1);
+		//assertEquals(true, checkbox.isChecked());
+		myCW.handleMouseEvent(0, 330, 70, 1);
+		//assertEquals(false, checkbox.isChecked());
+		
+		
+		// Click on checkbox of column 5 
+		checkbox = (Checkbox) coMan.getActiveUI().locatedAt(400, 70);
+		assertEquals(true, checkbox.isChecked());
+		myCW.handleMouseEvent(0, 400, 70, 1);
+		assertEquals(false, checkbox.isChecked());
+		
+		
+		
+		// Column 6: @ verwijderen
+		myCW.handleMouseEvent(0, 450, 70 , 1);
+		textField = (TextField) coMan.getActiveUI().locatedAt(450, 70);
+		assertTrue(textField.isSelected());
+		for(int i=0;i<d4.length();i++){
+			myCW.handleKeyEvent(0, 8, ' ');
+		}
+		// No error when the field is blank
+		assertEquals(false, textField.getError());
+		
+		
+		// Column 7: @ verwijderen
+		myCW.handleMouseEvent(0, 510, 70 , 1);
+		textField = (TextField) coMan.getActiveUI().locatedAt(510, 70);
+		assertTrue(textField.isSelected());
+		for(int i=0;i<d4.length();i++){
+			myCW.handleKeyEvent(0, 8, ' ');
+		}
+		// Error when the field is blank
+		assertEquals(true, textField.getError());
+		// Add char to prevent lock
+		myCW.handleKeyEvent(0, 0, '5');
 	}
 	
 	/**

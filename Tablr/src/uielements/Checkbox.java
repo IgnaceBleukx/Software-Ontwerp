@@ -103,4 +103,8 @@ public class Checkbox extends UIElement {
 			r.run();
 		}
 	}
+
+	public boolean isChecked() {
+		return checked;
+	}
 }
