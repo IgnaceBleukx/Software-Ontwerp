@@ -44,7 +44,6 @@ public class TableDesignTests {
 	}
 
 
-
 	@Test
 	public void useCase5() {
 		//Load tables mode with one table:

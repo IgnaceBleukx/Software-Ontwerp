@@ -13,9 +13,28 @@ import domain.Row;
 import domain.Table;
 import domain.Type;
 import exceptions.InvalidNameException;
+import exceptions.InvalidTypeException;
 
 public class DomainTests {
 	
+	/**
+	 * This method creates a table with two rows and tree columns
+	 * @return 	The created table.
+	 */
+	public Table buildTable() {
+		Table table = new Table("name");
+		table.addRow();
+		table.addRow();
+		table.addEmptyColumn(Type.STRING, "");
+		table.addEmptyColumn(Type.STRING, "");
+		table.addEmptyColumn(Type.STRING, "");
+		return table;
+	}
+	
+	/**
+	 * This method adds a column to an empty table, 
+	 * and verifies its existence in the table and vice versa
+	 */
 	@Test
 	public void testCellBasic() throws InvalidNameException {
 		Cell<Boolean> c = new Cell<Boolean>(true);
@@ -68,6 +87,23 @@ public class DomainTests {
 		
 	}
 	
+	@Test // (expected = ClassCastException.class)
+	public void changeColumnDefaultsError() {
+		Table table = buildTable();
+		Column col = table.getColumns().get(0);
+		try {
+			col.setNextType();
+		} catch (InvalidTypeException e1) {}
+		
+		try {
+			col.setDefaultValue("blub");}
+		catch (IllegalArgumentException e){
+			assert(true);
+			return;
+		}
+		assert(false);//if no error is caught, fail the test
+	}
+	
 	@Test
 	public void testColumnInTable() throws InvalidNameException {
 		Table t = new Table("Table 1");	
@@ -116,11 +152,12 @@ public class DomainTests {
 		assertTrue(r.getError());
 		r.isNotError();
 		assertFalse(r.getError());
-		
 	}
-	
-	
-	
-	
-
-}
+		
+	public void terminateColumn(){
+		Table table = new Table("name");
+		Column col = table.addEmptyColumn(Type.STRING, "");
+		table.addRow();
+		col.terminate();
+		assertEquals(0,table.getColumns().size());
+	}}
