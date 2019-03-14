@@ -1,5 +1,6 @@
 package uielements;
 
+import java.awt.Color;
 import java.awt.Graphics;
 import java.io.ObjectInputStream.GetField;
 import java.util.ArrayList;
@@ -79,8 +80,8 @@ public class ListView extends UIElement {
 	
 	@Override
 	public void paint(Graphics g) {
+		g.setColor(Color.black);
 		g.drawRect(getX(),getY(),getWidth(),getHeight());
-		
 		if (elements != null) {
 			for (UIElement e : elements) {
 				e.paint(g);
@@ -205,13 +206,13 @@ public class ListView extends UIElement {
 				TextField colDefText = new TextField(410+margin,y,160-margin,50, defaultValue);
 				list = new ArrayList<UIElement>(){{ add(colName); add(colType); add(colBlankPol); add(colDefText);}};
 				colDefText.addKeyboardListener(-1,()-> {
-					if (colDefText.getText().length() == 0) {
-						c.setDefault(col,"");
-						return;
-					}
 					try{
-						c.setDefault(col,colDefText.getText());
-						System.out.println("Default value changed to: " + defaultValue);
+						if (colDefText.getText().length() == 0) {
+							c.setDefault(col,"");
+						}
+						else{
+							c.setDefault(col,colDefText.getText());
+						}
 						if (colDefText.getError()) colDefText.isNotError();
 					}catch(ClassCastException e){
 						colDefText.isError();

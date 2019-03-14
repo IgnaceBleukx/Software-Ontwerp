@@ -162,15 +162,13 @@ public class Column extends DomainElement {
 	/**
 	 * Sets the default value for this column. 
 	 * Succeeds only when the new default value is a valid value for the current column type.
-	 * @param v		New default value
+	 * @param v		New default value, in a string representation
 	 */
-	public void setDefaultValue(Object v){
-		if (v == null) {
-			this.defaultValue = null; 
-			return;
-		}
-		if (isValidValue(getColumnType(),v.toString())) this.defaultValue = v;
-		else throw new IllegalArgumentException();
+	public void setDefaultValue(Object v) throws ClassCastException{
+		if ((v == null || v == "") && !getBlankingPolicy()) throw new ClassCastException();
+		else if(v == null) this.defaultValue = v;
+		else if (isValidValue(this.getColumnType(),v.toString())) this.defaultValue = v;
+		else throw new ClassCastException();
 	}
 		
 	/**
@@ -323,7 +321,9 @@ public class Column extends DomainElement {
 			case BOOLEAN : {
 				return (string.equals("False") || string.equals("false") || string.equals("True") || string.equals("true"));
 			}
-			case INTEGER : try {
+			case INTEGER : 
+				if (string.charAt(0) == '0' && string.length() > 1) return false;
+				try {
 				Integer.parseInt(string);
 				return true;
 			}catch (NumberFormatException e){
@@ -372,10 +372,7 @@ public class Column extends DomainElement {
 		Boolean current;
 		if (getDefault() == null) current = (Boolean) null;
 		else current = (boolean) getDefault();
-		setDefaultValue(
-				nextValueBoolean(
-						current,
-						getBlankingPolicy()));
+		setDefaultValue(nextValueBoolean(current,getBlankingPolicy()));
 	}
 	
 	public static Type getNextType(Type type){

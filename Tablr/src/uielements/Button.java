@@ -1,5 +1,6 @@
 package uielements;
 
+import java.awt.Color;
 import java.awt.Font;
 import java.awt.FontMetrics;
 import java.awt.Graphics;
@@ -38,6 +39,7 @@ public class Button extends UIElement {
 
 	@Override
 	public void paint(Graphics g) {
+		g.setColor(Color.black);
 		drawCenteredText(g, this.getText());
 	    // Drawing button
 	    int arcWidth = 8;

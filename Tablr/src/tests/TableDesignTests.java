@@ -183,7 +183,9 @@ public class TableDesignTests {
 		myCW.handleKeyEvent(0,10, ' ');
 		assertFalse(t.isSelected());
 		
-		//Extension 1a:
+		/**
+		 * Extension 1a
+		 */
 		//Step 1: The user clicks the type of some column:
 		//The state of the column allows blanks and has a blank value as default, the type of the column is STRING:
 		assertEquals(Type.STRING,coMan.getColumnType(coMan.getColumns(coMan.getActiveTable()).get(0)));
@@ -240,7 +242,9 @@ public class TableDesignTests {
 		assertEquals("",coMan.getDefaultString(coMan.getActiveTable().getColumns().get(0)));
 		
 		
-		//Extension 1b:
+		/**
+		 * Extension 1b
+		 */
 		Checkbox box = (Checkbox) coMan.getActiveUI().locatedAt(405, 55);
 		//Changing the default value to a non-blank value:
 		myCW.handleMouseEvent(0,500,60,1);
@@ -272,14 +276,18 @@ public class TableDesignTests {
 		assertFalse(box.getError());
 		assertTrue(coMan.getBlankingPolicy(coMan.getColumns(coMan.getActiveTable()).get(0)));
 		
-		//Extension 1c:
-		//Setting the default value to "true"
+		/**
+		 * Extension 1c
+		 */
+	    //Setting the default value to "true"
 		myCW.handleMouseEvent(0,500,60,1);
 		d = "true";
 		for (int i=0;i<d.length();i++) myCW.handleKeyEvent(0,0,d.charAt(i));
 		//Changing the type to BOOLEAN:
 		myCW.handleMouseEvent(0,300,50,1);		
 		myCW.handleMouseEvent(0,300,50,1);
+		//The type is BOOLEAN, so the default value is represented in a checkbox
+		assertTrue(coMan.getActiveUI().locatedAt(490,50) instanceof Checkbox);
 		assertEquals(true, coMan.getDefaultValue(coMan.getColumns(coMan.getActiveTable()).get(0)));
 		//Step1: The user clicks the default value for some column:
 		myCW.handleMouseEvent(0, 490,50,1);
@@ -291,6 +299,36 @@ public class TableDesignTests {
 		assertEquals("", coMan.getDefaultString(coMan.getColumns(coMan.getActiveTable()).get(0)));
 		//The default value is blank and the type is boolean, the checkbox is greyed out:
 		assertTrue(((Checkbox) coMan.getActiveUI().locatedAt(490,50)).getGreyedOut());
+		//The user clicks the checkbox again, the default value becomes true:
+		myCW.handleMouseEvent(0, 490,50,1);
+		assertEquals(true, coMan.getDefaultValue(coMan.getColumns(coMan.getActiveTable()).get(0)));
+		//The user clicks the checkbox, indicating the blanking policy of the column:
+		myCW.handleMouseEvent(0,400, 50,1);
+		assertFalse(coMan.getBlankingPolicy(coMan.getColumns(coMan.getActiveTable()).get(0)));
+
+		//The user clicks the default value checkbox
+		myCW.handleMouseEvent(0, 490,50,1);
+		//The default value was true, it becomes false:
+		assertEquals(false, coMan.getDefaultValue(coMan.getColumns(coMan.getActiveTable()).get(0)));
+		//The user clicks the default value checkbox again:
+		myCW.handleMouseEvent(0, 490,50,1);
+		//The default value was true, it becomes true again:
+		assertEquals(true, coMan.getDefaultValue(coMan.getColumns(coMan.getActiveTable()).get(0)));
+
+		//The user changes the type to STRING by clicking the column type twice:
+		myCW.handleMouseEvent(0,300,50,1);		
+		myCW.handleMouseEvent(0,300,50,1);
+		//The user tries to change the default value to blank by deleting all characters:
+		myCW.handleMouseEvent(0,500,60,1);
+		TextField defaultValue = (TextField) coMan.getActiveUI().locatedAt(500,60);
+		for(int i=0;i<4;i++){
+			myCW.handleKeyEvent(0,8,' ');
+		}
+		assertEquals(0,defaultValue.getText().length());
+		//However, the column does not allow blanks:
+		assertTrue(defaultValue.getError());
+		
+		
 		
 		
 //		//Clear UI before test
@@ -436,35 +474,35 @@ public class TableDesignTests {
 //		assertEquals(c.getDefault(), true);
 	}
 	
-	@Test
-	public void useCase7() {
-		MyCanvasWindow myCW = prepareTable();
-		CommunicationManager coMan = myCW.getCommunicationManager();
-		//test x (hier 10) keer voor random klikposities binnen de ListView
-		coMan.clearUI();
-		//Creating an empty table and setting it as active
-		coMan.addEmptyTable();
-		coMan.setActiveTable(coMan.getTables().get(0));
-		//add 1 column
-		coMan.getActiveTable().addEmptyColumn(Type.STRING, null);
-		coMan.getActiveTable().addEmptyColumn(Type.STRING, null);
-		assertEquals(coMan.getActiveTable().getColumns().size(), 2);
-		Column c = coMan.getActiveTable().getColumns().get(0); //for brevity's sake. This is the uppermost column.
-
-		//Step 1: user clicks margin of uppermost column
-		myCW.handleMouseEvent(0, 15, 40, 1);
-		
-		UIRow r = (UIRow) coMan.getActiveUI().locatedAt(15, 40);
-		//Step 2: column is now selected
-		assert(r.isSelected());
-		
-		
-		//Step 3: User presses delete
-		myCW.handleKeyEvent(1, 127, ' ');
-		
-		//Step 4.1: System removes column from list of columns
-		assert(!coMan.getActiveTable().getColumns().contains(c));
-		//Step 4.2: System removes the value for the deleted column from all the rows
-		//our domain doesn't store cells in rows. This is automatically true.
-	}
+//	@Test
+//	public void useCase7() {
+//		MyCanvasWindow myCW = prepareTable();
+//		CommunicationManager coMan = myCW.getCommunicationManager();
+//		//test x (hier 10) keer voor random klikposities binnen de ListView
+//		coMan.clearUI();
+//		//Creating an empty table and setting it as active
+//		coMan.addEmptyTable();
+//		coMan.setActiveTable(coMan.getTables().get(0));
+//		//add 1 column
+//		coMan.getActiveTable().addEmptyColumn(Type.STRING, null);
+//		coMan.getActiveTable().addEmptyColumn(Type.STRING, null);
+//		assertEquals(coMan.getActiveTable().getColumns().size(), 2);
+//		Column c = coMan.getActiveTable().getColumns().get(0); //for brevity's sake. This is the uppermost column.
+//
+//		//Step 1: user clicks margin of uppermost column
+//		myCW.handleMouseEvent(0, 15, 40, 1);
+//		
+//		UIRow r = (UIRow) coMan.getActiveUI().locatedAt(15, 40);
+//		//Step 2: column is now selected
+//		assert(r.isSelected());
+//		
+//		
+//		//Step 3: User presses delete
+//		myCW.handleKeyEvent(1, 127, ' ');
+//		
+//		//Step 4.1: System removes column from list of columns
+//		assert(!coMan.getActiveTable().getColumns().contains(c));
+//		//Step 4.2: System removes the value for the deleted column from all the rows
+//		//our domain doesn't store cells in rows. This is automatically true.
+//	}
 }
