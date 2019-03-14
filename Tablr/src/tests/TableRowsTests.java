@@ -6,6 +6,7 @@ import org.junit.Before;
 import org.junit.Test;
 
 import canvaswindow.MyCanvasWindow;
+import domain.Type;
 import facades.CommunicationManager;
 import ui.Loadable_Interfaces;
 import uielements.TextField;
@@ -23,7 +24,7 @@ public class TableRowsTests {
 		//Loading a table and filling it with Columns:
 		//Creating table:
 		myCW.handleMouseEvent(0, 40, 530 , 2);
-		//Going into tables mode:
+		//Going into tables design mode:
 		myCW.handleMouseEvent(0,85, 30, 2);
 		//Adding columns:
 		myCW.handleMouseEvent(0, 260, 230, 2);
@@ -90,33 +91,113 @@ public class TableRowsTests {
 	 */
 	@Test
 	public void useCase9() {
-//		// Step 1: Load the window
-//		MyCanvasWindow myCW = new MyCanvasWindow("Tables Mode");
-//		CommunicationManager coMan = myCW.getCommunicationManager();
-//		coMan.clearUI();
-//		coMan.loadUI(Loadable_Interfaces.TABLES);
-//		// The user double-clicks below the list of tables to create a table
-//		myCW.handleMouseEvent(0, 40, 530 , 2);
-//		
-//		//The user double-clicks a table name.
-//		myCW.handleMouseEvent(0, 51, 13, 2);
-//		
-//		// The user double-clicks to create a column
-//		myCW.handleMouseEvent(0, 40, 530 , 2);
-//				
-//		// go back to TABLES_MODE
-//		myCW.handleKeyEvent(0, 27, ' ');
-//			
-//		//The user double-clicks the table name. (Go back to TABLE_ROWS
-		MyCanvasWindow myCW = prepareTable();
+		// Step 1: Load the window
+		MyCanvasWindow myCW = new MyCanvasWindow("Tables Mode");
 		CommunicationManager coMan = myCW.getCommunicationManager();
+		coMan.clearUI();
+		coMan.loadUI(Loadable_Interfaces.TABLES);
+		//Loading a table and filling it with Columns:
+		//Creating table:
+		myCW.handleMouseEvent(0, 40, 530 , 2);
+		//Going into tables design mode:
+		myCW.handleMouseEvent(0,85, 30, 2);
+		//Adding columns:
+		myCW.handleMouseEvent(0, 260, 230, 2);
+		myCW.handleMouseEvent(0, 260, 260, 2);
+		myCW.handleMouseEvent(0, 260, 290, 2);
+		myCW.handleMouseEvent(0, 260, 320, 2);
+		myCW.handleMouseEvent(0, 260, 510, 2);
+		myCW.handleMouseEvent(0, 260, 510, 2);
+		myCW.handleMouseEvent(0, 260, 510, 2);
+		myCW.handleMouseEvent(0, 260, 510, 2);
+
+		//Changing default value for column0.
+		// String met default = "default" en Blanks_al = true
+		myCW.handleMouseEvent(0,500,50, 1);
+		String d1 = "default";
+		for(int i=0;i<d1.length();i++){
+			myCW.handleKeyEvent(0, 0, d1.charAt(i));
+		}
+		//Changing default value for column1.
+		// String met default = "default" en Blanks_al = false
+		myCW.handleMouseEvent(0,500,100, 1);
+		d1 = "default";
+		for(int i=0;i<d1.length();i++){
+			myCW.handleKeyEvent(0, 0, d1.charAt(i));
+		}		
+		//Toggle Blanks
+		myCW.handleMouseEvent(0, 400, 100, 1);
 		
-		myCW.handleMouseEvent(0, 51, 13, 2);
+		//Changing default value for column2:
+		// Email met default = "default@email" en Blanks_al = true
+		myCW.handleMouseEvent(0, 300, 150, 1);
+		myCW.handleMouseEvent(0, 500, 150, 1);
+		String d2 = "default@email";
+		for(int i=0;i<d2.length();i++){
+			myCW.handleKeyEvent(0, 0, d2.charAt(i));
+		}
+		
+		//Changing default value for column3:
+		// Email met default = "default@email" en Blanks_al = false
+		myCW.handleMouseEvent(0, 300, 200, 1);
+		myCW.handleMouseEvent(0, 500, 200, 1);
+		d2 = "default@email";
+		for(int i=0;i<d2.length();i++){
+			myCW.handleKeyEvent(0, 0, d2.charAt(i));
+		}
+		//Toggle Blanks
+		myCW.handleMouseEvent(0, 400, 200, 1);
+		
+		//Changing default value for column4:
+		// Boolean met default = grijs  en Blanks_al = true
+		myCW.handleMouseEvent(0, 300,250,1);
+		myCW.handleMouseEvent(0, 300,250,1);
+		
+
+		//Changing default value for column5:
+		// Boolean met default = grijs  en Blanks_al = false
+		myCW.handleMouseEvent(0, 300,300,1);
+		myCW.handleMouseEvent(0, 300,300,1);
+		//set default
+		myCW.handleMouseEvent(0, 500,300,1);
+		//Toggle Blanks
+		myCW.handleMouseEvent(0, 400, 300, 1);
+		
+		
+		//Changing default value for column6:
+		// Integer met default = 999  en Blanks_al = true
+		myCW.handleMouseEvent(0, 300,350,1);
+		myCW.handleMouseEvent(0, 300,350,1);
+		myCW.handleMouseEvent(0, 300,350,1);
+		myCW.handleMouseEvent(0, 500,350, 1);
+		String d4 = "999";
+		for(int i=0;i<d4.length();i++){
+			myCW.handleKeyEvent(0, 0, d4.charAt(i));
+		}
+		
+		//Changing default value for column7:
+		// Integer met default = 999  en Blanks_al = false
+		myCW.handleMouseEvent(0, 300,400,1);
+		myCW.handleMouseEvent(0, 300,400,1);
+		myCW.handleMouseEvent(0, 300,400,1);
+		myCW.handleMouseEvent(0, 500,400, 1);
+		d4 = "999";
+		for(int i=0;i<d4.length();i++){
+			myCW.handleKeyEvent(0, 0, d4.charAt(i));
+		}
+		//Toggle Blanks
+		myCW.handleMouseEvent(0, 400, 400, 1);
+		
+		//Escaping to table mode:
+		myCW.handleKeyEvent(0,27,' ');
+		
+		// got to ROWS mode
+		myCW.handleMouseEvent(0, 80, 30, 2);
 				
 		assertEquals(Loadable_Interfaces.TABLE_ROWS, coMan.getMode());
 				
 		// Add a row
-		myCW.handleMouseEvent(0, 11, 31 , 2);
+		myCW.handleMouseEvent(0, 15, 35 , 2);
 		
 		// Step 1: Click value of first row for first column
 		myCW.handleMouseEvent(0, 40, 70 , 1);
@@ -124,6 +205,10 @@ public class TableRowsTests {
 		// Step 2: The system indicates that this row is now selected.
 		TextField textField = (TextField) coMan.getActiveUI().locatedAt(40, 70);
 		assertTrue(textField.isSelected());
+		for(int i=0;i<d1.length();i++){
+			myCW.handleKeyEvent(0, 8, ' ');
+		}
+
 	}
 	
 	/**
