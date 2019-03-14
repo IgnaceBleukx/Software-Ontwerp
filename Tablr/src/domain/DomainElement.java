@@ -2,7 +2,7 @@ package domain;
 
 
 
-public class DomainElement {
+public abstract class DomainElement {
 	
 
 	/**
@@ -22,6 +22,10 @@ public class DomainElement {
 	 */
 	public void isNotError(){
 		isError = false;
+	}
+	
+	public boolean getError() {
+		return this.isError;
 	}
 	
 }

@@ -2,11 +2,9 @@ package domain;
 
 import java.util.ArrayList;
 
-<<<<<<< HEAD
 import exceptions.InvalidNameException;
 import facades.CommunicationManager;
-=======
->>>>>>> test
+
 
 public class Table extends DomainElement {
 	
