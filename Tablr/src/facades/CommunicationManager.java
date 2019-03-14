@@ -209,7 +209,6 @@ public class CommunicationManager {
 
 	public void getLock(UIElement e) {
 		UIFacade.getLock(e);
-		
 	}
 
 	public void releaseLock(UIElement e) {

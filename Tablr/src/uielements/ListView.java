@@ -148,9 +148,11 @@ public class ListView extends UIElement {
 			
 				if ((tablesSameName.size() > 1 && tableNameLabel.isSelected) | tableNameLabel.getText().length() == 0) {
 					tableNameLabel.isError();
+					//c.getSelectionLock(tableNameLabel);
 				}
 				else if (tableNameLabel.getError() == true){
 					tableNameLabel.isNotError();
+					//c.releaseSelectionLock(tableNameLabel);
 				}
 			});
 
