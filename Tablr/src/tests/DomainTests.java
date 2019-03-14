@@ -87,8 +87,8 @@ public class DomainTests {
 		
 	}
 	
-	@Test  (expected = ClassCastException.class)
-	public void changeColumnDefaultsError() {
+	@Test  //(expected = ClassCastException.class)
+	public void changeColumnDefaultsError() throws InvalidTypeException, ClassCastException{
 		Table table = buildTable();
 		Column col = table.getColumns().get(0);
 		try {
@@ -107,28 +107,29 @@ public class DomainTests {
 	
 	@Test
 	public void testColumnInTable() throws InvalidNameException {
-		Table t = new Table("Table 1");	
-		Cell<String> cell = new Cell<String>("1234");
+		Table t = new Table("Table 1");
 		
 		t.addEmptyColumn(Type.STRING, "Default");
 		t.addRow();
 		
 		Column c = t.getColumns().get(0);
+		assertTrue(c.getBlankingPolicy());
+		assertNotNull(c.getCell(0));
+		
 		assertTrue(!c.isValidName(""));
-		assertTrue(!c.isValidName(c.getName()));
+		try {
 		Column c2 = new Column("j",null);
-		assertTrue(c.isValidName("j"));
+		} catch (InvalidNameException e){
+			assert(false);
+		}
 		
 		try {
 			c.setName("");
-		} catch (Exception e) {
+		} catch (InvalidNameException e) {
 			c.setName("CorrectName");
 		}
 		
-		assertTrue(c.getBlankingPolicy());
-		
-		assertNotNull(c.getCell(0));
-		
+		assertEquals(c.getName(), "CorrectName");
 	}
 	
 	@Test
