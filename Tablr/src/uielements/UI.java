@@ -55,9 +55,18 @@ public class UI {
 		ListView l = new ListView(10, 10, 560, 570, new ArrayList<UIElement>());
 		this.addUIElement(l);
 
-		//Button createTableButton = new Button(10,520,580,70, "Create table");
-
+		//Button createTableButton = new Button(10,520,580,70, "Create table");		
+		l.addSingleClickListener(() -> {
+			for (UIElement e : getElements()){
+				if (e.isSelected()) e.setNotSelected();
+			}
+		});		
+		
+		
 		l.addDoubleClickListener(() -> {
+			for (UIElement e : getElements()){
+				if (e.getError()) return;
+			}
 			communicationManager.addEmptyTable();
 			l.loadFromTables(communicationManager.getTables());
 		});
@@ -162,7 +171,16 @@ public class UI {
 		
 		l.loadColumnAttributes(currentTable);
 		
+		l.addSingleClickListener(() -> {
+			for (UIElement e : getElements()){
+				if (e.isSelected()) e.setNotSelected();
+			}
+		});		
+		
 		l.addDoubleClickListener(() -> {
+			for (UIElement e : getElements()){
+				if (e.getError()) return;
+			}
 			communicationManager.addEmptyColumn(currentTable,Type.STRING,"");
 			l.loadColumnAttributes(currentTable);
 		});
@@ -248,6 +266,7 @@ public class UI {
 		for (UIElement e : getElements()) {
 			found = e.locatedAt(x,y);
 			if (found != null) return found;
+			else e.setNotSelected();
 		}
 		return null;
 	}
