@@ -29,16 +29,16 @@ public class TablesModeTests {
 	 */
 	@Test
 	public void useCase1() {
-		// Step 1: Load the window
+		// Load the window
 		MyCanvasWindow myCW = new MyCanvasWindow("Tables Mode");
 		CommunicationManager coMan = myCW.getCommunicationManager();
 		coMan.clearUI();
 		coMan.loadUI(Loadable_Interfaces.TABLES);
 		// There are no tables yet
 		assertEquals(coMan.getTables().size(), 0);
-		// Step 2: The user double-clicks below the list of tables
+		// Step 1: The user double-clicks below the list of tables
 		myCW.handleMouseEvent(0, 40, 530 , 2);
-		// Step 3: There is a table added to the tables list
+		// Step 2: There is a table added to the tables list
 		assertEquals(coMan.getTables().size(), 1);
 	}
 	
@@ -50,7 +50,7 @@ public class TablesModeTests {
 	 */
 	@Test
 	public void useCase2() {
-		// Step 1: Load the window
+		// Load the window
 		MyCanvasWindow myCW = new MyCanvasWindow("Tables Mode");
 		CommunicationManager coMan = myCW.getCommunicationManager();
 		coMan.clearUI();
@@ -59,7 +59,7 @@ public class TablesModeTests {
 		myCW.handleMouseEvent(0, 40, 530, 2);
 		// Check the name of the added table
 		assertEquals("Table0",coMan.getTables().get(0).getName());
-		// Step 2: The user clicks a table name and the textfield gets selected
+		// Step 1 & 2: The user clicks a table name and the textfield gets selected
 		myCW.handleMouseEvent(0, 51, 13, 1);
 		TextField t = (TextField) coMan.getActiveUI().locatedAt(51, 13);
 		assertEquals(t.isSelected(), true);
@@ -68,7 +68,7 @@ public class TablesModeTests {
 		myCW.handleKeyEvent(1, 8, ' ');
 		assertEquals("Table", coMan.getTables().get(0).getName());
 		
-		// Check to see if table name gets red when it is empty or equal to name of another table
+		// Step 4: Check to see if table name gets red when it is empty or equal to name of another table
 		assertEquals(t.getError(), false);
 		for(int i = 0; i<5; i++){
 			myCW.handleKeyEvent(1, 8, ' ');
@@ -76,7 +76,7 @@ public class TablesModeTests {
 		assertEquals("", coMan.getTables().get(0).getName());
 		assertEquals(t.getError(), true);
 		
-		// Step 4: Add a character to the highlighted table name
+		// Add a character to the highlighted table name
 		myCW.handleKeyEvent(1, 65, 'a');
 		assertEquals("a", coMan.getTables().get(0).getName());
 		
@@ -97,7 +97,7 @@ public class TablesModeTests {
 	 */
 	@Test
 	public void useCase3() {
-		// Step 1: Load the window
+		// Load the window
 		MyCanvasWindow myCW = new MyCanvasWindow("Tables Mode");
 		CommunicationManager coMan = myCW.getCommunicationManager();
 		coMan.clearUI();
