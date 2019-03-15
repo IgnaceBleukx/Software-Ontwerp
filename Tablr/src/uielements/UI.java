@@ -156,14 +156,6 @@ public class UI {
 				add(def);
 			}}
 		);
-	
-		
-		//Creating temporary test table
-//		communicationManager.addEmptyTable();
-//		Table currentTable = communicationManager.getTables().get(0);
-//		communicationManager.addEmptyColumn(currentTable,Type.STRING,"");
-//		communicationManager.addEmptyColumn(currentTable,Type.BOOLEAN,false);
-//		communicationManager.addEmptyColumn(currentTable,Type.INTEGER,0);
 
 		Table currentTable = communicationManager.getActiveTable();
 		
@@ -176,8 +168,16 @@ public class UI {
 		});
 		
 		l.addKeyboardListener(27,() ->{ //ESCAPE, go to TABLES interface
-			communicationManager.changeTitle("Tables Mode");
-			communicationManager.loadUI(Loadable_Interfaces.TABLES);
+			System.out.println("[UI.java:171]: " + l.hasElementInError());
+			System.out.println("[UI.java:172]: " + l.hasSelectedElement());
+			if (l.hasElementInError() || l.hasSelectedElement()){
+				System.out.println("[UI.java:174]: Element in error or element selected in listvieuw");
+				return;
+			}
+			else{
+				communicationManager.changeTitle("Tables Mode");
+				communicationManager.loadUI(Loadable_Interfaces.TABLES);
+			}
 		});
 		
 				

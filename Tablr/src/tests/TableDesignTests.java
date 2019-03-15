@@ -68,68 +68,6 @@ public class TableDesignTests {
 		//Step2: The existing rows got a blank value for the columns index:
 		assertEquals("",coMan.getValue(coMan.getColumns(coMan.getActiveTable()).get(0),0));
 		
-		
-		
-//		//test x (hier 10) keer voor random klikposities binnen de ListView
-//		
-//		
-//		
-//		int randomX;
-//		int randomY;
-//		for(int i = 0; i < 10; ++i){
-//			for(int j = 0; j < 20; ++j){
-//				//Clear the UI each iteration
-//				coMan.clearUI();
-//				
-//				//Creating an empty table and setting it as active
-//				coMan.addEmptyTable();
-//				coMan.setActiveTable(coMan.getTables().get(0));
-//				//add 2 rows so we can check if they update accordingly when columns get added
-//				coMan.getActiveTable().addRow();
-//				coMan.getActiveTable().addRow();				
-//				
-//				//Step 1 --
-//				
-//				//the table is empty, no columns yet. Add a column by clicking anywhere in the ListView.
-//				assertEquals(coMan.getColumns(coMan.getActiveTable()).size(), 0);
-//				randomX = ThreadLocalRandom.current().nextInt(10, 560 + 1 + 10);
-//				randomY = ThreadLocalRandom.current().nextInt(30, 520 + 1 + 30);
-//				myCW.handleMouseEvent(0, randomX, randomY, 2);
-//				
-//				//Step 2 --
-//				
-//				/*Now there is one column in the table with name "Column" and then some random string added to that. (in assignment denoted by N)
-//				 * its type is STRING, blanks are allowed and the default value is blank
-//				 */
-//				assertEquals(coMan.getColumns(coMan.getActiveTable()).size(), 1);
-//				assert(coMan.getColumns(coMan.getActiveTable()).get(0).getName().startsWith("Column"));
-//				assertEquals(coMan.getColumns(coMan.getActiveTable()).get(0).getColumnType(), Type.STRING);
-//				assert(coMan.getColumns(coMan.getActiveTable()).get(0).getBlankingPolicy()); //blankingPolicy must be true
-//				assertNull(coMan.getColumns(coMan.getActiveTable()).get(0).getDefault()); //Default value must be null (that's how we store blanks)
-//				
-//				//Create 4 more columns by clicking in random, valid spots (under all existing columns)
-//				for (int z = 0; z < 4; ++z){
-//					randomX = ThreadLocalRandom.current().nextInt(10, 560 + 1 + 10);
-//					randomY = ThreadLocalRandom.current().nextInt(30 + 50*coMan.getColumns(coMan.getActiveTable()).size(), 520 + 1 + 30);
-//					myCW.handleMouseEvent(0, randomX, randomY, 2);
-//					
-//					//Check if all values in the row (both rows) are indeed null (blank)
-//					for (int r = 0; r < coMan.getRows(coMan.getActiveTable()).size(); ++r){
-//						for (Column newCol : coMan.getColumns(coMan.getActiveTable())){
-//							assertNull(newCol.getCells().get(r).getValue());
-//						}
-//					}
-//				}
-//				
-//				//All names are different, yet start with "Column"
-//				for (Column c : coMan.getColumns(coMan.getActiveTable())){
-//					assert(c.getName().startsWith("Column"));
-//					for (Column c2 : coMan.getColumns(coMan.getActiveTable())){
-//						if (c!=c2) assert(!c.getName().equals(c2.getName()));
-//					}
-//				}
-//			}
-//		}
 	}
 	
 	@Test
@@ -205,7 +143,6 @@ public class TableDesignTests {
 		myCW.handleMouseEvent(0,300,50,1);
 		//The type of the column changes back to STRING:
 		assertEquals(Type.STRING,coMan.getColumnType(coMan.getColumns(coMan.getActiveTable()).get(0)));
-		
 		//Changing the default value for the column:"
 		Text type = (Text) coMan.getActiveUI().locatedAt(300,50);
 		myCW.handleMouseEvent(0, 500, 50, 1);

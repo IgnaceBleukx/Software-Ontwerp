@@ -76,59 +76,53 @@ public class DomainTests {
 		
 		assertTrue(col1.getBlankingPolicy());
 		col1.toggleBlanks();
-		assertEquals(false, col1.getBlankingPolicy());
+		assertFalse(col1.getBlankingPolicy());
 		
 		col1.setDefaultValue(null);
-		assertEquals(col1.getDefault(),null);
+		assertNull(col1.getDefault());
 		
 		col1.setDefaultValue(false);
-		assertEquals(col1.getDefault(),false);
-		
-		
+		assertEquals(col1.getDefault(),false);		
 	}
 	
 	@Test  (expected = ClassCastException.class)
-	public void changeColumnDefaultsError() {
+	public void changeColumnDefaultsError() throws InvalidTypeException, ClassCastException{
 		Table table = buildTable();
 		Column col = table.getColumns().get(0);
 		try {
 			col.setNextType();
 		} catch (InvalidTypeException e1) {}
 		
-		try {
+		
 			col.setDefaultValue("blub");
-		}
-		catch (ClassCastException c){
-			assert(true);
-			return;
-		}
-		assert(false);//if no error is caught, fail the test
+		
 	}
 	
 	@Test
 	public void testColumnInTable() throws InvalidNameException {
-		Table t = new Table("Table 1");	
-		Cell<String> cell = new Cell<String>("1234");
+		Table t = new Table("Table 1");
 		
 		t.addEmptyColumn(Type.STRING, "Default");
 		t.addRow();
 		
 		Column c = t.getColumns().get(0);
-		assertTrue(!c.isValidName(""));
-		assertTrue(!c.isValidName(c.getName()));
+		assertTrue(c.getBlankingPolicy());
+		assertNotNull(c.getCell(0));
+		
+		assertFalse(c.isValidName(""));
+		try {
 		Column c2 = new Column("j",null);
-		assertTrue(c.isValidName("j"));
+		} catch (InvalidNameException e){
+			assert(false);
+		}
 		
 		try {
 			c.setName("");
-		} catch (Exception e) {
+		} catch (InvalidNameException e) {
 			c.setName("CorrectName");
 		}
 		
-		assertTrue(c.getBlankingPolicy());
-		
-		assertNotNull(c.getCell(0));
-		
+		assertEquals(c.getName(), "CorrectName");
 	}
 	
 	@Test

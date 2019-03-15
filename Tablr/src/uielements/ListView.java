@@ -142,7 +142,7 @@ public class ListView extends UIElement {
 				c.renameTable(curr, tableNameLabel.getText());
 				ArrayList<Table> tablesSameName = c.getTablesByName(curr.getName());
 			
-				if ((tablesSameName.size() > 1 && tableNameLabel.isSelected) | tableNameLabel.getText().length() == 0) {
+				if ((tablesSameName.size() > 1 && tableNameLabel.isSelected()) | tableNameLabel.getText().length() == 0) {
 					tableNameLabel.isError();
 					//c.getSelectionLock(tableNameLabel);
 				}
@@ -155,14 +155,16 @@ public class ListView extends UIElement {
 			//Table name textfields listen to double click events to switch modes
 			tableNameLabel.addDoubleClickListener(() -> {
 				getCommunicationManager().setActiveTable(curr);
-
+				for (UIElement e : getElements()){
+					if (e.getError()) return;
+				}
 				if (getCommunicationManager().isEmptyTable(curr)) {
 					getCommunicationManager().loadUI(Loadable_Interfaces.TABLE_DESIGN);
-					//getCommunicationManager().changeTitle("Table Design Mode: "+curr.getName());
+					getCommunicationManager().changeTitle("Table Design Mode: "+curr.getName());
 				}
 				else {
 					getCommunicationManager().loadUI(Loadable_Interfaces.TABLE_ROWS);
-					//getCommunicationManager().changeTitle("Table Rows Mode: "+curr.getName());
+					getCommunicationManager().changeTitle("Table Rows Mode: "+curr.getName());
 
 				}
 			});
@@ -227,6 +229,7 @@ public class ListView extends UIElement {
 				setSelectedElement(uiRow);
 			});
 			uiRow.addKeyboardListener(127,() -> {
+				if (this.hasElementInError() || this.hasSelectedElement()) return;
 				if(uiRow.equals(getSelectedElement())){
 					c.removeColumn(table, elements.indexOf(uiRow));
 					setSelectedElement(null);
@@ -281,7 +284,7 @@ public class ListView extends UIElement {
 					return;
 				}
 				try{
-					if (colName.isSelected){
+					if (colName.isSelected()){
 						c.setColumnName(col, colName.getText());
 						if (colName.getError()) colName.isNotError();
 					}
@@ -291,6 +294,15 @@ public class ListView extends UIElement {
 			});
 			
 		}
+	}
+
+	@Override
+	public boolean hasSelectedElement() {
+		if (this.isSelected()) return true;
+		for (UIElement e : getElements()){
+			if (e.hasSelectedElement()) return true;
+		}
+		return false;
 	}
 
 	@Override
