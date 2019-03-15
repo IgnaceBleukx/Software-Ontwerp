@@ -45,10 +45,10 @@ addRow()</panel_attributes>
       <x>1040</x>
       <y>330</y>
       <w>30</w>
-      <h>400</h>
+      <h>250</h>
     </coordinates>
     <panel_attributes>lt=.</panel_attributes>
-    <additional_attributes>10.0;380.0;10.0;10.0</additional_attributes>
+    <additional_attributes>10.0;230.0;10.0;10.0</additional_attributes>
   </element>
   <element>
     <id>UMLClass</id>
@@ -90,10 +90,10 @@ Double-clicks below the list of rows</panel_attributes>
       <x>380</x>
       <y>330</y>
       <w>30</w>
-      <h>410</h>
+      <h>230</h>
     </coordinates>
     <panel_attributes>lt=.</panel_attributes>
-    <additional_attributes>10.0;390.0;10.0;10.0</additional_attributes>
+    <additional_attributes>10.0;210.0;10.0;10.0</additional_attributes>
   </element>
   <element>
     <id>UMLClass</id>
@@ -112,10 +112,10 @@ Double-clicks below the list of rows</panel_attributes>
       <x>830</x>
       <y>320</y>
       <w>30</w>
-      <h>410</h>
+      <h>250</h>
     </coordinates>
     <panel_attributes>lt=.</panel_attributes>
-    <additional_attributes>10.0;390.0;10.0;10.0</additional_attributes>
+    <additional_attributes>10.0;230.0;10.0;10.0</additional_attributes>
   </element>
   <element>
     <id>Relation</id>
@@ -146,10 +146,10 @@ getCommunicationManager()</panel_attributes>
       <x>560</x>
       <y>330</y>
       <w>30</w>
-      <h>400</h>
+      <h>230</h>
     </coordinates>
     <panel_attributes>lt=.</panel_attributes>
-    <additional_attributes>10.0;380.0;10.0;10.0</additional_attributes>
+    <additional_attributes>10.0;210.0;10.0;10.0</additional_attributes>
   </element>
   <element>
     <id>Relation</id>
@@ -194,9 +194,9 @@ style=wordwrap</panel_attributes>
       <x>130</x>
       <y>330</y>
       <w>30</w>
-      <h>410</h>
+      <h>230</h>
     </coordinates>
     <panel_attributes>lt=.</panel_attributes>
-    <additional_attributes>10.0;390.0;10.0;10.0</additional_attributes>
+    <additional_attributes>10.0;210.0;10.0;10.0</additional_attributes>
   </element>
 </diagram>

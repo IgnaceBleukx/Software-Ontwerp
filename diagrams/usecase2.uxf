@@ -378,7 +378,7 @@ style=wordwrap</panel_attributes>
       <h>36</h>
     </coordinates>
     <panel_attributes>lt=.
-getError() = true</panel_attributes>
+getSelectionLock(textField)</panel_attributes>
     <additional_attributes>220.0;20.0;10.0;20.0</additional_attributes>
   </element>
   <element>
@@ -747,39 +747,6 @@ No effect</panel_attributes>
     <panel_attributes>Quit editing table name
 style=wordwrap</panel_attributes>
     <additional_attributes/>
-  </element>
-  <element>
-    <id>Relation</id>
-    <coordinates>
-      <x>72</x>
-      <y>639</y>
-      <w>171</w>
-      <h>27</h>
-    </coordinates>
-    <panel_attributes>lt=&lt;&lt;-</panel_attributes>
-    <additional_attributes>10.0;10.0;170.0;10.0</additional_attributes>
-  </element>
-  <element>
-    <id>Relation</id>
-    <coordinates>
-      <x>72</x>
-      <y>639</y>
-      <w>171</w>
-      <h>27</h>
-    </coordinates>
-    <panel_attributes>lt=&lt;&lt;-</panel_attributes>
-    <additional_attributes>10.0;10.0;170.0;10.0</additional_attributes>
-  </element>
-  <element>
-    <id>Relation</id>
-    <coordinates>
-      <x>72</x>
-      <y>639</y>
-      <w>171</w>
-      <h>27</h>
-    </coordinates>
-    <panel_attributes>lt=&lt;-</panel_attributes>
-    <additional_attributes>10.0;10.0;170.0;10.0</additional_attributes>
   </element>
   <element>
     <id>Relation</id>

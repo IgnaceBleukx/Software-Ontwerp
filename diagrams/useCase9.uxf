@@ -36,7 +36,7 @@ style=wordwrap</panel_attributes>
       <h>40</h>
     </coordinates>
     <panel_attributes>lt=&lt;&lt;.
-updateValue()</panel_attributes>
+changeCellValue()</panel_attributes>
     <additional_attributes>220.0;20.0;10.0;20.0</additional_attributes>
   </element>
   <element>
@@ -45,10 +45,10 @@ updateValue()</panel_attributes>
       <x>1080</x>
       <y>250</y>
       <w>30</w>
-      <h>400</h>
+      <h>250</h>
     </coordinates>
     <panel_attributes>lt=.</panel_attributes>
-    <additional_attributes>10.0;380.0;10.0;10.0</additional_attributes>
+    <additional_attributes>10.0;230.0;10.0;10.0</additional_attributes>
   </element>
   <element>
     <id>UMLClass</id>
@@ -90,10 +90,10 @@ Clicks the value of some row for some column</panel_attributes>
       <x>420</x>
       <y>250</y>
       <w>30</w>
-      <h>410</h>
+      <h>250</h>
     </coordinates>
     <panel_attributes>lt=.</panel_attributes>
-    <additional_attributes>10.0;390.0;10.0;10.0</additional_attributes>
+    <additional_attributes>10.0;230.0;10.0;10.0</additional_attributes>
   </element>
   <element>
     <id>UMLClass</id>
@@ -112,10 +112,10 @@ Clicks the value of some row for some column</panel_attributes>
       <x>870</x>
       <y>240</y>
       <w>30</w>
-      <h>410</h>
+      <h>260</h>
     </coordinates>
     <panel_attributes>lt=.</panel_attributes>
-    <additional_attributes>10.0;390.0;10.0;10.0</additional_attributes>
+    <additional_attributes>10.0;240.0;10.0;10.0</additional_attributes>
   </element>
   <element>
     <id>Relation</id>
@@ -146,10 +146,10 @@ getCommunicationManager()</panel_attributes>
       <x>600</x>
       <y>250</y>
       <w>30</w>
-      <h>400</h>
+      <h>250</h>
     </coordinates>
     <panel_attributes>lt=.</panel_attributes>
-    <additional_attributes>10.0;380.0;10.0;10.0</additional_attributes>
+    <additional_attributes>10.0;230.0;10.0;10.0</additional_attributes>
   </element>
   <element>
     <id>Relation</id>
@@ -182,22 +182,9 @@ See how click is handled</panel_attributes>
       <x>100</x>
       <y>250</y>
       <w>30</w>
-      <h>410</h>
+      <h>250</h>
     </coordinates>
     <panel_attributes>lt=.</panel_attributes>
-    <additional_attributes>10.0;390.0;10.0;10.0</additional_attributes>
-  </element>
-  <element>
-    <id>UMLNote</id>
-    <coordinates>
-      <x>1060</x>
-      <y>90</y>
-      <w>140</w>
-      <h>70</h>
-    </coordinates>
-    <panel_attributes>Last step is not yet implemented!
-bg=blue
-style=wordwrap</panel_attributes>
-    <additional_attributes/>
+    <additional_attributes>10.0;230.0;10.0;10.0</additional_attributes>
   </element>
 </diagram>

@@ -28,19 +28,6 @@ style=wordwrap</panel_attributes>
     <additional_attributes/>
   </element>
   <element>
-    <id>UMLNote</id>
-    <coordinates>
-      <x>900</x>
-      <y>0</y>
-      <w>150</w>
-      <h>70</h>
-    </coordinates>
-    <panel_attributes>Extensions (nog) niet geïmplementeerd
-bg=blue
-style=wordwrap</panel_attributes>
-    <additional_attributes/>
-  </element>
-  <element>
     <id>Relation</id>
     <coordinates>
       <x>810</x>
@@ -49,7 +36,7 @@ style=wordwrap</panel_attributes>
       <h>40</h>
     </coordinates>
     <panel_attributes>lt=&lt;&lt;.
-showCursorAfterColumnName()</panel_attributes>
+isSelected()</panel_attributes>
     <additional_attributes>240.0;20.0;10.0;20.0</additional_attributes>
   </element>
   <element>
@@ -296,7 +283,7 @@ getCommunicationManager()</panel_attributes>
       <h>40</h>
     </coordinates>
     <panel_attributes>lt=&lt;&lt;.
-RemoveCharacter()</panel_attributes>
+setColumnName()</panel_attributes>
     <additional_attributes>240.0;20.0;10.0;20.0</additional_attributes>
   </element>
   <element>
@@ -308,7 +295,7 @@ RemoveCharacter()</panel_attributes>
       <h>40</h>
     </coordinates>
     <panel_attributes>lt=&lt;&lt;.
-addCharacter()</panel_attributes>
+setColumnName()</panel_attributes>
     <additional_attributes>240.0;20.0;10.0;20.0</additional_attributes>
   </element>
   <element>
@@ -377,7 +364,7 @@ style=wordwrap</panel_attributes>
       <h>40</h>
     </coordinates>
     <panel_attributes>lt=&lt;&lt;.
-redBorder()</panel_attributes>
+getSelectionLock(textField)</panel_attributes>
     <additional_attributes>240.0;20.0;10.0;20.0</additional_attributes>
   </element>
   <element>
