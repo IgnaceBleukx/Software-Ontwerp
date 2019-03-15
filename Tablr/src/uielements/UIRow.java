@@ -131,8 +131,27 @@ public class UIRow extends UIElement {
 		return false;
 	}
 
+	
 	public ArrayList<UIElement> getElements() {
 		return new ArrayList<UIElement>(elements);
+	}
+
+	@Override
+	public boolean hasSelectedElement() {
+		if (this.isSelected()) return true;
+		for (UIElement e : elements){
+			if (e.hasSelectedElement()) return true;
+		}
+		return false;
+	}
+
+	@Override
+	public boolean hasElementInError() {
+		if (this.getError()) return true;
+		for (UIElement e : elements){
+			if (e.hasElementInError()) return true;
+		}
+		return false;
 	}
 
 	

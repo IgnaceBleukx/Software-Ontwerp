@@ -81,7 +81,7 @@ public class TextField extends UIElement {
 		if(getCommunicationManager().getLockedElement() != (null) && !getCommunicationManager().getLockedElement().equals(this)){
 			return;
 		}
-		if (!isSelected) {
+		if (!isSelected()) {
 			//setSelected();
 			c.notifyNewSelected(this);
 			this.prevText = getText();
@@ -107,18 +107,18 @@ public class TextField extends UIElement {
 		if(getCommunicationManager().getLockedElement() != (null) && !getCommunicationManager().getLockedElement().equals(this)){
 			return;
 		}
-		if (keyCode == 10 && isSelected == true) { //Enter, end editing
+		if (keyCode == 10 && isSelected() == true) { //Enter, end editing
 			if (!getError())
 				setNotSelected();
 		}
 
-		if (keyCode == 27 &&  isSelected) {
+		if (keyCode == 27 &&  isSelected()) {
 			restoreText();
 			setNotSelected();
 			if(getError()) isNotError();
 		}
 				
-		if (keyCode == 8 && isSelected) { //Backspace: remove character
+		if (keyCode == 8 && isSelected()) { //Backspace: remove character
 			if (getText().length() > 0) {
 				String newText = getText().substring(0, getText().length() - 1);
 				setText(newText);
@@ -126,7 +126,7 @@ public class TextField extends UIElement {
 		}
 
 		
-		if ((Character.isLetterOrDigit(keyChar) || keyChar == '@' || keyChar == '.') && isSelected == true) {
+		if ((Character.isLetterOrDigit(keyChar) || keyChar == '@' || keyChar == '.') && isSelected()) {
 			setText(getText()+keyChar);
 		}
 		

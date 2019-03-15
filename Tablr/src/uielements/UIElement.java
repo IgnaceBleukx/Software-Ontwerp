@@ -266,7 +266,7 @@ public abstract class UIElement {
 	/**
 	 * Is this element selected? (Only one UIElement can be selected per UI)
 	 */
-	protected boolean isSelected;
+	private boolean isSelected;
 	
 	/**
 	 * @return if the element is selected or not
@@ -294,11 +294,19 @@ public abstract class UIElement {
 	 * @param newElement: the element to be compared with this one
 	 */
 	protected void selectElement(UIElement newElement) {
-		if (newElement == this) {
+		if (newElement.equals(this)) {
 			setSelected();
 		}
 		else {
 			setNotSelected();
 		}
+	}
+	
+	public boolean hasSelectedElement(){
+		return this.isSelected();
+	}
+	
+	public boolean hasElementInError(){
+		return this.getError();
 	}
 }

@@ -76,18 +76,16 @@ public class DomainTests {
 		
 		assertTrue(col1.getBlankingPolicy());
 		col1.toggleBlanks();
-		assertEquals(false, col1.getBlankingPolicy());
+		assertFalse(col1.getBlankingPolicy());
 		
 		col1.setDefaultValue(null);
-		assertEquals(col1.getDefault(),null);
+		assertNull(col1.getDefault());
 		
 		col1.setDefaultValue(false);
-		assertEquals(col1.getDefault(),false);
-		
-		
+		assertEquals(col1.getDefault(),false);		
 	}
 	
-	@Test  //(expected = ClassCastException.class)
+	@Test  (expected = ClassCastException.class)
 	public void changeColumnDefaultsError() throws InvalidTypeException, ClassCastException{
 		Table table = buildTable();
 		Column col = table.getColumns().get(0);
@@ -95,14 +93,9 @@ public class DomainTests {
 			col.setNextType();
 		} catch (InvalidTypeException e1) {}
 		
-		try {
+		
 			col.setDefaultValue("blub");
-		}
-		catch (ClassCastException c){
-			assert(true);
-			return;
-		}
-		assert(false);//if no error is caught, fail the test
+		
 	}
 	
 	@Test
@@ -116,7 +109,7 @@ public class DomainTests {
 		assertTrue(c.getBlankingPolicy());
 		assertNotNull(c.getCell(0));
 		
-		assertTrue(!c.isValidName(""));
+		assertFalse(c.isValidName(""));
 		try {
 		Column c2 = new Column("j",null);
 		} catch (InvalidNameException e){

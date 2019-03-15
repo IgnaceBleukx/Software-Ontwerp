@@ -230,5 +230,23 @@ public class UITable extends UIElement {
 		}
 		return false;
 	}
+	
+	@Override
+	public boolean hasSelectedElement() {
+		if (this.isSelected()) return true;
+		for (UIElement e : getRows()){
+			if (e.hasSelectedElement()) return true;
+		}
+		return false;
+	}
+
+	@Override
+	public boolean hasElementInError() {
+		if (this.isSelected()) return true;
+		for (UIElement e : getRows()){
+			if (e.hasElementInError()) return true;
+		}
+		return false;
+	}
 
 }
