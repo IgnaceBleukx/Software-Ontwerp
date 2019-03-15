@@ -250,7 +250,6 @@ public class ListView extends UIElement {
 			});
 			
 			uiRow.addKeyboardListener(127,() -> {
-				if (this.hasElementInError() || this.hasSelectedElement()) return;
 				if(uiRow.equals(getSelectedElement())){
 					c.removeColumn(table, elements.indexOf(uiRow));
 					setSelectedElement(null);
