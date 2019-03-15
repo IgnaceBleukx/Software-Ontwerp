@@ -54,6 +54,19 @@ public class ListView extends UIElement {
 	}
 
 	/**
+	 * deselect the currently selected element
+	 */
+	@Override
+	public void setNotSelected() {
+		this.selectedElement = null;
+	}
+	
+	public boolean isSelected() {
+		if (this.getSelectedElement() != null) return true;
+		return false;
+	}
+
+	/**
 	 * the currently selected element of the ListView (optional, sometimes null)
 	 */
 	private UIElement selectedElement;
@@ -123,6 +136,9 @@ public class ListView extends UIElement {
 			
 			Button deleteButton = new Button(getX()+2, getY()+2+i*40,38,38,"");
 			deleteButton.addSingleClickListener(() -> {
+				for (UIElement e : getElements()){
+					if (e.getError()) return;
+				}
 				this.setSelectedElement(currRow);
 			});
 			
@@ -225,9 +241,14 @@ public class ListView extends UIElement {
 			y += 50;
 			
 			//Adding listeners
+			
 			uiRow.addSingleClickListener(() -> {
+				for (UIElement e : getElements()){
+					if (e.getError()) return;
+				}
 				setSelectedElement(uiRow);
 			});
+			
 			uiRow.addKeyboardListener(127,() -> {
 				if (this.hasElementInError() || this.hasSelectedElement()) return;
 				if(uiRow.equals(getSelectedElement())){
@@ -294,6 +315,7 @@ public class ListView extends UIElement {
 			});
 			
 		}
+		
 	}
 
 	@Override
