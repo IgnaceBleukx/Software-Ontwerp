@@ -11,8 +11,7 @@ import domain.Table;
 import domain.Type;
 import exceptions.InvalidNameException;
 import exceptions.InvalidTypeException;
-import facades.CommunicationManager;
-import ui.Loadable_Interfaces;
+import facades.Tablr;
 
 public class ListView extends UIElement {
 
@@ -125,195 +124,17 @@ public class ListView extends UIElement {
 	
 	/**
 	 * 
-	 * @param tables
-	 */
-	public void loadFromTables(ArrayList<Table> tables) {
-		
-		elements.clear();
-		for (int i=0;i<tables.size();i++) { 
-			Table curr = tables.get(i);
-			UIRow currRow = new UIRow(getX()+1, getY()+1+i*40, getWidth()-2, 40, new ArrayList<UIElement>());
-			
-			Button deleteButton = new Button(getX()+2, getY()+2+i*40,38,38,"");
-			deleteButton.addSingleClickListener(() -> {
-				for (UIElement e : getElements()){
-					if (e.getError()) return;
-				}
-				this.setSelectedElement(currRow);
-			});
-			
-			deleteButton.addKeyboardListener(127, () -> {
-				if (getSelectedElement() == currRow && this.getError() == false) {
-					removeElement((UIElement) currRow); //Remove row from ListView
-					c.removeTable(curr); //Remove table from list of tables
-					setSelectedElement(null);
-					loadFromTables(c.getTables());
-				}
-			});
-			currRow.addElement(deleteButton);
-			
-			TextField tableNameLabel = new TextField(getX()+40, getY()+2+i*40, 520, 38, curr.getName());
-			//Table name textfields listen to alphanumeric keyboard input
-			tableNameLabel.addKeyboardListener(-1, () -> {
-				c.renameTable(curr, tableNameLabel.getText());
-				ArrayList<Table> tablesSameName = c.getTablesByName(curr.getName());
-			
-				if ((tablesSameName.size() > 1 && tableNameLabel.isSelected()) | tableNameLabel.getText().length() == 0) {
-					tableNameLabel.isError();
-					//c.getSelectionLock(tableNameLabel);
-				}
-				else if (tableNameLabel.getError() == true){
-					tableNameLabel.isNotError();
-					//c.releaseSelectionLock(tableNameLabel);
-				}
-			});
-
-			//Table name textfields listen to double click events to switch modes
-			tableNameLabel.addDoubleClickListener(() -> {
-				getCommunicationManager().setActiveTable(curr);
-				for (UIElement e : getElements()){
-					if (e.getError()) return;
-				}
-				if (getCommunicationManager().isEmptyTable(curr)) {
-					getCommunicationManager().loadUI(Loadable_Interfaces.TABLE_DESIGN);
-					getCommunicationManager().changeTitle("Table Design Mode: "+curr.getName());
-				}
-				else {
-					getCommunicationManager().loadUI(Loadable_Interfaces.TABLE_ROWS);
-					getCommunicationManager().changeTitle("Table Rows Mode: "+curr.getName());
-
-				}
-			});
-
-			currRow.addElement(tableNameLabel);
-			
-			addElement(currRow);
-		}	
-	}
+//	 * @param tables
+//	 */
+//	public void loadFromTables(ArrayList<Table> tables) {
+//		
+//		elements.clear();
+//		
+//	}
 	
 	
 	public void loadColumnAttributes(Table table){
-		int margin = 20;
-		int y = 30;
-		elements.clear();
-		for(Column col : c.getColumns(table)){
-			TextField colName = new TextField(10+margin,y,200,50,  c.getColumnName(col));
-			Text colType = new Text(210+margin,y,150,50, c.getColumnType(col).toString()); colType.setBorder(true);
-			Checkbox colBlankPol = new Checkbox(375+margin,y+15,20,20, c.getBlankingPolicy(col));
-			String defaultValue = c.getDefaultString(col);
-
-			ArrayList<UIElement> list;
-			if(c.getColumnType(col) == Type.BOOLEAN){
-				Checkbox colDefCheck;
-				if (defaultValue == "") {
-					colDefCheck = new Checkbox(480, y+15,20,20, false);
-					colDefCheck.greyOut();
-				}
-				else colDefCheck = new Checkbox(480, y+15,20,20,Boolean.parseBoolean(defaultValue));
-				
-				list = new ArrayList<UIElement>(){{ add(colName); add(colType); add(colBlankPol); add(colDefCheck);}};
-				
-				colDefCheck.addSingleClickListener(() -> {
-					c.toggleDefault(col);
-					loadColumnAttributes(table);
-				});
-			}
-			else{
-				TextField colDefText = new TextField(410+margin,y,160-margin,50, defaultValue);
-				list = new ArrayList<UIElement>(){{ add(colName); add(colType); add(colBlankPol); add(colDefText);}};
-				colDefText.addKeyboardListener(-1,()-> {
-					try{
-						if (colDefText.getText().length() == 0) {
-							c.setDefault(col,"");
-						}
-						else{
-							c.setDefault(col,colDefText.getText());
-						}
-						if (colDefText.getError()) colDefText.isNotError();
-					}catch(ClassCastException e){
-						colDefText.isError();
-					}
-				});
-			}
-			
-			UIRow uiRow = new UIRow(10,y,560,50,list);
-			this.addElement(uiRow);
-			y += 50;
-			
-			//Adding listeners
-			
-			uiRow.addSingleClickListener(() -> {
-				for (UIElement e : getElements()){
-					if (e.getError()) return;
-				}
-				setSelectedElement(uiRow);
-			});
-			
-			uiRow.addKeyboardListener(127,() -> {
-				if(uiRow.equals(getSelectedElement())){
-					c.removeColumn(table, elements.indexOf(uiRow));
-					setSelectedElement(null);
-					loadColumnAttributes(table);
-				}
-			});
-			
-			colBlankPol.addSingleClickListener(() -> {
-				if (!colBlankPol.getError()){
-					try {
-						c.toggleBlanks(col);
-					} catch (Exception e) {
-						colBlankPol.isError();
-						c.getLock(colBlankPol);
-					}
-				}else {
-					colBlankPol.isNotError();
-					c.releaseLock(colBlankPol);
-				}
-			});
-			
-			colType.addSingleClickListener(() -> {
-				if (colType.getError()){
-					System.out.println("[ListVieuw.java:250] : colType is in error");
-					try{
-						c.setColumnType(col, Column.getNextType(Type.valueOf(colType.getText())));
-						colType.isNotError();
-						c.releaseLock(colType);
-						loadColumnAttributes(table);
-					}catch(InvalidTypeException e){
-						colType.setText(Column.getNextType(Type.valueOf(colType.getText())).toString());
-						colType.isError();
-						c.getLock(colType);
-					}
-				}
-				
-				else{
-					try{
-						c.toggleColumnType(col);
-						loadColumnAttributes(table);
-					}catch (InvalidTypeException e){
-						colType.setText(Column.getNextType(c.getColumnType(col)).toString());
-						colType.isError();
-						c.getLock(colType);
-					}
-				}
-			});
-			
-			colName.addKeyboardListener(-1,() -> {	
-				if (colName.getText().length() == 0) {
-					colName.isError(); 
-					return;
-				}
-				try{
-					if (colName.isSelected()){
-						c.setColumnName(col, colName.getText());
-						if (colName.getError()) colName.isNotError();
-					}
-				}catch (InvalidNameException e){
-					colName.isError();
-				}
-			});
-			
-		}
+		
 		
 	}
 
@@ -380,7 +201,7 @@ public class ListView extends UIElement {
 	}
 
 	@Override
-	public void setCommunicationManager(CommunicationManager c) {
+	public void setCommunicationManager(Tablr c) {
 		this.c = c;
 		for (UIElement e : elements) {
 			e.setCommunicationManager(c);

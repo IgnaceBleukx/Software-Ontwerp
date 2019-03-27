@@ -3,14 +3,13 @@ package canvaswindow;
 import java.awt.Graphics;
 
 import uielements.*;
-import ui.Loadable_Interfaces;
 import java.util.ArrayList;
 
-import facades.CommunicationManager;
+import facades.Tablr;
 
 public class MyCanvasWindow extends CanvasWindow {
 	
-	private CommunicationManager communicationManager;
+	private Tablr communicationManager;
 
 	/**
 	 * Initiates a Canvas with a new CommunicationManager and loads a UI into the Canvas.
@@ -21,8 +20,8 @@ public class MyCanvasWindow extends CanvasWindow {
 	public MyCanvasWindow(String title) {
 		super(title);
 		
-		communicationManager = new CommunicationManager();
-		communicationManager.loadUI(Loadable_Interfaces.TABLES);
+		communicationManager = new Tablr();
+		communicationManager.loadTableModeUI();
 		
 		communicationManager.addTitleChangeRunnable(() -> {
 			//this.setTitle(communicationManager.getNewTitle());
@@ -34,7 +33,7 @@ public class MyCanvasWindow extends CanvasWindow {
 	 * Returns the communicationManager of this Canvas
 	 * @return 	CommunicationManager c
 	 */
-	public CommunicationManager getCommunicationManager() {
+	public Tablr getCommunicationManager() {
 		return communicationManager;
 	}
 

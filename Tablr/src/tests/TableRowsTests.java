@@ -7,8 +7,7 @@ import org.junit.Test;
 
 import canvaswindow.MyCanvasWindow;
 import domain.Type;
-import facades.CommunicationManager;
-import ui.Loadable_Interfaces;
+import facades.Tablr;
 import uielements.Checkbox;
 import uielements.TextField;
 import uielements.UIRow;
@@ -19,9 +18,9 @@ public class TableRowsTests {
 	public MyCanvasWindow prepareTable(){
 		// Step 1: Load the window
 		MyCanvasWindow myCW = new MyCanvasWindow("Tables Mode");
-		CommunicationManager coMan = myCW.getCommunicationManager();
+		Tablr coMan = myCW.getCommunicationManager();
 		coMan.clearUI();
-		coMan.loadUI(Loadable_Interfaces.TABLES);
+		coMan.loadTableModeUI();
 		//Loading a table and filling it with Columns:
 		//Creating table:
 		myCW.handleMouseEvent(0, 40, 530 , 2);
@@ -69,11 +68,11 @@ public class TableRowsTests {
 	@Test
 	public void useCase8(){
 	MyCanvasWindow myCW = prepareTable();
-	CommunicationManager coMan = myCW.getCommunicationManager();
+	Tablr coMan = myCW.getCommunicationManager();
 	
 	//Entering table_rows mode:
 	myCW.handleMouseEvent(0,85, 30, 2);
-	assertEquals(Loadable_Interfaces.TABLE_ROWS,coMan.getMode());
+//TODO	assertEquals(Loadable_Interfaces.TABLE_ROWS,coMan.getMode());
 	// Step 1: The user double clicks below the list of tables:
 	myCW.handleMouseEvent(0, 40, 530 , 2);
 	/* Step 2: The system adds a new row to the end of the table.
@@ -94,9 +93,9 @@ public class TableRowsTests {
 	public void useCase9() {
 		// Step 1: Load the window
 		MyCanvasWindow myCW = new MyCanvasWindow("Tables Mode");
-		CommunicationManager coMan = myCW.getCommunicationManager();
+		Tablr coMan = myCW.getCommunicationManager();
 		coMan.clearUI();
-		coMan.loadUI(Loadable_Interfaces.TABLES);
+//TODO		coMan.loadUI(Loadable_Interfaces.TABLES);
 		//Loading a table and filling it with Columns:
 		//Creating table:
 		myCW.handleMouseEvent(0, 40, 530 , 2);
@@ -192,7 +191,7 @@ public class TableRowsTests {
 		// got to ROWS mode
 		myCW.handleMouseEvent(0, 80, 30, 2);
 				
-		assertEquals(Loadable_Interfaces.TABLE_ROWS, coMan.getMode());
+//TODO		assertEquals(Loadable_Interfaces.TABLE_ROWS, coMan.getMode());
 				
 		// Add a row
 		myCW.handleMouseEvent(0, 15, 35 , 2);
@@ -313,12 +312,12 @@ public class TableRowsTests {
 //		myCW.handleKeyEvent(0, 27, ' ');
 		
 		MyCanvasWindow myCW = prepareTable();
-		CommunicationManager coMan = myCW.getCommunicationManager();
+		Tablr coMan = myCW.getCommunicationManager();
 		
 		// Step 1: The user double-clicks the table name.
 		myCW.handleMouseEvent(0, 51, 13, 2);
 		
-		assertEquals(Loadable_Interfaces.TABLE_ROWS, coMan.getMode());
+//TODO		assertEquals(Loadable_Interfaces.TABLE_ROWS, coMan.getMode());
 		
 		// Add a row
 		myCW.handleMouseEvent(0, 11, 31 , 2);

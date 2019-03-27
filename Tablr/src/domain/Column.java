@@ -4,7 +4,7 @@ import java.util.ArrayList;
 
 import exceptions.InvalidNameException;
 import exceptions.InvalidTypeException;
-import facades.CommunicationManager;
+import facades.Tablr;
 
 
 public class Column {

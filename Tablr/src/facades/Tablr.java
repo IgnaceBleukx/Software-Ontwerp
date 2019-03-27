@@ -8,8 +8,7 @@ import domain.Table;
 import domain.Type;
 import exceptions.InvalidNameException;
 import exceptions.InvalidTypeException;
-import ui.Loadable_Interfaces;
-import uielements.UI;
+import ui.UI;
 import uielements.UIElement;
 
 /**
@@ -21,14 +20,14 @@ import uielements.UIElement;
  * CommunicationManager.
  *
  */
-public class CommunicationManager {
+public class Tablr {
 	
 	DomainFacade domainFacade;
-	UIFacade UIFacade;
+	WindowManager UIFacade;
 	
-	public CommunicationManager() {
+	public Tablr() {
 		domainFacade = new DomainFacade();
-		UIFacade = new UIFacade(this);
+		UIFacade = new WindowManager(this);
 	}
 
 	public Table getActiveTable() {
@@ -43,19 +42,24 @@ public class CommunicationManager {
 		return (domainFacade.getColumns(t).size() == 0);
 	}
 	
-	public void loadUI(Loadable_Interfaces i) {
-		UIFacade.loadUI(i);
+	public void loadTableModeUI(){
+		UIFacade.loadTablesModeUI();
+	}
+	
+	public void loadTableRowsModeUI(Table table){
+		UIFacade.loadTableRowsModeUI(table);
+	}
+	
+	public void loadTableDesignModeUI(Table table) {
+		UIFacade.loadTableDesignModeUI(table);
 	}
 	
 	public void clearUI() {
 		UIFacade.clearUI();
 	}
 	
-	public Loadable_Interfaces getMode() {
-		return UIFacade.getMode();
-	}
-	
 	public Table addEmptyTable() {
+		domainChanged();
 		return domainFacade.addEmptyTable();
 	}
 	
@@ -68,6 +72,7 @@ public class CommunicationManager {
 	}
 	
 	public void removeTable(Table t) {
+		domainChanged();
 		domainFacade.removeTable(t);
 	}
 	
@@ -83,10 +88,12 @@ public class CommunicationManager {
 	}
 	
 	public void renameTable(Table t, String name) {
+		domainChanged();
 		domainFacade.renameTable(t, name);
 	}
 	
 	public void toggleBlanks(Column col) throws Exception{
+		domainChanged();
 		domainFacade.toggleBlanks(col);
 	}
 	
@@ -95,16 +102,19 @@ public class CommunicationManager {
 	}
 
 	public void addEmptyColumn(Table table, Type type, Object defaultValue) {
+		domainChanged();
 		domainFacade.addEmptyColumn(table,type, defaultValue);
 		
 	}
 
 	public void setColumnName(Column col, String text) throws InvalidNameException {
+		domainChanged();
 		domainFacade.setColumnName(col,text);
 		
 	}
 
 	public void addRow(Table tab) {
+		domainChanged();
 		domainFacade.addRow(tab);		
 	}
 
@@ -125,13 +135,14 @@ public class CommunicationManager {
 	}
 
 	public void removeRow(Table tab, int index) {
+		domainChanged();
 		domainFacade.removeRow(tab,index);
 		
 	}
 
 	public void removeColumn(Table table, int index) {
+		domainChanged();
 		domainFacade.removeColumn(table, index);
-		
 	}
 	
 	public void notifyNewSelected(UIElement e) {
@@ -139,16 +150,17 @@ public class CommunicationManager {
 	}
 
 	public void changeCellValue(Column col, int i, String string) throws ClassCastException {
+		domainChanged();
 		domainFacade.changeCellValue(col,i,string);
-		
 	}
 
 	public void toggleColumnType(Column col) throws InvalidTypeException {
+		domainChanged();
 		domainFacade.toggleColumnType(col);
-		
 	}
 	
 	public void setDefault(Column col, String def) throws ClassCastException {
+		domainChanged();
 		domainFacade.setDefault(col,def);
 	}
 
@@ -181,6 +193,7 @@ public class CommunicationManager {
 	}
 
 	public void toggleDefault(Column col) {
+		domainChanged();
 		domainFacade.toggleDefault(col);
 	}
 
@@ -198,8 +211,8 @@ public class CommunicationManager {
 	}
 
 	public void setColumnType(Column col, Type type) throws InvalidTypeException {
+		domainChanged();
 		domainFacade.setColumnType(col,type);
-		
 	}
 	
 	private ArrayList<Runnable> titleChangeRunnables = new ArrayList<>();
@@ -209,6 +222,7 @@ public class CommunicationManager {
 	}
 	
 	private String newTitle;
+	private ArrayList<Runnable> DomainChangedListeners;
 	
 	public String getNewTitle() {
 		return newTitle;
@@ -226,11 +240,21 @@ public class CommunicationManager {
 	}
 
 	public void toggleCellValueBoolean(Column col, int i) {
+		domainChanged();
 		domainFacade.toggleCellValueBoolean(col,i);
-		
 	}
 	
 	public Object getValue(Column col, int index){
 		return domainFacade.getValue(col,index);
+	}
+
+	private void domainChanged(){
+		for(Runnable r : DomainChangedListeners){
+			r.run();
+		}
+	}
+	
+	public void addDomainChangedListener(Runnable r){
+		this.DomainChangedListeners.add(r);
 	}
 }

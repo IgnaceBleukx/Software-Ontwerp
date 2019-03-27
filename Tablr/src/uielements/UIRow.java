@@ -3,7 +3,7 @@ package uielements;
 import java.awt.Graphics;
 import java.util.ArrayList;
 
-import facades.CommunicationManager;
+import facades.Tablr;
 
 public class UIRow extends UIElement {
 
@@ -115,7 +115,7 @@ public class UIRow extends UIElement {
 	}
 	
 	@Override
-	public void setCommunicationManager(CommunicationManager c) {
+	public void setCommunicationManager(Tablr c) {
 		this.c = c;
 		for (UIElement e : elements) {
 			e.setCommunicationManager(c);

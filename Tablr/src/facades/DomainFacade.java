@@ -8,7 +8,7 @@ import domain.Table;
 import domain.Type;
 import exceptions.InvalidNameException;
 import exceptions.InvalidTypeException;
-import uielements.UI;
+import ui.UI;
 
 /**
  * Facade for the Domain part of the program. 

@@ -1,11 +1,14 @@
 package facades;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 
 import domain.Table;
-import ui.Loadable_Interfaces;
+import ui.TableDesignModeUI;
+import ui.TableModeUI;
+import ui.TableRowsModeUI;
+import ui.UI;
 import uielements.Text;
-import uielements.UI;
 import uielements.UIElement;
 
 /**
@@ -13,36 +16,52 @@ import uielements.UIElement;
  * Methods should always be called via a reference to the CommunicationManager,
  * and not directly via this class.
  */
-public class UIFacade {
-	private CommunicationManager communicationManager;
+public class WindowManager {
+	private Tablr communicationManager;
 	private UI ui = new UI();
 	
-	public UIFacade(CommunicationManager c) {
+	public WindowManager(Tablr c) {
 		communicationManager = c;
 	}
 	
-	public CommunicationManager getCommunicationManager() {
+	public Tablr getCommunicationManager() {
 		return communicationManager;
 	}
 	
-	public void loadUI(Loadable_Interfaces i) {
-		ui.setCommunicationManager(getCommunicationManager());
-		switch (i) {
-		case TABLE_DESIGN: ui.loadTableDesignInterface(); break;
-		case TABLE_ROWS: ui.loadTableRowsInterface(); break;
-		case TABLES: ui.loadTablesInterface(); break;
-		case TEST: ui.loadTestInterface(); break;
-		}
-		ui.setCommunicationManager(getCommunicationManager());
-		
+	private TableModeUI tableModeUI;
+	private HashMap<Table,TableRowsModeUI> tableRowsModeUIs = new HashMap<Table,TableRowsModeUI>();
+	private HashMap<Table,TableDesignModeUI> tableDesignModeUIs = new HashMap<Table,TableDesignModeUI>();
+	
+	
+	public void loadTablesModeUI(){
+		tableModeUI.loadUI();
+		throw new RuntimeException("Not Implemented yet");
 	}
+	
+	public void loadTableRowsModeUI(Table table){
+		//TODO
+		throw new RuntimeException("Not Implemented yet");
+	}
+	
+	public void loadTableDesignModeUI(Table table){
+		//TODO
+		throw new RuntimeException("Not Implemented yet");
+	}
+	
+//	public void loadUI(String tableName) {
+//		ui.setCommunicationManager(getCommunicationManager());
+//		switch (i) {
+//		case TABLE_DESIGN: ui.loadTableDesignInterface(); break;
+//		case TABLE_ROWS: ui.loadTableRowsInterface(); break;
+//		case TABLES: ui.loadTablesInterface(); break;
+//		case TEST: ui.loadTestInterface(); break;
+//		}
+//		ui.setCommunicationManager(getCommunicationManager());
+//		
+//	}
 
 	public UI getActiveUI() {
 		return ui;
-	}
-
-	public Loadable_Interfaces getMode() {
-		return ui.getMode();
 	}
 	
 	public void newSelected(UIElement e) {

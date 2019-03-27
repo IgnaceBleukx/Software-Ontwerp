@@ -6,7 +6,7 @@ import java.awt.Graphics;
 import java.util.ArrayList;
 import java.util.HashMap;
 
-import facades.CommunicationManager;
+import facades.Tablr;
 
 
 public abstract class UIElement {
@@ -14,20 +14,20 @@ public abstract class UIElement {
 	/**
 	 * Reference to the communicationsmanager that is used to talk to the UI.
 	 */
-	protected CommunicationManager c;
+	protected Tablr c;
 
 	/**
 	 * set c as the new CommManager for this element
 	 * @param c: the CommManager to be set
 	 */
-	public void setCommunicationManager(CommunicationManager c) {
+	public void setCommunicationManager(Tablr c) {
 		this.c = c;
 	}
 	
 	/**
 	 * @return the CommunicationManager linked to this element
 	 */
-	public CommunicationManager getCommunicationManager() {
+	public Tablr getCommunicationManager() {
 		return this.c;
 	}
 	
@@ -293,7 +293,7 @@ public abstract class UIElement {
 	 * sets this element as selected if the given argument IS this element
 	 * @param newElement: the element to be compared with this one
 	 */
-	protected void selectElement(UIElement newElement) {
+	public void selectElement(UIElement newElement) {
 		if (newElement.equals(this)) {
 			setSelected();
 		}
