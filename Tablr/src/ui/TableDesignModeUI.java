@@ -146,7 +146,8 @@ public class TableDesignModeUI extends UI {
 		}
 	}
 	
-	private ListView loadColomnAttributes(Table table) {
+	private ListView loadColumnAttributes(Table table) {
+		return null;
 			
 	}
 	
