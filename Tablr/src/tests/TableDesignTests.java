@@ -37,7 +37,7 @@ public class TableDesignTests {
 	 */
 	public MyCanvasWindow prepareTable(){
 		MyCanvasWindow myCW = new MyCanvasWindow("TableDesign Mode");
-		Tablr coMan = myCW.getCommunicationManager();
+		Tablr coMan = myCW.getTablr();
 		coMan.loadTableModeUI();
 		myCW.handleMouseEvent(0, 100,100, 2);
 		return myCW;
@@ -48,7 +48,7 @@ public class TableDesignTests {
 	public void useCase5() {
 		//Load tables mode with one table:
 		MyCanvasWindow myCW = prepareTable();
-		Tablr coMan = myCW.getCommunicationManager();
+		Tablr coMan = myCW.getTablr();
 		//Enter table_design mode:
 		myCW.handleMouseEvent(0, 260, 30, 2);
 		
@@ -72,7 +72,7 @@ public class TableDesignTests {
 	@Test
 	public void useCase6() {
 		MyCanvasWindow myCW = prepareTable();
-		Tablr coMan = myCW.getCommunicationManager();
+		Tablr coMan = myCW.getTablr();
 		//Entering table design mode:
 		myCW.handleMouseEvent(0, 260, 30, 2);
 		//Adding two columns:
@@ -319,7 +319,7 @@ public class TableDesignTests {
 	@Test
 	public void useCase7() {
 		MyCanvasWindow myCW = prepareTable();
-		Tablr coMan = myCW.getCommunicationManager();
+		Tablr coMan = myCW.getTablr();
 		
 		//Entering tables mode:
 		myCW.handleMouseEvent(0, 260, 30, 2);

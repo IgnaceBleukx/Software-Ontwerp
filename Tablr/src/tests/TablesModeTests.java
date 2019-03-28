@@ -30,7 +30,7 @@ public class TablesModeTests {
 	public void useCase1() {
 		// Load the window
 		MyCanvasWindow myCW = new MyCanvasWindow("Tables Mode");
-		Tablr coMan = myCW.getCommunicationManager();
+		Tablr coMan = myCW.getTablr();
 		coMan.clearUI();
 //TODO		coMan.loadUI(Loadable_Interfaces.TABLES);
 		// There are no tables yet
@@ -51,7 +51,7 @@ public class TablesModeTests {
 	public void useCase2() {
 		// Load the window
 		MyCanvasWindow myCW = new MyCanvasWindow("Tables Mode");
-		Tablr coMan = myCW.getCommunicationManager();
+		Tablr coMan = myCW.getTablr();
 		coMan.clearUI();
 //TODO		coMan.loadUI(Loadable_Interfaces.TABLES);
 		// Create an empty table with a simulated double click
@@ -98,7 +98,7 @@ public class TablesModeTests {
 	public void useCase3() {
 		// Load the window
 		MyCanvasWindow myCW = new MyCanvasWindow("Tables Mode");
-		Tablr coMan = myCW.getCommunicationManager();
+		Tablr coMan = myCW.getTablr();
 		coMan.clearUI();
 //TODO		coMan.loadUI(Loadable_Interfaces.TABLES);
 		// Create an empty table with a simulated double click
@@ -128,7 +128,7 @@ public class TablesModeTests {
 	public void useCase4() {
 		// Step 1: Load the window
 		MyCanvasWindow myCW = new MyCanvasWindow("Tables Mode");
-		Tablr coMan = myCW.getCommunicationManager();
+		Tablr coMan = myCW.getTablr();
 		coMan.clearUI();
 //TODO		coMan.loadUI(Loadable_Interfaces.TABLES);
 //TODO		assertEquals(coMan.getMode(), Loadable_Interfaces.TABLES);

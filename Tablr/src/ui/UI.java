@@ -1,5 +1,6 @@
 package ui;
 
+import java.awt.Color;
 import java.awt.Graphics;
 import java.util.ArrayList;
 
@@ -52,6 +53,15 @@ public class UI {
 	
 	public void setWidth(int width){
 		this.width = width;
+	}
+	
+	public void paintUI(Graphics g) {
+		g.setColor(Color.LIGHT_GRAY);
+		g.fillRect(getX(),getY(), getWidth(), getHeight());
+		for(UIElement e : getElements()) {
+			e.paint(g);
+		}
+		
 	}
 	
 	/**
@@ -369,6 +379,10 @@ public class UI {
 	 */
 	public boolean isActive() {
 		return active;
+	}
+
+	public boolean containsPoint(int x, int y) {
+		return getX() <= x && getX()+getWidth() >= x && getY() < y && getY()+getHeight() >= y;
 	}
 }
 

@@ -18,7 +18,7 @@ public class TableRowsTests {
 	public MyCanvasWindow prepareTable(){
 		// Step 1: Load the window
 		MyCanvasWindow myCW = new MyCanvasWindow("Tables Mode");
-		Tablr coMan = myCW.getCommunicationManager();
+		Tablr coMan = myCW.getTablr();
 		coMan.clearUI();
 		coMan.loadTableModeUI();
 		//Loading a table and filling it with Columns:
@@ -68,7 +68,7 @@ public class TableRowsTests {
 	@Test
 	public void useCase8(){
 	MyCanvasWindow myCW = prepareTable();
-	Tablr coMan = myCW.getCommunicationManager();
+	Tablr coMan = myCW.getTablr();
 	
 	//Entering table_rows mode:
 	myCW.handleMouseEvent(0,85, 30, 2);
@@ -93,7 +93,7 @@ public class TableRowsTests {
 	public void useCase9() {
 		// Step 1: Load the window
 		MyCanvasWindow myCW = new MyCanvasWindow("Tables Mode");
-		Tablr coMan = myCW.getCommunicationManager();
+		Tablr coMan = myCW.getTablr();
 		coMan.clearUI();
 //TODO		coMan.loadUI(Loadable_Interfaces.TABLES);
 		//Loading a table and filling it with Columns:
@@ -312,7 +312,7 @@ public class TableRowsTests {
 //		myCW.handleKeyEvent(0, 27, ' ');
 		
 		MyCanvasWindow myCW = prepareTable();
-		Tablr coMan = myCW.getCommunicationManager();
+		Tablr coMan = myCW.getTablr();
 		
 		// Step 1: The user double-clicks the table name.
 		myCW.handleMouseEvent(0, 51, 13, 2);

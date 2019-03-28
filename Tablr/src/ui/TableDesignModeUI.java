@@ -3,22 +3,29 @@ package ui;
 import java.util.ArrayList;
 
 import uielements.Checkbox;
+import uielements.ListView;
 import uielements.Text;
 import uielements.TextField;
 import uielements.UIElement;
 import uielements.UIRow;
 import domain.Column;
+import domain.Table;
 import domain.Type;
 import exceptions.InvalidNameException;
 import exceptions.InvalidTypeException;
+import facades.Tablr;
 
 public class TableDesignModeUI extends UI {
 	
-	public void loadUI(){
-
+	public void loadUI(Table table){
+		
 		int margin = 20;
 		int y = 30;
-		elements.clear();
+		
+		ListView listview = new ListView(getX() + margin, y, getHeight() - 100, getWidth() - margin - 20, new ArrayList<UIElement>());
+		
+		
+		Tablr c = getTablr();
 		for(Column col : c.getColumns(table)){
 			TextField colName = new TextField(10+margin,y,200,50,  c.getColumnName(col));
 			Text colType = new Text(210+margin,y,150,50, c.getColumnType(col).toString()); colType.setBorder(true);
@@ -38,7 +45,7 @@ public class TableDesignModeUI extends UI {
 				
 				colDefCheck.addSingleClickListener(() -> {
 					c.toggleDefault(col);
-					loadColumnAttributes(table);
+					//loadColumnAttributes(table);
 				});
 			}
 			else{
@@ -60,7 +67,7 @@ public class TableDesignModeUI extends UI {
 			}
 			
 			UIRow uiRow = new UIRow(10,y,560,50,list);
-			this.addElement(uiRow);
+			this.addUIElement(uiRow);
 			y += 50;
 			
 			//Adding listeners
@@ -69,14 +76,14 @@ public class TableDesignModeUI extends UI {
 				for (UIElement e : getElements()){
 					if (e.getError()) return;
 				}
-				setSelectedElement(uiRow);
+				listview.setSelectedElement(uiRow);
 			});
 			
 			uiRow.addKeyboardListener(127,() -> {
-				if(uiRow.equals(getSelectedElement())){
-					c.removeColumn(table, elements.indexOf(uiRow));
-					setSelectedElement(null);
-					loadColumnAttributes(table);
+				if(uiRow.equals(listview.getSelectedElement())){
+					c.removeColumn(table, listview.getElements().indexOf(uiRow));
+					listview.setSelectedElement(null);
+					listview.loadColumnAttributes(table);
 				}
 			});
 			
@@ -138,5 +145,11 @@ public class TableDesignModeUI extends UI {
 			
 		}
 	}
+	
+	private ListView loadColomnAttributes(Table table) {
+			
+	}
+	
+	
 
 }

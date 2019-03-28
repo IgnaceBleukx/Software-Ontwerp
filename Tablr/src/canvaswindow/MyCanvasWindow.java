@@ -85,7 +85,7 @@ public class MyCanvasWindow extends CanvasWindow {
 	 * Listening to 
 	 * @param id		ID of the event
 	 * @param keyCode	Java keyCode of the key that was pressed
-	 * @param keyChar	Java char of the key that was pressed (if applicable)
+	 * @param keyChar	Java c2har of the key that was pressed (if applicable)
 	 */
 	@Override
 	public void handleKeyEvent(int id, int keyCode, char keyChar){

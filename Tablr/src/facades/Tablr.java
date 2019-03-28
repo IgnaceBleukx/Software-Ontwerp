@@ -55,8 +55,8 @@ public class Tablr {
 		windowManager.loadTableDesignModeUI(table);
 	}
 	
-	public void clearUI() {
-		windowManager.clearUI();
+	public void clearUIAt(int x, int y) {
+		windowManager.clearUIAt(x,y);
 	}
 	
 	public Table addEmptyTable() {
@@ -68,8 +68,8 @@ public class Tablr {
 		return new ArrayList<Table>(domainFacade.getTables());
 	}
 	
-	public UI getActiveUI() {
-		return windowManager.getActiveUI();
+	public UI getUIAt(int x,int y) {
+		return windowManager.getUIAt(x,y);
 	}
 	
 	public void removeTable(Table t) {
@@ -207,8 +207,8 @@ public class Tablr {
 		
 	}
 
-	public UIElement getLockedElement() {
-		return windowManager.getLockedElement();
+	public UIElement getLockedUIElementAt(int x, int y) {
+		return windowManager.getLockedUIElementAt(x,y);
 	}
 
 	public void setColumnType(Column col, Type type) throws InvalidTypeException {
@@ -236,8 +236,8 @@ public class Tablr {
 		}
 	}
 	
-	public ArrayList<UIElement> getActiveUIElements() {
-		return windowManager.getActiveUIElements();
+	public ArrayList<UIElement> getElementsUIAt(int x, int y) {
+		return windowManager.getElementsUIAt(x,y);
 	}
 
 	public void toggleCellValueBoolean(Column col, int i) {

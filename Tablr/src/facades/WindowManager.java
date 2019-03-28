@@ -37,19 +37,24 @@ public class WindowManager {
 	private HashMap<Table,TableRowsModeUI> tableRowsModeUIs;
 	private HashMap<Table,TableDesignModeUI> tableDesignModeUIs;
 	
+	private ArrayList<UI> getUIs() {
+		ArrayList<UI> uis = new ArrayList<UI>();
+		uis.add(tablesModeUI);
+		tableRowsModeUIs.values().stream().map(x -> uis.add(x));
+		tableDesignModeUIs.values().stream().map(x -> uis.add(x));
+		return uis;
+	}
 	
 	public void loadTablesModeUI(){
 		tablesModeUI.loadUI();
 	}
 	
 	public void loadTableRowsModeUI(Table table){
-		//TODO
-		throw new RuntimeException("Not Implemented yet");
+		tableRowsModeUIs.get(table).loadUI();
 	}
 	
 	public void loadTableDesignModeUI(Table table){
-		//TODO
-		throw new RuntimeException("Not Implemented yet");
+		tableDesignModeUIs.get(table).loadUI(table);
 	}
 	
 //	public void loadUI(String tableName) {
@@ -64,45 +69,48 @@ public class WindowManager {
 //		
 //	}
 
-	public UI getActiveUI() {
-		return ui;
+	public UI getUIAt(int x, int y) {
+		for (UI ui : getUIs()) {
+			if (ui.containsPoint(x,y)) return ui;
+		}
+		return null;
 	}
 	
 	public void newSelected(UIElement e) {
-		getActiveUI().selectElement(e);
+		getUIAt(e.getX(),e.getY()).selectElement(e);
 	}
 	
 	public void getSelectionLock(UIElement e) {
-		getActiveUI().lockedSelectedElement = e;
+		getUIAt(e.getX(),e.getY()).lockedSelectedElement = e;
 	}
 	
 	public void releaseSelectionLock(UIElement e) {
-		if (getActiveUI().lockedSelectedElement != e)
+		if (getUIAt(e.getX(),e.getY()).lockedSelectedElement != e)
 			throw new IllegalArgumentException("Trying to release selection lock from non-selected element");
-		getActiveUI().lockedSelectedElement = null;
+		getUIAt(e.getX(),e.getY()).lockedSelectedElement = null;
 	}
 	
-	public void clearUI() {
-		getActiveUI().clear();
+	public void clearUIAt(int x,int y) {
+		getUIAt(x,y).clear();
 	}
 
 	public void getLock(UIElement e) {
-		getActiveUI().hardLockedElement = e;
+		getUIAt(e.getX(),e.getY()).hardLockedElement = e;
 	}
 
 	public void releaseLock(UIElement e) {
-		if (getActiveUI().hardLockedElement != e)
+		if (getUIAt(e.getX(),e.getY()).hardLockedElement != e)
 			throw new IllegalArgumentException("Trying to release hard lock from non-selected element");
-		getActiveUI().hardLockedElement = null;
+		getUIAt(e.getX(),e.getY()).hardLockedElement = null;
 		
 	}
 
-	public UIElement getLockedElement() {
-		return getActiveUI().hardLockedElement;
+	public UIElement getLockedUIElementAt(int x, int y) {
+		return getUIAt(x,y).hardLockedElement;
 	}
 
-	public ArrayList<UIElement> getActiveUIElements() {
-		return new ArrayList<UIElement>(getActiveUI().getElements());
+	public ArrayList<UIElement> getElementsUIAt(int x, int y) {
+		return new ArrayList<UIElement>(getUIAt(x,y).getElements());
 	}
 
 	public void paint(Graphics g) {
