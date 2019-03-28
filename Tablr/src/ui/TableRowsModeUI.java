@@ -8,14 +8,22 @@ import uielements.TextField;
 import uielements.UIElement;
 import uielements.UIRow;
 import domain.Column;
+import domain.Table;
 import domain.Type;
+import facades.Tablr;
 
 public class TableRowsModeUI extends UI {
 
-	public void loadUI(){
+	public void loadUI(Table tab){
+
+		Tablr c = getTablr();
+		
+		int cellHeight = 15;
+		int cellWidth = 40;
+		
 		rows.clear();
 		int rows = c.getRows(tab).size();
-		int y = super.getY()+cellHeigth;
+		int y = super.getY()+cellHeight;
 		for(int i=0;i<rows;i++){
 			int x = super.getX()+20;
 			ArrayList<UIElement> emts = new ArrayList<UIElement>();
@@ -23,20 +31,20 @@ public class TableRowsModeUI extends UI {
 				String val = c.getValueString(col,i);
 				if(c.getColumnType(col).equals(Type.BOOLEAN)){
 					Boolean value = (Boolean) Column.parseValue(Type.BOOLEAN,val);
-					Checkbox check = new Checkbox(x + (int)(cellWidth/2) - 10,y+(int)(cellHeigth/2)-10,20,20,value == null ? false : value);
+					Checkbox check = new Checkbox(x + (int)(cellWidth/2) - 10,y+(int)(cellHeight/2)-10,20,20,value == null ? false : value);
 					if (value == null) check.greyOut();
-					Text dummy = new Text(x,y,cellWidth,cellHeigth,"");
+					Text dummy = new Text(x,y,cellWidth,cellHeight,"");
 					dummy.setBorder(true);
 					emts.add(check);
 					emts.add(dummy);
 					int index = i;
 					check.addSingleClickListener(() ->{
 						c.toggleCellValueBoolean(col, index);
-						loadTable(tab,cellWidth, cellHeigth);
+						loadTable(tab,cellWidth, cellHeight);
 					});
 				}
 				else{				
-					TextField field =  new TextField(x,y,cellWidth, cellHeigth,val);
+					TextField field =  new TextField(x,y,cellWidth, cellHeight,val);
 					emts.add(field);
 					int index = i;
 					field.addKeyboardListener(-1, () -> {
@@ -53,10 +61,10 @@ public class TableRowsModeUI extends UI {
 				
 				
 			}
-			UIRow uiRow = new UIRow(super.getX(),y,super.getWidth(),cellHeigth,emts);
-			uiRow.setCommunicationManager(getCommunicationManager());
+			UIRow uiRow = new UIRow(super.getX(),y,super.getWidth(),cellHeight,emts);
+			uiRow.setCommunicationManager(getTablr());
 			addRow(uiRow);
-			y += cellHeigth;
+			y += cellHeight;
 			
 			//Adding listeners:
 			uiRow.addSingleClickListener(()->{
@@ -70,7 +78,7 @@ public class TableRowsModeUI extends UI {
 					this.rows.remove(uiRow);
 					this.selected = null;
 					System.out.println("Amount of rows in table: " + tab.getRows().size());					
-					loadTable(tab, cellWidth, cellHeigth);
+					loadTable(tab, cellWidth, cellHeight);
 				}
 			});
 		}
