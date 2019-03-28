@@ -9,21 +9,21 @@ import facades.Tablr;
 
 public class MyCanvasWindow extends CanvasWindow {
 	
-	private Tablr communicationManager;
+	private Tablr tablr;
 
 	/**
-	 * Initiates a Canvas with a new CommunicationManager and loads a UI into the Canvas.
-	 * Loading a UI passes a reference of the communicationManager to all elements in the UI.
+	 * Initiates a Canvas with a new Tablr and loads a UI into the Canvas.
+	 * Loading a UI passes a reference of the Tablr to all elements in the UI.
 	 * @param title		Window title
 	 * 		
 	 */
 	public MyCanvasWindow(String title) {
 		super(title);
 		
-		communicationManager = new Tablr();
-		communicationManager.loadTableModeUI();
+		tablr = new Tablr();
+		tablr.loadTableModeUI();
 		
-		communicationManager.addTitleChangeRunnable(() -> {
+		tablr.addTitleChangeRunnable(() -> {
 			//this.setTitle(communicationManager.getNewTitle());
 		});
 
@@ -33,8 +33,8 @@ public class MyCanvasWindow extends CanvasWindow {
 	 * Returns the communicationManager of this Canvas
 	 * @return 	CommunicationManager c
 	 */
-	public Tablr getCommunicationManager() {
-		return communicationManager;
+	public Tablr getTablr() {
+		return tablr;
 	}
 
 	
@@ -42,7 +42,7 @@ public class MyCanvasWindow extends CanvasWindow {
 	 * Paints the active UI on the Canvas
 	 */
 	public void paint(Graphics g){
-		communicationManager.getActiveUI().paint(g);
+		tablr.paint(g);
 	}
 	
 	/**
@@ -59,7 +59,7 @@ public class MyCanvasWindow extends CanvasWindow {
 	 */
 	@Override
 	public void handleMouseEvent(int id, int x, int y, int clickCount){
-		UIElement clicked = communicationManager.getActiveUI().locatedAt(x, y);
+		UIElement clicked = tablr.getActiveUI().locatedAt(x, y);
 		System.out.println("[MyCanvaswindow.java:64] : X-coordinate = " + x);
 		System.out.println("[MyCanvaswindow.java:65] : Y-coordinate = " + y);
 		System.out.println("[MyCanvasWindow.java:66]: Clicked on: " + clicked);
@@ -86,7 +86,6 @@ public class MyCanvasWindow extends CanvasWindow {
 	 * @param id		ID of the event
 	 * @param keyCode	Java keyCode of the key that was pressed
 	 * @param keyChar	Java char of the key that was pressed (if applicable)
-	 * TODO: reduce coupling on line 99
 	 */
 	@Override
 	public void handleKeyEvent(int id, int keyCode, char keyChar){
@@ -98,8 +97,8 @@ public class MyCanvasWindow extends CanvasWindow {
 //			}
 //		}
 		
-		for (int i=0;i<communicationManager.getActiveUIElements().size();i++) {
-			UIElement e = communicationManager.getActiveUIElements().get(i);
+		for (int i=0;i<tablr.getActiveUIElements().size();i++) {
+			UIElement e = tablr.getActiveUIElements().get(i);
 			e.handleKeyboardEvent(keyCode, keyChar);
 
 			if (Character.isLetterOrDigit(keyChar) || keyCode == 8 || keyChar == '@' || keyChar == '.') {

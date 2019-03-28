@@ -239,7 +239,7 @@ public class UI {
 	 */
 	public void addUIElement(UIElement e){
 		this.elements.add(e);
-		e.setCommunicationManager(getCommunicationManager());
+		e.setCommunicationManager(getTablr());
 	}
 	
 	/**
@@ -253,6 +253,7 @@ public class UI {
 	 * This method paints the current canvaswindow.UI.
 	 */
 	public void paint(Graphics g){
+		//TODO: add titlebar, close button, ...
 		for (UIElement e : getElements()){
 			e.paint(g);
 		}
@@ -280,26 +281,43 @@ public class UI {
 	}
 	
 	/**
-	 * the CommunicationManager that handles interactions with the Domain
+	 * the Tablr object that handles interactions with the Domain
 	 */
-	private Tablr communicationManager;
+	protected Tablr tablr;
 	
 	/**
-	 * @return the communicationManager
+	 * @return the Tablr object
 	 */
-	public Tablr getCommunicationManager() {
-		return this.communicationManager;
+	public Tablr getTablr() {
+		return this.tablr;
 	}
 	
 	/**
-	 * set c as the new CommunicationManager, and do so for all UIElements as well
+	 * set c as the new Tablr, and do so for all UIElements as well
 	 * @param c
 	 */
-	public void setCommunicationManager(Tablr c) {
-		this.communicationManager = c;
-		for (UIElement e : getElements() ) {
-			e.setCommunicationManager(c);
-		}
+	public void setTablr(Tablr c) {
+		this.tablr = c;
+	}
+	
+	/**
+	 * the WindowManager used to interact between UI's
+	 */
+	private WindowManager windowManager;
+	
+	/**
+	 * @return the WindowManager object
+	 */
+	public WindowManager getWindowManager() {
+		return this.windowManager;
+	}
+	
+	/**
+	 * set c as the new WindowManager
+	 * @param c
+	 */
+	public void setWindowManager(Tablr c) {
+		this.tablr = c;
 	}
 	
 	/**
@@ -324,6 +342,33 @@ public class UI {
 			//Notify all elements that a new element has been selected.
 			e.selectElement(newElement);
 		}
+	}
+	
+	/**
+	 * Whether this UI is active. Only active UIs are drawn on the canvas
+	 */
+	private boolean active;
+
+	/**
+	 * Activates the UI, meaning it will be drawn on the canvas
+	 */
+	public void setActive() {
+		active = true;
+	}
+	
+	/**
+	 * Deactivates this UI, meaning it will no longer be drawn on the canvas, but its contents will be preserved.
+	 */
+	public void setInactive() {
+		active = false;
+	}
+	
+	/**
+	 * Returns if this is active (and thus should be drawn).
+	 * @return
+	 */
+	public boolean isActive() {
+		return active;
 	}
 }
 

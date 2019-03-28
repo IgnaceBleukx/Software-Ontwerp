@@ -1,11 +1,12 @@
 package facades;
 
+import java.awt.Graphics;
 import java.util.ArrayList;
 import java.util.HashMap;
 
 import domain.Table;
 import ui.TableDesignModeUI;
-import ui.TableModeUI;
+import ui.TablesModeUI;
 import ui.TableRowsModeUI;
 import ui.UI;
 import uielements.Text;
@@ -17,25 +18,28 @@ import uielements.UIElement;
  * and not directly via this class.
  */
 public class WindowManager {
-	private Tablr communicationManager;
-	private UI ui = new UI();
+	private Tablr tablr;
 	
 	public WindowManager(Tablr c) {
-		communicationManager = c;
+		tablr = c;
+		tablesModeUI = new TablesModeUI(tablr);
+		tableRowsModeUIs = new HashMap<Table,TableRowsModeUI>();
+		tableDesignModeUIs = new HashMap<Table,TableDesignModeUI>();
+		
+		loadTablesModeUI();
 	}
 	
 	public Tablr getCommunicationManager() {
-		return communicationManager;
+		return tablr;
 	}
 	
-	private TableModeUI tableModeUI;
-	private HashMap<Table,TableRowsModeUI> tableRowsModeUIs = new HashMap<Table,TableRowsModeUI>();
-	private HashMap<Table,TableDesignModeUI> tableDesignModeUIs = new HashMap<Table,TableDesignModeUI>();
+	private TablesModeUI tablesModeUI;
+	private HashMap<Table,TableRowsModeUI> tableRowsModeUIs;
+	private HashMap<Table,TableDesignModeUI> tableDesignModeUIs;
 	
 	
 	public void loadTablesModeUI(){
-		tableModeUI.loadUI();
-		throw new RuntimeException("Not Implemented yet");
+		tablesModeUI.loadUI();
 	}
 	
 	public void loadTableRowsModeUI(Table table){
@@ -84,7 +88,6 @@ public class WindowManager {
 
 	public void getLock(UIElement e) {
 		getActiveUI().hardLockedElement = e;
-		
 	}
 
 	public void releaseLock(UIElement e) {
@@ -101,4 +104,14 @@ public class WindowManager {
 	public ArrayList<UIElement> getActiveUIElements() {
 		return new ArrayList<UIElement>(getActiveUI().getElements());
 	}
+
+	public void paint(Graphics g) {
+		//Paint all UI's that are active
+		if (tablesModeUI.isActive())
+			tablesModeUI.paint(g);
+		
+		tableRowsModeUIs.values().stream().filter((e) -> e.isActive()).forEach((e) -> e.paint(g));
+		tableDesignModeUIs.values().stream().filter((e) -> e.isActive()).forEach((e) -> e.paint(g));
+
+ 	}
 }

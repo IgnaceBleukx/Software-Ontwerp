@@ -138,7 +138,6 @@ public class UITable extends UIElement {
 		for (Runnable r : keyboardListeners.get(keyCode)) {
 			r.run();
 		}
-		
 	}
 	
 	@Override

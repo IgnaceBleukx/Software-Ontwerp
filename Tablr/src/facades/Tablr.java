@@ -1,5 +1,6 @@
 package facades;
 
+import java.awt.Graphics;
 import java.util.ArrayList;
 
 import domain.Column;
@@ -23,11 +24,11 @@ import uielements.UIElement;
 public class Tablr {
 	
 	DomainFacade domainFacade;
-	WindowManager UIFacade;
+	WindowManager windowManager;
 	
 	public Tablr() {
 		domainFacade = new DomainFacade();
-		UIFacade = new WindowManager(this);
+		windowManager = new WindowManager(this);
 	}
 
 	public Table getActiveTable() {
@@ -43,19 +44,19 @@ public class Tablr {
 	}
 	
 	public void loadTableModeUI(){
-		UIFacade.loadTablesModeUI();
+		windowManager.loadTablesModeUI();
 	}
 	
 	public void loadTableRowsModeUI(Table table){
-		UIFacade.loadTableRowsModeUI(table);
+		windowManager.loadTableRowsModeUI(table);
 	}
 	
 	public void loadTableDesignModeUI(Table table) {
-		UIFacade.loadTableDesignModeUI(table);
+		windowManager.loadTableDesignModeUI(table);
 	}
 	
 	public void clearUI() {
-		UIFacade.clearUI();
+		windowManager.clearUI();
 	}
 	
 	public Table addEmptyTable() {
@@ -68,7 +69,7 @@ public class Tablr {
 	}
 	
 	public UI getActiveUI() {
-		return UIFacade.getActiveUI();
+		return windowManager.getActiveUI();
 	}
 	
 	public void removeTable(Table t) {
@@ -146,7 +147,7 @@ public class Tablr {
 	}
 	
 	public void notifyNewSelected(UIElement e) {
-		UIFacade.newSelected(e);
+		windowManager.newSelected(e);
 	}
 
 	public void changeCellValue(Column col, int i, String string) throws ClassCastException {
@@ -185,11 +186,11 @@ public class Tablr {
 	}
 	
 	public void getSelectionLock(UIElement e) {
-		UIFacade.getSelectionLock(e);
+		windowManager.getSelectionLock(e);
 	}
 	
 	public void releaseSelectionLock(UIElement e) {
-		UIFacade.releaseSelectionLock(e);
+		windowManager.releaseSelectionLock(e);
 	}
 
 	public void toggleDefault(Column col) {
@@ -198,16 +199,16 @@ public class Tablr {
 	}
 
 	public void getLock(UIElement e) {
-		UIFacade.getLock(e);
+		windowManager.getLock(e);
 	}
 
 	public void releaseLock(UIElement e) {
-		UIFacade.releaseLock(e);
+		windowManager.releaseLock(e);
 		
 	}
 
 	public UIElement getLockedElement() {
-		return UIFacade.getLockedElement();
+		return windowManager.getLockedElement();
 	}
 
 	public void setColumnType(Column col, Type type) throws InvalidTypeException {
@@ -222,7 +223,7 @@ public class Tablr {
 	}
 	
 	private String newTitle;
-	private ArrayList<Runnable> DomainChangedListeners;
+	private ArrayList<Runnable> DomainChangedListeners = new ArrayList<Runnable>();
 	
 	public String getNewTitle() {
 		return newTitle;
@@ -236,7 +237,7 @@ public class Tablr {
 	}
 	
 	public ArrayList<UIElement> getActiveUIElements() {
-		return UIFacade.getActiveUIElements();
+		return windowManager.getActiveUIElements();
 	}
 
 	public void toggleCellValueBoolean(Column col, int i) {
@@ -256,5 +257,9 @@ public class Tablr {
 	
 	public void addDomainChangedListener(Runnable r){
 		this.DomainChangedListeners.add(r);
+	}
+
+	public void paint(Graphics g) {
+		windowManager.paint(g);
 	}
 }
