@@ -18,6 +18,15 @@ import uielements.UITable;
 
 public class UI {
 	
+	public UI(int x, int y, int width, int height) {
+		if (x<0 || y < 0 || width < 0 || height < 0) 
+			throw new IllegalArgumentException("Illegal parameters in UI constructor");
+		this.x = x;
+		this.y = y;
+		this.width = width;
+		this.height = height;
+	}
+	
 	private int x;
 	private int y;
 	private int height;
@@ -219,17 +228,6 @@ public class UI {
 //				
 //	}
 
-	/**
-	 * add the elements of a given list to the current UIElements-list in this UI
-	 * @param list: the UIElements to be added
-	 */
-	private void addAllUIElements(ArrayList<UIElement> list) {
-		for(UIElement e : list){
-			this.addUIElement(e);
-		}
-		
-	}
-
 	
 	/**
 	 * All of the UIElements that make up this UI
@@ -249,7 +247,7 @@ public class UI {
 	 */
 	public void addUIElement(UIElement e){
 		this.elements.add(e);
-		e.setCommunicationManager(getTablr());
+		e.setTablr(getTablr());
 	}
 	
 	/**
@@ -330,34 +328,12 @@ public class UI {
 		this.tablr = c;
 	}
 	
-	/**
-	 * an element that currently locks the UI from selecting other elements
-	 */
-	public UIElement lockedSelectedElement = null;
-	public UIElement hardLockedElement = null;
-	
-	/**
-	 * Select element newElement. 
-	 * Behaviour varies depending on whether or not an element is blocking the UI from selecting different elements.
-	 * @param newElement: the element that wants to be selected
-	 */
-	public void selectElement(UIElement newElement) {
-		//An element has placed a lock on selecting other elements
-		if (lockedSelectedElement != null) { 
-			System.out.println("[UI.java:243] cannot select because locked.");
-			return;
-		}
-		
-		for (UIElement e : getElements()) {
-			//Notify all elements that a new element has been selected.
-			e.selectElement(newElement);
-		}
-	}
 	
 	/**
 	 * Whether this UI is active. Only active UIs are drawn on the canvas
 	 */
 	private boolean active;
+
 
 	/**
 	 * Activates the UI, meaning it will be drawn on the canvas

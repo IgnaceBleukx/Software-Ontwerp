@@ -207,9 +207,6 @@ public class Tablr {
 		
 	}
 
-	public UIElement getLockedUIElementAt(int x, int y) {
-		return windowManager.getLockedUIElementAt(x,y);
-	}
 
 	public void setColumnType(Column col, Type type) throws InvalidTypeException {
 		domainChanged();
@@ -261,5 +258,17 @@ public class Tablr {
 
 	public void paint(Graphics g) {
 		windowManager.paint(g);
+	}
+	
+	public UI getSelectedUI() {
+		return windowManager.getSelectedUI();
+	}
+	
+	public void selectUI(UI e) {
+		windowManager.selectUI(e);
+	}
+	
+	public UIElement getLockedElement() {
+		return windowManager.getLockedElement();
 	}
 }

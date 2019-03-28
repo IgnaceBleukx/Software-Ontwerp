@@ -62,27 +62,19 @@ public class Text extends UIElement {
 
 	@Override
 	public void handleSingleClick() {
-		if(getCommunicationManager().getLockedElement() != (null) && !getCommunicationManager().getLockedElement().equals(this)){
-			return;
-		}
-		for(Runnable r : this.singleClickListeners){
-			r.run();
-		}
+		singleClickListeners.forEach(l -> l.run());
+
 	}
 
 	@Override
 	public void handleDoubleClick() {
-		if(getCommunicationManager().getLockedElement() != (null) && !getCommunicationManager().getLockedElement().equals(this)){
-			return;
-		}
-		
+
+		doubleClickListeners.forEach(l -> l.run());
+
 	}
 	
 	@Override
 	public void handleKeyboardEvent(int keyCode, char keyChar) {
-		if(getCommunicationManager().getLockedElement() != (null) && !getCommunicationManager().getLockedElement().equals(this)){
-			return;
-		}
 		
 		if (keyboardListeners.get(keyCode) == null)
 			return;

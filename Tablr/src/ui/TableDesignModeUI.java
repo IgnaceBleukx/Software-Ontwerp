@@ -17,6 +17,11 @@ import facades.Tablr;
 
 public class TableDesignModeUI extends UI {
 	
+	public TableDesignModeUI(int x, int y, int w, int h,Tablr t) {
+		super(x,y,w,h);
+		this.setTablr(t);
+	}
+	
 	public void loadUI(Table table){
 		
 		int margin = 20;

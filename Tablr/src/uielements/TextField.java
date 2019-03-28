@@ -78,9 +78,7 @@ public class TextField extends UIElement {
 	
 	@Override
 	public void handleSingleClick() {
-		if(getCommunicationManager().getLockedElement() != (null) && !getCommunicationManager().getLockedElement().equals(this)){
-			return;
-		}
+
 		if (!isSelected()) {
 			//setSelected();
 			c.notifyNewSelected(this);
@@ -91,22 +89,14 @@ public class TextField extends UIElement {
 	
 	@Override
 	public void handleDoubleClick() {
-		if(getCommunicationManager().getLockedElement() != (null) && !getCommunicationManager().getLockedElement().equals(this)){
-			return;
-		}
 
-		for (Runnable r : this.doubleClickListeners ) {
-			r.run();
-		}
+		doubleClickListeners.forEach(l -> l.run());
+
 		
 	}
 	
 	@Override
 	public void handleKeyboardEvent(int keyCode, char keyChar) {
-		//Some element has a selection lock (not this one). Ignore keyboard events
-		if(getCommunicationManager().getLockedElement() != (null) && !getCommunicationManager().getLockedElement().equals(this)){
-			return;
-		}
 		if (keyCode == 10 && isSelected() == true) { //Enter, end editing
 			if (!getError())
 				setNotSelected();

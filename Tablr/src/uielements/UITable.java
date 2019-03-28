@@ -104,31 +104,16 @@ public class UITable extends UIElement {
 
 	@Override
 	public void handleSingleClick() {
-		if(getCommunicationManager().getLockedElement() != (null) && !getCommunicationManager().getLockedElement().equals(this)){
-			return;
-		}
-		for(Runnable r: singleClickListeners){
-			r.run();
-		}
-		
+		singleClickListeners.forEach(l -> l.run());
 	}
 
 	@Override
 	public void handleDoubleClick() {
-		if(getCommunicationManager().getLockedElement() != (null) && !getCommunicationManager().getLockedElement().equals(this)){
-			return;
-		}
-		for(Runnable r: doubleClickListeners){
-			r.run();
-		}
-		
+		doubleClickListeners.forEach(l -> l.run());
 	}
 	
 	@Override
 	public void handleKeyboardEvent(int keyCode, char keyChar) {
-		if(getCommunicationManager().getLockedElement() != (null) && !getCommunicationManager().getLockedElement().equals(this)){
-			return;
-		}
 		for(int i=0;i<rows.size();i++){
 			rows.get(i).handleKeyboardEvent(keyCode, keyChar);
 		}
@@ -153,10 +138,10 @@ public class UITable extends UIElement {
 	}
 	
 	@Override
-	public void setCommunicationManager(Tablr c) {
+	public void setTablr(Tablr c) {
 		this.c = c;
 		for (UIElement e : rows) {
-			e.setCommunicationManager(c);
+			e.setTablr(c);
 		}
 	}
 	

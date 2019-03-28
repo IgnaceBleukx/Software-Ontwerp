@@ -22,11 +22,12 @@ public class WindowManager {
 	
 	public WindowManager(Tablr c) {
 		tablr = c;
-		tablesModeUI = new TablesModeUI(tablr);
+		tablesModeUI = new TablesModeUI(0,0,600,600,tablr);
 		tableRowsModeUIs = new HashMap<Table,TableRowsModeUI>();
 		tableDesignModeUIs = new HashMap<Table,TableDesignModeUI>();
 		
 		loadTablesModeUI();
+		
 	}
 	
 	public Tablr getCommunicationManager() {
@@ -37,23 +38,55 @@ public class WindowManager {
 	private HashMap<Table,TableRowsModeUI> tableRowsModeUIs;
 	private HashMap<Table,TableDesignModeUI> tableDesignModeUIs;
 	
+	/**
+	 * The selectedUI is the only UI that receives keyboard input
+	 */
+	private UI selectedUI;
+	
 	private ArrayList<UI> getUIs() {
-		ArrayList<UI> uis = new ArrayList<UI>();
+		ArrayList<UI> uis = new ArrayList<>();
 		uis.add(tablesModeUI);
 		tableRowsModeUIs.values().stream().map(x -> uis.add(x));
 		tableDesignModeUIs.values().stream().map(x -> uis.add(x));
 		return uis;
 	}
 	
+	/**
+	 * Returns all UIElements in ALL UI's
+	 */
+	private ArrayList<UIElement> getAllElements() {
+		ArrayList<UIElement> elements = new ArrayList<>();
+		tablesModeUI.getElements().stream().forEach(e -> elements.add(e));
+		
+		tableRowsModeUIs.values().stream().forEach(ui -> elements.addAll(ui.getElements()));
+		tableDesignModeUIs.values().stream().forEach(ui -> elements.addAll(ui.getElements()));
+		return elements;
+	}
+	
+	/**
+	 * Returns all UIElements in ALL UI's
+	 */
+	private ArrayList<UIElement> getAllActiveElements() {
+		ArrayList<UIElement> elements = new ArrayList<>();
+		tablesModeUI.getElements().stream().forEach(e -> elements.add(e));
+		
+		tableRowsModeUIs.values().stream().filter(e -> e.isActive()).forEach(ui -> elements.addAll(ui.getElements()));
+		tableDesignModeUIs.values().stream().filter(e -> e.isActive()).forEach(ui -> elements.addAll(ui.getElements()));
+		return elements;
+	}
+	
 	public void loadTablesModeUI(){
+		this.selectedUI = tablesModeUI;
 		tablesModeUI.loadUI();
 	}
 	
 	public void loadTableRowsModeUI(Table table){
+		this.selectedUI = tableRowsModeUIs.get(table);
 		tableRowsModeUIs.get(table).loadUI();
 	}
 	
 	public void loadTableDesignModeUI(Table table){
+		this.selectedUI = tableDesignModeUIs.get(table);
 		tableDesignModeUIs.get(table).loadUI(table);
 	}
 	
@@ -69,7 +102,19 @@ public class WindowManager {
 //		
 //	}
 
+	
+	/**
+	 * Returns the UI at point (x,y).
+	 * If multiple UI's overlap, the current active UI will be returned.
+	 * 
+	 * @param x
+	 * @param y
+	 * @return
+	 */
 	public UI getUIAt(int x, int y) {
+		if (selectedUI.containsPoint(x, y))
+			return selectedUI;
+		
 		for (UI ui : getUIs()) {
 			if (ui.containsPoint(x,y)) return ui;
 		}
@@ -77,17 +122,17 @@ public class WindowManager {
 	}
 	
 	public void newSelected(UIElement e) {
-		getUIAt(e.getX(),e.getY()).selectElement(e);
+		getAllElements().stream().forEach(el -> el.selectElement(e));
 	}
 	
 	public void getSelectionLock(UIElement e) {
-		getUIAt(e.getX(),e.getY()).lockedSelectedElement = e;
+		this.lockedSelectedElement = e;
 	}
 	
 	public void releaseSelectionLock(UIElement e) {
-		if (getUIAt(e.getX(),e.getY()).lockedSelectedElement != e)
+		if (lockedSelectedElement != e)
 			throw new IllegalArgumentException("Trying to release selection lock from non-selected element");
-		getUIAt(e.getX(),e.getY()).lockedSelectedElement = null;
+		lockedSelectedElement = null;
 	}
 	
 	public void clearUIAt(int x,int y) {
@@ -95,19 +140,15 @@ public class WindowManager {
 	}
 
 	public void getLock(UIElement e) {
-		getUIAt(e.getX(),e.getY()).hardLockedElement = e;
+		hardLockedElement = e;
 	}
 
 	public void releaseLock(UIElement e) {
-		if (getUIAt(e.getX(),e.getY()).hardLockedElement != e)
+		if (hardLockedElement != e)
 			throw new IllegalArgumentException("Trying to release hard lock from non-selected element");
-		getUIAt(e.getX(),e.getY()).hardLockedElement = null;
-		
+		hardLockedElement = null;	
 	}
 
-	public UIElement getLockedUIElementAt(int x, int y) {
-		return getUIAt(x,y).hardLockedElement;
-	}
 
 	public ArrayList<UIElement> getElementsUIAt(int x, int y) {
 		return new ArrayList<UIElement>(getUIAt(x,y).getElements());
@@ -120,6 +161,51 @@ public class WindowManager {
 		
 		tableRowsModeUIs.values().stream().filter((e) -> e.isActive()).forEach((e) -> e.paint(g));
 		tableDesignModeUIs.values().stream().filter((e) -> e.isActive()).forEach((e) -> e.paint(g));
-
  	}
+	
+	public UI getSelectedUI() {
+		return this.selectedUI;
+	}
+	
+	public void selectUI(UI e) {
+		this.selectedUI = e;
+	}
+	
+	/**
+	 * The hardlockedElement is the only element that receives
+	 * Mouse and keyboard input. Used to lock the UI when an
+	 * element is in an incorrent state (e.g. invalid text value).
+	 */
+	public UIElement hardLockedElement = null;
+	
+	
+	/**
+	 * A lockedSelectedElement prevents other elements from being selected.
+	 * It does not affect keyboard and mouse input.
+	 */
+	public UIElement lockedSelectedElement;
+	
+	/**
+	 * @return	null if no element has a hard lock,
+	 * 			the locked element otherwise
+	 */
+	public UIElement getLockedElement() {
+		return hardLockedElement;
+	}
+	
+	/**
+	 * Select element newElement. 
+	 * Behaviour varies depending on whether or not an element is blocking the UI from selecting different elements.
+	 * @param newElement: the element that wants to be selected
+	 */
+	public void selectElement(UIElement newElement) {
+		//An element has placed a lock on selecting other elements
+		if (lockedSelectedElement != null) { 
+			System.out.println("[WindowManager.java:164] cannot select because locked.");
+			return;
+		}
+		
+		getAllElements().stream().forEach(e -> e.selectElement(newElement));
+	}
+	 
 }

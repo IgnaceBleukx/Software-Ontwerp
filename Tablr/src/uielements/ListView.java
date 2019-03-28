@@ -32,7 +32,7 @@ public class ListView extends UIElement {
 	 */
 	public void addElement(UIElement e){
 		this.elements.add(e);
-		e.setCommunicationManager(getCommunicationManager());
+		e.setTablr(getTablr());
 	}
 	
 	/**
@@ -149,9 +149,7 @@ public class ListView extends UIElement {
 
 	@Override
 	public void handleSingleClick() {
-		if(getCommunicationManager().getLockedElement() != (null) && !getCommunicationManager().getLockedElement().equals(this)){
-			return;
-		}
+
 		c.notifyNewSelected((UIElement) this);
 		
 		for (Runnable r: singleClickListeners){
@@ -161,9 +159,7 @@ public class ListView extends UIElement {
 
 	@Override
 	public void handleDoubleClick() {
-		if(getCommunicationManager().getLockedElement() != (null) && !getCommunicationManager().getLockedElement().equals(this)){
-			return;
-		}
+
 		for (Runnable r: doubleClickListeners){
 			r.run();
 		}
@@ -171,9 +167,6 @@ public class ListView extends UIElement {
 
 	@Override
 	public void handleKeyboardEvent(int keyCode, char keyChar) {
-		if(getCommunicationManager().getLockedElement() != (null) && !getCommunicationManager().getLockedElement().equals(this)){
-			return;
-		}
 		for (int i=0;i<elements.size();i++) {
 			elements.get(i).handleKeyboardEvent(keyCode, keyChar);
 		}
@@ -201,10 +194,10 @@ public class ListView extends UIElement {
 	}
 
 	@Override
-	public void setCommunicationManager(Tablr c) {
+	public void setTablr(Tablr c) {
 		this.c = c;
 		for (UIElement e : elements) {
-			e.setCommunicationManager(c);
+			e.setTablr(c);
 		}
 	}
 	

@@ -20,14 +20,14 @@ public abstract class UIElement {
 	 * set c as the new CommManager for this element
 	 * @param c: the CommManager to be set
 	 */
-	public void setCommunicationManager(Tablr c) {
+	public void setTablr(Tablr c) {
 		this.c = c;
 	}
 	
 	/**
 	 * @return the CommunicationManager linked to this element
 	 */
-	public Tablr getCommunicationManager() {
+	public Tablr getTablr() {
 		return this.c;
 	}
 	
@@ -46,7 +46,7 @@ public abstract class UIElement {
 	 */
 	public void isError() {
 		System.out.println("[UIElement.java:33] Acquired selection lock on "+this);
-		getCommunicationManager().getSelectionLock(this);
+		getTablr().getSelectionLock(this);
 		this.error = true;
 	}
 	
@@ -56,7 +56,7 @@ public abstract class UIElement {
 	public void isNotError() {
 		this.error = false;
 		System.out.println("[UIElement.java:40] Released selection lock on "+this);
-		getCommunicationManager().releaseSelectionLock(this);
+		getTablr().releaseSelectionLock(this);
 	}
 	
 	/**
@@ -73,7 +73,7 @@ public abstract class UIElement {
 	public void lock(){
 		this.lock = true;
 		System.out.println("[UIElement.java:49 Aquired hard lock on " + this);
-		getCommunicationManager().getLock(this);
+		getTablr().getLock(this);
 	}
 	
 	/**
@@ -82,7 +82,7 @@ public abstract class UIElement {
 	public void unlock(){
 		this.lock = false;
 		System.out.println("[UIElement.java:54 Released hard lock on " + this);
-		getCommunicationManager().releaseLock(this);
+		getTablr().releaseLock(this);
 	}
 	
 	/**

@@ -12,7 +12,8 @@ import facades.Tablr;
 
 public class TablesModeUI extends UI {
 	
-	public TablesModeUI(Tablr t) {
+	public TablesModeUI(int x, int y, int w, int h,Tablr t) {
+		super(x,y,w,h);
 		this.setTablr(t);
 	}
 	

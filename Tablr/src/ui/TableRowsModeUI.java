@@ -9,9 +9,15 @@ import uielements.UIElement;
 import uielements.UIRow;
 import domain.Column;
 import domain.Type;
+import facades.Tablr;
 
 public class TableRowsModeUI extends UI {
-
+	
+	public TableRowsModeUI(int x, int y, int w, int h,Tablr t) {
+		super(x,y,w,h);
+		this.setTablr(t);
+	}
+	
 	public void loadUI(){
 		rows.clear();
 		int rows = c.getRows(tab).size();
@@ -54,7 +60,7 @@ public class TableRowsModeUI extends UI {
 				
 			}
 			UIRow uiRow = new UIRow(super.getX(),y,super.getWidth(),cellHeigth,emts);
-			uiRow.setCommunicationManager(getCommunicationManager());
+			uiRow.setTablr(getTablr());
 			addRow(uiRow);
 			y += cellHeigth;
 			

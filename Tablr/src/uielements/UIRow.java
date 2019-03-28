@@ -41,7 +41,7 @@ public class UIRow extends UIElement {
 	 */
 	public void addElement(UIElement e) {
 		this.elements.add(e);
-		e.setCommunicationManager(getCommunicationManager());
+		e.setTablr(getTablr());
 	}
 
 	
@@ -67,29 +67,16 @@ public class UIRow extends UIElement {
 
 	@Override
 	public void handleSingleClick() {
-		if(getCommunicationManager().getLockedElement() != (null) && !getCommunicationManager().getLockedElement().equals(this)){
-			return;
-		}
-		for(Runnable r : singleClickListeners){
-			r.run();
-		}
-		
+		singleClickListeners.forEach(l -> l.run());
 	}
 
 	@Override
 	public void handleDoubleClick() {
-		if(getCommunicationManager().getLockedElement() != (null) && !getCommunicationManager().getLockedElement().equals(this)){
-			return;
-		}
-		// TODO Auto-generated method stub
-		
+		doubleClickListeners.forEach(l -> l.run());
 	}
 	
 	@Override
 	public void handleKeyboardEvent(int keyCode, char keyChar) {
-		if(getCommunicationManager().getLockedElement() != (null) && !getCommunicationManager().getLockedElement().equals(this)){
-			return;
-		}
 		for(UIElement i: elements){
 			i.handleKeyboardEvent(keyCode, keyChar);
 		}
@@ -115,10 +102,10 @@ public class UIRow extends UIElement {
 	}
 	
 	@Override
-	public void setCommunicationManager(Tablr c) {
+	public void setTablr(Tablr c) {
 		this.c = c;
 		for (UIElement e : elements) {
-			e.setCommunicationManager(c);
+			e.setTablr(c);
 		}
 	}
 	

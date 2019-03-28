@@ -53,13 +53,13 @@ public class MyCanvasWindow extends CanvasWindow {
 	 * type occurred.
 	 * @param id 			Click event id
 	 * @param x				X Coordinate
-	 * @param y				repaint();Y Coordinate
+	 * @param y				Y Coordinate
 	 * @param clickCount	Number of times clicked
 	 * 
 	 */
 	@Override
 	public void handleMouseEvent(int id, int x, int y, int clickCount){
-		UIElement clicked = tablr.getActiveUI().locatedAt(x, y);
+		UIElement clicked = tablr.getUIAt(x, y).locatedAt(x, y);
 		System.out.println("[MyCanvaswindow.java:64] : X-coordinate = " + x);
 		System.out.println("[MyCanvaswindow.java:65] : Y-coordinate = " + y);
 		System.out.println("[MyCanvasWindow.java:66]: Clicked on: " + clicked);
@@ -69,6 +69,14 @@ public class MyCanvasWindow extends CanvasWindow {
 		
 		if (id % 3 != 0) 
 			return;
+		
+		/**
+		 * Some element has a hard lock, ignore this input if the
+		 * element getting the input is not the element that has the hard lock
+		 */
+		if(getTablr().getLockedElement() != (null) && !getTablr().getLockedElement().equals(clicked)){
+			return;
+		}
 		
 		if (clickCount == 2) {
 			clicked.handleDoubleClick();
@@ -80,9 +88,8 @@ public class MyCanvasWindow extends CanvasWindow {
 	}
 
 	/**
-	 * Delegates a key event to ALL elements n the loaded UI.
+	 * Delegates a key event to all elements in the <b>selected</b> UI.
 	 * To allow flexible keyboard event handling, negative keycodes are used.
-	 * Listening to 
 	 * @param id		ID of the event
 	 * @param keyCode	Java keyCode of the key that was pressed
 	 * @param keyChar	Java c2har of the key that was pressed (if applicable)
@@ -90,15 +97,10 @@ public class MyCanvasWindow extends CanvasWindow {
 	@Override
 	public void handleKeyEvent(int id, int keyCode, char keyChar){
 		System.out.println("Keycode: "+keyCode);
-//		for (UIElement e : communicationManager.getActiveUI().getElements()) {
-//			e.handleKeyboardEvent(keyCode, keyChar);
-//			if (Character.isLetterOrDigit(keyChar) || keyCode == 8) {
-//				e.handleKeyboardEvent(-1, Character.MIN_VALUE);
-//			}
-//		}
+
 		
-		for (int i=0;i<tablr.getActiveUIElements().size();i++) {
-			UIElement e = tablr.getActiveUIElements().get(i);
+		for (int i=0;i<tablr.getSelectedUI().getElements().size();i++) {
+			UIElement e = tablr.getSelectedUI().getElements().get(i);
 			e.handleKeyboardEvent(keyCode, keyChar);
 
 			if (Character.isLetterOrDigit(keyChar) || keyCode == 8 || keyChar == '@' || keyChar == '.') {
