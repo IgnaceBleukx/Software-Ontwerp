@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.Optional;
 
 import uielements.Button;
+import uielements.CloseButton;
 import uielements.ListView;
 import uielements.TextField;
 import uielements.UIElement;
@@ -20,6 +21,16 @@ public class TablesModeUI extends UI {
 	
 	public void loadUI(){
 		setActive();
+		
+		int margin = 10;
+		
+		Button head = new Button(getX(),getY(),getWidth()-30,getY()+15,"");
+		CloseButton close = new CloseButton(getX()+getWidth()-30,getY(),30,getY()+15);
+		this.addUIElement(head);
+		this.addUIElement(close);
+		close.addSingleClickListener(() -> {
+			this.setInactive();
+		});		
 		
 		ArrayList<Table> tables = this.getTablr().getTables();
 		ListView list = loadFromTables(tables);
@@ -84,7 +95,7 @@ public class TablesModeUI extends UI {
 					if (e.getError()) return;
 				}
 				if (tablr.isEmptyTable(curr)) {
-					this.getWindowManager().loadTableDesignModeUI(curr);;
+					this.getWindowManager().loadTableDesignModeUI(curr);
 					tablr.changeTitle("Table Design Mode: "+curr.getName());
 				}
 				else {

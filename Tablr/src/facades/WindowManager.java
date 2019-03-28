@@ -76,6 +76,7 @@ public class WindowManager {
 	}
 	
 	public void loadTablesModeUI(){
+		tablesModeUI.setTablr(tablr);
 		this.selectedUI = tablesModeUI;
 		tablesModeUI.loadUI();
 	}
