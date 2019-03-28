@@ -247,9 +247,8 @@ public class Tablr {
 	}
 
 	private void domainChanged(){
-		for(Runnable r : DomainChangedListeners){
-			r.run();
-		}
+		DomainChangedListeners.stream().forEach(l -> l.run());
+		
 	}
 	
 	public void addDomainChangedListener(Runnable r){

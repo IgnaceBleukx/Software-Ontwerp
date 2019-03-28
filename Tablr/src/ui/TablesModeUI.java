@@ -1,6 +1,7 @@
 package ui;
 
 import java.util.ArrayList;
+import java.util.Optional;
 
 import uielements.Button;
 import uielements.ListView;
@@ -24,27 +25,17 @@ public class TablesModeUI extends UI {
 		ListView list = loadFromTables(tables);
 		addUIElement(list);
 		
-		list.addSingleClickListener(() -> {
-			for (UIElement e : list.getElements()){
-				if (e.isSelected()) e.setNotSelected();
-			}
-		});		
-		
-		//Add new table
-		list.addDoubleClickListener(() -> {
-			for (UIElement e : getElements()){
-				if (e.getError()) return;
-			}
-			tablr.addEmptyTable();
-		});
-
-		
 		//Reload listview when domain changed
 		tablr.addDomainChangedListener(() -> {
-			getElements().remove(list);
+			//Remove the old listview
+			Optional<UIElement> l = getElements().stream().filter(e -> e instanceof ListView).findFirst();
+			this.getElements().remove(l.orElseThrow(() -> new RuntimeException("No listview to bind listener to.")));
+			
+			//Load new ListView from tables
 			addUIElement(loadFromTables(tablr.getTables()));
 		});
 	}
+
 	
 	private ListView loadFromTables(ArrayList<Table> tables) {
 		ArrayList<UIElement> rows = new ArrayList<>();
@@ -107,6 +98,28 @@ public class TablesModeUI extends UI {
 			
 			list.addElement(currRow);
 		}	
+		
+		/**
+		 * Selects a row in the listview
+		 */
+		list.addSingleClickListener(() -> {
+			for (UIElement e : list.getElements()){
+				if (e.isSelected()) e.setNotSelected();
+			}
+		});		
+		
+		/**
+		 * Adds a new table
+		 */
+		list.addDoubleClickListener(() -> {
+			for (UIElement e : getElements()){
+				if (e.getError()) return;
+			}
+			tablr.addEmptyTable();});
+		
+		
+		
+		
 		return list;
 	}
 	
