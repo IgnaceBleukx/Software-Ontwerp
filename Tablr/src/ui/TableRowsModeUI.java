@@ -7,6 +7,7 @@ import uielements.Text;
 import uielements.TextField;
 import uielements.UIElement;
 import uielements.UIRow;
+import uielements.UITable;
 import domain.Column;
 import domain.Table;
 import domain.Type;
@@ -19,16 +20,25 @@ public class TableRowsModeUI extends UI {
 		this.setTablr(t);
 	}
 	
-	public void loadUI(){
-
 	public void loadUI(Table tab){
 
 		Tablr c = getTablr();
-		
 		int cellHeight = 15;
 		int cellWidth = 40;
 		
-		rows.clear();
+		//Creating legend:
+		UIRow legend = new UIRow(getX(), getY(), getWidth(), 30,new ArrayList<UIElement>());
+		
+		int a = 0;
+		for(String name: c.getColumnNames(tab)) {
+			legend.addElement(new TextField(getX()+a*cellWidth,getY(), cellWidth, 20,name));
+		}
+		
+		
+		UITable uiTable = new UITable(getX(), getY(), getWidth(), getHeight(),legend,new ArrayList<UIRow>());
+		
+		
+		
 		int rows = c.getRows(tab).size();
 		int y = super.getY()+cellHeight;
 		for(int i=0;i<rows;i++){
@@ -47,7 +57,7 @@ public class TableRowsModeUI extends UI {
 					int index = i;
 					check.addSingleClickListener(() ->{
 						c.toggleCellValueBoolean(col, index);
-						loadTable(tab,cellWidth, cellHeight);
+						//loadTable(tab,cellWidth, cellHeight);
 					});
 				}
 				else{				
@@ -68,26 +78,24 @@ public class TableRowsModeUI extends UI {
 				
 				
 			}
-			UIRow uiRow = new UIRow(super.getX(),y,super.getWidth(),cellHeigth,emts);
-			uiRow.setTablr(getTablr());
 			UIRow uiRow = new UIRow(super.getX(),y,super.getWidth(),cellHeight,emts);
-			uiRow.setCommunicationManager(getTablr());
-			addRow(uiRow);
+			uiRow.setTablr(getTablr());
+			uiTable.addRow(uiRow);
 			y += cellHeight;
 			
 			//Adding listeners:
 			uiRow.addSingleClickListener(()->{
-				this.selected = uiRow; 
+				uiTable.selectElement(uiRow); 
 			});
 			
 			uiRow.addKeyboardListener(127, () -> {
-				if(uiRow.equals(this.selected)){
-					int index = this.rows.indexOf(uiRow);
+				if(uiRow.equals(uiTable.getSelected())){
+					int index = uiTable.getRows().indexOf(uiRow);
 					c.removeRow(tab,index);
-					this.rows.remove(uiRow);
-					this.selected = null;
+					uiTable.removeRow(uiRow);
+					uiTable.selectElement(null);
 					System.out.println("Amount of rows in table: " + tab.getRows().size());					
-					loadTable(tab, cellWidth, cellHeight);
+					//loadTable(tab, cellWidth, cellHeight);
 				}
 			});
 		}

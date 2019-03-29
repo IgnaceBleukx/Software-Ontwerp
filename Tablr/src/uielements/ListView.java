@@ -180,6 +180,11 @@ public class ListView extends UIElement {
 		
 	}
 	
+	@Override
+	public void handleDrag(int x, int y) {
+		dragListeners.stream().forEachOrdered(r -> r.accept(x, y));
+	}
+	
 	
 	@Override
 	public void selectElement(UIElement e) {
@@ -214,6 +219,7 @@ public class ListView extends UIElement {
 		}
 		return false;
 	}
+	
 	
 
 }

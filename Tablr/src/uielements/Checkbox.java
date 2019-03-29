@@ -83,8 +83,15 @@ public class Checkbox extends UIElement {
 		keyboardListeners.get(keyCode).forEach(l -> l.run());
 
 	}
+	
+	@Override
+	public void handleDrag(int x, int y) {
+		dragListeners.stream().forEachOrdered(r -> r.accept(x, y));
+	}
 
 	public boolean isChecked() {
 		return checked;
 	}
+	
+	
 }

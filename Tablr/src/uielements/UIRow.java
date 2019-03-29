@@ -90,6 +90,11 @@ public class UIRow extends UIElement {
 	}
 	
 	@Override
+	public void handleDrag(int x, int y) {
+		dragListeners.stream().forEachOrdered(r -> r.accept(x, y));
+	}
+	
+	@Override
 	public void selectElement(UIElement e) {
 		if (e==this) 
 			setSelected();

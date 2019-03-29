@@ -358,7 +358,10 @@ public class UI {
 	}
 
 	public boolean containsPoint(int x, int y) {
-		return getX() <= x && getX()+getWidth() >= x && getY() < y && getY()+getHeight() >= y;
+		return (x >= getX() &&
+				y >= getY() &&
+				x <= getX()+getWidth() &&
+				y <= getY()+getHeight());
 	}
 }
 

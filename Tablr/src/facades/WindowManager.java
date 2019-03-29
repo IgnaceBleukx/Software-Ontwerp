@@ -22,7 +22,7 @@ public class WindowManager {
 	
 	public WindowManager(Tablr c) {
 		tablr = c;
-		tablesModeUI = new TablesModeUI(0,0,600,600,tablr);
+		tablesModeUI = new TablesModeUI(0,0,300,300,tablr);
 		tableRowsModeUIs = new HashMap<Table,TableRowsModeUI>();
 		tableDesignModeUIs = new HashMap<Table,TableDesignModeUI>();
 		
@@ -83,7 +83,7 @@ public class WindowManager {
 	
 	public void loadTableRowsModeUI(Table table){
 		this.selectedUI = tableRowsModeUIs.get(table);
-		tableRowsModeUIs.get(table).loadUI();
+		tableRowsModeUIs.get(table).loadUI(table);
 	}
 	
 	public void loadTableDesignModeUI(Table table){

@@ -5,6 +5,9 @@ import java.awt.FontMetrics;
 import java.awt.Graphics;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.function.BiConsumer;
+import java.util.function.BiFunction;
+import java.util.function.Function;
 
 import facades.Tablr;
 
@@ -107,6 +110,8 @@ public abstract class UIElement {
 	 * HashMap that maps keycodes to a list of runnables that are to be executed
 	 */
 	protected HashMap<Integer, ArrayList<Runnable>> keyboardListeners = new HashMap<Integer, ArrayList<Runnable>>();
+
+	protected ArrayList<BiConsumer<Integer,Integer>> dragListeners = new ArrayList<>();
 	
 	/**
 	 * Attaches a function to a keyCode; the function will be executed when the key is pressed
@@ -141,6 +146,10 @@ public abstract class UIElement {
 		doubleClickListeners.add(f);
 	}
 	
+	public void addDragListener(BiConsumer<Integer,Integer> f) {
+		dragListeners.add(f);
+	}
+	
 	
 	public abstract void handleSingleClick();
 	
@@ -148,6 +157,7 @@ public abstract class UIElement {
 	
 	public abstract void handleKeyboardEvent(int keyCode, char keyChar);
 	
+	public abstract void handleDrag(int x, int y);
 	
 	/**
 	 * constructor: x and y being the coordinates of the new element, w and h the dimensions
@@ -309,4 +319,6 @@ public abstract class UIElement {
 	public boolean hasElementInError(){
 		return this.getError();
 	}
+
+	
 }

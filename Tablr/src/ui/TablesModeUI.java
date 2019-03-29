@@ -2,6 +2,8 @@ package ui;
 
 import java.util.ArrayList;
 import java.util.Optional;
+import java.util.function.BiConsumer;
+import java.util.function.BiFunction;
 
 import uielements.Button;
 import uielements.CloseButton;
@@ -24,10 +26,15 @@ public class TablesModeUI extends UI {
 		
 		int margin = 10;
 		
-		Button head = new Button(getX(),getY(),getWidth()-30,getY()+15,"");
-		CloseButton close = new CloseButton(getX()+getWidth()-30,getY(),30,getY()+15);
-		this.addUIElement(head);
+		Button titleBar = new Button(getX(),getY(),getWidth()-30,getY()+15,"Tables Mode");
+		CloseButton close = new CloseButton(getX()+getWidth()-30,getY(),30,getY()+15,4);
 		this.addUIElement(close);
+		this.addUIElement(titleBar);
+		//Adding listeners:
+		titleBar.addDragListener((x,y) -> { 
+			this.setX(x);
+			this.setY(y);
+		});
 		close.addSingleClickListener(() -> {
 			this.setInactive();
 		});		
@@ -50,11 +57,11 @@ public class TablesModeUI extends UI {
 	
 	private ListView loadFromTables(ArrayList<Table> tables) {
 		ArrayList<UIElement> rows = new ArrayList<>();
-		ListView list = new ListView(getX()+10, getY()+10, 580, 560, rows);
+		ListView list = new ListView(getX(), getY()+15, getWidth(), getHeight(), rows);
 		
 		for (int i=0;i<tables.size();i++) { 
 			Table curr = tables.get(i);
-			UIRow currRow = new UIRow(getX()+11, getY()+11+i*40, 548, 40, new ArrayList<UIElement>());
+			UIRow currRow = new UIRow(getX()+11, getY()+11+i*40, getWidth(), 40, new ArrayList<UIElement>());
 			
 			Button deleteButton = new Button(getX()+12, getY()+12+i*40,38,38,"");
 			deleteButton.addSingleClickListener(() -> {

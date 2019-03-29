@@ -84,6 +84,9 @@ public class Text extends UIElement {
 		}
 	}
 
-	
+	@Override
+	public void handleDrag(int x, int y) {
+		dragListeners.stream().forEachOrdered(r -> r.accept(x, y));
+	}
 
 }

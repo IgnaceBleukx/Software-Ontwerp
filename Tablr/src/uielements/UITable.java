@@ -53,8 +53,8 @@ public class UITable extends UIElement {
 		for(UIRow r : rows){
 			r.paint(g);
 		}
-		if (selected != null) {
-			UIElement s = this.selected;
+		if (getSelected() != null) {
+			UIElement s = this.getSelected();
 			g.fillOval(s.getX()+s.getWidth()+10, s.getY()+s.getHeight()/2, 8, 8);
 		}
 	}
@@ -126,6 +126,11 @@ public class UITable extends UIElement {
 	}
 	
 	@Override
+	public void handleDrag(int x, int y) {
+		dragListeners.stream().forEachOrdered(r -> r.accept(x, y));
+	}
+	
+	@Override
 	public void selectElement(UIElement e) {
 		if (e==this) 
 			setSelected();
@@ -172,4 +177,8 @@ public class UITable extends UIElement {
 		return false;
 	}
 
+	public void removeRow(UIRow uiRow) {
+		this.rows.remove(uiRow);
+		
+	}
 }

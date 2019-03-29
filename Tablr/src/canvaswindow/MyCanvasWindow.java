@@ -60,29 +60,37 @@ public class MyCanvasWindow extends CanvasWindow {
 	@Override
 	public void handleMouseEvent(int id, int x, int y, int clickCount){
 		UIElement clicked = tablr.getUIAt(x, y).locatedAt(x, y);
-		System.out.println("[MyCanvaswindow.java:64] : X-coordinate = " + x);
-		System.out.println("[MyCanvaswindow.java:65] : Y-coordinate = " + y);
-		System.out.println("[MyCanvasWindow.java:66]: Clicked on: " + clicked);
+		System.out.println("[MyCanvaswindow.java:64] : Id = " +id);
+		System.out.println("[MyCanvaswindow.java:65] : X-coordinate = " + x);
+		System.out.println("[MyCanvaswindow.java:66] : Y-coordinate = " + y);
+		System.out.println("[MyCanvasWindow.java:67]: Clicked on: " + clicked);
 		
 		if (clicked == null)
 			return;
 		
-		if (id % 3 != 0) 
-			return;
+//		if (id % 3 != 0) 
+//			return;
 		
-		/**
-		 * Some element has a hard lock, ignore this input if the
-		 * element getting the input is not the element that has the hard lock
-		 */
-		if(getTablr().getLockedElement() != (null) && !getTablr().getLockedElement().equals(clicked)){
-			return;
-		}
 		
-		if (clickCount == 2) {
-			clicked.handleDoubleClick();
+		if (id % 3 == 1) return;
+		else if(id % 3 == 2) {
+			clicked.handleDrag(x,y);
 		}
-		else if (clickCount == 1) {
-			clicked.handleSingleClick();
+		else if (id %  3 == 0) {
+			/**
+			 * Some element has a hard lock, ignore this input if the
+			 * element getting the input is not the element that has the hard lock
+			 */
+			if(getTablr().getLockedElement() != (null) && !getTablr().getLockedElement().equals(clicked)){
+				return;
+			}
+		
+			if (clickCount == 2) {
+				clicked.handleDoubleClick();
+			}
+			else if (clickCount == 1) {
+				clicked.handleSingleClick();
+			}
 		}
 		repaint();
 	}
