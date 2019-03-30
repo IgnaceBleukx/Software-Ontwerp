@@ -4,6 +4,7 @@ import java.awt.Graphics;
 
 import uielements.*;
 import java.util.ArrayList;
+import java.util.Date;
 
 import facades.Tablr;
 
@@ -95,6 +96,25 @@ public class MyCanvasWindow extends CanvasWindow {
 		repaint();
 	}
 
+	// Date that keeps track of the latest time a 'Ctrl' button is clicked
+	private Date ctrlTimestamp = null;
+	private int milliSecondsWaiting = 3000;
+	
+
+	private void checkCtrlT(int keyCode) {
+		// 17 is Ctrl
+		if (keyCode == 17) {
+			ctrlTimestamp = new Date();
+		}
+		
+		// 84 is 'T'
+		// If Ctrl is pressed within 'milliSecondsWaiting' then the user pressed Ctrl+T 
+		if (keyCode == 84 && ctrlTimestamp != null && (new Date().getTime() - ctrlTimestamp.getTime() < milliSecondsWaiting)) {
+			System.out.println("[MyCanvasWindow.java: 113] Create a new tables subwindow");
+			tablr.loadTableModeUI();
+		}
+	}
+	
 	/**
 	 * Delegates a key event to all elements in the <b>selected</b> UI.
 	 * To allow flexible keyboard event handling, negative keycodes are used.
@@ -106,6 +126,7 @@ public class MyCanvasWindow extends CanvasWindow {
 	public void handleKeyEvent(int id, int keyCode, char keyChar){
 		System.out.println("Keycode: "+keyCode);
 
+		checkCtrlT(keyCode);
 		
 		for (int i=0;i<tablr.getSelectedUI().getElements().size();i++) {
 			UIElement e = tablr.getSelectedUI().getElements().get(i);
@@ -118,5 +139,6 @@ public class MyCanvasWindow extends CanvasWindow {
 		
 		repaint();
 	}
+
 	
 }
