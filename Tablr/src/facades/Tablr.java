@@ -9,6 +9,7 @@ import domain.Table;
 import domain.Type;
 import exceptions.InvalidNameException;
 import exceptions.InvalidTypeException;
+import ui.TablesModeUI;
 import ui.UI;
 import uielements.UIElement;
 
@@ -43,8 +44,12 @@ public class Tablr {
 		return (domainFacade.getColumns(t).size() == 0);
 	}
 	
-	public void loadTableModeUI(){
-		windowManager.loadTablesModeUI();
+	public void addTablesModeUI(TablesModeUI ui) {
+		windowManager.addTablesModeUI(ui);
+	}
+	
+	public void loadTableModeUI(TablesModeUI ui){
+		windowManager.loadTablesModeUI(ui);
 	}
 	
 	public void loadTableRowsModeUI(Table table){

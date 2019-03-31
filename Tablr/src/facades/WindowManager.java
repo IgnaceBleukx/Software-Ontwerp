@@ -22,11 +22,9 @@ public class WindowManager {
 	
 	public WindowManager(Tablr c) {
 		tablr = c;
-		tablesModeUI = new TablesModeUI(0,0,300,300,tablr);
+		tablesModeUIs = new ArrayList<TablesModeUI>();
 		tableRowsModeUIs = new HashMap<Table,TableRowsModeUI>();
 		tableDesignModeUIs = new HashMap<Table,TableDesignModeUI>();
-		
-		loadTablesModeUI();
 		
 	}
 	
@@ -34,7 +32,7 @@ public class WindowManager {
 		return tablr;
 	}
 	
-	private TablesModeUI tablesModeUI;
+	private ArrayList<TablesModeUI> tablesModeUIs;
 	private HashMap<Table,TableRowsModeUI> tableRowsModeUIs;
 	private HashMap<Table,TableDesignModeUI> tableDesignModeUIs;
 	
@@ -45,7 +43,7 @@ public class WindowManager {
 	
 	private ArrayList<UI> getUIs() {
 		ArrayList<UI> uis = new ArrayList<>();
-		uis.add(tablesModeUI);
+		uis.add((UI) tablesModeUIs.stream().map(x -> uis.add(x)));
 		tableRowsModeUIs.values().stream().map(x -> uis.add(x));
 		tableDesignModeUIs.values().stream().map(x -> uis.add(x));
 		return uis;
@@ -56,7 +54,7 @@ public class WindowManager {
 	 */
 	private ArrayList<UIElement> getAllElements() {
 		ArrayList<UIElement> elements = new ArrayList<>();
-		tablesModeUI.getElements().stream().forEach(e -> elements.add(e));
+		tablesModeUIs.stream().forEach(ui -> elements.addAll(ui.getElements()));
 		
 		tableRowsModeUIs.values().stream().forEach(ui -> elements.addAll(ui.getElements()));
 		tableDesignModeUIs.values().stream().forEach(ui -> elements.addAll(ui.getElements()));
@@ -68,17 +66,22 @@ public class WindowManager {
 	 */
 	private ArrayList<UIElement> getAllActiveElements() {
 		ArrayList<UIElement> elements = new ArrayList<>();
-		tablesModeUI.getElements().stream().forEach(e -> elements.add(e));
+		tablesModeUIs.stream().filter(e -> e.isActive()).forEach(ui -> elements.addAll(ui.getElements()));
 		
 		tableRowsModeUIs.values().stream().filter(e -> e.isActive()).forEach(ui -> elements.addAll(ui.getElements()));
 		tableDesignModeUIs.values().stream().filter(e -> e.isActive()).forEach(ui -> elements.addAll(ui.getElements()));
 		return elements;
 	}
 	
-	public void loadTablesModeUI(){
-		tablesModeUI.setTablr(tablr);
-		this.selectedUI = tablesModeUI;
-		tablesModeUI.loadUI();
+	public void addTablesModeUI(TablesModeUI ui) {
+		tablesModeUIs.add(ui);
+		loadTablesModeUI(ui);
+	}
+	
+	public void loadTablesModeUI(TablesModeUI ui){
+		ui.setTablr(tablr);
+		this.selectedUI = ui;
+		ui.loadUI();
 	}
 	
 	public void loadTableRowsModeUI(Table table){
@@ -157,8 +160,7 @@ public class WindowManager {
 
 	public void paint(Graphics g) {
 		//Paint all UI's that are active
-		if (tablesModeUI.isActive())
-			tablesModeUI.paint(g);
+		tablesModeUIs.stream().filter(x->x.isActive()).forEach(e -> e.paint(g));
 		
 		tableRowsModeUIs.values().stream().filter((e) -> e.isActive()).forEach((e) -> e.paint(g));
 		tableDesignModeUIs.values().stream().filter((e) -> e.isActive()).forEach((e) -> e.paint(g));

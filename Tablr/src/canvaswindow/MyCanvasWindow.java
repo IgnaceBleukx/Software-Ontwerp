@@ -7,6 +7,7 @@ import java.util.ArrayList;
 import java.util.Date;
 
 import facades.Tablr;
+import ui.TablesModeUI;
 
 public class MyCanvasWindow extends CanvasWindow {
 	
@@ -22,7 +23,7 @@ public class MyCanvasWindow extends CanvasWindow {
 		super(title);
 		
 		tablr = new Tablr();
-		tablr.loadTableModeUI();
+		tablr.loadTableModeUI(new TablesModeUI(0,0,300,300,tablr));
 		
 		tablr.addTitleChangeRunnable(() -> {
 			//this.setTitle(communicationManager.getNewTitle());
@@ -111,7 +112,7 @@ public class MyCanvasWindow extends CanvasWindow {
 		// If Ctrl is pressed within 'milliSecondsWaiting' then the user pressed Ctrl+T 
 		if (keyCode == 84 && ctrlTimestamp != null && (new Date().getTime() - ctrlTimestamp.getTime() < milliSecondsWaiting)) {
 			System.out.println("[MyCanvasWindow.java: 113] Create a new tables subwindow");
-			tablr.loadTableModeUI();
+			tablr.addTablesModeUI(new TablesModeUI(200,0,300,300,tablr));
 		}
 	}
 	
