@@ -25,17 +25,43 @@ public class TableDesignModeUI extends UI {
 		this.setTablr(t);
 	}
 	
+	/**
+	 * add the elements of a given list to the current UIElements-list in this UI
+	 * @param list: the UIElements to be added
+	 */
+	private void addAllUIElements(ArrayList<UIElement> list) {
+		for(UIElement e : list){
+			this.addUIElement(e);
+		}
+		
+}
+	
 	public void loadUI(Table table){
 		setActive();
 		
-		setActive();
-		
 		int titleHeight = 15;
+		int currentHeight = getY() + 13;
+		int margin = 20;
 		
 		Button titleBar = new Button(getX(), getY(), getWidth() - 30, titleHeight, "Table Design Mode");
 		CloseButton close = new CloseButton(getX() + getWidth() - 30, getY(), 30, titleHeight, 4);
 		this.addUIElement(close);
 		this.addUIElement(titleBar);
+		
+		Text name = new Text(getX(), currentHeight, getWidth() / 3, 20,"Name");
+		Text type = new Text(getX() + 100 , currentHeight, getWidth() / 6, 20,"Type");
+		Text blanks_al = new Text(getX() + 200, currentHeight, getWidth() / 6, 20,"Blanks_al");
+		Text def = new Text(getX() + 300, currentHeight, 200-margin, 20,"Default");
+		
+		this.addAllUIElements(new ArrayList<UIElement>()
+			{{
+				add(name);
+				add(type);
+				add(blanks_al);
+				add(def);
+			}}
+		);
+
 		
 		//Adding listeners:
 		titleBar.addDragListener((x,y) -> { 
@@ -47,14 +73,15 @@ public class TableDesignModeUI extends UI {
 		});		
 		
 		
+		
 		ListView listview = loadColumnAttributes(table);
 		addUIElement(listview);
 		
 		//Reload listview when domain changed
 		tablr.addDomainChangedListener(() -> {
 			//Remove the old listview
-			Optional<UIElement> l = getElements().stream().filter(e -> e instanceof ListView).findFirst();
-			this.getElements().remove(l.orElseThrow(() -> new RuntimeException("No listview to bind listener to.")));
+			Optional<UIElement> ll = getElements().stream().filter(e -> e instanceof ListView).findFirst();
+			this.getElements().remove(ll.orElseThrow(() -> new RuntimeException("No listview to bind listener to.")));
 			
 			//Load new ListView from tables
 			addUIElement(loadColumnAttributes(table));
@@ -64,19 +91,22 @@ public class TableDesignModeUI extends UI {
 	
 	private ListView loadColumnAttributes(Table table) {
 		
-		int margin = 20;
+		int margin = getWidth() / 10;
 		int currentHeight = getY() + 30;
 		int titleHeight = 15;
 		
-		ListView listview = new ListView(getX() + margin, getY() + titleHeight, getWidth() - margin, getHeight(), new ArrayList<UIElement>());
+		ListView listview = new ListView(getX(), getY() + titleHeight, getWidth(), getHeight(), new ArrayList<UIElement>());
 		Tablr c = getTablr();
-		
+
+		// Verwijder deze lijn na testen!!!!
+		tablr.addEmptyColumn(table, Type.STRING, "");
+		//tablr.addEmptyColumn(table, Type.STRING, "");
 		
 		for(Column col : c.getColumns(table)){
-			TextField colName = new TextField(getX() + margin, currentHeight, getWidth() / 2, 50, c.getColumnName(col));
-			Text colType = new Text(getX() + 190 + margin, currentHeight, getWidth() / 4, 50, c.getColumnType(col).toString()); 
+			TextField colName = new TextField(getX() + margin, currentHeight, getWidth()*4 / 10, 30, c.getColumnName(col));
+			Text colType = new Text(getX() + getWidth()*4/10 + margin, currentHeight, 30, 30, c.getColumnType(col).toString()); 
 			colType.setBorder(true);
-			Checkbox colBlankPol = new Checkbox(getX() + 350 + margin, currentHeight + 15, 20, 20, c.getBlankingPolicy(col));
+			Checkbox colBlankPol = new Checkbox(getX() +getWidth()*4/10+30+ margin, currentHeight + 15, 20, 20, c.getBlankingPolicy(col));
 			String defaultValue = c.getDefaultString(col);
 
 			ArrayList<UIElement> list;
@@ -96,7 +126,7 @@ public class TableDesignModeUI extends UI {
 				});
 			}
 			else{
-				TextField colDefText = new TextField(410+margin,getY() + 30,getWidth() / 4 - 20,50, defaultValue);
+				TextField colDefText = new TextField(getX() + getWidth()*8/10+margin,currentHeight,getWidth() *2/10 - 20,30, defaultValue);
 				list = new ArrayList<UIElement>(){{ add(colName); add(colType); add(colBlankPol); add(colDefText);}};
 				colDefText.addKeyboardListener(-1,()-> {
 					try{
@@ -113,13 +143,13 @@ public class TableDesignModeUI extends UI {
 				});
 			}
 			
-			UIRow uiRow = new UIRow(10,currentHeight,560,50,list);
+			UIRow uiRow = new UIRow(getX(),currentHeight,getWidth(),30,list);
 			//this.addUIElement(uiRow);
-			currentHeight += 50;
+			currentHeight += 30;
 			listview.addElement(uiRow);
 			
-			//Adding listeners
 			
+			//Adding listeners
 			uiRow.addSingleClickListener(() -> {
 				for (UIElement e : getElements()){
 					if (e.getError()) return;
