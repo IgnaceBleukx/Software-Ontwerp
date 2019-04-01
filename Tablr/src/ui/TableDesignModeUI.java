@@ -2,7 +2,9 @@ package ui;
 
 import java.util.ArrayList;
 
+import uielements.Button;
 import uielements.Checkbox;
+import uielements.CloseButton;
 import uielements.ListView;
 import uielements.Text;
 import uielements.TextField;
@@ -24,27 +26,45 @@ public class TableDesignModeUI extends UI {
 	
 	public void loadUI(Table table){
 		
-		int margin = 20;
-		int y = 30;
+		setActive();
 		
-		ListView listview = new ListView(getX() + margin, y, getHeight() - 100, getWidth() - margin - 20, new ArrayList<UIElement>());
+		int titleHeight = 15;
+		int margin = 20;
+		
+		Button titleBar = new Button(getX(), getY(), getWidth() - 30, titleHeight, "Table Design Mode");
+		CloseButton close = new CloseButton(getX() + getWidth() - 30, getY(), 30, titleHeight, 4);
+		this.addUIElement(close);
+		this.addUIElement(titleBar);
+		
+		//Adding listeners:
+		titleBar.addDragListener((x,y) -> { 
+			this.setX(x);
+			this.setY(y);
+		});
+		close.addSingleClickListener(() -> {
+			this.setInactive();
+		});		
+		
+		
+		ListView listview = new ListView(getX() + margin, getY() + titleHeight, getHeight(), getWidth() - margin - 20, new ArrayList<UIElement>());
 		
 		
 		Tablr c = getTablr();
 		for(Column col : c.getColumns(table)){
-			TextField colName = new TextField(10+margin,y,200,50,  c.getColumnName(col));
-			Text colType = new Text(210+margin,y,150,50, c.getColumnType(col).toString()); colType.setBorder(true);
-			Checkbox colBlankPol = new Checkbox(375+margin,y+15,20,20, c.getBlankingPolicy(col));
+			TextField colName = new TextField(getX() + margin, getY() + 30, getWidth() / 2, 50, c.getColumnName(col));
+			Text colType = new Text(getX() + 190 +margin, getY() + 30, getWidth() / 4, 50, c.getColumnType(col).toString()); 
+			colType.setBorder(true);
+			Checkbox colBlankPol = new Checkbox(getX() + 350 + margin,getY() + 30+15,20,20, c.getBlankingPolicy(col));
 			String defaultValue = c.getDefaultString(col);
 
 			ArrayList<UIElement> list;
 			if(c.getColumnType(col) == Type.BOOLEAN){
 				Checkbox colDefCheck;
 				if (defaultValue == "") {
-					colDefCheck = new Checkbox(480, y+15,20,20, false);
+					colDefCheck = new Checkbox(480, getY() + 30+15,20,20, false);
 					colDefCheck.greyOut();
 				}
-				else colDefCheck = new Checkbox(480, y+15,20,20,Boolean.parseBoolean(defaultValue));
+				else colDefCheck = new Checkbox(480, getY() + 30+15,20,20,Boolean.parseBoolean(defaultValue));
 				
 				list = new ArrayList<UIElement>(){{ add(colName); add(colType); add(colBlankPol); add(colDefCheck);}};
 				
@@ -54,7 +74,7 @@ public class TableDesignModeUI extends UI {
 				});
 			}
 			else{
-				TextField colDefText = new TextField(410+margin,y,160-margin,50, defaultValue);
+				TextField colDefText = new TextField(410+margin,getY() + 30,getWidth() / 4 - 20,50, defaultValue);
 				list = new ArrayList<UIElement>(){{ add(colName); add(colType); add(colBlankPol); add(colDefText);}};
 				colDefText.addKeyboardListener(-1,()-> {
 					try{
@@ -71,9 +91,8 @@ public class TableDesignModeUI extends UI {
 				});
 			}
 			
-			UIRow uiRow = new UIRow(10,y,560,50,list);
+			UIRow uiRow = new UIRow(10,getY() + 30,560,50,list);
 			this.addUIElement(uiRow);
-			y += 50;
 			
 			//Adding listeners
 			
