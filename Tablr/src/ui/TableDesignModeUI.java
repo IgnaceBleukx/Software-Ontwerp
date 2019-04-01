@@ -41,17 +41,17 @@ public class TableDesignModeUI extends UI {
 		
 		int titleHeight = 15;
 		int currentHeight = getY() + 13;
-		int margin = 20;
+		int margin = getWidth() / 15;
 		
 		Button titleBar = new Button(getX(), getY(), getWidth() - 30, titleHeight, "Table Design Mode");
 		CloseButton close = new CloseButton(getX() + getWidth() - 30, getY(), 30, titleHeight, 4);
 		this.addUIElement(close);
 		this.addUIElement(titleBar);
 		
-		Text name = new Text(getX(), currentHeight, getWidth() / 3, 20,"Name");
-		Text type = new Text(getX() + 100 , currentHeight, getWidth() / 6, 20,"Type");
-		Text blanks_al = new Text(getX() + 200, currentHeight, getWidth() / 6, 20,"Blanks_al");
-		Text def = new Text(getX() + 300, currentHeight, 200-margin, 20,"Default");
+		Text name = new Text(getX() + margin, currentHeight, getWidth()* 6 / 15, 20,"Name");
+		Text type = new Text(getX() + margin + getWidth()* 6 / 15, currentHeight, getWidth() *3/ 15, 20,"Type");
+		Text blanks_al = new Text(getX() + margin + getWidth()* 9 / 15+10, currentHeight, 20, 20,"Blanks_al");
+		Text def = new Text(getX() + margin + getWidth()* 11 / 15, currentHeight, getWidth() *4/15, 20,"Default");
 		
 		this.addAllUIElements(new ArrayList<UIElement>()
 			{{
@@ -97,7 +97,7 @@ public class TableDesignModeUI extends UI {
 		
 		ListView listview = new ListView(getX(), getY() + titleHeight, getWidth(), getHeight(), new ArrayList<UIElement>());
 		Tablr c = getTablr();
-
+		tablr.addEmptyColumn(table, Type.STRING, "");
 		
 		for(Column col : c.getColumns(table)){
 			TextField colName = new TextField(getX() + margin, currentHeight, getWidth()*6/15, 30, c.getColumnName(col));
