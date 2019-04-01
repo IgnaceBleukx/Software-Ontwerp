@@ -317,8 +317,8 @@ public class UI {
 	 * set c as the new WindowManager
 	 * @param c
 	 */
-	public void setWindowManager(Tablr c) {
-		this.tablr = c;
+	public void setWindowManager(WindowManager w) {
+		this.windowManager = w;
 	}
 	
 	

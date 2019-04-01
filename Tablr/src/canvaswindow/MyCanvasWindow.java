@@ -9,6 +9,7 @@ import java.util.Date;
 
 import facades.Tablr;
 import ui.TablesModeUI;
+import ui.UI;
 
 public class MyCanvasWindow extends CanvasWindow {
 	
@@ -23,9 +24,7 @@ public class MyCanvasWindow extends CanvasWindow {
 	public MyCanvasWindow(String title) {
 		super(title);
 		
-		tablr = new Tablr();
-		tablr.loadTableModeUI(new TablesModeUI(0,0,300,300,tablr));
-		
+		tablr = new Tablr();		
 		tablr.addTitleChangeRunnable(() -> {
 			//this.setTitle(communicationManager.getNewTitle());
 		});
@@ -74,6 +73,8 @@ public class MyCanvasWindow extends CanvasWindow {
 		System.out.println("[MyCanvaswindow.java:66] : Y-coordinate = " + y);
 		System.out.println("[MyCanvasWindow.java:67]: Clicked on: " + clicked);
 				
+		if (clicked == null) return;
+		
 		if (id % 3 == 1) return;
 		else if(id % 3 == 2) {
 			clicked.handleDrag(x,y);
@@ -126,10 +127,11 @@ public class MyCanvasWindow extends CanvasWindow {
 	@Override
 	public void handleKeyEvent(int id, int keyCode, char keyChar){
 		System.out.println("Keycode: "+keyCode);
-
 		checkCtrlT(keyCode);
-		
-		for (int i=0;i<tablr.getSelectedUI().getElements().size();i++) {
+
+		UI ui = tablr.getSelectedUI();
+		if(ui == null) return;
+		for (int i=0;i<ui.getElements().size();i++) {
 			UIElement e = tablr.getSelectedUI().getElements().get(i);
 			e.handleKeyboardEvent(keyCode, keyChar);
 

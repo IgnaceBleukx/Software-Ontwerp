@@ -9,6 +9,8 @@ import domain.Table;
 import domain.Type;
 import exceptions.InvalidNameException;
 import exceptions.InvalidTypeException;
+import ui.TableDesignModeUI;
+import ui.TableRowsModeUI;
 import ui.TablesModeUI;
 import ui.UI;
 import uielements.UIElement;
@@ -65,8 +67,11 @@ public class Tablr {
 	}
 	
 	public Table addEmptyTable() {
+		Table t = domainFacade.addEmptyTable();
+		windowManager.addTableDesignModeUI(t, new TableDesignModeUI(0,0,300,300,this));
+		windowManager.addTableRowsModeUI(t, new TableRowsModeUI(0,0,300,300,this));
 		domainChanged();
-		return domainFacade.addEmptyTable();
+		return t;
 	}
 	
 	public ArrayList<Table> getTables() {
@@ -78,8 +83,8 @@ public class Tablr {
 	}
 	
 	public void removeTable(Table t) {
-		domainChanged();
 		domainFacade.removeTable(t);
+		domainChanged();
 	}
 	
 	public ArrayList<Table> getTablesByName(String name) {
@@ -94,13 +99,13 @@ public class Tablr {
 	}
 	
 	public void renameTable(Table t, String name) {
-		domainChanged();
 		domainFacade.renameTable(t, name);
+//		domainChanged();
 	}
 	
 	public void toggleBlanks(Column col) throws Exception{
-		domainChanged();
 		domainFacade.toggleBlanks(col);
+		domainChanged();
 	}
 	
 	public Table getTable(String name){
@@ -108,20 +113,18 @@ public class Tablr {
 	}
 
 	public void addEmptyColumn(Table table, Type type, Object defaultValue) {
-		domainChanged();
 		domainFacade.addEmptyColumn(table,type, defaultValue);
-		
+		domainChanged();
 	}
 
 	public void setColumnName(Column col, String text) throws InvalidNameException {
-		domainChanged();
 		domainFacade.setColumnName(col,text);
-		
+		domainChanged();
 	}
 
 	public void addRow(Table tab) {
+		domainFacade.addRow(tab);
 		domainChanged();
-		domainFacade.addRow(tab);		
 	}
 
 	public ArrayList<Column> getColumns(Table tab) {
@@ -141,14 +144,13 @@ public class Tablr {
 	}
 
 	public void removeRow(Table tab, int index) {
-		domainChanged();
 		domainFacade.removeRow(tab,index);
-		
+		domainChanged();
 	}
 
 	public void removeColumn(Table table, int index) {
-		domainChanged();
 		domainFacade.removeColumn(table, index);
+		domainChanged();
 	}
 	
 	public void notifyNewSelected(UIElement e) {

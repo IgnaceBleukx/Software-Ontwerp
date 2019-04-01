@@ -23,6 +23,7 @@ public class TableDesignModeUI extends UI {
 	}
 	
 	public void loadUI(Table table){
+		setActive();
 		
 		int margin = 20;
 		int y = 30;

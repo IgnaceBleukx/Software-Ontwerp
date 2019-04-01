@@ -32,12 +32,10 @@ public class TablesModeUI extends UI {
 		this.addUIElement(titleBar);
 		//Adding listeners:
 		titleBar.addDragListener((x,y) -> { 
-			this.setX(x);
-			this.setY(y);
+			setX(x);
+			setY(y);
 		});
-		close.addSingleClickListener(() -> {
-			this.setInactive();
-		});		
+		close.addSingleClickListener(() -> setInactive());		
 		
 		ArrayList<Table> tables = this.getTablr().getTables();
 		ListView list = loadFromTables(tables, titleHeigth);
@@ -65,9 +63,12 @@ public class TablesModeUI extends UI {
 		for (int i=0;i<tables.size();i++) { 
 			Table curr = tables.get(i);
 			UIRow currRow = new UIRow(getX(), getY()*i*rowHeigth+titleHeigth, getWidth(),rowHeigth, new ArrayList<UIElement>());
-			
+			list.addElement(currRow);
+
 			int buttonSize = currRow.getHeight();
 			Button deleteButton = new Button(getX(), getY()+i*rowHeigth+titleHeigth,buttonSize,buttonSize,"");
+			currRow.addElement(deleteButton);
+			
 			deleteButton.addSingleClickListener(() -> {
 				for (UIElement e : getElements())
 					if (e.getError()) return;
@@ -80,12 +81,12 @@ public class TablesModeUI extends UI {
 					list.removeElement((UIElement) currRow); //Remove row from ListView
 					tablr.removeTable(curr); //Remove table from list of tables
 					list.setSelectedElement(null);
-//					loadFromTables(tables, titleHeigth);
 				}
 			});
-			currRow.addElement(deleteButton);
+			
 			
 			TextField tableNameLabel = new TextField(getX()+buttonSize, getY()+titleHeigth+i*rowHeigth, getWidth()-buttonSize, rowHeigth, curr.getName());
+			currRow.addElement(tableNameLabel);
 			//Table name textfields listen to alphanumeric keyboard input
 			tableNameLabel.addKeyboardListener(-1, () -> {
 				tablr.renameTable(curr, tableNameLabel.getText());
@@ -107,8 +108,9 @@ public class TablesModeUI extends UI {
 					if (e.getError()) return;
 				}
 				if (tablr.isEmptyTable(curr)) {
-					this.getWindowManager().loadTableDesignModeUI(curr);
+					System.out.println("[TablesModeUI.java:111]: Opening an empty table -> DesignMode");
 					tablr.changeTitle("Table Design Mode: "+curr.getName());
+					this.getWindowManager().loadTableDesignModeUI(curr);
 				}
 				else {
 					tablr.loadTableRowsModeUI(curr);;
@@ -116,24 +118,16 @@ public class TablesModeUI extends UI {
 
 				}
 			});
-
-			currRow.addElement(tableNameLabel);
-			
-			list.addElement(currRow);
 		}	
 		
-		/**
-		 * Selects a row in the listview
-		 */
+		//Selects a row in the listview
 		list.addSingleClickListener(() -> {
 			for (UIElement e : list.getElements()){
 				if (e.isSelected()) e.setNotSelected();
 			}
 		});		
 		
-		/**
-		 * Adds a new table
-		 */
+		//Adding a new table
 		list.addDoubleClickListener(() -> {
 			for (UIElement e : getElements()){
 				if (e.getError()) return;

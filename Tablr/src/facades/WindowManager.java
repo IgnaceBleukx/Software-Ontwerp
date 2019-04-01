@@ -80,6 +80,7 @@ public class WindowManager {
 	
 	public void loadTablesModeUI(TablesModeUI ui){
 		ui.setTablr(tablr);
+		ui.setWindowManager(this);
 		this.selectedUI = ui;
 		ui.loadUI();
 	}
@@ -90,21 +91,20 @@ public class WindowManager {
 	}
 	
 	public void loadTableDesignModeUI(Table table){
-		this.selectedUI = tableDesignModeUIs.get(table);
-		tableDesignModeUIs.get(table).loadUI(table);
+		TableDesignModeUI ui = tableDesignModeUIs.get(table);
+		ui.setTablr(tablr);
+		ui.setWindowManager(this);
+		this.selectedUI = ui;
+		ui.loadUI(table);
 	}
 	
-//	public void loadUI(String tableName) {
-//		ui.setCommunicationManager(getCommunicationManager());
-//		switch (i) {
-//		case TABLE_DESIGN: ui.loadTableDesignInterface(); break;
-//		case TABLE_ROWS: ui.loadTableRowsInterface(); break;
-//		case TABLES: ui.loadTablesInterface(); break;
-//		case TEST: ui.loadTestInterface(); break;
-//		}
-//		ui.setCommunicationManager(getCommunicationManager());
-//		
-//	}
+	public void addTableDesignModeUI(Table table, TableDesignModeUI ui){
+		this.tableDesignModeUIs.put(table, ui);
+	}
+	
+	public void addTableRowsModeUI(Table table, TableRowsModeUI ui){
+		this.tableRowsModeUIs.put(table,ui);
+	}
 
 	
 	/**
