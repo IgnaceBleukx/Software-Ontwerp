@@ -1,6 +1,8 @@
 package uielements;
 
+import java.awt.BasicStroke;
 import java.awt.Graphics;
+import java.awt.Graphics2D;
 import java.util.ArrayList;
 
 import facades.Tablr;
@@ -29,7 +31,9 @@ public class UIRow extends UIElement {
 	 * draws the Row in the UI
 	 */
 	public void paint(Graphics g){
+		if (isSelected()) ((Graphics2D) g).setStroke(new BasicStroke(2));
 		g.drawRect(getX(),getY(),getWidth(),getHeight());
+		((Graphics2D) g).setStroke(new BasicStroke(1));
 		for (UIElement e : this.elements){
 			e.paint(g);
 		}
@@ -146,6 +150,20 @@ public class UIRow extends UIElement {
 		return false;
 	}
 
+	private boolean selected;
+	
+	public void select(){
+		this.selected = true;
+	}
+	
+	public void deselect(){
+		this.selected = false;
+	}
+	
+	public boolean isSelected(){
+		return this.selected;
+	}
+	
 	
 
 }

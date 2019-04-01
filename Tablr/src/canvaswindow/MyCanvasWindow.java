@@ -73,14 +73,7 @@ public class MyCanvasWindow extends CanvasWindow {
 		System.out.println("[MyCanvaswindow.java:65] : X-coordinate = " + x);
 		System.out.println("[MyCanvaswindow.java:66] : Y-coordinate = " + y);
 		System.out.println("[MyCanvasWindow.java:67]: Clicked on: " + clicked);
-		
-		if (clicked == null)
-			return;
-		
-//		if (id % 3 != 0) 
-//			return;
-		
-		
+				
 		if (id % 3 == 1) return;
 		else if(id % 3 == 2) {
 			clicked.handleDrag(x,y);

@@ -40,7 +40,7 @@ public class TablesModeUI extends UI {
 		});		
 		
 		ArrayList<Table> tables = this.getTablr().getTables();
-		ListView list = loadFromTables(tables);
+		ListView list = loadFromTables(tables, titleHeigth);
 		addUIElement(list);
 		
 		//Reload listview when domain changed
@@ -50,14 +50,13 @@ public class TablesModeUI extends UI {
 			this.getElements().remove(l.orElseThrow(() -> new RuntimeException("No listview to bind listener to.")));
 			
 			//Load new ListView from tables
-			addUIElement(loadFromTables(tablr.getTables()));
+			addUIElement(loadFromTables(tablr.getTables(), titleHeigth));
 		});
 	}
 
 	
-	private ListView loadFromTables(ArrayList<Table> tables) {
+	private ListView loadFromTables(ArrayList<Table> tables, int titleHeigth) {
 		int rowHeigth = 30;
-		int margin = 10;
 		
 		ArrayList<UIElement> rows = new ArrayList<>();
 		System.out.println("[TableModeUI.java:60] : Dimensions of UI: X=" + getX() + " Y= " + getY() + " W=" + getWidth() + " H=" + getHeight());
@@ -65,24 +64,28 @@ public class TablesModeUI extends UI {
 		
 		for (int i=0;i<tables.size();i++) { 
 			Table curr = tables.get(i);
-			UIRow currRow = new UIRow(getX(), getY()*i*rowHeigth, getWidth(),rowHeigth, new ArrayList<UIElement>());
+			UIRow currRow = new UIRow(getX(), getY()*i*rowHeigth+titleHeigth, getWidth(),rowHeigth, new ArrayList<UIElement>());
 			
-			Button deleteButton = new Button(getX()+margin, getY()+margin+i*rowHeigth,rowHeigth,rowHeigth,"");
+			int buttonSize = currRow.getHeight();
+			Button deleteButton = new Button(getX(), getY()+i*rowHeigth+titleHeigth,buttonSize,buttonSize,"");
 			deleteButton.addSingleClickListener(() -> {
 				for (UIElement e : getElements())
 					if (e.getError()) return;
+				if(currRow.isSelected()) currRow.deselect();
+				else currRow.select();
 			});
 			
 			deleteButton.addKeyboardListener(127, () -> {
-				if (list.getSelectedElement() == currRow && list.getError() == false) {
+				if (currRow.isSelected() && list.getError() == false) {
 					list.removeElement((UIElement) currRow); //Remove row from ListView
 					tablr.removeTable(curr); //Remove table from list of tables
 					list.setSelectedElement(null);
+//					loadFromTables(tables, titleHeigth);
 				}
 			});
 			currRow.addElement(deleteButton);
 			
-			TextField tableNameLabel = new TextField(getX()+50, getY()+margin+i*rowHeigth, getWidth(), rowHeigth, curr.getName());
+			TextField tableNameLabel = new TextField(getX()+buttonSize, getY()+titleHeigth+i*rowHeigth, getWidth()-buttonSize, rowHeigth, curr.getName());
 			//Table name textfields listen to alphanumeric keyboard input
 			tableNameLabel.addKeyboardListener(-1, () -> {
 				tablr.renameTable(curr, tableNameLabel.getText());
@@ -135,7 +138,8 @@ public class TablesModeUI extends UI {
 			for (UIElement e : getElements()){
 				if (e.getError()) return;
 			}
-			tablr.addEmptyTable();});
+			tablr.addEmptyTable();
+		});
 		
 		
 		
