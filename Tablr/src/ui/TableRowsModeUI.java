@@ -2,7 +2,9 @@ package ui;
 
 import java.util.ArrayList;
 
+import uielements.Button;
 import uielements.Checkbox;
+import uielements.CloseButton;
 import uielements.Text;
 import uielements.TextField;
 import uielements.UIElement;
@@ -21,12 +23,19 @@ public class TableRowsModeUI extends UI {
 	}
 	
 	public void loadUI(Table tab){
-
+		setActive();
+		
 		Tablr c = getTablr();
 		int cellHeight = 15;
 		int cellWidth = 40;
 		
-		//Creating legend:
+		Button titleBar = new Button(getX(), getY(), getWidth() - 30, cellHeight, "Table Rows Mode");
+		CloseButton close = new CloseButton(getX() + getWidth() - 30, getY(), 30, cellHeight, 4);
+		this.addUIElement(close);
+		this.addUIElement(titleBar);
+		
+		
+		//Creating legend with all column names:
 		UIRow legend = new UIRow(getX(), getY(), getWidth(), 30,new ArrayList<UIElement>());
 		
 		int a = 0;
@@ -99,6 +108,16 @@ public class TableRowsModeUI extends UI {
 				}
 			});
 		}
+		
+		//Adding listeners:
+		titleBar.addDragListener((x,yy) -> { 
+			this.setX(x);
+			this.setY(yy);
+		});
+		close.addSingleClickListener(() -> {
+			this.setInactive();
+		});		
+			
 	}
 	
 }
