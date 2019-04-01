@@ -120,8 +120,9 @@ public class WindowManager {
 			return selectedUI;
 		
 		for (UI ui : getUIs()) {
-			if (ui.containsPoint(x,y)) return ui;
+			if (ui.isActive() && ui.containsPoint(x,y)) return ui;
 		}
+	
 		return null;
 	}
 	
