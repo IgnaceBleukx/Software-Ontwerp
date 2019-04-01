@@ -39,42 +39,43 @@ public class Button extends UIElement {
 
 	@Override
 	public void paint(Graphics g) {
-		g.setColor(Color.black);
-		drawCenteredText(g, this.getText());
 	    // Drawing button
 	    int arcWidth = 8;
 		int arcHeight = 8;
+		g.setColor(color);
+		g.fillRoundRect(super.getX(), super.getY(), super.getWidth(), super.getHeight(), arcWidth, arcHeight);
+		g.setColor(Color.BLACK);
 		g.drawRoundRect(super.getX(), super.getY(), super.getWidth(), super.getHeight(), arcWidth, arcHeight);
+		//Drawing text on button:
+		drawCenteredText(g, this.getText());
 	}
 
 	@Override
 	public void handleSingleClick() {
-		for (Runnable r : this.singleClickListeners) {
-			r.run();
-		}
+		singleClickListeners.stream().forEach(l -> l.run());
 	} 
 
 	@Override
 	public void handleDoubleClick() {
-		for (Runnable r : this.doubleClickListeners) {
-			r.run();
-		}
+		doubleClickListeners.stream().forEach(l -> l.run());
 	}
 	
 	@Override
 	public void handleKeyboardEvent(int keyCode, char keyChar) {
-		
 		if (keyboardListeners.get(keyCode) == null)
 			return;
-		
-		for (Runnable r : keyboardListeners.get(keyCode)) {
-			r.run();
-		}
+		keyboardListeners.get(keyCode).stream().forEach(l -> l.run());
 	}
 	
 	@Override
 	public void handleDrag(int x, int y) {
 		dragListeners.stream().forEachOrdered(r -> r.accept(x, y));
+	}
+	
+	private Color color = Color.white;
+
+	public void setColor(Color c) {
+		this.color = c;
 	}
 
 	

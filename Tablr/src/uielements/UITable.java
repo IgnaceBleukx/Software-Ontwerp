@@ -119,10 +119,7 @@ public class UITable extends UIElement {
 		}
 		if (keyboardListeners.get(keyCode) == null)
 			return;
-		
-		for (Runnable r : keyboardListeners.get(keyCode)) {
-			r.run();
-		}
+		keyboardListeners.get(keyCode).stream().forEach(l -> l.run());
 	}
 	
 	@Override

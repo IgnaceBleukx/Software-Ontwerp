@@ -88,14 +88,16 @@ public class ListView extends UIElement {
 	
 	@Override
 	public void paint(Graphics g) {
+		g.setColor(color);
+		g.fillRect(getX(),getY(),getWidth(),getHeight());
 		g.setColor(Color.black);
 		g.drawRect(getX(),getY(),getWidth(),getHeight());
+		g.setColor(Color.black);
 		if (elements != null) {
 			for (UIElement e : elements) {
 				e.paint(g);
 			}
 		}
-		
 		if (selectedElement != null) {
 			UIElement s = this.selectedElement;
 			g.fillOval(s.getX()+s.getWidth()+10, s.getY()+s.getHeight()/2, 8, 8);
@@ -108,31 +110,15 @@ public class ListView extends UIElement {
 		
 		UIElement found = null;
 		
-		if (elements != null) {
-			for (UIElement e : elements) {
-				found = e.locatedAt(x,y);
-				if (found != null)
-					return found;
-			}
+		for (UIElement e : elements) {
+			System.out.println("[ListView.java:113]: " + e);
+			found = e.locatedAt(x,y);
+			if (found != null)
+				return found;
 		}
-		
-		return this;
-		 
-		//If no elements inside the list match, return this.
-		
+		return this;		
 	}
-	
-	/**
-	 * 
-//	 * @param tables
-//	 */
-//	public void loadFromTables(ArrayList<Table> tables) {
-//		
-//		elements.clear();
-//		
-//	}
-	
-	
+		
 	public void loadColumnAttributes(Table table){
 		
 		
@@ -149,20 +135,13 @@ public class ListView extends UIElement {
 
 	@Override
 	public void handleSingleClick() {
-
 		c.notifyNewSelected((UIElement) this);
-		
-		for (Runnable r: singleClickListeners){
-			r.run();
-		}
+		singleClickListeners.stream().forEach(l -> l.run());
 	}
 
 	@Override
 	public void handleDoubleClick() {
-
-		for (Runnable r: doubleClickListeners){
-			r.run();
-		}
+		doubleClickListeners.stream().forEach(l -> l.run());
 	}
 
 	@Override
@@ -174,9 +153,7 @@ public class ListView extends UIElement {
 		if (keyboardListeners.get(keyCode) == null)
 			return;
 		
-		for (Runnable r : keyboardListeners.get(keyCode)) {
-			r.run();
-		}
+		keyboardListeners.get(keyCode).stream().forEach(l -> l.run());
 		
 	}
 	
@@ -184,8 +161,7 @@ public class ListView extends UIElement {
 	public void handleDrag(int x, int y) {
 		dragListeners.stream().forEachOrdered(r -> r.accept(x, y));
 	}
-	
-	
+		
 	@Override
 	public void selectElement(UIElement e) {
 		if (e==this) 
@@ -220,6 +196,11 @@ public class ListView extends UIElement {
 		return false;
 	}
 	
+	private Color color = Color.WHITE;
+	
+	public void setColor(Color c) {
+		color = c;
+	}
 	
 
 }

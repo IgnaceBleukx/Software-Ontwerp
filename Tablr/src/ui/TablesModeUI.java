@@ -1,5 +1,6 @@
 package ui;
 
+import java.awt.Color;
 import java.util.ArrayList;
 import java.util.Optional;
 import java.util.function.BiConsumer;
@@ -8,6 +9,7 @@ import java.util.function.BiFunction;
 import uielements.Button;
 import uielements.CloseButton;
 import uielements.ListView;
+import uielements.ScrollBar;
 import uielements.TextField;
 import uielements.UIElement;
 import uielements.UIRow;
@@ -23,26 +25,29 @@ public class TablesModeUI extends UI {
 	
 	public void loadUI(){
 		setActive();
+		this.clear();
+		int titleHeight = 15;
+		int scrollBarWidth = 10;
 		
-		int titleHeigth = 15;
+		Button titleBar = new Button(getX(),getY(),getWidth()-30,titleHeight,"Tables Mode");
+		CloseButton close = new CloseButton(getX()+getWidth()-30,getY(),30,titleHeight,4);
+		ScrollBar scrollBar = new ScrollBar(getX()+getWidth()-scrollBarWidth, getY()+titleHeight,scrollBarWidth,getHeight()-titleHeight);
 		
-		Button titleBar = new Button(getX(),getY(),getWidth()-30,titleHeigth,"Tables Mode");
-		CloseButton close = new CloseButton(getX()+getWidth()-30,getY(),30,titleHeigth,4);
+		this.addUIElement(scrollBar);
 		this.addUIElement(close);
 		this.addUIElement(titleBar);
 		//Adding listeners:
-		titleBar.addDragListener((x,y) -> { 
+		titleBar.addDragListener((newX,newY) -> { 
 			System.out.println("[TablesModeUI.java:35]: Attempting drag");
 			if (!this.getLastClicked().equals(titleBar)) return;
-			setX(getX() + x - getLastClickedX());
-			setY(getY() + y - getLastClickedY());
-			this.clear();
+			setX(getX() + newX - getLastClickedX());
+			setY(getY() + newY - getLastClickedY());
 			loadUI();
 		});
 		close.addSingleClickListener(() -> setInactive());		
 		
 		ArrayList<Table> tables = this.getTablr().getTables();
-		ListView list = loadFromTables(tables, titleHeigth);
+		ListView list = loadFromTables(tables, titleHeight, scrollBarWidth);
 		addUIElement(list);
 		
 		//Reload listview when domain changed
@@ -52,25 +57,25 @@ public class TablesModeUI extends UI {
 			this.getElements().remove(l.orElseThrow(() -> new RuntimeException("No listview to bind listener to.")));
 			
 			//Load new ListView from tables
-			addUIElement(loadFromTables(tablr.getTables(), titleHeigth));
+			addUIElement(loadFromTables(tablr.getTables(), titleHeight,scrollBarWidth));
 		});
 	}
 
 	
-	private ListView loadFromTables(ArrayList<Table> tables, int titleHeigth) {
-		int rowHeigth = 30;
+	private ListView loadFromTables(ArrayList<Table> tables, int titleHeight, int scrollBarWidth) {
+		int rowHeigth = 35;
 		
 		ArrayList<UIElement> rows = new ArrayList<>();
 		System.out.println("[TableModeUI.java:60] : Dimensions of UI: X=" + getX() + " Y= " + getY() + " W=" + getWidth() + " H=" + getHeight());
-		ListView list = new ListView(getX(), getY()+15, getWidth(), getHeight(), rows);
+		ListView list = new ListView(getX(), getY()+15, getWidth()-scrollBarWidth, getHeight()-titleHeight, rows);
 		
 		for (int i=0;i<tables.size();i++) { 
 			Table curr = tables.get(i);
-			UIRow currRow = new UIRow(getX(), getY()*i*rowHeigth+titleHeigth, getWidth(),rowHeigth, new ArrayList<UIElement>());
+			UIRow currRow = new UIRow(getX(), getY()+i*rowHeigth+titleHeight, getWidth()-scrollBarWidth,rowHeigth, new ArrayList<UIElement>());
 			list.addElement(currRow);
 
 			int buttonSize = currRow.getHeight();
-			Button deleteButton = new Button(getX(), getY()+i*rowHeigth+titleHeigth,buttonSize,buttonSize,"");
+			Button deleteButton = new Button(getX(), getY()+i*rowHeigth+titleHeight,buttonSize,buttonSize,"");
 			currRow.addElement(deleteButton);
 			
 			deleteButton.addSingleClickListener(() -> {
@@ -89,7 +94,7 @@ public class TablesModeUI extends UI {
 			});
 			
 			
-			TextField tableNameLabel = new TextField(getX()+buttonSize, getY()+titleHeigth+i*rowHeigth, getWidth()-buttonSize, rowHeigth, curr.getName());
+			TextField tableNameLabel = new TextField(getX()+buttonSize, getY()+titleHeight+i*rowHeigth, getWidth()-buttonSize-scrollBarWidth, rowHeigth, curr.getName());
 			currRow.addElement(tableNameLabel);
 			//Table name textfields listen to alphanumeric keyboard input
 			tableNameLabel.addKeyboardListener(-1, () -> {
@@ -105,6 +110,8 @@ public class TablesModeUI extends UI {
 					//c.releaseSelectionLock(tableNameLabel);
 				}
 			});
+			
+			tableNameLabel.addKeyboardListener(10,() -> tablr.domainChanged());
 
 			//Table name textfields listen to double click events to switch modes
 			tableNameLabel.addDoubleClickListener(() -> {
@@ -139,9 +146,7 @@ public class TablesModeUI extends UI {
 			tablr.addEmptyTable();
 		});
 		
-		
-		
-		
+		list.setColor(Color.LIGHT_GRAY);
 		return list;
 	}
 	

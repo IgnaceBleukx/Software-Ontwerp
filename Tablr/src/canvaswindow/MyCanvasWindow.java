@@ -23,7 +23,6 @@ public class MyCanvasWindow extends CanvasWindow {
 	 */
 	public MyCanvasWindow(String title) {
 		super(title);
-		
 		tablr = new Tablr();		
 		tablr.addTitleChangeRunnable(() -> {
 			//this.setTitle(communicationManager.getNewTitle());
@@ -78,7 +77,7 @@ public class MyCanvasWindow extends CanvasWindow {
 		if (id % 3 == 1) return;
 		else if(id % 3 == 2) {
 			clicked.handleDrag(x,y);
-			clicked.handlePressed(x, y);
+			clicked.handlePressed(x, y);;
 		}
 		else if (id %  3 == 0) {
 			/**

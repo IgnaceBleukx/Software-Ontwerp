@@ -253,7 +253,7 @@ public class Tablr {
 		return domainFacade.getValue(col,index);
 	}
 
-	private void domainChanged(){
+	public void domainChanged(){
 		DomainChangedListeners.stream().forEach(l -> l.run());
 		
 	}

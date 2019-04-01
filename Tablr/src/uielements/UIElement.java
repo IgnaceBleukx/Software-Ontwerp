@@ -14,6 +14,11 @@ import facades.Tablr;
 
 public abstract class UIElement {
 	
+	@Override
+	public String toString() {
+		return this.getClass()+" - X="+getX()+" Y="+getY()+" W="+getWidth()+" H="+getHeight();
+	}
+	
 	/**
 	 * Reference to the communicationsmanager that is used to talk to the UI.
 	 */

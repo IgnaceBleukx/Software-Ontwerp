@@ -25,16 +25,7 @@ public class TableDesignModeUI extends UI {
 		this.setTablr(t);
 	}
 	
-	/**
-	 * add the elements of a given list to the current UIElements-list in this UI
-	 * @param list: the UIElements to be added
-	 */
-	private void addAllUIElements(ArrayList<UIElement> list) {
-		for(UIElement e : list){
-			this.addUIElement(e);
-		}
-		
-}
+	
 	
 	public void loadUI(Table table){
 		setActive();
@@ -48,7 +39,7 @@ public class TableDesignModeUI extends UI {
 		this.addUIElement(close);
 		this.addUIElement(titleBar);
 		
-		Text name = new Text(getX(), currentHeight, getWidth() / 3, 20,"Name");
+		Text name = new Text(getX(), currentHeight, getWidth()*4 / 10, 20,"Name");
 		Text type = new Text(getX() + 100 , currentHeight, getWidth() / 6, 20,"Type");
 		Text blanks_al = new Text(getX() + 200, currentHeight, getWidth() / 6, 20,"Blanks_al");
 		Text def = new Text(getX() + 300, currentHeight, 200-margin, 20,"Default");

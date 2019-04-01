@@ -88,6 +88,15 @@ public class UI {
 	}
 	
 	/**
+	 * add the elements of a given list to the current UIElements-list in this UI
+	 * @param list: the UIElements to be added
+	 */
+	public void addAllUIElements(ArrayList<UIElement> list) {
+		list.stream().forEach(e -> addUIElement(e));
+		
+}
+	
+	/**
 	 * remove all UIElements from this UI
 	 */
 	public void clear() {

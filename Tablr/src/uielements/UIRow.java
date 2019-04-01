@@ -31,12 +31,12 @@ public class UIRow extends UIElement {
 	 * draws the Row in the UI
 	 */
 	public void paint(Graphics g){
-		if (isSelected()) ((Graphics2D) g).setStroke(new BasicStroke(2));
 		g.drawRect(getX(),getY(),getWidth(),getHeight());
-		((Graphics2D) g).setStroke(new BasicStroke(1));
 		for (UIElement e : this.elements){
 			e.paint(g);
 		}
+		if(isSelected())
+			g.drawRect(getX()+1,getY()+1,getWidth()-2,getHeight()-2);
 	}
 	
 	/**
@@ -87,9 +87,7 @@ public class UIRow extends UIElement {
 		if (keyboardListeners.get(keyCode) == null)
 			return;
 		
-		for (Runnable r : keyboardListeners.get(keyCode)) {
-			r.run();
-		}
+		keyboardListeners.get(keyCode).stream().forEach(l -> l.run());
 		
 	}
 	
