@@ -94,7 +94,7 @@ public class WindowManager {
 		TableDesignModeUI ui = tableDesignModeUIs.get(table);
 		ui.setTablr(tablr);
 		ui.setWindowManager(this);
-		this.selectedUI = ui;
+		//this.selectedUI = ui;
 		ui.loadUI(table);
 	}
 	
@@ -161,7 +161,6 @@ public class WindowManager {
 	public void paint(Graphics g) {
 		//Paint all UI's that are active
 		tablesModeUIs.stream().filter(x->x.isActive()).forEach(e -> e.paint(g));
-		
 		tableRowsModeUIs.values().stream().filter((e) -> e.isActive()).forEach((e) -> e.paint(g));
 		tableDesignModeUIs.values().stream().filter((e) -> e.isActive()).forEach((e) -> e.paint(g));
  	}

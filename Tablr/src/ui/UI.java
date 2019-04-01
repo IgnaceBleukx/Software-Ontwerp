@@ -254,7 +254,6 @@ public class UI {
 	 * This method paints the current canvaswindow.UI.
 	 */
 	public void paint(Graphics g){
-		//TODO: add titlebar, close button, ...
 		for (UIElement e : getElements()){
 			e.paint(g);
 		}
