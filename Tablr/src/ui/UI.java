@@ -65,163 +65,7 @@ public class UI {
 		}
 		
 	}
-	
-	/**
-//	 * Loads the Tables interface: the interface in which the user can add or delete tables
-//	 */
-//	public void loadTablesInterface() {
-//		setMode(Loadable_Interfaces.TABLES);
-//		this.clear();
-//		ListView l = new ListView(10, 10, 560, 570, new ArrayList<UIElement>());
-//		this.addUIElement(l);
-//
-//		//Button createTableButton = new Button(10,520,580,70, "Create table");		
-//		l.addSingleClickListener(() -> {
-//			for (UIElement e : getElements()){
-//				if (e.isSelected()) e.setNotSelected();
-//			}
-//		});		
-//		
-//		
-//		l.addDoubleClickListener(() -> {
-//			for (UIElement e : getElements()){
-//				if (e.getError()) return;
-//			}
-//			communicationManager.addEmptyTable();
-//			l.loadFromTables(communicationManager.getTables());
-//		});
-//
-//		l.loadFromTables(communicationManager.getTables());
-//
-//	}
-
-//	/**
-//	 * Loads the TableRows interface: the interface in which the user can edit fields of the rows of a table
-//	 * (a standard view of a table)
-//	 */
-//	public void loadTableRowsInterface() {
-//		setMode(Loadable_Interfaces.TABLE_ROWS);
-//		this.clear();
-//
-//		//Temporary table
-////		Table table = communicationManager.addEmptyTable();
-////		communicationManager.addEmptyColumn(table,Type.BOOLEAN,true);
-////		communicationManager.addEmptyColumn(table,Type.INTEGER,0);
-////		communicationManager.addEmptyColumn(table,Type.STRING,"");
-////		communicationManager.addEmptyColumn(table,Type.EMAIL,"");
-////		communicationManager.addRow(table);
-////		communicationManager.addRow(table);
-////		communicationManager.addRow(table);
-//
-//		Table table = communicationManager.getActiveTable();
-//
-//		
-//		//Properties of the UITable
-//		int x = 10;
-//		int y = 30;
-//		int width = 560;
-//		int height = 520;
-//		int cellHeight = 30;
-//		
-//		//Creating the legend of the UITable
-//		ArrayList<UIElement> legend = new ArrayList<UIElement>();
-//		ArrayList<String> names = communicationManager.getColumnNames(table);
-//		int legendX = x+20;
-//		int cellWidth = (width-20) / (names.size());
-//		for(String name:names){
-//			System.out.println(name);
-//			legend.add(new Text(legendX,y,cellWidth, cellHeight,name));
-//			legendX += cellWidth;
-//		}
-//		
-//		UIRow legendRow = new UIRow(x+20,y,width-20,30,legend);
-//	
-//		//Creating the UITable
-//		UITable t = new UITable(x, y, width, height,legendRow, new ArrayList<UIRow>());
-//		this.addUIElement(t);
-//		
-//		//Filling the UITable with the cells of the table.
-//		t.loadTable(table,cellWidth, cellHeight);
-//		
-//		t.addKeyboardListener(27,() ->{ //ESCAPE, go to TABLES interface
-//			communicationManager.changeTitle("Tables Mode");
-//			communicationManager.loadUI(Loadable_Interfaces.TABLES);
-//		});
-//		
-//		t.addKeyboardListener(17, () -> {
-//			communicationManager.loadUI(Loadable_Interfaces.TABLE_DESIGN);
-//		});
-//		
-//		t.addDoubleClickListener(() -> {
-//			System.out.println("adding row");
-//			communicationManager.addRow(table);
-//			t.loadTable(table, cellWidth, cellHeight);
-//		});
-//
-//
-//	}
-
-//	/**
-//	 * Loads the TableDesign interface: the interface in which the user can edit the variables of the columns of a table.
-//	 */
-//	public void loadTableDesignInterface() {
-//		setMode(Loadable_Interfaces.TABLE_DESIGN);
-//		this.clear();
-//
-//		// Creating title
-//		int margin = 20;
-//		ListView l = new ListView(10, 30, 560, 520, new ArrayList<UIElement>());
-//		Text name = new Text(10+margin,10,200, 20,"Name");
-//		Text type = new Text(210+margin,10,150, 20,"Type");
-//		Text blanks_al = new Text(360+margin,10,50, 20,"Blanks_al");
-//		Text def = new Text(410,10,200-margin, 20,"Default");
-//		
-//		this.addAllUIElements(new ArrayList<UIElement>()
-//			{{
-//				add(l);
-//				add(name);
-//				add(type);
-//				add(blanks_al);
-//				add(def);
-//			}}
-//		);
-//
-//		Table currentTable = communicationManager.getActiveTable();
-//		
-//		
-//		l.loadColumnAttributes(currentTable);
-//		
-//		l.addSingleClickListener(() -> {
-//			for (UIElement e : getElements()){
-//				if (e.isSelected()) e.setNotSelected();
-//			}
-//		});		
-//		
-//		l.addDoubleClickListener(() -> {
-//			for (UIElement e : getElements()){
-//				if (e.getError()) return;
-//			}
-//			communicationManager.addEmptyColumn(currentTable,Type.STRING,"");
-//			l.loadColumnAttributes(currentTable);
-//		});
-//		
-//		l.addKeyboardListener(27,() ->{ //ESCAPE, go to TABLES interface
-//			System.out.println("[UI.java:171]: " + l.hasElementInError());
-//			System.out.println("[UI.java:172]: " + l.hasSelectedElement());
-//			if (l.hasElementInError() || l.hasSelectedElement()){
-//				System.out.println("[UI.java:174]: Element in error or element selected in listvieuw");
-//				return;
-//			}
-//			else{
-//				communicationManager.changeTitle("Tables Mode");
-//				communicationManager.loadUI(Loadable_Interfaces.TABLES);
-//			}
-//		});
-//		
-//				
-//	}
-
-	
+		
 	/**
 	 * All of the UIElements that make up this UI
 	 */
@@ -354,6 +198,36 @@ public class UI {
 				y >= getY() &&
 				x <= getX()+getWidth() &&
 				y <= getY()+getHeight());
+	}
+
+	private UIElement lastClicked;
+	private int lastClickedX;
+	private int lastClickedY;
+	
+	public void setLastClicked(UIElement uiElement, int x, int y) {
+		lastClicked = uiElement;
+		lastClickedX = x;
+		lastClickedY = y;
+	}
+	
+	public int getLastClickedX(){
+		return lastClickedX;
+	}
+	
+	public int getLastClickedY(){
+		return lastClickedY;
+	}
+	
+	public void setLastClickedX(int x){
+		lastClickedX = x;
+	}
+	
+	public void setLastClickedY(int y){
+		lastClickedY = y;
+	}
+	
+	public UIElement getLastClicked(){
+		return this.lastClicked;
 	}
 }
 

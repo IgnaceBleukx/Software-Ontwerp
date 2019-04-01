@@ -68,16 +68,17 @@ public class MyCanvasWindow extends CanvasWindow {
 			System.out.println("No UI at these coordinates");
 			return;
 		}
-		System.out.println("[MyCanvaswindow.java:64] : Id = " +id);
-		System.out.println("[MyCanvaswindow.java:65] : X-coordinate = " + x);
-		System.out.println("[MyCanvaswindow.java:66] : Y-coordinate = " + y);
-		System.out.println("[MyCanvasWindow.java:67]: Clicked on: " + clicked);
+		System.out.println("[MyCanvasWindow.java:71]: Clicked on: " + clicked);
+		System.out.println("[MyCanvaswindow.java:72] : Id = " +id);
+		System.out.println("[MyCanvaswindow.java:73] : X-coordinate = " + x);
+		System.out.println("[MyCanvaswindow.java:74] : Y-coordinate = " + y);
 				
 		if (clicked == null) return;
 		
 		if (id % 3 == 1) return;
 		else if(id % 3 == 2) {
 			clicked.handleDrag(x,y);
+			clicked.handlePressed(x, y);
 		}
 		else if (id %  3 == 0) {
 			/**
@@ -87,7 +88,8 @@ public class MyCanvasWindow extends CanvasWindow {
 			if(getTablr().getLockedElement() != (null) && !getTablr().getLockedElement().equals(clicked)){
 				return;
 			}
-		
+			clicked.handlePressed(x,y);
+
 			if (clickCount == 2) {
 				clicked.handleDoubleClick();
 			}

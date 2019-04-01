@@ -150,6 +150,11 @@ public abstract class UIElement {
 		dragListeners.add(f);
 	}
 	
+	public void handlePressed(int x,int y){
+		this.getTablr().getUIAt(getX(), getY()).setLastClicked(this,x,y);
+	}
+	
+	public abstract void handleDrag(int x, int y);
 	
 	public abstract void handleSingleClick();
 	
@@ -157,7 +162,7 @@ public abstract class UIElement {
 	
 	public abstract void handleKeyboardEvent(int keyCode, char keyChar);
 	
-	public abstract void handleDrag(int x, int y);
+	
 	
 	/**
 	 * constructor: x and y being the coordinates of the new element, w and h the dimensions
@@ -319,6 +324,8 @@ public abstract class UIElement {
 	public boolean hasElementInError(){
 		return this.getError();
 	}
+
+
 
 	
 }

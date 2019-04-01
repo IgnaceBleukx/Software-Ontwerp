@@ -32,8 +32,12 @@ public class TablesModeUI extends UI {
 		this.addUIElement(titleBar);
 		//Adding listeners:
 		titleBar.addDragListener((x,y) -> { 
-			setX(x);
-			setY(y);
+			System.out.println("[TablesModeUI.java:35]: Attempting drag");
+			if (!this.getLastClicked().equals(titleBar)) return;
+			setX(getX() + x - getLastClickedX());
+			setY(getY() + y - getLastClickedY());
+			this.clear();
+			loadUI();
 		});
 		close.addSingleClickListener(() -> setInactive());		
 		
