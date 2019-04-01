@@ -113,7 +113,17 @@ public class MyCanvasWindow extends CanvasWindow {
 		// If Ctrl is pressed within 'milliSecondsWaiting' then the user pressed Ctrl+T 
 		if (keyCode == 84 && ctrlTimestamp != null && (new Date().getTime() - ctrlTimestamp.getTime() < milliSecondsWaiting)) {
 			System.out.println("[MyCanvasWindow.java: 113] Create a new tables subwindow");
-			tablr.addTablesModeUI(new TablesModeUI(200,0,300,300,tablr));
+			
+			tablr.addTablesModeUI(new TablesModeUI(0,0,250,300,tablr));
+			
+			// Following lines are for testing purposes of Rows Mode:
+			// Uncomment deze lijnen voor die modes te testen!!!
+			// Add a table to the tablr
+			//this.handleMouseEvent(0, 50, 150, 2);
+			
+			//Click on the table to open design mode
+			//this.handleMouseEvent(0, 70, 30, 2);
+			
 		}
 	}
 	
