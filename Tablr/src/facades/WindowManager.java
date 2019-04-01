@@ -43,7 +43,7 @@ public class WindowManager {
 	
 	private ArrayList<UI> getUIs() {
 		ArrayList<UI> uis = new ArrayList<>();
-		uis.add((UI) tablesModeUIs.stream().map(x -> uis.add(x)));
+		tablesModeUIs.stream().map(x -> uis.add(x));
 		tableRowsModeUIs.values().stream().map(x -> uis.add(x));
 		tableDesignModeUIs.values().stream().map(x -> uis.add(x));
 		return uis;

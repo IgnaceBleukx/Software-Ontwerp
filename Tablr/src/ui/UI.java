@@ -4,16 +4,9 @@ import java.awt.Color;
 import java.awt.Graphics;
 import java.util.ArrayList;
 
-import domain.Column;
-import domain.Table;
-import domain.Type;
 import facades.Tablr;
 import facades.WindowManager;
-import uielements.ListView;
-import uielements.Text;
 import uielements.UIElement;
-import uielements.UIRow;
-import uielements.UITable;
 
 
 public class UI {

@@ -24,10 +24,10 @@ public class TablesModeUI extends UI {
 	public void loadUI(){
 		setActive();
 		
-		int margin = 10;
+		int titleHeigth = 15;
 		
-		Button titleBar = new Button(getX(),getY(),getWidth()-30,getY()+15,"Tables Mode");
-		CloseButton close = new CloseButton(getX()+getWidth()-30,getY(),30,getY()+15,4);
+		Button titleBar = new Button(getX(),getY(),getWidth()-30,titleHeigth,"Tables Mode");
+		CloseButton close = new CloseButton(getX()+getWidth()-30,getY(),30,titleHeigth,4);
 		this.addUIElement(close);
 		this.addUIElement(titleBar);
 		//Adding listeners:
@@ -56,19 +56,21 @@ public class TablesModeUI extends UI {
 
 	
 	private ListView loadFromTables(ArrayList<Table> tables) {
+		int rowHeigth = 30;
+		int margin = 10;
+		
 		ArrayList<UIElement> rows = new ArrayList<>();
+		System.out.println("[TableModeUI.java:60] : Dimensions of UI: X=" + getX() + " Y= " + getY() + " W=" + getWidth() + " H=" + getHeight());
 		ListView list = new ListView(getX(), getY()+15, getWidth(), getHeight(), rows);
 		
 		for (int i=0;i<tables.size();i++) { 
 			Table curr = tables.get(i);
-			UIRow currRow = new UIRow(getX()+11, getY()+11+i*40, getWidth(), 40, new ArrayList<UIElement>());
+			UIRow currRow = new UIRow(getX(), getY()*i*rowHeigth, getWidth(),rowHeigth, new ArrayList<UIElement>());
 			
-			Button deleteButton = new Button(getX()+12, getY()+12+i*40,38,38,"");
+			Button deleteButton = new Button(getX()+margin, getY()+margin+i*rowHeigth,rowHeigth,rowHeigth,"");
 			deleteButton.addSingleClickListener(() -> {
-				for (UIElement e : getElements()){
+				for (UIElement e : getElements())
 					if (e.getError()) return;
-				}
-				//this.setSelectedElement(currRow);
 			});
 			
 			deleteButton.addKeyboardListener(127, () -> {
@@ -80,13 +82,13 @@ public class TablesModeUI extends UI {
 			});
 			currRow.addElement(deleteButton);
 			
-			TextField tableNameLabel = new TextField(getX()+50, getY()+12+i*40, 520, 38, curr.getName());
+			TextField tableNameLabel = new TextField(getX()+50, getY()+margin+i*rowHeigth, getWidth(), rowHeigth, curr.getName());
 			//Table name textfields listen to alphanumeric keyboard input
 			tableNameLabel.addKeyboardListener(-1, () -> {
 				tablr.renameTable(curr, tableNameLabel.getText());
 				ArrayList<Table> tablesSameName = tablr.getTablesByName(curr.getName());
 			
-				if ((tablesSameName.size() > 1 && tableNameLabel.isSelected()) | tableNameLabel.getText().length() == 0) {
+				if ((tablesSameName.size() > 1 && tableNameLabel.isSelected()) || tableNameLabel.getText().length() == 0) {
 					tableNameLabel.isError();
 					//c.getSelectionLock(tableNameLabel);
 				}

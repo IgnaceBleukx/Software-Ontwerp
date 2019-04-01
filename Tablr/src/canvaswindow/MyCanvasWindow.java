@@ -3,6 +3,7 @@ package canvaswindow;
 import java.awt.Graphics;
 
 import uielements.*;
+
 import java.util.ArrayList;
 import java.util.Date;
 
@@ -61,7 +62,13 @@ public class MyCanvasWindow extends CanvasWindow {
 	 */
 	@Override
 	public void handleMouseEvent(int id, int x, int y, int clickCount){
-		UIElement clicked = tablr.getUIAt(x, y).locatedAt(x, y);
+		UIElement clicked;
+		try {
+			clicked = tablr.getUIAt(x, y).locatedAt(x, y);
+		} catch (NullPointerException e) {
+			System.out.println("No UI at these coordinates");
+			return;
+		}
 		System.out.println("[MyCanvaswindow.java:64] : Id = " +id);
 		System.out.println("[MyCanvaswindow.java:65] : X-coordinate = " + x);
 		System.out.println("[MyCanvaswindow.java:66] : Y-coordinate = " + y);
