@@ -27,7 +27,7 @@ public class TableRowsModeUI extends UI {
 		
 		Tablr c = getTablr();
 		int cellHeight = 15;
-		int cellWidth = 40;
+		int cellWidth = getWidth()/c.getColumnNames(tab).size();
 		
 		Button titleBar = new Button(getX(), getY(), getWidth() - 30, cellHeight, "Table Rows Mode");
 		CloseButton close = new CloseButton(getX() + getWidth() - 30, getY(), 30, cellHeight, 4);
@@ -36,15 +36,15 @@ public class TableRowsModeUI extends UI {
 		
 		
 		//Creating legend with all column names:
-		UIRow legend = new UIRow(getX(), getY(), getWidth(), 30,new ArrayList<UIElement>());
+		UIRow legend = new UIRow(getX(), getY() + cellHeight, getWidth(), 30, new ArrayList<UIElement>());
 		
 		int a = 0;
 		for(String name: c.getColumnNames(tab)) {
-			legend.addElement(new TextField(getX()+a*cellWidth,getY(), cellWidth, 20,name));
+			legend.addElement(new TextField(getX()+a*getWidth()/cellWidth, getY(), cellWidth, 20, name));
 		}
 		
 		
-		UITable uiTable = new UITable(getX(), getY(), getWidth(), getHeight(),legend,new ArrayList<UIRow>());
+		UITable uiTable = new UITable(getX(), getY(), getWidth(), getHeight(), legend, new ArrayList<UIRow>());
 		
 		
 		
