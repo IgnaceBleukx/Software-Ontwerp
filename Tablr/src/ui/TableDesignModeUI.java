@@ -32,17 +32,23 @@ public class TableDesignModeUI extends UI {
 		
 		int titleHeight = 15;
 		int currentHeight = getY() + 13;
-		int margin = 20;
+		int margin = getWidth() / 15;
 		
 		Button titleBar = new Button(getX(), getY(), getWidth() - 30, titleHeight, "Table Design Mode");
 		CloseButton close = new CloseButton(getX() + getWidth() - 30, getY(), 30, titleHeight, 4);
 		this.addUIElement(close);
 		this.addUIElement(titleBar);
 		
-		Text name = new Text(getX(), currentHeight, getWidth()*4 / 10, 20,"Name");
-		Text type = new Text(getX() + 100 , currentHeight, getWidth() / 6, 20,"Type");
-		Text blanks_al = new Text(getX() + 200, currentHeight, getWidth() / 6, 20,"Blanks_al");
-		Text def = new Text(getX() + 300, currentHeight, 200-margin, 20,"Default");
+//<<<<<<< HEAD
+//		Text name = new Text(getX(), currentHeight, getWidth()*4 / 10, 20,"Name");
+//		Text type = new Text(getX() + 100 , currentHeight, getWidth() / 6, 20,"Type");
+//		Text blanks_al = new Text(getX() + 200, currentHeight, getWidth() / 6, 20,"Blanks_al");
+//		Text def = new Text(getX() + 300, currentHeight, 200-margin, 20,"Default");
+//=======
+		Text name = new Text(getX() + margin, currentHeight, getWidth()* 6 / 15, 20,"Name");
+		Text type = new Text(getX() + margin + getWidth()* 6 / 15, currentHeight, getWidth() *3/ 15, 20,"Type");
+		Text blanks_al = new Text(getX() + margin + getWidth()* 9 / 15+10, currentHeight, 20, 20,"Blanks_al");
+		Text def = new Text(getX() + margin + getWidth()* 11 / 15, currentHeight, getWidth() *4/15, 20,"Default");
 		
 		this.addAllUIElements(new ArrayList<UIElement>()
 			{{
@@ -82,29 +88,26 @@ public class TableDesignModeUI extends UI {
 	
 	private ListView loadColumnAttributes(Table table) {
 		
-		int margin = getWidth() / 10;
+		int margin = getWidth() / 15;
 		int currentHeight = getY() + 30;
 		int titleHeight = 15;
 		
 		ListView listview = new ListView(getX(), getY() + titleHeight, getWidth(), getHeight(), new ArrayList<UIElement>());
 		Tablr c = getTablr();
-
-		// Verwijder deze lijn na testen!!!!
 		tablr.addEmptyColumn(table, Type.STRING, "");
-		//tablr.addEmptyColumn(table, Type.STRING, "");
 		
 		for(Column col : c.getColumns(table)){
-			TextField colName = new TextField(getX() + margin, currentHeight, getWidth()*4 / 10, 30, c.getColumnName(col));
-			Text colType = new Text(getX() + getWidth()*4/10 + margin, currentHeight, 30, 30, c.getColumnType(col).toString()); 
+			TextField colName = new TextField(getX() + margin, currentHeight, getWidth()*6/15, 30, c.getColumnName(col));
+			Text colType = new Text(getX() + getWidth()*6/15 + margin, currentHeight, getWidth()*3/15, 30, c.getColumnType(col).toString()); 
 			colType.setBorder(true);
-			Checkbox colBlankPol = new Checkbox(getX() +getWidth()*4/10+30+ margin, currentHeight + 15, 20, 20, c.getBlankingPolicy(col));
+			Checkbox colBlankPol = new Checkbox(getX() +getWidth()*9/15 + margin + 10, currentHeight + 5, 20, 20, c.getBlankingPolicy(col));
 			String defaultValue = c.getDefaultString(col);
 
 			ArrayList<UIElement> list;
 			if(c.getColumnType(col) == Type.BOOLEAN){
 				Checkbox colDefCheck;
 				if (defaultValue == "") {
-					colDefCheck = new Checkbox(480, currentHeight + 15,20,20, false);
+					colDefCheck = new Checkbox(getX() + getWidth()*11/15 + margin + 10, currentHeight + 5,20,20, false);
 					colDefCheck.greyOut();
 				}
 				else colDefCheck = new Checkbox(480, currentHeight + 15,20,20,Boolean.parseBoolean(defaultValue));
@@ -117,7 +120,7 @@ public class TableDesignModeUI extends UI {
 				});
 			}
 			else{
-				TextField colDefText = new TextField(getX() + getWidth()*8/10+margin,currentHeight,getWidth() *2/10 - 20,30, defaultValue);
+				TextField colDefText = new TextField(getX() + getWidth()*11/15+margin,currentHeight,getWidth() *4/15 ,30, defaultValue);
 				list = new ArrayList<UIElement>(){{ add(colName); add(colType); add(colBlankPol); add(colDefText);}};
 				colDefText.addKeyboardListener(-1,()-> {
 					try{
