@@ -84,7 +84,7 @@ public class UI {
 	 */
 	public void addUIElement(UIElement e){
 		this.elements.add(e);
-		e.setTablr(getTablr());
+		e.setUI(this);
 	}
 	
 	/**
@@ -210,33 +210,20 @@ public class UI {
 	}
 
 	private UIElement lastClicked;
-	private int lastClickedX;
-	private int lastClickedY;
+
 	
-	public void setLastClicked(UIElement uiElement, int x, int y) {
+	public void setLastClicked(UIElement uiElement) {
+		System.out.println("Setting last clicked to: " + uiElement);
 		lastClicked = uiElement;
-		lastClickedX = x;
-		lastClickedY = y;
-	}
-	
-	public int getLastClickedX(){
-		return lastClickedX;
-	}
-	
-	public int getLastClickedY(){
-		return lastClickedY;
-	}
-	
-	public void setLastClickedX(int x){
-		lastClickedX = x;
-	}
-	
-	public void setLastClickedY(int y){
-		lastClickedY = y;
 	}
 	
 	public UIElement getLastClicked(){
 		return this.lastClicked;
+	}
+	
+	@Override
+	public String toString() {
+		return "UI : X="+getX() + " Y="+getY() + " W=" +getWidth() + " H="+getHeight();
 	}
 }
 

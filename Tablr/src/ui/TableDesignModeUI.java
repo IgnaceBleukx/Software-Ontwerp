@@ -31,7 +31,7 @@ public class TableDesignModeUI extends UI {
 		setActive();
 		
 		int titleHeight = 15;
-		int currentHeight = getY() + 13;
+		int currentHeight = getY()+13;
 		int margin = getWidth() / 15;
 		
 		Button titleBar = new Button(getX(), getY(), getWidth() - 30, titleHeight, "Table Design Mode");
@@ -39,13 +39,7 @@ public class TableDesignModeUI extends UI {
 		this.addUIElement(close);
 		this.addUIElement(titleBar);
 		
-//<<<<<<< HEAD
-//		Text name = new Text(getX(), currentHeight, getWidth()*4 / 10, 20,"Name");
-//		Text type = new Text(getX() + 100 , currentHeight, getWidth() / 6, 20,"Type");
-//		Text blanks_al = new Text(getX() + 200, currentHeight, getWidth() / 6, 20,"Blanks_al");
-//		Text def = new Text(getX() + 300, currentHeight, 200-margin, 20,"Default");
-//=======
-		Text name = new Text(getX() + margin, currentHeight, getWidth()* 6 / 15, 20,"Name");
+		Text name = new Text(getX() + margin, currentHeight, getWidth()*6/15, 20,"Name");
 		Text type = new Text(getX() + margin + getWidth()* 6 / 15, currentHeight, getWidth() *3/ 15, 20,"Type");
 		Text blanks_al = new Text(getX() + margin + getWidth()* 9 / 15+10, currentHeight, 20, 20,"Blanks_al");
 		Text def = new Text(getX() + margin + getWidth()* 11 / 15, currentHeight, getWidth() *4/15, 20,"Default");
@@ -71,9 +65,9 @@ public class TableDesignModeUI extends UI {
 		
 		
 		
-		ListView listview = loadColumnAttributes(table);
+		ListView listview = loadColumnAttributes(table, titleHeight);
 		addUIElement(listview);
-		
+				
 		//Reload listview when domain changed
 		tablr.addDomainChangedListener(() -> {
 			//Remove the old listview
@@ -81,18 +75,18 @@ public class TableDesignModeUI extends UI {
 			this.getElements().remove(ll.orElseThrow(() -> new RuntimeException("No listview to bind listener to.")));
 			
 			//Load new ListView from tables
-			addUIElement(loadColumnAttributes(table));
+			addUIElement(loadColumnAttributes(table, titleHeight));
 		});
 
 	}
 	
-	private ListView loadColumnAttributes(Table table) {
+	private ListView loadColumnAttributes(Table table,int titleHeigth) {
 		
 		int margin = getWidth() / 15;
 		int currentHeight = getY() + 30;
 		int titleHeight = 15;
 		
-		ListView listview = new ListView(getX(), getY() + titleHeight, getWidth(), getHeight(), new ArrayList<UIElement>());
+		ListView listview = new ListView(getX(), currentHeight, getWidth(), getHeight()-titleHeigth, new ArrayList<UIElement>());
 		Tablr c = getTablr();
 		tablr.addEmptyColumn(table, Type.STRING, "");
 		
@@ -180,7 +174,6 @@ public class TableDesignModeUI extends UI {
 						c.setColumnType(col, Column.getNextType(Type.valueOf(colType.getText())));
 						colType.isNotError();
 						c.releaseLock(colType);
-						loadColumnAttributes(table);
 					}catch(InvalidTypeException e){
 						colType.setText(Column.getNextType(Type.valueOf(colType.getText())).toString());
 						colType.isError();
@@ -191,7 +184,6 @@ public class TableDesignModeUI extends UI {
 				else{
 					try{
 						c.toggleColumnType(col);
-						loadColumnAttributes(table);
 					}catch (InvalidTypeException e){
 						colType.setText(Column.getNextType(c.getColumnType(col)).toString());
 						colType.isError();

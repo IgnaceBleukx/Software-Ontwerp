@@ -77,6 +77,10 @@ public class Button extends UIElement {
 	public void setColor(Color c) {
 		this.color = c;
 	}
+	
+	protected Color getColor() {
+		return color;
+	}
 
 	
 }

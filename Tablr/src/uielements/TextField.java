@@ -81,7 +81,7 @@ public class TextField extends UIElement {
 
 		if (!isSelected()) {
 			//setSelected();
-			c.notifyNewSelected(this);
+			getUI().getTablr().notifyNewSelected(this);
 			this.prevText = getText();
 		}
 	}

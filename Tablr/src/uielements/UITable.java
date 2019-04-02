@@ -9,6 +9,7 @@ import domain.Table;
 import domain.Type;
 import facades.Tablr;
 import facades.WindowManager;
+import ui.UI;
 
 public class UITable extends UIElement {
 
@@ -140,12 +141,10 @@ public class UITable extends UIElement {
 	}
 	
 	@Override
-	public void setTablr(Tablr c) {
-		this.c = c;
-		for (UIElement e : rows) {
-			e.setTablr(c);
+	public void setUI(UI ui) {
+		this.ui = ui;
+		rows.stream().forEach(r -> r.setUI(ui));
 		}
-	}
 	
 	@Override
 	public boolean getError() {

@@ -12,6 +12,7 @@ import domain.Type;
 import exceptions.InvalidNameException;
 import exceptions.InvalidTypeException;
 import facades.Tablr;
+import ui.UI;
 
 public class ListView extends UIElement {
 
@@ -22,17 +23,38 @@ public class ListView extends UIElement {
 	 * @param elements: The ArrayList of UIElements in the ListView.
 	 */
 	public ListView(int x, int y,int w, int h, ArrayList<UIElement> elements) {
-		super(x, y, w, h);	
+		super(x, y, w, h);
 		this.elements = elements;
+		updateScrollBar();
 	}
+	
+	private Button scrollBar;
 
+	public void updateScrollBar() {
+		int elementsHeigth = elements.stream().mapToInt(e -> e.getHeight()).sum();
+		int scrollHeight = elementsHeigth <= getHeight() ? getHeight() : getHeight()*getHeight() / elementsHeigth ;
+		scrollBar = new Button(getX()+getWidth()-10,getY(),10,scrollHeight,"||");
+		scrollBar.setUI(getUI());
+		scrollBar.setColor(Color.LIGHT_GRAY);
+		
+		//AddingDragListener
+		scrollBar.addDragListener((newX,newY) -> {
+			int delta = newX - scrollBar.getLastClickedX();
+			int y = scrollBar.getY() + delta < getY() || scrollBar.getY() > getY()+getHeight() ? scrollBar.getY() : scrollBar.getY() + delta;
+			scrollBar.setY(y);
+		});
+		
+	}
+		
+	
 	/**
 	 * This method adds an element to the current ListView.
 	 * @param e: The element to be added to the ListView.
 	 */
 	public void addElement(UIElement e){
 		this.elements.add(e);
-		e.setTablr(getTablr());
+		e.setUI(getUI());
+		updateScrollBar();
 	}
 	
 	/**
@@ -41,6 +63,7 @@ public class ListView extends UIElement {
 	 */
 	public void removeElement(UIElement e){
 		this.elements.remove(e);
+		updateScrollBar();
 	}
 	
 	/**
@@ -88,20 +111,12 @@ public class ListView extends UIElement {
 	
 	@Override
 	public void paint(Graphics g) {
-		g.setColor(color);
-		g.fillRect(getX(),getY(),getWidth(),getHeight());
 		g.setColor(Color.black);
-		g.drawRect(getX(),getY(),getWidth(),getHeight());
-		g.setColor(Color.black);
-		if (elements != null) {
-			for (UIElement e : elements) {
-				e.paint(g);
-			}
-		}
-		if (selectedElement != null) {
-			UIElement s = this.selectedElement;
-			g.fillOval(s.getX()+s.getWidth()+10, s.getY()+s.getHeight()/2, 8, 8);
-		}
+		g.drawRect(getX(),getY(),getWidth()-10,getHeight());
+		g.setClip(getX(), getY(),getWidth(), getHeight());
+		elements.stream().forEach(e -> e.paint(g));
+		g.setClip(null);
+		scrollBar.paint(g);
 	}
 	
 	@Override
@@ -116,6 +131,7 @@ public class ListView extends UIElement {
 			if (found != null)
 				return found;
 		}
+		if (scrollBar.containsPoint(x, y)) return scrollBar;
 		return this;		
 	}
 		
@@ -135,7 +151,7 @@ public class ListView extends UIElement {
 
 	@Override
 	public void handleSingleClick() {
-		c.notifyNewSelected((UIElement) this);
+		getUI().getTablr().notifyNewSelected((UIElement) this);
 		singleClickListeners.stream().forEach(l -> l.run());
 	}
 
@@ -175,11 +191,10 @@ public class ListView extends UIElement {
 	}
 
 	@Override
-	public void setTablr(Tablr c) {
-		this.c = c;
-		for (UIElement e : elements) {
-			e.setTablr(c);
-		}
+	public void setUI(UI ui) {
+		this.ui = ui;
+		scrollBar.setUI(ui);
+		elements.stream().forEach(e -> e.setUI(ui));
 	}
 	
 	/**

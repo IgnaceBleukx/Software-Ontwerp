@@ -62,24 +62,35 @@ public class MyCanvasWindow extends CanvasWindow {
 	public void handleMouseEvent(int id, int x, int y, int clickCount){
 		UIElement clicked;
 		try {
+			System.out.println("[MyCanvasWindow.java:65]: tablr = " + tablr);
+			System.out.println("[MyCanvasWindow.java:66]: ui = " + tablr.getUIAt(x,y));
 			clicked = tablr.getUIAt(x, y).locatedAt(x, y);
 		} catch (NullPointerException e) {
-			System.out.println("No UI at these coordinates");
+			System.out.println("[MyCanvasWindow.java:67]: No UI at these coordinates");
 			return;
 		}
-		System.out.println("[MyCanvasWindow.java:71]: Clicked on: " + clicked);
-		System.out.println("[MyCanvaswindow.java:72] : Id = " +id);
-		System.out.println("[MyCanvaswindow.java:73] : X-coordinate = " + x);
-		System.out.println("[MyCanvaswindow.java:74] : Y-coordinate = " + y);
+//		System.out.println("[MyCanvasWindow.java:71]: Clicked on: " + clicked);
+//		System.out.println("[MyCanvaswindow.java:72] : Id = " +id);
+//		System.out.println("[MyCanvaswindow.java:73] : X-coordinate = " + x);
+//		System.out.println("[MyCanvaswindow.java:74] : Y-coordinate = " + y);
 				
 		if (clicked == null) return;
 		
-		if (id % 3 == 1) return;
-		else if(id % 3 == 2) {
-			clicked.handleDrag(x,y);
-			clicked.handlePressed(x, y);;
+		//Mouse pressed
+		if (id % 3 == 0) {
+			clicked.handlePressed(x, y);
 		}
-		else if (id %  3 == 0) {
+		//Mouse dragged
+		else if(id % 3 == 2 && id % 4 == 2) {
+			clicked.handleDrag(x,y);
+			clicked.handlePressed(x,y);
+		}
+		//Mouse released
+		else if (id % 3 == 1) {
+			
+		}
+		//Mouse clicked
+		else if (id %  3 == 2 && id % 4 == 0) {
 			/**
 			 * Some element has a hard lock, ignore this input if the
 			 * element getting the input is not the element that has the hard lock
@@ -87,7 +98,7 @@ public class MyCanvasWindow extends CanvasWindow {
 			if(getTablr().getLockedElement() != (null) && !getTablr().getLockedElement().equals(clicked)){
 				return;
 			}
-			clicked.handlePressed(x,y);
+			
 
 			if (clickCount == 2) {
 				clicked.handleDoubleClick();
@@ -101,7 +112,7 @@ public class MyCanvasWindow extends CanvasWindow {
 
 	// Date that keeps track of the latest time a 'Ctrl' button is clicked
 	private Date ctrlTimestamp = null;
-	private int milliSecondsWaiting = 3000;
+	private int milliSecondsWaiting = 1000;
 	
 
 	private void checkCtrlT(int keyCode) {
@@ -120,10 +131,10 @@ public class MyCanvasWindow extends CanvasWindow {
 			// Following lines are for testing purposes of Rows Mode:
 			// Uncomment deze lijnen voor die modes te testen!!!
 			// Add a table to the tablr
-			//this.handleMouseEvent(0, 50, 150, 2);
+			this.handleMouseEvent(0, 50, 150, 2);
 			
 			//Click on the table to open design mode
-			//this.handleMouseEvent(0, 70, 30, 2);
+			this.handleMouseEvent(0, 70, 30, 2);
 			
 		}
 	}

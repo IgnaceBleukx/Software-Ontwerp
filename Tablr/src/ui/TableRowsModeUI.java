@@ -88,7 +88,7 @@ public class TableRowsModeUI extends UI {
 				
 			}
 			UIRow uiRow = new UIRow(super.getX(),y,super.getWidth(),cellHeight,emts);
-			uiRow.setTablr(getTablr());
+			uiRow.setUI(this);
 			uiTable.addRow(uiRow);
 			y += cellHeight;
 			

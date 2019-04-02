@@ -43,9 +43,9 @@ public class WindowManager {
 	
 	private ArrayList<UI> getUIs() {
 		ArrayList<UI> uis = new ArrayList<>();
-		tablesModeUIs.stream().map(x -> uis.add(x));
-		tableRowsModeUIs.values().stream().map(x -> uis.add(x));
-		tableDesignModeUIs.values().stream().map(x -> uis.add(x));
+		tablesModeUIs.stream().forEach(x -> uis.add(x));
+		tableRowsModeUIs.values().stream().forEach(x -> uis.add(x));
+		tableDesignModeUIs.values().stream().forEach(x -> uis.add(x));
 		return uis;
 	}
 	
@@ -55,7 +55,6 @@ public class WindowManager {
 	private ArrayList<UIElement> getAllElements() {
 		ArrayList<UIElement> elements = new ArrayList<>();
 		tablesModeUIs.stream().forEach(ui -> elements.addAll(ui.getElements()));
-		
 		tableRowsModeUIs.values().stream().forEach(ui -> elements.addAll(ui.getElements()));
 		tableDesignModeUIs.values().stream().forEach(ui -> elements.addAll(ui.getElements()));
 		return elements;
@@ -67,7 +66,6 @@ public class WindowManager {
 	private ArrayList<UIElement> getAllActiveElements() {
 		ArrayList<UIElement> elements = new ArrayList<>();
 		tablesModeUIs.stream().filter(e -> e.isActive()).forEach(ui -> elements.addAll(ui.getElements()));
-		
 		tableRowsModeUIs.values().stream().filter(e -> e.isActive()).forEach(ui -> elements.addAll(ui.getElements()));
 		tableDesignModeUIs.values().stream().filter(e -> e.isActive()).forEach(ui -> elements.addAll(ui.getElements()));
 		return elements;
@@ -116,11 +114,15 @@ public class WindowManager {
 	 * @return
 	 */
 	public UI getUIAt(int x, int y) {
-		if (selectedUI.containsPoint(x, y))
+		if (selectedUI.containsPoint(x, y)) {
 			return selectedUI;
-		
-		for (UI ui : getUIs()) {
-			if (ui.isActive() && ui.containsPoint(x,y)) return ui;
+		}
+		else {
+			System.out.println("[WindowManager.java:118] " + getUIs());
+			for (UI ui : getUIs()) {
+				System.out.println("[WindowManager.java:121] " + ui);
+				if (ui.isActive() && ui.containsPoint(x,y)) return ui;
+			}
 		}
 	
 		return null;

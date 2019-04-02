@@ -2,6 +2,7 @@ package uielements;
 
 
 import java.awt.BasicStroke;
+import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 
@@ -20,6 +21,9 @@ public class CloseButton extends Button {
 		int arcHeight = 8;
 		int middleX = getX() + getWidth()/2;
 		int middleY = getY() + getHeight()/2;
+		g.setColor(getColor());
+		g.fillRoundRect(super.getX(), super.getY(), super.getWidth(), super.getHeight(), arcWidth, arcHeight);
+		g.setColor(Color.BLACK);
 		g.drawRoundRect(super.getX(), super.getY(), super.getWidth(), super.getHeight(), arcWidth, arcHeight);
 		((Graphics2D) g).setStroke(new BasicStroke(2));
 		g.drawLine(middleX - crossSize, middleY - crossSize, middleX + crossSize, middleY+crossSize);

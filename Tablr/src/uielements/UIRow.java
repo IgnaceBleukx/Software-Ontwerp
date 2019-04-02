@@ -6,6 +6,7 @@ import java.awt.Graphics2D;
 import java.util.ArrayList;
 
 import facades.Tablr;
+import ui.UI;
 
 public class UIRow extends UIElement {
 
@@ -45,7 +46,7 @@ public class UIRow extends UIElement {
 	 */
 	public void addElement(UIElement e) {
 		this.elements.add(e);
-		e.setTablr(getTablr());
+		e.setUI(getUI());
 	}
 
 	
@@ -109,11 +110,9 @@ public class UIRow extends UIElement {
 	}
 	
 	@Override
-	public void setTablr(Tablr c) {
-		this.c = c;
-		for (UIElement e : elements) {
-			e.setTablr(c);
-		}
+	public void setUI(UI ui) {
+		this.ui = ui;
+		elements.stream().forEach(e -> e.setUI(ui));
 	}
 	
 	@Override

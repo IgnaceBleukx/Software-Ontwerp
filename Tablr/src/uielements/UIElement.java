@@ -10,6 +10,7 @@ import java.util.function.BiFunction;
 import java.util.function.Function;
 
 import facades.Tablr;
+import ui.UI;
 
 
 public abstract class UIElement {
@@ -19,24 +20,14 @@ public abstract class UIElement {
 		return this.getClass()+" - X="+getX()+" Y="+getY()+" W="+getWidth()+" H="+getHeight();
 	}
 	
-	/**
-	 * Reference to the communicationsmanager that is used to talk to the UI.
-	 */
-	protected Tablr c;
-
-	/**
-	 * set c as the new CommManager for this element
-	 * @param c: the CommManager to be set
-	 */
-	public void setTablr(Tablr c) {
-		this.c = c;
+	protected UI ui;
+	
+	public UI getUI() {
+		return ui;
 	}
 	
-	/**
-	 * @return the CommunicationManager linked to this element
-	 */
-	public Tablr getTablr() {
-		return this.c;
+	public void setUI(UI ui) {
+		this.ui = ui;
 	}
 	
 	/**
@@ -54,7 +45,7 @@ public abstract class UIElement {
 	 */
 	public void isError() {
 		System.out.println("[UIElement.java:33] Acquired selection lock on "+this);
-		getTablr().getSelectionLock(this);
+		getUI().getTablr().getSelectionLock(this);
 		this.error = true;
 	}
 	
@@ -64,7 +55,7 @@ public abstract class UIElement {
 	public void isNotError() {
 		this.error = false;
 		System.out.println("[UIElement.java:40] Released selection lock on "+this);
-		getTablr().releaseSelectionLock(this);
+		getUI().getTablr().releaseSelectionLock(this);
 	}
 	
 	/**
@@ -81,7 +72,7 @@ public abstract class UIElement {
 	public void lock(){
 		this.lock = true;
 		System.out.println("[UIElement.java:49 Aquired hard lock on " + this);
-		getTablr().getLock(this);
+		getUI().getTablr().getLock(this);
 	}
 	
 	/**
@@ -90,7 +81,7 @@ public abstract class UIElement {
 	public void unlock(){
 		this.lock = false;
 		System.out.println("[UIElement.java:54 Released hard lock on " + this);
-		getTablr().releaseLock(this);
+		getUI().getTablr().releaseLock(this);
 	}
 	
 	/**
@@ -156,7 +147,9 @@ public abstract class UIElement {
 	}
 	
 	public void handlePressed(int x,int y){
-		this.getTablr().getUIAt(getX(), getY()).setLastClicked(this,x,y);
+		this.getUI().setLastClicked(this);
+		this.setLastClickedX(x);
+		this.setLastClickedY(y);
 	}
 	
 	public abstract void handleDrag(int x, int y);
@@ -239,9 +232,7 @@ public abstract class UIElement {
 	 * This method should be overwritten by every subclass of UIElement.
 	 * @param g: The graphics engine on which the UIElement is painted.
 	 */
-	public void paint(Graphics g){
-		
-	}
+	public abstract void paint(Graphics g);
 
 	/**
 	 * Draws text centered in the UIElement.
@@ -330,6 +321,24 @@ public abstract class UIElement {
 		return this.getError();
 	}
 
+	private int lastClickedX;
+	private int lastClickedY;
+	
+	public int getLastClickedX(){
+		return lastClickedX;
+	}
+
+	public int getLastClickedY(){
+		return lastClickedY;
+	}
+	
+	public void setLastClickedX(int x){
+		lastClickedX = x;
+	}
+	
+	public void setLastClickedY(int y){
+		lastClickedY = y;
+	}
 
 
 	
