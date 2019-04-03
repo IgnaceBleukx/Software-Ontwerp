@@ -80,13 +80,12 @@ public class TableDesignModeUI extends UI {
 
 	}
 	
-	private ListView loadColumnAttributes(Table table,int titleHeigth) {
+	private ListView loadColumnAttributes(Table table,int titleHeight) {
 		
 		int margin = getWidth() / 15;
 		int currentHeight = getY() + 30;
-		int titleHeight = 15;
 		
-		ListView listview = new ListView(getX(), currentHeight, getWidth(), getHeight()-titleHeigth, new ArrayList<UIElement>());
+		ListView listview = new ListView(getX(), currentHeight, getWidth(), getHeight()-titleHeight, new ArrayList<UIElement>());
 		Tablr c = getTablr();
 		
 		for(Column col : c.getColumns(table)){
