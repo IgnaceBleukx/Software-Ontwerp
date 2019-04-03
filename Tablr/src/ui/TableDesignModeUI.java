@@ -84,9 +84,9 @@ public class TableDesignModeUI extends UI {
 	private ListView loadColumnAttributes(Table table,int titleHeight) {
 		
 		int margin = getWidth() / 15;
-		int currentHeight = getY() + titleHeight;
+		int currentHeight = getY() + 30;
 		
-		ListView listview = new ListView(getX(), currentHeight +17, getWidth(), getHeight()-titleHeight, new ArrayList<UIElement>());
+		ListView listview = new ListView(getX(), currentHeight, getWidth(), getHeight()-titleHeight, new ArrayList<UIElement>());
 		Tablr c = getTablr();
 		
 		for(Column col : c.getColumns(table)){
@@ -133,8 +133,7 @@ public class TableDesignModeUI extends UI {
 			UIRow uiRow = new UIRow(getX(),currentHeight,getWidth(),30,list);
 			//this.addUIElement(uiRow);
 			currentHeight += 30;
-			listview.addElement(uiRow);
-			
+			listview.addElement(uiRow);			
 			
 			//Adding listeners
 			uiRow.addSingleClickListener(() -> {
@@ -207,6 +206,13 @@ public class TableDesignModeUI extends UI {
 			});
 			
 		}
+		
+		listview.addDoubleClickListener(() -> {
+			for (UIElement e : getElements()){
+				if (e.getError()) return;
+			}
+			tablr.addEmptyColumn(table, Type.STRING, "");
+		});
 		
 		return listview;
 	}
