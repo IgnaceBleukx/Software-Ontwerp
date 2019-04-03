@@ -29,6 +29,7 @@ public class TableDesignModeUI extends UI {
 	
 	public void loadUI(Table table){
 		setActive();
+		this.clear();
 		
 		int titleHeight = 15;
 		int currentHeight = getY()+13;
@@ -83,9 +84,9 @@ public class TableDesignModeUI extends UI {
 	private ListView loadColumnAttributes(Table table,int titleHeight) {
 		
 		int margin = getWidth() / 15;
-		int currentHeight = getY() + 30;
+		int currentHeight = getY() + titleHeight;
 		
-		ListView listview = new ListView(getX(), currentHeight, getWidth(), getHeight()-titleHeight, new ArrayList<UIElement>());
+		ListView listview = new ListView(getX(), currentHeight +17, getWidth(), getHeight()-titleHeight, new ArrayList<UIElement>());
 		Tablr c = getTablr();
 		
 		for(Column col : c.getColumns(table)){
