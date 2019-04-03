@@ -1,0 +1,3 @@
+Observer pattern:
+	Voorbeeld in domainchanged(). Wanneer we itereren over alle listeners, moet dit over 		een nieuwe lijst van de listeners. kopie.
+

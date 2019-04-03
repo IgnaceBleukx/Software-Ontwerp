@@ -88,7 +88,6 @@ public class TableDesignModeUI extends UI {
 		
 		ListView listview = new ListView(getX(), currentHeight, getWidth(), getHeight()-titleHeigth, new ArrayList<UIElement>());
 		Tablr c = getTablr();
-		tablr.addEmptyColumn(table, Type.STRING, "");
 		
 		for(Column col : c.getColumns(table)){
 			TextField colName = new TextField(getX() + margin, currentHeight, getWidth()*6/15, 30, c.getColumnName(col));
