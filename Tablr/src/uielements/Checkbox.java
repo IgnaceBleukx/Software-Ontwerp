@@ -15,35 +15,20 @@ public class Checkbox extends UIElement {
 		super(x, y,w,h);
 		this.value = value;
 	}
-
-//	/**
-//	 * 	Toggles the state of this checkbox ON->OFF or OFF->ON
-//	 */
-//	public void toggle(){
-//		value = !value;
-//	}
 	
-//	/**
-//	 * Sets the value of greyedout to true (Button is now grey)
-//	 */
-//	public void greyOut(){
-//		this.greyedOut = true;
-//	}
-
 	/**
 	 * Whether this checkbox is checked or not
 	 */
 	private Boolean value = true;
 	
-	/**
-//	 * Whether this checkbox is greyed out or not
-//	 */
-//	private boolean greyedOut = false;
-//	
-//	public boolean getGreyedOut() {
-//		return greyedOut;
-//	}
-//	
+	public Boolean getValue(){
+		return value;
+	}
+	
+	public void setValue(Boolean value){
+		this.value = value;
+	}
+	
 	@Override
 	public void paint(Graphics g){
 		//Drawing inside:

@@ -100,7 +100,6 @@ public class Tablr {
 	
 	public void renameTable(Table t, String name) {
 		domainFacade.renameTable(t, name);
-//		domainChanged();
 	}
 	
 	public void toggleBlanks(Column col) throws Exception{
@@ -157,8 +156,8 @@ public class Tablr {
 	}
 
 	public void changeCellValue(Column col, int i, String string) throws ClassCastException {
-		domainChanged();
 		domainFacade.changeCellValue(col,i,string);
+		domainChanged();
 	}
 
 	public void toggleColumnType(Column col) throws InvalidTypeException {
@@ -244,8 +243,8 @@ public class Tablr {
 	}
 
 	public void toggleCellValueBoolean(Column col, int i) {
-		domainChanged();
 		domainFacade.toggleCellValueBoolean(col,i);
+		domainChanged();
 	}
 	
 	public Object getValue(Column col, int index){

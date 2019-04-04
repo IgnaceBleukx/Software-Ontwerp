@@ -156,9 +156,11 @@ public class TableDesignModeUI extends UI {
 						c.toggleBlanks(col);
 					} catch (Exception e) {
 						colBlankPol.isError();
+						colBlankPol.setValue(false);
 						c.getLock(colBlankPol);
 					}
 				}else {
+					colBlankPol.setValue(true);
 					colBlankPol.isNotError();
 					c.releaseLock(colBlankPol);
 				}

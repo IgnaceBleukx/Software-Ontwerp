@@ -40,13 +40,13 @@ public class TableRowsModeUI extends UI {
 		this.addUIElement(titleBar);
 			
 		//Adding listeners:
-				titleBar.addDragListener((x,yy) -> { 
-					this.setX(x);
-					this.setY(yy);
-				});
-				close.addSingleClickListener(() -> {
-					this.setInactive();
-				});		
+		titleBar.addDragListener((x,yy) -> { 
+			this.setX(x);
+			this.setY(yy);
+		});
+		close.addSingleClickListener(() -> {
+			this.setInactive();
+		});		
 					
 		
 		UITable uiTable = loadTable(tab, titleBar.getHeight(), cellHeight, cellWidth);
@@ -85,23 +85,15 @@ public class TableRowsModeUI extends UI {
 			for(Column col : getTablr().getColumns(tab)){
 				String val = getTablr().getValueString(col,i);
 				if(getTablr().getColumnType(col).equals(Type.BOOLEAN)){
-//					Boolean value = (Boolean) Column.parseValue(Type.BOOLEAN,val);
-//					Checkbox check = new Checkbox(x + (int)(cellWidth/2) - 10,y+(int)(cellHeight/2)-10,20,20,value == null ? false : value);
-//					if (value == null) check.greyOut();
-//					Text dummy = new Text(x,y,cellWidth,cellHeight,"");
-//					dummy.setBorder(true);
-//					emts.add(check);
-//					emts.add(dummy);
-//					int index = i;
-//					
 					Checkbox booleanValue = new Checkbox(x + (int)(cellWidth/2) - 10,y+(int)(cellHeight/2)-10,20,20,(Boolean) getTablr().getValue(col,i));
-					emts.add(booleanValue);
 					emts.add(new VoidElement(x,y,cellWidth, cellHeight, Color.white));
+					emts.add(booleanValue);
+					
 					
 					int index = i;
-					booleanValue.addSingleClickListener(() ->{
-						getTablr().toggleCellValueBoolean(col, index);
-					});
+					booleanValue.addSingleClickListener(() ->
+						getTablr().toggleCellValueBoolean(col, index)
+					);
 				}
 				else{				
 					TextField field =  new TextField(x,y,cellWidth, cellHeight,val);
