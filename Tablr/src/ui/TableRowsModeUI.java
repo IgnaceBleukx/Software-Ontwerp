@@ -111,6 +111,14 @@ public class TableRowsModeUI extends UI {
 		
 		addUIElement(uiTable);
 		
+		uiTable.addKeyboardListener(17, () -> {
+			c.loadTableDesignModeUI(tab);;
+		});
+		
+		uiTable.addDoubleClickListener(() -> {
+			c.addRow(tab);
+});
+		
 		//Adding listeners:
 		titleBar.addDragListener((x,yy) -> { 
 			this.setX(x);
