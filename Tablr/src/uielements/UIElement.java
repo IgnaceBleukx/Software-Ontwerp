@@ -1,5 +1,6 @@
 package uielements;
 
+import java.awt.Color;
 import java.awt.Font;
 import java.awt.FontMetrics;
 import java.awt.Graphics;
@@ -340,6 +341,16 @@ public abstract class UIElement {
 		lastClickedY = y;
 	}
 
-
+	private Color color = Color.white;
+	
+	public Color getColor(){
+		return this.color;
+	}
+	
+	public void setColor(Color color){
+		this.color =  color;
+	}
+	
+	
 	
 }

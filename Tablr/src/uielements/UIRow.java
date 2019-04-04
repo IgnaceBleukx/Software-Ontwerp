@@ -1,6 +1,7 @@
 package uielements;
 
 import java.awt.BasicStroke;
+import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.util.ArrayList;
@@ -32,6 +33,9 @@ public class UIRow extends UIElement {
 	 * draws the Row in the UI
 	 */
 	public void paint(Graphics g){
+		g.setColor(getColor());
+		g.fillRect(getX(), getY(), getWidth(), getHeight());
+		g.setColor(Color.black);
 		g.drawRect(getX(),getY(),getWidth(),getHeight());
 		for (UIElement e : this.elements){
 			e.paint(g);

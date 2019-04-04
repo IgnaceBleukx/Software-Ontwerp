@@ -40,9 +40,9 @@ public class Button extends UIElement {
 	@Override
 	public void paint(Graphics g) {
 	    // Drawing button
-	    int arcWidth = 8;
+		g.setColor(getColor());
+		int arcWidth = 8;
 		int arcHeight = 8;
-		g.setColor(color);
 		g.fillRoundRect(super.getX(), super.getY(), super.getWidth(), super.getHeight(), arcWidth, arcHeight);
 		g.setColor(Color.BLACK);
 		g.drawRoundRect(super.getX(), super.getY(), super.getWidth(), super.getHeight(), arcWidth, arcHeight);
@@ -72,15 +72,6 @@ public class Button extends UIElement {
 		dragListeners.stream().forEachOrdered(r -> r.accept(x, y));
 	}
 	
-	private Color color = Color.white;
-
-	public void setColor(Color c) {
-		this.color = c;
-	}
-	
-	protected Color getColor() {
-		return color;
-	}
 
 	
 }
