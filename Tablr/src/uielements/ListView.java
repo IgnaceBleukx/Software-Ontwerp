@@ -211,11 +211,5 @@ public class ListView extends UIElement {
 		return false;
 	}
 	
-	private Color color = Color.WHITE;
-	
-	public void setColor(Color c) {
-		color = c;
-	}
-	
 
 }

@@ -365,14 +365,10 @@ public class Column {
 
 	public void toggleDefaultBoolean() {
 		if (getColumnType() != Type.BOOLEAN) return;
-//		if (getDefault() == null) setDefaultValue(true);
-//		else if ((boolean)getDefault() == true) setDefaultValue(false);
-//		else if ((boolean)getDefault() == false && getBlankingPolicy()) setDefaultValue(null);
-//		else if ((boolean)getDefault() == false && !getBlankingPolicy()) setDefaultValue(true);
 		System.out.println("[Column.java:377] : current default value = " + getDefault());
-		Boolean current;
-		if (getDefault() == null) current = (Boolean) null;
-		else current = (boolean) getDefault();
+		Boolean current = (Boolean) getDefault();
+//		if (getDefault() == null) current = (Boolean) null;
+//		else current = (boolean) getDefault();
 		setDefaultValue(nextValueBoolean(current,getBlankingPolicy()));
 	}
 	

@@ -101,25 +101,17 @@ public class TableDesignModeUI extends UI {
 			Checkbox colBlankPol = new Checkbox(getX() +getWidth()*9/15 + margin + 10, currentHeight + 5, 20, 20, c.getBlankingPolicy(col));
 			String defaultValue = c.getDefaultString(col);
 
-			ArrayList<UIElement> list;
-			if(c.getColumnType(col) == Type.BOOLEAN){
-				Checkbox colDefCheck;
-				if (defaultValue == "") {
-					colDefCheck = new Checkbox(getX() + getWidth()*11/15 + margin + 10, currentHeight + 5,20,20, false);
-					colDefCheck.greyOut();
-				}
-				else colDefCheck = new Checkbox(480, currentHeight + 15,20,20,Boolean.parseBoolean(defaultValue));
-				
-				list = new ArrayList<UIElement>(){{ add(colName); add(colType); add(colBlankPol); add(colDefCheck);}};
-				
-				colDefCheck.addSingleClickListener(() -> {
+			ArrayList<UIElement> list = new ArrayList<UIElement>(){{ add(colName); add(colType); add(colBlankPol);}};
+			if(c.getColumnType(col) == Type.BOOLEAN){				
+				Checkbox defaultBoolean = new Checkbox(getX() + getWidth()*11/15 + margin + 10, currentHeight + 5,20,20,(Boolean) c.getDefaultValue(col));
+				list.add(defaultBoolean);
+				defaultBoolean.addSingleClickListener(() -> {
 					c.toggleDefault(col);
-					//loadColumnAttributes(table);
 				});
 			}
 			else{
 				TextField colDefText = new TextField(getX() + getWidth()*11/15+margin,currentHeight,getWidth() *4/15 ,30, defaultValue);
-				list = new ArrayList<UIElement>(){{ add(colName); add(colType); add(colBlankPol); add(colDefText);}};
+				list.add(colDefText);
 				colDefText.addKeyboardListener(-1,()-> {
 					try{
 						if (colDefText.getText().length() == 0) {
@@ -139,7 +131,6 @@ public class TableDesignModeUI extends UI {
 			}
 			
 			UIRow uiRow = new UIRow(getX(),currentHeight,getWidth(),30,list);
-			//this.addUIElement(uiRow);
 			currentHeight += 30;
 			listview.addElement(uiRow);			
 			
