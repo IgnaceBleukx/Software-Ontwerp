@@ -51,6 +51,7 @@ public class UITable extends UIElement {
 	@Override
 	public void paint(Graphics g) {
 		legend.paint(g);
+		g.drawRect(getX(), getY(), getWidth(), getHeight());
 		for(UIRow r : rows){
 			r.paint(g);
 		}

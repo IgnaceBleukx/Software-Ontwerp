@@ -47,9 +47,10 @@ public class TableRowsModeUI extends UI {
 		
 		UITable uiTable = new UITable(getX(), getY(), getWidth(), getHeight(), legend, new ArrayList<UIRow>());
 		
-		int rows = c.getRows(tab).size();
-		int y = getY()+cellHeight;
-		for(int i=0;i<rows;i++){
+		int numberOfRows = c.getRows(tab).size();
+		System.out.println("nbrows: " + numberOfRows);
+		int y = getY()+2*cellHeight;
+		for(int i=0;i<numberOfRows;i++){
 			int x = getX()+20;
 			ArrayList<UIElement> emts = new ArrayList<UIElement>();
 			for(Column col : c.getColumns(tab)){
@@ -86,7 +87,7 @@ public class TableRowsModeUI extends UI {
 				
 				
 			}
-			UIRow uiRow = new UIRow(super.getX(),y,super.getWidth(),cellHeight,emts);
+			UIRow uiRow = new UIRow(getX(),y,getWidth(),cellHeight,emts);
 			uiRow.setUI(this);
 			uiTable.addRow(uiRow);
 			y += cellHeight;
@@ -102,7 +103,7 @@ public class TableRowsModeUI extends UI {
 					c.removeRow(tab,index);
 					uiTable.removeRow(uiRow);
 					uiTable.selectElement(null);
-					System.out.println("Amount of rows in table: " + tab.getRows().size());					
+					System.out.println("[TableRowsModeUI.java: 105] Amount of rows in table: " + tab.getRows().size());					
 					//loadTable(tab, cellWidth, cellHeight);
 				}
 			});
