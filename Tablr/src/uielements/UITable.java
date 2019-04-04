@@ -61,17 +61,7 @@ public class UITable extends UIElement {
 	}
 
 	/**
-	 * TODO: dit was mij niet helemaal duidelijk!
-	 * @param tab
-	 * @param cellWidth
-	 * @param cellHeigth
-	 */
-	public void loadTable(Table tab,int cellWidth, int cellHeigth) {
-		
-	}
-	
-	/**
-	 * the currently selected element in this table
+	 * The currently selected element in this table
 	 */
 	private UIElement selected;
 	

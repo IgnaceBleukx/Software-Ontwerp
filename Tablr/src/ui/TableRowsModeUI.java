@@ -24,6 +24,7 @@ public class TableRowsModeUI extends UI {
 	
 	public void loadUI(Table tab){
 		setActive();
+		this.clear();
 		
 		Tablr c = getTablr();
 		int cellHeight = 15;
@@ -40,18 +41,16 @@ public class TableRowsModeUI extends UI {
 		
 		int a = 0;
 		for(String name: c.getColumnNames(tab)) {
-			legend.addElement(new TextField(getX()+a*getWidth()/cellWidth, getY(), cellWidth, 20, name));
+			legend.addElement(new Text(getX() + a*cellWidth, getY() + cellHeight, cellWidth, 20, name));
+			a++;
 		}
-		
 		
 		UITable uiTable = new UITable(getX(), getY(), getWidth(), getHeight(), legend, new ArrayList<UIRow>());
 		
-		
-		
 		int rows = c.getRows(tab).size();
-		int y = super.getY()+cellHeight;
+		int y = getY()+cellHeight;
 		for(int i=0;i<rows;i++){
-			int x = super.getX()+20;
+			int x = getX()+20;
 			ArrayList<UIElement> emts = new ArrayList<UIElement>();
 			for(Column col : c.getColumns(tab)){
 				String val = c.getValueString(col,i);
@@ -108,6 +107,8 @@ public class TableRowsModeUI extends UI {
 				}
 			});
 		}
+		
+		addUIElement(uiTable);
 		
 		//Adding listeners:
 		titleBar.addDragListener((x,yy) -> { 
