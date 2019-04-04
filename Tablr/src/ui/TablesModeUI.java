@@ -122,12 +122,13 @@ public class TablesModeUI extends UI {
 					if (e.getError()) return;
 				}
 				if (tablr.isEmptyTable(curr)) {
-					System.out.println("[TablesModeUI.java:111]: Opening an empty table -> DesignMode");
+					System.out.println("[TablesModeUI.java:125]: Opening an empty table -> DesignMode");
 				//	tablr.changeTitle("Table Design Mode: "+curr.getName());
 					this.getWindowManager().loadTableDesignModeUI(curr);
 				}
 				else {
-					tablr.loadTableRowsModeUI(curr);;
+					System.out.println("[TablesModeUI.java:130]: Opening a table rows mode");
+					this.getWindowManager().loadTableRowsModeUI(curr);
 					tablr.changeTitle("Table Rows Mode: "+curr.getName());
 
 				}

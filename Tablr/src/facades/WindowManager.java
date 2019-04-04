@@ -84,8 +84,11 @@ public class WindowManager {
 	}
 	
 	public void loadTableRowsModeUI(Table table){
-		this.selectedUI = tableRowsModeUIs.get(table);
-		tableRowsModeUIs.get(table).loadUI(table);
+		TableRowsModeUI ui = tableRowsModeUIs.get(table);
+		this.selectedUI = ui;
+		ui.setTablr(tablr);
+		ui.setWindowManager(this);
+		ui.loadUI(table);
 	}
 	
 	public void loadTableDesignModeUI(Table table){
