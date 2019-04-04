@@ -1,15 +1,19 @@
 package ui;
 
+import java.awt.Color;
 import java.util.ArrayList;
+import java.util.Optional;
 
 import uielements.Button;
 import uielements.Checkbox;
 import uielements.CloseButton;
+import uielements.ListView;
 import uielements.Text;
 import uielements.TextField;
 import uielements.UIElement;
 import uielements.UIRow;
 import uielements.UITable;
+import uielements.VoidElement;
 import domain.Column;
 import domain.Table;
 import domain.Type;
@@ -27,46 +31,76 @@ public class TableRowsModeUI extends UI {
 		this.clear();
 		
 		Tablr c = getTablr();
-		int cellHeight = 15;
+		int cellHeight = 30;
 		int cellWidth = getWidth()/c.getColumnNames(tab).size();
 		
 		Button titleBar = new Button(getX(), getY(), getWidth() - 30, cellHeight, "Table Rows Mode");
 		CloseButton close = new CloseButton(getX() + getWidth() - 30, getY(), 30, cellHeight, 4);
 		this.addUIElement(close);
 		this.addUIElement(titleBar);
+			
+		//Adding listeners:
+				titleBar.addDragListener((x,yy) -> { 
+					this.setX(x);
+					this.setY(yy);
+				});
+				close.addSingleClickListener(() -> {
+					this.setInactive();
+				});		
+					
+		
+		UITable uiTable = loadTable(tab, titleBar.getHeight(), cellHeight, cellWidth);
+		this.addUIElement(uiTable);
+		
+		//Adding domainchangedListener
+		tablr.addDomainChangedListener(() ->{
+			//Remove the old uiTable
+			Optional<UIElement> ll = getElements().stream().filter(e -> e instanceof UITable).findFirst();
+			this.getElements().remove(ll.orElseThrow(() -> new RuntimeException("No UITable to bind listener to.")));
+			
+			//Load new ListView from tables
+			addUIElement(loadTable(tab, titleBar.getHeight(), cellHeight, cellWidth));
+		});
 		
 		
+	}
+	public UITable loadTable(Table tab, int titleHeight, int cellHeight, int cellWidth){
 		//Creating legend with all column names:
 		UIRow legend = new UIRow(getX(), getY() + cellHeight, getWidth(), 30, new ArrayList<UIElement>());
 		
 		int a = 0;
-		for(String name: c.getColumnNames(tab)) {
+		for(String name: getTablr().getColumnNames(tab)) {
 			legend.addElement(new Text(getX() + a*cellWidth, getY() + cellHeight, cellWidth, 20, name));
 			a++;
 		}
 		
 		UITable uiTable = new UITable(getX(), getY(), getWidth(), getHeight(), legend, new ArrayList<UIRow>());
 		
-		int numberOfRows = c.getRows(tab).size();
+		int numberOfRows = getTablr().getRows(tab).size();
 		System.out.println("nbrows: " + numberOfRows);
 		int y = getY()+2*cellHeight;
 		for(int i=0;i<numberOfRows;i++){
 			int x = getX()+20;
 			ArrayList<UIElement> emts = new ArrayList<UIElement>();
-			for(Column col : c.getColumns(tab)){
-				String val = c.getValueString(col,i);
-				if(c.getColumnType(col).equals(Type.BOOLEAN)){
-					Boolean value = (Boolean) Column.parseValue(Type.BOOLEAN,val);
-					Checkbox check = new Checkbox(x + (int)(cellWidth/2) - 10,y+(int)(cellHeight/2)-10,20,20,value == null ? false : value);
-					if (value == null) check.greyOut();
-					Text dummy = new Text(x,y,cellWidth,cellHeight,"");
-					dummy.setBorder(true);
-					emts.add(check);
-					emts.add(dummy);
+			for(Column col : getTablr().getColumns(tab)){
+				String val = getTablr().getValueString(col,i);
+				if(getTablr().getColumnType(col).equals(Type.BOOLEAN)){
+//					Boolean value = (Boolean) Column.parseValue(Type.BOOLEAN,val);
+//					Checkbox check = new Checkbox(x + (int)(cellWidth/2) - 10,y+(int)(cellHeight/2)-10,20,20,value == null ? false : value);
+//					if (value == null) check.greyOut();
+//					Text dummy = new Text(x,y,cellWidth,cellHeight,"");
+//					dummy.setBorder(true);
+//					emts.add(check);
+//					emts.add(dummy);
+//					int index = i;
+//					
+					Checkbox booleanValue = new Checkbox(x + (int)(cellWidth/2) - 10,y+(int)(cellHeight/2)-10,20,20,(Boolean) getTablr().getValue(col,i));
+					emts.add(booleanValue);
+					emts.add(new VoidElement(x,y,cellWidth, cellHeight, Color.white));
+					
 					int index = i;
-					check.addSingleClickListener(() ->{
-						c.toggleCellValueBoolean(col, index);
-						//loadTable(tab,cellWidth, cellHeight);
+					booleanValue.addSingleClickListener(() ->{
+						getTablr().toggleCellValueBoolean(col, index);
 					});
 				}
 				else{				
@@ -75,8 +109,8 @@ public class TableRowsModeUI extends UI {
 					int index = i;
 					field.addKeyboardListener(-1, () -> {
 						try{
-							if (field.getText().length() == 0)	c.changeCellValue(col, index, "");
-							else c.changeCellValue(col,index,field.getText());
+							if (field.getText().length() == 0)	getTablr().changeCellValue(col, index, "");
+							else getTablr().changeCellValue(col,index,field.getText());
 							if(field.getError()) field.isNotError();
 						}catch(ClassCastException e){
 							field.isError();
@@ -100,7 +134,7 @@ public class TableRowsModeUI extends UI {
 			uiRow.addKeyboardListener(127, () -> {
 				if(uiRow.equals(uiTable.getSelected())){
 					int index = uiTable.getRows().indexOf(uiRow);
-					c.removeRow(tab,index);
+					getTablr().removeRow(tab,index);
 					uiTable.removeRow(uiRow);
 					uiTable.selectElement(null);
 					System.out.println("[TableRowsModeUI.java: 105] Amount of rows in table: " + tab.getRows().size());					
@@ -112,22 +146,14 @@ public class TableRowsModeUI extends UI {
 		addUIElement(uiTable);
 		
 		uiTable.addKeyboardListener(17, () -> {
-			c.loadTableDesignModeUI(tab);;
+			getTablr().loadTableDesignModeUI(tab);;
 		});
 		
 		uiTable.addDoubleClickListener(() -> {
-			c.addRow(tab);
-});
-		
-		//Adding listeners:
-		titleBar.addDragListener((x,yy) -> { 
-			this.setX(x);
-			this.setY(yy);
+			getTablr().addRow(tab);
 		});
-		close.addSingleClickListener(() -> {
-			this.setInactive();
-		});		
-			
+		
+		return uiTable;
 	}
 	
 }
