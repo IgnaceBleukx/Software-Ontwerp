@@ -119,7 +119,6 @@ public class Tablr {
 
 	public void setColumnName(Column col, String text) throws InvalidNameException {
 		domainFacade.setColumnName(col,text);
-		domainChanged();
 	}
 
 	public void addRow(Table tab) {
@@ -163,13 +162,13 @@ public class Tablr {
 	}
 
 	public void toggleColumnType(Column col) throws InvalidTypeException {
-		domainChanged();
 		domainFacade.toggleColumnType(col);
+		domainChanged();
 	}
 	
 	public void setDefault(Column col, String def) throws ClassCastException {
-		domainChanged();
 		domainFacade.setDefault(col,def);
+		domainChanged();
 	}
 
 	public Type getColumnType(Column col) {
@@ -201,8 +200,8 @@ public class Tablr {
 	}
 
 	public void toggleDefault(Column col) {
-		domainChanged();
 		domainFacade.toggleDefault(col);
+		domainChanged();
 	}
 
 	public void getLock(UIElement e) {
@@ -216,8 +215,8 @@ public class Tablr {
 
 
 	public void setColumnType(Column col, Type type) throws InvalidTypeException {
-		domainChanged();
 		domainFacade.setColumnType(col,type);
+		domainChanged();
 	}
 	
 	private ArrayList<Runnable> titleChangeRunnables = new ArrayList<>();

@@ -69,6 +69,7 @@ public class MyCanvasWindow extends CanvasWindow {
 			System.out.println("[MyCanvasWindow.java:67]: No UI at these coordinates");
 			return;
 		}
+		getTablr().selectUI(clicked.getUI());
 //		System.out.println("[MyCanvasWindow.java:71]: Clicked on: " + clicked);
 //		System.out.println("[MyCanvaswindow.java:72] : Id = " +id);
 //		System.out.println("[MyCanvaswindow.java:73] : X-coordinate = " + x);

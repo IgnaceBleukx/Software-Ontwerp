@@ -1,5 +1,6 @@
 package ui;
 
+import java.awt.Color;
 import java.util.ArrayList;
 import java.util.Optional;
 
@@ -11,6 +12,7 @@ import uielements.Text;
 import uielements.TextField;
 import uielements.UIElement;
 import uielements.UIRow;
+import uielements.VoidElement;
 import domain.Column;
 import domain.Table;
 import domain.Type;
@@ -34,6 +36,9 @@ public class TableDesignModeUI extends UI {
 		int titleHeight = 15;
 		int currentHeight = getY()+13;
 		int margin = getWidth() / 15;
+		
+		VoidElement background = new VoidElement(getX(), getY(), getWidth(), getHeight(), new Color(230,230,230,230));
+		addUIElement(background);
 		
 		Button titleBar = new Button(getX(), getY(), getWidth() - 30, titleHeight, "Table Design Mode");
 		CloseButton close = new CloseButton(getX() + getWidth() - 30, getY(), 30, titleHeight, 4);
@@ -86,7 +91,7 @@ public class TableDesignModeUI extends UI {
 		int margin = getWidth() / 15;
 		int currentHeight = getY() + 30;
 		
-		ListView listview = new ListView(getX(), currentHeight, getWidth(), getHeight()-titleHeight, new ArrayList<UIElement>());
+		ListView listview = new ListView(getX(), currentHeight, getWidth(), getHeight()-titleHeight-20, new ArrayList<UIElement>());
 		Tablr c = getTablr();
 		
 		for(Column col : c.getColumns(table)){
@@ -127,6 +132,9 @@ public class TableDesignModeUI extends UI {
 					}catch(ClassCastException e){
 						colDefText.isError();
 					}
+				});
+				colDefText.addKeyboardListener(10,() -> {
+					getTablr().domainChanged();
 				});
 			}
 			
@@ -203,6 +211,9 @@ public class TableDesignModeUI extends UI {
 				}catch (InvalidNameException e){
 					colName.isError();
 				}
+			});
+			colName.addKeyboardListener(10,() -> {
+				getTablr().domainChanged();
 			});
 			
 		}

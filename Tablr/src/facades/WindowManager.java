@@ -92,7 +92,6 @@ public class WindowManager {
 		TableDesignModeUI ui = tableDesignModeUIs.get(table);
 		ui.setTablr(tablr);
 		ui.setWindowManager(this);
-		this.selectedUI = ui;
 		ui.loadUI(table);
 	}
 	
