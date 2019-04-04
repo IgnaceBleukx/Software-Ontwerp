@@ -34,7 +34,7 @@ public class TableRowsModeUI extends UI {
 		int cellHeight = 30;
 		int cellWidth = getWidth()/c.getColumnNames(tab).size();
 		
-		Button titleBar = new Button(getX(), getY(), getWidth() - 30, cellHeight, "Table Rows Mode");
+		Button titleBar = new Button(getX(), getY(), getWidth() - 30, cellHeight, "Table Rows Mode: " + tab.getName());
 		CloseButton close = new CloseButton(getX() + getWidth() - 30, getY(), 30, cellHeight, 4);
 		this.addUIElement(close);
 		this.addUIElement(titleBar);
@@ -60,6 +60,8 @@ public class TableRowsModeUI extends UI {
 			
 			//Load new ListView from tables
 			addUIElement(loadTable(tab, titleBar.getHeight(), cellHeight, cellWidth));
+
+			titleBar.setText("Table Design Mode: " + tab.getName());
 		});
 		
 		

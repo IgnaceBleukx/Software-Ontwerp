@@ -40,7 +40,7 @@ public class TableDesignModeUI extends UI {
 		VoidElement background = new VoidElement(getX(), getY(), getWidth(), getHeight(), new Color(230,230,230,230));
 		addUIElement(background);
 		
-		Button titleBar = new Button(getX(), getY(), getWidth() - 30, titleHeight, "Table Design Mode");
+		Button titleBar = new Button(getX(), getY(), getWidth() - 30, titleHeight, "Table Design Mode: " + table.getName());
 		CloseButton close = new CloseButton(getX() + getWidth() - 30, getY(), 30, titleHeight, 4);
 		this.addUIElement(close);
 		this.addUIElement(titleBar);
@@ -82,6 +82,8 @@ public class TableDesignModeUI extends UI {
 			
 			//Load new ListView from tables
 			addUIElement(loadColumnAttributes(table, titleHeight));
+			
+			titleBar.setText("Table Design Mode: " + table.getName());
 		});
 
 	}

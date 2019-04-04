@@ -33,7 +33,7 @@ public class Button extends UIElement {
 	 * @param t: The text to be set to the current Button.
 	 * This method sets the text of the current Button.
 	 */
-	private void setText(String t){
+	public void setText(String t){
 		this.text = t;
 	}
 
