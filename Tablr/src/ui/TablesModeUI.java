@@ -10,6 +10,7 @@ import uielements.Button;
 import uielements.CloseButton;
 import uielements.ListView;
 import uielements.TextField;
+import uielements.Titlebar;
 import uielements.UIElement;
 import uielements.UIRow;
 import uielements.VoidElement;
@@ -31,7 +32,7 @@ public class TablesModeUI extends UI {
 		//Creating background:
 		addUIElement(new VoidElement(getX(), getY(), getWidth(), getHeight(), new Color(230,230,230,230)));
 		
-		Button titleBar = new Button(getX(),getY(),getWidth()-30,titleHeight,"Tables Mode");
+		Titlebar titleBar = new Titlebar(getX(),getY(),getWidth()-30,titleHeight,"Tables Mode");
 		CloseButton close = new CloseButton(getX()+getWidth()-30,getY(),30,titleHeight,4);
 		this.addUIElement(close);
 		this.addUIElement(titleBar);

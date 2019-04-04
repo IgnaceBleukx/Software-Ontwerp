@@ -3,9 +3,12 @@ package ui;
 import java.awt.Color;
 import java.awt.Graphics;
 import java.util.ArrayList;
+import java.util.Optional;
 
 import facades.Tablr;
 import facades.WindowManager;
+import uielements.CloseButton;
+import uielements.Titlebar;
 import uielements.UIElement;
 
 
@@ -221,10 +224,16 @@ public class UI {
 	
 	public void select(){
 		isSelected = true;
+		for (UIElement e : elements){
+			if (e instanceof Titlebar|| e instanceof CloseButton) e.setColor(new Color(200,200,200));
+		}
 	}
 	
 	public void deselect(){
 		isSelected = false;
+		for (UIElement e : elements){
+			if (e instanceof Titlebar || e instanceof CloseButton) e.setColor(Color.WHITE);
+		}
 	}
 	
 	public boolean isSelected(){

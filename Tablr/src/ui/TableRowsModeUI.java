@@ -10,6 +10,7 @@ import uielements.CloseButton;
 import uielements.ListView;
 import uielements.Text;
 import uielements.TextField;
+import uielements.Titlebar;
 import uielements.UIElement;
 import uielements.UIRow;
 import uielements.UITable;
@@ -34,7 +35,7 @@ public class TableRowsModeUI extends UI {
 		int cellHeight = 30;
 		int cellWidth = getWidth()/c.getColumnNames(tab).size();
 		
-		Button titleBar = new Button(getX(), getY(), getWidth() - 30, cellHeight, "Table Rows Mode: " + tab.getName());
+		Titlebar titleBar = new Titlebar(getX(), getY(), getWidth() - 30, cellHeight, "Table Rows Mode: " + tab.getName());
 		CloseButton close = new CloseButton(getX() + getWidth() - 30, getY(), 30, cellHeight, 4);
 		this.addUIElement(close);
 		this.addUIElement(titleBar);
