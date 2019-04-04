@@ -34,7 +34,7 @@ public class TableRowsModeUI extends UI {
 		int cellHeight = 30;
 		int cellWidth = getWidth()/c.getColumnNames(tab).size();
 		
-		Button titleBar = new Button(getX(), getY(), getWidth() - 30, cellHeight, "Table Rows Mode");
+		Button titleBar = new Button(getX(), getY(), getWidth() - 30, cellHeight, "Table Rows Mode: " + tab.getName());
 		CloseButton close = new CloseButton(getX() + getWidth() - 30, getY(), 30, cellHeight, 4);
 		this.addUIElement(close);
 		this.addUIElement(titleBar);
@@ -60,6 +60,8 @@ public class TableRowsModeUI extends UI {
 			
 			//Load new ListView from tables
 			addUIElement(loadTable(tab, titleBar.getHeight(), cellHeight, cellWidth));
+
+			titleBar.setText("Table Design Mode: " + tab.getName());
 		});
 		
 		
@@ -120,16 +122,20 @@ public class TableRowsModeUI extends UI {
 			
 			//Adding listeners:
 			uiRow.addSingleClickListener(()->{
-				uiTable.selectElement(uiRow); 
+				for (UIElement e : getElements())
+					if (e.getError()) return;
+				if(uiRow.isSelected()) uiRow.deselect();
+				else uiRow.select();
 			});
 			
 			uiRow.addKeyboardListener(127, () -> {
-				if(uiRow.equals(uiTable.getSelected())){
+				if(uiRow.isSelected()){
 					int index = uiTable.getRows().indexOf(uiRow);
 					getTablr().removeRow(tab,index);
 					uiTable.removeRow(uiRow);
+					tablr.removeRow(tab, index);
 					uiTable.selectElement(null);
-					System.out.println("[TableRowsModeUI.java: 105] Amount of rows in table: " + tab.getRows().size());					
+					System.out.println("[TableRowsModeUI.java: 138] Amount of rows in table: " + tab.getRows().size());					
 					//loadTable(tab, cellWidth, cellHeight);
 				}
 			});
