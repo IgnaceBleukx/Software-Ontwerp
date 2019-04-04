@@ -24,6 +24,7 @@ public class TableRowsModeUI extends UI {
 	
 	public void loadUI(Table tab){
 		setActive();
+		this.clear();
 		
 		Tablr c = getTablr();
 		int cellHeight = 15;
@@ -40,18 +41,17 @@ public class TableRowsModeUI extends UI {
 		
 		int a = 0;
 		for(String name: c.getColumnNames(tab)) {
-			legend.addElement(new TextField(getX()+a*getWidth()/cellWidth, getY(), cellWidth, 20, name));
+			legend.addElement(new Text(getX() + a*cellWidth, getY() + cellHeight, cellWidth, 20, name));
+			a++;
 		}
-		
 		
 		UITable uiTable = new UITable(getX(), getY(), getWidth(), getHeight(), legend, new ArrayList<UIRow>());
 		
-		
-		
-		int rows = c.getRows(tab).size();
-		int y = super.getY()+cellHeight;
-		for(int i=0;i<rows;i++){
-			int x = super.getX()+20;
+		int numberOfRows = c.getRows(tab).size();
+		System.out.println("nbrows: " + numberOfRows);
+		int y = getY()+2*cellHeight;
+		for(int i=0;i<numberOfRows;i++){
+			int x = getX()+20;
 			ArrayList<UIElement> emts = new ArrayList<UIElement>();
 			for(Column col : c.getColumns(tab)){
 				String val = c.getValueString(col,i);
@@ -87,7 +87,7 @@ public class TableRowsModeUI extends UI {
 				
 				
 			}
-			UIRow uiRow = new UIRow(super.getX(),y,super.getWidth(),cellHeight,emts);
+			UIRow uiRow = new UIRow(getX(),y,getWidth(),cellHeight,emts);
 			uiRow.setUI(this);
 			uiTable.addRow(uiRow);
 			y += cellHeight;
@@ -103,11 +103,21 @@ public class TableRowsModeUI extends UI {
 					c.removeRow(tab,index);
 					uiTable.removeRow(uiRow);
 					uiTable.selectElement(null);
-					System.out.println("Amount of rows in table: " + tab.getRows().size());					
+					System.out.println("[TableRowsModeUI.java: 105] Amount of rows in table: " + tab.getRows().size());					
 					//loadTable(tab, cellWidth, cellHeight);
 				}
 			});
 		}
+		
+		addUIElement(uiTable);
+		
+		uiTable.addKeyboardListener(17, () -> {
+			c.loadTableDesignModeUI(tab);;
+		});
+		
+		uiTable.addDoubleClickListener(() -> {
+			c.addRow(tab);
+});
 		
 		//Adding listeners:
 		titleBar.addDragListener((x,yy) -> { 
