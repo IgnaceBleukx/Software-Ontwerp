@@ -1,4 +1,11 @@
 TODO:
 
-- Onderscheid maken tussen STRING en EMAIL
 - !!!! In ListView regel 162 en 166 code uncommenten!!! EN in MyCanvasWindow regel 28
+
+- Add a horizontal and vertical scrollbar
+- User can resize subwindow  by draging its borders or its corners
+- Moving title subwindow via title bar (al bijna geïmplementeerd)
+- Scrollbar is shown disabled if height of content is not greater than height of subwindow
+- User can drag scroll button or click scrollbar above or below scroll button to scroll (oplossing: rechthoek boven en onder de scrollbar toevoegen)
+- activated subwindow is distinguished visually from other subwindows
+- If the active subwindow is closed, and any subwindows remain, of those subwindows the one that was active most recently becomes again the active subwindow.
