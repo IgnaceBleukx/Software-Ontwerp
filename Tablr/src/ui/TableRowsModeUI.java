@@ -122,16 +122,20 @@ public class TableRowsModeUI extends UI {
 			
 			//Adding listeners:
 			uiRow.addSingleClickListener(()->{
-				uiTable.selectElement(uiRow); 
+				for (UIElement e : getElements())
+					if (e.getError()) return;
+				if(uiRow.isSelected()) uiRow.deselect();
+				else uiRow.select();
 			});
 			
 			uiRow.addKeyboardListener(127, () -> {
-				if(uiRow.equals(uiTable.getSelected())){
+				if(uiRow.isSelected()){
 					int index = uiTable.getRows().indexOf(uiRow);
 					getTablr().removeRow(tab,index);
 					uiTable.removeRow(uiRow);
+					tablr.removeRow(tab, index);
 					uiTable.selectElement(null);
-					System.out.println("[TableRowsModeUI.java: 105] Amount of rows in table: " + tab.getRows().size());					
+					System.out.println("[TableRowsModeUI.java: 138] Amount of rows in table: " + tab.getRows().size());					
 					//loadTable(tab, cellWidth, cellHeight);
 				}
 			});
