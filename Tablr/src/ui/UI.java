@@ -107,13 +107,9 @@ public class UI {
 	 * This method paints the current canvaswindow.UI.
 	 */
 	public void paint(Graphics g){
-		for (UIElement e : getElements()){
-			e.paint(g);
-		}
+		getElements().stream().forEach(e -> e.paint(g));
 	}
 	
-	
-
 	/**
 	 * Returns the most specific UIElement that is an element of this canvaswindow.UI at position (x,y)
 	 * @param x		X Coordinate
@@ -219,6 +215,20 @@ public class UI {
 	
 	public UIElement getLastClicked(){
 		return this.lastClicked;
+	}
+	
+	private boolean isSelected;
+	
+	public void select(){
+		isSelected = true;
+	}
+	
+	public void deselect(){
+		isSelected = false;
+	}
+	
+	public boolean isSelected(){
+		return isSelected;
 	}
 	
 	@Override

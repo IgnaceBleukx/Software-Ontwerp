@@ -70,10 +70,10 @@ public class MyCanvasWindow extends CanvasWindow {
 			return;
 		}
 		getTablr().selectUI(clicked.getUI());
-//		System.out.println("[MyCanvasWindow.java:71]: Clicked on: " + clicked);
-//		System.out.println("[MyCanvaswindow.java:72] : Id = " +id);
-//		System.out.println("[MyCanvaswindow.java:73] : X-coordinate = " + x);
-//		System.out.println("[MyCanvaswindow.java:74] : Y-coordinate = " + y);
+		System.out.println("[MyCanvasWindow.java:71]: Clicked on: " + clicked);
+		System.out.println("[MyCanvaswindow.java:72] : Id = " +id);
+		System.out.println("[MyCanvaswindow.java:73] : X-coordinate = " + x);
+		System.out.println("[MyCanvaswindow.java:74] : Y-coordinate = " + y);
 				
 		if (clicked == null) return;
 		

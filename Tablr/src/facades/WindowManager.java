@@ -165,17 +165,20 @@ public class WindowManager {
 
 	public void paint(Graphics g) {
 		//Paint all UI's that are active
-		tablesModeUIs.stream().filter(x->x.isActive()).forEach(e -> e.paint(g));
-		tableRowsModeUIs.values().stream().filter((e) -> e.isActive()).forEach((e) -> e.paint(g));
-		tableDesignModeUIs.values().stream().filter((e) -> e.isActive()).forEach((e) -> e.paint(g));
+		tablesModeUIs.stream().filter(u->u.isActive() && !u.equals(selectedUI)).forEach(e -> e.paint(g));
+		tableRowsModeUIs.values().stream().filter((u) -> u.isActive() && !u.equals(selectedUI)).forEach((e) -> e.paint(g));
+		tableDesignModeUIs.values().stream().filter((u) -> u.isActive() && !u.equals(selectedUI)).forEach((e) -> e.paint(g));
+		if (selectedUI != null) selectedUI.paint(g);
  	}
 	
 	public UI getSelectedUI() {
 		return this.selectedUI;
 	}
 	
-	public void selectUI(UI e) {
-		this.selectedUI = e;
+	public void selectUI(UI u) {
+		selectedUI.deselect();
+		this.selectedUI = u;
+		u.select();
 	}
 	
 	/**
