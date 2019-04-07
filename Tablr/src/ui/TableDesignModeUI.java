@@ -68,6 +68,7 @@ public class TableDesignModeUI extends UI {
 		});
 		close.addSingleClickListener(() -> {
 			this.setInactive();
+			getWindowManager().selectUI(null);
 		});		
 		
 		

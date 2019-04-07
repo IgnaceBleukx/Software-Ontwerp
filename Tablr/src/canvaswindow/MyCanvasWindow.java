@@ -1,6 +1,7 @@
 package canvaswindow;
 
 import java.awt.Graphics;
+import java.awt.event.MouseEvent;
 
 import uielements.*;
 
@@ -70,28 +71,33 @@ public class MyCanvasWindow extends CanvasWindow {
 			return;
 		}
 		getTablr().selectUI(clicked.getUI());
-		System.out.println("[MyCanvasWindow.java:71]: Clicked on: " + clicked);
-		System.out.println("[MyCanvaswindow.java:72] : Id = " +id);
-		System.out.println("[MyCanvaswindow.java:73] : X-coordinate = " + x);
-		System.out.println("[MyCanvaswindow.java:74] : Y-coordinate = " + y);
+//		System.out.println("[MyCanvasWindow.java:71]: Clicked on: " + clicked);
+//		System.out.println("[MyCanvaswindow.java:72] : Id = " +id);
+//		System.out.println("[MyCanvaswindow.java:73] : X-coordinate = " + x);
+//		System.out.println("[MyCanvaswindow.java:74] : Y-coordinate = " + y);
 				
 		if (clicked == null) return;
 		
 		//Mouse pressed
-		if (id % 3 == 0) {
+		if (id  == MouseEvent.MOUSE_PRESSED) {
+			System.out.println("[MyCanvasWindow.java:83]: Mouse Pressed!");
 			clicked.handlePressed(x, y);
 		}
 		//Mouse dragged
-		else if(id % 3 == 2 && id % 4 == 2) {
+		else if (id == MouseEvent.MOUSE_DRAGGED) {
+			System.out.println("[MyCanvasWindow.java:88]: Mouse Dragged!");
+			dragCounter++;
 			clicked.handleDrag(x,y);
-			clicked.handlePressed(x,y);
+			clicked.handlePressed(x, y);
 		}
 		//Mouse released
-		else if (id % 3 == 1) {
-			
+		else if (id == MouseEvent.MOUSE_RELEASED) {	
+			System.out.println("[MyCanvasWindow.java:94]: Mouse Released!");
+			clicked.handleReleased();
 		}
 		//Mouse clicked
-		else if (id %  3 == 2 && id % 4 == 0) {
+		else if (id == MouseEvent.MOUSE_CLICKED) {
+			System.out.println("[MyCanvasWindow.java:99]: Mouse Clicked!");
 			/**
 			 * Some element has a hard lock, ignore this input if the
 			 * element getting the input is not the element that has the hard lock
@@ -114,7 +120,7 @@ public class MyCanvasWindow extends CanvasWindow {
 	// Date that keeps track of the latest time a 'Ctrl' button is clicked
 	private Date ctrlTimestamp = null;
 	private int milliSecondsWaiting = 1000;
-	
+	private int dragCounter = 0;
 
 	private void checkCtrlT(int keyCode) {
 		// 17 is Ctrl

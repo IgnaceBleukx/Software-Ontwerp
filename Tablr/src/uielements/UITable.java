@@ -116,7 +116,7 @@ public class UITable extends UIElement {
 	
 	@Override
 	public void handleDrag(int x, int y) {
-		dragListeners.stream().forEachOrdered(r -> r.accept(x, y));
+		dragListeners.stream().forEach(r -> r.accept(x, y));
 	}
 	
 	@Override
@@ -167,5 +167,12 @@ public class UITable extends UIElement {
 	public void removeRow(UIRow uiRow) {
 		this.rows.remove(uiRow);
 		
+	}
+	
+	@Override
+	public void move(int deltaX, int deltaY) {
+		setX(getX() + deltaX);
+		setY(getY() + deltaY);
+		rows.stream().forEach(e -> e.move(deltaX, deltaY));
 	}
 }

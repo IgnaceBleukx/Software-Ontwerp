@@ -28,24 +28,14 @@ public class ListView extends UIElement {
 		updateScrollBar();
 	}
 	
-	private Button scrollBar;
-
-	public void updateScrollBar() {
-		int elementsHeigth = elements.stream().mapToInt(e -> e.getHeight()).sum();
-		int scrollHeight = elementsHeigth <= getHeight() ? getHeight() : getHeight()*getHeight() / elementsHeigth ;
-		scrollBar = new Button(getX()+getWidth()-10,getY(),10,scrollHeight,"||");
-		scrollBar.setUI(getUI());
-		scrollBar.setColor(Color.LIGHT_GRAY);
+	private ScrollBar scrollBarV = new ScrollBar(getX() + getWidth() -10, getY(),10,getHeight()-10, ScrollDirection.VERTICAL);
+	private ScrollBar scrollBarH = new ScrollBar(getX(), getY() + getHeight() - 10, getWidth()-10, 10, ScrollDirection.HORIZONTAL);
 		
-		//AddingDragListener
-		scrollBar.addDragListener((newX,newY) -> {
-			int delta = newX - scrollBar.getLastClickedX();
-			int y = scrollBar.getY() + delta < getY() || scrollBar.getY() > getY()+getHeight() ? scrollBar.getY() : scrollBar.getY() + delta;
-			scrollBar.setY(y);
-		});
-		
+	private void updateScrollBar() {
+		scrollBarV.update(elements.stream().mapToInt(e -> e.getHeight()).sum(), this.getHeight());
+		scrollBarH.update(elements.stream().mapToInt(e -> e.getWidth()).sum(), this.getWidth());
 	}
-		
+	
 	
 	/**
 	 * This method adds an element to the current ListView.
@@ -116,7 +106,8 @@ public class ListView extends UIElement {
 		g.setClip(getX(), getY(),getWidth(), getHeight());
 		elements.stream().forEach(e -> e.paint(g));
 		g.setClip(null);
-		scrollBar.paint(g);
+		scrollBarV.paint(g);
+		scrollBarH.paint(g);
 	}
 	
 	@Override
@@ -124,14 +115,13 @@ public class ListView extends UIElement {
 		if (!containsPoint(x,y)) return null;
 		
 		UIElement found = null;
-		
+		if (scrollBarV.containsPoint(x, y) && scrollBarV.isActive()) return scrollBarV;
+		if (scrollBarH.containsPoint(x, y) && scrollBarH.isActive()) return scrollBarH;
 		for (UIElement e : elements) {
-			System.out.println("[ListView.java:113]: " + e);
 			found = e.locatedAt(x,y);
 			if (found != null)
 				return found;
 		}
-		if (scrollBar.containsPoint(x, y)) return scrollBar;
 		return this;		
 	}
 		
@@ -175,7 +165,7 @@ public class ListView extends UIElement {
 	
 	@Override
 	public void handleDrag(int x, int y) {
-		dragListeners.stream().forEachOrdered(r -> r.accept(x, y));
+		dragListeners.stream().forEach(r -> r.accept(x, y));
 	}
 		
 	@Override
@@ -193,7 +183,7 @@ public class ListView extends UIElement {
 	@Override
 	public void setUI(UI ui) {
 		this.ui = ui;
-		scrollBar.setUI(ui);
+		scrollBarV.setUI(ui);
 		elements.stream().forEach(e -> e.setUI(ui));
 	}
 	
@@ -211,5 +201,14 @@ public class ListView extends UIElement {
 		return false;
 	}
 	
-
+	@Override
+	public void move(int deltaX, int deltaY) {
+		setX(getX() + deltaX);
+		setY(getY() + deltaY);
+		scrollBarH.move(deltaX, deltaY);
+		scrollBarV.move(deltaX, deltaY);
+		elements.stream().forEach(e -> e.move(deltaX, deltaY));
+	}
+	
+	
 }

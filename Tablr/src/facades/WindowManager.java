@@ -178,7 +178,7 @@ public class WindowManager {
 	public void selectUI(UI u) {
 		selectedUI.deselect();
 		this.selectedUI = u;
-		u.select();
+		if (u != null) u.select();
 	}
 	
 	/**

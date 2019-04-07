@@ -98,7 +98,7 @@ public class UIRow extends UIElement {
 	
 	@Override
 	public void handleDrag(int x, int y) {
-		dragListeners.stream().forEachOrdered(r -> r.accept(x, y));
+		dragListeners.stream().forEach(r -> r.accept(x, y));
 	}
 	
 	@Override
@@ -165,6 +165,12 @@ public class UIRow extends UIElement {
 		return this.selected;
 	}
 	
+	@Override
+	public void move(int deltaX, int deltaY) {
+		setX(getX() + deltaX);
+		setY(getY() + deltaY);
+		elements.stream().forEach(e -> e.move(deltaX, deltaY));
+	}
 	
 
 }

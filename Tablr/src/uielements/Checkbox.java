@@ -78,7 +78,7 @@ public class Checkbox extends UIElement {
 	
 	@Override
 	public void handleDrag(int x, int y) {
-		dragListeners.stream().forEachOrdered(r -> r.accept(x, y));
+		dragListeners.stream().forEach(r -> r.accept(x, y));
 	}
 
 	public boolean isChecked() {

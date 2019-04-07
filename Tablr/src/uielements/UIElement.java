@@ -148,9 +148,13 @@ public abstract class UIElement {
 	}
 	
 	public void handlePressed(int x,int y){
-		this.getUI().setLastClicked(this);
-		this.setLastClickedX(x);
-		this.setLastClickedY(y);
+		this.beginDrag();
+		this.setGrabPointX(x);
+		this.setGrabPointY(y);
+	}
+	
+	public void handleReleased() {
+		this.endDrag();
 	}
 	
 	public abstract void handleDrag(int x, int y);
@@ -226,6 +230,14 @@ public abstract class UIElement {
 	 */
 	public int getHeight(){
 		return this.h;
+	}
+	
+	public void setWidth(int width) {
+		this.w = width;
+	}
+	
+	public void setHeight(int height) {
+		this.h = height;
 	}
 	
 	/**
@@ -322,26 +334,27 @@ public abstract class UIElement {
 		return this.getError();
 	}
 
-	private int lastClickedX;
-	private int lastClickedY;
+	private int grabPointX;
+	private int grabPointY;
 	
-	public int getLastClickedX(){
-		return lastClickedX;
+	public int getGrabPointX(){
+		return grabPointX;
 	}
 
-	public int getLastClickedY(){
-		return lastClickedY;
+	public int getGrabPointY(){
+		return grabPointY;
 	}
 	
-	public void setLastClickedX(int x){
-		lastClickedX = x;
+	public void setGrabPointX(int x){
+		grabPointX = x;
 	}
 	
-	public void setLastClickedY(int y){
-		lastClickedY = y;
+	public void setGrabPointY(int y){
+		grabPointY = y;
 	}
 
 	private Color color = Color.white;
+
 	
 	public Color getColor(){
 		return this.color;
@@ -351,6 +364,29 @@ public abstract class UIElement {
 		this.color =  color;
 	}
 	
+	public void move(int deltaX, int deltaY){
+		x += deltaX;
+		y += deltaY;
+	}
+	
+	public void resize(int deltaWidth, int deltaHeight) {
+		w += deltaWidth;
+		h += deltaHeight;
+	}
+	
+	private boolean dragging;
+
+	public void beginDrag() {
+		this.dragging = true;
+	}
+	
+	public void endDrag() {
+		this.dragging = false;
+	}
+	
+	public boolean getDragging() {
+		return dragging;
+	}
 	
 	
 }

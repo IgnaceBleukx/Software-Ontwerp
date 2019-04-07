@@ -207,18 +207,6 @@ public class UI {
 				x <= getX()+getWidth() &&
 				y <= getY()+getHeight());
 	}
-
-	private UIElement lastClicked;
-
-	
-	public void setLastClicked(UIElement uiElement) {
-		System.out.println("Setting last clicked to: " + uiElement);
-		lastClicked = uiElement;
-	}
-	
-	public UIElement getLastClicked(){
-		return this.lastClicked;
-	}
 	
 	private boolean isSelected;
 	
@@ -238,6 +226,17 @@ public class UI {
 	
 	public boolean isSelected(){
 		return isSelected;
+	}
+	
+	public void move (int deltaX, int deltaY) {
+		setX(getX() + deltaX);
+		setY(getY() + deltaY);
+		elements.stream().forEach(e -> e.move(deltaX, deltaY));
+	}
+	
+	public void resize(int deltaW, int deltaH) {
+		setWidth(getWidth() + deltaW);
+		setHeight(getHeight() + deltaH);
 	}
 	
 	@Override

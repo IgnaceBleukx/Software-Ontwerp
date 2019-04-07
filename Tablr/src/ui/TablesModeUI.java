@@ -37,18 +37,24 @@ public class TablesModeUI extends UI {
 		this.addUIElement(close);
 		this.addUIElement(titleBar);
 		
-		
-		
-		
 		//Adding listeners:
 		titleBar.addDragListener((newX,newY) -> { 
 			System.out.println("[TablesModeUI.java:35]: Attempting drag");
-			if (!this.getLastClicked().equals(titleBar)) return;
-			setX(getX() + newX - titleBar.getLastClickedX());
-			setY(getY() + newY - titleBar.getLastClickedY());
-			loadUI();
+			if (!titleBar.getDragging()) return;
+			
+			int deltaX = newX - titleBar.getGrabPointX();
+			int deltaY = newY - titleBar.getGrabPointY();
+			System.out.println("[TablesModeUI.java:44] : deltaX = " + deltaX);
+			System.out.println("[TablesModeUI.java:45] : detlaY = " + deltaY);
+			
+			this.move(deltaX, deltaY);
+//			loadUI();
+			getWindowManager().selectUI(this);
 		});
-		close.addSingleClickListener(() -> setInactive());		
+		close.addSingleClickListener(() -> {
+			setInactive();
+			getWindowManager().selectUI(null);
+		});		
 		
 		ArrayList<Table> tables = this.getTablr().getTables();
 		ListView list = loadFromTables(tables, titleHeight);
@@ -68,9 +74,8 @@ public class TablesModeUI extends UI {
 	
 	private ListView loadFromTables(ArrayList<Table> tables, int titleHeight) {
 		int rowHeigth = 35;
-		
 		ArrayList<UIElement> rows = new ArrayList<>();
-		System.out.println("[TableModeUI.java:60] : Dimensions of UI: X=" + getX() + " Y= " + getY() + " W=" + getWidth() + " H=" + getHeight());
+		System.out.println("[TableModeUI.java:78] : Dimensions of UI: X=" + getX() + " Y= " + getY() + " W=" + getWidth() + " H=" + getHeight());
 		ListView list = new ListView(getX(), getY()+15, getWidth(), getHeight()-titleHeight, rows);
 		
 		for (int i=0;i<tables.size();i++) { 
