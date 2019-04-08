@@ -1,46 +1,34 @@
 package uielements;
 
 import java.awt.Color;
+import java.awt.Graphics;
+import java.util.ArrayList;
+import java.util.function.Consumer;
 
-public class ScrollBar extends Button {
+import ui.UI;
 
-	public ScrollBar(int x, int y, int w, int h, ScrollDirection dir) {
-		super(x, y, w, h, "-" + "\n" + "-");
-		this.scrollDirection = dir;
-		margin1.setColor(new Color(230,230,230));
-		margin2.setColor(new Color(230,230,230));
-		scrollBar.setColor(Color.LIGHT_GRAY);
+public abstract class ScrollBar extends UIElement{
+
+	public ScrollBar(int x, int y, int w, int h) {
+		super(x, y, w, h);
+		scrollBar.setColor(off);
 	}
 	
+	private Color on = Color.LIGHT_GRAY;
+	private Color off = new Color(230,230,230);
 	
-	private Button margin1 = new Button(getX(),getY(),0,0,"");
-	private Button margin2 =  new Button(getX(),getY(),0,0,"");
-	private Button scrollBar = new Button(getX(),getY(),getWidth(),getHeight(),"-" + "\n" + "-");
+	protected Button scrollBar = new Button(getX(),getY(),getWidth(),getHeight(),"-" + "\n" + "-");
+	protected Button margin1;
+	protected Button margin2;
 	
-	public void update(int elementsSize, int windowSize) {
-		if (elementsSize <= windowSize) 
-			this.disable();
-		else 
-			this.enable();
-		
-		int newSize = elementsSize > 0 ? windowSize * windowSize / elementsSize : windowSize;
-		if (scrollDirection == ScrollDirection.VERTICAL) {
-			scrollBar.setHeight(newSize);
-			margin1.setHeight(0);
-			margin2.setHeight(windowSize - newSize);
-		}
-		else if (scrollDirection == ScrollDirection.HORIZONTAL) {
-			scrollBar.setWidth(newSize);
-			margin1.setWidth(0);
-			margin2.setWidth(windowSize - newSize);
-		}
-	}
+	/**
+	 * This method is used to update the scrollbars size according to the elements it is used with.
+	 * @param elementsSize 	The Size of the elements to scroll trough.
+	 * @param windowSize	The Size of the viewable window.
+	 */
+	public abstract void update(int elementsSize, int windowSize);
 	
-	public void scroll(int delta) {
-		
-	}
-	
-	private ScrollDirection scrollDirection;
+	public abstract void scroll(int delta);
 	
 	private boolean active;
 	
@@ -48,13 +36,64 @@ public class ScrollBar extends Button {
 		return active;
 	}
 	
-	private void enable() {
-		setColor(Color.LIGHT_GRAY);
+	protected void enable() {
+		scrollBar.setColor(on);
 		active = true;
 	}
 
-	private void disable() {
-		setColor(new Color(230,200,200));
+	protected void disable() {
+		scrollBar.setColor(off);
 		active = false;
+	}
+	
+	protected ArrayList<Consumer<Integer>> scrollListeners = new ArrayList<Consumer<Integer>>();
+	
+	public void addScrollListener(Consumer<Integer> l) {
+		scrollListeners.add(l);
+	}
+
+	@Override
+	public void handleDrag(int x, int y) {
+		dragListeners.stream().forEach(l -> l.accept(x,y));
+	}
+
+	@Override
+	public void handleSingleClick() {
+		singleClickListeners.stream().forEach(l -> l.run());
+	}
+
+	@Override
+	public void handleDoubleClick() {
+		doubleClickListeners.stream().forEach(l -> l.run());
+		
+	}
+
+	@Override
+	public void handleKeyboardEvent(int keyCode, char keyChar) {
+		if (keyboardListeners.get(keyCode) == null)
+			return;
+		keyboardListeners.get(keyCode).stream().forEach(l -> l.run());
+	}
+
+	@Override
+	public void paint(Graphics g) {
+		margin1.paint(g);
+		margin2.paint(g);
+		scrollBar.paint(g);
+	}
+	
+	@Override
+	public UIElement locatedAt(int x, int y) {
+		if (margin1.containsPoint(x, y)) 	return margin1;
+		if (margin2.containsPoint(x, y)) 	return margin2;
+		if (scrollBar.containsPoint(x, y)) 	return scrollBar;
+		else return null;
+	}
+	
+	@Override 
+	public void setUI(UI ui) {
+		margin1.setUI(ui);
+		margin2.setUI(ui);
+		scrollBar.setUI(ui);
 	}
 }
