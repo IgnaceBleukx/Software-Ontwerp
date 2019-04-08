@@ -22,14 +22,24 @@ public class VerticalScrollBar extends ScrollBar{
 		
 		int newSize = elementsHeight > 0 ? windowHeight * windowHeight / elementsHeight : windowHeight;
 		int distance = scrollBar.getHeight() - newSize;
-		margin1.resize(0,distance);
+		//margin1.resize(0,distance);
 		margin2.resize(0,distance);
 		margin2.move(0,-distance);
 		scrollBar.setHeight(newSize);
 	}
+	
+	@Override
+	public boolean isValidDelta(int delta) {
+		System.out.println("[VerticalScrollBar.java:33] : endPoint of scrollBar: " + scrollBar.getEndY());
+		System.out.println("[VerticalScrollBar.java:34] : endPoint of scrollBarElement: " + getEndY());
+		System.out.println("[VerticalScrollBar.java:35] : delta: " +delta);
+		return scrollBar.getY()+delta >= getY() && scrollBar.getEndY()+delta <= getEndY();
+	}
 
 	@Override
 	public void scroll(int delta) {
+		if (!isValidDelta (delta))
+			return;
 		margin1.resize(0,delta);
 		margin2.resize(0,-delta);
 		margin2.move(0, delta);

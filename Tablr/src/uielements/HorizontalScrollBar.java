@@ -35,7 +35,11 @@ public class HorizontalScrollBar extends ScrollBar {
 		margin2.resize(-delta,0);
 		margin2.move(-delta,0);
 		scrollBar.move(delta, 0);
-		scrollListeners.stream().forEach(l -> l.accept(delta));
+	}
+
+	@Override
+	public boolean isValidDelta(int delta) {
+		return scrollBar.getX()+delta >= getX() && scrollBar.getX()+scrollBar.getWidth() <= getX()+getWidth();
 	}
 
 }

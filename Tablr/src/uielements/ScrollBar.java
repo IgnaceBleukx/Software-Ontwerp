@@ -3,6 +3,7 @@ package uielements;
 import java.awt.Color;
 import java.awt.Graphics;
 import java.util.ArrayList;
+import java.util.function.BiConsumer;
 import java.util.function.Consumer;
 
 import ui.UI;
@@ -30,6 +31,14 @@ public abstract class ScrollBar extends UIElement{
 	
 	public abstract void scroll(int delta);
 	
+	public abstract boolean isValidDelta(int delta);
+	
+	public void addScrollListener(Consumer<Integer> c) {
+		scrollListeners.add(c);
+	}
+	
+	protected ArrayList<Consumer<Integer>> scrollListeners = new ArrayList<Consumer<Integer>>();
+	
 	private boolean active;
 	
 	public boolean isActive() {
@@ -46,10 +55,19 @@ public abstract class ScrollBar extends UIElement{
 		active = false;
 	}
 	
-	protected ArrayList<Consumer<Integer>> scrollListeners = new ArrayList<Consumer<Integer>>();
+	@Override
+	public int getGrabPointX() {
+		return scrollBar.getGrabPointX();
+	}
 	
-	public void addScrollListener(Consumer<Integer> l) {
-		scrollListeners.add(l);
+	@Override
+	public int getGrabPointY() {
+		return scrollBar.getGrabPointY();
+	}
+	
+	@Override
+	public void addDragListener(BiConsumer<Integer,Integer> c) {
+		scrollBar.addDragListener(c);
 	}
 
 	@Override
@@ -77,8 +95,10 @@ public abstract class ScrollBar extends UIElement{
 
 	@Override
 	public void paint(Graphics g) {
-		margin1.paint(g);
-		margin2.paint(g);
+		if (isActive()) {
+			margin1.paint(g);
+			margin2.paint(g);
+		}
 		scrollBar.paint(g);
 	}
 	
@@ -95,5 +115,14 @@ public abstract class ScrollBar extends UIElement{
 		margin1.setUI(ui);
 		margin2.setUI(ui);
 		scrollBar.setUI(ui);
+	}
+	
+	@Override
+	public void move(int deltaX, int deltaY) {
+		setX(getX()+deltaX);
+		setY(getY()+deltaY);
+		margin1.move(deltaX, deltaY);
+		margin2.move(deltaX, deltaY);
+		scrollBar.move(deltaX, deltaY);
 	}
 }

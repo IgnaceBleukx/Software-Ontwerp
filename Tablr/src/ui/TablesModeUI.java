@@ -40,14 +40,9 @@ public class TablesModeUI extends UI {
 		
 		//Adding listeners:
 		titleBar.addDragListener((newX,newY) -> { 
-			System.out.println("[TablesModeUI.java:35]: Attempting drag");
 			if (!titleBar.getDragging()) return;
-			
 			int deltaX = newX - titleBar.getGrabPointX();
 			int deltaY = newY - titleBar.getGrabPointY();
-			System.out.println("[TablesModeUI.java:44] : deltaX = " + deltaX);
-			System.out.println("[TablesModeUI.java:45] : detlaY = " + deltaY);
-			
 			this.move(deltaX, deltaY);
 			getWindowManager().selectUI(this);
 		});

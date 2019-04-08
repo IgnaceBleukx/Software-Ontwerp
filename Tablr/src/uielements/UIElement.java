@@ -225,6 +225,14 @@ public abstract class UIElement {
 		return this.w;
 	}
 	
+	public int getEndX() {
+		return x + w;
+	}
+	
+	public int getEndY() {
+		return y + h;
+	}
+	
 	/**
 	 * This method returns the height of the current UIElement.
 	 */

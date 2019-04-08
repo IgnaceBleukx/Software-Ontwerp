@@ -29,15 +29,26 @@ public class ListView extends UIElement {
 		elements.add(scrollBarV);
 		elements.add(scrollBarH);
 		updateScrollBar();
+		
+		//Adding listeners
+		scrollBarV.addScrollListener((delta) ->{
+			elements.stream().filter(e -> !(e instanceof ScrollBar)).forEach(e -> e.move(0, -delta));
+		});
+		
+		scrollBarV.addDragListener((newX,newY) -> {
+			int delta = newY - scrollBarV.getGrabPointY();
+			scrollBarV.scroll(delta);
+		});
+		
 	}
 	
-	private VerticalScrollBar scrollBarV = new VerticalScrollBar(getX() + getWidth() -10, getY(),10,getHeight()-10);
-	private HorizontalScrollBar scrollBarH = new HorizontalScrollBar(getX(), getY() + getHeight() - 10, getWidth()-10, 10);
+	private VerticalScrollBar scrollBarV = new VerticalScrollBar(getEndX()-10, getY(),10,getHeight()-10);
+	private HorizontalScrollBar scrollBarH = new HorizontalScrollBar(getX(),getEndY()-10,getWidth()-10, 10);
 		
 	private void updateScrollBar() {
 		try {
-			scrollBarV.update(elements.stream().filter(e -> !(e instanceof ScrollBar)).mapToInt(e -> e.getHeight()).sum(), this.getHeight());
-			scrollBarH.update(elements.stream().filter(e -> !(e instanceof ScrollBar)).mapToInt(e -> e.getWidth()).distinct().max().getAsInt(), this.getWidth());
+			scrollBarV.update(elements.stream().filter(e -> !(e instanceof ScrollBar)).mapToInt(e -> e.getHeight()).sum(), this.getHeight()+15);
+			scrollBarH.update(elements.stream().filter(e -> !(e instanceof ScrollBar)).mapToInt(e -> e.getWidth()).distinct().max().getAsInt(), this.getWidth()+15);
 		}catch (NoSuchElementException e) {
 			 System.out.println("[Listview.java:40]: Listview is empty");
 		}
@@ -210,8 +221,6 @@ public class ListView extends UIElement {
 	public void move(int deltaX, int deltaY) {
 		setX(getX() + deltaX);
 		setY(getY() + deltaY);
-//		scrollBarH.move(deltaX, deltaY);
-//		scrollBarV.move(deltaX, deltaY);
 		elements.stream().forEach(e -> e.move(deltaX, deltaY));
 	}
 	
