@@ -68,7 +68,7 @@ public class TablesModeUI extends UI {
 
 	
 	private ListView loadFromTables(ArrayList<Table> tables, int titleHeight) {
-		int rowHeigth = 200;
+		int rowHeigth = 35;
 		ArrayList<UIElement> rows = new ArrayList<>();
 		System.out.println("[TableModeUI.java:78] : Dimensions of UI: X=" + getX() + " Y= " + getY() + " W=" + getWidth() + " H=" + getHeight());
 		ListView list = new ListView(getX(), getY()+15, getWidth(), getHeight()-titleHeight, rows);

@@ -2,6 +2,7 @@ package facades;
 
 import java.awt.Graphics;
 import java.util.ArrayList;
+import java.util.HashMap;
 
 import domain.Column;
 import domain.Row;
@@ -275,4 +276,17 @@ public class Tablr {
 	public UIElement getLockedElement() {
 		return windowManager.getLockedElement();
 	}
+	
+	public ArrayList<TablesModeUI> getTablesModeUIs() {
+		return windowManager.getTablesModeUIs();
+	}
+	
+	public HashMap<Table,TableDesignModeUI> getTableDesignUIs() {
+		return windowManager.getTableDesignUIs();
+	}
+	
+	public HashMap<Table,TableRowsModeUI> getTableRowsUIs() {
+		return windowManager.getTableRowsUIs();
+	}
+	
 }

@@ -171,6 +171,18 @@ public class WindowManager {
 		if (selectedUI != null) selectedUI.paint(g);
  	}
 	
+	public ArrayList<TablesModeUI> getTablesModeUIs() {
+		return new ArrayList<TablesModeUI>(tablesModeUIs);
+	}
+	
+	public HashMap<Table,TableDesignModeUI> getTableDesignUIs() {
+		return new HashMap<Table,TableDesignModeUI>(tableDesignModeUIs);
+	}
+	
+	public HashMap<Table,TableRowsModeUI> getTableRowsUIs() {
+		return new HashMap<Table,TableRowsModeUI>(tableRowsModeUIs);
+	}
+	
 	public UI getSelectedUI() {
 		return this.selectedUI;
 	}
