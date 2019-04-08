@@ -5,6 +5,7 @@ import java.awt.Graphics;
 import java.io.ObjectInputStream.GetField;
 import java.util.ArrayList;
 import java.util.Iterator;
+import java.util.NoSuchElementException;
 
 import domain.Column;
 import domain.Table;
@@ -25,15 +26,21 @@ public class ListView extends UIElement {
 	public ListView(int x, int y,int w, int h, ArrayList<UIElement> elements) {
 		super(x, y, w, h);
 		this.elements = elements;
+		elements.add(scrollBarV);
+		elements.add(scrollBarH);
 		updateScrollBar();
 	}
 	
-	private ScrollBar scrollBarV = new ScrollBar(getX() + getWidth() -10, getY(),10,getHeight()-10, ScrollDirection.VERTICAL);
-	private ScrollBar scrollBarH = new ScrollBar(getX(), getY() + getHeight() - 10, getWidth()-10, 10, ScrollDirection.HORIZONTAL);
+	private VerticalScrollBar scrollBarV = new VerticalScrollBar(getX() + getWidth() -10, getY(),10,getHeight()-10);
+	private HorizontalScrollBar scrollBarH = new HorizontalScrollBar(getX(), getY() + getHeight() - 10, getWidth()-10, 10);
 		
 	private void updateScrollBar() {
-		scrollBarV.update(elements.stream().mapToInt(e -> e.getHeight()).sum(), this.getHeight());
-		scrollBarH.update(elements.stream().mapToInt(e -> e.getWidth()).sum(), this.getWidth());
+		try {
+			scrollBarV.update(elements.stream().filter(e -> !(e instanceof ScrollBar)).mapToInt(e -> e.getHeight()).sum(), this.getHeight());
+			scrollBarH.update(elements.stream().filter(e -> !(e instanceof ScrollBar)).mapToInt(e -> e.getWidth()).distinct().max().getAsInt(), this.getWidth());
+		}catch (NoSuchElementException e) {
+			 System.out.println("[Listview.java:40]: Listview is empty");
+		}
 	}
 	
 	
@@ -115,20 +122,17 @@ public class ListView extends UIElement {
 		if (!containsPoint(x,y)) return null;
 		
 		UIElement found = null;
-		if (scrollBarV.containsPoint(x, y) && scrollBarV.isActive()) return scrollBarV;
-		if (scrollBarH.containsPoint(x, y) && scrollBarH.isActive()) return scrollBarH;
+//		if (scrollBarV.containsPoint(x, y)) return scrollBarV.locatedAt(x, y);
+//		if (scrollBarH.containsPoint(x, y)) return scrollBarH.locatedAt(x, y);
 		for (UIElement e : elements) {
+			System.out.println(e);
 			found = e.locatedAt(x,y);
 			if (found != null)
 				return found;
 		}
 		return this;		
 	}
-		
-	public void loadColumnAttributes(Table table){
-		
-		
-	}
+
 
 	@Override
 	public boolean hasSelectedElement() {
@@ -183,7 +187,8 @@ public class ListView extends UIElement {
 	@Override
 	public void setUI(UI ui) {
 		this.ui = ui;
-		scrollBarV.setUI(ui);
+//		scrollBarV.setUI(ui);
+//		scrollBarH.setUI(ui);
 		elements.stream().forEach(e -> e.setUI(ui));
 	}
 	
@@ -205,8 +210,8 @@ public class ListView extends UIElement {
 	public void move(int deltaX, int deltaY) {
 		setX(getX() + deltaX);
 		setY(getY() + deltaY);
-		scrollBarH.move(deltaX, deltaY);
-		scrollBarV.move(deltaX, deltaY);
+//		scrollBarH.move(deltaX, deltaY);
+//		scrollBarV.move(deltaX, deltaY);
 		elements.stream().forEach(e -> e.move(deltaX, deltaY));
 	}
 	

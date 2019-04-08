@@ -150,7 +150,6 @@ public class TableDesignModeUI extends UI {
 				if(uiRow.equals(listview.getSelectedElement())){
 					c.removeColumn(table, listview.getElements().indexOf(uiRow));
 					listview.setSelectedElement(null);
-					listview.loadColumnAttributes(table);
 				}
 			});
 			

@@ -32,6 +32,7 @@ public class TablesModeUI extends UI {
 		//Creating background:
 		addUIElement(new VoidElement(getX(), getY(), getWidth(), getHeight(), new Color(230,230,230,230)));
 		
+		//Creating window layout
 		Titlebar titleBar = new Titlebar(getX(),getY(),getWidth()-30,titleHeight,"Tables Mode");
 		CloseButton close = new CloseButton(getX()+getWidth()-30,getY(),30,titleHeight,4);
 		this.addUIElement(close);
@@ -48,7 +49,6 @@ public class TablesModeUI extends UI {
 			System.out.println("[TablesModeUI.java:45] : detlaY = " + deltaY);
 			
 			this.move(deltaX, deltaY);
-//			loadUI();
 			getWindowManager().selectUI(this);
 		});
 		close.addSingleClickListener(() -> {
@@ -73,7 +73,7 @@ public class TablesModeUI extends UI {
 
 	
 	private ListView loadFromTables(ArrayList<Table> tables, int titleHeight) {
-		int rowHeigth = 35;
+		int rowHeigth = 200;
 		ArrayList<UIElement> rows = new ArrayList<>();
 		System.out.println("[TableModeUI.java:78] : Dimensions of UI: X=" + getX() + " Y= " + getY() + " W=" + getWidth() + " H=" + getHeight());
 		ListView list = new ListView(getX(), getY()+15, getWidth(), getHeight()-titleHeight, rows);
@@ -87,6 +87,7 @@ public class TablesModeUI extends UI {
 			Button deleteButton = new Button(getX(), getY()+i*rowHeigth+titleHeight,buttonSize,buttonSize,"");
 			currRow.addElement(deleteButton);
 			
+			//Listener to select rows
 			deleteButton.addSingleClickListener(() -> {
 				for (UIElement e : getElements())
 					if (e.getError()) return;
@@ -94,6 +95,7 @@ public class TablesModeUI extends UI {
 				else currRow.select();
 			});
 			
+			//Listener to remove row
 			deleteButton.addKeyboardListener(127, () -> {
 				if (currRow.isSelected() && list.getError() == false) {
 					list.removeElement((UIElement) currRow); //Remove row from ListView
@@ -120,7 +122,10 @@ public class TablesModeUI extends UI {
 				}
 			});
 			
-			tableNameLabel.addKeyboardListener(10,() -> tablr.domainChanged());
+			tableNameLabel.addKeyboardListener(10,() -> {
+				if (list.getError()) return;
+				tablr.domainChanged();
+			});
 
 			//Table name textfields listen to double click events to switch modes
 			tableNameLabel.addDoubleClickListener(() -> {
