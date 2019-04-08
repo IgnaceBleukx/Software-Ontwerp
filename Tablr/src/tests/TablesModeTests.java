@@ -26,14 +26,30 @@ public class TablesModeTests {
 		MyCanvasWindow myCW = new MyCanvasWindow("Tables Mode");
 		Tablr tablr = myCW.getTablr();
 		
-		// There are no tables yet
+		// There is no Tables Mode yet
 		assertEquals(tablr.getTablesModeUIs().size(), 0);
 
 		// Perform a ctrl+T
 		MyCanvasWindow.replayRecording("./recordings/ctrlT/test", myCW);
 		
-		// Check if there is a table added to the Tablr
+		// Check if there is a Tables Mode added
 		assertEquals(tablr.getTablesModeUIs().size(), 1);
+	}
+
+	@Test
+	public void openDesignModeUI() {
+		// Load the window
+		MyCanvasWindow myCW = new MyCanvasWindow("Tables Mode");
+		Tablr tablr = myCW.getTablr();
+		
+		// There are no tables yet
+		assertEquals(tablr.getTableDesignUIs().size(), 0);
+
+		// Perform a ctrl+T
+		MyCanvasWindow.replayRecording("./recordings/openDesignModeUI/test", myCW);
+		
+		// Check if there is a table added to the Tablr
+		assertEquals(tablr.getTableDesignUIs().size(), 1);
 	}
 
 	
