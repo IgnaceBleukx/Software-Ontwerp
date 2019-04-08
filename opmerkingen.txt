@@ -1,3 +1,5 @@
 Observer pattern:
 	Voorbeeld in domainchanged(). Wanneer we itereren over alle listeners, moet dit over 		een nieuwe lijst van de listeners. kopie.
 
+Command:
+	Bij het uitvoeren van commando's, gebruik dan Command interface met vb methodes 	execute() en redo()

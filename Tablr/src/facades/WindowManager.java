@@ -171,6 +171,10 @@ public class WindowManager {
 		if (selectedUI != null) selectedUI.paint(g);
  	}
 	
+	public ArrayList<TablesModeUI> getTablesModeUIs() {
+		return new ArrayList<TablesModeUI>(tablesModeUIs);
+	}
+	
 	public UI getSelectedUI() {
 		return this.selectedUI;
 	}

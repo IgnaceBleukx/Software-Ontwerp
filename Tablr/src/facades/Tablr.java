@@ -275,4 +275,9 @@ public class Tablr {
 	public UIElement getLockedElement() {
 		return windowManager.getLockedElement();
 	}
+	
+	public ArrayList<TablesModeUI> getTablesModeUIs() {
+		return windowManager.getTablesModeUIs();
+	}
+	
 }
