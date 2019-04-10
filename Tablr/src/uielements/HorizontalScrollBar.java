@@ -22,18 +22,16 @@ public class HorizontalScrollBar extends ScrollBar {
 		
 		int newSize = elementsWidth > 0 ? windowWidth * windowWidth / elementsWidth : windowWidth;
 		int distance = scrollBar.getWidth() - newSize;
-	//	margin1.resize(distance,0);
-		margin2.resize(distance,0);
-		margin2.move(-distance,0);
+		margin1.resizeR(distance);
+		margin2.resizeL(distance);
 		scrollBar.setHeight(newSize);
 
 	}
 
 	@Override
 	public void scroll(int delta) {
-		margin1.resize(delta,0);
-		margin2.resize(-delta,0);
-		margin2.move(-delta,0);
+		margin1.resizeL(delta);
+		margin2.resizeR(-delta);
 		scrollBar.move(delta, 0);
 	}
 
@@ -41,5 +39,5 @@ public class HorizontalScrollBar extends ScrollBar {
 	public boolean isValidDelta(int delta) {
 		return scrollBar.getX()+delta >= getX() && scrollBar.getX()+scrollBar.getWidth() <= getX()+getWidth();
 	}
-
+	
 }

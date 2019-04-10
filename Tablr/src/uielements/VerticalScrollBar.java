@@ -23,8 +23,7 @@ public class VerticalScrollBar extends ScrollBar{
 		int newSize = elementsHeight > 0 ? windowHeight * windowHeight / elementsHeight : windowHeight;
 		int distance = scrollBar.getHeight() - newSize;
 		//margin1.resize(0,distance);
-		margin2.resize(0,distance);
-		margin2.move(0,-distance);
+		margin2.resizeT(distance);
 		scrollBar.setHeight(newSize);
 	}
 	
@@ -40,9 +39,8 @@ public class VerticalScrollBar extends ScrollBar{
 	public void scroll(int delta) {
 		if (!isValidDelta (delta))
 			return;
-		margin1.resize(0,delta);
-		margin2.resize(0,-delta);
-		margin2.move(0, delta);
+		margin1.resizeB(delta);
+		margin2.resizeT(-delta);
 		scrollBar.move(0, delta);
 		scrollListeners.stream().forEach(l -> l.accept(delta));
 	}

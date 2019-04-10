@@ -234,9 +234,26 @@ public class UI {
 		elements.stream().forEach(e -> e.move(deltaX, deltaY));
 	}
 	
-	public void resize(int deltaW, int deltaH) {
+	public void resizeL(int deltaW) {
 		setWidth(getWidth() + deltaW);
+		this.move(deltaW,0);
+		elements.stream().forEach(e -> e.resizeL(deltaW));
+	}
+	
+	public void resizeR(int deltaW) {
+		setWidth(getWidth() + deltaW);
+		elements.stream().forEach(e -> e.resizeR(deltaW));
+	}
+	
+	public void resizeT(int deltaH) {
 		setHeight(getHeight() + deltaH);
+		move(0,deltaH);
+		elements.stream().forEach(e -> e.resizeT(deltaH));
+	}
+	
+	public void resizeB(int deltaH) {
+		setHeight(getHeight()+deltaH);
+		elements.stream().forEach(e -> e.resizeB(deltaH));
 	}
 	
 	@Override

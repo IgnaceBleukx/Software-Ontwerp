@@ -30,5 +30,35 @@ public class CloseButton extends Button {
 		g.drawLine(middleX-crossSize,middleY+crossSize,middleX+crossSize,middleY-crossSize);
 		((Graphics2D) g).setStroke(new BasicStroke(1));
 	}
+	
+	
+	@Override
+	/**
+	 * This method resizes the closebutton from left to right.
+	 * Assuming the closebutton is always placed in the top righthand corner of the screen, the closebutton is not changed.
+	 */
+	public void resizeL(int deltaW) {
+		
+	}
+	
+	@Override
+	/**
+	 * 
+	 */
+	public void resizeR(int deltaW) {
+		move(deltaW,0);
+	}
+	
+	@Override
+	public void resizeT(int deltaH) {
+		move(0,deltaH);
+	}
+	
+	@Override
+	public void resizeB(int deltaH) {
+		
+	}
+	
+	
 
 }

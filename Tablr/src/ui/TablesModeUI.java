@@ -8,11 +8,14 @@ import java.util.function.BiFunction;
 
 import uielements.Button;
 import uielements.CloseButton;
+import uielements.HorizontalUIEdge;
 import uielements.ListView;
 import uielements.TextField;
 import uielements.Titlebar;
+import uielements.UIEdge;
 import uielements.UIElement;
 import uielements.UIRow;
+import uielements.VerticalUIEdge;
 import uielements.VoidElement;
 import domain.Table;
 import facades.Tablr;
@@ -37,6 +40,13 @@ public class TablesModeUI extends UI {
 		CloseButton close = new CloseButton(getX()+getWidth()-30,getY(),30,titleHeight,4);
 		this.addUIElement(close);
 		this.addUIElement(titleBar);
+		
+		VerticalUIEdge leftResize = new VerticalUIEdge(getX(),getY(),5,getHeight());
+		this.addUIElement(leftResize);
+		leftResize.addDragListener((newX,newY) ->{
+			int delta = newX - leftResize.getGrabPointX();
+			this.resizeL(delta);
+		});
 		
 		//Adding listeners:
 		titleBar.addDragListener((newX,newY) -> { 
