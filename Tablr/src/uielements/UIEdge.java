@@ -2,6 +2,9 @@ package uielements;
 
 import java.awt.Color;
 import java.awt.Graphics;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.function.BiConsumer;
 
 public class UIEdge extends UIElement {
 
@@ -11,27 +14,27 @@ public class UIEdge extends UIElement {
 
 	@Override
 	public void handleDrag(int x, int y) {
-		dragListeners.stream().forEach(e -> e.accept(x,y));
+		new ArrayList<BiConsumer<Integer,Integer>>(dragListeners).stream().forEach(e -> e.accept(x,y));
 
 	}
 
 	@Override
 	public void handleSingleClick() {
-		singleClickListeners.stream().forEach(e -> e.run());
+		new ArrayList<>(singleClickListeners).stream().forEach(e -> e.run());
 
 	}
 
 	@Override
 	public void handleDoubleClick() {
-		doubleClickListeners.stream().forEach(e -> e.run());
+		new ArrayList<>(doubleClickListeners).stream().forEach(e -> e.run());
 
 	}
 
 	@Override
 	public void handleKeyboardEvent(int keyCode, char keyChar) {
-		if (keyboardListeners.get(keyCode) == null)
+		if (new HashMap<Integer, ArrayList<Runnable>>(keyboardListeners).get(keyCode) == null)
 			return;
-		keyboardListeners.get(keyCode).stream().forEach(l -> l.run());
+		new HashMap<Integer, ArrayList<Runnable>>(keyboardListeners).get(keyCode).stream().forEach(l -> l.run());
 	}
 
 	@Override

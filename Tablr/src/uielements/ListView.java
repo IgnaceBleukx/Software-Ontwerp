@@ -4,8 +4,10 @@ import java.awt.Color;
 import java.awt.Graphics;
 import java.io.ObjectInputStream.GetField;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.Iterator;
 import java.util.NoSuchElementException;
+import java.util.function.BiConsumer;
 
 import domain.Column;
 import domain.Table;
@@ -157,12 +159,12 @@ public class ListView extends UIElement {
 	@Override
 	public void handleSingleClick() {
 		getUI().getTablr().notifyNewSelected((UIElement) this);
-		singleClickListeners.stream().forEach(l -> l.run());
+		new ArrayList<>(singleClickListeners).stream().forEach(l -> l.run());
 	}
 
 	@Override
 	public void handleDoubleClick() {
-		doubleClickListeners.stream().forEach(l -> l.run());
+		new ArrayList<>(doubleClickListeners).stream().forEach(l -> l.run());
 	}
 
 	@Override
@@ -171,16 +173,16 @@ public class ListView extends UIElement {
 			elements.get(i).handleKeyboardEvent(keyCode, keyChar);
 		}
 		
-		if (keyboardListeners.get(keyCode) == null)
+		if (new HashMap<Integer, ArrayList<Runnable>>(keyboardListeners).get(keyCode) == null)
 			return;
 		
-		keyboardListeners.get(keyCode).stream().forEach(l -> l.run());
+		new HashMap<Integer, ArrayList<Runnable>>(keyboardListeners).get(keyCode).stream().forEach(l -> l.run());
 		
 	}
 	
 	@Override
 	public void handleDrag(int x, int y) {
-		dragListeners.stream().forEach(r -> r.accept(x, y));
+		new ArrayList<BiConsumer<Integer,Integer>>(dragListeners).stream().forEach(r -> r.accept(x, y));
 	}
 		
 	@Override

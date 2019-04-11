@@ -3,6 +3,9 @@ package uielements;
 import java.awt.Color;
 import java.awt.FontMetrics;
 import java.awt.Graphics;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.function.BiConsumer;
 
 import javax.naming.CommunicationException;
 
@@ -89,10 +92,7 @@ public class TextField extends UIElement {
 	
 	@Override
 	public void handleDoubleClick() {
-
-		doubleClickListeners.forEach(l -> l.run());
-
-		
+		new ArrayList<>(doubleClickListeners).forEach(l -> l.run());
 	}
 	
 	@Override
@@ -121,16 +121,16 @@ public class TextField extends UIElement {
 		}
 		
 		
-		if (keyboardListeners.get(keyCode) == null)
+		if (new HashMap<Integer, ArrayList<Runnable>>(keyboardListeners).get(keyCode) == null)
 			return;
 		
-		keyboardListeners.get(keyCode).stream().forEach(l -> l.run());
+		new HashMap<Integer, ArrayList<Runnable>>(keyboardListeners).get(keyCode).stream().forEach(l -> l.run());
 
 	}
 	
 	@Override
 	public void handleDrag(int x, int y) {
-		dragListeners.stream().forEach(r -> r.accept(x, y));
+		new ArrayList<BiConsumer<Integer,Integer>>(dragListeners).stream().forEach(r -> r.accept(x, y));
 	}
 
 }

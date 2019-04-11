@@ -4,6 +4,9 @@ import java.awt.Color;
 import java.awt.Font;
 import java.awt.FontMetrics;
 import java.awt.Graphics;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.function.BiConsumer;
 
 public class Button extends UIElement {
 
@@ -52,24 +55,24 @@ public class Button extends UIElement {
 
 	@Override
 	public void handleSingleClick() {
-		singleClickListeners.stream().forEach(l -> l.run());
+		new ArrayList<>(singleClickListeners).stream().forEach(l -> l.run());
 	} 
 
 	@Override
 	public void handleDoubleClick() {
-		doubleClickListeners.stream().forEach(l -> l.run());
+		new ArrayList<>(doubleClickListeners).stream().forEach(l -> l.run());
 	}
 	
 	@Override
 	public void handleKeyboardEvent(int keyCode, char keyChar) {
-		if (keyboardListeners.get(keyCode) == null)
+		if (new HashMap<Integer, ArrayList<Runnable>>(keyboardListeners).get(keyCode) == null)
 			return;
-		keyboardListeners.get(keyCode).stream().forEach(l -> l.run());
+		new HashMap<Integer, ArrayList<Runnable>>(keyboardListeners).get(keyCode).stream().forEach(l -> l.run());
 	}
 	
 	@Override
 	public void handleDrag(int x, int y) {
-		dragListeners.stream().forEach(r -> r.accept(x, y));
+		new ArrayList<BiConsumer<Integer,Integer>>(dragListeners).stream().forEach(r -> r.accept(x, y));
 	}
 	
 
