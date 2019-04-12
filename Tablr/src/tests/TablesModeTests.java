@@ -20,6 +20,9 @@ public class TablesModeTests {
 	public void setUp() throws Exception {
 	}
 	
+	/**
+	 * use case 4.1: Create a table
+	 */
 	@Test
 	public void ctrlT() {
 		// Load the window
@@ -35,7 +38,9 @@ public class TablesModeTests {
 		// Check if there is a Tables Mode added
 		assertEquals(tablr.getTablesModeUIs().size(), 1);
 	}
-
+	/**
+	 * Open the design mode of a table by double clicking a table name
+	 */
 	@Test
 	public void openDesignModeUI() {
 		// Load the window
@@ -52,6 +57,46 @@ public class TablesModeTests {
 		assertEquals(tablr.getTableDesignUIs().size(), 1);
 	}
 
+	/**
+	 * Deletes a table
+	 */
+	@Test
+	public void deleteTable() {
+		// Load the window
+		MyCanvasWindow myCW = new MyCanvasWindow("Tables Mode");
+		Tablr tablr = myCW.getTablr();
+		
+		// There are no tables yet
+		assertEquals(tablr.getTableDesignUIs().size(), 0);
+
+		// Perform a ctrl+T
+		MyCanvasWindow.replayRecording("./recordings/deleteTable/test", myCW);
+		
+		// Check if there is a table added to the Tablr
+		assertEquals(tablr.getTableDesignUIs().size(), 0);
+	}
+
+	
+	/**
+	 * Deletes a table
+	 */
+	@Test
+	public void dragTablesMode() {
+		// Load the window
+	MyCanvasWindow myCW = new MyCanvasWindow("Tables Mode");
+	Tablr tablr = myCW.getTablr();
+	
+	// Confirm the first position of the tables mode
+//	assertEquals(tablr.getTablesModeUIs().get(0).getX(), 0);
+//	assertEquals(tablr.getTablesModeUIs().get(0).getY(), 0);
+
+	// Perform a ctrl+T
+	MyCanvasWindow.replayRecording("./recordings/dragTablesMode/test", myCW);
+	
+	// Check the changed position of the subwindow
+	assertEquals(tablr.getTablesModeUIs().get(0).getX(), 0);
+	assertEquals(tablr.getTablesModeUIs().get(0).getY(), 19);
+	}
 	
 	/**
 	 * use case 4.1: Create a table
