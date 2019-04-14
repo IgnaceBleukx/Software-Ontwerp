@@ -42,6 +42,7 @@ public class Button extends UIElement {
 
 	@Override
 	public void paint(Graphics g) {
+		
 	    // Drawing button
 		g.setColor(getColor());
 		int arcWidth = 8;

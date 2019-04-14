@@ -4,6 +4,7 @@ public class VerticalScrollBar extends ScrollBar{
 
 	public VerticalScrollBar(int x, int y, int w, int h) {
 		super(x, y, w, h);
+		previousElementHeight = 0;
 		margin1 = new Button(getX(), getY(), getWidth(),0,"/\\");
 		margin2 = new Button(getX(), getY()+getHeight(),getWidth(), 0,"\\/");
 		
@@ -12,7 +13,18 @@ public class VerticalScrollBar extends ScrollBar{
 		margin2.addSingleClickListener(() -> this.scroll(20));
 	}
 	
+	private int previousElementHeight;
+	
+	public int getPreviousElementHeight() {
+		return previousElementHeight;
+	}
+
+	public void setPreviousElementHeight(int prev) {
+		this.previousElementHeight = prev;
+	}
+
 	public void update(int elementsHeight, int windowHeight) {
+		
 		if (elementsHeight <= windowHeight) { 
 			super.disable();
 			return;

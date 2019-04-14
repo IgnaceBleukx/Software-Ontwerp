@@ -255,6 +255,9 @@ public abstract class UIElement {
 	 */
 	public abstract void paint(Graphics g);
 
+	public void paintVerticalOffset(Graphics g, int offset) {
+	}
+	
 	/**
 	 * Draws text centered in the UIElement.
 	 * @param g		Graphics object

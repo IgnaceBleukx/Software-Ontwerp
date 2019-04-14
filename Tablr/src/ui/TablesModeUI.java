@@ -22,6 +22,10 @@ import facades.Tablr;
 
 public class TablesModeUI extends UI {
 	
+	static int titleHeight = 15;
+	static int tableRowHeight = 35;
+	static int scrollBarWidth = 10;
+	
 	public TablesModeUI(int x, int y, int w, int h,Tablr t) {
 		super(x,y,w,h);
 		this.setTablr(t);
@@ -30,7 +34,6 @@ public class TablesModeUI extends UI {
 	public void loadUI(){
 		setActive();
 		this.clear();
-		int titleHeight = 15;
 		
 		//Creating background:
 		addUIElement(new VoidElement(getX(), getY(), getWidth(), getHeight(), new Color(230,230,230,230)));
@@ -61,8 +64,7 @@ public class TablesModeUI extends UI {
 			getWindowManager().selectUI(null);
 		});		
 		
-		ArrayList<Table> tables = this.getTablr().getTables();
-		ListView list = loadFromTables(tables, titleHeight);
+		ListView list = loadFromTables();
 		addUIElement(list);
 		
 		//Reload listview when domain changed
@@ -72,24 +74,23 @@ public class TablesModeUI extends UI {
 			this.getElements().remove(l.orElseThrow(() -> new RuntimeException("No listview to bind listener to.")));
 			
 			//Load new ListView from tables
-			addUIElement(loadFromTables(tablr.getTables(), titleHeight));
+			addUIElement(loadFromTables());
 		});
 	}
-
 	
-	private ListView loadFromTables(ArrayList<Table> tables, int titleHeight) {
-		int rowHeigth = 35;
+	private ListView loadFromTables() {
 		ArrayList<UIElement> rows = new ArrayList<>();
 		System.out.println("[TableModeUI.java:78] : Dimensions of UI: X=" + getX() + " Y= " + getY() + " W=" + getWidth() + " H=" + getHeight());
-		ListView list = new ListView(getX(), getY()+15, getWidth(), getHeight()-titleHeight, rows);
-		
+		ListView list = new ListView(getX(), getY() + titleHeight, getWidth(), getHeight()-titleHeight, rows);
+
+		ArrayList<Table> tables = this.getTablr().getTables();
 		for (int i=0;i<tables.size();i++) { 
 			Table curr = tables.get(i);
-			UIRow currRow = new UIRow(getX(), getY()+i*rowHeigth+titleHeight, getWidth()-10,rowHeigth, new ArrayList<UIElement>());
+			UIRow currRow = new UIRow(getX(), getY()+i*tableRowHeight+titleHeight, getWidth()-10,tableRowHeight, new ArrayList<UIElement>());
 			list.addElement(currRow);
 
 			int buttonSize = currRow.getHeight();
-			Button deleteButton = new Button(getX(), getY()+i*rowHeigth+titleHeight,buttonSize,buttonSize,"");
+			Button deleteButton = new Button(getX(), getY()+i*tableRowHeight +titleHeight,buttonSize,buttonSize,"");
 			currRow.addElement(deleteButton);
 			
 			//Listener to select rows
@@ -110,7 +111,7 @@ public class TablesModeUI extends UI {
 			});
 			
 			
-			TextField tableNameLabel = new TextField(getX()+buttonSize, getY()+titleHeight+i*rowHeigth, getWidth()-buttonSize-10, rowHeigth, curr.getName());
+			TextField tableNameLabel = new TextField(getX()+buttonSize, getY()+titleHeight+i*tableRowHeight, getWidth()-buttonSize-scrollBarWidth, tableRowHeight, curr.getName());
 			currRow.addElement(tableNameLabel);
 			//Table name textfields listen to alphanumeric keyboard input
 			tableNameLabel.addKeyboardListener(-1, () -> {

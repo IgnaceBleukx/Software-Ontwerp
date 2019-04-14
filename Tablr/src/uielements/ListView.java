@@ -46,16 +46,16 @@ public class ListView extends UIElement {
 	
 	private VerticalScrollBar scrollBarV = new VerticalScrollBar(getEndX()-10, getY(),10,getHeight()-10);
 	private HorizontalScrollBar scrollBarH = new HorizontalScrollBar(getX(),getEndY()-10,getWidth()-10, 10);
+	private int additionalSpace = 30; //pixels reserved under the last row in the listview, to make sure there is a space in the listview to click on.
 		
-	private void updateScrollBar() {
+	public void updateScrollBar() {
 		try {
-			scrollBarV.update(elements.stream().filter(e -> !(e instanceof ScrollBar)).mapToInt(e -> e.getHeight()).sum(), this.getHeight()+15);
-			scrollBarH.update(elements.stream().filter(e -> !(e instanceof ScrollBar)).mapToInt(e -> e.getWidth()).distinct().max().getAsInt(), this.getWidth()+15);
+			scrollBarV.update(elements.stream().filter(e -> !(e instanceof ScrollBar)).mapToInt(e -> e.getHeight()).sum() + additionalSpace, this.getHeight());
+			scrollBarH.update(elements.stream().filter(e -> !(e instanceof ScrollBar)).mapToInt(e -> e.getWidth()).distinct().max().getAsInt(), this.getWidth());
 		}catch (NoSuchElementException e) {
 			 System.out.println("[Listview.java:40]: Listview is empty");
 		}
 	}
-	
 	
 	/**
 	 * This method adds an element to the current ListView.

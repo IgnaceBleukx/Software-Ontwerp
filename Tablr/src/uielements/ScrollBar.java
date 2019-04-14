@@ -105,9 +105,9 @@ public abstract class ScrollBar extends UIElement{
 	
 	@Override
 	public UIElement locatedAt(int x, int y) {
+		if (scrollBar.containsPoint(x, y)) 	return scrollBar;
 		if (margin1.containsPoint(x, y)) 	return margin1;
 		if (margin2.containsPoint(x, y)) 	return margin2;
-		if (scrollBar.containsPoint(x, y)) 	return scrollBar;
 		else return null;
 	}
 	
