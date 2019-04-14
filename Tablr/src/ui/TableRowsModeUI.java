@@ -79,8 +79,7 @@ public class TableRowsModeUI extends UI {
 		
 		UITable uiTable = new UITable(getX(), getY(), getWidth(), getHeight(), legend, new ArrayList<UIRow>());
 		
-		int numberOfRows = getTablr().getRows(tab).size();
-		System.out.println("nbrows: " + numberOfRows);
+		int numberOfRows = getTablr().getRows(tab);
 		int y = getY()+2*cellHeight;
 		for(int i=0;i<numberOfRows;i++){
 			int x = getX()+20;
@@ -88,10 +87,9 @@ public class TableRowsModeUI extends UI {
 			for(Column col : getTablr().getColumns(tab)){
 				String val = getTablr().getValueString(col,i);
 				if(getTablr().getColumnType(col).equals(Type.BOOLEAN)){
-					Checkbox booleanValue = new Checkbox(x + (int)(cellWidth/2) - 10,y+(int)(cellHeight/2)-10,20,20,(Boolean) getTablr().getValue(col,i));
+					Checkbox booleanValue = new Checkbox(x + (int)(cellWidth/2) - 10,y+(int)(cellHeight/2)-10,20,20, (Boolean)getTablr().getValue(col,i));
 					emts.add(new VoidElement(x,y,cellWidth, cellHeight, Color.white));
 					emts.add(booleanValue);
-					
 					
 					int index = i;
 					booleanValue.addSingleClickListener(() ->
@@ -104,12 +102,20 @@ public class TableRowsModeUI extends UI {
 					int index = i;
 					field.addKeyboardListener(-1, () -> {
 						try{
-							if (field.getText().length() == 0)	getTablr().changeCellValue(col, index, "");
-							else getTablr().changeCellValue(col,index,field.getText());
-							if(field.getError()) field.isNotError();
+//							if (field.getText().length() == 0)	
+//								getTablr().changeCellValue(col, index, "");
+//							else 
+							getTablr().changeCellValue(col,index,field.getText());
+							if(field.getError()) 
+								field.isNotError();
 						}catch(ClassCastException e){
 							field.isError();
 						}
+					});
+					
+					field.addKeyboardListener(10,() ->{
+						if (!field.getError() && field.isSelected())
+							getTablr().domainChanged();
 					});
 				}
 				x += cellWidth;
@@ -117,7 +123,7 @@ public class TableRowsModeUI extends UI {
 				
 			}
 			UIRow uiRow = new UIRow(getX(),y,getWidth(),cellHeight,emts);
-			uiRow.setUI(this);
+			System.out.println("[TableRowsModeUI.java:1]: Adding uirow: " + uiRow);
 			uiTable.addRow(uiRow);
 			y += cellHeight;
 			
@@ -136,8 +142,6 @@ public class TableRowsModeUI extends UI {
 					uiTable.removeRow(uiRow);
 					tablr.removeRow(tab, index);
 					uiTable.selectElement(null);
-					System.out.println("[TableRowsModeUI.java: 138] Amount of rows in table: " + tab.getRows().size());					
-					//loadTable(tab, cellWidth, cellHeight);
 				}
 			});
 		}

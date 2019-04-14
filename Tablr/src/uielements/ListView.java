@@ -50,9 +50,9 @@ public class ListView extends UIElement {
 	private void updateScrollBar() {
 		try {
 			scrollBarV.update(elements.stream().filter(e -> !(e instanceof ScrollBar)).mapToInt(e -> e.getHeight()).sum(), this.getHeight()+15);
-			scrollBarH.update(elements.stream().filter(e -> !(e instanceof ScrollBar)).mapToInt(e -> e.getWidth()).distinct().max().getAsInt(), this.getWidth()+15);
+			//scrollBarH.update(elements.stream().filter(e -> !(e instanceof ScrollBar)).mapToInt(e -> e.getWidth()).distinct().max().getAsInt(), this.getWidth()+15);
 		}catch (NoSuchElementException e) {
-			 System.out.println("[Listview.java:40]: Listview is empty");
+			 System.out.println("[Listview.java:55]: Listview is empty");
 		}
 	}
 	

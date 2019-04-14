@@ -5,7 +5,6 @@ import java.util.ArrayList;
 import java.util.HashMap;
 
 import domain.Column;
-import domain.Row;
 import domain.Table;
 import domain.Type;
 import exceptions.InvalidNameException;
@@ -138,7 +137,7 @@ public class Tablr {
 		return domainFacade.getColumnNames(table);
 	}
 
-	public ArrayList<Row> getRows(Table tab) {
+	public int getRows(Table tab) {
 		return domainFacade.getRows(tab);
 	}
 
@@ -158,7 +157,7 @@ public class Tablr {
 
 	public void changeCellValue(Column col, int i, String string) throws ClassCastException {
 		domainFacade.changeCellValue(col,i,string);
-		domainChanged();
+		//domainChanged();
 	}
 
 	public void toggleColumnType(Column col) throws InvalidTypeException {

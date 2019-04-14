@@ -50,7 +50,7 @@ public class Table {
  		Column col;
 		try {
 			col = new Column(newColumnName(), null,type,defaultValue);
-			while(col.getCells().size() != rows.size()){
+			while(col.getCells().size() != nbOfRows){
 				col.addBlankCell();
 			}
 			col.setTable(this);
@@ -83,16 +83,13 @@ public class Table {
 	}
 	
 	
-	/**
-	 * The table's rows from up to down
-	 */
-	private ArrayList<Row> rows = new ArrayList<Row>();
+	private int nbOfRows;
 	
 	/**
 	 * This method returns the rows of the current Table.
 	 */
-	public ArrayList<Row> getRows() {
-		return rows;
+	public int getRows() {
+		return nbOfRows;
 	}
 	
 	/**
@@ -100,20 +97,8 @@ public class Table {
 	 * @param r 	The row to be added.
 	 */
 	public void addRow(){
-		Row r = new Row();
-		this.rows.add(r);
-		for (Column col: columns){
-			col.addBlankCell();
-		}
-		r.setTable(this);
-	}
-	
-	/**
-	 * This method removes a row from the current table.
-	 * @param row 	The row to be removed.
-	 */
-	public void removeRow(Row row) {
-		removeRow(rows.indexOf(row));
+		nbOfRows++;
+		columns.stream().forEach(col -> col.addBlankCell());
 	}
 		
 	/**
@@ -121,13 +106,11 @@ public class Table {
 	 * @param index 	The index of the row to be removed.
 	 * @return The removed row.
 	 */
-	public Row removeRow(int index){
-		Row r = rows.get(index);
+	public void removeRow(int index){
+		nbOfRows--;
 		for (Column c: columns){
 			c.removeCell(index);
 		}
-		r.setTable(null);
-		return rows.remove(index);
 	}
 	
 	/**
@@ -156,19 +139,6 @@ public class Table {
 			names.add(column.getName());
 		}
 		return names;
-	}
-	
-	
-	/**
-	 * This method removes the table and all its contents.
-	 */
-	public void terminate(){
-		while(! columns.isEmpty()){
-			columns.get(0).terminate();
-		}
-		while(! rows.isEmpty()){
-			rows.get(0).terminate();
-		}
 	}
 	
 }

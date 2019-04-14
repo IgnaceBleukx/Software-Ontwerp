@@ -3,7 +3,6 @@ package facades;
 import java.util.ArrayList;
 
 import domain.Column;
-import domain.Row;
 import domain.Table;
 import domain.Type;
 import exceptions.InvalidNameException;
@@ -148,7 +147,7 @@ public class DomainFacade {
 		return table.getColumnNames();
 	}
 
-	public ArrayList<Row> getRows(Table tab) {
+	public int getRows(Table tab) {
 		return tab.getRows();
 	}
 

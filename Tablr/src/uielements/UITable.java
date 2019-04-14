@@ -88,6 +88,8 @@ public class UITable extends UIElement {
 		found = legend.locatedAt(x,y); //Look in legend
 		if (found != null) return found;
 
+		System.out.println("[UITable.java:91]: Rows in UITable: ");
+		rows.stream().forEach(e -> System.out.println(e));
 		for (UIRow e : rows) { //Look in rows
 			found = e.locatedAt(x,y);
 			if (found != null)
