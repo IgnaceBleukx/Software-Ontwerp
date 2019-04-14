@@ -35,7 +35,7 @@ public class UIRow extends UIElement {
 		g.setColor(getColor());
 		g.fillRect(getX(), getY(), getWidth(), getHeight());
 		g.setColor(Color.black);
-		g.drawRect(getX(),getY(),getWidth(),getHeight());
+		g.drawRect(getX(),getY() ,getWidth(),getHeight());
 		for (UIElement e : this.elements){
 			e.paint(g);
 		}
