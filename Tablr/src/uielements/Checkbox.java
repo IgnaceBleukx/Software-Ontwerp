@@ -34,7 +34,6 @@ public class Checkbox extends UIElement {
 	
 	@Override
 	public void paint(Graphics g){
-		int paintY = getY() + getVerticalOffset();
 		//Drawing inside:
 		g.setColor(getColor());
 		if (value == null){
