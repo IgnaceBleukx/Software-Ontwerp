@@ -382,7 +382,7 @@ public abstract class UIElement {
 	
 	public void resizeL(int deltaWidth) {
 		w += deltaWidth;
-		this.move(deltaWidth,0);
+		this.move(-deltaWidth,0);
 	}
 	
 	public void resizeR(int deltaWidth) {
@@ -391,7 +391,7 @@ public abstract class UIElement {
 	
 	public void resizeT(int deltaHeight) {
 		h += deltaHeight;
-		this.move(0, deltaHeight);
+		this.move(0, -deltaHeight);
 	}
 	
 	public void resizeB(int deltaHeight) {
