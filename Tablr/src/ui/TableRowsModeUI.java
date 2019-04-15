@@ -4,13 +4,9 @@ import java.awt.Color;
 import java.util.ArrayList;
 import java.util.Optional;
 
-import uielements.Button;
 import uielements.Checkbox;
-import uielements.CloseButton;
-import uielements.ListView;
 import uielements.Text;
 import uielements.TextField;
-import uielements.Titlebar;
 import uielements.UIElement;
 import uielements.UIRow;
 import uielements.UITable;
@@ -30,30 +26,16 @@ public class TableRowsModeUI extends UI {
 	public void loadUI(Table tab){
 		setActive();
 		this.clear();
+		loadUIAttributes();
 		
 		Tablr c = getTablr();
 		int cellHeight = 30;
 		
 		int cellWidth;
 		if (c.getColumnNames(tab).size() != 0)
-			cellWidth = getWidth()/c.getColumnNames(tab).size();
+			cellWidth = (getWidth()-2*edgeW+20)/c.getColumnNames(tab).size();
 		else
 			cellWidth = 100;
-		
-		Titlebar titleBar = new Titlebar(getX(), getY(), getWidth() - 30, cellHeight, "Table Rows Mode: " + tab.getName());
-		CloseButton close = new CloseButton(getX() + getWidth() - 30, getY(), 30, cellHeight, 4);
-		this.addUIElement(close);
-		this.addUIElement(titleBar);
-			
-		//Adding listeners:
-		titleBar.addDragListener((x,yy) -> { 
-			this.setX(x);
-			this.setY(yy);
-		});
-		close.addSingleClickListener(() -> {
-			this.setInactive();
-		});		
-					
 		
 		UITable uiTable = loadTable(tab, titleBar.getHeight(), cellHeight, cellWidth);
 		this.addUIElement(uiTable);
@@ -74,18 +56,17 @@ public class TableRowsModeUI extends UI {
 	}
 	public UITable loadTable(Table tab, int titleHeight, int cellHeight, int cellWidth){
 		//Creating legend with all column names:
-		UIRow legend = new UIRow(getX(), getY() + cellHeight, getWidth(), 30, new ArrayList<UIElement>());
+		UIRow legend = new UIRow(getX()+edgeW,titleBar.getEndY(), getWidth()-2*edgeW, 30, new ArrayList<UIElement>());
 		
 		int a = 0;
 		for(String name: getTablr().getColumnNames(tab)) {
-			legend.addElement(new Text(getX() + a*cellWidth, getY() + cellHeight, cellWidth, 20, name));
+			legend.addElement(new Text(getX() + a*cellWidth,legend.getY(), cellWidth, 20, name));
 			a++;
 		}
-		
-		UITable uiTable = new UITable(getX(), getY(), getWidth(), getHeight(), legend, new ArrayList<UIRow>());
+		UITable uiTable = new UITable(getX()+edgeW, titleBar.getEndY(), getWidth()-2*edgeW, getHeight()-edgeW, legend, new ArrayList<UIRow>());
 		
 		int numberOfRows = getTablr().getRows(tab);
-		int y = getY()+2*cellHeight;
+		int y = legend.getEndY();
 		for(int i=0;i<numberOfRows;i++){
 			int x = getX()+20;
 			ArrayList<UIElement> emts = new ArrayList<UIElement>();
@@ -124,10 +105,8 @@ public class TableRowsModeUI extends UI {
 					});
 				}
 				x += cellWidth;
-				
-				
 			}
-			UIRow uiRow = new UIRow(getX(),y,getWidth(),cellHeight,emts);
+			UIRow uiRow = new UIRow(uiTable.getX(),y,uiTable.getWidth(),cellHeight,emts);
 			System.out.println("[TableRowsModeUI.java:1]: Adding uirow: " + uiRow);
 			uiTable.addRow(uiRow);
 			y += cellHeight;
@@ -149,10 +128,7 @@ public class TableRowsModeUI extends UI {
 					uiTable.selectElement(null);
 				}
 			});
-		}
-		
-		addUIElement(uiTable);
-		
+		}		
 		uiTable.addKeyboardListener(17, () -> {
 			getTablr().loadTableDesignModeUI(tab);;
 		});

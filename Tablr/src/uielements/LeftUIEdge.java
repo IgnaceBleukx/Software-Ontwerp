@@ -26,7 +26,7 @@ public class LeftUIEdge extends UIEdge {
 	void swell(int i) {
 		if (isSwollen && i > 0) return;
 		this.setWidth(getWidth()+i);
-		this.move(-i/2,0);
+		this.move(-i,0);
 		isSwollen = true;
 	}
 

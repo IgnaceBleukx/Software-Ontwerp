@@ -19,7 +19,7 @@ public class BottomUIEdge extends UIEdge {
 	void swell(int i) {
 		if (isSwollen && i > 0) return;
 		this.setHeight(getHeight()+i);
-		this.move(0, -i/2);
+		this.move(0, -i);
 		isSwollen = true;
 	}
 

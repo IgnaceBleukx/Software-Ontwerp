@@ -1,0 +1,222 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<diagram program="umlet" version="14.3.0">
+  <zoom_level>6</zoom_level>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>258</x>
+      <y>42</y>
+      <w>222</w>
+      <h>360</h>
+    </coordinates>
+    <panel_attributes>Tablr
+--
+DomainChangedListeners: List&lt;Runnable&gt;
+
+TitleChangeRunnables: List&lt;Runnable&gt;
+Title: String
+--
+setActiveTable()
+addEmptyTable()
+getTables()
+getUIAt()
+removeTable()
+getTablesByName
+addEmptyColumn
+setColumnName
+addRow
+getColumnType
+getColumnName
+getSelectionLock
+releaseSelectionLock
+getLock
+releaseLock
+setColumnType
+
+loadTablesModeUI()
+loadTableRowsModeUI()
+loadTableDesignModeUI()
+
+changeTitle()
+domainChanged()
+addDomainChangedListener()
+paint()
+getSelectedUI()
+selectUI()
+getLockedElement()
+
+</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>378</x>
+      <y>468</y>
+      <w>162</w>
+      <h>210</h>
+    </coordinates>
+    <panel_attributes>WindowManager
+--
+hardLockedElement: UIElement
+lockedSelectedElement: UIElement
+--
+addTableDesignModeUI()
+addTableRowsModeUI()
+addTablesModeUI()
+
+loadTableDesignModeUI()
+loadTableRowsModeUI()
+loadTablesModeUI()
+
+getUIs()
+clearUIAt()
+
+selectUI()
+selectNewUI()
+
+getLockedElement()
+selectElement()
+
+</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>186</x>
+      <y>468</y>
+      <w>162</w>
+      <h>216</h>
+    </coordinates>
+    <panel_attributes>DomainFacade
+--
+activeTable: Table
+tables: List&lt;Table&gt;
+--
+addEmptyTable()
+removeTable()
+setActiveTable()
+
+
+addRow()
+getRows()
+removeRow()
+
+
+addEmptyColumn()
+getColumns()
+getColumnNames()
+getDefaultValue()
+setColumnName()
+setColumnType()
+toggleBlanks()
+
+
+
+
+</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>414</x>
+      <y>396</y>
+      <w>36</w>
+      <h>84</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;-
+m1=1..1</panel_attributes>
+    <additional_attributes>10.0;120.0;10.0;10.0</additional_attributes>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>306</x>
+      <y>396</y>
+      <w>36</w>
+      <h>84</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;-
+m1=1..1</panel_attributes>
+    <additional_attributes>10.0;120.0;10.0;10.0</additional_attributes>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>0</x>
+      <y>528</y>
+      <w>60</w>
+      <h>24</h>
+    </coordinates>
+    <panel_attributes>Table
+</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>24</x>
+      <y>42</y>
+      <w>126</w>
+      <h>114</h>
+    </coordinates>
+    <panel_attributes>&lt;&lt;enumeration&gt;&gt;
+Type
+--
+EMAIL
+INTEGER
+BOOLEAN
+STRING</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>42</x>
+      <y>486</y>
+      <w>156</w>
+      <h>54</h>
+    </coordinates>
+    <panel_attributes>                  tables
+lt=&lt;-
+                
+m1=0..*
+</panel_attributes>
+    <additional_attributes>10.0;70.0;10.0;10.0;240.0;10.0</additional_attributes>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>54</x>
+      <y>528</y>
+      <w>144</w>
+      <h>30</h>
+    </coordinates>
+    <panel_attributes>activeTable
+lt=&lt;-
+m1=1..1</panel_attributes>
+    <additional_attributes>10.0;20.0;220.0;20.0</additional_attributes>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>606</x>
+      <y>468</y>
+      <w>150</w>
+      <h>204</h>
+    </coordinates>
+    <panel_attributes>UI
+--
+x
+y
+width
+height
+active
+isSelected
+
+</panel_attributes>
+    <additional_attributes/>
+  </element>
+</diagram>
