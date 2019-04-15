@@ -4,13 +4,9 @@ import java.awt.Color;
 import java.util.ArrayList;
 import java.util.Optional;
 
-import uielements.Button;
 import uielements.Checkbox;
-import uielements.CloseButton;
-import uielements.ListView;
 import uielements.Text;
 import uielements.TextField;
-import uielements.Titlebar;
 import uielements.UIElement;
 import uielements.UIRow;
 import uielements.UITable;
@@ -37,7 +33,7 @@ public class TableRowsModeUI extends UI {
 		
 		int cellWidth;
 		if (c.getColumnNames(tab).size() != 0)
-			cellWidth = getWidth()/c.getColumnNames(tab).size();
+			cellWidth = (getWidth()-2*edgeW+20)/c.getColumnNames(tab).size();
 		else
 			cellWidth = 100;
 		
@@ -60,14 +56,14 @@ public class TableRowsModeUI extends UI {
 	}
 	public UITable loadTable(Table tab, int titleHeight, int cellHeight, int cellWidth){
 		//Creating legend with all column names:
-		UIRow legend = new UIRow(getX(),titleBar.getEndY(), getWidth(), 30, new ArrayList<UIElement>());
+		UIRow legend = new UIRow(getX()+edgeW,titleBar.getEndY(), getWidth()-2*edgeW, 30, new ArrayList<UIElement>());
 		
 		int a = 0;
 		for(String name: getTablr().getColumnNames(tab)) {
 			legend.addElement(new Text(getX() + a*cellWidth,legend.getY(), cellWidth, 20, name));
 			a++;
 		}
-		UITable uiTable = new UITable(getX(), titleBar.getEndY(), getWidth(), getHeight(), legend, new ArrayList<UIRow>());
+		UITable uiTable = new UITable(getX()+edgeW, titleBar.getEndY(), getWidth()-2*edgeW, getHeight()-edgeW, legend, new ArrayList<UIRow>());
 		
 		int numberOfRows = getTablr().getRows(tab);
 		int y = legend.getEndY();
@@ -109,8 +105,6 @@ public class TableRowsModeUI extends UI {
 					});
 				}
 				x += cellWidth;
-				
-				
 			}
 			UIRow uiRow = new UIRow(uiTable.getX(),y,uiTable.getWidth(),cellHeight,emts);
 			System.out.println("[TableRowsModeUI.java:1]: Adding uirow: " + uiRow);
