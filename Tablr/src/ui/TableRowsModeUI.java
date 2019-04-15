@@ -33,7 +33,12 @@ public class TableRowsModeUI extends UI {
 		
 		Tablr c = getTablr();
 		int cellHeight = 30;
-		int cellWidth = getWidth()/c.getColumnNames(tab).size();
+		
+		int cellWidth;
+		if (c.getColumnNames(tab).size() != 0)
+			cellWidth = getWidth()/c.getColumnNames(tab).size();
+		else
+			cellWidth = 100;
 		
 		Titlebar titleBar = new Titlebar(getX(), getY(), getWidth() - 30, cellHeight, "Table Rows Mode: " + tab.getName());
 		CloseButton close = new CloseButton(getX() + getWidth() - 30, getY(), 30, cellHeight, 4);

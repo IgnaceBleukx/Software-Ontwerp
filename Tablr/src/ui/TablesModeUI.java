@@ -33,6 +33,7 @@ public class TablesModeUI extends UI {
 		setActive();
 		this.clear();
 		
+		
 		//Creating background:
 		addUIElement(new VoidElement(getX(), getY(), getWidth(), getHeight(), new Color(230,230,230,230)));
 		

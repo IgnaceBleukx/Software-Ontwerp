@@ -87,6 +87,11 @@ public class TableDesignModeUI extends UI {
 			
 			titleBar.setText("Table Design Mode: " + table.getName());
 		});
+		
+		titleBar.addKeyboardListener(17, () -> {
+			tablr.loadTableRowsModeUI(table);
+		});
+		
 
 	}	
 	
