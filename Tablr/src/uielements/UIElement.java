@@ -375,25 +375,46 @@ public abstract class UIElement {
 		this.color =  color;
 	}
 	
+	/**
+	 * This method moves the ui element.
+	 * @param deltaX 	The amount of pixels the UIElement must be shifted to the right.
+	 * @param deltaY	The amount of pixels the UIElement must be shifted to the bottom.
+	 */
 	public void move(int deltaX, int deltaY){
 		x += deltaX;
 		y += deltaY;
 	}
 	
+	/**
+	 * This method resizes the UIElement when resized from the left.
+	 * @param deltaWidth 	The amount of pixels the UIElement must be made smaller from the left.
+	 */
 	public void resizeL(int deltaWidth) {
-		w += deltaWidth;
-		this.move(-deltaWidth,0);
+		w -= deltaWidth;
+		this.move(deltaWidth,0);
 	}
 	
+	/**
+	 * This method resizes the UIElement when resized from the right
+	 * @param deltaWidth 	The amount of pixels the UIElement must be made larger from the right.
+	 */
 	public void resizeR(int deltaWidth) {
 		w += deltaWidth;
 	}
 	
+	/**
+	 * This method resizes the UIElement when resized from the top.
+	 * @param deltaHeight 	The amount of pixels the UIElement must be made smaller with from the top.
+	 */
 	public void resizeT(int deltaHeight) {
-		h += deltaHeight;
-		this.move(0, -deltaHeight);
+		h -= deltaHeight;
+		this.move(0,deltaHeight);
 	}
 	
+	/**
+	 * This method resized the UIElement when resized from the bottom.
+	 * @param deltaHeight 	The amount of pixels the UIElement must be made larger with from the bottom.
+	 */
 	public void resizeB(int deltaHeight) {
 		h += deltaHeight;
 	}
@@ -411,6 +432,6 @@ public abstract class UIElement {
 	public boolean getDragging() {
 		return dragging;
 	}
-	
+		
 	
 }

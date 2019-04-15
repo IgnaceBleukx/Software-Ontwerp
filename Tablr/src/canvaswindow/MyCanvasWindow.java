@@ -49,7 +49,6 @@ public class MyCanvasWindow extends CanvasWindow {
 	
 	/**
 	 * Delegates a mouse click event to the clicked UIElement.
-	 * 
 	 * In normal circumstances, mouse events occur in pairs of three:
 	 * PRESSED, DRAGGED, RELEASED. id % 3 allows us to find out which
 	 * type occurred.
@@ -57,7 +56,6 @@ public class MyCanvasWindow extends CanvasWindow {
 	 * @param x				X Coordinate
 	 * @param y				Y Coordinate
 	 * @param clickCount	Number of times clicked
-	 * 
 	 */
 	@Override
 	public void handleMouseEvent(int id, int x, int y, int clickCount){
@@ -70,7 +68,11 @@ public class MyCanvasWindow extends CanvasWindow {
 			System.out.println("[MyCanvasWindow.java:67]: No UI at these coordinates");
 			return;
 		}
-		getTablr().selectUI(clicked.getUI());
+		try{
+			getTablr().selectUI(clicked.getUI());
+		}catch (NullPointerException e){
+			getTablr().selectUI(null);
+		}
 		System.out.println("[MyCanvasWindow.java:71]: Clicked on: " + clicked);
 //		System.out.println("[MyCanvaswindow.java:72] : Id = " +id);
 		System.out.println("[MyCanvaswindow.java:73] : X-coordinate = " + x);
