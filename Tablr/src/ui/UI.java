@@ -7,9 +7,14 @@ import java.util.Optional;
 
 import facades.Tablr;
 import facades.WindowManager;
+import uielements.BottomUIEdge;
 import uielements.CloseButton;
+import uielements.LeftUIEdge;
+import uielements.RightUIEdge;
 import uielements.Titlebar;
+import uielements.TopUIEdge;
 import uielements.UIElement;
+import uielements.VoidElement;
 
 
 public class UI {
@@ -21,6 +26,56 @@ public class UI {
 		this.y = y;
 		this.width = width;
 		this.height = height;
+		
+		titleBar = new Titlebar(getX()+edgeW,getY()+edgeW,getWidth()-30,titleHeight,"Unknown");
+		close = new CloseButton(titleBar.getEndX(),getY()+edgeW,30-edgeW,titleHeight,4);
+		
+		leftResize = new LeftUIEdge(getX(),getY(),edgeW,getHeight());;
+		rightResize = new RightUIEdge(getX()+getWidth()-edgeW,getY(),edgeW,getHeight());
+		topResize = new TopUIEdge(getX(),getY(),getWidth(),edgeW);;
+		bottomResize = new BottomUIEdge(getX(),getY()+getHeight()-edgeW,getWidth(),edgeW);
+		
+		//Adding listeners to UI attributes
+		leftResize.addDragListener((newX,newY) ->{
+			int delta = newX - leftResize.getGrabPointX();
+			this.resizeL(delta);
+		});
+		rightResize.addDragListener((newX,newY) ->{
+			int delta = newX - rightResize.getGrabPointX();
+			this.resizeR(delta);
+		});
+		bottomResize.addDragListener((newX,newY) -> {
+			int delta = newY - bottomResize.getGrabPointY();
+			this.resizeB(delta);
+		});
+		topResize.addDragListener((newX,newY) -> {
+			int delta = newY - topResize.getGrabPointY();
+			this.resizeT(delta);
+		});
+		titleBar.addDragListener((newX,newY) -> { 
+			if (!titleBar.getDragging()) return;
+			int deltaX = newX - titleBar.getGrabPointX();
+			int deltaY = newY - titleBar.getGrabPointY();
+			this.move(deltaX, deltaY);
+			getWindowManager().selectUI(this);
+		});
+		close.addSingleClickListener(() -> {
+			setInactive();
+			getWindowManager().selectNewUI();
+		});		
+	}
+	
+	protected void loadUIAttributes(){
+		//Creating background:
+		addUIElement(new VoidElement(getX(), getY(), getWidth(), getHeight(), new Color(230,230,230,230)));
+		
+		//Creating window layout
+		this.addUIElement(close);
+		this.addUIElement(titleBar);
+		this.addUIElement(leftResize);
+		this.addUIElement(rightResize);
+		this.addUIElement(bottomResize);
+		this.addUIElement(topResize);
 	}
 	
 	private int x;
@@ -28,6 +83,25 @@ public class UI {
 	private int height;
 	private int width;
 	static int edgeW = 5;
+	private UIElement dragging;
+	
+	public UIElement getDragging(){
+		return dragging;
+	}
+	
+	public void setDragging(UIElement e){
+		dragging = e;
+	}
+	static int titleHeight = 15;
+	
+	protected Titlebar titleBar;
+	private CloseButton close;
+	
+	private LeftUIEdge leftResize;
+	private RightUIEdge rightResize;
+	private TopUIEdge topResize;
+	private BottomUIEdge bottomResize;
+	
 	
 	public int getX(){
 		return x;
@@ -88,6 +162,11 @@ public class UI {
 	 */
 	public void addUIElement(UIElement e){
 		this.elements.add(e);
+		
+		e.addPressListener(() -> {
+			setDragging(e);
+		});
+		
 		e.setUI(this);
 	}
 	

@@ -21,7 +21,6 @@ import facades.Tablr;
 
 public class TablesModeUI extends UI {
 	
-	static int titleHeight = 15;
 	static int tableRowHeight = 35;
 	static int scrollBarWidth = 10;
 	
@@ -32,40 +31,28 @@ public class TablesModeUI extends UI {
 	
 	public void loadUI(){
 		setActive();
-		this.clear();
+		this.clear();		
 		
 		//Creating background:
 		addUIElement(new VoidElement(getX(), getY(), getWidth(), getHeight(), new Color(230,230,230,230)));
 		
 		//Creating window layout
-		Titlebar titleBar = new Titlebar(getX(),getY()+edgeW,getWidth()-30,titleHeight,"Tables Mode");
-		CloseButton close = new CloseButton(titleBar.getEndX(),getY()+edgeW,30,titleHeight,4);
+		Titlebar titleBar = new Titlebar(getX(),getY(),getWidth()-30,titleHeight,"Tables Mode");
+		CloseButton close = new CloseButton(getX()+getWidth()-30,getY(),30,titleHeight,4);
 		this.addUIElement(close);
 		this.addUIElement(titleBar);
 		
-		LeftUIEdge leftResize = new LeftUIEdge(getX(),getY(),edgeW,getHeight());
+		LeftUIEdge leftResize = new LeftUIEdge(getX(),getY(),5,getHeight());
 		this.addUIElement(leftResize);
 		leftResize.addDragListener((newX,newY) ->{
 			int delta = newX - leftResize.getGrabPointX();
 			this.resizeL(delta);
 		});
-		RightUIEdge rightResize = new RightUIEdge(getX()+getWidth()-edgeW,getY(),edgeW,getHeight());
+		RightUIEdge rightResize = new RightUIEdge(getX()+getWidth()-5,getY(),5,getHeight());
 		this.addUIElement(rightResize);
 		rightResize.addDragListener((newX,newY) ->{
 			int delta = newX - rightResize.getGrabPointX();
 			this.resizeR(delta);
-		});
-		BottomUIEdge bottomResize = new BottomUIEdge(getX(),getY()+getHeight()-edgeW,getWidth(),edgeW);
-		this.addUIElement(bottomResize);
-		bottomResize.addDragListener((newX,newY) -> {
-			int delta = newY - bottomResize.getGrabPointY();
-			this.resizeB(delta);
-		});
-		TopUIEdge topResize =  new TopUIEdge(getX(),getY(),getWidth(),edgeW);
-		this.addUIElement(topResize);
-		topResize.addDragListener((newX,newY) -> {
-			int delta = newY - topResize.getGrabPointY();
-			this.resizeT(delta);
 		});
 		
 		//Adding listeners:
@@ -82,6 +69,8 @@ public class TablesModeUI extends UI {
 			getWindowManager().selectNewUI();
 		});		
 		
+		loadUIAttributes();
+
 		ListView list = loadFromTables();
 		addUIElement(list);
 		

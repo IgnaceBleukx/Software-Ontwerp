@@ -55,17 +55,18 @@ public class TableDesignModeUI extends UI {
 	public void loadUI(Table table){
 		setActive();
 		this.clear();
-		
-		int titleHeight = 15;
+		loadUIAttributes();
+		//int titleHeight = 15;
+		int margin = getWidth() / 15;
 		int currentHeight = getY()+titleHeight;
 		
-		VoidElement background = new VoidElement(getX(), getY(), getWidth(), getHeight(), new Color(230,230,230,230));
-		addUIElement(background);
+//		VoidElement background = new VoidElement(getX(), getY(), getWidth(), getHeight(), new Color(230,230,230,230));
+//		addUIElement(background);
 		
-		Titlebar titleBar = new Titlebar(getX(), getY(), getWidth() - 30, titleHeight, "Table Design Mode: " + table.getName());
-		CloseButton close = new CloseButton(getX() + getWidth() - 30, getY(), 30, titleHeight, 4);
-		this.addUIElement(close);
-		this.addUIElement(titleBar);
+//		Titlebar titleBar = new Titlebar(getX(), getY(), getWidth() - 30, titleHeight, "Table Design Mode: " + table.getName());
+//		CloseButton close = new CloseButton(getX() + getWidth() - 30, getY(), 30, titleHeight, 4);
+//		this.addUIElement(close);
+//		this.addUIElement(titleBar);
 		
 		Text name = new Text(namePosX, currentHeight, nameSizeX, 15,"Name");
 		Dragger nameDragger = new Dragger(namePosX+nameSizeX - 2, currentHeight, 4, 15);
@@ -93,37 +94,31 @@ public class TableDesignModeUI extends UI {
 				add(blank);
 				add(def);
 			}}
-		);
-		
-		
-		//Adding listeners:
-		titleBar.addDragListener((x,y) -> { 
-			this.setX(x);
-			this.setY(y);
-		});
-		close.addSingleClickListener(() -> {
-			this.setInactive();
-			getWindowManager().selectUI(null);
-		});		
-		
+		);		
 
 		nameDragger.addDragListener((newX,newY) -> { 
 			int delta = newX - nameDragger.getGrabPointX();
-			if (nameDragger.getX()+delta>=namePosX){
+			if (nameDragger.getX()+delta>=namePosX+10){
+				nameDragger.move(delta, 0);
 				nameSizeX+=delta;
+				typeDragger.move(delta, 0);
 				typePosX+=delta;
+				blankDragger.move(delta, 0);
 				blankPosX+=delta;
+				defDragger.move(delta, 0);
 				defPosX+=delta;
 				refresh(table, titleHeight);
-				System.out.println("TDMUI: 118: DRAGGING");
 			}
 		});
 		
 		typeDragger.addDragListener((newX,newY) -> { 
 			int delta = newX - typeDragger.getGrabPointX();
-			if (typeDragger.getX()+delta>=typePosX){
+			if (typeDragger.getX()+delta>=typePosX+10){
+				typeDragger.move(delta, 0);
 				typeSizeX+=delta;
+				blankDragger.move(delta, 0);
 				blankPosX+=delta;
+				defDragger.move(delta, 0);
 				defPosX+=delta;
 				refresh(table, titleHeight);
 			}
@@ -131,8 +126,10 @@ public class TableDesignModeUI extends UI {
 		
 		blankDragger.addDragListener((newX,newY) -> { 
 			int delta = newX - blankDragger.getGrabPointX();
-			if (blankDragger.getX()+delta>=blankPosX){
+			if (blankDragger.getX()+delta>=blankPosX+10){
+				blankDragger.move(delta, 0);
 				blankSizeX+=delta;
+				defDragger.move(delta, 0);
 				defPosX+=delta;
 				refresh(table, titleHeight);
 			}
@@ -140,13 +137,12 @@ public class TableDesignModeUI extends UI {
 		
 		defDragger.addDragListener((newX,newY) -> { 
 			int delta = newX - defDragger.getGrabPointX();
-			if (defDragger.getX()+delta>=defPosX){
+			if (defDragger.getX()+delta>=defPosX+10){
+				defDragger.move(delta, 0);
 				defSizeX+=delta;
 				refresh(table, titleHeight);
 			}
 		});
-		
-		
 		
 		ListView listview = loadColumnAttributes(table, titleHeight);
 		addUIElement(listview);
@@ -158,6 +154,11 @@ public class TableDesignModeUI extends UI {
 			
 			titleBar.setText("Table Design Mode: " + table.getName());
 		});
+		
+		titleBar.addKeyboardListener(17, () -> {
+			tablr.loadTableRowsModeUI(table);
+		});
+		
 
 	}	
 	
@@ -170,24 +171,28 @@ public class TableDesignModeUI extends UI {
 	}
 	
 	private void updateHeaders(int currentHeight){
-		Stream<UIElement> ll = getElements().stream().filter(e -> e instanceof Text || e instanceof Dragger);
-		this.getElements().remove(ll);
+		ArrayList<UIElement> toDelete = new ArrayList<UIElement>();
+		for(UIElement e : getElements()){
+			if(e instanceof Text){
+				toDelete.add(e);
+			}
+		}
+		for(UIElement e : toDelete){
+			getElements().remove(e);
+		}
 		
 		Text name = new Text(namePosX, currentHeight, nameSizeX, 15,"Name");
-		Dragger nameDragger = new Dragger(namePosX+nameSizeX - 2, currentHeight, 4, 15);
 		Text type = new Text(typePosX, currentHeight, typeSizeX, 15,"Type");
-		Dragger typeDragger = new Dragger(typePosX+typeSizeX - 2, currentHeight, 4, 15);
 		Text blank = new Text(blankPosX, currentHeight, blankSizeX, 15,"Blank");
-		Dragger blankDragger = new Dragger(blankPosX+blankSizeX - 2, currentHeight, 4, 15);
 		Text def = new Text(defPosX, currentHeight, defSizeX, 15,"Default");
-		Dragger defDragger = new Dragger(defPosX+defSizeX - 2, currentHeight, 4, 15);
+		
+		name.setBorder(true);
+		type.setBorder(true);
+		blank.setBorder(true);
+		def.setBorder(true);
 		
 		this.addAllUIElements(new ArrayList<UIElement>()
 				{{
-					add(nameDragger);
-					add(typeDragger);
-					add(blankDragger);
-					add(defDragger);
 					add(name);
 					add(type);
 					add(blank);

@@ -50,6 +50,10 @@ public class Tablr {
 		windowManager.addTablesModeUI(ui);
 	}
 	
+	public void addTableRowsModeUI(Table t,TableRowsModeUI ui) {
+		windowManager.addTableRowsModeUI(t, ui);
+	}
+	
 	public void loadTableModeUI(TablesModeUI ui){
 		windowManager.loadTablesModeUI(ui);
 	}
@@ -69,7 +73,7 @@ public class Tablr {
 	public Table addEmptyTable() {
 		Table t = domainFacade.addEmptyTable();
 		windowManager.addTableDesignModeUI(t, new TableDesignModeUI(300,0,300,300,this));
-		windowManager.addTableRowsModeUI(t, new TableRowsModeUI(300,300,300,300,this));
+		windowManager.addTableRowsModeUI(t, new TableRowsModeUI(300, 300, 300, 300, this));
 		domainChanged();
 		return t;
 	}
