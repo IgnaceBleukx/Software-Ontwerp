@@ -4,6 +4,7 @@ import java.awt.Color;
 import java.util.ArrayList;
 import java.util.Optional;
 
+import uielements.BottomUIEdge;
 import uielements.Button;
 import uielements.CloseButton;
 import uielements.RightUIEdge;
@@ -37,22 +38,34 @@ public class TablesModeUI extends UI {
 		addUIElement(new VoidElement(getX(), getY(), getWidth(), getHeight(), new Color(230,230,230,230)));
 		
 		//Creating window layout
-		Titlebar titleBar = new Titlebar(getX(),getY(),getWidth()-30,titleHeight,"Tables Mode");
-		CloseButton close = new CloseButton(getX()+getWidth()-30,getY(),30,titleHeight,4);
+		Titlebar titleBar = new Titlebar(getX(),getY()+edgeW,getWidth()-30,titleHeight,"Tables Mode");
+		CloseButton close = new CloseButton(titleBar.getEndX(),getY()+edgeW,30,titleHeight,4);
 		this.addUIElement(close);
 		this.addUIElement(titleBar);
 		
-		LeftUIEdge leftResize = new LeftUIEdge(getX(),getY(),5,getHeight());
+		LeftUIEdge leftResize = new LeftUIEdge(getX(),getY(),edgeW,getHeight());
 		this.addUIElement(leftResize);
 		leftResize.addDragListener((newX,newY) ->{
 			int delta = newX - leftResize.getGrabPointX();
 			this.resizeL(delta);
 		});
-		RightUIEdge rightResize = new RightUIEdge(getX()+getWidth()-5,getY(),5,getHeight());
+		RightUIEdge rightResize = new RightUIEdge(getX()+getWidth()-edgeW,getY(),edgeW,getHeight());
 		this.addUIElement(rightResize);
 		rightResize.addDragListener((newX,newY) ->{
 			int delta = newX - rightResize.getGrabPointX();
 			this.resizeR(delta);
+		});
+		BottomUIEdge bottomResize = new BottomUIEdge(getX(),getY()+getHeight()-edgeW,getWidth(),edgeW);
+		this.addUIElement(bottomResize);
+		bottomResize.addDragListener((newX,newY) -> {
+			int delta = newY - bottomResize.getGrabPointY();
+			this.resizeB(delta);
+		});
+		TopUIEdge topResize =  new TopUIEdge(getX(),getY(),getWidth(),edgeW);
+		this.addUIElement(topResize);
+		topResize.addDragListener((newX,newY) -> {
+			int delta = newY - topResize.getGrabPointY();
+			this.resizeT(delta);
 		});
 		
 		//Adding listeners:
@@ -86,16 +99,17 @@ public class TablesModeUI extends UI {
 	private ListView loadFromTables() {
 		ArrayList<UIElement> rows = new ArrayList<>();
 		System.out.println("[TableModeUI.java:78] : Dimensions of UI: X=" + getX() + " Y= " + getY() + " W=" + getWidth() + " H=" + getHeight());
-		ListView list = new ListView(getX(), getY() + titleHeight, getWidth(), getHeight()-titleHeight, rows);
+		ListView list = new ListView(getX()+edgeW, getY()+edgeW+titleHeight, getWidth()-2*edgeW, getHeight()-2*edgeW-titleHeight, rows);
 
 		ArrayList<Table> tables = this.getTablr().getTables();
+		int y = list.getY();
 		for (int i=0;i<tables.size();i++) { 
 			Table curr = tables.get(i);
-			UIRow currRow = new UIRow(getX(), getY()+i*tableRowHeight+titleHeight, getWidth()-10,tableRowHeight, new ArrayList<UIElement>());
+			UIRow currRow = new UIRow(list.getX(), y, getWidth()-scrollBarWidth,tableRowHeight, new ArrayList<UIElement>());
 			list.addElement(currRow);
 
 			int buttonSize = currRow.getHeight();
-			Button deleteButton = new Button(getX(), getY()+i*tableRowHeight +titleHeight,buttonSize,buttonSize,"");
+			Button deleteButton = new Button(list.getX(), y,buttonSize,buttonSize,"");
 			currRow.addElement(deleteButton);
 			
 			//Listener to select rows
@@ -116,7 +130,7 @@ public class TablesModeUI extends UI {
 			});
 			
 			
-			TextField tableNameLabel = new TextField(getX()+buttonSize, getY()+titleHeight+i*tableRowHeight, getWidth()-buttonSize-scrollBarWidth, tableRowHeight, curr.getName());
+			TextField tableNameLabel = new TextField(deleteButton.getEndX(), y, getWidth()-buttonSize-scrollBarWidth, tableRowHeight, curr.getName());
 			currRow.addElement(tableNameLabel);
 			//Table name textfields listen to alphanumeric keyboard input
 			tableNameLabel.addKeyboardListener(-1, () -> {
@@ -155,6 +169,8 @@ public class TablesModeUI extends UI {
 
 				}
 			});
+			
+			y = currRow.getEndY();
 		}	
 		
 		//Selects a row in the listview

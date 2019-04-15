@@ -247,6 +247,11 @@ public class ListView extends UIElement {
 		elements.stream().forEach(e -> e.resizeR(deltaW));
 	}
 	
+	@Override
+	public void resizeT(int deltaH){
+		
+	}
+	
 	
 	
 }

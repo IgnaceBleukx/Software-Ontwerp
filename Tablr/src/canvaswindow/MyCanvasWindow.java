@@ -94,7 +94,7 @@ public class MyCanvasWindow extends CanvasWindow {
 		}
 		//Mouse released
 		else if (id == MouseEvent.MOUSE_RELEASED) {	
-			//System.out.println("[MyCanvasWindow.java:94]: Mouse Released!");
+			System.out.println("[MyCanvasWindow.java:94]: Mouse Released!");
 			clicked.handleReleased();
 		}
 		

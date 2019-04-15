@@ -27,6 +27,7 @@ public class UI {
 	private int y;
 	private int height;
 	private int width;
+	static int edgeW = 5;
 	
 	public int getX(){
 		return x;
@@ -259,7 +260,7 @@ public class UI {
 	 */
 	public void resizeT(int deltaH) {
 		setHeight(getHeight() - deltaH);
-		move(0,deltaH);
+		setY(getY()+deltaH);
 		elements.stream().forEach(e -> e.resizeT(deltaH));
 	}
 	

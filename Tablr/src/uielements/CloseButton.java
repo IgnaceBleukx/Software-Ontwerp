@@ -42,20 +42,17 @@ public class CloseButton extends Button {
 	}
 	
 	@Override
-	/**
-	 * 
-	 */
 	public void resizeR(int deltaW) {
 		move(deltaW,0);
 	}
 	
 	@Override
-	public void resizeT(int deltaH) {
+	public void resizeT(int deltaH){
 		move(0,deltaH);
 	}
 	
 	@Override
-	public void resizeB(int deltaH) {
+	public void resizeB(int deltaH){
 		
 	}
 	

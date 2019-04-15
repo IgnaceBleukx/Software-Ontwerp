@@ -49,4 +49,12 @@ public class HorizontalScrollBar extends ScrollBar {
 		margin2.resizeL(deltaW);
 		scrollBar.resizeL(deltaW);
 	}
+	
+	@Override
+	public void resizeR(int deltaW){
+		setWidth(getWidth() + deltaW);
+		margin1.resizeR(deltaW);
+		margin2.resizeR(deltaW);
+		scrollBar.resizeR(deltaW);
+	}
 }
