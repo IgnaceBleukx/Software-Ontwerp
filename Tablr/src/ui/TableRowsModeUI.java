@@ -34,7 +34,12 @@ public class TableRowsModeUI extends UI {
 		
 		Tablr c = getTablr();
 		int cellHeight = 30;
-		int cellWidth = getWidth()/c.getColumnNames(tab).size();
+		
+		int cellWidth;
+		if (c.getColumnNames(tab).size() != 0)
+			cellWidth = getWidth()/c.getColumnNames(tab).size();
+		else
+			cellWidth = 100;
 		
 		UITable uiTable = loadTable(tab, titleBar.getHeight(), cellHeight, cellWidth);
 		this.addUIElement(uiTable);

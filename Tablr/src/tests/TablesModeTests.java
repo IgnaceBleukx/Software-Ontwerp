@@ -136,6 +136,7 @@ public class TablesModeTests {
 	
 	/**
 	 * use case 4.2: Edit table name
+	 * TODO: Laatste 4 lijnen werken nog niet
 	 * 
 	 */
 	@Test
@@ -174,13 +175,13 @@ public class TablesModeTests {
 		myCW.handleKeyEvent(1, 65, 'a');
 		assertEquals("a", tablr.getTables().get(0).getName());
 		
-//		// Step 5: Press Enter to finish editing
-//		myCW.handleKeyEvent(1, 10, ' ');
-//		assertEquals(t.isSelected(), false);
-//		
-//		// Or click outside table name 
-//		myCW.handleMouseEvent(MouseEvent.MOUSE_CLICKED, 60, 30, 1);
-//		assertEquals(true, t.isSelected());
+		// Step 5: Press Enter to finish editing
+		myCW.handleKeyEvent(1, 10, ' ');
+		assertEquals(t.isSelected(), false);
+		
+		// Or click outside table name 
+		myCW.handleMouseEvent(MouseEvent.MOUSE_CLICKED, 60, 30, 1);
+		assertEquals(true, t.isSelected());
 		myCW.handleMouseEvent(MouseEvent.MOUSE_CLICKED, 60, 300, 1);
 		assertEquals(false, t.isSelected());
 	}
@@ -189,32 +190,37 @@ public class TablesModeTests {
 	 * use case 4.3: Delete Table
 	 * 
 	 */
-//	@Test
-//	public void useCase3() {
-//		// Load the window
-//		MyCanvasWindow myCW = new MyCanvasWindow("Tables Mode");
-//		Tablr coMan = myCW.getTablr();
-//		coMan.clearUI();
-////TODO		coMan.loadUI(Loadable_Interfaces.TABLES);
-//		// Create an empty table with a simulated double click
-//		myCW.handleMouseEvent(0, 40, 530, 2);
-//		
-//		ListView l = (ListView) coMan.getActiveUI().locatedAt(200, 200);
-//		UIRow r = (UIRow) l.getElements().get(0);
-//		
-//		// Step 1: The user clicks the margin to the left of a table name.
-//		myCW.handleMouseEvent(0, 13, 13, 1);
-//
-//		// Step 2: row is selected
-//		assertEquals(l.getSelectedElement(), r);
-//
-//		// Step 3: User presses Delete key
-//		myCW.handleKeyEvent(0, 127, ' ');
-//		
-//		// Step 4: The system removes the table and shows the updated list of tables
-//		assertEquals(coMan.getTables().size(), 0);
-//		assertEquals(l.getElements().size(), 0);
-//	}
+	@Test
+	public void useCase3() {
+		// Load the window
+		MyCanvasWindow myCW = new MyCanvasWindow("Tables Mode");
+		Tablr tablr = myCW.getTablr();
+
+		// Perform a ctrl+T to add tables mode subwindow
+		myCW.handleKeyEvent(1, 17, ' ');
+		myCW.handleKeyEvent(1, 84, ' ');
+		
+		// Double click on listview to create a new table
+		myCW.handleMouseEvent(MouseEvent.MOUSE_CLICKED, 155, 152, 2);
+		
+		//Tablr has one table
+		assertEquals(tablr.getTables().size(), 1);
+		
+		ListView l = (ListView) tablr.getUIAt(200, 200).locatedAt(200, 200);
+		UIRow r = (UIRow) l.getElements().get(2);
+		
+		// Step 1: The user clicks the margin to the left of a table name.
+		myCW.handleMouseEvent(MouseEvent.MOUSE_CLICKED, 6, 21, 1);
+		
+		// Step 2: row is selected
+		assertEquals(true, r.isSelected());
+
+		// Step 3: User presses Delete key
+		myCW.handleKeyEvent(0, 127, ' ');
+		
+		// Step 4: The system removes the table and shows the updated list of tables
+		assertEquals(tablr.getTables().size(), 0);
+	}
 	
 	/**
 	 * use case 4.4: Open Table

@@ -114,6 +114,7 @@ public class WindowManager {
 	
 	public void addTableRowsModeUI(Table table, TableRowsModeUI ui){
 		this.tableRowsModeUIs.put(table,ui);
+		//loadTableRowsModeUI(table);
 	}
 
 	
@@ -204,7 +205,6 @@ public class WindowManager {
 			selectedUI.deselect();
 		this.selectedUI = u;
 		if (u != null) u.select();
-		System.out.println("[WindowManager.java:204] New prev UI: "+prevSelectedUI+", new selected UI: "+selectedUI);
 	}
 	
 	/**
