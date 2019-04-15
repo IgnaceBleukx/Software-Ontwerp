@@ -6,12 +6,33 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.function.BiConsumer;
 
-public class UIEdge extends UIElement {
+public abstract class UIEdge extends UIElement {
 
 	public UIEdge(int x, int y, int w, int h) {
 		super(x, y, w, h);
 	}
 
+	@Override
+	public void handlePressed(int x, int y){
+		this.beginDrag();
+		this.setGrabPointX(x);
+		this.setGrabPointY(y);
+		this.swell(10);
+	}
+	
+	@Override
+	public void handleReleased(){
+		this.endDrag();
+		if (isSwollen){
+			System.out.println("[UIEdge.java:27]: deswelling");
+			swell(-10);
+			isSwollen = false;
+		}
+	}
+	
+	abstract void swell(int i);
+	protected boolean isSwollen = false;
+	
 	@Override
 	public void handleDrag(int x, int y) {
 		new ArrayList<BiConsumer<Integer,Integer>>(dragListeners).stream().forEach(e -> e.accept(x,y));

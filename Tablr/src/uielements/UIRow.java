@@ -170,5 +170,18 @@ public class UIRow extends UIElement {
 		elements.stream().forEach(e -> e.move(deltaX, deltaY));
 	}
 	
+	@Override
+	public void resizeL(int deltaW){
+		setX(getX() + deltaW);
+		setWidth(getWidth() - deltaW);
+		elements.stream().filter(e -> !(e instanceof Checkbox || e instanceof Button)).forEach(e -> e.resizeL(deltaW));
+		elements.stream().filter(e -> (e instanceof Checkbox || e instanceof Button)).forEach(e -> e.move(deltaW, 0));
+	}
+	
+	@Override
+	public void resizeR(int deltaW){
+		setWidth(getWidth() + deltaW);
+		elements.stream().filter(e -> !(e instanceof Checkbox || e instanceof Button)).forEach(e -> e.resizeR(deltaW));
+	}
 
 }

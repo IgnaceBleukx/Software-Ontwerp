@@ -40,4 +40,21 @@ public class HorizontalScrollBar extends ScrollBar {
 		return scrollBar.getX()+delta >= getX() && scrollBar.getX()+scrollBar.getWidth() <= getX()+getWidth();
 	}
 	
+	
+	@Override
+	public void resizeL(int deltaW){
+		setX(getX() + deltaW);
+		setWidth(getWidth() - deltaW);
+		margin1.resizeL(deltaW);
+		margin2.resizeL(deltaW);
+		scrollBar.resizeL(deltaW);
+	}
+	
+	@Override
+	public void resizeR(int deltaW){
+		setWidth(getWidth() + deltaW);
+		margin1.resizeR(deltaW);
+		margin2.resizeR(deltaW);
+		scrollBar.resizeR(deltaW);
+	}
 }

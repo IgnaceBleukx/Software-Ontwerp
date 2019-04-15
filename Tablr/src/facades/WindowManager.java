@@ -2,7 +2,10 @@ package facades;
 
 import java.awt.Graphics;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashMap;
+import java.util.NoSuchElementException;
+import java.util.Optional;
 
 import domain.Table;
 import ui.TableDesignModeUI;
@@ -40,6 +43,12 @@ public class WindowManager {
 	 * The selectedUI is the only UI that receives keyboard input
 	 */
 	private UI selectedUI;
+	
+	/**
+	 * The previously selected UI is reselected when the current UI is closed.
+	 */
+	private UI prevSelectedUI;
+
 	
 	private ArrayList<UI> getUIs() {
 		ArrayList<UI> uis = new ArrayList<>();
@@ -79,13 +88,13 @@ public class WindowManager {
 	public void loadTablesModeUI(TablesModeUI ui){
 		ui.setTablr(tablr);
 		ui.setWindowManager(this);
-		this.selectedUI = ui;
+		this.selectUI(ui);
 		ui.loadUI();
 	}
 	
 	public void loadTableRowsModeUI(Table table){
 		TableRowsModeUI ui = tableRowsModeUIs.get(table);
-		this.selectedUI = ui;
+		this.selectUI(ui);
 		ui.setTablr(tablr);
 		ui.setWindowManager(this);
 		ui.loadUI(table);
@@ -93,6 +102,7 @@ public class WindowManager {
 	
 	public void loadTableDesignModeUI(Table table){
 		TableDesignModeUI ui = tableDesignModeUIs.get(table);
+		this.selectUI(ui);
 		ui.setTablr(tablr);
 		ui.setWindowManager(this);
 		ui.loadUI(table);
@@ -188,9 +198,36 @@ public class WindowManager {
 	}
 	
 	public void selectUI(UI u) {
-		selectedUI.deselect();
+		if (u != null && !u.equals(selectedUI))
+			this.prevSelectedUI = selectedUI;
+		if (selectedUI != null)
+			selectedUI.deselect();
 		this.selectedUI = u;
 		if (u != null) u.select();
+		System.out.println("[WindowManager.java:204] New prev UI: "+prevSelectedUI+", new selected UI: "+selectedUI);
+	}
+	
+	/**
+	 * Selects a new UI from the list of UI's. 
+	 * If possible, the previously selected UI becomes selected again.
+	 * If for some reason this is not possible (it has been closed, no previously selected UI exists, ...),
+	 * the most recently created UI is selected.
+	 */
+	public void selectNewUI() {
+		if (prevSelectedUI != null && prevSelectedUI.isActive()) {
+			selectUI(prevSelectedUI);
+			return;
+		}
+		
+		ArrayList<UI> reversedUI = (ArrayList<UI>) getUIs().clone();
+		Collections.reverse(reversedUI);
+		Optional<UI> newSelectedUI = reversedUI.stream().filter(e -> (!e.equals(selectedUI) && e.isActive())).findFirst();
+		
+		try {
+			selectUI(newSelectedUI.get());
+		} catch (NoSuchElementException e) {
+			selectUI(null);
+		}
 	}
 	
 	/**

@@ -226,7 +226,32 @@ public class ListView extends UIElement {
 		elements.stream().forEach(e -> e.move(deltaX, deltaY));
 	}
 	
-
+	/**
+	 * This method resizes the listview from the left. Its elements are not resized.
+	 * @param deltaW 	The amount of pixels the listview should be made smaller with from the left. 
+	 */
+	@Override
+	public void resizeL(int deltaW){
+		setWidth(getWidth()- deltaW);
+		setX(getX()+deltaW);
+		elements.stream().forEach(e -> e.resizeL(deltaW));
+	}
+	
+	/**
+	 * This method resizes the listview from the right. Its elements are not resized.
+	 * @param deltaW 	The amount of pixels the listview should be made larger with from the right.
+	 */
+	@Override
+	public void resizeR(int deltaW){
+		setWidth(getWidth() + deltaW);
+		elements.stream().forEach(e -> e.resizeR(deltaW));
+	}
+	
+	@Override
+	public void resizeT(int deltaH){
+		
+	}
+	
 	
 	
 }
