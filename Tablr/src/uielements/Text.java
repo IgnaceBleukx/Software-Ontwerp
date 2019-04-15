@@ -39,6 +39,7 @@ public class Text extends UIElement {
 		border = b;
 	}
 	
+	
 	/**
 	 * This method sets the text of the current Text.
 	 * @param t: the text to be set.
