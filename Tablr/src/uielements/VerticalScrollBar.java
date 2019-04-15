@@ -1,5 +1,10 @@
 package uielements;
 
+/**
+ * The Vertical scrollbar must always be placed on the right hand side of the items. 
+ * @author r0674255
+ *
+ */
 public class VerticalScrollBar extends ScrollBar{
 
 	public VerticalScrollBar(int x, int y, int w, int h) {
@@ -55,6 +60,16 @@ public class VerticalScrollBar extends ScrollBar{
 		margin2.resizeT(-delta);
 		scrollBar.move(0, delta);
 		scrollListeners.stream().forEach(l -> l.accept(delta));
+	}
+	
+	@Override
+	public void resizeL(int deltaW){
+		
+	}
+	
+	@Override
+	public void resizeR(int deltaW){
+		move(deltaW,0);
 	}
 
 }
