@@ -173,6 +173,7 @@ public class TablesModeTests {
 		assertEquals(1, tablr.getTableRowsUIs().size());
 	}
 	
+	
 	/**
 	 * Deletes a table
 	 */
@@ -182,16 +183,21 @@ public class TablesModeTests {
 	MyCanvasWindow myCW = new MyCanvasWindow("Tables Mode");
 	Tablr tablr = myCW.getTablr();
 	
+	// Perform a ctrl+T to add tables mode subwindow
+	myCW.handleKeyEvent(1, 17, ' ');
+	myCW.handleKeyEvent(1, 84, ' ');
+	
 	// Confirm the first position of the tables mode
-//	assertEquals(tablr.getTablesModeUIs().get(0).getX(), 0);
-//	assertEquals(tablr.getTablesModeUIs().get(0).getY(), 0);
+	assertEquals(tablr.getTablesModeUIs().get(0).getX(), 0);
+	assertEquals(tablr.getTablesModeUIs().get(0).getY(), 0);
 
-	// Perform a ctrl+T
-	MyCanvasWindow.replayRecording("./recordings/dragTablesMode/test", myCW);
+	// Drag the tables mode subwindow to the right
+	myCW.handleMouseEvent(MouseEvent.MOUSE_PRESSED, 0, 0, 1);
+	myCW.handleMouseEvent(MouseEvent.MOUSE_DRAGGED, 0, 10, 1);
 	
 	// Check the changed position of the subwindow
 	assertEquals(tablr.getTablesModeUIs().get(0).getX(), 0);
-	assertEquals(tablr.getTablesModeUIs().get(0).getY(), 19);
+	assertEquals(tablr.getTablesModeUIs().get(0).getY(), 10);
 	}
 	
 	
