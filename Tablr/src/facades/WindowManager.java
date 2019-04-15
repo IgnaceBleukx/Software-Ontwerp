@@ -88,13 +88,13 @@ public class WindowManager {
 	public void loadTablesModeUI(TablesModeUI ui){
 		ui.setTablr(tablr);
 		ui.setWindowManager(this);
-		this.selectedUI = ui;
+		this.selectUI(ui);
 		ui.loadUI();
 	}
 	
 	public void loadTableRowsModeUI(Table table){
 		TableRowsModeUI ui = tableRowsModeUIs.get(table);
-		this.selectedUI = ui;
+		this.selectUI(ui);
 		ui.setTablr(tablr);
 		ui.setWindowManager(this);
 		ui.loadUI(table);
@@ -102,6 +102,7 @@ public class WindowManager {
 	
 	public void loadTableDesignModeUI(Table table){
 		TableDesignModeUI ui = tableDesignModeUIs.get(table);
+		this.selectUI(ui);
 		ui.setTablr(tablr);
 		ui.setWindowManager(this);
 		ui.loadUI(table);
@@ -199,7 +200,8 @@ public class WindowManager {
 	public void selectUI(UI u) {
 		if (u != null && !u.equals(selectedUI))
 			this.prevSelectedUI = selectedUI;
-		selectedUI.deselect();
+		if (selectedUI != null)
+			selectedUI.deselect();
 		this.selectedUI = u;
 		if (u != null) u.select();
 		System.out.println("[WindowManager.java:204] New prev UI: "+prevSelectedUI+", new selected UI: "+selectedUI);
