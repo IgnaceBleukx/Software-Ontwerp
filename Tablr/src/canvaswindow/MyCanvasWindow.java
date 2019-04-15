@@ -128,8 +128,8 @@ public class MyCanvasWindow extends CanvasWindow {
 			System.out.println("[MyCanvasWindow.java:94]: Mouse Released!");
 			try{
 				getTablr().getSelectedUI().getDragging().handleReleased();
+				getTablr().getSelectedUI().setDragging(null);
 			}catch (NullPointerException e){}
-			getTablr().getSelectedUI().setDragging(null);
 		}
 		
 		repaint();
