@@ -22,91 +22,6 @@ public class TablesModeTests {
 	public void setUp() throws Exception {
 	}
 	
-	/**
-	 * use case 4.1: Create a table
-	 */
-	@Test
-	public void ctrlT() {
-		// Load the window
-		MyCanvasWindow myCW = new MyCanvasWindow("Tables Mode");
-		Tablr tablr = myCW.getTablr();
-		
-		// There is no Tables Mode yet
-		assertEquals(tablr.getTablesModeUIs().size(), 0);
-
-		// Perform a ctrl+T
-		myCW.handleKeyEvent(1, 17, ' ');
-		myCW.handleKeyEvent(1, 84, ' ');
-		
-		// Check if there is a Tables Mode added
-		assertEquals(tablr.getTablesModeUIs().size(), 1);
-	}
-	/**
-	 * Open the design mode of a table by double clicking a table name
-	 */
-	@Test
-	public void openDesignModeUI() {
-		// Load the window
-		MyCanvasWindow myCW = new MyCanvasWindow("Tables Mode");
-		Tablr tablr = myCW.getTablr();
-		
-		// There are no tables yet
-		assertEquals(tablr.getTableDesignUIs().size(), 0);
-
-		// Perform a ctrl+T to add tables mode subwindow
-		myCW.handleKeyEvent(1, 17, ' ');
-		myCW.handleKeyEvent(1, 84, ' ');
-		
-		// Double click on listview to create a new table
-		myCW.handleMouseEvent(MouseEvent.MOUSE_CLICKED, 155, 152, 2);
-		
-		// Double click on the table name to open table design mode
-		myCW.handleMouseEvent(0, 70, 38, 2);
-		
-		// Check if there is a table added to the Tablr
-		assertEquals(tablr.getTableDesignUIs().size(), 1);
-	}
-
-	/**
-	 * Deletes a table
-	 */
-	@Test
-	public void deleteTable() {
-		// Load the window
-		MyCanvasWindow myCW = new MyCanvasWindow("Tables Mode");
-		Tablr tablr = myCW.getTablr();
-		
-		// There are no tables yet
-		assertEquals(tablr.getTableDesignUIs().size(), 0);
-
-		// Perform a ctrl+T
-		MyCanvasWindow.replayRecording("./recordings/deleteTable/test", myCW);
-		
-		// Check if there is a table added to the Tablr
-		assertEquals(tablr.getTableDesignUIs().size(), 0);
-	}
-
-	
-	/**
-	 * Deletes a table
-	 */
-	@Test
-	public void dragTablesMode() {
-		// Load the window
-	MyCanvasWindow myCW = new MyCanvasWindow("Tables Mode");
-	Tablr tablr = myCW.getTablr();
-	
-	// Confirm the first position of the tables mode
-//	assertEquals(tablr.getTablesModeUIs().get(0).getX(), 0);
-//	assertEquals(tablr.getTablesModeUIs().get(0).getY(), 0);
-
-	// Perform a ctrl+T
-	MyCanvasWindow.replayRecording("./recordings/dragTablesMode/test", myCW);
-	
-	// Check the changed position of the subwindow
-	assertEquals(tablr.getTablesModeUIs().get(0).getX(), 0);
-	assertEquals(tablr.getTablesModeUIs().get(0).getY(), 19);
-	}
 	
 	/**
 	 * use case 4.1: Create a table
@@ -225,43 +140,60 @@ public class TablesModeTests {
 	/**
 	 * use case 4.4: Open Table
 	 */
-//	@Test
-//	public void useCase4() {
-//		// Step 1: Load the window
-//		MyCanvasWindow myCW = new MyCanvasWindow("Tables Mode");
-//		Tablr coMan = myCW.getTablr();
-//		coMan.clearUI();
-////TODO		coMan.loadUI(Loadable_Interfaces.TABLES);
-////TODO		assertEquals(coMan.getMode(), Loadable_Interfaces.TABLES);
-//		// The user double-clicks below the list of tables to create a table
-//		myCW.handleMouseEvent(0, 40, 530 , 2);
-//
-//		assertEquals(1, coMan.getTables().size());
-//		/*
-//		// Step 1: The user double-clicks a table name.
-//		myCW.handleMouseEvent(0, 51, 13, 2);
-//		
-//		// Step 2: The system moves into Table Design mode for the double-clicked table
-//		// (if the table has no columns), or into Table Rows mode for the doubleclicked table (otherwise).
-//		
-//		
-//		// Table has no columns 
-//		assertEquals(Loadable_Interfaces.TABLE_DESIGN, coMan.getMode());
-//		
-//		// The user double-clicks below the list of tables to create a column
-//		myCW.handleMouseEvent(0, 40, 530 , 2);
-//		
-//		// go back to TABLES_MODE
-//		myCW.handleKeyEvent(0, 27, ' ');
-//		
-//		// The user double-clicks a table name.
-//		myCW.handleMouseEvent(0, 51, 13, 2);
-//		
-//		// Table has a column
-//		assertEquals(Loadable_Interfaces.TABLE_ROWS, coMan.getMode());
-//		*/
-//		
-//	}
+	@Test
+	public void useCase4() {
+		// Step 1: Load the window
+		MyCanvasWindow myCW = new MyCanvasWindow("Tables Mode");
+		Tablr tablr = myCW.getTablr();
+	
+		// Perform a ctrl+T to add tables mode subwindow
+		myCW.handleKeyEvent(1, 17, ' ');
+		myCW.handleKeyEvent(1, 84, ' ');
+		
+		// Double click on listview to create a new table
+		myCW.handleMouseEvent(MouseEvent.MOUSE_CLICKED, 155, 152, 2);
+		
+		// Step 1: The user double-clicks a table name.
+		myCW.handleMouseEvent(MouseEvent.MOUSE_CLICKED, 60, 40, 2);
+		
+		// Step 2: The system creates a new Table Design subwindow for the doubleclicked table 
+		// (if the table has no columns), or a new Table Rows subwindow for the double-clicked table (otherwise).
+		assertEquals(1, tablr.getTableDesignUIs().size());
+		
+		// The user double-clicks below the list of tables to create a column
+		myCW.handleMouseEvent(MouseEvent.MOUSE_CLICKED, 310, 130 , 2);
+		
+		// Table has a column
+		assertEquals(1, tablr.getColumns(tablr.getTables().get(0)));
+		
+		// The user double-clicks the table name to open the table rows mode subwindow
+//		myCW.handleMouseEvent(0, 60, 40, 2);
+	
+			
+	}
+	
+
+	
+	/**
+	 * Deletes a table
+	 */
+	@Test
+	public void dragTablesMode() {
+		// Load the window
+	MyCanvasWindow myCW = new MyCanvasWindow("Tables Mode");
+	Tablr tablr = myCW.getTablr();
+	
+	// Confirm the first position of the tables mode
+//	assertEquals(tablr.getTablesModeUIs().get(0).getX(), 0);
+//	assertEquals(tablr.getTablesModeUIs().get(0).getY(), 0);
+
+	// Perform a ctrl+T
+	MyCanvasWindow.replayRecording("./recordings/dragTablesMode/test", myCW);
+	
+	// Check the changed position of the subwindow
+	assertEquals(tablr.getTablesModeUIs().get(0).getX(), 0);
+	assertEquals(tablr.getTablesModeUIs().get(0).getY(), 19);
+	}
 	
 	
 }
