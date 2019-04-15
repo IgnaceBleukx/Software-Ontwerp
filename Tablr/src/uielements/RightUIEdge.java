@@ -20,5 +20,15 @@ public class RightUIEdge extends UIEdge {
 	public void resizeR(int deltaW){
 		this.move(deltaW,0);
 	}
+
+	
+	
+	@Override
+	void swell(int i) {
+		if (isSwollen && i > 0) return;
+		this.setWidth(getWidth()+i);
+		this.move(-i/2, 0);
+		isSwollen = true;
+	}
 	
 }

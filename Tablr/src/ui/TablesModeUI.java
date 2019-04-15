@@ -4,6 +4,7 @@ import java.awt.Color;
 import java.util.ArrayList;
 import java.util.Optional;
 
+import uielements.BottomUIEdge;
 import uielements.Button;
 import uielements.CloseButton;
 import uielements.RightUIEdge;
@@ -20,7 +21,6 @@ import facades.Tablr;
 
 public class TablesModeUI extends UI {
 	
-	static int titleHeight = 15;
 	static int tableRowHeight = 35;
 	static int scrollBarWidth = 10;
 	
@@ -31,8 +31,7 @@ public class TablesModeUI extends UI {
 	
 	public void loadUI(){
 		setActive();
-		this.clear();
-		
+		this.clear();		
 		
 		//Creating background:
 		addUIElement(new VoidElement(getX(), getY(), getWidth(), getHeight(), new Color(230,230,230,230)));
@@ -70,6 +69,8 @@ public class TablesModeUI extends UI {
 			getWindowManager().selectNewUI();
 		});		
 		
+		loadUIAttributes();
+
 		ListView list = loadFromTables();
 		addUIElement(list);
 		
@@ -87,16 +88,17 @@ public class TablesModeUI extends UI {
 	private ListView loadFromTables() {
 		ArrayList<UIElement> rows = new ArrayList<>();
 		System.out.println("[TableModeUI.java:78] : Dimensions of UI: X=" + getX() + " Y= " + getY() + " W=" + getWidth() + " H=" + getHeight());
-		ListView list = new ListView(getX(), getY() + titleHeight, getWidth(), getHeight()-titleHeight, rows);
+		ListView list = new ListView(getX()+edgeW, getY()+edgeW+titleHeight, getWidth()-2*edgeW, getHeight()-2*edgeW-titleHeight, rows);
 
 		ArrayList<Table> tables = this.getTablr().getTables();
+		int y = list.getY();
 		for (int i=0;i<tables.size();i++) { 
 			Table curr = tables.get(i);
-			UIRow currRow = new UIRow(getX(), getY()+i*tableRowHeight+titleHeight, getWidth()-10,tableRowHeight, new ArrayList<UIElement>());
+			UIRow currRow = new UIRow(list.getX(), y, getWidth()-scrollBarWidth,tableRowHeight, new ArrayList<UIElement>());
 			list.addElement(currRow);
 
 			int buttonSize = currRow.getHeight();
-			Button deleteButton = new Button(getX(), getY()+i*tableRowHeight +titleHeight,buttonSize,buttonSize,"");
+			Button deleteButton = new Button(list.getX(), y,buttonSize,buttonSize,"");
 			currRow.addElement(deleteButton);
 			
 			//Listener to select rows
@@ -117,7 +119,7 @@ public class TablesModeUI extends UI {
 			});
 			
 			
-			TextField tableNameLabel = new TextField(getX()+buttonSize, getY()+titleHeight+i*tableRowHeight, getWidth()-buttonSize-scrollBarWidth, tableRowHeight, curr.getName());
+			TextField tableNameLabel = new TextField(deleteButton.getEndX(), y, getWidth()-buttonSize-scrollBarWidth, tableRowHeight, curr.getName());
 			currRow.addElement(tableNameLabel);
 			//Table name textfields listen to alphanumeric keyboard input
 			tableNameLabel.addKeyboardListener(-1, () -> {
@@ -156,6 +158,8 @@ public class TablesModeUI extends UI {
 
 				}
 			});
+			
+			y = currRow.getEndY();
 		}	
 		
 		//Selects a row in the listview

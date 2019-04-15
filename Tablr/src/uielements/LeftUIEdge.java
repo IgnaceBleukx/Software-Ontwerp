@@ -22,4 +22,12 @@ public class LeftUIEdge extends UIEdge {
 		
 	}
 
+	@Override
+	void swell(int i) {
+		if (isSwollen && i > 0) return;
+		this.setWidth(getWidth()+i);
+		this.move(-i/2,0);
+		isSwollen = true;
+	}
+
 }
