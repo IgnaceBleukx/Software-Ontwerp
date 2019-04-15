@@ -61,7 +61,8 @@ public class TablesModeUI extends UI {
 		});
 		close.addSingleClickListener(() -> {
 			setInactive();
-			getWindowManager().selectUI(null);
+			//getWindowManager().selectUI(null);
+			getWindowManager().selectNewUI();
 		});		
 		
 		ListView list = loadFromTables();

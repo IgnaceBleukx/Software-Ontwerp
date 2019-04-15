@@ -63,41 +63,41 @@ public class MyCanvasWindow extends CanvasWindow {
 	public void handleMouseEvent(int id, int x, int y, int clickCount){
 		UIElement clicked;
 		try {
-			System.out.println("[MyCanvasWindow.java:65]: tablr = " + tablr);
-			System.out.println("[MyCanvasWindow.java:66]: ui = " + tablr.getUIAt(x,y));
+//			System.out.println("[MyCanvasWindow.java:66]: ui = " + tablr.getUIAt(x,y));
 			clicked = tablr.getUIAt(x, y).locatedAt(x, y);
 		} catch (NullPointerException e) {
 			System.out.println("[MyCanvasWindow.java:67]: No UI at these coordinates");
 			return;
 		}
 		getTablr().selectUI(clicked.getUI());
-		System.out.println("[MyCanvasWindow.java:71]: Clicked on: " + clicked);
+//		System.out.println("[MyCanvasWindow.java:71]: Clicked on: " + clicked);
 //		System.out.println("[MyCanvaswindow.java:72] : Id = " +id);
-		System.out.println("[MyCanvaswindow.java:73] : X-coordinate = " + x);
-		System.out.println("[MyCanvaswindow.java:74] : Y-coordinate = " + y);
+//		System.out.println("[MyCanvaswindow.java:73] : X-coordinate = " + x);
+//		System.out.println("[MyCanvaswindow.java:74] : Y-coordinate = " + y);
 				
 		if (clicked == null) return;
 		
 		//Mouse pressed
 		if (id  == MouseEvent.MOUSE_PRESSED) {
-			System.out.println("[MyCanvasWindow.java:83]: Mouse Pressed!");
+			//System.out.println("[MyCanvasWindow.java:83]: Mouse Pressed!");
 			clicked.handlePressed(x, y);
 		}
 		//Mouse dragged
 		else if (id == MouseEvent.MOUSE_DRAGGED) {
-			System.out.println("[MyCanvasWindow.java:88]: Mouse Dragged!");
+			//System.out.println("[MyCanvasWindow.java:88]: Mouse Dragged!");
 			dragCounter++;
 			clicked.handleDrag(x,y);
 			clicked.handlePressed(x, y);
 		}
 		//Mouse released
 		else if (id == MouseEvent.MOUSE_RELEASED) {	
-			System.out.println("[MyCanvasWindow.java:94]: Mouse Released!");
+			//System.out.println("[MyCanvasWindow.java:94]: Mouse Released!");
 			clicked.handleReleased();
 		}
+		
 		//Mouse clicked
 		else if (id == MouseEvent.MOUSE_CLICKED) {
-			System.out.println("[MyCanvasWindow.java:99]: Mouse Clicked!");
+			//System.out.println("[MyCanvasWindow.java:99]: Mouse Clicked!");
 			/**
 			 * Some element has a hard lock, ignore this input if the
 			 * element getting the input is not the element that has the hard lock
