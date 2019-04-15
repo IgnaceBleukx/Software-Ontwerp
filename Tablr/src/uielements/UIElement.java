@@ -66,7 +66,6 @@ public abstract class UIElement {
 		return this.error;
 	}
 	
-	//TODO: dit gebruiken voor de name edit bugs?
 	/**
 	 * locks this element up: no other actions can be performed in the UI until the lock is resolved
 	 */

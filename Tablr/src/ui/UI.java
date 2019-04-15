@@ -162,8 +162,7 @@ public class UI {
 	 * @param list: the UIElements to be added
 	 */
 	public void addAllUIElements(ArrayList<UIElement> list) {
-		list.stream().forEach(e -> addUIElement(e));
-		
+		list.stream().forEach(e -> addUIElement(e));	
 }
 	
 	/**
@@ -279,16 +278,14 @@ public class UI {
 	
 	public void select(){
 		isSelected = true;
-		for (UIElement e : elements){
-			if (e instanceof Titlebar|| e instanceof CloseButton) e.setColor(new Color(200,200,200));
-		}
+		close.setColor(new Color(200,200,200,200));
+		titleBar.setColor(new Color(200,200,200,200));
 	}
 	
 	public void deselect(){
 		isSelected = false;
-		for (UIElement e : elements){
-			if (e instanceof Titlebar || e instanceof CloseButton) e.setColor(Color.WHITE);
-		}
+		close.setColor(Color.WHITE);
+		titleBar.setColor(Color.WHITE);
 	}
 	
 	public boolean isSelected(){

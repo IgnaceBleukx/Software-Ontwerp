@@ -60,14 +60,6 @@ public class TableDesignModeUI extends UI {
 		int margin = getWidth() / 15;
 		int currentHeight = getY()+titleHeight;
 		
-//		VoidElement background = new VoidElement(getX(), getY(), getWidth(), getHeight(), new Color(230,230,230,230));
-//		addUIElement(background);
-		
-//		Titlebar titleBar = new Titlebar(getX(), getY(), getWidth() - 30, titleHeight, "Table Design Mode: " + table.getName());
-//		CloseButton close = new CloseButton(getX() + getWidth() - 30, getY(), 30, titleHeight, 4);
-//		this.addUIElement(close);
-//		this.addUIElement(titleBar);
-		
 		Text name = new Text(namePosX, currentHeight, nameSizeX, 15,"Name");
 		Dragger nameDragger = new Dragger(namePosX+nameSizeX - 2, currentHeight, 4, 15);
 		Text type = new Text(typePosX, currentHeight, typeSizeX, 15,"Type");

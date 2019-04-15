@@ -177,6 +177,7 @@ public class UITable extends UIElement {
 	public void move(int deltaX, int deltaY) {
 		setX(getX() + deltaX);
 		setY(getY() + deltaY);
+		legend.move(deltaX, deltaY);
 		rows.stream().forEach(e -> e.move(deltaX, deltaY));
 	}
 }
