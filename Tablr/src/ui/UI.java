@@ -234,23 +234,39 @@ public class UI {
 		elements.stream().forEach(e -> e.move(deltaX, deltaY));
 	}
 	
+	/**
+	 * This method resizes the UI and all its elements from the left.
+	 * @param deltaW 	The amount of pixels the UI must be made smaller with from the left.
+	 */
 	public void resizeL(int deltaW) {
-		setWidth(getWidth() + deltaW);
-		this.move(deltaW,0);
+		setX(getX()+deltaW);
+		setWidth(getWidth() - deltaW);
 		elements.stream().forEach(e -> e.resizeL(deltaW));
 	}
 	
+	/**
+	 * This method resized the UI and all its element from the right.
+	 * @param deltaW 	The amount of pixels the UI must be made larger with from the right.
+	 */
 	public void resizeR(int deltaW) {
 		setWidth(getWidth() + deltaW);
 		elements.stream().forEach(e -> e.resizeR(deltaW));
 	}
 	
+	/**
+	 * This method resized the UI and all its elements from the top.
+	 * @param deltaH 	The amount of pixels the UI must be made smaller with from the top.
+	 */
 	public void resizeT(int deltaH) {
-		setHeight(getHeight() + deltaH);
+		setHeight(getHeight() - deltaH);
 		move(0,deltaH);
 		elements.stream().forEach(e -> e.resizeT(deltaH));
 	}
 	
+	/**
+	 * This method resizes the UI and all its elements from the bottom.
+	 * @param deltaH 	The amount of pixels the UI should be made larger with from the bottom.
+	 */
 	public void resizeB(int deltaH) {
 		setHeight(getHeight()+deltaH);
 		elements.stream().forEach(e -> e.resizeB(deltaH));

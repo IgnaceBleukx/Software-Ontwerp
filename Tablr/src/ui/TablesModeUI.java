@@ -3,19 +3,17 @@ package ui;
 import java.awt.Color;
 import java.util.ArrayList;
 import java.util.Optional;
-import java.util.function.BiConsumer;
-import java.util.function.BiFunction;
 
 import uielements.Button;
 import uielements.CloseButton;
-import uielements.HorizontalUIEdge;
+import uielements.RightUIEdge;
+import uielements.TopUIEdge;
 import uielements.ListView;
 import uielements.TextField;
 import uielements.Titlebar;
-import uielements.UIEdge;
 import uielements.UIElement;
 import uielements.UIRow;
-import uielements.VerticalUIEdge;
+import uielements.LeftUIEdge;
 import uielements.VoidElement;
 import domain.Table;
 import facades.Tablr;
@@ -44,11 +42,17 @@ public class TablesModeUI extends UI {
 		this.addUIElement(close);
 		this.addUIElement(titleBar);
 		
-		VerticalUIEdge leftResize = new VerticalUIEdge(getX(),getY(),5,getHeight());
+		LeftUIEdge leftResize = new LeftUIEdge(getX(),getY(),5,getHeight());
 		this.addUIElement(leftResize);
 		leftResize.addDragListener((newX,newY) ->{
 			int delta = newX - leftResize.getGrabPointX();
 			this.resizeL(delta);
+		});
+		RightUIEdge rightResize = new RightUIEdge(getX()+getWidth()-5,getY(),5,getHeight());
+		this.addUIElement(rightResize);
+		rightResize.addDragListener((newX,newY) ->{
+			int delta = newX - rightResize.getGrabPointX();
+			this.resizeR(delta);
 		});
 		
 		//Adding listeners:
