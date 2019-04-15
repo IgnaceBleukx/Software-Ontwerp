@@ -54,9 +54,9 @@ public class UITable extends UIElement {
 	public void paint(Graphics g) {
 		legend.paint(g);
 		g.drawRect(getX(), getY(), getWidth(), getHeight());
-		for(UIRow r : rows){
-			r.paint(g);
-		}
+		g.setClip(getX(),getY(),getWidth(),getHeight());
+		rows.stream().forEach(r -> r.paint(g));
+		g.setClip(null);
 		if (getSelected() != null) {
 			UIElement s = this.getSelected();
 			g.fillOval(s.getX()+s.getWidth()+10, s.getY()+s.getHeight()/2, 8, 8);
