@@ -9,7 +9,7 @@ public class Program {
 		         MyCanvasWindow mcw = new MyCanvasWindow("Tables Mode");
 		         mcw.show();
 //		         Voor het maken van nieuwe recodings: maak de passende folder manueel aan en verander in de volgende lijn het pad
-//		         mcw.recordSession("./recordings/dragTablesMode/test");
+		         mcw.recordSession("./recordings/test/test");
 		      });
 	}
 	
