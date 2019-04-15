@@ -2,6 +2,8 @@ package tests;
 
 import static org.junit.Assert.*;
 
+import java.awt.event.MouseEvent;
+
 import org.junit.Before;
 import org.junit.Test;
 
@@ -33,7 +35,8 @@ public class TablesModeTests {
 		assertEquals(tablr.getTablesModeUIs().size(), 0);
 
 		// Perform a ctrl+T
-		MyCanvasWindow.replayRecording("./recordings/ctrlT/test", myCW);
+		myCW.handleKeyEvent(1, 17, ' ');
+		myCW.handleKeyEvent(1, 84, ' ');
 		
 		// Check if there is a Tables Mode added
 		assertEquals(tablr.getTablesModeUIs().size(), 1);
@@ -50,8 +53,15 @@ public class TablesModeTests {
 		// There are no tables yet
 		assertEquals(tablr.getTableDesignUIs().size(), 0);
 
-		// Perform a ctrl+T
-		MyCanvasWindow.replayRecording("./recordings/openDesignModeUI/test", myCW);
+		// Perform a ctrl+T to add tables mode subwindow
+		myCW.handleKeyEvent(1, 17, ' ');
+		myCW.handleKeyEvent(1, 84, ' ');
+		
+		// Double click on listview to create a new table
+		myCW.handleMouseEvent(MouseEvent.MOUSE_CLICKED, 155, 152, 2);
+		
+		// Double click on the table name to open table design mode
+		myCW.handleMouseEvent(0, 70, 38, 2);
 		
 		// Check if there is a table added to the Tablr
 		assertEquals(tablr.getTableDesignUIs().size(), 1);
@@ -101,69 +111,79 @@ public class TablesModeTests {
 	/**
 	 * use case 4.1: Create a table
 	 */
-//	@Test
-//	public void useCase1() {
-//		// Load the window
-//		MyCanvasWindow myCW = new MyCanvasWindow("Tables Mode");
-//		Tablr coMan = myCW.getTablr();
-//		coMan.clearUI();
-////TODO		coMan.loadUI(Loadable_Interfaces.TABLES);
-//		// There are no tables yet
-//		assertEquals(coMan.getTables().size(), 0);
-//		// Step 1: The user double-clicks below the list of tables
-//		myCW.handleMouseEvent(0, 40, 530 , 2);
-//		// Step 2: There is a table added to the tables list
-//		assertEquals(coMan.getTables().size(), 1);
-//	}
+	@Test
+	public void useCase1() {
+		// Load the window
+		MyCanvasWindow myCW = new MyCanvasWindow("Tables Mode");
+		Tablr tablr = myCW.getTablr();
+		
+		// There are no tables yet
+		assertEquals(tablr.getTableDesignUIs().size(), 0);
+
+		// Perform a ctrl+T to add tables mode subwindow
+		myCW.handleKeyEvent(1, 17, ' ');
+		myCW.handleKeyEvent(1, 84, ' ');
+		
+		assertEquals(tablr.getTables().size(), 0);
+		
+		// Double click on listview to create a new table
+		myCW.handleMouseEvent(MouseEvent.MOUSE_CLICKED, 155, 152, 2);
+		
+		// There is a table added to the tables list
+		assertEquals(tablr.getTables().size(), 1);
+	}
 	
 	
 	/**
 	 * use case 4.2: Edit table name
 	 * 
-	 * TODO: 5.a en 6.a (nog niet geimplementeerd op 11/03/2019 om 15:31
 	 */
-//	@Test
-//	public void useCase2() {
-//		// Load the window
-//		MyCanvasWindow myCW = new MyCanvasWindow("Tables Mode");
-//		Tablr coMan = myCW.getTablr();
-//		coMan.clearUI();
-////TODO		coMan.loadUI(Loadable_Interfaces.TABLES);
-//		// Create an empty table with a simulated double click
-//		myCW.handleMouseEvent(0, 40, 530, 2);
-//		// Check the name of the added table
-//		assertEquals("Table0",coMan.getTables().get(0).getName());
-//		// Step 1 & 2: The user clicks a table name and the textfield gets selected
-//		myCW.handleMouseEvent(0, 51, 13, 1);
-//		TextField t = (TextField) coMan.getActiveUI().locatedAt(51, 13);
-//		assertEquals(t.isSelected(), true);
-//		// Step 3: Remove the last character of the highlighted table name
-//		// (8 is backspace)
-//		myCW.handleKeyEvent(1, 8, ' ');
-//		assertEquals("Table", coMan.getTables().get(0).getName());
-//		
-//		// Step 4: Check to see if table name gets red when it is empty or equal to name of another table
-//		assertEquals(t.getError(), false);
-//		for(int i = 0; i<5; i++){
-//			myCW.handleKeyEvent(1, 8, ' ');
-//		}
-//		assertEquals("", coMan.getTables().get(0).getName());
-//		assertEquals(t.getError(), true);
-//		
-//		// Add a character to the highlighted table name
-//		myCW.handleKeyEvent(1, 65, 'a');
-//		assertEquals("a", coMan.getTables().get(0).getName());
-//		
+	@Test
+	public void useCase2() {
+		// Load the window
+		MyCanvasWindow myCW = new MyCanvasWindow("Tables Mode");
+		Tablr tablr = myCW.getTablr();
+		
+		// Perform a ctrl+T
+		myCW.handleKeyEvent(1, 17, ' ');
+		myCW.handleKeyEvent(1, 84, ' ');
+		// Double click on listview to create a new table
+		myCW.handleMouseEvent(MouseEvent.MOUSE_CLICKED, 155, 152, 2);
+		
+		// Check the name of the added table
+		assertEquals("Table0",tablr.getTables().get(0).getName());
+		
+		// Step 1 & 2: The user clicks a table name and the textfield gets selected
+		myCW.handleMouseEvent(MouseEvent.MOUSE_CLICKED, 60, 30, 1);
+		TextField t = (TextField) tablr.getUIAt(60, 30).locatedAt(60, 30);
+		assertEquals(t.isSelected(), true);
+		// Step 3: Remove the last character of the highlighted table name
+		// (8 is backspace)
+		myCW.handleKeyEvent(0, 8, ' ');
+		assertEquals("Table", tablr.getTables().get(0).getName());
+		
+		// Step 4: Check to see if table name gets red when it is empty or equal to name of another table
+		assertEquals(t.getError(), false);
+		for(int i = 0; i<5; i++){
+			myCW.handleKeyEvent(1, 8, ' ');
+		}
+		assertEquals("", tablr.getTables().get(0).getName());
+		assertEquals(t.getError(), true);
+		
+		// Add a character to the highlighted table name
+		myCW.handleKeyEvent(1, 65, 'a');
+		assertEquals("a", tablr.getTables().get(0).getName());
+		
 //		// Step 5: Press Enter to finish editing
 //		myCW.handleKeyEvent(1, 10, ' ');
 //		assertEquals(t.isSelected(), false);
 //		
 //		// Or click outside table name 
-//		myCW.handleMouseEvent(0, 51, 13, 1);
-//		assertEquals(t.isSelected(), true);
-//		myCW.handleMouseEvent(0, 51, 300, 1);
-//		assertEquals(t.isSelected(), false);
-//	}
+//		myCW.handleMouseEvent(MouseEvent.MOUSE_CLICKED, 60, 30, 1);
+//		assertEquals(true, t.isSelected());
+		myCW.handleMouseEvent(MouseEvent.MOUSE_CLICKED, 60, 300, 1);
+		assertEquals(false, t.isSelected());
+	}
 	
 	/**
 	 * use case 4.3: Delete Table
