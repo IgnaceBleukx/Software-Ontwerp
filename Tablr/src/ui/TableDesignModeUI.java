@@ -40,14 +40,14 @@ public class TableDesignModeUI extends UI {
 	public TableDesignModeUI(int x, int y, int w, int h,Tablr t) {
 		super(x,y,w,h);
 		this.setTablr(t);
-		namePosX = getX() + margin;
+		namePosX = getX() + margin + edgeW;
 		nameSizeX = getWidth()*5/15;
-		typePosX = getX() + margin + nameSizeX;
+		typePosX = getX() + margin + edgeW + nameSizeX;
 		typeSizeX = getWidth()*3/15;
-		blankPosX = getX() + margin + nameSizeX + typeSizeX;
+		blankPosX = getX() + margin + edgeW + nameSizeX + typeSizeX;
 		blankSizeX = getWidth()*2/15;
-		defPosX = getX() + margin + nameSizeX + typeSizeX + blankSizeX;
-		defSizeX =  getWidth() *4/15 - 10; //10 van scrollbar
+		defPosX = getX() + margin + edgeW + nameSizeX + typeSizeX + blankSizeX;
+		defSizeX = getWidth() *4/15 - edgeW;
 	}
 	
 	
@@ -57,8 +57,7 @@ public class TableDesignModeUI extends UI {
 		this.clear();
 		loadUIAttributes();
 		//int titleHeight = 15;
-		int margin = getWidth() / 15;
-		int currentHeight = getY()+titleHeight;
+		int currentHeight = getY()+titleHeight+edgeW;
 		
 //		VoidElement background = new VoidElement(getX(), getY(), getWidth(), getHeight(), new Color(230,230,230,230));
 //		addUIElement(background);
@@ -168,7 +167,7 @@ public class TableDesignModeUI extends UI {
 		
 		//Refresh listview
 		addUIElement(loadColumnAttributes(table, titleHeight));
-	}
+	}	
 	
 	private void updateHeaders(int currentHeight){
 		ArrayList<UIElement> toDelete = new ArrayList<UIElement>();
@@ -177,6 +176,7 @@ public class TableDesignModeUI extends UI {
 				toDelete.add(e);
 			}
 		}
+		
 		for(UIElement e : toDelete){
 			getElements().remove(e);
 		}
@@ -203,34 +203,38 @@ public class TableDesignModeUI extends UI {
 	
 	private void refresh(Table table, int titleHeight){
 		updateListView(table, titleHeight);
-		updateHeaders(titleHeight + getY());
+		updateHeaders(titleHeight + getY() + edgeW);
 	}
 	
 	private ListView loadColumnAttributes(Table table,int titleHeight) {
 		
-		int margin = getWidth() / 15;
 		int currentHeight = getY() + 30;
 		
-		ListView listview = new ListView(getX(), currentHeight, getWidth(), getHeight()-titleHeight-20, new ArrayList<UIElement>());
+		ListView listview = new ListView(getX()+edgeW, 
+				getY()+edgeW+currentHeight, 
+				getWidth() - 2*edgeW, 
+				getHeight()-currentHeight -2*edgeW, 
+				new ArrayList<UIElement>());
+		
 		Tablr c = getTablr();
 		
 		for(Column col : c.getColumns(table)){
-			TextField colName = new TextField(getX() + margin, currentHeight, getWidth()*6/15, 30, c.getColumnName(col));
-			Text colType = new Text(getX() + getWidth()*6/15 + margin, currentHeight, getWidth()*3/15, 30, c.getColumnType(col).toString()); 
+			TextField colName = new TextField(namePosX, currentHeight, nameSizeX, 30, c.getColumnName(col));
+			Text colType = new Text(typePosX, currentHeight, typeSizeX, 30, c.getColumnType(col).toString()); 
 			colType.setBorder(true);
-			Checkbox colBlankPol = new Checkbox(getX() +getWidth()*9/15 + margin + 10, currentHeight + 5, 20, 20, c.getBlankingPolicy(col));
+			Checkbox colBlankPol = new Checkbox(blankPosX + blankSizeX/2 - 10, currentHeight + 5, 20, 20, c.getBlankingPolicy(col));
 			String defaultValue = c.getDefaultString(col);
-
+			
 			ArrayList<UIElement> list = new ArrayList<UIElement>(){{ add(colName); add(colType); add(colBlankPol);}};
 			if(c.getColumnType(col) == Type.BOOLEAN){				
-				Checkbox defaultBoolean = new Checkbox(getX() + getWidth()*11/15 + margin + 10, currentHeight + 5,20,20,(Boolean) c.getDefaultValue(col));
+				Checkbox defaultBoolean = new Checkbox(defPosX + defSizeX/2 - 10, currentHeight + 5,20,20,(Boolean) c.getDefaultValue(col));
 				list.add(defaultBoolean);
 				defaultBoolean.addSingleClickListener(() -> {
 					c.toggleDefault(col);
 				});
 			}
 			else{
-				TextField colDefText = new TextField(getX() + getWidth()*11/15+margin,currentHeight,getWidth() *4/15 ,30, defaultValue);
+				TextField colDefText = new TextField(defPosX,currentHeight, defSizeX ,30, defaultValue);
 				list.add(colDefText);
 				colDefText.addKeyboardListener(-1,()-> {
 					try{
@@ -250,7 +254,7 @@ public class TableDesignModeUI extends UI {
 				});
 			}
 			
-			UIRow uiRow = new UIRow(getX(),currentHeight,getWidth(),30,list);
+			UIRow uiRow = new UIRow(getX() + edgeW ,getY()+currentHeight, getWidth() - 2*edgeW - 10, 30,list);
 			currentHeight += 30;
 			listview.addElement(uiRow);			
 			
@@ -340,6 +344,46 @@ public class TableDesignModeUI extends UI {
 		return listview;
 	}
 	
-	
+	/**
+	 * This method resized the UI and all its element from the right.
+	 * @param deltaW 	The amount of pixels the UI must be made larger with from the right.
+	 */
+	@Override
+	public void resizeR(int deltaW) {
+		setWidth(getWidth() + deltaW);
+		getElements().stream().filter(e -> !(e instanceof Text || e instanceof Dragger)).forEach(e -> e.resizeR(deltaW));
+	}
 
+	/**
+	 * This method resizes the UI and all its elements from the left.
+	 * @param deltaW 	The amount of pixels the UI must be made smaller with from the left.
+	 */
+	@Override
+	public void resizeL(int deltaW) {
+		setX(getX()+deltaW);
+		setWidth(getWidth() - deltaW);
+		getElements().stream().filter(e -> !(e instanceof Text || e instanceof Dragger)).forEach(e -> e.resizeL(deltaW));
+	}
+	
+	/**
+	 * This method resized the UI and all its elements from the top.
+	 * @param deltaH 	The amount of pixels the UI must be made smaller with from the top.
+	 */
+	@Override
+	public void resizeT(int deltaH) {
+		setHeight(getHeight() - deltaH);
+		setY(getY()+deltaH);
+		getElements().stream().filter(e -> !(e instanceof Text || e instanceof Dragger)).forEach(e -> e.resizeT(deltaH));
+	}
+	
+	/**
+	 * This method resizes the UI and all its elements from the bottom.
+	 * @param deltaH 	The amount of pixels the UI should be made larger with from the bottom.
+	 */
+	@Override
+	public void resizeB(int deltaH) {
+		setHeight(getHeight()+deltaH);
+		getElements().stream().filter(e -> !(e instanceof Text || e instanceof Dragger)).forEach(e -> e.resizeB(deltaH));
+	}
+	
 }

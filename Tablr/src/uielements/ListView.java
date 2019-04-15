@@ -234,7 +234,7 @@ public class ListView extends UIElement {
 	public void resizeL(int deltaW){
 		setWidth(getWidth()- deltaW);
 		setX(getX()+deltaW);
-		elements.stream().forEach(e -> e.resizeL(deltaW));
+		elements.stream().forEach(e -> e.resizeL(deltaW)); //TODO: Onafhankelijk maken
 	}
 	
 	/**
@@ -244,7 +244,7 @@ public class ListView extends UIElement {
 	@Override
 	public void resizeR(int deltaW){
 		setWidth(getWidth() + deltaW);
-		elements.stream().forEach(e -> e.resizeR(deltaW));
+		elements.stream().forEach(e -> e.resizeR(deltaW)); //TODO: Onafhankelijk maken
 	}
 	
 	@Override

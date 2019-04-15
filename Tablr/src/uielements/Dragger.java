@@ -7,7 +7,6 @@ import java.util.function.BiConsumer;
 
 public class Dragger extends UIElement{
 
-	private boolean isSwollen = false;
 	
 	public Dragger(int x, int y, int w, int h){
 		super(x,y,w,h);
@@ -24,25 +23,10 @@ public class Dragger extends UIElement{
 		this.setGrabPointX(x);
 		this.setGrabPointY(y);
 		new ArrayList<>(pressListeners).stream().forEach(l -> l.run());
-		this.swell(10);
-	}
-	
-	private void swell(int i) {
-		System.out.println("[Dragger.java:30]: swelling");
-		if (isSwollen && i > 0) return;
-		this.setWidth(getWidth()+i);
-		this.move(-i/2,0);
-		isSwollen = true;
 	}
 	
 	@Override
 	public void handleReleased(){
-		this.endDrag();
-		if (isSwollen){
-			System.out.println("[Dragger.java:41]: deswelling");
-			swell(-10);
-			isSwollen = false;
-		}
 	}
 	
 	@Override
