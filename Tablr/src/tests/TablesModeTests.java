@@ -161,18 +161,17 @@ public class TablesModeTests {
 		assertEquals(1, tablr.getTableDesignUIs().size());
 		
 		// The user double-clicks below the list of tables to create a column
-		myCW.handleMouseEvent(MouseEvent.MOUSE_CLICKED, 310, 130 , 2);
+		myCW.handleMouseEvent(MouseEvent.MOUSE_CLICKED, 380, 100 , 2);
 		
 		// Table has a column
-		assertEquals(1, tablr.getColumns(tablr.getTables().get(0)));
+		assertEquals(1, tablr.getColumns(tablr.getTables().get(0)).size());
 		
 		// The user double-clicks the table name to open the table rows mode subwindow
-//		myCW.handleMouseEvent(0, 60, 40, 2);
-	
-			
+		myCW.handleMouseEvent(0, 60, 40, 2);
+		
+		// A Table Rows mode subwindow is shown.
+		assertEquals(1, tablr.getTableRowsUIs().size());
 	}
-	
-
 	
 	/**
 	 * Deletes a table
