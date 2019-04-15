@@ -46,7 +46,7 @@ public class ListView extends UIElement {
 	
 	private VerticalScrollBar scrollBarV = new VerticalScrollBar(getEndX()-10, getY(),10,getHeight()-10);
 	private HorizontalScrollBar scrollBarH = new HorizontalScrollBar(getX(),getEndY()-10,getWidth()-10, 10);
-	private int additionalSpace = 30; //pixels reserved under the last row in the listview, to make sure there is a space in the listview to click on.
+	private int additionalSpace = 15; //pixels reserved under the last row in the listview, to make sure there is a space in the listview to click on.
 		
 	public void updateScrollBar() {
 		try {

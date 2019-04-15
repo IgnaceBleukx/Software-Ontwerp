@@ -3,11 +3,14 @@ package ui;
 import java.awt.Color;
 import java.util.ArrayList;
 import java.util.Optional;
+import java.util.stream.Stream;
 
 import uielements.Button;
 import uielements.Checkbox;
 import uielements.CloseButton;
+import uielements.Dragger;
 import uielements.ListView;
+import uielements.ScrollBar;
 import uielements.Text;
 import uielements.TextField;
 import uielements.Titlebar;
@@ -23,9 +26,28 @@ import facades.Tablr;
 
 public class TableDesignModeUI extends UI {
 	
+	int margin = getWidth() / 15;
+	
+	private int namePosX;
+	private int nameSizeX;
+	private int typePosX;
+	private int typeSizeX;
+	private int blankPosX;
+	private int blankSizeX;
+	private int defPosX;
+	private int defSizeX;
+	
 	public TableDesignModeUI(int x, int y, int w, int h,Tablr t) {
 		super(x,y,w,h);
 		this.setTablr(t);
+		namePosX = getX() + margin;
+		nameSizeX = getWidth()*5/15;
+		typePosX = getX() + margin + nameSizeX;
+		typeSizeX = getWidth()*3/15;
+		blankPosX = getX() + margin + nameSizeX + typeSizeX;
+		blankSizeX = getWidth()*2/15;
+		defPosX = getX() + margin + nameSizeX + typeSizeX + blankSizeX;
+		defSizeX =  getWidth() *4/15 - 10; //10 van scrollbar
 	}
 	
 	
@@ -35,8 +57,8 @@ public class TableDesignModeUI extends UI {
 		this.clear();
 		loadUIAttributes();
 		//int titleHeight = 15;
-		int currentHeight = getY()+13;
 		int margin = getWidth() / 15;
+		int currentHeight = getY()+titleHeight;
 		
 //		VoidElement background = new VoidElement(getX(), getY(), getWidth(), getHeight(), new Color(230,230,230,230));
 //		addUIElement(background);
@@ -46,36 +68,125 @@ public class TableDesignModeUI extends UI {
 //		this.addUIElement(close);
 //		this.addUIElement(titleBar);
 		
-		Text name = new Text(getX() + margin, currentHeight, getWidth()*6/15, 20,"Name");
-		Text type = new Text(getX() + margin + getWidth()* 6 / 15, currentHeight, getWidth() *3/ 15, 20,"Type");
-		Text blanks_al = new Text(getX() + margin + getWidth()* 9 / 15+10, currentHeight, 20, 20,"Blanks_al");
-		Text def = new Text(getX() + margin + getWidth()* 11 / 15, currentHeight, getWidth() *4/15, 20,"Default");
+		Text name = new Text(namePosX, currentHeight, nameSizeX, 15,"Name");
+		Dragger nameDragger = new Dragger(namePosX+nameSizeX - 2, currentHeight, 4, 15);
+		Text type = new Text(typePosX, currentHeight, typeSizeX, 15,"Type");
+		Dragger typeDragger = new Dragger(typePosX+typeSizeX - 2, currentHeight, 4, 15);
+		Text blank = new Text(blankPosX, currentHeight, blankSizeX, 15,"Blank");
+		Dragger blankDragger = new Dragger(blankPosX+blankSizeX - 2, currentHeight, 4, 15);
+		Text def = new Text(defPosX, currentHeight, defSizeX, 15,"Default");
+		Dragger defDragger = new Dragger(defPosX+defSizeX - 2, currentHeight, 4, 15);
+		
+		name.setBorder(true);
+		type.setBorder(true);
+		blank.setBorder(true);
+		def.setBorder(true);
+		
 		
 		this.addAllUIElements(new ArrayList<UIElement>()
 			{{
+				add(nameDragger);
+				add(typeDragger);
+				add(blankDragger);
+				add(defDragger);
 				add(name);
 				add(type);
-				add(blanks_al);
+				add(blank);
 				add(def);
 			}}
 		);		
+
+		nameDragger.addDragListener((newX,newY) -> { 
+			int delta = newX - nameDragger.getGrabPointX();
+			if (nameDragger.getX()+delta>=namePosX){
+				nameSizeX+=delta;
+				typePosX+=delta;
+				blankPosX+=delta;
+				defPosX+=delta;
+				refresh(table, titleHeight);
+				System.out.println("TDMUI: 118: DRAGGING");
+			}
+		});
+		
+		typeDragger.addDragListener((newX,newY) -> { 
+			int delta = newX - typeDragger.getGrabPointX();
+			if (typeDragger.getX()+delta>=typePosX){
+				typeSizeX+=delta;
+				blankPosX+=delta;
+				defPosX+=delta;
+				refresh(table, titleHeight);
+			}
+		});
+		
+		blankDragger.addDragListener((newX,newY) -> { 
+			int delta = newX - blankDragger.getGrabPointX();
+			if (blankDragger.getX()+delta>=blankPosX){
+				blankSizeX+=delta;
+				defPosX+=delta;
+				refresh(table, titleHeight);
+			}
+		});
+		
+		defDragger.addDragListener((newX,newY) -> { 
+			int delta = newX - defDragger.getGrabPointX();
+			if (defDragger.getX()+delta>=defPosX){
+				defSizeX+=delta;
+				refresh(table, titleHeight);
+			}
+		});
 		
 		ListView listview = loadColumnAttributes(table, titleHeight);
 		addUIElement(listview);
 				
 		//Reload listview when domain changed
 		tablr.addDomainChangedListener(() -> {
-			//Remove the old listview
-			Optional<UIElement> ll = getElements().stream().filter(e -> e instanceof ListView).findFirst();
-			this.getElements().remove(ll.orElseThrow(() -> new RuntimeException("No listview to bind listener to.")));
 			
-			//Load new ListView from tables
-			addUIElement(loadColumnAttributes(table, titleHeight));
+			updateListView(table, titleHeight);
 			
 			titleBar.setText("Table Design Mode: " + table.getName());
 		});
 
 	}	
+	
+	private void updateListView(Table table, int titleHeight){
+		Optional<UIElement> ll = getElements().stream().filter(e -> e instanceof ListView).findFirst();
+		this.getElements().remove(ll.orElseThrow(() -> new RuntimeException("No listview to refresh")));
+		
+		//Refresh listview
+		addUIElement(loadColumnAttributes(table, titleHeight));
+	}
+	
+	private void updateHeaders(int currentHeight){
+		Stream<UIElement> ll = getElements().stream().filter(e -> e instanceof Text || e instanceof Dragger);
+		this.getElements().remove(ll);
+		
+		Text name = new Text(namePosX, currentHeight, nameSizeX, 15,"Name");
+		Dragger nameDragger = new Dragger(namePosX+nameSizeX - 2, currentHeight, 4, 15);
+		Text type = new Text(typePosX, currentHeight, typeSizeX, 15,"Type");
+		Dragger typeDragger = new Dragger(typePosX+typeSizeX - 2, currentHeight, 4, 15);
+		Text blank = new Text(blankPosX, currentHeight, blankSizeX, 15,"Blank");
+		Dragger blankDragger = new Dragger(blankPosX+blankSizeX - 2, currentHeight, 4, 15);
+		Text def = new Text(defPosX, currentHeight, defSizeX, 15,"Default");
+		Dragger defDragger = new Dragger(defPosX+defSizeX - 2, currentHeight, 4, 15);
+		
+		this.addAllUIElements(new ArrayList<UIElement>()
+				{{
+					add(nameDragger);
+					add(typeDragger);
+					add(blankDragger);
+					add(defDragger);
+					add(name);
+					add(type);
+					add(blank);
+					add(def);
+				}}
+			);
+	}
+	
+	private void refresh(Table table, int titleHeight){
+		updateListView(table, titleHeight);
+		updateHeaders(titleHeight + getY());
+	}
 	
 	private ListView loadColumnAttributes(Table table,int titleHeight) {
 		
@@ -135,7 +246,7 @@ public class TableDesignModeUI extends UI {
 			
 			uiRow.addKeyboardListener(127,() -> {
 				if(uiRow.equals(listview.getSelectedElement())){
-					c.removeColumn(table, listview.getElements().indexOf(uiRow));
+					c.removeColumn(table, listview.getElements().indexOf(uiRow) - 2); //2 scrollbars waar we geen rekening mee moeten houden
 					listview.setSelectedElement(null);
 				}
 			});
