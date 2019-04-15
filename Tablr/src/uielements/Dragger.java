@@ -1,5 +1,6 @@
 package uielements;
 
+import java.awt.Color;
 import java.awt.Graphics;
 import java.util.ArrayList;
 import java.util.function.BiConsumer;
@@ -22,9 +23,9 @@ public class Dragger extends UIElement{
 		this.beginDrag();
 		this.setGrabPointX(x);
 		this.setGrabPointY(y);
+		new ArrayList<>(pressListeners).stream().forEach(l -> l.run());
 		this.swell(10);
 	}
-	
 	
 	private void swell(int i) {
 		System.out.println("[Dragger.java:30]: swelling");
@@ -53,6 +54,11 @@ public class Dragger extends UIElement{
 	@Override
 	public void handleKeyboardEvent(int keyCode, char keyChar) {}
 
+	
 	@Override
-	public void paint(Graphics g) {}
+	public void paint(Graphics g) {
+		Color transparant = new Color(0,0,0);
+		g.setColor(transparant);
+		g.fillRect(getX(), getY(), getWidth(), getHeight());
+	}
 }

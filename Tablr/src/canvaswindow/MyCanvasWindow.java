@@ -59,64 +59,76 @@ public class MyCanvasWindow extends CanvasWindow {
 	 */
 	@Override
 	public void handleMouseEvent(int id, int x, int y, int clickCount){
-		UIElement clicked;
-		try {
-//			System.out.println("[MyCanvasWindow.java:66]: ui = " + tablr.getUIAt(x,y));
-			clicked = tablr.getUIAt(x, y).locatedAt(x, y);
-		} catch (NullPointerException e) {
-			System.out.println("[MyCanvasWindow.java:67]: No UI at these coordinates");
-			return;
-		}
+		UIElement clicked = null;
 		
-		try{
-			getTablr().selectUI(clicked.getUI());
-		}catch (NullPointerException e){
-			getTablr().selectUI(null);
+		if (id == MouseEvent.MOUSE_PRESSED || id == MouseEvent.MOUSE_CLICKED){ //Only search for a potential new UI with THESE actions
+			try {
+//				System.out.println("[MyCanvasWindow.java:66]: ui = " + tablr.getUIAt(x,y));
+				clicked = tablr.getUIAt(x, y).locatedAt(x, y);
+			} catch (NullPointerException e) {
+				System.out.println("[MyCanvasWindow.java:67]: No UI at these coordinates");
+				return;
+			}
+			
+			try{
+				getTablr().selectUI(clicked.getUI());
+			}catch (NullPointerException e){
+				getTablr().selectUI(null);
+			}
+			if (clicked == null) return;
+			
+			//Mouse pressed
+			if (id  == MouseEvent.MOUSE_PRESSED) {
+				//System.out.println("[MyCanvasWindow.java:83]: Mouse Pressed!");
+				clicked.handlePressed(x, y);
+			}
+
+			//Mouse clicked
+			else if (id == MouseEvent.MOUSE_CLICKED) {
+				//System.out.println("[MyCanvasWindow.java:99]: Mouse Clicked!");
+				/**
+				 * Some element has a hard lock, ignore this input if the
+				 * element getting the input is not the element that has the hard lock
+				 */
+				if(getTablr().getLockedElement() != (null) && !getTablr().getLockedElement().equals(clicked)){
+					return;
+				}
+				
+
+				if (clickCount == 2) {
+					clicked.handleDoubleClick();
+				}
+				else if (clickCount == 1) {
+					clicked.handleSingleClick();
+				}
+			}
+			
 		}
-		System.out.println("[MyCanvasWindow.java:71]: Clicked on: " + clicked);
+//		System.out.println("[MyCanvasWindow.java:71]: Clicked on: " + clicked);
 //		System.out.println("[MyCanvaswindow.java:72] : Id = " +id);
 //		System.out.println("[MyCanvaswindow.java:73] : X-coordinate = " + x);
 //		System.out.println("[MyCanvaswindow.java:74] : Y-coordinate = " + y);
 				
-		if (clicked == null) return;
 		
-		//Mouse pressed
-		if (id  == MouseEvent.MOUSE_PRESSED) {
-			//System.out.println("[MyCanvasWindow.java:83]: Mouse Pressed!");
-			clicked.handlePressed(x, y);
-		}
+		
 		//Mouse dragged
 		else if (id == MouseEvent.MOUSE_DRAGGED) {
-			//System.out.println("[MyCanvasWindow.java:88]: Mouse Dragged!");
+			System.out.println("[MyCanvasWindow.java:88]: Mouse Dragged!");
 			dragCounter++;
-			clicked.handleDrag(x,y);
-			clicked.handlePressed(x, y);
+			try{
+				getTablr().getSelectedUI().getDragging().handleDrag(x, y);
+				getTablr().getSelectedUI().getDragging().handlePressed(x, y);
+			}catch (NullPointerException e){}
 		}
 		//Mouse released
 		else if (id == MouseEvent.MOUSE_RELEASED) {	
 			System.out.println("[MyCanvasWindow.java:94]: Mouse Released!");
-			clicked.handleReleased();
+			try{
+				getTablr().getSelectedUI().getDragging().handleReleased();
+			}catch (NullPointerException e){}
+			getTablr().getSelectedUI().setDragging(null);
 		}
 		
-		//Mouse clicked
-		else if (id == MouseEvent.MOUSE_CLICKED) {
-			//System.out.println("[MyCanvasWindow.java:99]: Mouse Clicked!");
-			/**
-			 * Some element has a hard lock, ignore this input if the
-			 * element getting the input is not the element that has the hard lock
-			 */
-			if(getTablr().getLockedElement() != (null) && !getTablr().getLockedElement().equals(clicked)){
-				return;
-			}
-			
-
-			if (clickCount == 2) {
-				clicked.handleDoubleClick();
-			}
-			else if (clickCount == 1) {
-				clicked.handleSingleClick();
-			}
-		}
 		repaint();
 	}
 

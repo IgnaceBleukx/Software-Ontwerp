@@ -83,7 +83,7 @@ public class UI {
 	private int height;
 	private int width;
 	static int edgeW = 5;
-	private UIElement dragging;
+	private UIElement dragging = null;
 	
 	public UIElement getDragging(){
 		return dragging;
@@ -165,6 +165,10 @@ public class UI {
 		
 		e.addPressListener(() -> {
 			setDragging(e);
+		});
+		
+		e.addReleaseListener(() -> {
+			setDragging(null);
 		});
 		
 		e.setUI(this);
