@@ -104,6 +104,11 @@ public abstract class UIElement {
 	protected ArrayList<Runnable> doubleClickListeners = new ArrayList();
 	
 	/**
+	 * All objects that get notified when this UIElement is pressed.
+	 */
+	protected ArrayList<Runnable> pressListeners = new ArrayList();
+	
+	/**
 	 * HashMap that maps keycodes to a list of runnables that are to be executed
 	 */
 	protected HashMap<Integer, ArrayList<Runnable>> keyboardListeners = new HashMap<Integer, ArrayList<Runnable>>();
@@ -145,6 +150,10 @@ public abstract class UIElement {
 	
 	public void addDragListener(BiConsumer<Integer,Integer> f) {
 		dragListeners.add(f);
+	}
+
+	public void addPressListener(Runnable f) {
+		pressListeners.add(f);
 	}
 	
 	public void handlePressed(int x,int y){

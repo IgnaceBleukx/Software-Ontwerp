@@ -98,21 +98,27 @@ public class TableDesignModeUI extends UI {
 
 		nameDragger.addDragListener((newX,newY) -> { 
 			int delta = newX - nameDragger.getGrabPointX();
-			if (nameDragger.getX()+delta>=namePosX){
+			if (nameDragger.getX()+delta>=namePosX+10){
+				nameDragger.move(delta, 0);
 				nameSizeX+=delta;
+				typeDragger.move(delta, 0);
 				typePosX+=delta;
+				blankDragger.move(delta, 0);
 				blankPosX+=delta;
+				defDragger.move(delta, 0);
 				defPosX+=delta;
 				refresh(table, titleHeight);
-				System.out.println("TDMUI: 118: DRAGGING");
 			}
 		});
 		
 		typeDragger.addDragListener((newX,newY) -> { 
 			int delta = newX - typeDragger.getGrabPointX();
-			if (typeDragger.getX()+delta>=typePosX){
+			if (typeDragger.getX()+delta>=typePosX+10){
+				typeDragger.move(delta, 0);
 				typeSizeX+=delta;
+				blankDragger.move(delta, 0);
 				blankPosX+=delta;
+				defDragger.move(delta, 0);
 				defPosX+=delta;
 				refresh(table, titleHeight);
 			}
@@ -120,8 +126,10 @@ public class TableDesignModeUI extends UI {
 		
 		blankDragger.addDragListener((newX,newY) -> { 
 			int delta = newX - blankDragger.getGrabPointX();
-			if (blankDragger.getX()+delta>=blankPosX){
+			if (blankDragger.getX()+delta>=blankPosX+10){
+				blankDragger.move(delta, 0);
 				blankSizeX+=delta;
+				defDragger.move(delta, 0);
 				defPosX+=delta;
 				refresh(table, titleHeight);
 			}
@@ -129,7 +137,8 @@ public class TableDesignModeUI extends UI {
 		
 		defDragger.addDragListener((newX,newY) -> { 
 			int delta = newX - defDragger.getGrabPointX();
-			if (defDragger.getX()+delta>=defPosX){
+			if (defDragger.getX()+delta>=defPosX+10){
+				defDragger.move(delta, 0);
 				defSizeX+=delta;
 				refresh(table, titleHeight);
 			}
@@ -162,24 +171,28 @@ public class TableDesignModeUI extends UI {
 	}
 	
 	private void updateHeaders(int currentHeight){
-		Stream<UIElement> ll = getElements().stream().filter(e -> e instanceof Text || e instanceof Dragger);
-		this.getElements().remove(ll);
+		ArrayList<UIElement> toDelete = new ArrayList<UIElement>();
+		for(UIElement e : getElements()){
+			if(e instanceof Text){
+				toDelete.add(e);
+			}
+		}
+		for(UIElement e : toDelete){
+			getElements().remove(e);
+		}
 		
 		Text name = new Text(namePosX, currentHeight, nameSizeX, 15,"Name");
-		Dragger nameDragger = new Dragger(namePosX+nameSizeX - 2, currentHeight, 4, 15);
 		Text type = new Text(typePosX, currentHeight, typeSizeX, 15,"Type");
-		Dragger typeDragger = new Dragger(typePosX+typeSizeX - 2, currentHeight, 4, 15);
 		Text blank = new Text(blankPosX, currentHeight, blankSizeX, 15,"Blank");
-		Dragger blankDragger = new Dragger(blankPosX+blankSizeX - 2, currentHeight, 4, 15);
 		Text def = new Text(defPosX, currentHeight, defSizeX, 15,"Default");
-		Dragger defDragger = new Dragger(defPosX+defSizeX - 2, currentHeight, 4, 15);
+		
+		name.setBorder(true);
+		type.setBorder(true);
+		blank.setBorder(true);
+		def.setBorder(true);
 		
 		this.addAllUIElements(new ArrayList<UIElement>()
 				{{
-					add(nameDragger);
-					add(typeDragger);
-					add(blankDragger);
-					add(defDragger);
 					add(name);
 					add(type);
 					add(blank);
