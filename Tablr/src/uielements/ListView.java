@@ -249,7 +249,16 @@ public class ListView extends UIElement {
 	
 	@Override
 	public void resizeT(int deltaH){
-		
+		this.setHeight(getHeight() - deltaH);
+		this.setY(getY()+deltaH);
+		elements.stream().forEach(e -> e.resizeT(deltaH));
+		updateScrollBar();
+	}
+	
+	@Override
+	public void resizeB(int deltaH){
+		this.setHeight(getHeight() + deltaH);
+		updateScrollBar();
 	}
 	
 	

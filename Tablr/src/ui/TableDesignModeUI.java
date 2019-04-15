@@ -33,18 +33,18 @@ public class TableDesignModeUI extends UI {
 	public void loadUI(Table table){
 		setActive();
 		this.clear();
-		
-		int titleHeight = 15;
+		loadUIAttributes();
+		//int titleHeight = 15;
 		int currentHeight = getY()+13;
 		int margin = getWidth() / 15;
 		
-		VoidElement background = new VoidElement(getX(), getY(), getWidth(), getHeight(), new Color(230,230,230,230));
-		addUIElement(background);
+//		VoidElement background = new VoidElement(getX(), getY(), getWidth(), getHeight(), new Color(230,230,230,230));
+//		addUIElement(background);
 		
-		Titlebar titleBar = new Titlebar(getX(), getY(), getWidth() - 30, titleHeight, "Table Design Mode: " + table.getName());
-		CloseButton close = new CloseButton(getX() + getWidth() - 30, getY(), 30, titleHeight, 4);
-		this.addUIElement(close);
-		this.addUIElement(titleBar);
+//		Titlebar titleBar = new Titlebar(getX(), getY(), getWidth() - 30, titleHeight, "Table Design Mode: " + table.getName());
+//		CloseButton close = new CloseButton(getX() + getWidth() - 30, getY(), 30, titleHeight, 4);
+//		this.addUIElement(close);
+//		this.addUIElement(titleBar);
 		
 		Text name = new Text(getX() + margin, currentHeight, getWidth()*6/15, 20,"Name");
 		Text type = new Text(getX() + margin + getWidth()* 6 / 15, currentHeight, getWidth() *3/ 15, 20,"Type");
@@ -58,20 +58,7 @@ public class TableDesignModeUI extends UI {
 				add(blanks_al);
 				add(def);
 			}}
-		);
-
-		
-		//Adding listeners:
-		titleBar.addDragListener((x,y) -> { 
-			this.setX(x);
-			this.setY(y);
-		});
-		close.addSingleClickListener(() -> {
-			this.setInactive();
-			getWindowManager().selectUI(null);
-		});		
-		
-		
+		);		
 		
 		ListView listview = loadColumnAttributes(table, titleHeight);
 		addUIElement(listview);
