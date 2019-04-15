@@ -55,17 +55,18 @@ public class TableDesignModeUI extends UI {
 	public void loadUI(Table table){
 		setActive();
 		this.clear();
-		
-		int titleHeight = 15;
+		loadUIAttributes();
+		//int titleHeight = 15;
+		int margin = getWidth() / 15;
 		int currentHeight = getY()+titleHeight;
 		
-		VoidElement background = new VoidElement(getX(), getY(), getWidth(), getHeight(), new Color(230,230,230,230));
-		addUIElement(background);
+//		VoidElement background = new VoidElement(getX(), getY(), getWidth(), getHeight(), new Color(230,230,230,230));
+//		addUIElement(background);
 		
-		Titlebar titleBar = new Titlebar(getX(), getY(), getWidth() - 30, titleHeight, "Table Design Mode: " + table.getName());
-		CloseButton close = new CloseButton(getX() + getWidth() - 30, getY(), 30, titleHeight, 4);
-		this.addUIElement(close);
-		this.addUIElement(titleBar);
+//		Titlebar titleBar = new Titlebar(getX(), getY(), getWidth() - 30, titleHeight, "Table Design Mode: " + table.getName());
+//		CloseButton close = new CloseButton(getX() + getWidth() - 30, getY(), 30, titleHeight, 4);
+//		this.addUIElement(close);
+//		this.addUIElement(titleBar);
 		
 		Text name = new Text(namePosX, currentHeight, nameSizeX, 15,"Name");
 		Dragger nameDragger = new Dragger(namePosX+nameSizeX - 2, currentHeight, 4, 15);
@@ -93,19 +94,7 @@ public class TableDesignModeUI extends UI {
 				add(blank);
 				add(def);
 			}}
-		);
-		
-		
-		//Adding listeners:
-		titleBar.addDragListener((x,y) -> { 
-			this.setX(x);
-			this.setY(y);
-		});
-		close.addSingleClickListener(() -> {
-			this.setInactive();
-			getWindowManager().selectUI(null);
-		});		
-		
+		);		
 
 		nameDragger.addDragListener((newX,newY) -> { 
 			int delta = newX - nameDragger.getGrabPointX();
@@ -154,8 +143,6 @@ public class TableDesignModeUI extends UI {
 				refresh(table, titleHeight);
 			}
 		});
-		
-		
 		
 		ListView listview = loadColumnAttributes(table, titleHeight);
 		addUIElement(listview);
