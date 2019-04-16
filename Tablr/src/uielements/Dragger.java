@@ -22,7 +22,7 @@ public class Dragger extends UIElement{
 		this.beginDrag();
 		this.setGrabPointX(x);
 		this.setGrabPointY(y);
-		new ArrayList<>(pressListeners).stream().forEach(l -> l.run());
+		new ArrayList<>(pressListeners).stream().forEach(l -> l.accept(this));
 	}
 	
 	@Override

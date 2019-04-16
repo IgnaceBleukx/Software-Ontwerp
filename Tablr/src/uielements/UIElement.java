@@ -8,6 +8,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.function.BiConsumer;
 import java.util.function.BiFunction;
+import java.util.function.Consumer;
 import java.util.function.Function;
 
 import facades.Tablr;
@@ -105,7 +106,7 @@ public abstract class UIElement {
 	/**
 	 * All objects that get notified when this UIElement is pressed.
 	 */
-	protected ArrayList<Runnable> pressListeners = new ArrayList();
+	protected ArrayList<Consumer<UIElement>> pressListeners = new ArrayList();
 	
 	/**
 	 * All objects that get notified when this UIElement is released.
@@ -156,7 +157,7 @@ public abstract class UIElement {
 		dragListeners.add(f);
 	}
 
-	public void addPressListener(Runnable f) {
+	public void addPressListener(Consumer<UIElement> f) {
 		pressListeners.add(f);
 	}
 	
@@ -168,7 +169,7 @@ public abstract class UIElement {
 		this.beginDrag();
 		this.setGrabPointX(x);
 		this.setGrabPointY(y);
-		new ArrayList<>(pressListeners).stream().forEach(l -> l.run());
+		new ArrayList<>(pressListeners).stream().forEach(l -> l.accept(this));
 	}
 	
 	public void handleReleased() {

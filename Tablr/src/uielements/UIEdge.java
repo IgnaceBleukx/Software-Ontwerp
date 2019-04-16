@@ -17,7 +17,7 @@ public abstract class UIEdge extends UIElement {
 		this.beginDrag();
 		this.setGrabPointX(x);
 		this.setGrabPointY(y);
-		new ArrayList<>(pressListeners).stream().forEach(l -> l.run());
+		new ArrayList<>(pressListeners).stream().forEach(l -> l.accept(this));
 		this.swell(10);
 	}
 	

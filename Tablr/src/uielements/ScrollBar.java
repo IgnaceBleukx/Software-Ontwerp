@@ -14,6 +14,7 @@ public abstract class ScrollBar extends UIElement{
 	public ScrollBar(int x, int y, int w, int h) {
 		super(x, y, w, h);
 		scrollBar.setColor(off);
+		scrollBar.addPressListener((f) -> new ArrayList<>(pressListeners).stream().forEach(l -> l.accept(this)));
 	}
 	
 	private Color on = Color.LIGHT_GRAY;
@@ -64,11 +65,6 @@ public abstract class ScrollBar extends UIElement{
 	@Override
 	public int getGrabPointY() {
 		return scrollBar.getGrabPointY();
-	}
-	
-	@Override
-	public void addDragListener(BiConsumer<Integer,Integer> c) {
-		scrollBar.addDragListener(c);
 	}
 
 	@Override

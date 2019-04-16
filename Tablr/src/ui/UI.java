@@ -163,8 +163,9 @@ public class UI {
 	public void addUIElement(UIElement e){
 		this.elements.add(e);
 		
-		e.addPressListener(() -> {
-			setDragging(e);
+		
+		e.addPressListener((dragElement) -> {
+			setDragging(dragElement);
 		});
 		
 		e.addReleaseListener(() -> {

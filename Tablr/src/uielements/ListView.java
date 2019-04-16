@@ -33,7 +33,12 @@ public class ListView extends UIElement {
 		elements.add(scrollBarH);
 		updateScrollBar();
 		
-		//Adding listeners
+		
+		//add listeners
+		scrollBarV.addPressListener((e) -> {
+			new ArrayList<>(pressListeners).stream().forEach(l -> l.accept(scrollBarV));
+		});
+		
 		scrollBarV.addScrollListener((delta) ->{
 			elements.stream().filter(e -> !(e instanceof ScrollBar)).forEach(e -> e.move(0, -delta));
 		});
@@ -43,11 +48,26 @@ public class ListView extends UIElement {
 			scrollBarV.scroll(delta);
 		});
 		
+		
+		scrollBarH.addPressListener((e) -> {
+			new ArrayList<>(pressListeners).stream().forEach(l -> l.accept(scrollBarH));
+		});
+		
+		scrollBarH.addScrollListener((delta) ->{
+			elements.stream().filter(e -> !(e instanceof ScrollBar)).forEach(e -> e.move(-delta, 0));
+		});
+		
+		scrollBarH.addDragListener((newX,newY) -> {
+			int delta = newY - scrollBarH.getGrabPointY();
+			scrollBarH.scroll(delta);
+		});
+		
+		
 	}
 	
 	private VerticalScrollBar scrollBarV = new VerticalScrollBar(getEndX()-10, getY(),10,getHeight()-10);
 	private HorizontalScrollBar scrollBarH = new HorizontalScrollBar(getX(),getEndY()-10,getWidth()-10, 10);
-	private int additionalSpace = 15; //pixels reserved under the last row in the listview, to make sure there is a space in the listview to click on.
+	private int additionalSpace = 35; //pixels reserved under the last row in the listview, to make sure there is a space in the listview to click on.
 		
 	public void updateScrollBar() {
 		try {
@@ -253,13 +273,16 @@ public class ListView extends UIElement {
 	public void resizeT(int deltaH){
 		this.setHeight(getHeight() - deltaH);
 		this.setY(getY()+deltaH);
-		elements.stream().forEach(e -> e.resizeT(deltaH));
+		this.scrollBarV.move(0, deltaH);
+		getElements().stream().filter(e -> !(e instanceof ScrollBar)).forEach(e -> e.move(0, deltaH));
 		updateScrollBar();
 	}
 	
 	@Override
 	public void resizeB(int deltaH){
 		this.setHeight(getHeight() + deltaH);
+		this.scrollBarV.resizeB(deltaH);
+		this.scrollBarH.move(0, deltaH);
 		updateScrollBar();
 	}
 	
