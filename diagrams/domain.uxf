@@ -1,0 +1,110 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<diagram program="umlet" version="14.3.0">
+  <zoom_level>10</zoom_level>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>50</x>
+      <y>370</y>
+      <w>200</w>
+      <h>150</h>
+    </coordinates>
+    <panel_attributes>Table
+--
+Name: String
+nbOfRows: Int
+--
+addEmtpyColumn()
+removeColumn()
+addRow()
+removeRow()</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>400</x>
+      <y>370</y>
+      <w>190</w>
+      <h>270</h>
+    </coordinates>
+    <panel_attributes>Column
+--
+allowsBlanks: Boolean
+defaultValue: Object
+name: String
+type: Type
+--
+_getNextType()_
+_isValidValue()_
+_nextValueBoolean()_
+_parseValue()_
+addCell()
+changeCellValue()
+setName()
+setColumnType()
+setDefaultValue()
+toggleBlanks()
+
+</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>750</x>
+      <y>370</y>
+      <w>180</w>
+      <h>50</h>
+    </coordinates>
+    <panel_attributes>Cell&lt;T&gt;
+--
+value: T</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>240</x>
+      <y>360</y>
+      <w>180</w>
+      <h>50</h>
+    </coordinates>
+    <panel_attributes>lt=-
+m1=0..*
+m2=1..1
+has</panel_attributes>
+    <additional_attributes>160.0;20.0;10.0;20.0</additional_attributes>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>140</x>
+      <y>580</y>
+      <w>130</w>
+      <h>130</h>
+    </coordinates>
+    <panel_attributes>&lt;&lt;enumeration&gt;&gt;
+Type
+--
+EMAIL
+INTEGER
+BOOLEAN
+STRING</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>580</x>
+      <y>360</y>
+      <w>190</w>
+      <h>50</h>
+    </coordinates>
+    <panel_attributes>lt=-
+m1=1..1
+m2=0..*
+has</panel_attributes>
+    <additional_attributes>10.0;20.0;170.0;20.0</additional_attributes>
+  </element>
+</diagram>
