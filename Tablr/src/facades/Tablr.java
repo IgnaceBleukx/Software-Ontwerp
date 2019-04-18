@@ -16,12 +16,9 @@ import ui.UI;
 import uielements.UIElement;
 
 /**
- * Class holding all methods that are used by elements in the UI
- * to modify the domain, and by domain elements to modify the UI.
- * The CommunicationManager delegates its calls to one of its 
- * facades (domainFacade or UIFacade) to reduce coupling between
- * UI and Domain, because objects only need a reference to the
- * CommunicationManager.
+ * Class holding all methods that are used by UIs to modify the domain.
+ * Tablr delegates its calls to domainFacade or WindowManager to reduce coupling between
+ * UI and Domain, because UIs only need a reference to Tablr.
  *
  */
 public class Tablr {

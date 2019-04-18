@@ -107,12 +107,7 @@ public class MyCanvasWindow extends CanvasWindow {
 			}
 			
 		}
-//		System.out.println("[MyCanvasWindow.java:71]: Clicked on: " + clicked);
-//		System.out.println("[MyCanvaswindow.java:72] : Id = " +id);
-//		System.out.println("[MyCanvaswindow.java:73] : X-coordinate = " + x);
-//		System.out.println("[MyCanvaswindow.java:74] : Y-coordinate = " + y);
-				
-		
+
 		
 		//Mouse dragged
 		else if (id == MouseEvent.MOUSE_DRAGGED) {
@@ -123,6 +118,7 @@ public class MyCanvasWindow extends CanvasWindow {
 				getTablr().getSelectedUI().getDragging().handlePressed(x, y);
 			}catch (NullPointerException e){}
 		}
+		
 		//Mouse released
 		else if (id == MouseEvent.MOUSE_RELEASED) {	
 			System.out.println("[MyCanvasWindow.java:94]: Mouse Released!");
@@ -135,7 +131,7 @@ public class MyCanvasWindow extends CanvasWindow {
 		repaint();
 	}
 
-	// Date that keeps track of the latest time a 'Ctrl' button is clicked
+	// Date that keeps track of the last time a 'Ctrl' button is clicked
 	private Date ctrlTimestamp = null;
 	private int milliSecondsWaiting = 1000;
 	private int dragCounter = 0;
@@ -166,10 +162,11 @@ public class MyCanvasWindow extends CanvasWindow {
 	
 	/**
 	 * Delegates a key event to all elements in the <b>selected</b> UI.
-	 * To allow flexible keyboard event handling, negative keycodes are used.
+	 * Negative keycodes are used to listen to more complex events, such as
+	 * alphanumerics.
 	 * @param id		ID of the event
 	 * @param keyCode	Java keyCode of the key that was pressed
-	 * @param keyChar	Java c2har of the key that was pressed (if applicable)
+	 * @param keyChar	Java char of the key that was pressed (if applicable)
 	 */
 	@Override
 	public void handleKeyEvent(int id, int keyCode, char keyChar){
