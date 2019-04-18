@@ -45,12 +45,7 @@ public class TableRowsModeUI extends UI {
 		Tablr c = getTablr();
 		int cellHeight = 30;
 		
-		int cellWidth;
-		if (c.getColumnNames(tab).size() != 0)
-			cellWidth = (getWidth()-2*edgeW+20)/c.getColumnNames(tab).size();
-		else
-			cellWidth = 100;
-		
+		int cellWidth = c.getColumnNames(tab).size() != 0 ? (getWidth()-2*edgeW+20)/c.getColumnNames(tab).size() : 0;
 		UITable uiTable = loadTable(tab, titleBar.getHeight(), cellHeight, cellWidth);
 		this.addUIElement(uiTable);
 		
@@ -79,18 +74,19 @@ public class TableRowsModeUI extends UI {
 	private UITable loadTable(Table tab, int titleHeight, int cellHeight, int cellWidth){
 		//Creating legend with all column names:
 		UIRow legend = new UIRow(getX()+edgeW,titleBar.getEndY(), getWidth()-2*edgeW, 30, new ArrayList<UIElement>());
+		int margin = 20;
 		
 		int a = 0;
 		for(String name: getTablr().getColumnNames(tab)) {
-			legend.addElement(new Text(getX() + a*cellWidth,legend.getY(), cellWidth, 20, name));
+			legend.addElement(new Text(getX() + margin+a*cellWidth,legend.getY(), cellWidth, 20, name));
 			a++;
 		}
-		UITable uiTable = new UITable(getX()+edgeW, titleBar.getEndY(), getWidth()-2*edgeW, getHeight()-edgeW, legend, new ArrayList<UIRow>());
+		UITable uiTable = new UITable(getX()+edgeW, titleBar.getEndY(), getWidth()-2*edgeW, getHeight()-2*edgeW-titleBar.getHeight(), legend, new ArrayList<UIRow>());
 		
 		int numberOfRows = getTablr().getRows(tab);
 		int y = legend.getEndY();
 		for(int i=0;i<numberOfRows;i++){
-			int x = getX()+20;
+			int x = getX()+margin;
 			ArrayList<UIElement> emts = new ArrayList<UIElement>();
 			for(Column col : getTablr().getColumns(tab)){
 				String val = getTablr().getValueString(col,i);

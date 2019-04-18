@@ -51,8 +51,8 @@ public class UITable extends UIElement {
 	HorizontalScrollBar scrollBarH = new HorizontalScrollBar(getX(),getEndY()-scrollBarW,getWidth()-scrollBarW,scrollBarW,new Rounder());
 	
 	private void updateScrollBars(){
-		scrollBarV.update(getRows().stream().mapToInt(r -> r.getHeight()).sum(),getHeight());
-		scrollBarH.update(getRows().stream().mapToInt(r -> r.getWidth()).max().orElse(getWidth()), getWidth());
+		scrollBarV.update(getRows().stream().mapToInt(r -> r.getHeight()).sum(),getHeight()-scrollBarW);
+		scrollBarH.update(getRows().stream().mapToInt(r -> r.getWidth()).max().orElse(getWidth()), getWidth()-scrollBarW);
 	}
 	
 	/**
@@ -85,9 +85,9 @@ public class UITable extends UIElement {
 	
 	@Override
 	public void paint(Graphics g) {
-		legend.paint(g);
 		g.drawRect(getX(), getY(), getWidth(), getHeight());
-		g.setClip(getX(),getY(),getWidth(),getHeight());
+		g.setClip(getX(),getY(),getWidth()-scrollBarW,getHeight()-scrollBarW);
+		legend.paint(g);
 		rows.stream().forEach(r -> r.paint(g));
 		g.setClip(null);
 		if (getSelected() != null) {
@@ -216,5 +216,41 @@ public class UITable extends UIElement {
 		rows.stream().forEach(e -> e.move(deltaX, deltaY));
 		scrollBarH.move(deltaX, deltaY);
 		scrollBarV.move(deltaX, deltaY);
+	}
+	
+	@Override
+	public void resizeL(int deltaX){
+		this.setWidth(getWidth()-deltaX);
+		this.setX(getX()+deltaX);
+		legend.resizeL(deltaX);
+		rows.stream().forEach(r -> r.resizeL(deltaX));
+		scrollBarV.resizeL(deltaX);
+		scrollBarH.resizeL(deltaX);
+		updateScrollBars();
+	}
+	@Override
+	public void resizeR(int deltaX){
+		this.setWidth(getWidth()+deltaX);
+		legend.resizeR(deltaX);
+		rows.stream().forEach(r -> r.resizeR(deltaX));
+		scrollBarV.resizeR(deltaX);
+		scrollBarH.resizeR(deltaX);
+		updateScrollBars();
+	}
+	@Override
+	public void resizeB(int deltaY){
+		this.setHeight(getHeight()+deltaY);
+		legend.resizeB(deltaY);
+		scrollBarV.resizeB(deltaY);
+		scrollBarH.resizeB(deltaY);
+		updateScrollBars();
+	}
+	@Override
+	public void resizeT(int deltaY){
+		this.setHeight(getHeight()-deltaY);
+		this.setY(getY()+deltaY);
+		legend.move(0,deltaY);
+		scrollBarV.resizeT(deltaY);
+		scrollBarH.resizeT(deltaY);
 	}
 }

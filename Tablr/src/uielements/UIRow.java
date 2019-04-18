@@ -5,7 +5,10 @@ import java.awt.Graphics;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.function.BiConsumer;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
+import Utils.Rounder;
 import ui.UI;
 
 public class UIRow extends UIElement {
@@ -169,6 +172,8 @@ public class UIRow extends UIElement {
 		setY(getY() + deltaY);
 		elements.stream().forEach(e -> e.move(deltaX, deltaY));
 	}
+	
+	Rounder rl = new Rounder();
 	
 	@Override
 	public void resizeL(int deltaW){
