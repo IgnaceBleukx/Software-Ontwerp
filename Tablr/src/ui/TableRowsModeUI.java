@@ -18,11 +18,25 @@ import facades.Tablr;
 
 public class TableRowsModeUI extends UI {
 	
+	/**
+	 * Creates a new TableRowsModeUI
+	 * @param x		X position of this UI
+	 * @param y		Y position of this UI
+	 * @param w		Width of this UI
+	 * @param h		Height of this UI
+	 * @param t		Reference to Tablr, to modify the domain
+	 */
 	public TableRowsModeUI(int x, int y, int w, int h,Tablr t) {
 		super(x,y,w,h);
 		this.setTablr(t);
 	}
 	
+	/**
+	 * Loads all elements into the UI and activates it.
+	 * This involves loading all cells from a given table.
+	 * Also initializes all actions happening in response to mouse clicks, drags, ...
+	 * @param tab		Table from which to load cells
+	 */
 	public void loadUI(Table tab){
 		setActive();
 		this.clear();
@@ -54,7 +68,15 @@ public class TableRowsModeUI extends UI {
 		
 		
 	}
-	public UITable loadTable(Table tab, int titleHeight, int cellHeight, int cellWidth){
+	
+	/**
+	 * Returns a UITable containing UICells for each cell of a given domain Table, and a legend containing the column names.
+	 * @param tab			Table
+	 * @param titleHeight	Height of the text in the legend
+	 * @param cellHeight	Height of the UICells
+	 * @param cellWidth		Width of the UICells
+	 */
+	private UITable loadTable(Table tab, int titleHeight, int cellHeight, int cellWidth){
 		//Creating legend with all column names:
 		UIRow legend = new UIRow(getX()+edgeW,titleBar.getEndY(), getWidth()-2*edgeW, 30, new ArrayList<UIElement>());
 		
@@ -88,9 +110,6 @@ public class TableRowsModeUI extends UI {
 					int index = i;
 					field.addKeyboardListener(-1, () -> {
 						try{
-//							if (field.getText().length() == 0)	
-//								getTablr().changeCellValue(col, index, "");
-//							else 
 							getTablr().changeCellValue(col,index,field.getText());
 							if(field.getError()) 
 								field.isNotError();

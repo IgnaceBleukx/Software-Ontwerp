@@ -11,13 +11,13 @@ public class Column {
 	
 	/**
 	 * Extended constructor of the column.
-	 * @param newName
-	 * @param newColumnType
-	 * @param newAllowsBlanks
-	 * @param newDefaultValue
-	 * @param newTable
-	 * @param newCells
-	 * @throws InvalidNameException 
+	 * @param newName					The name of this new Column
+	 * @param newCells					A Collection of cells that belong to this Column
+	 * @param type						The type that values in this Column will have. 
+	 * 									Can be any of the following: BOOLEAN, STRING, EMAIL, INT.
+	 * 									Types can be found in an Enum under domain/Type.java.
+	 * @param defaultValue				The default value for newly added empty cells in this Column.
+	 * @throws InvalidNameException 	When another Column has the same proposed name.
 	 */
 	public Column(String newName, ArrayList<Cell<?>> newCells, Type type, Object defaultValue) throws InvalidNameException{
 		this.setName(newName);
@@ -32,10 +32,10 @@ public class Column {
 	}
 	
 	/**
-	 * Constructor of the column. This is the standard constructor that will mostly be used in the program.
-	 * @param newTable
-	 * @param newCells
-	 * @throws InvalidNameException 
+	 * Constructor of the column. 
+	 * @param newName					The name of this Column		
+	 * @param newCells					A Collection of cells to be added to this Column
+	 * @throws InvalidNameException 	When another Column has the same proposed name.
 	 */
 	public Column(String newName, ArrayList<Cell<?>> newCells) throws InvalidNameException {
 		try {
@@ -50,7 +50,7 @@ public class Column {
 
 	
 	/**
-	 * the name of the Column
+	 * The name of the Column
 	 * default value: "Column"
 	 */
 	private String name = "Column";
@@ -64,8 +64,8 @@ public class Column {
 
 	/**
 	 * This method sets the name of the column.
-	 * @param name	The name to be set.
-	 * @throws InvalidNameException 
+	 * @param name						The name of this Column.
+	 * @throws InvalidNameException 	When the Column's table already has a column with this name.
 	 */
 	public void setName(String name) throws InvalidNameException {
 		if (isValidName(name)){
@@ -75,7 +75,7 @@ public class Column {
 
 	/**
 	 * This method checks whether the given column name is valid for the current table.
-	 * @param name 	The name to be checked.
+	 * @param name 		The name to be checked.
 	 */
 	public boolean isValidName(String name){
 		if (this.getTable() == null) return true;
@@ -102,7 +102,9 @@ public class Column {
 
 	/**
 	 * This method sets the column type of the current column.
-	 * @throws InvalidTypeException 
+	 * @throws InvalidTypeException 	A Cell in this column cannot be interpreted as the new type.
+	 * 									For example, a Column filled with strings is not likely to be
+	 * 									properly converted to a Column of ints.
 	 */
 	public void setColumnType(Type type) throws InvalidTypeException {
 		for (Cell<?> cell : getCells()){
@@ -132,8 +134,8 @@ public class Column {
 	
 	
 	/**
-	 * does the column allow a blank field
-	 * default value: true
+	 * Does the column allow a blank field
+	 * Default value: true
 	 */
 	private Boolean allowsBlanks = true;
 	
@@ -144,12 +146,19 @@ public class Column {
 	public Boolean getBlankingPolicy() {
 		return allowsBlanks;
 	}
-
+	
+	/**
+	 * Changes whether this column allows blank values
+	 * @throws Exception		When trying to disallow blanks while the default value is blank
+	 */
 	public void toggleBlanks() throws Exception{
 		if (allowsBlanks && getDefault() == null || allowsBlanks && getDefault() == "") throw new Exception("The column default is blank");
 		allowsBlanks = !allowsBlanks;
 	}
 	
+	/**
+	 * The default value for new cells in this Column
+	 */
 	private Object defaultValue;
 		
 	/**
@@ -162,7 +171,9 @@ public class Column {
 	/**
 	 * Sets the default value for this column. 
 	 * Succeeds only when the new default value is a valid value for the current column type.
-	 * @param v		New default value, in a string representation
+	 * @param v							New default value, in a string representation
+	 * @throws ClassCastException		When setting a blank default when blanks are not allowed
+	 * @throws ClassCastException		If the proposed default value is not valid for the column's type
 	 */
 	public void setDefaultValue(Object v) throws ClassCastException{
 		if ((v == null || v == "") && !getBlankingPolicy()) throw new ClassCastException();
@@ -214,7 +225,7 @@ public class Column {
 	/**
 	 * This method removes a cell from the column based on the index of the cell
 	 * @param index 	The index on which the cell must be removed.
-	 * @return 	The removed cell.
+	 * @return 			The removed cell.
 	 */
 	public Cell<?> removeCell(int index){
 		Cell<?> c = this.cells.remove(index);
@@ -290,10 +301,9 @@ public class Column {
 	/**
 	 * Changes the value of a cell to a value supplied by a string.
 	 * This involves casting the string to the correct value
-	 * @param i			Index of the cell to change
-	 * @param string	String representation of the new value
-	 * @throws ClassCastException
-	 * 					The column's type is not set correctly.
+	 * @param i						Index of the cell to change
+	 * @param string				String representation of the new value
+	 * @throws ClassCastException	The column's type is not set correctly.
 	 */
 	public void changeCellValue(int i, String string) throws ClassCastException{
 		if((string == "" || string == null) && !getBlankingPolicy()) throw new ClassCastException();
@@ -362,16 +372,22 @@ public class Column {
 			 
 		}
 	}
-
+	
+	/**
+	 * Toggles whether default values are allowed for a boolean Column
+	 */
 	public void toggleDefaultBoolean() {
 		if (getColumnType() != Type.BOOLEAN) return;
 		System.out.println("[Column.java:377] : current default value = " + getDefault());
 		Boolean current = (Boolean) getDefault();
-//		if (getDefault() == null) current = (Boolean) null;
-//		else current = (boolean) getDefault();
 		setDefaultValue(nextValueBoolean(current,getBlankingPolicy()));
 	}
 	
+	/**
+	 * Returns the next type in the standard order (STRING->EMAIL->BOOLEAN->INTEGER->STRING->...)
+	 * @param type		Some type.
+	 * @return			Next type
+	 */
 	public static Type getNextType(Type type){
 		switch (type) {
 			case STRING: 	return (Type.EMAIL);   
@@ -381,7 +397,11 @@ public class Column {
 			default:  return null;
 		}
 	}
-
+	
+	/**
+	 * Toggles the value of a boolean cell based in <i>index</i>, accounting for the Column's blanking policy.
+	 * @param index			Index of the cell
+	 */
 	public void toggleCellValueBoolean(int index){
 		if (this.getColumnType() != Type.BOOLEAN) return;
 		Boolean value = nextValueBoolean((Boolean)getCell(index).getValue(),getBlankingPolicy());
@@ -389,7 +409,13 @@ public class Column {
 		else changeCellValue(index,Boolean.toString(value));
 	}
 	
-	public static Boolean nextValueBoolean(Boolean current, boolean blanks){
+	/**
+	 * Returns the next correct boolean value given the current value and blanking policy
+	 * @param current		Current boolean value
+	 * @param blanks		Whether blanks are allowed
+	 * @return				The next boolean value
+	 */
+	private static Boolean nextValueBoolean(Boolean current, boolean blanks){
 		if (current == (Boolean) null) return true;
 		if (current == true) return false;
 		if (current == false && blanks) return null;

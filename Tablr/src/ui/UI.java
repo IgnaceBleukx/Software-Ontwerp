@@ -19,6 +19,13 @@ import uielements.VoidElement;
 
 public class UI {
 	
+	/**
+	 * Creates a new UI
+	 * @param x			X coordinate
+	 * @param y			Y coordinate
+	 * @param width		Width
+	 * @param height	Height
+	 */
 	public UI(int x, int y, int width, int height) {
 		if (x<0 || y < 0 || width < 0 || height < 0) 
 			throw new IllegalArgumentException("Illegal parameters in UI constructor");
@@ -65,6 +72,9 @@ public class UI {
 		});		
 	}
 	
+	/**
+	 * Adds all 'default' elements of a UI: titlebar, close button, elements for resizing.
+	 */
 	protected void loadUIAttributes(){
 		//Creating background:
 		addUIElement(new VoidElement(getX(), getY(), getWidth(), getHeight(), new Color(230,230,230,230)));
@@ -78,63 +88,137 @@ public class UI {
 		this.addUIElement(topResize);
 	}
 	
+	/**
+	 * X Coordinate
+	 */
 	private int x;
+	
+	/**
+	 * Y Coordinate
+	 */
 	private int y;
+	
+	/**
+	 * Height of the UI
+	 */
 	private int height;
+	
+	/**
+	 * Width of the UI
+	 */
 	private int width;
+	
+	/**
+	 * Width of the area used to resize the UI
+	 */
 	static int edgeW = 5;
+	
+	/**
+	 * Which element is currently dragging.
+	 */
 	private UIElement dragging = null;
 	
+	/**
+	 * Returns the element that is currently dragging.
+	 */
 	public UIElement getDragging(){
 		return dragging;
 	}
 	
+	/**
+	 * Sets the element that is currently dragging.
+	 * @param e
+	 */
 	public void setDragging(UIElement e){
 		dragging = e;
 	}
+	
+	/**
+	 * Height of the titlebar
+	 */
 	static int titleHeight = 15;
 	
+	/**
+	 * This UI's titlebar
+	 */
 	protected Titlebar titleBar;
+	
+	/**
+	 * This UIs close button
+	 */
 	private CloseButton close;
 	
+	/**
+	 * The edges of this UI, used to resize the UI
+	 */
 	private LeftUIEdge leftResize;
 	private RightUIEdge rightResize;
 	private TopUIEdge topResize;
 	private BottomUIEdge bottomResize;
 	
-	
+	/**
+	 * @return	The X Coordinate of this UI
+	 */
 	public int getX(){
 		return x;
 	}
 	
+	/**
+	 * Sets the X Coordinate of this UI
+	 * @param x		New X Coordinate
+	 */
 	public void setX(int x){
 		this.x = x;
 	}
 	
+	/**
+	 * @return	The Y coordinate of this UI
+	 */
 	public int getY(){
 		return y;
 	}
 	
+	/**
+	 * Sets the Y Coordinate of this UI
+	 * @param y		New Y Coordinate
+	 */
 	public void setY(int y){
 		this.y = y;
 	}
 
+	/**
+	 * @return	The height of this UI
+	 */
 	public int getHeight(){
 		return height;
 	}
 	
+	/**
+	 * Sets the height of this UI
+	 * @param height	New height
+	 */
 	public void setHeight(int height){
 		this.height = height;
 	}
 	
+	/**
+	 * @return	The width of this UI
+	 */
 	public int getWidth(){
 		return width;
 	}
 	
+	/**
+	 * Sets the width of this UI
+	 * @param width		New width
+	 */
 	public void setWidth(int width){
 		this.width = width;
 	}
 	
+	/**
+	 * Paints this UI and all its elements
+	 */
 	public void paintUI(Graphics g) {
 		g.setColor(Color.LIGHT_GRAY);
 		g.fillRect(getX(),getY(), getWidth(), getHeight());
@@ -181,7 +265,7 @@ public class UI {
 	 */
 	public void addAllUIElements(ArrayList<UIElement> list) {
 		list.stream().forEach(e -> addUIElement(e));	
-}
+	}
 	
 	/**
 	 * remove all UIElements from this UI
@@ -284,7 +368,12 @@ public class UI {
 	public boolean isActive() {
 		return active;
 	}
-
+	
+	/**
+	 * Returns whether a given point lies within this UI
+	 * @param x		X Coordinate
+	 * @param y		Y Coordinate
+	 */
 	public boolean containsPoint(int x, int y) {
 		return (x >= getX() &&
 				y >= getY() &&
@@ -292,24 +381,42 @@ public class UI {
 				y <= getY()+getHeight());
 	}
 	
+	/**
+	 * Whether this UI is selected. 
+	 * Only the selected UI receives keyboard input and is visually distinct from other UIs.
+	 */
 	private boolean isSelected;
 	
+	/**
+	 * Makes this UI the selected UI.
+	 */
 	public void select(){
 		isSelected = true;
 		close.setColor(new Color(200,200,200,200));
 		titleBar.setColor(new Color(200,200,200,200));
 	}
 	
+	/**
+	 * Makes this UI not selected.
+	 */
 	public void deselect(){
 		isSelected = false;
 		close.setColor(Color.WHITE);
 		titleBar.setColor(Color.WHITE);
 	}
 	
+	/**
+	 * @return	Whether this UI is currently selected
+	 */
 	public boolean isSelected(){
 		return isSelected;
 	}
 	
+	/**
+	 * Moves this UI and all its elements by along vector (deltaX, deltaY)
+	 * @param deltaX		horizontal displacement
+	 * @param deltaY		vertical displacement
+	 */
 	public void move (int deltaX, int deltaY) {
 		setX(getX() + deltaX);
 		setY(getY() + deltaY);

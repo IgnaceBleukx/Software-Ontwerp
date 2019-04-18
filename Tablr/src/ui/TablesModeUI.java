@@ -21,14 +21,33 @@ import facades.Tablr;
 
 public class TablesModeUI extends UI {
 	
+	/**
+	 * Height of rows in the list of tables
+	 */
 	static int tableRowHeight = 35;
+	
+	/**
+	 * Width of the scrollbars.
+	 */
 	static int scrollBarWidth = 10;
 	
+	/**
+	 * Creates a new TablesModeUI
+	 * @param x		X Coordinate
+	 * @param y		Y Coordinate
+	 * @param w		Width
+	 * @param h		Height
+	 * @param t		Tablr reference to interact with the domain
+	 */
 	public TablesModeUI(int x, int y, int w, int h,Tablr t) {
 		super(x,y,w,h);
 		this.setTablr(t);
 	}
 	
+	/**
+	 * Loads all necessary UIElement and loads the names of a list of tables.
+	 * Also activates this UI (so it will be drawn on the Canvas).
+	 */
 	public void loadUI(){
 		setActive();
 		this.clear();		
@@ -55,6 +74,9 @@ public class TablesModeUI extends UI {
 		});
 	}
 	
+	/**
+	 * Load all tables into a listview
+	 */
 	private ListView loadFromTables() {
 		ArrayList<UIElement> rows = new ArrayList<>();
 		System.out.println("[TableModeUI.java:78] : Dimensions of UI: X=" + getX() + " Y= " + getY() + " W=" + getWidth() + " H=" + getHeight());

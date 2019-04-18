@@ -26,7 +26,7 @@ public class Cell<T> {
 	}
 
 	/**
-	 * This method returns the column of the current Cell.
+	 * This method returns the column to which this Cell belongs.
 	 */
 	public Column getColumn() {
 		return column;
@@ -39,12 +39,15 @@ public class Cell<T> {
 	public void setColumn(Column column) {
 		this.column = column;
 	}
-
+	
+	/**
+	 * The column to which this Cell belongs.
+	 */
 	private Column column;
 	
 	
 	/**
-	 * This method terminates the cell and all its connections to other objects.
+	 * This method terminates the cell and removes all its references within other objects.
 	 */
 	public void terminate(){
 		if (getColumn() != null) this.getColumn().removeCell(this);
