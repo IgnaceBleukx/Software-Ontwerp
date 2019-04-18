@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.function.BiConsumer;
 
+import Utils.Rounder;
 import domain.Cell;
 import domain.Column;
 import domain.Table;
@@ -46,8 +47,8 @@ public class UITable extends UIElement {
 	
 	private static int scrollBarW = 10;
 	
-	VerticalScrollBar scrollBarV = new VerticalScrollBar(getEndX()-scrollBarW,getY(),scrollBarW,getHeight()-scrollBarW);
-	HorizontalScrollBar scrollBarH = new HorizontalScrollBar(getX(),getEndY()-scrollBarW,getWidth()-scrollBarW,scrollBarW);
+	VerticalScrollBar scrollBarV = new VerticalScrollBar(getEndX()-scrollBarW,getY(),scrollBarW,getHeight()-scrollBarW,new Rounder());
+	HorizontalScrollBar scrollBarH = new HorizontalScrollBar(getX(),getEndY()-scrollBarW,getWidth()-scrollBarW,scrollBarW,new Rounder());
 	
 	private void updateScrollBars(){
 		scrollBarV.update(getRows().stream().mapToInt(r -> r.getHeight()).sum(),getHeight());

@@ -1,9 +1,11 @@
 package uielements;
 
+import Utils.Rounder;
+
 public class HorizontalScrollBar extends ScrollBar {
 
-	public HorizontalScrollBar(int x, int y, int w, int h) {
-		super(x, y, w, h);
+	public HorizontalScrollBar(int x, int y, int w, int h,Rounder r) {
+		super(x, y, w, h,r);
 		margin1 = new Button(getX(), getY(), 0,getHeight(),"");
 		margin2 = new Button(getX()+getWidth(),getY(),0,getHeight(),"");
 		margin1.setUI(getUI());

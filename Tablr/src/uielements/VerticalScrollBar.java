@@ -3,6 +3,8 @@ package uielements;
 import java.util.ArrayList;
 import java.util.function.BiConsumer;
 
+import Utils.Rounder;
+
 /**
  * The Vertical scrollbar must always be placed on the right hand side of the items. 
  * @author r0674255
@@ -10,8 +12,8 @@ import java.util.function.BiConsumer;
  */
 public class VerticalScrollBar extends ScrollBar{
 
-	public VerticalScrollBar(int x, int y, int w, int h) {
-		super(x, y, w, h);
+	public VerticalScrollBar(int x, int y, int w, int h,Rounder r) {
+		super(x, y, w, h, r);
 		margin1 = new Button(getX(), getY(), getWidth(),0,"/\\");
 		margin2 = new Button(getX(), getY()+getHeight(),getWidth(), 0,"\\/");
 		
@@ -48,12 +50,13 @@ public class VerticalScrollBar extends ScrollBar{
 
 	@Override
 	public void scroll(int delta) {
-		if (!isValidDelta (delta)) {
-			return;}
+		System.out.println("[VerticalScrollBar.java:53]: delta = " + delta);
+		if (!isValidDelta (delta))
+			return;
 		margin1.resizeB(delta);
 		margin2.resizeT(-delta);
 		scrollBar.move(0, delta);
-		scrollListeners.stream().forEach(l -> l.accept(delta*this.getHeight()/scrollBar.getHeight()));
+		scrollListeners.stream().forEach(l -> l.accept(rounder.round((double )delta*this.getHeight()/scrollBar.getHeight())));
 	}
 	
 	@Override

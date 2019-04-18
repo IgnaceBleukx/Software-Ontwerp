@@ -10,6 +10,7 @@ import java.util.Iterator;
 import java.util.NoSuchElementException;
 import java.util.function.BiConsumer;
 
+import Utils.Rounder;
 import domain.Column;
 import domain.Table;
 import domain.Type;
@@ -32,7 +33,6 @@ public class ListView extends UIElement {
 		elements.add(scrollBarV);
 		elements.add(scrollBarH);
 		updateScrollBar();
-		
 		
 		//add listeners
 		scrollBarV.addPressListener((e) -> {
@@ -64,13 +64,14 @@ public class ListView extends UIElement {
 		
 		
 	}
+	private static int scrollbarW = 10;
 	
-	private VerticalScrollBar scrollBarV = new VerticalScrollBar(getEndX()-10, getY(),10,getHeight()-10);
-	private HorizontalScrollBar scrollBarH = new HorizontalScrollBar(getX(),getEndY()-10,getWidth()-10, 10);
+	private VerticalScrollBar scrollBarV = new VerticalScrollBar(getEndX()-scrollbarW, getY(),scrollbarW,getHeight()-scrollbarW,new Rounder());
+	private HorizontalScrollBar scrollBarH = new HorizontalScrollBar(getX(),getEndY()-scrollbarW,getWidth(), scrollbarW,new Rounder());
 		
 	public void updateScrollBar() {
-		scrollBarV.update(elements.stream().filter(e -> !(e instanceof ScrollBar)).mapToInt(e -> e.getHeight()).sum(), this.getHeight());
-		scrollBarH.update(elements.stream().filter(e -> !(e instanceof ScrollBar)).mapToInt(e -> e.getWidth()).max().orElse(getWidth()), this.getWidth());
+		scrollBarV.update(elements.stream().filter(e -> !(e instanceof ScrollBar)).mapToInt(e -> e.getHeight()).sum(), this.getHeight()-scrollbarW);
+		scrollBarH.update(elements.stream().filter(e -> !(e instanceof ScrollBar)).mapToInt(e -> e.getWidth()).max().orElse(getWidth()-scrollbarW), this.getWidth()-scrollbarW);
 	}
 	
 	/**
@@ -104,8 +105,8 @@ public class ListView extends UIElement {
 	@Override
 	public void paint(Graphics g) {
 		g.setColor(Color.black);
-		g.drawRect(getX(),getY(),getWidth()-10,getHeight());
-		g.setClip(getX(), getY(),getWidth(), getHeight());
+		g.drawRect(getX(),getY(),getWidth()-10,getHeight()-10);
+		g.setClip(getX(), getY(),getWidth()-scrollbarW, getHeight()-scrollbarW);
 		elements.stream().forEach(e -> e.paint(g));
 		g.setClip(null);
 		scrollBarV.paint(g);
