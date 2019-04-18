@@ -102,9 +102,9 @@ public class UIRow extends UIElement {
 	@Override
 	public void selectElement(UIElement e) {
 		if (e==this) 
-			setSelected();
+			select();
 		else
-			setNotSelected();
+			deselect();
 		
 		for (UIElement el : elements) {
 			el.selectElement(e);

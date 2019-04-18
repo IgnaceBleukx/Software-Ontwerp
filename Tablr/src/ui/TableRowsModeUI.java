@@ -114,7 +114,7 @@ public class TableRowsModeUI extends UI {
 			//Adding listeners:
 			uiRow.addSingleClickListener(()->{
 				for (UIElement e : getElements())
-					if (e.getError()) return;
+					if (e.getError() || e.isSelected()) return;
 				if(uiRow.isSelected()) uiRow.deselect();
 				else uiRow.select();
 			});

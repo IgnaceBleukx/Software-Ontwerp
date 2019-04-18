@@ -27,24 +27,22 @@ public class VerticalScrollBar extends ScrollBar{
 			scrollBar.setHeight(windowHeight);
 			margin1.setY(getY());
 			margin1.setHeight(0);
-			margin2.setY(getY() + getHeight());
+			margin2.setY(getEndY());
 			margin2.setHeight(0);
 		}
 		else {
 			this.enable();
 			int newSize = elementsHeight > 0 ? windowHeight * windowHeight / elementsHeight : windowHeight;
 			int distance = scrollBar.getHeight() - newSize;
-			//margin1.resize(0,distance);
-			margin2.resizeT(distance);
 			scrollBar.setHeight(newSize);
+			margin1.setHeight(0);
+			margin2.setY(scrollBar.getEndY());
+			margin2.setHeight(getEndY()-margin2.getY());
 		}
 	}
 	
 	@Override
 	public boolean isValidDelta(int delta) {
-		System.out.println("[VerticalScrollBar.java:33] : endPoint of scrollBar: " + scrollBar.getEndY());
-		System.out.println("[VerticalScrollBar.java:34] : endPoint of scrollBarElement: " + getEndY());
-		System.out.println("[VerticalScrollBar.java:35] : delta: " +delta);
 		return scrollBar.getY()+delta >= getY() && scrollBar.getEndY()+delta <= getEndY();
 	}
 
@@ -56,5 +54,22 @@ public class VerticalScrollBar extends ScrollBar{
 		margin2.resizeT(-delta);
 		scrollBar.move(0, delta);
 		scrollListeners.stream().forEach(l -> l.accept(delta*this.getHeight()/scrollBar.getHeight()));
+	}
+	
+	@Override
+	public void resizeL(int deltaX){	
+	}
+	@Override
+	public void resizeR(int deltaX){
+		this.move(deltaX,0);
+	}
+	@Override
+	public void resizeT(int deltaY){
+		this.move(0, deltaY);
+		this.setHeight(getHeight()-deltaY);
+	}
+	@Override
+	public void resizeB(int deltaY){
+		this.setHeight(getHeight()+deltaY);
 	}
 }

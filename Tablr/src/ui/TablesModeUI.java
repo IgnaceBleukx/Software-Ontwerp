@@ -73,10 +73,14 @@ public class TablesModeUI extends UI {
 			
 			//Listener to select rows
 			deleteButton.addSingleClickListener(() -> {
-				for (UIElement e : getElements())
-					if (e.getError()) return;
-				if(currRow.isSelected()) currRow.deselect();
-				else currRow.select();
+				for (UIElement e : list.getElements()){
+					System.out.println("[TablesModeUI.java:77]: "  + e);
+					if (e.getError() || (e.isSelected() && !e.equals(currRow))) return;
+				}
+				if(currRow.isSelected()) 
+					currRow.deselect();
+				else 
+					currRow.select();
 			});
 			
 			//Listener to remove row
@@ -84,7 +88,6 @@ public class TablesModeUI extends UI {
 				if (currRow.isSelected() && list.getError() == false) {
 					list.removeElement((UIElement) currRow); //Remove row from ListView
 					tablr.removeTable(curr); //Remove table from list of tables
-					list.setSelectedElement(null);
 				}
 			});
 			
@@ -132,10 +135,10 @@ public class TablesModeUI extends UI {
 			y = currRow.getEndY();
 		}	
 		
-		//Selects a row in the listview
+		//Deselects a row in the listview
 		list.addSingleClickListener(() -> {
 			for (UIElement e : list.getElements()){
-				if (e.isSelected()) e.setNotSelected();
+				if (e.isSelected()) e.deselect();
 			}
 		});		
 		

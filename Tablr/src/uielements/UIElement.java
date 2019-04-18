@@ -332,14 +332,14 @@ public abstract class UIElement {
 	/**
 	 * set the element as selected
 	 */
-	public void setSelected() {
+	public void select() {
 		this.isSelected = true;
 	}
 	
 	/**
 	 * set the element as not selected
 	 */
-	public void setNotSelected() {
+	public void deselect() {
 		this.isSelected = false;
 	}
 
@@ -349,10 +349,10 @@ public abstract class UIElement {
 	 */
 	public void selectElement(UIElement newElement) {
 		if (newElement.equals(this)) {
-			setSelected();
+			select();
 		}
 		else {
-			setNotSelected();
+			deselect();
 		}
 	}
 	
@@ -451,6 +451,6 @@ public abstract class UIElement {
 	public boolean getDragging() {
 		return dragging;
 	}
-		
+
 	
 }

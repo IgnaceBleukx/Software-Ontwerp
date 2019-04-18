@@ -209,8 +209,8 @@ public class TableDesignModeUI extends UI {
 				new ArrayList<UIElement>());
 		
 		Tablr c = getTablr();
-		
-		for(Column col : c.getColumns(table)){
+		int index = 0; 
+			for(Column col : c.getColumns(table)){
 			TextField colName = new TextField(namePosX, currentHeight, nameSizeX, 30, c.getColumnName(col));
 			Text colType = new Text(typePosX, currentHeight, typeSizeX, 30, c.getColumnType(col).toString()); 
 			colType.setBorder(true);
@@ -255,13 +255,13 @@ public class TableDesignModeUI extends UI {
 				for (UIElement e : getElements()){
 					if (e.getError()) return;
 				}
-				listview.setSelectedElement(uiRow);
+				uiRow.select();
 			});
 			
+			int i = index;
 			uiRow.addKeyboardListener(127,() -> {
-				if(uiRow.equals(listview.getSelectedElement())){
-					c.removeColumn(table, listview.getElements().indexOf(uiRow) - 2); //2 scrollbars waar we geen rekening mee moeten houden
-					listview.setSelectedElement(null);
+				if(uiRow.isSelected()){
+					c.removeColumn(table, i); //2 scrollbars waar we geen rekening mee moeten houden
 				}
 			});
 			
@@ -323,6 +323,8 @@ public class TableDesignModeUI extends UI {
 			colName.addKeyboardListener(10,() -> {
 				getTablr().domainChanged();
 			});
+			
+			index++;
 			
 		}
 		

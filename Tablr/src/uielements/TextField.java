@@ -99,12 +99,12 @@ public class TextField extends UIElement {
 	public void handleKeyboardEvent(int keyCode, char keyChar) {
 		if (keyCode == 10 && isSelected() == true) { //Enter, end editing
 			if (!getError())
-				setNotSelected();
+				deselect();
 		}
 
 		if (keyCode == 27 &&  isSelected()) {
 			restoreText();
-			setNotSelected();
+			deselect();
 			if(getError()) isNotError();
 		}
 				

@@ -3,15 +3,18 @@ package ui;
 import java.awt.Color;
 import java.awt.Graphics;
 import java.util.ArrayList;
-import java.util.Optional;
 
 import facades.Tablr;
 import facades.WindowManager;
+import uielements.BottomLeftUICorner;
+import uielements.BottomRightUICorner;
 import uielements.BottomUIEdge;
 import uielements.CloseButton;
 import uielements.LeftUIEdge;
 import uielements.RightUIEdge;
 import uielements.Titlebar;
+import uielements.TopLeftUICorner;
+import uielements.TopRightUICorner;
 import uielements.TopUIEdge;
 import uielements.UIElement;
 import uielements.VoidElement;
@@ -30,10 +33,15 @@ public class UI {
 		titleBar = new Titlebar(getX()+edgeW,getY()+edgeW,getWidth()-30,titleHeight,"Unknown");
 		close = new CloseButton(titleBar.getEndX(),getY()+edgeW,30-edgeW,titleHeight,4);
 		
-		leftResize = new LeftUIEdge(getX(),getY(),edgeW,getHeight());;
-		rightResize = new RightUIEdge(getX()+getWidth()-edgeW,getY(),edgeW,getHeight());
-		topResize = new TopUIEdge(getX(),getY(),getWidth(),edgeW);;
-		bottomResize = new BottomUIEdge(getX(),getY()+getHeight()-edgeW,getWidth(),edgeW);
+		leftResize = new LeftUIEdge(	getX(),						getY()+edgeW,				edgeW,				getHeight()-2*edgeW);;
+		rightResize = new RightUIEdge(	getX()+getWidth()-edgeW,	getY()+edgeW,				edgeW,				getHeight()-2*edgeW);
+		topResize = new TopUIEdge(		getX()+edgeW,				getY(),						getWidth()-2*edgeW,	edgeW);;
+		bottomResize = new BottomUIEdge(getX()+edgeW,				getY()+getHeight()-edgeW,	getWidth()-2*edgeW,	edgeW);
+		
+		topLeft = new TopLeftUICorner(getX(),getY(),edgeW,edgeW);
+		topRight = new TopRightUICorner(getX()+getWidth()-edgeW,getY(),edgeW,edgeW);
+		bottomLeft = new BottomLeftUICorner(getX(),getY()+getHeight()-edgeW,edgeW,edgeW);
+		bottomRight = new BottomRightUICorner(getX()+getWidth()-edgeW,getY()+getHeight()-edgeW,edgeW,edgeW);
 		
 		//Adding listeners to UI attributes
 		leftResize.addDragListener((newX,newY) ->{
@@ -52,6 +60,32 @@ public class UI {
 			int delta = newY - topResize.getGrabPointY();
 			this.resizeT(delta);
 		});
+		topLeft.addDragListener((newX,newY) ->{
+			int deltaX = newX - topLeft.getGrabPointX();
+			int deltaY = newY - topLeft.getGrabPointY();
+			this.resizeL(deltaX);
+			this.resizeT(deltaY);
+		});
+		topRight.addDragListener((newX,newY) ->{
+			int deltaX = newX - topRight.getGrabPointX();
+			int deltaY = newY - topRight.getGrabPointY();
+			this.resizeR(deltaX);
+			this.resizeT(deltaY);
+		});
+		bottomLeft.addDragListener((newX,newY) ->{
+			int deltaX = newX - bottomLeft.getGrabPointX();
+			int deltaY = newY - bottomLeft.getGrabPointX();
+			this.resizeL(deltaX);
+			this.resizeB(deltaY);
+		});
+		bottomRight.addDragListener((newX,newY)->{
+			int deltaX = newX - bottomRight.getGrabPointX();
+			int deltaY = newY - bottomRight.getGrabPointY();
+			this.resizeR(deltaX);
+			this.resizeB(deltaY);
+		});
+		
+		
 		titleBar.addDragListener((newX,newY) -> { 
 			if (!titleBar.getDragging()) return;
 			int deltaX = newX - titleBar.getGrabPointX();
@@ -63,6 +97,8 @@ public class UI {
 			setInactive();
 			getWindowManager().selectNewUI();
 		});		
+		
+		
 	}
 	
 	protected void loadUIAttributes(){
@@ -76,13 +112,18 @@ public class UI {
 		this.addUIElement(rightResize);
 		this.addUIElement(bottomResize);
 		this.addUIElement(topResize);
+		
+		this.addUIElement(topLeft);
+		this.addUIElement(topRight);
+		this.addUIElement(bottomLeft);
+		this.addUIElement(bottomRight);
 	}
 	
 	private int x;
 	private int y;
 	private int height;
 	private int width;
-	static int edgeW = 5;
+	static int edgeW = 3;
 	private UIElement dragging = null;
 	
 	public UIElement getDragging(){
@@ -102,6 +143,10 @@ public class UI {
 	private TopUIEdge topResize;
 	private BottomUIEdge bottomResize;
 	
+	private TopLeftUICorner topLeft;
+	private TopRightUICorner topRight;
+	private	BottomLeftUICorner bottomLeft;
+	private BottomRightUICorner bottomRight;
 	
 	public int getX(){
 		return x;
@@ -211,7 +256,7 @@ public class UI {
 		for (UIElement e : getElements()) {
 			found = e.locatedAt(x,y);
 			if (found != null) return found;
-			else e.setNotSelected();
+			else e.deselect();
 		}
 		return null;
 	}

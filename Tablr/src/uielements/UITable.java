@@ -24,8 +24,10 @@ public class UITable extends UIElement {
 	 */
 	public UITable(int x, int y, int w, int h,UIRow legend, ArrayList<UIRow> rows) {
 		super(x, y,w,h);
-		this.legend = legend;
-		this.rows.addAll(rows);
+		this.setLegend(legend);
+		this.addAllRows(rows);
+		scrollBarH.setUI(getUI());
+		scrollBarV.setUI(getUI());
 	}
 
 	/**
@@ -42,12 +44,42 @@ public class UITable extends UIElement {
 	 */
 	UIRow legend;
 	
+	private static int scrollBarW = 10;
+	
+	VerticalScrollBar scrollBarV = new VerticalScrollBar(getEndX()-scrollBarW,getY(),scrollBarW,getHeight()-scrollBarW);
+	HorizontalScrollBar scrollBarH = new HorizontalScrollBar(getX(),getEndY()-scrollBarW,getWidth()-scrollBarW,scrollBarW);
+	
+	private void updateScrollBars(){
+		scrollBarV.update(getRows().stream().mapToInt(r -> r.getHeight()).sum(),getHeight());
+		scrollBarH.update(getRows().stream().mapToInt(r -> r.getWidth()).max().orElse(getWidth()), getWidth());
+	}
+	
+	/**
+	 * This method sets the legend for the UITable.
+	 * @param newLegend
+	 */
+	public void setLegend(UIRow newLegend){
+		newLegend.setUI(getUI());
+		this.legend = newLegend;
+	}
+	
+	
 	/**
 	 * adds a row to the table
 	 * @param row: the row to be added
 	 */
 	public void addRow(UIRow row){
 		this.rows.add(row);
+		row.setUI(getUI());
+		updateScrollBars();
+	}
+
+	/**
+	 * This method adds an arraylist of rows to the current UITable.
+	 * @param rows 	The arraylist containing the rows to be added.
+	 */
+	public void addAllRows(ArrayList<UIRow> rows){
+		rows.stream().forEach(r -> this.addRow(r));
 	}
 	
 	@Override
@@ -61,6 +93,8 @@ public class UITable extends UIElement {
 			UIElement s = this.getSelected();
 			g.fillOval(s.getX()+s.getWidth()+10, s.getY()+s.getHeight()/2, 8, 8);
 		}
+		scrollBarH.paint(g);
+		scrollBarV.paint(g);
 	}
 
 	/**
@@ -126,9 +160,9 @@ public class UITable extends UIElement {
 	@Override
 	public void selectElement(UIElement e) {
 		if (e==this) 
-			setSelected();
+			select();
 		else
-			setNotSelected();
+			deselect();
 		
 		for (UIElement el : rows) {
 			el.selectElement(e);
@@ -170,7 +204,7 @@ public class UITable extends UIElement {
 
 	public void removeRow(UIRow uiRow) {
 		this.rows.remove(uiRow);
-		
+		updateScrollBars();
 	}
 	
 	@Override
@@ -179,5 +213,7 @@ public class UITable extends UIElement {
 		setY(getY() + deltaY);
 		legend.move(deltaX, deltaY);
 		rows.stream().forEach(e -> e.move(deltaX, deltaY));
+		scrollBarH.move(deltaX, deltaY);
+		scrollBarV.move(deltaX, deltaY);
 	}
 }

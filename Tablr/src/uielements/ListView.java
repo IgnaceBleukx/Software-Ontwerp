@@ -67,15 +67,10 @@ public class ListView extends UIElement {
 	
 	private VerticalScrollBar scrollBarV = new VerticalScrollBar(getEndX()-10, getY(),10,getHeight()-10);
 	private HorizontalScrollBar scrollBarH = new HorizontalScrollBar(getX(),getEndY()-10,getWidth()-10, 10);
-	private int additionalSpace = 35; //pixels reserved under the last row in the listview, to make sure there is a space in the listview to click on.
 		
 	public void updateScrollBar() {
-		try {
-			scrollBarV.update(elements.stream().filter(e -> !(e instanceof ScrollBar)).mapToInt(e -> e.getHeight()).sum() + additionalSpace, this.getHeight());
-			//scrollBarH.update(elements.stream().filter(e -> !(e instanceof ScrollBar)).mapToInt(e -> e.getWidth()).distinct().max().getAsInt(), this.getWidth()+15);
-		}catch (NoSuchElementException e) {
-			 System.out.println("[Listview.java:55]: Listview is empty");
-		}
+		scrollBarV.update(elements.stream().filter(e -> !(e instanceof ScrollBar)).mapToInt(e -> e.getHeight()).sum(), this.getHeight());
+		scrollBarH.update(elements.stream().filter(e -> !(e instanceof ScrollBar)).mapToInt(e -> e.getWidth()).max().orElse(getWidth()), this.getWidth());
 	}
 	
 	/**
@@ -106,40 +101,6 @@ public class ListView extends UIElement {
 		return new ArrayList<UIElement>(elements);
 	}
 
-	/**
-	 * deselect the currently selected element
-	 */
-	@Override
-	public void setNotSelected() {
-		this.selectedElement = null;
-	}
-	
-	public boolean isSelected() {
-		if (this.getSelectedElement() != null) return true;
-		return false;
-	}
-
-	/**
-	 * the currently selected element of the ListView (optional, sometimes null)
-	 */
-	private UIElement selectedElement;
-	
-	/**
-	 * Set element e as the currently selected element of the list
-	 * @param e: the element to be selected
-	 */
-	public void setSelectedElement(UIElement e) {
-		this.selectedElement = e;
-	}
-	
-	/**
-	 * returns the currently selected element
-	 * @return the selected element
-	 */
-	public UIElement getSelectedElement() {
-		return this.selectedElement;
-	}
-	
 	@Override
 	public void paint(Graphics g) {
 		g.setColor(Color.black);
@@ -209,9 +170,9 @@ public class ListView extends UIElement {
 	@Override
 	public void selectElement(UIElement e) {
 		if (e==this) 
-			setSelected();
+			select();
 		else
-			setNotSelected();
+			deselect();
 		
 		for (UIElement el : elements) {
 			el.selectElement(e);
@@ -256,7 +217,8 @@ public class ListView extends UIElement {
 	public void resizeL(int deltaW){
 		setWidth(getWidth()- deltaW);
 		setX(getX()+deltaW);
-		getElements().stream().filter(e -> (e instanceof ScrollBar)).forEach(e -> e.resizeL(deltaW));
+		getElements().stream().forEach(e -> e.resizeL(deltaW));
+		updateScrollBar();
 	}
 	
 	/**
@@ -266,23 +228,24 @@ public class ListView extends UIElement {
 	@Override
 	public void resizeR(int deltaW){
 		setWidth(getWidth() + deltaW);
-		getElements().stream().filter(e -> (e instanceof ScrollBar)).forEach(e -> e.resizeR(deltaW));
+		getElements().stream().forEach(e -> e.resizeR(deltaW));
+		updateScrollBar();
 	}
 	
 	@Override
 	public void resizeT(int deltaH){
 		this.setHeight(getHeight() - deltaH);
 		this.setY(getY()+deltaH);
-		this.scrollBarV.move(0, deltaH);
 		getElements().stream().filter(e -> !(e instanceof ScrollBar)).forEach(e -> e.move(0, deltaH));
+		scrollBarH.resizeT(deltaH);
+		scrollBarV.resizeT(deltaH);
 		updateScrollBar();
 	}
 	
 	@Override
 	public void resizeB(int deltaH){
 		this.setHeight(getHeight() + deltaH);
-		this.scrollBarV.resizeB(deltaH);
-		this.scrollBarH.move(0, deltaH);
+		getElements().stream().filter(e -> e instanceof ScrollBar).forEach(e -> e.resizeB(deltaH));
 		updateScrollBar();
 	}
 	

@@ -13,30 +13,51 @@ public class HorizontalScrollBar extends ScrollBar {
 
 	@Override
 	public void update(int elementsWidth, int windowWidth) {
+		this.setWidth(windowWidth);
 		if (elementsWidth <= windowWidth) { 
 			super.disable();
-			return;
+			scrollBar.setWidth(windowWidth);
+			margin1.setX(getX());
+			margin1.setWidth(0);
+			margin2.setX(getEndX());
+			margin2.setWidth(0);
 		}
-		else 
+		else {
 			this.enable();
-		
-		int newSize = elementsWidth > 0 ? windowWidth * windowWidth / elementsWidth : windowWidth;
-		int distance = scrollBar.getWidth() - newSize;
-		margin1.resizeR(distance);
-		margin2.resizeL(distance);
-		scrollBar.setHeight(newSize);
-
+			int newSize = elementsWidth > 0 ? windowWidth * windowWidth / elementsWidth : windowWidth;
+			int distance = scrollBar.getWidth() - newSize;
+			margin1.resizeR(distance);
+			margin2.resizeL(distance);
+			scrollBar.setWidth(newSize);
+		}
 	}
 
 	@Override
 	public void scroll(int delta) {
-		margin1.resizeL(delta);
-		margin2.resizeR(-delta);
+		margin1.resizeR(delta);
+		margin2.resizeL(delta);
 		scrollBar.move(delta, 0);
 	}
 
 	@Override
 	public boolean isValidDelta(int delta) {
-		return scrollBar.getX()+delta >= getX() && scrollBar.getX()+scrollBar.getWidth() <= getX()+getWidth();
+		return scrollBar.getX()+delta >= getX() && scrollBar.getEndX()+delta <= getEndX();
+	}
+
+	@Override
+	public void resizeL(int deltaX){
+		this.move(deltaX,0);
+		this.setWidth(getWidth()-deltaX);
+	}
+	@Override
+	public void resizeR(int deltaX){
+		this.setWidth(getWidth()+deltaX);
+	}
+	@Override
+	public void resizeT(int deltaY){
+	}
+	@Override
+	public void resizeB(int deltaY){
+		this.move(0, deltaY);
 	}
 }
