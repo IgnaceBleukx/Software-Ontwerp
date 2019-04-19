@@ -2,6 +2,8 @@ package tests;
 
 import static org.junit.Assert.*;
 
+import java.awt.event.MouseEvent;
+
 import org.junit.Before;
 import org.junit.Test;
 
@@ -17,30 +19,34 @@ public class TableRowsTests {
 	
 	public MyCanvasWindow prepareTable(){
 		// Step 1: Load the window
-		MyCanvasWindow myCW = new MyCanvasWindow("Tables Mode");
-		Tablr coMan = myCW.getTablr();
-		coMan.clearUI();
-		coMan.loadTableModeUI();
-		//Loading a table and filling it with Columns:
-		//Creating table:
-		myCW.handleMouseEvent(0, 40, 530 , 2);
-		//Going into tables design mode:
-		myCW.handleMouseEvent(0,85, 30, 2);
-		//Adding columns:
-		myCW.handleMouseEvent(0, 260, 230, 2);
-		myCW.handleMouseEvent(0, 260, 260, 2);
-		myCW.handleMouseEvent(0, 260, 290, 2);
-		myCW.handleMouseEvent(0, 260, 320, 2);
+		MyCanvasWindow myCW = new MyCanvasWindow("Table Rows Mode");
+		Tablr tablr = myCW.getTablr();
+
+		// Double click on listview to create a new table
+		myCW.handleMouseEvent(MouseEvent.MOUSE_CLICKED, 155, 152, 2);
+		// The user double-clicks a table name.
+		myCW.handleMouseEvent(MouseEvent.MOUSE_CLICKED, 60, 40, 2);
+		// The user double clicks twice below the list of columns:
+		myCW.handleMouseEvent(MouseEvent.MOUSE_CLICKED, 450, 160, 2);
+		myCW.handleMouseEvent(MouseEvent.MOUSE_CLICKED, 450, 160, 2);
+		
+		// The user double-clicks the table name to open rows mode
+		myCW.handleMouseEvent(MouseEvent.MOUSE_CLICKED, 60, 40, 2);
+		
+		// The user double clicks twice below the list of rows:
+		myCW.handleMouseEvent(MouseEvent.MOUSE_CLICKED, 450, 480, 2);
+		myCW.handleMouseEvent(MouseEvent.MOUSE_CLICKED, 450, 480, 2);
+		myCW.handleMouseEvent(MouseEvent.MOUSE_CLICKED, 450, 480, 2);
+		myCW.handleMouseEvent(MouseEvent.MOUSE_CLICKED, 450, 480, 2);
 
 		//Changing default value for column0.
-		myCW.handleMouseEvent(0,500,50, 1);
+		myCW.handleMouseEvent(MouseEvent.MOUSE_CLICKED,544,466, 1);
 		String d1 = "default";
 		for(int i=0;i<d1.length();i++){
 			myCW.handleKeyEvent(0, 0, d1.charAt(i));
 		}
 		//Changing default value for column1:
-		myCW.handleMouseEvent(0, 300, 100, 1);
-		myCW.handleMouseEvent(0, 500, 100, 1);
+		myCW.handleMouseEvent(0, 545, 75, 1);
 		String d2 = "default@email";
 		for(int i=0;i<d2.length();i++){
 			myCW.handleKeyEvent(0, 0, d2.charAt(i));
@@ -53,13 +59,13 @@ public class TableRowsTests {
 		myCW.handleMouseEvent(0, 300,200,1);
 		myCW.handleMouseEvent(0, 300,200,1);
 		myCW.handleMouseEvent(0, 500,200, 1);
+		
 		String d4 = "999";
 		for(int i=0;i<d4.length();i++){
 			myCW.handleKeyEvent(0, 0, d4.charAt(i));
 		}
 		myCW.handleKeyEvent(0,10,' ');
-		//Escaping to table mode:
-		myCW.handleKeyEvent(0,27,' ');
+
 		return myCW;
 		
 	}
@@ -68,20 +74,20 @@ public class TableRowsTests {
 	@Test
 	public void useCase8(){
 	MyCanvasWindow myCW = prepareTable();
-	Tablr coMan = myCW.getTablr();
+	Tablr tablr = myCW.getTablr();
 	
 	//Entering table_rows mode:
 	myCW.handleMouseEvent(0,85, 30, 2);
-//TODO	assertEquals(Loadable_Interfaces.TABLE_ROWS,coMan.getMode());
+//TODO	assertEquals(Loadable_Interfaces.TABLE_ROWS,tablr.getMode());
 	// Step 1: The user double clicks below the list of tables:
 	myCW.handleMouseEvent(0, 40, 530 , 2);
 	/* Step 2: The system adds a new row to the end of the table.
 				Its value for each column is the columns default. */
-	assertEquals(1,coMan.getActiveTable().getRows().size());
-	assertEquals("default",coMan.getValue(coMan.getColumns(coMan.getActiveTable()).get(0),0));
-	assertEquals("default@email",coMan.getValue(coMan.getColumns(coMan.getActiveTable()).get(1),0));
-	assertNull(coMan.getValue(coMan.getColumns(coMan.getActiveTable()).get(2),0));
-	assertEquals(999,coMan.getValue(coMan.getColumns(coMan.getActiveTable()).get(3),0));
+	assertEquals(1,tablr.getActiveTable().getRows().size());
+	assertEquals("default",tablr.getValue(tablr.getColumns(tablr.getActiveTable()).get(0),0));
+	assertEquals("default@email",tablr.getValue(tablr.getColumns(tablr.getActiveTable()).get(1),0));
+	assertNull(tablr.getValue(tablr.getColumns(tablr.getActiveTable()).get(2),0));
+	assertEquals(999,tablr.getValue(tablr.getColumns(tablr.getActiveTable()).get(3),0));
 
 
 }
@@ -93,9 +99,9 @@ public class TableRowsTests {
 	public void useCase9() {
 		// Step 1: Load the window
 		MyCanvasWindow myCW = new MyCanvasWindow("Tables Mode");
-		Tablr coMan = myCW.getTablr();
-		coMan.clearUI();
-//TODO		coMan.loadUI(Loadable_Interfaces.TABLES);
+		Tablr tablr = myCW.getTablr();
+		tablr.clearUI();
+//TODO		tablr.loadUI(Loadable_Interfaces.TABLES);
 		//Loading a table and filling it with Columns:
 		//Creating table:
 		myCW.handleMouseEvent(0, 40, 530 , 2);
@@ -191,7 +197,7 @@ public class TableRowsTests {
 		// got to ROWS mode
 		myCW.handleMouseEvent(0, 80, 30, 2);
 				
-//TODO		assertEquals(Loadable_Interfaces.TABLE_ROWS, coMan.getMode());
+//TODO		assertEquals(Loadable_Interfaces.TABLE_ROWS, tablr.getMode());
 				
 		// Add a row
 		myCW.handleMouseEvent(0, 15, 35 , 2);
@@ -201,7 +207,7 @@ public class TableRowsTests {
 
 		// Step 2: The system indicates that this row is now selected.
 		//Column 0
-		TextField textField = (TextField) coMan.getActiveUI().locatedAt(40, 70);
+		TextField textField = (TextField) tablr.getActiveUI().locatedAt(40, 70);
 		assertTrue(textField.isSelected());
 		for(int i=0;i<d1.length();i++){
 			myCW.handleKeyEvent(0, 8, ' ');
@@ -211,7 +217,7 @@ public class TableRowsTests {
 		
 		//Column 1
 		myCW.handleMouseEvent(0, 100, 70 , 1);
-		textField = (TextField) coMan.getActiveUI().locatedAt(100, 70);
+		textField = (TextField) tablr.getActiveUI().locatedAt(100, 70);
 		assertTrue(textField.isSelected());
 		for(int i=0;i<d1.length();i++){
 			myCW.handleKeyEvent(0, 8, ' ');
@@ -224,7 +230,7 @@ public class TableRowsTests {
 		
 		// Column 2: @ verwijderen
 		myCW.handleMouseEvent(0, 180, 70 , 1);
-		textField = (TextField) coMan.getActiveUI().locatedAt(180, 70);
+		textField = (TextField) tablr.getActiveUI().locatedAt(180, 70);
 		for(int i=0;i<6;i++){
 			myCW.handleKeyEvent(0, 8, ' ');
 			System.out.println(textField.getText());
@@ -237,7 +243,7 @@ public class TableRowsTests {
 		
 		// Column 3: @ verwijderen
 		myCW.handleMouseEvent(0, 250, 70 , 1);
-		textField = (TextField) coMan.getActiveUI().locatedAt(250, 70);
+		textField = (TextField) tablr.getActiveUI().locatedAt(250, 70);
 		for(int i=0;i<d2.length();i++){
 			myCW.handleKeyEvent(0, 8, ' ');
 		}
@@ -248,26 +254,26 @@ public class TableRowsTests {
 		
 		
 		// Column 4: 
-		assertTrue(((Checkbox) coMan.getActiveUI().locatedAt(330, 70)).getGreyedOut());
+		assertTrue(((Checkbox) tablr.getActiveUI().locatedAt(330, 70)).getGreyedOut());
 		myCW.handleMouseEvent(0, 330, 70 , 1);
-		assertFalse(((Checkbox) coMan.getActiveUI().locatedAt(330, 70)).getGreyedOut());
-		assertTrue(((Checkbox) coMan.getActiveUI().locatedAt(330, 70)).isChecked());
+		assertFalse(((Checkbox) tablr.getActiveUI().locatedAt(330, 70)).getGreyedOut());
+		assertTrue(((Checkbox) tablr.getActiveUI().locatedAt(330, 70)).isChecked());
 		myCW.handleMouseEvent(0, 330, 70, 1);
-		assertFalse(((Checkbox) coMan.getActiveUI().locatedAt(330, 70)).isChecked());
+		assertFalse(((Checkbox) tablr.getActiveUI().locatedAt(330, 70)).isChecked());
 		
 		
 		// Click on checkbox of column 5 
-		assertFalse(((Checkbox) coMan.getActiveUI().locatedAt(400, 70)).getGreyedOut());
-		assertTrue(((Checkbox) coMan.getActiveUI().locatedAt(400, 70)).isChecked());
+		assertFalse(((Checkbox) tablr.getActiveUI().locatedAt(400, 70)).getGreyedOut());
+		assertTrue(((Checkbox) tablr.getActiveUI().locatedAt(400, 70)).isChecked());
 		myCW.handleMouseEvent(0, 400, 70, 1);
-		assertFalse(((Checkbox) coMan.getActiveUI().locatedAt(400, 70)).getGreyedOut());
-		assertFalse(((Checkbox) coMan.getActiveUI().locatedAt(400, 70)).isChecked());
+		assertFalse(((Checkbox) tablr.getActiveUI().locatedAt(400, 70)).getGreyedOut());
+		assertFalse(((Checkbox) tablr.getActiveUI().locatedAt(400, 70)).isChecked());
 		
 		
 		
 		// Column 6: Remove all digits
 		myCW.handleMouseEvent(0, 450, 70 , 1);
-		textField = (TextField) coMan.getActiveUI().locatedAt(450, 70);
+		textField = (TextField) tablr.getActiveUI().locatedAt(450, 70);
 		assertTrue(textField.isSelected());
 		for(int i=0;i<d4.length();i++){
 			myCW.handleKeyEvent(0, 8, ' ');
@@ -278,7 +284,7 @@ public class TableRowsTests {
 		
 		// Column 7: Remove all the digits
 		myCW.handleMouseEvent(0, 510, 70 , 1);
-		textField = (TextField) coMan.getActiveUI().locatedAt(510, 70);
+		textField = (TextField) tablr.getActiveUI().locatedAt(510, 70);
 		assertTrue(textField.isSelected());
 		for(int i=0;i<d4.length();i++){
 			myCW.handleKeyEvent(0, 8, ' ');
@@ -296,9 +302,9 @@ public class TableRowsTests {
 	public void useCase10() {
 //		// Step 1: Load the window
 //		MyCanvasWindow myCW = new MyCanvasWindow("Tables Mode");
-//		CommunicationManager coMan = myCW.getCommunicationManager();
-//		coMan.clearUI();
-//		coMan.loadUI(Loadable_Interfaces.TABLES);
+//		CommunicationManager tablr = myCW.getCommunicationManager();
+//		tablr.clearUI();
+//		tablr.loadUI(Loadable_Interfaces.TABLES);
 //		// The user double-clicks below the list of tables to create a table
 //		myCW.handleMouseEvent(0, 40, 530 , 2);
 //		
@@ -312,12 +318,12 @@ public class TableRowsTests {
 //		myCW.handleKeyEvent(0, 27, ' ');
 		
 		MyCanvasWindow myCW = prepareTable();
-		Tablr coMan = myCW.getTablr();
+		Tablr tablr = myCW.getTablr();
 		
 		// Step 1: The user double-clicks the table name.
 		myCW.handleMouseEvent(0, 51, 13, 2);
 		
-//TODO		assertEquals(Loadable_Interfaces.TABLE_ROWS, coMan.getMode());
+//TODO		assertEquals(Loadable_Interfaces.TABLE_ROWS, tablr.getMode());
 		
 		// Add a row
 		myCW.handleMouseEvent(0, 11, 31 , 2);
@@ -326,15 +332,15 @@ public class TableRowsTests {
 		myCW.handleMouseEvent(0, 11, 61 , 1);
 		
 		// Step 2: The system indicates that this row is now selected.
-		UIRow r = (UIRow) coMan.getActiveUI().locatedAt(11, 61);
-		UITable table = (UITable) coMan.getActiveUI().locatedAt(200, 200);
+		UIRow r = (UIRow) tablr.getActiveUI().locatedAt(11, 61);
+		UITable table = (UITable) tablr.getActiveUI().locatedAt(200, 200);
 		assertEquals(table.getSelected(), r);
 
 		// Step 3: User presses Delete key
 		myCW.handleKeyEvent(0, 127, ' ');
 		
 		// Step 4: The system removes the row from the table and shows the updated list of rows
-		assertEquals(0,coMan.getTables().get(0).getRows().size());
+		assertEquals(0,tablr.getTables().get(0).getRows().size());
 		assertEquals(0,table.getRows().size());
 	}
 	
