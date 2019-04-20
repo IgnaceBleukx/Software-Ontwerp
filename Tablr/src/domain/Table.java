@@ -97,7 +97,7 @@ public class Table {
 	private int nbOfRows;
 	
 	/**
-	 * This method returns the rows of the current Table.
+	 * This method returns the number of rows of the current Table.
 	 */
 	public int getRows() {
 		return nbOfRows;

@@ -18,79 +18,75 @@ import uielements.UITable;
 public class TableRowsTests {
 	
 	public MyCanvasWindow prepareTable(){
-		// Step 1: Load the window
+		// Step 1: Load the tables mode window
 		MyCanvasWindow myCW = new MyCanvasWindow("Table Rows Mode");
-		Tablr tablr = myCW.getTablr();
+		myCW.handleKeyEvent(1, 17, ' ');
+		myCW.handleKeyEvent(1, 84, ' ');
 
 		// Double click on listview to create a new table
 		myCW.handleMouseEvent(MouseEvent.MOUSE_CLICKED, 155, 152, 2);
 		// The user double-clicks a table name.
 		myCW.handleMouseEvent(MouseEvent.MOUSE_CLICKED, 60, 40, 2);
 		// The user double clicks twice below the list of columns:
-		myCW.handleMouseEvent(MouseEvent.MOUSE_CLICKED, 450, 160, 2);
-		myCW.handleMouseEvent(MouseEvent.MOUSE_CLICKED, 450, 160, 2);
-		
-		// The user double-clicks the table name to open rows mode
-		myCW.handleMouseEvent(MouseEvent.MOUSE_CLICKED, 60, 40, 2);
-		
-		// The user double clicks twice below the list of rows:
-		myCW.handleMouseEvent(MouseEvent.MOUSE_CLICKED, 450, 480, 2);
-		myCW.handleMouseEvent(MouseEvent.MOUSE_CLICKED, 450, 480, 2);
-		myCW.handleMouseEvent(MouseEvent.MOUSE_CLICKED, 450, 480, 2);
-		myCW.handleMouseEvent(MouseEvent.MOUSE_CLICKED, 450, 480, 2);
+		myCW.handleMouseEvent(MouseEvent.MOUSE_CLICKED, 450, 170, 2);
+		myCW.handleMouseEvent(MouseEvent.MOUSE_CLICKED, 450, 170, 2);
+		myCW.handleMouseEvent(MouseEvent.MOUSE_CLICKED, 450, 170, 2);
+		myCW.handleMouseEvent(MouseEvent.MOUSE_CLICKED, 450, 170, 2);
 
 		//Changing default value for column0.
-		myCW.handleMouseEvent(MouseEvent.MOUSE_CLICKED,544,466, 1);
+		myCW.handleMouseEvent(MouseEvent.MOUSE_CLICKED,540, 48, 1);
 		String d1 = "default";
 		for(int i=0;i<d1.length();i++){
 			myCW.handleKeyEvent(0, 0, d1.charAt(i));
 		}
 		//Changing default value for column1:
-		myCW.handleMouseEvent(0, 545, 75, 1);
+		myCW.handleMouseEvent(MouseEvent.MOUSE_CLICKED, 545, 75, 1);
 		String d2 = "default@email";
 		for(int i=0;i<d2.length();i++){
 			myCW.handleKeyEvent(0, 0, d2.charAt(i));
 		}
-		//Changing default value for column2:
-		myCW.handleMouseEvent(0, 300,150,1);
-		myCW.handleMouseEvent(0, 300,150,1);
-		//Changing default value for column3:
-		myCW.handleMouseEvent(0, 300,200,1);
-		myCW.handleMouseEvent(0, 300,200,1);
-		myCW.handleMouseEvent(0, 300,200,1);
-		myCW.handleMouseEvent(0, 500,200, 1);
+		//Changing type to Boolean for column2:
+		myCW.handleMouseEvent(MouseEvent.MOUSE_CLICKED, 450,105,1);
+		myCW.handleMouseEvent(MouseEvent.MOUSE_CLICKED, 450,105,1);
 		
-		String d4 = "999";
-		for(int i=0;i<d4.length();i++){
-			myCW.handleKeyEvent(0, 0, d4.charAt(i));
+		//Changing type to integer for column3:
+		myCW.handleMouseEvent(MouseEvent.MOUSE_CLICKED, 450,135,1);
+		myCW.handleMouseEvent(MouseEvent.MOUSE_CLICKED, 450,135,1);
+		myCW.handleMouseEvent(MouseEvent.MOUSE_CLICKED, 450,135,1);
+		//Changing default value for column3 to 999:
+		myCW.handleMouseEvent(MouseEvent.MOUSE_CLICKED, 550,132,1);
+		String d3 = "999";
+		for(int i=0;i<d3.length();i++){
+			myCW.handleKeyEvent(0, 0, d3.charAt(i));
 		}
-		myCW.handleKeyEvent(0,10,' ');
+		
+		// The user double-clicks the table name to open rows mode
+		myCW.handleMouseEvent(MouseEvent.MOUSE_CLICKED, 60, 37, 2);
+		
+		// The user double clicks below the list of rows:
+		myCW.handleMouseEvent(MouseEvent.MOUSE_CLICKED, 450, 480, 2);
+		myCW.handleMouseEvent(MouseEvent.MOUSE_CLICKED, 450, 480, 2);
+		myCW.handleMouseEvent(MouseEvent.MOUSE_CLICKED, 450, 480, 2);
+		myCW.handleMouseEvent(MouseEvent.MOUSE_CLICKED, 450, 480, 2);
 
 		return myCW;
-		
 	}
 	
-	
+	/**
+	 * Use case 8: Add a row
+	 * 
+	 */
 	@Test
 	public void useCase8(){
-	MyCanvasWindow myCW = prepareTable();
-	Tablr tablr = myCW.getTablr();
+		MyCanvasWindow myCW = prepareTable();
+		Tablr tablr = myCW.getTablr();
 	
-	//Entering table_rows mode:
-	myCW.handleMouseEvent(0,85, 30, 2);
-//TODO	assertEquals(Loadable_Interfaces.TABLE_ROWS,tablr.getMode());
-	// Step 1: The user double clicks below the list of tables:
-	myCW.handleMouseEvent(0, 40, 530 , 2);
-	/* Step 2: The system adds a new row to the end of the table.
-				Its value for each column is the columns default. */
-	assertEquals(1,tablr.getActiveTable().getRows().size());
-	assertEquals("default",tablr.getValue(tablr.getColumns(tablr.getActiveTable()).get(0),0));
-	assertEquals("default@email",tablr.getValue(tablr.getColumns(tablr.getActiveTable()).get(1),0));
-	assertNull(tablr.getValue(tablr.getColumns(tablr.getActiveTable()).get(2),0));
-	assertEquals(999,tablr.getValue(tablr.getColumns(tablr.getActiveTable()).get(3),0));
-
-
-}
+		// Step 2: The system added four new rows in prepareTable(). Its value for each column is the columns default.
+		assertEquals("default",tablr.getColumns(tablr.getTables().get(0)).get(0).getDefault());
+		assertEquals("default@email",tablr.getColumns(tablr.getTables().get(0)).get(1).getDefault());
+		assertNull(tablr.getColumns(tablr.getTables().get(0)).get(2).getDefault());
+		assertEquals(999,tablr.getColumns(tablr.getTables().get(0)).get(3).getDefault());
+	}
 
 	/**
 	 * use Case 4.9: Edit row value
