@@ -27,7 +27,7 @@ public class TableRowsTests {
 		myCW.handleMouseEvent(MouseEvent.MOUSE_CLICKED, 155, 152, 2);
 		// The user double-clicks a table name.
 		myCW.handleMouseEvent(MouseEvent.MOUSE_CLICKED, 60, 40, 2);
-		// The user double clicks twice below the list of columns:
+		// The user double clicks below the list of columns:
 		myCW.handleMouseEvent(MouseEvent.MOUSE_CLICKED, 450, 170, 2);
 		myCW.handleMouseEvent(MouseEvent.MOUSE_CLICKED, 450, 170, 2);
 		myCW.handleMouseEvent(MouseEvent.MOUSE_CLICKED, 450, 170, 2);
@@ -94,40 +94,39 @@ public class TableRowsTests {
 	@Test
 	public void useCase9() {
 		// Step 1: Load the window
-		MyCanvasWindow myCW = new MyCanvasWindow("Tables Mode");
-		Tablr tablr = myCW.getTablr();
-		tablr.clearUI();
-//TODO		tablr.loadUI(Loadable_Interfaces.TABLES);
-		//Loading a table and filling it with Columns:
-		//Creating table:
-		myCW.handleMouseEvent(0, 40, 530 , 2);
-		//Going into tables design mode:
-		myCW.handleMouseEvent(0,85, 30, 2);
-		//Adding columns:
-		myCW.handleMouseEvent(0, 260, 230, 2);
-		myCW.handleMouseEvent(0, 260, 260, 2);
-		myCW.handleMouseEvent(0, 260, 290, 2);
-		myCW.handleMouseEvent(0, 260, 320, 2);
-		myCW.handleMouseEvent(0, 260, 510, 2);
-		myCW.handleMouseEvent(0, 260, 510, 2);
-		myCW.handleMouseEvent(0, 260, 510, 2);
-		myCW.handleMouseEvent(0, 260, 510, 2);
+		MyCanvasWindow myCW = new MyCanvasWindow("Table Rows Mode");
+		myCW.handleKeyEvent(1, 17, ' ');
+		myCW.handleKeyEvent(1, 84, ' ');
 
+		// Double click on listview to create a new table
+		myCW.handleMouseEvent(MouseEvent.MOUSE_CLICKED, 155, 152, 2);
+		// The user double-clicks a table name.
+		myCW.handleMouseEvent(MouseEvent.MOUSE_CLICKED, 60, 40, 2);
+		// The user double clicks below the list of columns:
+		myCW.handleMouseEvent(MouseEvent.MOUSE_CLICKED, 450, 276, 2);
+		myCW.handleMouseEvent(MouseEvent.MOUSE_CLICKED, 450, 276, 2);
+		myCW.handleMouseEvent(MouseEvent.MOUSE_CLICKED, 450, 276, 2);
+		myCW.handleMouseEvent(MouseEvent.MOUSE_CLICKED, 450, 276, 2);
+		myCW.handleMouseEvent(MouseEvent.MOUSE_CLICKED, 450, 276, 2);
+		myCW.handleMouseEvent(MouseEvent.MOUSE_CLICKED, 450, 276, 2);
+		myCW.handleMouseEvent(MouseEvent.MOUSE_CLICKED, 450, 276, 2);
+		myCW.handleMouseEvent(MouseEvent.MOUSE_CLICKED, 450, 276, 2);
+		
 		//Changing default value for column0.
 		// String met default = "default" en Blanks_al = true
-		myCW.handleMouseEvent(0,500,50, 1);
+		myCW.handleMouseEvent(MouseEvent.MOUSE_CLICKED,540,50, 1);
 		String d1 = "default";
 		for(int i=0;i<d1.length();i++){
 			myCW.handleKeyEvent(0, 0, d1.charAt(i));
 		}
 		//Changing default value for column1.
 		// String met default = "default" en Blanks_al = false
-		myCW.handleMouseEvent(0,500,100, 1);
+		myCW.handleMouseEvent(MouseEvent.MOUSE_CLICKED,540,75, 1);
 		for(int i=0;i<d1.length();i++){
 			myCW.handleKeyEvent(0, 0, d1.charAt(i));
 		}		
 		//Toggle Blanks
-		myCW.handleMouseEvent(0, 400, 100, 1);
+		myCW.handleMouseEvent(MouseEvent.MOUSE_CLICKED,500,75, 1);
 		
 		//Changing default value for column2:
 		// Email met default = "default@email" en Blanks_al = true
