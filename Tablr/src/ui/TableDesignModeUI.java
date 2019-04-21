@@ -60,7 +60,6 @@ public class TableDesignModeUI extends UI {
 		setActive();
 		this.clear();
 		loadUIAttributes();
-		//int titleHeight = 15;
 		int currentHeight = getY()+titleHeight+edgeW;
 		
 		Text name = new Text(namePosX, currentHeight, nameSizeX, 15,"Name");
@@ -139,14 +138,12 @@ public class TableDesignModeUI extends UI {
 			}
 		});
 		
-		ListView listview = loadColumnAttributes(table, titleHeight);
+		ListView listview = loadColumnAttributes(table);
 		addUIElement(listview);
 				
 		//Reload listview when domain changed
 		tablr.addDomainChangedListener(() -> {
-			
 			updateListView(table, titleHeight);
-			
 			titleBar.setText("Table Design Mode: " + table.getName());
 		});
 		
@@ -167,7 +164,7 @@ public class TableDesignModeUI extends UI {
 		this.getElements().remove(ll.orElseThrow(() -> new RuntimeException("No listview to refresh")));
 		
 		//Refresh listview
-		addUIElement(loadColumnAttributes(table, titleHeight));
+		addUIElement(loadColumnAttributes(table));
 	}	
 	
 	/**
@@ -216,11 +213,13 @@ public class TableDesignModeUI extends UI {
 		updateHeaders(titleHeight + getY() + edgeW);
 	}
 	
+
 	/**
 	 * Loads the columns from a given table
 	 * @return 		A Listview containing all information.
 	 */
-	private ListView loadColumnAttributes(Table table,int titleHeight) {
+	private ListView loadColumnAttributes(Table table) {
+
 		
 		int currentHeight = getY() + 30;
 		
@@ -239,17 +238,17 @@ public class TableDesignModeUI extends UI {
 			Checkbox colBlankPol = new Checkbox(blankPosX + blankSizeX/2 - 10, currentHeight + 5, 20, 20, c.getBlankingPolicy(col));
 			String defaultValue = c.getDefaultString(col);
 			
-			ArrayList<UIElement> list = new ArrayList<UIElement>(){{ add(colName); add(colType); add(colBlankPol);}};
+			ArrayList<UIElement> elmts = new ArrayList<UIElement>(){{ add(colName); add(colType); add(colBlankPol);}};
 			if(c.getColumnType(col) == Type.BOOLEAN){				
 				Checkbox defaultBoolean = new Checkbox(defPosX + defSizeX/2 - 10, currentHeight + 5,20,20,(Boolean) c.getDefaultValue(col));
-				list.add(defaultBoolean);
+				elmts.add(defaultBoolean);
 				defaultBoolean.addSingleClickListener(() -> {
 					c.toggleDefault(col);
 				});
 			}
 			else{
 				TextField colDefText = new TextField(defPosX,currentHeight, defSizeX ,30, defaultValue);
-				list.add(colDefText);
+				elmts.add(colDefText);
 				colDefText.addKeyboardListener(-1,()-> {
 					try{
 						if (colDefText.getText().length() == 0) {
@@ -268,7 +267,7 @@ public class TableDesignModeUI extends UI {
 				});
 			}
 			
-			UIRow uiRow = new UIRow(getX() + edgeW ,getY()+currentHeight, getWidth() - 2*edgeW - 10, 30,list);
+			UIRow uiRow = new UIRow(getX() + edgeW ,getY()+currentHeight, getWidth() - 2*edgeW - 10, 30,elmts);
 			currentHeight += 30;
 			listview.addElement(uiRow);			
 			
@@ -366,8 +365,9 @@ public class TableDesignModeUI extends UI {
 	 */
 	@Override
 	public void resizeR(int deltaW) {
-		setWidth(getWidth() + deltaW);
-		getElements().stream().filter(e -> !(e instanceof Text || e instanceof Dragger)).forEach(e -> e.resizeR(deltaW));
+		int delta = getWidth() + deltaW < minWidth ? getWidth()-minWidth : deltaW;
+		setWidth(getWidth() + delta);
+		getElements().stream().filter(e -> !(e instanceof Text || e instanceof Dragger)).forEach(e -> e.resizeR(delta));
 	}
 
 	/**
@@ -376,9 +376,12 @@ public class TableDesignModeUI extends UI {
 	 */
 	@Override
 	public void resizeL(int deltaW) {
-		setX(getX()+deltaW);
-		setWidth(getWidth() - deltaW);
-		getElements().stream().filter(e -> !(e instanceof Text || e instanceof Dragger)).forEach(e -> e.resizeL(deltaW));
+		int delta = getWidth() - deltaW < minWidth ? getWidth()-minWidth : deltaW;
+		setX(getX()+delta);
+		setWidth(getWidth() - delta);
+		getElements().stream().filter(e -> !(e instanceof Text || e instanceof Dragger)).forEach(e -> e.resizeL(delta));
+		getElements().stream().filter(e -> (e instanceof Text || e instanceof Dragger)).forEach(e -> e.move(delta,0));
+
 	}
 	
 	/**
@@ -387,9 +390,11 @@ public class TableDesignModeUI extends UI {
 	 */
 	@Override
 	public void resizeT(int deltaH) {
-		setHeight(getHeight() - deltaH);
-		setY(getY()+deltaH);
-		getElements().stream().filter(e -> !(e instanceof Text || e instanceof Dragger)).forEach(e -> e.resizeT(deltaH));
+		int delta = getWidth() - deltaH < minHeight ? getWidth()-minHeight : deltaH;
+		setHeight(getHeight() - delta);
+		setY(getY()+delta);
+		getElements().stream().filter(e -> !(e instanceof Text || e instanceof Dragger)).forEach(e -> e.resizeT(delta));
+		getElements().stream().filter(e ->  (e instanceof Text || e instanceof Dragger)).forEach(e -> e.move(0,delta));
 	}
 	
 	/**
@@ -398,8 +403,9 @@ public class TableDesignModeUI extends UI {
 	 */
 	@Override
 	public void resizeB(int deltaH) {
-		setHeight(getHeight()+deltaH);
-		getElements().stream().filter(e -> !(e instanceof Text || e instanceof Dragger)).forEach(e -> e.resizeB(deltaH));
+		int delta = getWidth() + deltaH < minHeight ? getWidth()-minHeight : deltaH;
+		setHeight(getHeight()+delta);
+		getElements().stream().filter(e -> !(e instanceof Text || e instanceof Dragger)).forEach(e -> e.resizeB(delta));
 	}
 	
 }

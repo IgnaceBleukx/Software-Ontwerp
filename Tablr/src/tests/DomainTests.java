@@ -9,7 +9,6 @@ import org.junit.Test;
 
 import domain.Cell;
 import domain.Column;
-import domain.Row;
 import domain.Table;
 import domain.Type;
 import exceptions.InvalidNameException;
@@ -140,14 +139,10 @@ public class DomainTests {
 	@Test
 	public void testRowBasic() {
 		Table t = new Table("Table1");
+		t.addEmptyColumn(Type.STRING, "");
 		t.addRow();
+		assertEquals(1, t.getRows());
 		
-		Row r = t.getRows().get(0);
-		//test the basic functionality of rows.
-		r.setTable(t);
-		assertEquals(r.getTable(),t);
-		r.terminate();
-		assertEquals(r.getTable(),null);
 	}
 	
 	@Test

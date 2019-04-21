@@ -202,7 +202,10 @@ public class UI {
 	private	BottomLeftUICorner bottomLeft;
 	private BottomRightUICorner bottomRight;
 	
-
+	protected static int minHeight = 100;
+	protected static int minWidth = 100;
+	
+	
 	/**
 	 * @return	The X Coordinate of this UI
 	 */
@@ -263,17 +266,20 @@ public class UI {
 		this.width = width;
 	}
 	
-	/**
-	 * Paints this UI and all its elements
-	 */
-	public void paintUI(Graphics g) {
-		g.setColor(Color.LIGHT_GRAY);
-		g.fillRect(getX(),getY(), getWidth(), getHeight());
-		for(UIElement e : getElements()) {
-			e.paint(g);
-		}
-		
-	}
+//	/**
+//	 * Paints this UI and all its elements
+//	 */
+//	public void paintUI(Graphics g) {
+//		g.setColor(Color.LIGHT_GRAY);
+//		g.fillRect(getX(),getY(), getWidth(), getHeight());
+//		g.setClip(getX(),getY(),getWidth(),getHeight());	
+//		for(UIElement e : getElements()) {
+//			System.out.println("[UI.java:277]: " + e);
+//			e.paint(g);
+//		}
+//		g.setClip(null);
+//		
+//	}
 		
 	/**
 	 * All of the UIElements that make up this UI
@@ -325,7 +331,9 @@ public class UI {
 	 * This method paints the current canvaswindow.UI.
 	 */
 	public void paint(Graphics g){
+		g.setClip(getX(),getY(),getWidth(),getHeight());
 		getElements().stream().forEach(e -> e.paint(g));
+		g.setClip(null);
 	}
 	
 	/**
@@ -475,9 +483,10 @@ public class UI {
 	 * @param deltaW 	The amount of pixels the UI must be made smaller with from the left.
 	 */
 	public void resizeL(int deltaW) {
-		setX(getX()+deltaW);
-		setWidth(getWidth() - deltaW);
-		elements.stream().forEach(e -> e.resizeL(deltaW));
+		int delta = getWidth() - deltaW < minWidth ? getWidth()-minWidth : deltaW;
+		setX(getX()+delta);
+		setWidth(getWidth() - delta);
+		elements.stream().forEach(e -> e.resizeL(delta));
 	}
 	
 	/**
@@ -485,8 +494,9 @@ public class UI {
 	 * @param deltaW 	The amount of pixels the UI must be made larger with from the right.
 	 */
 	public void resizeR(int deltaW) {
-		setWidth(getWidth() + deltaW);
-		elements.stream().forEach(e -> e.resizeR(deltaW));
+		int delta = getWidth() + deltaW < minWidth ? getWidth()-minWidth : deltaW;
+		setWidth(getWidth() + delta);
+		elements.stream().forEach(e -> e.resizeR(delta));
 	}
 	
 	/**
@@ -494,9 +504,10 @@ public class UI {
 	 * @param deltaH 	The amount of pixels the UI must be made smaller with from the top.
 	 */
 	public void resizeT(int deltaH) {
-		setHeight(getHeight() - deltaH);
-		setY(getY()+deltaH);
-		elements.stream().forEach(e -> e.resizeT(deltaH));
+		int delta = getWidth() - deltaH < minHeight ? getWidth()-minHeight : deltaH;
+		setHeight(getHeight() - delta);
+		setY(getY()+delta);
+		elements.stream().forEach(e -> e.resizeT(delta));
 	}
 	
 	/**
@@ -504,8 +515,9 @@ public class UI {
 	 * @param deltaH 	The amount of pixels the UI should be made larger with from the bottom.
 	 */
 	public void resizeB(int deltaH) {
-		setHeight(getHeight()+deltaH);
-		elements.stream().forEach(e -> e.resizeB(deltaH));
+		int delta = getWidth() + deltaH < minHeight ? getWidth()-minHeight : deltaH;
+		setHeight(getHeight()+delta);
+		elements.stream().forEach(e -> e.resizeB(delta));
 	}
 	
 	@Override

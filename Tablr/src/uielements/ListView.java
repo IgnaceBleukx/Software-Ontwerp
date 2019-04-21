@@ -3,6 +3,7 @@ package uielements;
 import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Scrollbar;
+import java.awt.Shape;
 import java.io.ObjectInputStream.GetField;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -128,9 +129,10 @@ public class ListView extends UIElement {
 	public void paint(Graphics g) {
 		g.setColor(Color.black);
 		g.drawRect(getX(),getY(),getWidth()-10,getHeight()-10);
+		Shape oldClip = g.getClip();
 		g.setClip(getX(), getY(),getWidth()-scrollbarW, getHeight()-scrollbarW);
 		elements.stream().forEach(e -> e.paint(g));
-		g.setClip(null);
+		g.setClip(oldClip);
 		scrollBarV.paint(g);
 		scrollBarH.paint(g);
 	}

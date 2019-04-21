@@ -4,6 +4,7 @@ import java.awt.Color;
 import java.awt.Font;
 import java.awt.FontMetrics;
 import java.awt.Graphics;
+import java.awt.Shape;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.function.BiConsumer;
@@ -45,7 +46,6 @@ public class Button extends UIElement {
 	 */
 	@Override
 	public void paint(Graphics g) {
-		
 	    // Drawing button
 		g.setColor(getColor());
 		int arcWidth = 8;
@@ -54,7 +54,10 @@ public class Button extends UIElement {
 		g.setColor(Color.BLACK);
 		g.drawRoundRect(super.getX(), super.getY(), super.getWidth(), super.getHeight(), arcWidth, arcHeight);
 		//Drawing text on button:
+		Shape oldClip = g.getClip();
+		g.setClip(getX(),getY(),getWidth(),getHeight());
 		drawCenteredText(g, this.getText());
+		g.setClip(oldClip);
 	}
 	
 	/**
