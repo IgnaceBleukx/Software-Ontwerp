@@ -19,6 +19,11 @@ import exceptions.InvalidTypeException;
 import facades.Tablr;
 import ui.UI;
 
+/**
+ * A Listview is a UIElement that groups multiple UIElements together.
+ * At all times, only one element in the ListView can be selected.
+ *
+ */
 public class ListView extends UIElement {
 
 	/**
@@ -64,11 +69,25 @@ public class ListView extends UIElement {
 		
 		
 	}
+	
+	/**
+	 * Width of the scrollbar
+	 */
 	private static int scrollbarW = 10;
 	
+	/**
+	 * The vertical scrollbar in this ListView
+	 */
 	private VerticalScrollBar scrollBarV = new VerticalScrollBar(getEndX()-scrollbarW, getY(),scrollbarW,getHeight()-scrollbarW,new Rounder());
+	
+	/**
+	 * The horizontal scrollbar in this ListView
+	 */
 	private HorizontalScrollBar scrollBarH = new HorizontalScrollBar(getX(),getEndY()-scrollbarW,getWidth(), scrollbarW,new Rounder());
-		
+	
+	/**
+	 * Updates the horizontal and vertical scrollbars.
+	 */
 	public void updateScrollBar() {
 		scrollBarV.update(elements.stream().filter(e -> !(e instanceof ScrollBar)).mapToInt(e -> e.getHeight()).sum(), this.getHeight()-scrollbarW);
 		scrollBarH.update(elements.stream().filter(e -> !(e instanceof ScrollBar)).mapToInt(e -> e.getWidth()).max().orElse(getWidth()-scrollbarW), this.getWidth()-scrollbarW);
@@ -101,7 +120,10 @@ public class ListView extends UIElement {
 	public ArrayList<UIElement> getElements() {
 		return new ArrayList<UIElement>(elements);
 	}
-
+	
+	/**
+	 * Paints the ListView to the Canvas.
+	 */
 	@Override
 	public void paint(Graphics g) {
 		g.setColor(Color.black);
@@ -113,6 +135,13 @@ public class ListView extends UIElement {
 		scrollBarH.paint(g);
 	}
 	
+	/**
+	 * Finds the UIElement in this ListView at coordinates (x,y).
+	 * @param x 	The X Coordinate
+	 * @param y		The Y Coordinate
+	 * @return		A UIElement at coordinates (x,y), null if no such UIElement exists.
+	 * @return 		null if (x,y) is located outside the ListView.
+	 */
 	@Override
 	public UIElement locatedAt(int x, int y) {
 		if (!containsPoint(x,y)) return null;
@@ -129,7 +158,9 @@ public class ListView extends UIElement {
 		return this;		
 	}
 
-
+	/**
+	 * Checks if this ListView has a element that is currently selected.
+	 */
 	@Override
 	public boolean hasSelectedElement() {
 		if (this.isSelected()) return true;
@@ -138,18 +169,27 @@ public class ListView extends UIElement {
 		}
 		return false;
 	}
-
+	
+	/**
+	 * Handles a single click by running all actions associated with it.
+	 */
 	@Override
 	public void handleSingleClick() {
 		getUI().getTablr().notifyNewSelected((UIElement) this);
 		new ArrayList<>(singleClickListeners).stream().forEach(l -> l.run());
 	}
 
+	/**
+	 * Handles a double click by running all actions associated with it.
+	 */
 	@Override
 	public void handleDoubleClick() {
 		new ArrayList<>(doubleClickListeners).stream().forEach(l -> l.run());
 	}
 
+	/**
+	 * Handles a keyboard event by running all actions associated with the pressed key.
+	 */
 	@Override
 	public void handleKeyboardEvent(int keyCode, char keyChar) {
 		for (int i=0;i<elements.size();i++) {
@@ -163,11 +203,17 @@ public class ListView extends UIElement {
 		
 	}
 	
+	/**
+	 * Handles dragging by running all actions associated with dragging this element.
+	 */
 	@Override
 	public void handleDrag(int x, int y) {
 		new ArrayList<BiConsumer<Integer,Integer>>(dragListeners).stream().forEach(r -> r.accept(x, y));
 	}
-		
+	
+	/**
+	 * Handles selection of a new UIElement, passing the message to all its elements.
+	 */
 	@Override
 	public void selectElement(UIElement e) {
 		if (e==this) 
@@ -179,7 +225,11 @@ public class ListView extends UIElement {
 			el.selectElement(e);
 		}
 	}
-
+	
+	/**
+	 * Sets the UI this ListView belongs to.
+	 * @param ui	The UI
+	 */
 	@Override
 	public void setUI(UI ui) {
 		this.ui = ui;
@@ -202,6 +252,11 @@ public class ListView extends UIElement {
 		return false;
 	}
 	
+	/**
+	 * Moves the ListView to (x+deltaX, y+deltaY). Also moves all of its elements.
+	 * @param deltaX	X difference
+	 * @param deltaY 	Y difference
+	 */
 	@Override
 	public void move(int deltaX, int deltaY) {
 		setX(getX() + deltaX);
@@ -233,6 +288,10 @@ public class ListView extends UIElement {
 		updateScrollBar();
 	}
 	
+	/**
+	 * Resize the ListView from the top. Updates scrollbars.
+	 * @param deltaH	Amount of pixels the ListView is resized from the top.
+	 */
 	@Override
 	public void resizeT(int deltaH){
 		this.setHeight(getHeight() - deltaH);
@@ -243,6 +302,11 @@ public class ListView extends UIElement {
 		updateScrollBar();
 	}
 	
+	/**
+	 * Resize the ListView from the bottom. Also updates scrollbars.
+	 * @param deltaH	Amount of pixels the ListView is resized from the top.
+
+	 */
 	@Override
 	public void resizeB(int deltaH){
 		this.setHeight(getHeight() + deltaH);

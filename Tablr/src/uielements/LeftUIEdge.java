@@ -1,7 +1,13 @@
 package uielements;
 
+/**
+ * The left edge of a subwindow.
+ */
 public class LeftUIEdge extends UIEdge {
-
+	
+	/**
+	 * Creates a new LeftUIEdge
+	 */
 	public LeftUIEdge(int x, int y, int w, int h) {
 		super(x, y, w, h);
 	}
@@ -21,7 +27,10 @@ public class LeftUIEdge extends UIEdge {
 	public void resizeR(int deltaW){
 		
 	}
-
+	
+	/**
+	 * Increases the clickbox for this UIElement to facilitate dragging.
+	 */
 	@Override
 	void swell(int i) {
 		if (isSwollen && i > 0) return;

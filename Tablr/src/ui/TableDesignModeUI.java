@@ -24,6 +24,10 @@ import exceptions.InvalidNameException;
 import exceptions.InvalidTypeException;
 import facades.Tablr;
 
+/**
+ * Create a new TableDesignModeUI
+ *
+ */
 public class TableDesignModeUI extends UI {
 	
 	int margin = getWidth() / 15;
@@ -153,6 +157,11 @@ public class TableDesignModeUI extends UI {
 
 	}	
 	
+	/**
+	 * Updates the contents 
+	 * @param table			Table to read column information from
+	 * @param titleHeight	Height of the first row (containing column names etc.)
+	 */
 	private void updateListView(Table table, int titleHeight){
 		Optional<UIElement> ll = getElements().stream().filter(e -> e instanceof ListView).findFirst();
 		this.getElements().remove(ll.orElseThrow(() -> new RuntimeException("No listview to refresh")));
@@ -161,6 +170,10 @@ public class TableDesignModeUI extends UI {
 		addUIElement(loadColumnAttributes(table, titleHeight));
 	}	
 	
+	/**
+	 * Updates the table headers. Called when the domain changes.
+	 * @param currentHeight		Vertical offset from Y=0. 
+	 */
 	private void updateHeaders(int currentHeight){
 		ArrayList<UIElement> toDelete = new ArrayList<UIElement>();
 		for(UIElement e : getElements()){
@@ -193,11 +206,20 @@ public class TableDesignModeUI extends UI {
 			);
 	}
 	
+	/**
+	 * Refreshes the entire UI (headers and contents)
+	 * @param table			Loaded Table
+	 * @param titleHeight	Height of the first row (containing column names, ...)
+	 */
 	private void refresh(Table table, int titleHeight){
 		updateListView(table, titleHeight);
 		updateHeaders(titleHeight + getY() + edgeW);
 	}
 	
+	/**
+	 * Loads the columns from a given table
+	 * @return 		A Listview containing all information.
+	 */
 	private ListView loadColumnAttributes(Table table,int titleHeight) {
 		
 		int currentHeight = getY() + 30;

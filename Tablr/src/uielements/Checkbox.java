@@ -24,10 +24,17 @@ public class Checkbox extends UIElement {
 	 */
 	private Boolean value = true;
 	
+	/**
+	 * Sets the value of this Checkbox
+	 * @param value 	The New value of this CheckBox
+	 */
 	public void setValue(Boolean value){
 		this.value = value;
 	}
 	
+	/**
+	 * Paints this Checkbox on the Canvas.
+	 */
 	@Override
 	public void paint(Graphics g){
 		//Drawing inside:
@@ -55,17 +62,26 @@ public class Checkbox extends UIElement {
 			g.setColor(Color.black);
 		g.drawRect(getX(), getY(), getWidth(), getHeight());
 	}
-
+	
+	/**
+	 * Handles a single click by running all actions associated with it.
+	 */
 	@Override
 	public void handleSingleClick() {
 		new ArrayList<>(singleClickListeners).forEach(l -> l.run());
 	}
-
+	
+	/**
+	 * Handles a double click by running all actions associated with it.
+	 */
 	@Override
 	public void handleDoubleClick() {
 		new ArrayList<>(doubleClickListeners).forEach(l -> l.run());
 	}
-
+	
+	/**
+	 * Handles a keyboard event by running all actions associated with the pressed key.
+	 */
 	@Override
 	public void handleKeyboardEvent(int keyCode, char keyChar) {
 		if (new HashMap<Integer, ArrayList<Runnable>>(keyboardListeners).get(keyCode) == null)
@@ -75,11 +91,17 @@ public class Checkbox extends UIElement {
 
 	}
 	
+	/**
+	 * Handles dragging by running all actions associated with dragging this element.
+	 */
 	@Override
 	public void handleDrag(int x, int y) {
 		new ArrayList<BiConsumer<Integer,Integer>>(dragListeners).stream().forEach(r -> r.accept(x, y));
 	}
 
+	/**
+	 * @return	Whether this checkbox is checked.
+	 */
 	public boolean isChecked() {
 		return value;
 	}
