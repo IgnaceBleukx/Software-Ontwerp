@@ -95,6 +95,7 @@ public class TableRowsTests {
 	public void useCase9() {
 		// Step 1: Load the window
 		MyCanvasWindow myCW = new MyCanvasWindow("Table Rows Mode");
+		Tablr tablr = myCW.getTablr();
 		myCW.handleKeyEvent(1, 17, ' ');
 		myCW.handleKeyEvent(1, 84, ' ');
 
@@ -193,12 +194,13 @@ public class TableRowsTests {
 		myCW.handleMouseEvent(MouseEvent.MOUSE_CLICKED, 480, 550 , 2);
 		
 		// Step 1: Click value of first row for first column
-		myCW.handleMouseEvent(MouseEvent.MOUSE_CLICKED, 40, 70 , 1);
+		myCW.handleMouseEvent(MouseEvent.MOUSE_CLICKED, 332, 362 , 1);
 
 		// Step 2: The system indicates that this row is now selected.
 		//Column 0
-		TextField textField = (TextField) tablr.getActiveUI().locatedAt(40, 70);
+		TextField textField = (TextField) tablr.getUIAt(332, 362).locatedAt(332, 362);
 		assertTrue(textField.isSelected());
+		// Remove the default string
 		for(int i=0;i<d1.length();i++){
 			myCW.handleKeyEvent(0, 8, ' ');
 		}
@@ -206,9 +208,10 @@ public class TableRowsTests {
 		assertEquals(false, textField.getError());
 		
 		//Column 1
-		myCW.handleMouseEvent(MouseEvent.MOUSE_CLICKED, 100, 70 , 1);
-		textField = (TextField) tablr.getActiveUI().locatedAt(100, 70);
+		myCW.handleMouseEvent(MouseEvent.MOUSE_CLICKED, 374, 362 , 1);
+		textField = (TextField) tablr.getUIAt(374, 362).locatedAt(374, 362);
 		assertTrue(textField.isSelected());
+		// Remove the default string
 		for(int i=0;i<d1.length();i++){
 			myCW.handleKeyEvent(0, 8, ' ');
 		}
@@ -219,11 +222,10 @@ public class TableRowsTests {
 		
 		
 		// Column 2: @ verwijderen
-		myCW.handleMouseEvent(MouseEvent.MOUSE_CLICKED, 180, 70 , 1);
-		textField = (TextField) tablr.getActiveUI().locatedAt(180, 70);
+		myCW.handleMouseEvent(MouseEvent.MOUSE_CLICKED, 415, 363 , 1);
+		textField = (TextField) tablr.getUIAt(415, 363).locatedAt(415, 363);
 		for(int i=0;i<6;i++){
 			myCW.handleKeyEvent(0, 8, ' ');
-			System.out.println(textField.getText());
 		}
 		// Error when the field is blank
 		assertTrue(textField.getError());
@@ -232,8 +234,8 @@ public class TableRowsTests {
 		
 		
 		// Column 3: @ verwijderen
-		myCW.handleMouseEvent(MouseEvent.MOUSE_CLICKED, 250, 70 , 1);
-		textField = (TextField) tablr.getActiveUI().locatedAt(250, 70);
+		myCW.handleMouseEvent(MouseEvent.MOUSE_CLICKED, 450, 363 , 1);
+		textField = (TextField) tablr.getUIAt(450, 363).locatedAt(450, 363);
 		for(int i=0;i<d2.length();i++){
 			myCW.handleKeyEvent(0, 8, ' ');
 		}
@@ -244,26 +246,25 @@ public class TableRowsTests {
 		
 		
 		// Column 4: 
-		assertTrue(((Checkbox) tablr.getActiveUI().locatedAt(330, 70)).getGreyedOut());
-		myCW.handleMouseEvent(MouseEvent.MOUSE_CLICKED, 330, 70 , 1);
-		assertFalse(((Checkbox) tablr.getActiveUI().locatedAt(330, 70)).getGreyedOut());
-		assertTrue(((Checkbox) tablr.getActiveUI().locatedAt(330, 70)).isChecked());
-		myCW.handleMouseEvent(MouseEvent.MOUSE_CLICKED, 330, 70, 1);
-		assertFalse(((Checkbox) tablr.getActiveUI().locatedAt(330, 70)).isChecked());
+		Checkbox cb = (Checkbox) tablr.getUIAt(492, 365).locatedAt(492, 365);
+		assertNull(cb.isChecked());
+		myCW.handleMouseEvent(MouseEvent.MOUSE_CLICKED, 492, 365 , 1);
+		assertTrue(cb.isChecked());
+		myCW.handleMouseEvent(MouseEvent.MOUSE_CLICKED, 492, 365, 1);
+		assertFalse(cb.isChecked());
 		
 		
 		// Click on checkbox of column 5 
-		assertFalse(((Checkbox) tablr.getActiveUI().locatedAt(400, 70)).getGreyedOut());
-		assertTrue(((Checkbox) tablr.getActiveUI().locatedAt(400, 70)).isChecked());
-		myCW.handleMouseEvent(MouseEvent.MOUSE_CLICKED, 400, 70, 1);
-		assertFalse(((Checkbox) tablr.getActiveUI().locatedAt(400, 70)).getGreyedOut());
-		assertFalse(((Checkbox) tablr.getActiveUI().locatedAt(400, 70)).isChecked());
+		cb = (Checkbox) tablr.getUIAt(533, 365).locatedAt(492, 365);
+		assertTrue(cb.isChecked());
+		myCW.handleMouseEvent(MouseEvent.MOUSE_CLICKED, 533, 365, 1);
+		assertFalse(cb.isChecked());
 		
 		
 		
 		// Column 6: Remove all digits
-		myCW.handleMouseEvent(MouseEvent.MOUSE_CLICKED, 450, 70 , 1);
-		textField = (TextField) tablr.getActiveUI().locatedAt(450, 70);
+		myCW.handleMouseEvent(MouseEvent.MOUSE_CLICKED, 561, 363 , 1);
+		textField = (TextField) tablr.getUIAt(561, 363).locatedAt(561, 363);
 		assertTrue(textField.isSelected());
 		for(int i=0;i<d4.length();i++){
 			myCW.handleKeyEvent(0, 8, ' ');
@@ -271,10 +272,13 @@ public class TableRowsTests {
 		// No error when the field is blank
 		assertEquals(false, textField.getError());
 		
+		// Resize the Rows Mode subwindow to see the last column
+		myCW.handleMouseEvent(MouseEvent.MOUSE_PRESSED, 301, 404, 1);
+		myCW.handleMouseEvent(MouseEvent.MOUSE_DRAGGED, 255, 404, 1);
 		
 		// Column 7: Remove all the digits
-		myCW.handleMouseEvent(MouseEvent.MOUSE_CLICKED, 510, 70 , 1);
-		textField = (TextField) tablr.getActiveUI().locatedAt(510, 70);
+		myCW.handleMouseEvent(MouseEvent.MOUSE_CLICKED, 570, 363 , 1);
+		textField = (TextField) tablr.getUIAt(570, 363).locatedAt(570, 363);
 		assertTrue(textField.isSelected());
 		for(int i=0;i<d4.length();i++){
 			myCW.handleKeyEvent(0, 8, ' ');
@@ -313,7 +317,6 @@ public class TableRowsTests {
 		// Step 1: The user double-clicks the table name.
 		myCW.handleMouseEvent(0, 51, 13, 2);
 		
-//TODO		assertEquals(Loadable_Interfaces.TABLE_ROWS, tablr.getMode());
 		
 		// Add a row
 		myCW.handleMouseEvent(0, 11, 31 , 2);
@@ -322,8 +325,8 @@ public class TableRowsTests {
 		myCW.handleMouseEvent(0, 11, 61 , 1);
 		
 		// Step 2: The system indicates that this row is now selected.
-		UIRow r = (UIRow) tablr.getActiveUI().locatedAt(11, 61);
-		UITable table = (UITable) tablr.getActiveUI().locatedAt(200, 200);
+		UIRow r = (UIRow) tablr.getUIAt(11, 61).locatedAt(40, 70);
+		UITable table = (UITable) tablr.getUIAt(40, 70).locatedAt(40, 70);
 		assertEquals(table.getSelected(), r);
 
 		// Step 3: User presses Delete key

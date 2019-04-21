@@ -24,10 +24,6 @@ public class Checkbox extends UIElement {
 	 */
 	private Boolean value = true;
 	
-	public Boolean getValue(){
-		return value;
-	}
-	
 	public void setValue(Boolean value){
 		this.value = value;
 	}
