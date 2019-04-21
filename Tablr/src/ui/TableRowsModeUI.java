@@ -83,6 +83,7 @@ public class TableRowsModeUI extends UI {
 		}
 		UITable uiTable = new UITable(getX()+edgeW, titleBar.getEndY(), getWidth()-2*edgeW, getHeight()-2*edgeW-titleBar.getHeight(), legend, new ArrayList<UIRow>());
 		
+		//Extracting data from the table
 		int numberOfRows = getTablr().getRows(tab);
 		int y = legend.getEndY();
 		for(int i=0;i<numberOfRows;i++){
@@ -128,8 +129,9 @@ public class TableRowsModeUI extends UI {
 			
 			//Adding listeners:
 			uiRow.addSingleClickListener(()->{
-				for (UIElement e : getElements())
-					if (e.getError() || e.isSelected()) return;
+				for (UIRow r : uiTable.getRows()) {
+					if (r.getError() || (r.isSelected() && !r.equals(uiRow))) return;
+				}
 				if(uiRow.isSelected()) uiRow.deselect();
 				else uiRow.select();
 			});
@@ -138,9 +140,6 @@ public class TableRowsModeUI extends UI {
 				if(uiRow.isSelected()){
 					int index = uiTable.getRows().indexOf(uiRow);
 					getTablr().removeRow(tab,index);
-					uiTable.removeRow(uiRow);
-					tablr.removeRow(tab, index);
-					uiTable.selectElement(null);
 				}
 			});
 		}		

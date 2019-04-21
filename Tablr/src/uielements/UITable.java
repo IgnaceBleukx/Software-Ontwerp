@@ -222,8 +222,8 @@ public class UITable extends UIElement {
 	public void resizeL(int deltaX){
 		this.setWidth(getWidth()-deltaX);
 		this.setX(getX()+deltaX);
-		legend.resizeL(deltaX);
-		rows.stream().forEach(r -> r.resizeL(deltaX));
+		legend.move(deltaX,0);
+		rows.stream().forEach(r -> r.move(deltaX,0));
 		scrollBarV.resizeL(deltaX);
 		scrollBarH.resizeL(deltaX);
 		updateScrollBars();
@@ -250,6 +250,7 @@ public class UITable extends UIElement {
 		this.setHeight(getHeight()-deltaY);
 		this.setY(getY()+deltaY);
 		legend.move(0,deltaY);
+		rows.stream().forEach(r -> r.move(0, deltaY));
 		scrollBarV.resizeT(deltaY);
 		scrollBarH.resizeT(deltaY);
 	}
