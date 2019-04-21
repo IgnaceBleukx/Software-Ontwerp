@@ -130,8 +130,8 @@ public class TableRowsTests {
 		
 		//Changing default value for column2:
 		// Email met default = "default@email" en Blanks_al = true
-		myCW.handleMouseEvent(0, 300, 150, 1);
-		myCW.handleMouseEvent(0, 500, 150, 1);
+		myCW.handleMouseEvent(MouseEvent.MOUSE_CLICKED, 450, 105, 1);
+		myCW.handleMouseEvent(MouseEvent.MOUSE_CLICKED, 540, 100, 1);
 		String d2 = "default@email";
 		for(int i=0;i<d2.length();i++){
 			myCW.handleKeyEvent(0, 0, d2.charAt(i));
@@ -139,36 +139,36 @@ public class TableRowsTests {
 		
 		//Changing default value for column3:
 		// Email met default = "default@email" en Blanks_al = false
-		myCW.handleMouseEvent(0, 300, 200, 1);
-		myCW.handleMouseEvent(0, 500, 200, 1);
+		myCW.handleMouseEvent(MouseEvent.MOUSE_CLICKED, 450, 135, 1);
+		myCW.handleMouseEvent(MouseEvent.MOUSE_CLICKED, 540, 135, 1);
 		for(int i=0;i<d2.length();i++){
 			myCW.handleKeyEvent(0, 0, d2.charAt(i));
 		}
 		//Toggle Blanks
-		myCW.handleMouseEvent(0, 400, 200, 1);
+		myCW.handleMouseEvent(MouseEvent.MOUSE_CLICKED, 500, 135, 1);
 		
 		//Changing default value for column4:
 		// Boolean: default = Blank  && Blanks_al = true
-		myCW.handleMouseEvent(0, 300,250,1);
-		myCW.handleMouseEvent(0, 300,250,1);
+		myCW.handleMouseEvent(MouseEvent.MOUSE_CLICKED, 450,165,1);
+		myCW.handleMouseEvent(MouseEvent.MOUSE_CLICKED, 450,165,1);
 		
 
 		//Changing default value for column5:
 		// Boolean: default = true && Blanks_al = false
-		myCW.handleMouseEvent(0, 300,300,1);
-		myCW.handleMouseEvent(0, 300,300,1);
+		myCW.handleMouseEvent(MouseEvent.MOUSE_CLICKED, 450,195,1);
+		myCW.handleMouseEvent(MouseEvent.MOUSE_CLICKED, 450,195,1);
 		//set default
-		myCW.handleMouseEvent(0, 500,300,1);
+		myCW.handleMouseEvent(MouseEvent.MOUSE_CLICKED, 560,195,1);
 		//Toggle Blanks
-		myCW.handleMouseEvent(0, 400, 300, 1);
+		myCW.handleMouseEvent(MouseEvent.MOUSE_CLICKED, 504, 195, 1);
 		
 		
 		//Changing default value for column6:
 		// Integer: default = 999  && Blanks_al = true
-		myCW.handleMouseEvent(0, 300,350,1);
-		myCW.handleMouseEvent(0, 300,350,1);
-		myCW.handleMouseEvent(0, 300,350,1);
-		myCW.handleMouseEvent(0, 500,350, 1);
+		myCW.handleMouseEvent(MouseEvent.MOUSE_CLICKED, 450,225,1);
+		myCW.handleMouseEvent(MouseEvent.MOUSE_CLICKED, 450,225,1);
+		myCW.handleMouseEvent(MouseEvent.MOUSE_CLICKED, 450,225,1);
+		myCW.handleMouseEvent(MouseEvent.MOUSE_CLICKED, 540,225, 1);
 		String d4 = "999";
 		for(int i=0;i<d4.length();i++){
 			myCW.handleKeyEvent(0, 0, d4.charAt(i));
@@ -176,29 +176,24 @@ public class TableRowsTests {
 		
 		//Changing default value for column7:
 		// Integer met default = 999  en Blanks_al = false
-		myCW.handleMouseEvent(0, 300,400,1);
-		myCW.handleMouseEvent(0, 300,400,1);
-		myCW.handleMouseEvent(0, 300,400,1);
-		myCW.handleMouseEvent(0, 500,400, 1);
+		myCW.handleMouseEvent(MouseEvent.MOUSE_CLICKED, 450,250,1);
+		myCW.handleMouseEvent(MouseEvent.MOUSE_CLICKED, 450,250,1);
+		myCW.handleMouseEvent(MouseEvent.MOUSE_CLICKED, 450,250,1);
+		myCW.handleMouseEvent(MouseEvent.MOUSE_CLICKED, 540,250, 1);
 		for(int i=0;i<d4.length();i++){
 			myCW.handleKeyEvent(0, 0, d4.charAt(i));
 		}
 		//Toggle Blanks
-		myCW.handleMouseEvent(0, 400, 400, 1);
-		
-		//Escaping to table mode:
-		myCW.handleKeyEvent(0,27,' ');
+		myCW.handleMouseEvent(MouseEvent.MOUSE_CLICKED, 505, 250, 1);
 		
 		// got to ROWS mode
-		myCW.handleMouseEvent(0, 80, 30, 2);
-				
-//TODO		assertEquals(Loadable_Interfaces.TABLE_ROWS, tablr.getMode());
+		myCW.handleMouseEvent(MouseEvent.MOUSE_CLICKED, 60, 35, 2);
 				
 		// Add a row
-		myCW.handleMouseEvent(0, 15, 35 , 2);
+		myCW.handleMouseEvent(MouseEvent.MOUSE_CLICKED, 480, 550 , 2);
 		
 		// Step 1: Click value of first row for first column
-		myCW.handleMouseEvent(0, 40, 70 , 1);
+		myCW.handleMouseEvent(MouseEvent.MOUSE_CLICKED, 40, 70 , 1);
 
 		// Step 2: The system indicates that this row is now selected.
 		//Column 0
@@ -211,7 +206,7 @@ public class TableRowsTests {
 		assertEquals(false, textField.getError());
 		
 		//Column 1
-		myCW.handleMouseEvent(0, 100, 70 , 1);
+		myCW.handleMouseEvent(MouseEvent.MOUSE_CLICKED, 100, 70 , 1);
 		textField = (TextField) tablr.getActiveUI().locatedAt(100, 70);
 		assertTrue(textField.isSelected());
 		for(int i=0;i<d1.length();i++){
@@ -224,7 +219,7 @@ public class TableRowsTests {
 		
 		
 		// Column 2: @ verwijderen
-		myCW.handleMouseEvent(0, 180, 70 , 1);
+		myCW.handleMouseEvent(MouseEvent.MOUSE_CLICKED, 180, 70 , 1);
 		textField = (TextField) tablr.getActiveUI().locatedAt(180, 70);
 		for(int i=0;i<6;i++){
 			myCW.handleKeyEvent(0, 8, ' ');
@@ -237,7 +232,7 @@ public class TableRowsTests {
 		
 		
 		// Column 3: @ verwijderen
-		myCW.handleMouseEvent(0, 250, 70 , 1);
+		myCW.handleMouseEvent(MouseEvent.MOUSE_CLICKED, 250, 70 , 1);
 		textField = (TextField) tablr.getActiveUI().locatedAt(250, 70);
 		for(int i=0;i<d2.length();i++){
 			myCW.handleKeyEvent(0, 8, ' ');
@@ -250,24 +245,24 @@ public class TableRowsTests {
 		
 		// Column 4: 
 		assertTrue(((Checkbox) tablr.getActiveUI().locatedAt(330, 70)).getGreyedOut());
-		myCW.handleMouseEvent(0, 330, 70 , 1);
+		myCW.handleMouseEvent(MouseEvent.MOUSE_CLICKED, 330, 70 , 1);
 		assertFalse(((Checkbox) tablr.getActiveUI().locatedAt(330, 70)).getGreyedOut());
 		assertTrue(((Checkbox) tablr.getActiveUI().locatedAt(330, 70)).isChecked());
-		myCW.handleMouseEvent(0, 330, 70, 1);
+		myCW.handleMouseEvent(MouseEvent.MOUSE_CLICKED, 330, 70, 1);
 		assertFalse(((Checkbox) tablr.getActiveUI().locatedAt(330, 70)).isChecked());
 		
 		
 		// Click on checkbox of column 5 
 		assertFalse(((Checkbox) tablr.getActiveUI().locatedAt(400, 70)).getGreyedOut());
 		assertTrue(((Checkbox) tablr.getActiveUI().locatedAt(400, 70)).isChecked());
-		myCW.handleMouseEvent(0, 400, 70, 1);
+		myCW.handleMouseEvent(MouseEvent.MOUSE_CLICKED, 400, 70, 1);
 		assertFalse(((Checkbox) tablr.getActiveUI().locatedAt(400, 70)).getGreyedOut());
 		assertFalse(((Checkbox) tablr.getActiveUI().locatedAt(400, 70)).isChecked());
 		
 		
 		
 		// Column 6: Remove all digits
-		myCW.handleMouseEvent(0, 450, 70 , 1);
+		myCW.handleMouseEvent(MouseEvent.MOUSE_CLICKED, 450, 70 , 1);
 		textField = (TextField) tablr.getActiveUI().locatedAt(450, 70);
 		assertTrue(textField.isSelected());
 		for(int i=0;i<d4.length();i++){
@@ -278,7 +273,7 @@ public class TableRowsTests {
 		
 		
 		// Column 7: Remove all the digits
-		myCW.handleMouseEvent(0, 510, 70 , 1);
+		myCW.handleMouseEvent(MouseEvent.MOUSE_CLICKED, 510, 70 , 1);
 		textField = (TextField) tablr.getActiveUI().locatedAt(510, 70);
 		assertTrue(textField.isSelected());
 		for(int i=0;i<d4.length();i++){
