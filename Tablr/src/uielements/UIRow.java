@@ -233,6 +233,11 @@ public class UIRow extends UIElement {
 		this.setWidth(getWidth()+deltaW);
 	}
 	
+	public void removeElementAt(int index){
+		resizeElementR(-elements.get(index).getWidth(),index);
+		elements.remove(index);
+	}
+	
 	@Override
 	public UIRow clone(){
 		ArrayList<UIElement> clonedElements = new ArrayList<UIElement>();

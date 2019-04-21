@@ -4,6 +4,9 @@ import java.awt.Color;
 import java.awt.Font;
 import java.awt.FontMetrics;
 import java.awt.Graphics;
+import java.awt.Rectangle;
+import java.awt.Shape;
+import java.awt.geom.Rectangle2D;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.function.BiConsumer;
@@ -456,4 +459,8 @@ public abstract class UIElement {
 
 	@Override
 	public abstract UIElement clone();
+
+	protected Rectangle2D toShape(){
+		return new Rectangle(getX(),getY(),getWidth(),getHeight());
+	}
 }

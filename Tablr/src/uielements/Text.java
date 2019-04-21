@@ -3,10 +3,13 @@ package uielements;
 import java.awt.Color;
 import java.awt.Font;
 import java.awt.Graphics;
+import java.awt.Rectangle;
 import java.awt.Shape;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.function.BiConsumer;
+
+import Utils.GeometricUtils;
 
 public class Text extends UIElement {
 
@@ -59,7 +62,9 @@ public class Text extends UIElement {
 	@Override
 	public void paint(Graphics g) {
 		Shape oldClip = g.getClip();
-		g.setClip(getX(),getY(),getWidth(),getHeight());
+		int[] i = GeometricUtils.intersection(getX(), getY(), getWidth(), getHeight(), oldClip.getBounds().x, 
+													oldClip.getBounds().y, oldClip.getBounds().width, oldClip.getBounds().height);
+		g.setClip(new Rectangle(i[0],i[1],i[2],i[3]));
 		super.drawCenteredText(g, this.getText());
 		g.setClip(oldClip);
 		if(getError()) g.setColor(Color.red);

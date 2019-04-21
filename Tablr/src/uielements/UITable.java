@@ -1,10 +1,13 @@
 package uielements;
 
 import java.awt.Graphics;
+import java.awt.Rectangle;
+import java.awt.Shape;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.function.BiConsumer;
 
+import Utils.GeometricUtils;
 import Utils.Rounder;
 import domain.Cell;
 import domain.Column;
@@ -86,10 +89,13 @@ public class UITable extends UIElement {
 	@Override
 	public void paint(Graphics g) {
 		g.drawRect(getX(), getY(), getWidth(), getHeight());
-		g.setClip(getX(),getY(),getWidth()-scrollBarW,getHeight()-scrollBarW);
+		Shape oldClip = g.getClip();
+		int[] i = GeometricUtils.intersection(getX(), getY(), getWidth(), getHeight(), oldClip.getBounds().x, 
+												oldClip.getBounds().y, oldClip.getBounds().width, oldClip.getBounds().height);
+		g.setClip(new Rectangle(i[0],i[1],i[2],i[3]));
 		legend.paint(g);
 		rows.stream().forEach(r -> r.paint(g));
-		g.setClip(null);
+		g.setClip(oldClip);
 		if (getSelected() != null) {
 			UIElement s = this.getSelected();
 			g.fillOval(s.getX()+s.getWidth()+10, s.getY()+s.getHeight()/2, 8, 8);
@@ -174,7 +180,8 @@ public class UITable extends UIElement {
 	public void setUI(UI ui) {
 		this.ui = ui;
 		rows.stream().forEach(r -> r.setUI(ui));
-		}
+		legend.setUI(ui);
+	}
 	
 	@Override
 	public boolean getError() {
@@ -231,8 +238,6 @@ public class UITable extends UIElement {
 	@Override
 	public void resizeR(int deltaX){
 		this.setWidth(getWidth()+deltaX);
-		legend.resizeR(deltaX);
-		rows.stream().forEach(r -> r.resizeR(deltaX));
 		scrollBarV.resizeR(deltaX);
 		scrollBarH.resizeR(deltaX);
 		updateScrollBars();

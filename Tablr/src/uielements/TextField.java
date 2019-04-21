@@ -3,12 +3,15 @@ package uielements;
 import java.awt.Color;
 import java.awt.FontMetrics;
 import java.awt.Graphics;
+import java.awt.Rectangle;
 import java.awt.Shape;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.function.BiConsumer;
 
 import javax.naming.CommunicationException;
+
+import Utils.GeometricUtils;
 
 public class TextField extends UIElement {
 
@@ -75,7 +78,9 @@ public class TextField extends UIElement {
 		int y = this.getY() +  ((this.getHeight() - metrics.getHeight()) / 2) + metrics.getAscent();
 		
 		Shape oldClip = g.getClip();
-		g.setClip(getX(),getY(),getWidth(),getHeight());
+		int[] i = GeometricUtils.intersection(getX(), getY(), getWidth(), getHeight(), oldClip.getBounds().x, 
+												oldClip.getBounds().y, oldClip.getBounds().width, oldClip.getBounds().height);
+		g.setClip(new Rectangle(i[0],i[1],i[2],i[3]));
 		if (!this.isSelected())
 			g.drawString(this.getText(), super.getX()+10, y);
 		else

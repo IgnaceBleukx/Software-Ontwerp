@@ -2,22 +2,12 @@ package uielements;
 
 import java.awt.Color;
 import java.awt.Graphics;
-import java.awt.Scrollbar;
+import java.awt.Rectangle;
 import java.awt.Shape;
-import java.io.ObjectInputStream.GetField;
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.Iterator;
-import java.util.NoSuchElementException;
 import java.util.function.BiConsumer;
-
-import Utils.Rounder;
-import domain.Column;
-import domain.Table;
-import domain.Type;
-import exceptions.InvalidNameException;
-import exceptions.InvalidTypeException;
-import facades.Tablr;
+import Utils.GeometricUtils;
 import ui.UI;
 
 /**
@@ -134,7 +124,10 @@ public class ListView extends UIElement {
 		g.setColor(Color.black);
 		g.drawRect(getX(),getY(),getWidth()-10,getHeight()-10);
 		Shape oldClip = g.getClip();
-		g.setClip(getX(), getY(),getWidth()-scrollbarW, getHeight()-scrollbarW);
+		int[] i = GeometricUtils.intersection(getX(), getY(), getWidth(), getHeight(), oldClip.getBounds().x, 
+												oldClip.getBounds().y, oldClip.getBounds().width, oldClip.getBounds().height);
+		System.out.println(i);
+		g.setClip(new Rectangle(i[0],i[1],i[2],i[3]));
 		elements.stream().forEach(e -> e.paint(g));
 		g.setClip(oldClip);
 		scrollBarV.paint(g);

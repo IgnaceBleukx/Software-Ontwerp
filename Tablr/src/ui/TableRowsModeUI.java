@@ -3,8 +3,10 @@ package ui;
 import java.awt.Color;
 import java.util.ArrayList;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 import uielements.Checkbox;
+import uielements.Dragger;
 import uielements.Text;
 import uielements.TextField;
 import uielements.UIElement;
@@ -42,12 +44,15 @@ public class TableRowsModeUI extends UI {
 		this.clear();
 		loadUIAttributes();
 		
-		Tablr c = getTablr();
-		int cellHeight = 30;
+		int cellWidth = 100;
 		
-		int cellWidth = c.getColumnNames(tab).size() != 0 ? (getWidth()-2*edgeW+20)/c.getColumnNames(tab).size() : 0;
-		UITable uiTable = loadTable(tab, titleBar.getHeight(), cellHeight, cellWidth);
+		
+		UIRow legend = loadLegend(tab,cellWidth);
+		
+		UITable uiTable = loadTable(tab,legend);
 		this.addUIElement(uiTable);
+		
+
 		
 		//Adding domainchangedListener
 		tablr.addDomainChangedListener(() ->{
@@ -55,13 +60,67 @@ public class TableRowsModeUI extends UI {
 			Optional<UIElement> ll = getElements().stream().filter(e -> e instanceof UITable).findFirst();
 			this.getElements().remove(ll.orElseThrow(() -> new RuntimeException("No UITable to bind listener to.")));
 			
-			//Load new ListView from tables
-			addUIElement(loadTable(tab, titleBar.getHeight(), cellHeight, cellWidth));
-
+			//Updating legend:
+			ArrayList<String> columnNames = getTablr().getColumnNames(tab);
+			if (legend.getElements().stream().filter(e -> !(e instanceof Dragger)).count() < columnNames.size()){
+				Text text = new Text(legend.getEndX(),legend.getY(),cellWidth,20,columnNames.get(columnNames.size()-1));
+				Dragger drag = new Dragger(text.getEndX()-2,legend.getY(),4,20);
+				drag.addDragListener((newX, newY) ->{
+					int delta = newX - drag.getGrabPointX();
+					legend.resizeElementR(delta, columnNames.size()-1);
+				});
+				legend.addElement(text);
+				legend.addElement(drag);
+				legend.setWidth(legend.getElements().stream().mapToInt(e -> e.getWidth()).sum());
+			}
+			else if (legend.getElements().stream().filter(e -> !(e instanceof Dragger)).count() > columnNames.size()){
+				ArrayList<String> legendNames = new ArrayList(legend.getElements().stream().filter(e -> !(e instanceof Dragger)).map(e -> ((Text) e).getText()).collect(Collectors.toList()));
+				legendNames.removeAll(columnNames);
+				String removed = legendNames.get(0);
+				for (UIElement e : legend.getElements()){
+					if (e instanceof Text && ((Text) e).getText().equals(removed)){
+						int index = legend.getElements().indexOf(e);
+						legend.removeElementAt(index);
+						legend.removeElementAt(index);
+					}
+				}
+			}
+			
+			
+			addUIElement(loadTable(tab, legend));
 			titleBar.setText("Table Design Mode: " + tab.getName());
 		});
 		
 		
+	}
+
+	
+	private UIRow loadLegend(Table tab,int cellWidth){
+		UIRow legend = new UIRow(getX()+edgeW,titleBar.getEndY(),getWidth(), 30, new ArrayList<UIElement>());		
+		int a = 0;
+		int margin = 20;
+		for(String name: getTablr().getColumnNames(tab)) {
+			Text el = new Text(getX() + margin+a*cellWidth,titleBar.getEndY(), cellWidth, 20, name);
+			Dragger drag = new Dragger(el.getEndX()-2,el.getY(),4,20);
+			int index = a;
+			drag.addDragListener((newX,newY) ->{
+				int delta = newX - drag.getGrabPointX();
+				legend.resizeElementR(delta, 2*index);
+				getUITable().getRows().forEach(r -> r.resizeElementR(delta,index));
+			});
+			legend.addElement(el);
+			legend.addElement(drag);
+			a++;
+		}
+		legend.setWidth(legend.getElements().stream().filter(e -> !(e instanceof Dragger)).mapToInt(e -> e.getWidth()).sum());
+		return legend;
+	}
+	
+	private static int margin = 20;
+	
+	private UITable getUITable(){
+		Optional<UIElement> t = elements.stream().filter(e -> e instanceof UITable).findFirst();
+		return (UITable) t.orElse(null);
 	}
 	
 	/**
@@ -71,29 +130,30 @@ public class TableRowsModeUI extends UI {
 	 * @param cellHeight	Height of the UICells
 	 * @param cellWidth		Width of the UICells
 	 */
-	private UITable loadTable(Table tab, int titleHeight, int cellHeight, int cellWidth){
+	private UITable loadTable(Table tab, UIRow legend){
 		//Creating legend with all column names:
-		UIRow legend = new UIRow(getX()+edgeW,titleBar.getEndY(), getWidth()-2*edgeW, 30, new ArrayList<UIElement>());
-		int margin = 20;
+		int amountOfColumns = getTablr().getColumns(tab).size();
+		int cellHeight = 20;
 		
-		int a = 0;
-		for(String name: getTablr().getColumnNames(tab)) {
-			legend.addElement(new Text(getX() + margin+a*cellWidth,legend.getY(), cellWidth, 20, name));
-			a++;
-		}
-		UITable uiTable = new UITable(getX()+edgeW, titleBar.getEndY(), getWidth()-2*edgeW, getHeight()-2*edgeW-titleBar.getHeight(), legend, new ArrayList<UIRow>());
+//		if (cellWidth * getTablr().getColumns(tab).size() < getWidth()-2*edgeW-10)
+//			cellWidth = (getWidth()-2*edgeW-10)/getTablr().getColumnNames(tab).size();
+		
+		
+		UITable uiTable = new UITable(getX()+edgeW, titleBar.getEndY(),getWidth()-2*edgeW, getHeight()-2*edgeW-titleBar.getHeight(), legend, new ArrayList<UIRow>());
 		
 		//Extracting data from the table
 		int numberOfRows = getTablr().getRows(tab);
 		int y = legend.getEndY();
+		int [] widths = legend.getElements().stream().mapToInt(e -> e.getWidth()).toArray();
 		for(int i=0;i<numberOfRows;i++){
 			int x = getX()+margin;
+			int a = 0; 
 			ArrayList<UIElement> emts = new ArrayList<UIElement>();
 			for(Column col : getTablr().getColumns(tab)){
 				String val = getTablr().getValueString(col,i);
 				if(getTablr().getColumnType(col).equals(Type.BOOLEAN)){
-					Checkbox booleanValue = new Checkbox(x + (int)(cellWidth/2) - 10,y+(int)(cellHeight/2)-10,20,20, (Boolean)getTablr().getValue(col,i));
-					emts.add(new VoidElement(x,y,cellWidth, cellHeight, Color.white));
+					Checkbox booleanValue = new Checkbox(x + (int)(widths[a]/2) - 10,y+(int)(cellHeight/2)-10,20,20, (Boolean)getTablr().getValue(col,i));
+					emts.add(new VoidElement(x,y,widths[a], cellHeight, Color.white));
 					emts.add(booleanValue);
 					
 					int index = i;
@@ -102,7 +162,7 @@ public class TableRowsModeUI extends UI {
 					);
 				}
 				else{				
-					TextField field =  new TextField(x,y,cellWidth, cellHeight,val);
+					TextField field =  new TextField(x,y,widths[a], cellHeight,val);
 					emts.add(field);
 					int index = i;
 					field.addKeyboardListener(-1, () -> {
@@ -120,9 +180,10 @@ public class TableRowsModeUI extends UI {
 							getTablr().domainChanged();
 					});
 				}
-				x += cellWidth;
+				x += widths[a];
+				a += 2;
 			}
-			UIRow uiRow = new UIRow(uiTable.getX(),y,uiTable.getWidth(),cellHeight,emts);
+			UIRow uiRow = new UIRow(uiTable.getX(),y,emts.stream().mapToInt(e -> e.getWidth()).sum(),cellHeight,emts);
 			System.out.println("[TableRowsModeUI.java:1]: Adding uirow: " + uiRow);
 			uiTable.addRow(uiRow);
 			y += cellHeight;
