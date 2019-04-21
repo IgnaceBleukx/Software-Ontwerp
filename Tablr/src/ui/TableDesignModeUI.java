@@ -17,6 +17,10 @@ import exceptions.InvalidNameException;
 import exceptions.InvalidTypeException;
 import facades.Tablr;
 
+/**
+ * Create a new TableDesignModeUI
+ *
+ */
 public class TableDesignModeUI extends UI {
 	
 	int margin = getWidth() / 15;
@@ -112,6 +116,7 @@ public class TableDesignModeUI extends UI {
 
 	}	
 	
+
 	private UIRow getLegend(){
 		Optional<UIElement> r = getElements().stream().filter(e -> e instanceof UIRow).findFirst();
 		UIRow row = (UIRow) r.orElseThrow(() -> new RuntimeException("No UIRow in UI"));
@@ -123,8 +128,13 @@ public class TableDesignModeUI extends UI {
 		ListView list = (ListView) ll.orElseThrow(() -> new RuntimeException("No listvieuw in UI"));
 		return list;
 	}
-	
+
+	/**
+	 * Loads the columns from a given table
+	 * @return 		A Listview containing all information.
+	 */
 	private ListView loadColumnAttributes(Table table) {
+
 		
 		int currentHeight = getY() + edgeW+titleHeight+15;
 		

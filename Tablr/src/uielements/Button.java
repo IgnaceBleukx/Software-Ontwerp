@@ -40,7 +40,10 @@ public class Button extends UIElement {
 	public void setText(String t){
 		this.text = t;
 	}
-
+	
+	/**
+	 * Paints the Button on the Canvas.
+	 */
 	@Override
 	public void paint(Graphics g) {
 	    // Drawing button
@@ -56,17 +59,26 @@ public class Button extends UIElement {
 		drawCenteredText(g, this.getText());
 		g.setClip(oldClip);
 	}
-
+	
+	/**
+	 * Handles a single click by running all actions associated with it.
+	 */
 	@Override
 	public void handleSingleClick() {
 		new ArrayList<>(singleClickListeners).stream().forEach(l -> l.run());
 	} 
-
+	
+	/**
+	 * Handles a double click by running all actions associated with it.
+	 */
 	@Override
 	public void handleDoubleClick() {
 		new ArrayList<>(doubleClickListeners).stream().forEach(l -> l.run());
 	}
 	
+	/**
+	 * Handles a keyboard event by running all actions associated with the pressed key.
+	 */
 	@Override
 	public void handleKeyboardEvent(int keyCode, char keyChar) {
 		if (new HashMap<Integer, ArrayList<Runnable>>(keyboardListeners).get(keyCode) == null)
@@ -74,6 +86,9 @@ public class Button extends UIElement {
 		new HashMap<Integer, ArrayList<Runnable>>(keyboardListeners).get(keyCode).stream().forEach(l -> l.run());
 	}
 	
+	/**
+	 * Handles dragging by running all actions associated with dragging this element.
+	 */
 	@Override
 	public void handleDrag(int x, int y) {
 		new ArrayList<BiConsumer<Integer,Integer>>(dragListeners).stream().forEach(r -> r.accept(x, y));
