@@ -1,22 +1,15 @@
 package ui;
 
-import java.awt.Color;
 import java.util.ArrayList;
 import java.util.Optional;
-import java.util.stream.Stream;
 
-import uielements.Button;
 import uielements.Checkbox;
-import uielements.CloseButton;
 import uielements.Dragger;
 import uielements.ListView;
-import uielements.ScrollBar;
 import uielements.Text;
 import uielements.TextField;
-import uielements.Titlebar;
 import uielements.UIElement;
 import uielements.UIRow;
-import uielements.VoidElement;
 import domain.Column;
 import domain.Table;
 import domain.Type;
@@ -28,35 +21,25 @@ public class TableDesignModeUI extends UI {
 	
 	int margin = getWidth() / 15;
 	
-	private int namePosX;
-	private int nameSizeX;
-	private int typePosX;
-	private int typeSizeX;
-	private int blankPosX;
-	private int blankSizeX;
-	private int defPosX;
-	private int defSizeX;
-	
 	public TableDesignModeUI(int x, int y, int w, int h,Tablr t) {
 		super(x,y,w,h);
 		this.setTablr(t);
-		namePosX = getX() + margin + edgeW;
-		nameSizeX = getWidth()*5/15;
-		typePosX = getX() + margin + edgeW + nameSizeX;
-		typeSizeX = getWidth()*3/15;
-		blankPosX = getX() + margin + edgeW + nameSizeX + typeSizeX;
-		blankSizeX = getWidth()*2/15;
-		defPosX = getX() + margin + edgeW + nameSizeX + typeSizeX + blankSizeX;
-		defSizeX = getWidth() *4/15 - edgeW;
 	}
-	
-	
 	
 	public void loadUI(Table table){
 		setActive();
 		this.clear();
 		loadUIAttributes();
 		int currentHeight = getY()+titleHeight+edgeW;
+				
+		int namePosX = getX() + margin + edgeW;
+		int nameSizeX = getWidth()*5/15;
+		int typePosX = getX() + margin + edgeW + nameSizeX;
+		int typeSizeX = getWidth()*3/15;
+		int blankPosX = getX() + margin + edgeW + nameSizeX + typeSizeX;
+		int blankSizeX = getWidth()*2/15;
+		int defPosX = getX() + margin + edgeW + nameSizeX + typeSizeX + blankSizeX;
+		int defSizeX = getWidth() *4/15 - edgeW;
 		
 		Text name = new Text(namePosX, currentHeight, nameSizeX, 15,"Name");
 		Dragger nameDragger = new Dragger(namePosX+nameSizeX - 2, currentHeight, 4, 15);
@@ -71,9 +54,8 @@ public class TableDesignModeUI extends UI {
 		type.setBorder(true);
 		blank.setBorder(true);
 		def.setBorder(true);
-		
-		
-		this.addAllUIElements(new ArrayList<UIElement>()
+				
+		UIRow legend = new UIRow(namePosX,currentHeight,this.getWidth()-2*edgeW-10,15,(new ArrayList<UIElement>()
 			{{
 				add(nameDragger);
 				add(typeDragger);
@@ -84,62 +66,42 @@ public class TableDesignModeUI extends UI {
 				add(blank);
 				add(def);
 			}}
-		);		
-
+		));		
+		this.addUIElement(legend);
+		
+		ListView list = loadColumnAttributes(table);
+		this.addUIElement(list);
+		
 		nameDragger.addDragListener((newX,newY) -> { 
 			int delta = newX - nameDragger.getGrabPointX();
-			if (nameDragger.getX()+delta>=namePosX+10){
-				nameDragger.move(delta, 0);
-				nameSizeX+=delta;
-				typeDragger.move(delta, 0);
-				typePosX+=delta;
-				blankDragger.move(delta, 0);
-				blankPosX+=delta;
-				defDragger.move(delta, 0);
-				defPosX+=delta;
-				refresh(table, titleHeight);
-			}
+			legend.resizeElementR(delta, 0);
+			getListView().getElements().stream().filter(e -> e instanceof UIRow).forEach(r -> ((UIRow) r).resizeElementR(delta, 0));
 		});
 		
 		typeDragger.addDragListener((newX,newY) -> { 
 			int delta = newX - typeDragger.getGrabPointX();
-			if (typeDragger.getX()+delta>=typePosX+10){
-				typeDragger.move(delta, 0);
-				typeSizeX+=delta;
-				blankDragger.move(delta, 0);
-				blankPosX+=delta;
-				defDragger.move(delta, 0);
-				defPosX+=delta;
-				refresh(table, titleHeight);
-			}
+			legend.resizeElementR(delta,2);
+			getListView().getElements().stream().filter(e -> e instanceof UIRow).forEach(r -> ((UIRow) r).resizeElementR(delta, 1));
 		});
 		
 		blankDragger.addDragListener((newX,newY) -> { 
 			int delta = newX - blankDragger.getGrabPointX();
-			if (blankDragger.getX()+delta>=blankPosX+10){
-				blankDragger.move(delta, 0);
-				blankSizeX+=delta;
-				defDragger.move(delta, 0);
-				defPosX+=delta;
-				refresh(table, titleHeight);
-			}
+			legend.resizeElementR(delta, 4);
+			getListView().getElements().stream().filter(e -> e instanceof UIRow).forEach(r -> ((UIRow) r).resizeElementR(delta, 2));
 		});
 		
 		defDragger.addDragListener((newX,newY) -> { 
 			int delta = newX - defDragger.getGrabPointX();
-			if (defDragger.getX()+delta>=defPosX+10){
-				defDragger.move(delta, 0);
-				defSizeX+=delta;
-				refresh(table, titleHeight);
-			}
+			legend.resizeElementR(delta, 6);
+			getListView().getElements().stream().filter(e -> e instanceof UIRow).forEach(r -> ((UIRow) r).resizeElementR(delta, 3));
 		});
 		
-		ListView listview = loadColumnAttributes(table);
-		addUIElement(listview);
-				
+	
 		//Reload listview when domain changed
 		tablr.addDomainChangedListener(() -> {
-			updateListView(table, titleHeight);
+			Optional<UIElement> ll = getElements().stream().filter(e -> e instanceof ListView).findFirst();
+			getElements().remove(ll.orElseThrow(() -> new RuntimeException("No Listview in UI")));
+			this.addUIElement(loadColumnAttributes(table));
 			titleBar.setText("Table Design Mode: " + table.getName());
 		});
 		
@@ -150,60 +112,34 @@ public class TableDesignModeUI extends UI {
 
 	}	
 	
-	private void updateListView(Table table, int titleHeight){
-		Optional<UIElement> ll = getElements().stream().filter(e -> e instanceof ListView).findFirst();
-		this.getElements().remove(ll.orElseThrow(() -> new RuntimeException("No listview to refresh")));
-		
-		//Refresh listview
-		addUIElement(loadColumnAttributes(table));
-	}	
-	
-	private void updateHeaders(int currentHeight){
-		ArrayList<UIElement> toDelete = new ArrayList<UIElement>();
-		for(UIElement e : getElements()){
-			if(e instanceof Text){
-				toDelete.add(e);
-			}
-		}
-		
-		for(UIElement e : toDelete){
-			getElements().remove(e);
-		}
-		
-		Text name = new Text(namePosX, currentHeight, nameSizeX, 15,"Name");
-		Text type = new Text(typePosX, currentHeight, typeSizeX, 15,"Type");
-		Text blank = new Text(blankPosX, currentHeight, blankSizeX, 15,"Blank");
-		Text def = new Text(defPosX, currentHeight, defSizeX, 15,"Default");
-		
-		name.setBorder(true);
-		type.setBorder(true);
-		blank.setBorder(true);
-		def.setBorder(true);
-		
-		this.addAllUIElements(new ArrayList<UIElement>()
-				{{
-					add(name);
-					add(type);
-					add(blank);
-					add(def);
-				}}
-			);
+	private UIRow getLegend(){
+		Optional<UIElement> r = getElements().stream().filter(e -> e instanceof UIRow).findFirst();
+		UIRow row = (UIRow) r.orElseThrow(() -> new RuntimeException("No UIRow in UI"));
+		return row;
 	}
 	
-	private void refresh(Table table, int titleHeight){
-		updateListView(table, titleHeight);
-		updateHeaders(titleHeight + getY() + edgeW);
+	private ListView getListView(){
+		Optional<UIElement> ll = getElements().stream().filter(e -> e instanceof ListView).findFirst();
+		ListView list = (ListView) ll.orElseThrow(() -> new RuntimeException("No listvieuw in UI"));
+		return list;
 	}
 	
 	private ListView loadColumnAttributes(Table table) {
 		
-		int currentHeight = getY() + 30;
+		int currentHeight = getY() + edgeW+titleHeight+15;
 		
-		ListView listview = new ListView(getX()+edgeW, 
-				getY()+edgeW+currentHeight, 
-				getWidth() - 2*edgeW, 
-				getHeight()-currentHeight -2*edgeW, 
-				new ArrayList<UIElement>());
+		int namePosX = getLegend().getElements().get(0).getX();
+		int nameSizeX = getLegend().getElements().get(0).getWidth();
+		int typePosX = getLegend().getElements().get(2).getX();
+		int typeSizeX = getLegend().getElements().get(2).getWidth();
+		int blankPosX = getLegend().getElements().get(4).getX();
+		int blankSizeX = getLegend().getElements().get(4).getWidth();
+		int defPosX = getLegend().getElements().get(6).getX();
+		int defSizeX = getLegend().getElements().get(6).getWidth();
+		
+		System.out.println(getLegend().getElements());
+		
+		ListView listview = new ListView(getX()+edgeW, currentHeight, getWidth() - 2*edgeW,	getHeight()-2*edgeW-titleHeight-15,new ArrayList<UIElement>());
 		
 		Tablr c = getTablr();
 		int index = 0; 
@@ -243,7 +179,7 @@ public class TableDesignModeUI extends UI {
 				});
 			}
 			
-			UIRow uiRow = new UIRow(getX() + edgeW ,getY()+currentHeight, getWidth() - 2*edgeW - 10, 30,elmts);
+			UIRow uiRow = new UIRow(getX() + edgeW ,currentHeight, getWidth() - 2*edgeW - 10, 30,elmts);
 			currentHeight += 30;
 			listview.addElement(uiRow);			
 			
@@ -317,6 +253,7 @@ public class TableDesignModeUI extends UI {
 					colName.isError();
 				}
 			});
+			
 			colName.addKeyboardListener(10,() -> {
 				getTablr().domainChanged();
 			});
@@ -333,55 +270,6 @@ public class TableDesignModeUI extends UI {
 		});
 		
 		return listview;
-	}
-	
-	/**
-	 * This method resized the UI and all its element from the right.
-	 * @param deltaW 	The amount of pixels the UI must be made larger with from the right.
-	 */
-	@Override
-	public void resizeR(int deltaW) {
-		int delta = getWidth() + deltaW < minWidth ? getWidth()-minWidth : deltaW;
-		setWidth(getWidth() + delta);
-		getElements().stream().filter(e -> !(e instanceof Text || e instanceof Dragger)).forEach(e -> e.resizeR(delta));
-	}
-
-	/**
-	 * This method resizes the UI and all its elements from the left.
-	 * @param deltaW 	The amount of pixels the UI must be made smaller with from the left.
-	 */
-	@Override
-	public void resizeL(int deltaW) {
-		int delta = getWidth() - deltaW < minWidth ? getWidth()-minWidth : deltaW;
-		setX(getX()+delta);
-		setWidth(getWidth() - delta);
-		getElements().stream().filter(e -> !(e instanceof Text || e instanceof Dragger)).forEach(e -> e.resizeL(delta));
-		getElements().stream().filter(e -> (e instanceof Text || e instanceof Dragger)).forEach(e -> e.move(delta,0));
-
-	}
-	
-	/**
-	 * This method resized the UI and all its elements from the top.
-	 * @param deltaH 	The amount of pixels the UI must be made smaller with from the top.
-	 */
-	@Override
-	public void resizeT(int deltaH) {
-		int delta = getWidth() - deltaH < minHeight ? getWidth()-minHeight : deltaH;
-		setHeight(getHeight() - delta);
-		setY(getY()+delta);
-		getElements().stream().filter(e -> !(e instanceof Text || e instanceof Dragger)).forEach(e -> e.resizeT(delta));
-		getElements().stream().filter(e ->  (e instanceof Text || e instanceof Dragger)).forEach(e -> e.move(0,delta));
-	}
-	
-	/**
-	 * This method resizes the UI and all its elements from the bottom.
-	 * @param deltaH 	The amount of pixels the UI should be made larger with from the bottom.
-	 */
-	@Override
-	public void resizeB(int deltaH) {
-		int delta = getWidth() + deltaH < minHeight ? getWidth()-minHeight : deltaH;
-		setHeight(getHeight()+delta);
-		getElements().stream().filter(e -> !(e instanceof Text || e instanceof Dragger)).forEach(e -> e.resizeB(delta));
 	}
 	
 }

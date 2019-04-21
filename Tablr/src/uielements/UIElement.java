@@ -442,9 +442,11 @@ public abstract class UIElement {
 
 	public void beginDrag() {
 		this.dragging = true;
+		getUI().setDragging(this);
 	}
 	
 	public void endDrag() {
+		getUI().setDragging(null);
 		this.dragging = false;
 	}
 	

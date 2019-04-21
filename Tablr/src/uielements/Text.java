@@ -3,6 +3,7 @@ package uielements;
 import java.awt.Color;
 import java.awt.Font;
 import java.awt.Graphics;
+import java.awt.Shape;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.function.BiConsumer;
@@ -57,7 +58,10 @@ public class Text extends UIElement {
 
 	@Override
 	public void paint(Graphics g) {
+		Shape oldClip = g.getClip();
+		g.setClip(getX(),getY(),getWidth(),getHeight());
 		super.drawCenteredText(g, this.getText());
+		g.setClip(oldClip);
 		if(getError()) g.setColor(Color.red);
 		else g.setColor(Color.black);
 		if(border) g.drawRect(super.getX(), super.getY(), super.getWidth(), super.getHeight());

@@ -3,7 +3,10 @@ package uielements;
 import java.awt.Color;
 import java.awt.Graphics;
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.HashMap;
+import java.util.List;
+import java.util.ListIterator;
 import java.util.function.BiConsumer;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
@@ -24,6 +27,7 @@ public class UIRow extends UIElement {
 	public UIRow(int x, int y,int w, int h,  ArrayList<UIElement> elements) {
 		super(x, y, w, h);
 		this.elements = elements;
+		this.elements.sort((UIElement e1, UIElement e2) -> e1.getX() - e2.getX());
 	}
 	
 	/**
@@ -183,10 +187,50 @@ public class UIRow extends UIElement {
 		elements.stream().filter(e -> (e instanceof Checkbox || e instanceof Button)).forEach(e -> e.move(deltaW, 0));
 	}
 	
+//	@Override
+//	public void resizeR(int deltaW){
+//		setWidth(getWidth() + deltaW);
+//		ArrayList<UIElement> sortedR = new ArrayList<UIElement>(elements);
+//		sortedR.sort((UIElement e1, UIElement e2) -> e1.getX() - e2.getX());
+//		UIElement el = sortedR.get(sortedR.size()-1);
+//		ListIterator<UIElement> it = sortedR.listIterator();
+//		ArrayList<UIElement> toMove = new ArrayList<UIElement>();
+//		while (it.hasPrevious() && !(el instanceof TextField || el instanceof Text)){
+//			toMove.add(el);
+//			el = it.previous();
+//		}
+//		el.resizeR(deltaW);
+//		toMove.stream().forEach(e -> e.move(deltaW,0));
+//	}
+	
 	@Override
 	public void resizeR(int deltaW){
-		setWidth(getWidth() + deltaW);
-		elements.stream().filter(e -> !(e instanceof Checkbox || e instanceof Button)).forEach(e -> e.resizeR(deltaW));
+		//Finding the rightmost Textfield or Text element
+		ArrayList<UIElement> sortedR = new ArrayList<UIElement>(elements);
+		UIElement rightMost = null;
+		for (UIElement e : getElements()){
+			if (e instanceof TextField || e instanceof Text)
+				rightMost = e;
+		}
+		if (rightMost == null)
+				return;
+		//Resizing row
+		resizeElementR(deltaW,sortedR.indexOf(rightMost));
 	}
 
+	public void resizeElementL(int deltaW, int index){
+		elements.sort((UIElement e1,UIElement e2) -> e1.getX() - e2.getX());
+		List<UIElement> toMove = elements.subList(0, index-1);
+		toMove.stream().forEach(e -> e.move(deltaW, 0));
+		elements.get(index).resizeL(deltaW);
+	}
+	
+	public void resizeElementR(int deltaW,int index){
+		elements.sort((UIElement e1, UIElement e2) -> e1.getX() - e2.getX());
+		List<UIElement> toMove = elements.subList(index +1, elements.size());
+		toMove.stream().forEach(e -> e.move(deltaW, 0));
+		elements.get(index).resizeR(deltaW);
+		this.setWidth(getWidth()+deltaW);
+	}
+	
 }

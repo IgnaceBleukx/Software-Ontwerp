@@ -156,7 +156,6 @@ public class DomainFacade {
 	 */
 	public void setColumnName(Column col, String text) throws InvalidNameException {
 		col.setName(text);
-		
 	}
 	
 	/**

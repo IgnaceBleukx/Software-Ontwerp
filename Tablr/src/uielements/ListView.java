@@ -70,6 +70,10 @@ public class ListView extends UIElement {
 	private VerticalScrollBar scrollBarV = new VerticalScrollBar(getEndX()-scrollbarW, getY(),scrollbarW,getHeight()-scrollbarW,new Rounder());
 	private HorizontalScrollBar scrollBarH = new HorizontalScrollBar(getX(),getEndY()-scrollbarW,getWidth(), scrollbarW,new Rounder());
 		
+	public int getScrollBarWidth(){
+		return scrollbarW;
+	}
+
 	public void updateScrollBar() {
 		scrollBarV.update(elements.stream().filter(e -> !(e instanceof ScrollBar)).mapToInt(e -> e.getHeight()).sum(), this.getHeight()-scrollbarW);
 		scrollBarH.update(elements.stream().filter(e -> !(e instanceof ScrollBar)).mapToInt(e -> e.getWidth()).max().orElse(getWidth()-scrollbarW), this.getWidth()-scrollbarW);

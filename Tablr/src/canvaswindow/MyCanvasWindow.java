@@ -80,6 +80,8 @@ public class MyCanvasWindow extends CanvasWindow {
 			}
 			if (clicked == null) return;
 			
+			System.out.println("[MyCanvasWindow.java:83]: Clicked on : " + clicked);
+			
 			//Mouse pressed
 			if (id  == MouseEvent.MOUSE_PRESSED) {
 				System.out.println("[MyCanvasWindow.java:83]: Mouse Pressed!");
@@ -114,6 +116,7 @@ public class MyCanvasWindow extends CanvasWindow {
 			System.out.println("[MyCanvasWindow.java:88]: Mouse Dragged!");
 			dragCounter++;
 			try{
+				System.out.println("[MyCanvasWindow.java:119]: Dragging : " + getTablr().getSelectedUI().getDragging());
 				getTablr().getSelectedUI().getDragging().handleDrag(x, y);
 				getTablr().getSelectedUI().getDragging().handlePressed(x, y);
 			}catch (NullPointerException e){}

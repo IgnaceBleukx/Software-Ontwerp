@@ -45,4 +45,14 @@ public class Dragger extends UIElement{
 		g.setColor(transparant);
 		g.fillRect(getX(), getY(), getWidth(), getHeight());
 	}
+	
+	@Override
+	public void resizeR(int deltaW){
+		this.move(deltaW,0);
+	}
+	@Override
+	public void resizeL(int deltaW){
+		this.move(deltaW,0);
+	}
+	
 }

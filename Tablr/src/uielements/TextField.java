@@ -3,6 +3,7 @@ package uielements;
 import java.awt.Color;
 import java.awt.FontMetrics;
 import java.awt.Graphics;
+import java.awt.Shape;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.function.BiConsumer;
@@ -73,10 +74,13 @@ public class TextField extends UIElement {
 		g.setColor(Color.black);
 		int y = this.getY() +  ((this.getHeight() - metrics.getHeight()) / 2) + metrics.getAscent();
 		
+		Shape oldClip = g.getClip();
+		g.setClip(getX(),getY(),getWidth(),getHeight());
 		if (!this.isSelected())
 			g.drawString(this.getText(), super.getX()+10, y);
 		else
 			g.drawString(this.getText() + "<", super.getX()+10, y);
+		g.setClip(oldClip);
 	}
 	
 	@Override

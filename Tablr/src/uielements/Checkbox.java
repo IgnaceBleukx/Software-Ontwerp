@@ -83,6 +83,17 @@ public class Checkbox extends UIElement {
 	public boolean isChecked() {
 		return value;
 	}
+
+	@Override
+	public void resizeL(int deltaW){
+		this.move(deltaW/2, 0);
+	}
+	
+	@Override
+	public void resizeR(int deltaW){
+		this.move(deltaW/2, 0);
+	}
+
 	
 	
 }

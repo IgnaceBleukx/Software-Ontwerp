@@ -50,7 +50,6 @@ public class VerticalScrollBar extends ScrollBar{
 
 	@Override
 	public void scroll(int delta) {
-		System.out.println("[VerticalScrollBar.java:53]: delta = " + delta);
 		if (!isValidDelta (delta))
 			return;
 		margin1.resizeB(delta);
