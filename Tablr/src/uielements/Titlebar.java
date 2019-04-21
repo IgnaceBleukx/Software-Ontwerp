@@ -17,4 +17,9 @@ public class Titlebar extends Button {
 		
 	}
 
+	@Override
+	public Titlebar clone(){
+		return new Titlebar(getX(),getY(),getWidth(),getHeight(),getText());
+	}
+	
 }

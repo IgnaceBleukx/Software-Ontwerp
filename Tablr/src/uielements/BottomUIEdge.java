@@ -39,4 +39,9 @@ public class BottomUIEdge extends UIEdge {
 		isSwollen = true;
 	}
 
+	@Override
+	public BottomUIEdge clone(){
+		return new BottomUIEdge(getX(), getY(),getWidth(),getHeight());
+	}
+	
 }

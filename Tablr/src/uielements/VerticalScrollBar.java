@@ -12,8 +12,8 @@ import Utils.Rounder;
  */
 public class VerticalScrollBar extends ScrollBar{
 
-	public VerticalScrollBar(int x, int y, int w, int h,Rounder r) {
-		super(x, y, w, h, r);
+	public VerticalScrollBar(int x, int y, int w, int h) {
+		super(x, y, w, h);
 		margin1 = new Button(getX(), getY(), getWidth(),0,"/\\");
 		margin2 = new Button(getX(), getY()+getHeight(),getWidth(), 0,"\\/");
 		
@@ -73,5 +73,10 @@ public class VerticalScrollBar extends ScrollBar{
 	@Override
 	public void resizeB(int deltaY){
 		this.setHeight(getHeight()+deltaY);
+	}
+
+	@Override
+	public VerticalScrollBar clone(){
+		return new VerticalScrollBar(getX(),getY(),getWidth(),getHeight());
 	}
 }

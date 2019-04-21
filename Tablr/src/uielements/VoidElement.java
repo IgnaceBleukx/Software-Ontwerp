@@ -46,4 +46,9 @@ public class VoidElement extends UIElement{
 
 	}
 
+	@Override
+	public VoidElement clone(){
+		return new VoidElement(getX(),getY(),getWidth(),getHeight(),color);
+	}
+	
 }

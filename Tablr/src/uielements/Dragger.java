@@ -55,4 +55,9 @@ public class Dragger extends UIElement{
 		this.move(deltaW,0);
 	}
 	
+	@Override
+	public Dragger clone(){
+		return new Dragger(getX(),getY(),getWidth(),getHeight());
+	}
+	
 }

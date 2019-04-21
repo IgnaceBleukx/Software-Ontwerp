@@ -39,4 +39,9 @@ public class LeftUIEdge extends UIEdge {
 		isSwollen = true;
 	}
 
+	@Override
+	public LeftUIEdge clone(){
+		return new LeftUIEdge(getX(),getY(),getWidth(),getHeight());
+	}
+	
 }

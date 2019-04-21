@@ -94,6 +94,10 @@ public class WindowManager {
 	
 	public void loadTableRowsModeUI(Table table){
 		TableRowsModeUI ui = tableRowsModeUIs.get(table);
+		if (ui.isActive()){
+			ui = ui.clone();
+			ui.move(300,300);
+		}
 		this.selectUI(ui);
 		ui.setTablr(tablr);
 		ui.setWindowManager(this);
@@ -102,6 +106,10 @@ public class WindowManager {
 	
 	public void loadTableDesignModeUI(Table table){
 		TableDesignModeUI ui = tableDesignModeUIs.get(table);
+		if (ui.isActive()){
+			ui = ui.clone();
+			ui.move(300, 300);
+		}
 		this.selectUI(ui);
 		ui.setTablr(tablr);
 		ui.setWindowManager(this);

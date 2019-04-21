@@ -154,4 +154,22 @@ public class TableRowsModeUI extends UI {
 		return uiTable;
 	}
 	
+	@Override
+	public TableRowsModeUI clone(){
+		TableRowsModeUI clone = new TableRowsModeUI(getX(),getY(),getWidth(),getHeight(),getTablr());
+		ArrayList<UIElement> clonedElements = new ArrayList<UIElement>();
+		elements.stream().forEach(e -> clonedElements.add(e.clone()));
+		clone.elements = clonedElements;
+		clone.titleBar = titleBar;
+		clone.leftResize = leftResize;
+		clone.rightResize = rightResize;
+		clone.topResize = topResize;
+		clone.bottomResize = bottomResize;
+		clone.topLeft = topLeft;
+		clone.topRight = topRight;
+		clone.bottomLeft = bottomLeft;
+		clone.bottomRight = bottomRight;
+		return clone;
+	}
+	
 }

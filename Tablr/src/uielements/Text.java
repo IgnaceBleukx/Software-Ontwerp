@@ -91,4 +91,11 @@ public class Text extends UIElement {
 		new ArrayList<BiConsumer<Integer,Integer>>(dragListeners).stream().forEach(r -> r.accept(x, y));
 	}
 
+	@Override
+	public Text clone(){
+		Text clone = new Text(getX(),getY(),getWidth(),getHeight(),getText());
+		clone.border = border;
+		return clone;
+	}
+	
 }

@@ -47,8 +47,8 @@ public class UITable extends UIElement {
 	
 	private static int scrollBarW = 10;
 	
-	VerticalScrollBar scrollBarV = new VerticalScrollBar(getEndX()-scrollBarW,getY(),scrollBarW,getHeight()-scrollBarW,new Rounder());
-	HorizontalScrollBar scrollBarH = new HorizontalScrollBar(getX(),getEndY()-scrollBarW,getWidth()-scrollBarW,scrollBarW,new Rounder());
+	VerticalScrollBar scrollBarV = new VerticalScrollBar(getEndX()-scrollBarW,getY(),scrollBarW,getHeight()-scrollBarW);
+	HorizontalScrollBar scrollBarH = new HorizontalScrollBar(getX(),getEndY()-scrollBarW,getWidth()-scrollBarW,scrollBarW);
 	
 	private void updateScrollBars(){
 		scrollBarV.update(getRows().stream().mapToInt(r -> r.getHeight()).sum(),getHeight()-scrollBarW);
@@ -254,4 +254,15 @@ public class UITable extends UIElement {
 		scrollBarV.resizeT(deltaY);
 		scrollBarH.resizeT(deltaY);
 	}
+	
+	@Override
+	public UITable clone(){
+		ArrayList<UIRow> clonedRows = new ArrayList<UIRow>();
+		rows.stream().forEach(e -> clonedRows.add(e.clone()));
+		UITable clone = new UITable(getX(),getY(),getWidth(),getHeight(),legend.clone(),clonedRows);
+		clone.scrollBarH = scrollBarH;
+		clone.scrollBarV = scrollBarV;
+		return clone;
+	}
+
 }

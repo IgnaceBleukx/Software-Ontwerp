@@ -79,12 +79,12 @@ public class ListView extends UIElement {
 	/**
 	 * The vertical scrollbar in this ListView
 	 */
-	private VerticalScrollBar scrollBarV = new VerticalScrollBar(getEndX()-scrollbarW, getY(),scrollbarW,getHeight()-scrollbarW,new Rounder());
+	private VerticalScrollBar scrollBarV = new VerticalScrollBar(getEndX()-scrollbarW, getY(),scrollbarW,getHeight()-scrollbarW);
 	
 	/**
 	 * The horizontal scrollbar in this ListView
 	 */
-	private HorizontalScrollBar scrollBarH = new HorizontalScrollBar(getX(),getEndY()-scrollbarW,getWidth(), scrollbarW,new Rounder());
+	private HorizontalScrollBar scrollBarH = new HorizontalScrollBar(getX(),getEndY()-scrollbarW,getWidth(), scrollbarW);
 		
 	public int getScrollBarWidth(){
 		return scrollbarW;
@@ -320,6 +320,14 @@ public class ListView extends UIElement {
 		updateScrollBar();
 	}
 	
-	
+	@Override
+	public ListView clone(){
+		ArrayList<UIElement> clonedElements = new ArrayList<UIElement>();
+		elements.stream().forEach(e -> clonedElements.add(e.clone()));
+		ListView clone = new ListView(getX(), getY(), getWidth(),getHeight(),clonedElements);
+		clone.scrollBarH = scrollBarH;
+		clone.scrollBarV = scrollBarV;
+		return clone;
+	}
 	
 }

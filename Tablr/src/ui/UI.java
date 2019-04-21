@@ -30,7 +30,7 @@ public class UI {
 	 * @param height	Height
 	 */
 	public UI(int x, int y, int width, int height) {
-		if (x<0 || y < 0 || width < 0 || height < 0) 
+		if (width < 0 || height < 0) 
 			throw new IllegalArgumentException("Illegal parameters in UI constructor");
 		this.x = x;
 		this.y = y;
@@ -192,15 +192,15 @@ public class UI {
 	/**
 	 * The edges of this UI, used to resize the UI
 	 */
-	private LeftUIEdge leftResize;
-	private RightUIEdge rightResize;
-	private TopUIEdge topResize;
-	private BottomUIEdge bottomResize;
+	protected LeftUIEdge leftResize;
+	protected RightUIEdge rightResize;
+	protected TopUIEdge topResize;
+	protected BottomUIEdge bottomResize;
 	
-	private TopLeftUICorner topLeft;
-	private TopRightUICorner topRight;
-	private	BottomLeftUICorner bottomLeft;
-	private BottomRightUICorner bottomRight;
+	protected TopLeftUICorner topLeft;
+	protected TopRightUICorner topRight;
+	protected BottomLeftUICorner bottomLeft;
+	protected BottomRightUICorner bottomRight;
 	
 	protected static int minHeight = 100;
 	protected static int minWidth = 100;
@@ -284,7 +284,7 @@ public class UI {
 	/**
 	 * All of the UIElements that make up this UI
 	 */
-	private ArrayList<UIElement> elements = new ArrayList<UIElement>();
+	protected ArrayList<UIElement> elements = new ArrayList<UIElement>();
 	
 	/**
 	 * This method returns the elements of the current canvaswindow.UI.
@@ -523,6 +523,24 @@ public class UI {
 	@Override
 	public String toString() {
 		return "UI : X="+getX() + " Y="+getY() + " W=" +getWidth() + " H="+getHeight();
+	}
+
+	@Override
+	public UI clone(){
+		UI clone = new UI(getX(),getY(),getWidth(),getHeight());
+		ArrayList<UIElement> clonedElements = new ArrayList<UIElement>();
+		elements.stream().forEach(e -> clonedElements.add(e.clone()));
+		clone.elements = clonedElements;
+		clone.titleBar = this.titleBar.clone();
+		clone.leftResize = this.leftResize.clone();
+		clone.rightResize = this.rightResize.clone();
+		clone.topResize = this.topResize.clone();
+		clone.bottomResize = this.bottomResize.clone();
+		clone.topLeft = this.topLeft.clone();
+		clone.topRight = this.topRight.clone();
+		clone.bottomLeft = this.bottomLeft.clone();
+		clone.bottomRight = this.bottomRight.clone();
+		return clone;
 	}
 }
 

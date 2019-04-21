@@ -22,4 +22,9 @@ public class TopUIEdge extends UIEdge {
 		this.move(0,-i);
 		isSwollen = true;
 	}
+
+	@Override
+	public TopUIEdge clone(){
+		return new TopUIEdge(getX(),getY(),getWidth(),getHeight());
+	}
 }

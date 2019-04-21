@@ -454,5 +454,6 @@ public abstract class UIElement {
 		return dragging;
 	}
 
-	
+	@Override
+	public abstract UIElement clone();
 }

@@ -112,10 +112,7 @@ public class TableDesignModeUI extends UI {
 		titleBar.addKeyboardListener(17, () -> {
 			tablr.loadTableRowsModeUI(table);
 		});
-		
-
 	}	
-	
 
 	private UIRow getLegend(){
 		Optional<UIElement> r = getElements().stream().filter(e -> e instanceof UIRow).findFirst();
@@ -134,8 +131,6 @@ public class TableDesignModeUI extends UI {
 	 * @return 		A Listview containing all information.
 	 */
 	private ListView loadColumnAttributes(Table table) {
-
-		
 		int currentHeight = getY() + edgeW+titleHeight+15;
 		
 		int namePosX = getLegend().getElements().get(0).getX();
@@ -146,9 +141,7 @@ public class TableDesignModeUI extends UI {
 		int blankSizeX = getLegend().getElements().get(4).getWidth();
 		int defPosX = getLegend().getElements().get(6).getX();
 		int defSizeX = getLegend().getElements().get(6).getWidth();
-		
-		System.out.println(getLegend().getElements());
-		
+				
 		ListView listview = new ListView(getX()+edgeW, currentHeight, getWidth() - 2*edgeW,	getHeight()-2*edgeW-titleHeight-15,new ArrayList<UIElement>());
 		
 		Tablr c = getTablr();
@@ -280,6 +273,25 @@ public class TableDesignModeUI extends UI {
 		});
 		
 		return listview;
+	}
+	
+	@Override
+	public TableDesignModeUI clone(){
+		TableDesignModeUI clone = new TableDesignModeUI(getX(),getY(),getWidth(),getHeight(),getTablr());
+		ArrayList<UIElement> clonedElements = new ArrayList<UIElement>();
+		elements.stream().forEach(e -> clonedElements.add(e.clone()));
+		clone.elements = clonedElements;
+		clone.margin = this.margin;
+		clone.titleBar = this.titleBar.clone();
+		clone.leftResize = this.leftResize.clone();
+		clone.rightResize = this.rightResize.clone();
+		clone.topResize = this.topResize.clone();
+		clone.bottomResize = this.bottomResize.clone();
+		clone.topLeft = this.topLeft.clone();
+		clone.topRight = this.topRight.clone();
+		clone.bottomLeft = this.bottomLeft.clone();
+		clone.bottomRight = this.bottomRight.clone();
+		return clone;
 	}
 	
 }

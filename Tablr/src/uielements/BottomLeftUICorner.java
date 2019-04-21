@@ -59,4 +59,9 @@ public class BottomLeftUICorner extends UIEdge {
 
 	}
 
+	@Override
+	public BottomLeftUICorner clone(){
+		return new BottomLeftUICorner(getX(),getY(),getWidth(),getHeight());
+	}
+	
 }

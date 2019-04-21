@@ -78,4 +78,9 @@ public class CloseButton extends Button {
 	public void resizeB(int deltaH){
 		
 	}
+
+	@Override
+	public CloseButton clone(){
+		return new CloseButton(getX(),getY(),getWidth(),getHeight(),crossSize);
+	}
 }

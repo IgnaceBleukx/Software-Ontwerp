@@ -30,5 +30,12 @@ public class RightUIEdge extends UIEdge {
 		this.move(-i, 0);
 		isSwollen = true;
 	}
+
+	
+
+	@Override
+	public RightUIEdge clone(){
+		return new RightUIEdge(getX(),getY(),getWidth(),getHeight());
+	}
 	
 }

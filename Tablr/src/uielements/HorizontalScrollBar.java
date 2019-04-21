@@ -11,8 +11,8 @@ public class HorizontalScrollBar extends ScrollBar {
 	 * Creates a new Horizontal ScrollBar
 	 * @param rounder	Rounder object used to round scrolling coordinates in a balanced way.
 	 */
-	public HorizontalScrollBar(int x, int y, int w, int h,Rounder rounder) {
-		super(x, y, w, h,rounder);
+	public HorizontalScrollBar(int x, int y, int w, int h) {
+		super(x, y, w, h);
 		margin1 = new Button(getX(), getY(), 0,getHeight(),"");
 		margin2 = new Button(getX()+getWidth(),getY(),0,getHeight(),"");
 		margin1.setUI(getUI());
@@ -93,5 +93,9 @@ public class HorizontalScrollBar extends ScrollBar {
 	@Override
 	public void resizeB(int deltaY){
 		this.move(0, deltaY);
+	}
+
+	public HorizontalScrollBar clone(){
+		return new HorizontalScrollBar(getX(),getY(),getWidth(),getHeight());
 	}
 }

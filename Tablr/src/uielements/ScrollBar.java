@@ -12,14 +12,13 @@ import ui.UI;
 
 public abstract class ScrollBar extends UIElement{
 
-	public ScrollBar(int x, int y, int w, int h,Rounder r) {
+	public ScrollBar(int x, int y, int w, int h) {
 		super(x, y, w, h);
 		scrollBar.setColor(off);
 		scrollBar.addPressListener((f) -> new ArrayList<>(pressListeners).stream().forEach(l -> l.accept(this)));
-		this.rounder = r;
 	}
 	
-	protected Rounder rounder;
+	protected Rounder rounder = new Rounder();
 	
 	private Color on = Color.LIGHT_GRAY;
 	private Color off = new Color(230,230,230);
@@ -136,4 +135,7 @@ public abstract class ScrollBar extends UIElement{
 		margin2.move(deltaX, deltaY);
 		scrollBar.move(deltaX, deltaY);
 	}
+
+	@Override
+	public abstract ScrollBar clone();
 }

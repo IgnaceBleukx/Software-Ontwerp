@@ -58,4 +58,9 @@ public class BottomRightUICorner extends UIEdge {
 		isSwollen = !isSwollen;
 	}
 
+	@Override
+	public BottomRightUICorner clone(){
+		return new BottomRightUICorner(getX(), getY(), getWidth(), getHeight());
+	}
+	
 }

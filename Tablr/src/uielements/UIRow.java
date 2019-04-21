@@ -233,4 +233,11 @@ public class UIRow extends UIElement {
 		this.setWidth(getWidth()+deltaW);
 	}
 	
+	@Override
+	public UIRow clone(){
+		ArrayList<UIElement> clonedElements = new ArrayList<UIElement>();
+		elements.stream().forEach(e -> clonedElements.add(e.clone()));
+		return new UIRow(getX(),getY(),getWidth(),getHeight(),clonedElements);
+	}
+	
 }

@@ -35,4 +35,9 @@ public class TopLeftUICorner extends UIEdge {
 		isSwollen = !isSwollen;
 	}
 
+	@Override
+	public TopLeftUICorner clone(){
+		return new TopLeftUICorner(getX(),getY(),getWidth(),getHeight());
+	}
+	
 }
