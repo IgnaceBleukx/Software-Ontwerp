@@ -2,6 +2,7 @@ package tests;
 
 import static org.junit.Assert.*;
 
+import java.awt.event.MouseEvent;
 import java.util.Random;
 import java.util.concurrent.ThreadLocalRandom;
 
@@ -18,38 +19,7 @@ import uielements.Text;
 import uielements.TextField;
 import uielements.UIRow;
 
-public class TableDesignTests {
-	
-	
-	@Test
-	public void openRowsModeUI() {
-		// Load the window
-		MyCanvasWindow myCW = new MyCanvasWindow("Tables Mode");
-		Tablr tablr = myCW.getTablr();
-		
-		// There are no tables yet
-		assertEquals(tablr.getTableRowsUIs().size(), 0);
-
-		// Perform a ctrl+T
-		MyCanvasWindow.replayRecording("./recordings/openRowsModeUI/test", myCW);
-		
-		// Check if there is a table added to the Tablr
-		assertEquals(tablr.getTableRowsUIs().size(), 1);
-	}
-	
-	
-	
-
-//	private CommunicationManager coMan;
-//	private MyCanvasWindow myCW;
-//
-//	@Before
-//	public void setUp() throws Exception {
-//		myCW = new MyCanvasWindow("TableDesign Mode");
-//		coMan = myCW.getCommunicationManager();
-//		coMan.loadUI(Loadable_Interfaces.TABLES);
-//	}
-	
+public class TableDesignTests {		
 	/**
 	 * This method returns a canvas window with a loaded table without columns in tables mode.
 	 * @return
@@ -62,33 +32,32 @@ public class TableDesignTests {
 //		return myCW;
 //	}
 
-	
-	
 
-//	@Test
-//	public void useCase5() {
-//		//Load tables mode with one table:
-//		MyCanvasWindow myCW = prepareTable();
-//		Tablr coMan = myCW.getTablr();
-//		//Enter table_design mode:
-//		myCW.handleMouseEvent(0, 260, 30, 2);
-//		
-//		//Adding an initial row:
-//		coMan.addRow(coMan.getActiveTable());
-//		
-//		//Step 1: The user clicks below the list of columns:
-//		myCW.handleMouseEvent(0, 260, 150, 2);
-//		Column addedColumn = coMan.getActiveTable().getColumns().get(0);
-//		assertEquals(1,coMan.getActiveTable().getColumns().size());
-//		assertEquals("Column0",addedColumn.getName());
-//		assertEquals(Type.STRING,addedColumn.getColumnType());
-//		assertTrue(addedColumn.getBlankingPolicy());
-//		assertEquals("",addedColumn.getDefault());
-//		
-//		//Step2: The existing rows got a blank value for the columns index:
-//		assertEquals("",coMan.getValue(coMan.getColumns(coMan.getActiveTable()).get(0),0));
-//		
-//	}
+	/**
+	 * Use case 5: add column
+	 */
+	@Test
+	public void useCase5() {
+		// Load the window
+		MyCanvasWindow myCW = new MyCanvasWindow("Table Design mode test");
+		Tablr tablr = myCW.getTablr();
+		myCW.handleKeyEvent(1, 17, ' ');
+		myCW.handleKeyEvent(1, 84, ' ');
+		// Double click on listview to create a new table
+		myCW.handleMouseEvent(MouseEvent.MOUSE_CLICKED, 155, 152, 2);
+		// The user double-clicks a table name.
+		myCW.handleMouseEvent(MouseEvent.MOUSE_CLICKED, 60, 40, 2);
+
+		
+		//Step 1: The user clicks below the list of columns:
+		myCW.handleMouseEvent(MouseEvent.MOUSE_CLICKED, 450, 160, 2);
+		Column addedColumn = tablr.getTables().get(0).getColumns().get(0);
+		assertEquals(1, tablr.getTables().get(0).getColumns().size());
+		assertEquals("Column0",addedColumn.getName());
+		assertEquals(Type.STRING,addedColumn.getColumnType());
+		assertTrue(addedColumn.getBlankingPolicy());
+		assertEquals("",addedColumn.getDefault());	
+	}
 	
 //	@Test
 //	public void useCase6() {
@@ -337,34 +306,45 @@ public class TableDesignTests {
 //		assertTrue(defaultInteger.getError());
 //	}
 	
-//	@Test
-//	public void useCase7() {
-//		MyCanvasWindow myCW = prepareTable();
-//		Tablr coMan = myCW.getTablr();
-//		
-//		//Entering tables mode:
-//		myCW.handleMouseEvent(0, 260, 30, 2);
-//		//Adding two columns
-//		myCW.handleMouseEvent(0, 260, 100, 2);
-//		myCW.handleMouseEvent(0, 260, 100, 2);
-//		//Adding two rows
-//		coMan.addRow(coMan.getActiveTable());
-//		coMan.addRow(coMan.getActiveTable());
-//
-//		//Step 1: The user clicks on a column
-//		myCW.handleMouseEvent(0, 20, 50, 1);
-//		UIRow firstColumn = (UIRow) coMan.getActiveUI().locatedAt(20,50);
-//		ListView vieuw = (ListView) coMan.getActiveUI().locatedAt(300,450);
-//		//Step 2: The system indicates that the column is now selected
-//		assertEquals(firstColumn,vieuw.getSelectedElement());
-//		//Step 3: The user presses the delete key:
-//		myCW.handleKeyEvent(0, 127,' ');
-//		//Step 4: The system removes the column from the list of columns...
-//		assertEquals(1,vieuw.getElements().size());
-//		assertEquals(1,coMan.getColumns(coMan.getActiveTable()).size());
-//		assertFalse(coMan.getColumnNames(coMan.getActiveTable()).contains("Column0"));
-//		// ... and removes the value for the deleted column from all of the table's rows.
-//		//The domain does not store values in rows, so this is automatically true when the column is deleted.
-//	}
+	/**
+	 * Use case 7: Delete Column
+	 */
+	@Test
+	public void useCase7() {
+		// Load the window
+		MyCanvasWindow myCW = new MyCanvasWindow("Table Design mode test");
+		Tablr tablr = myCW.getTablr();
+		myCW.handleKeyEvent(1, 17, ' ');
+		myCW.handleKeyEvent(1, 84, ' ');
+		// Double click on listview to create a new table
+		myCW.handleMouseEvent(MouseEvent.MOUSE_CLICKED, 155, 152, 2);
+		// The user double-clicks a table name.
+		myCW.handleMouseEvent(MouseEvent.MOUSE_CLICKED, 60, 40, 2);
+		// The user double clicks twice below the list of columns:
+		myCW.handleMouseEvent(MouseEvent.MOUSE_CLICKED, 450, 160, 2);
+		myCW.handleMouseEvent(MouseEvent.MOUSE_CLICKED, 450, 160, 2);
+		
+		// The user double-clicks the table name to open rows mode
+		myCW.handleMouseEvent(MouseEvent.MOUSE_CLICKED, 60, 40, 2);
+		
+		// The user double clicks twice below the list of rows:
+		myCW.handleMouseEvent(MouseEvent.MOUSE_CLICKED, 450, 480, 2);
+		myCW.handleMouseEvent(MouseEvent.MOUSE_CLICKED, 450, 480, 2);
+
+		//Step 1: The user clicks on a column
+		myCW.handleMouseEvent(MouseEvent.MOUSE_CLICKED, 313, 76, 1);
+		UIRow firstColumn = (UIRow) tablr.getUIAt(313, 76).locatedAt(313,76);
+		ListView view = (ListView) tablr.getUIAt(430, 180).locatedAt(430,180);
+		//Step 2: The system indicates that the column is now selected
+		assertEquals(true, firstColumn.isSelected());
+		//Step 3: The user presses the delete key:
+		myCW.handleKeyEvent(0, 127,' ');
+
+		//Step 4: The system removes the column from the list of columns...
+		assertEquals(1,tablr.getColumns(tablr.getTables().get(0)).size());
+		assertFalse(tablr.getColumnNames(tablr.getTables().get(0)).contains("Column1"));
+		// ... and removes the value for the deleted column from all of the table's rows.
+		//The domain does not store values in rows, so this is automatically true when the column is deleted.
+	}
 	
 }
