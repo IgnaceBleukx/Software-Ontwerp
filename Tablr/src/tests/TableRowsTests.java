@@ -247,7 +247,7 @@ public class TableRowsTests {
 		
 		// Column 4: 
 		Checkbox cb = (Checkbox) tablr.getUIAt(492, 365).locatedAt(492, 365);
-		assertNull(cb.isChecked());
+		assertEquals(cb.isChecked(), null);
 		myCW.handleMouseEvent(MouseEvent.MOUSE_CLICKED, 492, 365 , 1);
 		assertTrue(cb.isChecked());
 		myCW.handleMouseEvent(MouseEvent.MOUSE_CLICKED, 492, 365, 1);
@@ -293,49 +293,23 @@ public class TableRowsTests {
 	 * use case 4.10: Delete Row 
 	 */
 	@Test
-	public void useCase10() {
-//		// Step 1: Load the window
-//		MyCanvasWindow myCW = new MyCanvasWindow("Tables Mode");
-//		CommunicationManager tablr = myCW.getCommunicationManager();
-//		tablr.clearUI();
-//		tablr.loadUI(Loadable_Interfaces.TABLES);
-//		// The user double-clicks below the list of tables to create a table
-//		myCW.handleMouseEvent(0, 40, 530 , 2);
-//		
-//		//The user double-clicks a table name.
-//		myCW.handleMouseEvent(0, 51, 13, 2);
-//		
-//		// The user double-clicks to create a column
-//		myCW.handleMouseEvent(0, 40, 530 , 2);
-//		
-//		// go back to TABLES_MODE
-//		myCW.handleKeyEvent(0, 27, ' ');
-		
+	public void useCase10() {		
 		MyCanvasWindow myCW = prepareTable();
 		Tablr tablr = myCW.getTablr();
 		
-		// Step 1: The user double-clicks the table name.
-		myCW.handleMouseEvent(0, 51, 13, 2);
-		
-		
-		// Add a row
-		myCW.handleMouseEvent(0, 11, 31 , 2);
-		
-		// Step 1: The user clicks the margin to the left of first row.
-		myCW.handleMouseEvent(0, 11, 61 , 1);
+		// Step 1: The user clicks the margin to the left of second row.
+		myCW.handleMouseEvent(MouseEvent.MOUSE_CLICKED, 315, 393 , 1);
 		
 		// Step 2: The system indicates that this row is now selected.
-		UIRow r = (UIRow) tablr.getUIAt(11, 61).locatedAt(40, 70);
-		UITable table = (UITable) tablr.getUIAt(40, 70).locatedAt(40, 70);
+		UIRow r = (UIRow) tablr.getUIAt(315, 393).locatedAt(315, 393);
+		UITable table = (UITable) tablr.getUIAt(503, 537).locatedAt(503, 537);
 		assertEquals(table.getSelected(), r);
 
 		// Step 3: User presses Delete key
 		myCW.handleKeyEvent(0, 127, ' ');
 		
 		// Step 4: The system removes the row from the table and shows the updated list of rows
-		assertEquals(0,tablr.getTables().get(0).getRows().size());
-		assertEquals(0,table.getRows().size());
+		assertEquals(3,tablr.getTables().get(0).getRows());
 	}
-	
 }
 
