@@ -85,6 +85,11 @@ public class TableRowsModeUI extends UI {
 					}
 				}
 			}
+			else {
+				for (int i=0;i<columnNames.size();i++) {
+					((Text) legend.getElements().get(2*i)).setText(columnNames.get(i));
+				}
+			}
 			
 			
 			addUIElement(loadTable(tab, legend));
@@ -93,7 +98,6 @@ public class TableRowsModeUI extends UI {
 		
 		
 	}
-
 	
 	private UIRow loadLegend(Table tab,int cellWidth){
 		UIRow legend = new UIRow(getX()+edgeW,titleBar.getEndY(),getWidth(), 30, new ArrayList<UIElement>());		
@@ -134,11 +138,7 @@ public class TableRowsModeUI extends UI {
 		//Creating legend with all column names:
 		int amountOfColumns = getTablr().getColumns(tab).size();
 		int cellHeight = 20;
-		
-//		if (cellWidth * getTablr().getColumns(tab).size() < getWidth()-2*edgeW-10)
-//			cellWidth = (getWidth()-2*edgeW-10)/getTablr().getColumnNames(tab).size();
-		
-		
+			
 		UITable uiTable = new UITable(getX()+edgeW, titleBar.getEndY(),getWidth()-2*edgeW, getHeight()-2*edgeW-titleBar.getHeight(), legend, new ArrayList<UIRow>());
 		
 		//Extracting data from the table
@@ -152,7 +152,7 @@ public class TableRowsModeUI extends UI {
 			for(Column col : getTablr().getColumns(tab)){
 				String val = getTablr().getValueString(col,i);
 				if(getTablr().getColumnType(col).equals(Type.BOOLEAN)){
-					Checkbox booleanValue = new Checkbox(x + (int)(widths[a]/2) - 10,y+(int)(cellHeight/2)-10,20,20, (Boolean)getTablr().getValue(col,i));
+					Checkbox booleanValue = new Checkbox(x + (int)(widths[a]/2) - 10,y+(int)(cellHeight/2)-10,20,20, (Boolean) tablr.getValue(col,i));
 					emts.add(new VoidElement(x,y,widths[a], cellHeight, Color.white));
 					emts.add(booleanValue);
 					
@@ -184,7 +184,6 @@ public class TableRowsModeUI extends UI {
 				a += 2;
 			}
 			UIRow uiRow = new UIRow(uiTable.getX(),y,emts.stream().mapToInt(e -> e.getWidth()).sum(),cellHeight,emts);
-			System.out.println("[TableRowsModeUI.java:1]: Adding uirow: " + uiRow);
 			uiTable.addRow(uiRow);
 			y += cellHeight;
 			
@@ -221,15 +220,15 @@ public class TableRowsModeUI extends UI {
 		ArrayList<UIElement> clonedElements = new ArrayList<UIElement>();
 		elements.stream().forEach(e -> clonedElements.add(e.clone()));
 		clone.elements = clonedElements;
-		clone.titleBar = titleBar;
-		clone.leftResize = leftResize;
-		clone.rightResize = rightResize;
-		clone.topResize = topResize;
-		clone.bottomResize = bottomResize;
-		clone.topLeft = topLeft;
-		clone.topRight = topRight;
-		clone.bottomLeft = bottomLeft;
-		clone.bottomRight = bottomRight;
+		clone.titleBar = titleBar.clone();
+		clone.leftResize = leftResize.clone();
+		clone.rightResize = rightResize.clone();
+		clone.topResize = topResize.clone();
+		clone.bottomResize = bottomResize.clone();
+		clone.topLeft = topLeft.clone();
+		clone.topRight = topRight.clone();
+		clone.bottomLeft = bottomLeft.clone();
+		clone.bottomRight = bottomRight.clone();
 		return clone;
 	}
 	

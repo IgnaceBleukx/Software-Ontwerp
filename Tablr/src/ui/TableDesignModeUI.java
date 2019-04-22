@@ -144,21 +144,22 @@ public class TableDesignModeUI extends UI {
 				
 		ListView listview = new ListView(getX()+edgeW, currentHeight, getWidth() - 2*edgeW,	getHeight()-2*edgeW-titleHeight-15,new ArrayList<UIElement>());
 		
-		Tablr c = getTablr();
 		int index = 0; 
-			for(Column col : c.getColumns(table)){
-			TextField colName = new TextField(namePosX, currentHeight, nameSizeX, 30, c.getColumnName(col));
-			Text colType = new Text(typePosX, currentHeight, typeSizeX, 30, c.getColumnType(col).toString()); 
+			for(Column col : tablr.getColumns(table)){
+			TextField colName = new TextField(namePosX, currentHeight, nameSizeX, 30, tablr.getColumnName(col));
+			Text colType = new Text(typePosX, currentHeight, typeSizeX, 30, tablr.getColumnType(col).toString()); 
 			colType.setBorder(true);
-			Checkbox colBlankPol = new Checkbox(blankPosX + blankSizeX/2 - 10, currentHeight + 5, 20, 20, c.getBlankingPolicy(col));
-			String defaultValue = c.getDefaultString(col);
+			Checkbox colBlankPol = new Checkbox(blankPosX + blankSizeX/2 - 10, currentHeight + 5, 20, 20, tablr.getBlankingPolicy(col));
+			String defaultValue = tablr.getDefaultString(col);
+			
+			
 			
 			ArrayList<UIElement> elmts = new ArrayList<UIElement>(){{ add(colName); add(colType); add(colBlankPol);}};
-			if(c.getColumnType(col) == Type.BOOLEAN){				
-				Checkbox defaultBoolean = new Checkbox(defPosX + defSizeX/2 - 10, currentHeight + 5,20,20,(Boolean) c.getDefaultValue(col));
+			if(tablr.getColumnType(col) == Type.BOOLEAN){				
+				Checkbox defaultBoolean = new Checkbox(defPosX + defSizeX/2 - 10, currentHeight + 5,20,20,(Boolean) tablr.getDefaultValue(col));
 				elmts.add(defaultBoolean);
 				defaultBoolean.addSingleClickListener(() -> {
-					c.toggleDefault(col);
+					tablr.toggleDefault(col);
 				});
 			}
 			else{
@@ -167,10 +168,10 @@ public class TableDesignModeUI extends UI {
 				colDefText.addKeyboardListener(-1,()-> {
 					try{
 						if (colDefText.getText().length() == 0) {
-							c.setDefault(col,"");
+							tablr.setDefault(col,"");
 						}
 						else{
-							c.setDefault(col,colDefText.getText());
+							tablr.setDefault(col,colDefText.getText());
 						}
 						if (colDefText.getError()) colDefText.isNotError();
 					}catch(ClassCastException e){
@@ -182,7 +183,7 @@ public class TableDesignModeUI extends UI {
 				});
 			}
 			
-			UIRow uiRow = new UIRow(getX() + edgeW ,currentHeight, getWidth() - 2*edgeW - 10, 30,elmts);
+			UIRow uiRow = new UIRow(getX()+edgeW ,currentHeight, getWidth() - 2*edgeW - 10, 30,elmts);
 			currentHeight += 30;
 			listview.addElement(uiRow);			
 			
@@ -197,48 +198,7 @@ public class TableDesignModeUI extends UI {
 			int i = index;
 			uiRow.addKeyboardListener(127,() -> {
 				if(uiRow.isSelected()){
-					c.removeColumn(table, i); //2 scrollbars waar we geen rekening mee moeten houden
-				}
-			});
-			
-			colBlankPol.addSingleClickListener(() -> {
-				if (!colBlankPol.getError()){
-					try {
-						c.toggleBlanks(col);
-					} catch (Exception e) {
-						colBlankPol.isError();
-						colBlankPol.setValue(false);
-						c.getLock(colBlankPol);
-					}
-				}else {
-					colBlankPol.setValue(true);
-					colBlankPol.isNotError();
-					c.releaseLock(colBlankPol);
-				}
-			});
-			
-			colType.addSingleClickListener(() -> {
-				if (colType.getError()){
-					System.out.println("[ListVieuw.java:250] : colType is in error");
-					try{
-						c.setColumnType(col, Column.getNextType(Type.valueOf(colType.getText())));
-						colType.isNotError();
-						c.releaseLock(colType);
-					}catch(InvalidTypeException e){
-						colType.setText(Column.getNextType(Type.valueOf(colType.getText())).toString());
-						colType.isError();
-						c.getLock(colType);
-					}
-				}
-				
-				else{
-					try{
-						c.toggleColumnType(col);
-					}catch (InvalidTypeException e){
-						colType.setText(Column.getNextType(c.getColumnType(col)).toString());
-						colType.isError();
-						c.getLock(colType);
-					}
+					tablr.removeColumn(table, i); //2 scrollbars waar we geen rekening mee moeten houden
 				}
 			});
 			
@@ -249,7 +209,7 @@ public class TableDesignModeUI extends UI {
 				}
 				try{
 					if (colName.isSelected()){
-						c.setColumnName(col, colName.getText());
+						tablr.setColumnName(col, colName.getText());
 						if (colName.getError()) colName.isNotError();
 					}
 				}catch (InvalidNameException e){
@@ -258,7 +218,48 @@ public class TableDesignModeUI extends UI {
 			});
 			
 			colName.addKeyboardListener(10,() -> {
-				getTablr().domainChanged();
+				tablr.domainChanged();
+			});
+			
+			colBlankPol.addSingleClickListener(() -> {
+				if (!colBlankPol.getError()){
+					try {
+						tablr.toggleBlanks(col);
+					} catch (Exception e) {
+						colBlankPol.isError();
+						colBlankPol.setValue(false);
+						tablr.getLock(colBlankPol);
+					}
+				}else {
+					colBlankPol.setValue(true);
+					colBlankPol.isNotError();
+					tablr.releaseLock(colBlankPol);
+				}
+			});
+			
+			colType.addSingleClickListener(() -> {
+				if (colType.getError()){
+					System.out.println("[ListVieuw.java:250] : colType is in error");
+					try{
+						tablr.setColumnType(col, Column.getNextType(Type.valueOf(colType.getText())));
+						colType.isNotError();
+						tablr.releaseLock(colType);
+					}catch(InvalidTypeException e){
+						colType.setText(Column.getNextType(Type.valueOf(colType.getText())).toString());
+						colType.isError();
+						tablr.getLock(colType);
+					}
+				}
+				
+				else{
+					try{
+						tablr.toggleColumnType(col);
+					}catch (InvalidTypeException e){
+						colType.setText(Column.getNextType(tablr.getColumnType(col)).toString());
+						colType.isError();
+						tablr.getLock(colType);
+					}
+				}
 			});
 			
 			index++;

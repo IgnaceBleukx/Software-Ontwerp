@@ -108,13 +108,13 @@ public class Column {
 	 */
 	public void setColumnType(Type type) throws InvalidTypeException {
 		for (Cell<?> cell : getCells()){
-			if (!isValidValue(type,cell.getValue().toString())) {
+			String value = cell.getValue()==null ? "" : cell.getValue().toString();
+			if (!isValidValue(type,value)) {
 				throw new InvalidTypeException();
 			}
 		}
 		System.out.println("[Column.java:106]: Trying to set type "+ type + "while default value is: " + getDefault());
 		if (getDefault() != null && !isValidValue(type,getDefault().toString())){
-			System.out.println("[Column.java:108] Throwing invalidTypeException" );
 			throw new InvalidTypeException();
 		}else{
 			this.type = type;

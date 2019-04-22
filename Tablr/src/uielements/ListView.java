@@ -125,9 +125,7 @@ public class ListView extends UIElement {
 		g.drawRect(getX(),getY(),getWidth()-10,getHeight()-10);
 		Shape oldClip = g.getClip();
 		int[] i = GeometricUtils.intersection(getX(), getY(), getWidth(), getHeight(), oldClip.getBounds().x, 
-												oldClip.getBounds().y, oldClip.getBounds().width, oldClip.getBounds().height);
-		System.out.println(i);
-		g.setClip(new Rectangle(i[0],i[1],i[2],i[3]));
+												oldClip.getBounds().y, oldClip.getBounds().width, oldClip.getBounds().height);		g.setClip(new Rectangle(i[0],i[1],i[2],i[3]));
 		elements.stream().forEach(e -> e.paint(g));
 		g.setClip(oldClip);
 		scrollBarV.paint(g);
