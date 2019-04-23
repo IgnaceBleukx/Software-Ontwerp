@@ -242,16 +242,16 @@ public class TableDesignTests {
 		//The default value was true, it becomes false:
 		assertEquals(false, tablr.getDefaultValue(tablr.getColumns(tablr.getActiveTable()).get(0)));
 		//The user clicks the default value checkbox again:
-		myCW.handleMouseEvent(0, 490,50,1);
-		//The default value was true, it becomes true again:
+		myCW.handleMouseEvent(MouseEvent.MOUSE_CLICKED, 560,50,1);
+		//The default value was false, it becomes true again:
 		assertEquals(true, tablr.getDefaultValue(tablr.getColumns(tablr.getActiveTable()).get(0)));
 
 		//The user changes the type to STRING by clicking the column type twice:
-		myCW.handleMouseEvent(0,300,50,1);		
-		myCW.handleMouseEvent(0,300,50,1);
+		myCW.handleMouseEvent(MouseEvent.MOUSE_CLICKED,450,50,1);		
+		myCW.handleMouseEvent(MouseEvent.MOUSE_CLICKED,450,50,1);
 		//The user tries to change the default value to blank by deleting all characters:
-		myCW.handleMouseEvent(0,500,60,1);
-		TextField defaultString = (TextField) tablr.getActiveUI().locatedAt(500,60);
+		myCW.handleMouseEvent(MouseEvent.MOUSE_CLICKED,550,50,1);
+		TextField defaultString = (TextField) tablr.getUIAt(550, 50).locatedAt(550,50);
 		for(int i=0;i<4;i++){
 			myCW.handleKeyEvent(0,8,' ');
 		}
@@ -261,24 +261,24 @@ public class TableDesignTests {
 		//Changing the default value to a non-empty value:
 		myCW.handleKeyEvent(0, 0, 'd');
 		//Allowing blanks again:
-		myCW.handleMouseEvent(0,400, 50, 1);
+		myCW.handleMouseEvent(MouseEvent.MOUSE_CLICKED,500, 50, 1);
 		//Deleting the current default value:
-		myCW.handleMouseEvent(0,500, 60, 1);
+		myCW.handleMouseEvent(MouseEvent.MOUSE_CLICKED,550, 60, 1);
 		myCW.handleKeyEvent(0,8,' ');
 		
 		//The user changes the type of the column to EMAIL by clicking on the column type:
-		myCW.handleMouseEvent(0,300,50,1);
+		myCW.handleMouseEvent(MouseEvent.MOUSE_CLICKED,450,50,1);
 		assertEquals(Type.EMAIL,tablr.getColumnType(tablr.getColumns(tablr.getActiveTable()).get(0)));
-		TextField defaultEmail = (TextField) tablr.getActiveUI().locatedAt(500,60);
+		TextField defaultEmail = (TextField) tablr.getUIAt(550, 50).locatedAt(550,50);
 		//The user selects the default value textfield:
-		myCW.handleMouseEvent(0,500, 60, 1);
+		myCW.handleMouseEvent(MouseEvent.MOUSE_CLICKED, 550, 50, 1);
 		//The user enters a valid default value for the column:
 		d = "valid.email@tests.com";
 		for (int i=0;i<d.length();i++) myCW.handleKeyEvent(0, 0, d.charAt(i));
 		//The default value of the column is changed successfully:
 		assertEquals(d, tablr.getDefaultValue(tablr.getColumns(tablr.getActiveTable()).get(0)));
 		//Deleting the current default value:
-		myCW.handleMouseEvent(0,500, 60,1);
+		myCW.handleMouseEvent(MouseEvent.MOUSE_CLICKED, 550, 50, 1);
 		for(int i =0;i<d.length();i++) myCW.handleKeyEvent(0, 8,' ');
 		assertEquals(0,defaultEmail.getText().length());
 		//The user tries to enter a non-valid default value:
@@ -286,17 +286,17 @@ public class TableDesignTests {
 		for (int i=0;i<d.length();i++) myCW.handleKeyEvent(0, 0, d.charAt(i));
 		assertTrue(defaultEmail.getError());
 		//Deleting the current default value:
-		myCW.handleMouseEvent(0,500, 60,1);
+		myCW.handleMouseEvent(MouseEvent.MOUSE_CLICKED, 550, 50, 1);
 		for(int i =0;i<d.length();i++) myCW.handleKeyEvent(0, 8,' ');
 		assertEquals(0,defaultEmail.getText().length());
 
 		//The user changes the type of the column to INTEGER by clicking the column type twice:
-		myCW.handleMouseEvent(0,300,50,1);
-		myCW.handleMouseEvent(0,300,50,1);
+		myCW.handleMouseEvent(MouseEvent.MOUSE_CLICKED,450,50,1);
+		myCW.handleMouseEvent(MouseEvent.MOUSE_CLICKED,450,50,1);
 		assertEquals(Type.INTEGER,tablr.getColumnType(tablr.getColumns(tablr.getActiveTable()).get(0)));
-		TextField defaultInteger = (TextField) tablr.getActiveUI().locatedAt(500,60);
+		TextField defaultInteger = (TextField) tablr.getUIAt(550, 50).locatedAt(550,50);
 		//The user clicks on the textfield containing the default value:
-		myCW.handleMouseEvent(0,500, 60,1);
+		myCW.handleMouseEvent(MouseEvent.MOUSE_CLICKED,550, 50,1);
 		//The user enters a valid default value:
 		d = "999";
 		for (int i=0;i<d.length();i++) myCW.handleKeyEvent(0, 0, d.charAt(i));
