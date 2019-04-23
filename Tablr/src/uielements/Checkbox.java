@@ -31,7 +31,13 @@ public class Checkbox extends UIElement {
 	public void setValue(Boolean value){
 		this.value = value;
 	}
-	
+	/**
+	 * Gets the value of this Checkbox
+	 */
+	public Boolean getValue() {
+		return value;
+	}
+
 	/**
 	 * Paints this Checkbox on the Canvas.
 	 */

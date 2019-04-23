@@ -14,8 +14,8 @@ public class VerticalScrollBar extends ScrollBar{
 
 	public VerticalScrollBar(int x, int y, int w, int h) {
 		super(x, y, w, h);
-		margin1 = new Button(getX(), getY(), getWidth(),0,"/\\");
-		margin2 = new Button(getX(), getY()+getHeight(),getWidth(), 0,"\\/");
+		margin1 = new Button(getX(), getY(), getWidth(),0,"");
+		margin2 = new Button(getX(), getY()+getHeight(),getWidth(), 0,"");
 		
 		//Adding listeners
 		margin1.addSingleClickListener(() -> {

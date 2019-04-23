@@ -2,6 +2,7 @@ package domain;
 
 import java.util.ArrayList;
 
+import Utils.BooleanCaster;
 import exceptions.InvalidNameException;
 import exceptions.InvalidTypeException;
 import facades.Tablr;
@@ -360,7 +361,7 @@ public class Column {
 		else{
 			switch(type){
 				case BOOLEAN: {
-					return Boolean.parseBoolean(string); 
+					return BooleanCaster.cast(string); 
 				}
 				case INTEGER : {
 					return Integer.parseInt(string);
@@ -404,7 +405,18 @@ public class Column {
 	 */
 	public void toggleCellValueBoolean(int index){
 		if (this.getColumnType() != Type.BOOLEAN) return;
-		Boolean value = nextValueBoolean((Boolean)getCell(index).getValue(),getBlankingPolicy());
+		System.out.println(getCell(index).getValue());
+		
+		Object cellValue = getCell(index).getValue();
+		String cellValueString;
+		if (cellValue == null)
+			cellValueString = null;
+		else cellValueString = cellValue.toString();
+		Boolean value;
+		if (cellValueString == null)
+			value = nextValueBoolean(null,getBlankingPolicy());
+		else
+			value = nextValueBoolean(BooleanCaster.cast(cellValueString),getBlankingPolicy());
 		if (value == null) changeCellValue(index,null);
 		else changeCellValue(index,Boolean.toString(value));
 	}
