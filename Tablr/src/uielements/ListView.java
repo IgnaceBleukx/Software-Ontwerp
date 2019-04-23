@@ -30,7 +30,7 @@ public class ListView extends UIElement {
 		elements.add(scrollBarH);
 		updateScrollBar();
 		
-		//add listeners
+		//Adding listeners to scroll
 		scrollBarV.addPressListener((e) -> {
 			new ArrayList<>(pressListeners).stream().forEach(l -> l.accept(scrollBarV));
 		});
@@ -54,11 +54,9 @@ public class ListView extends UIElement {
 		});
 		
 		scrollBarH.addDragListener((newX,newY) -> {
-			int delta = newY - scrollBarH.getGrabPointY();
+			int delta = newX - scrollBarH.getGrabPointX();
 			scrollBarH.scroll(delta);
 		});
-		
-		
 	}
 	
 	/**
@@ -209,21 +207,6 @@ public class ListView extends UIElement {
 	}
 	
 	/**
-	 * Handles selection of a new UIElement, passing the message to all its elements.
-	 */
-	@Override
-	public void selectElement(UIElement e) {
-		if (e==this) 
-			select();
-		else
-			deselect();
-		
-		for (UIElement el : elements) {
-			el.selectElement(e);
-		}
-	}
-	
-	/**
 	 * Sets the UI this ListView belongs to.
 	 * @param ui	The UI
 	 */
@@ -307,7 +290,19 @@ public class ListView extends UIElement {
 	@Override
 	public void resizeB(int deltaH){
 		this.setHeight(getHeight() + deltaH);
-		getElements().stream().filter(e -> e instanceof ScrollBar).forEach(e -> e.resizeB(deltaH));
+		ArrayList<UIElement> outsideTop = new ArrayList<UIElement>();
+		UIElement border = null;
+		for(UIElement e: elements){
+			if (!(e instanceof ScrollBar) && e.getY() < getY()){
+				border = e;
+				break;
+			}
+		}
+		if (border != null && deltaH > 0){
+			elements.stream().filter(e -> !(e instanceof ScrollBar)).forEach(e -> e.move(0, deltaH));
+		}
+		scrollBarH.resizeB(deltaH);
+		scrollBarV.resizeB(deltaH);
 		updateScrollBar();
 	}
 	

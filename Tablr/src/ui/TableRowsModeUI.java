@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
+import Utils.BooleanCaster;
 import uielements.Checkbox;
 import uielements.Dragger;
 import uielements.Text;
@@ -42,6 +43,7 @@ public class TableRowsModeUI extends UI {
 	public void loadUI(Table tab){
 		setActive();
 		this.clear();
+		titleBar.setText("Table rows mode: "+tab.getName());
 		loadUIAttributes();
 		
 		int cellWidth = 100;
@@ -62,6 +64,7 @@ public class TableRowsModeUI extends UI {
 			
 			//Updating legend:
 			ArrayList<String> columnNames = getTablr().getColumnNames(tab);
+			//Column added
 			if (legend.getElements().stream().filter(e -> !(e instanceof Dragger)).count() < columnNames.size()){
 				Text text = new Text(legend.getEndX(),legend.getY(),cellWidth,20,columnNames.get(columnNames.size()-1));
 				Dragger drag = new Dragger(text.getEndX()-2,legend.getY(),4,20);
@@ -73,6 +76,7 @@ public class TableRowsModeUI extends UI {
 				legend.addElement(drag);
 				legend.setWidth(legend.getElements().stream().mapToInt(e -> e.getWidth()).sum());
 			}
+			//Column deleted
 			else if (legend.getElements().stream().filter(e -> !(e instanceof Dragger)).count() > columnNames.size()){
 				ArrayList<String> legendNames = new ArrayList(legend.getElements().stream().filter(e -> !(e instanceof Dragger)).map(e -> ((Text) e).getText()).collect(Collectors.toList()));
 				legendNames.removeAll(columnNames);
@@ -85,6 +89,7 @@ public class TableRowsModeUI extends UI {
 					}
 				}
 			}
+			//Update columnnames
 			else {
 				for (int i=0;i<columnNames.size();i++) {
 					((Text) legend.getElements().get(2*i)).setText(columnNames.get(i));
@@ -100,7 +105,7 @@ public class TableRowsModeUI extends UI {
 	}
 	
 	private UIRow loadLegend(Table tab,int cellWidth){
-		UIRow legend = new UIRow(getX()+edgeW,titleBar.getEndY(),getWidth(), 30, new ArrayList<UIElement>());		
+		UIRow legend = new UIRow(getX()+edgeW,titleBar.getEndY(),getWidth(), 20, new ArrayList<UIElement>());		
 		int a = 0;
 		int margin = 20;
 		for(String name: getTablr().getColumnNames(tab)) {
@@ -137,7 +142,7 @@ public class TableRowsModeUI extends UI {
 	private UITable loadTable(Table tab, UIRow legend){
 		//Creating legend with all column names:
 		int amountOfColumns = getTablr().getColumns(tab).size();
-		int cellHeight = 20;
+		int cellHeight = 35;
 			
 		UITable uiTable = new UITable(getX()+edgeW, titleBar.getEndY(),getWidth()-2*edgeW, getHeight()-2*edgeW-titleBar.getHeight(), legend, new ArrayList<UIRow>());
 		
@@ -152,7 +157,9 @@ public class TableRowsModeUI extends UI {
 			for(Column col : getTablr().getColumns(tab)){
 				String val = getTablr().getValueString(col,i);
 				if(getTablr().getColumnType(col).equals(Type.BOOLEAN)){
-					Checkbox booleanValue = new Checkbox(x + (int)(widths[a]/2) - 10,y+(int)(cellHeight/2)-10,20,20, (Boolean) tablr.getValue(col,i));
+					Checkbox booleanValue;
+					booleanValue = new Checkbox(x + (int)(widths[a]/2) - 10,y+(int)(cellHeight/2)-10,20,20, BooleanCaster.cast(tablr.getValueString(col,i)));
+
 					emts.add(new VoidElement(x,y,widths[a], cellHeight, Color.white));
 					emts.add(booleanValue);
 					

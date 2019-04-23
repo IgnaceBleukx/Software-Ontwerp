@@ -14,12 +14,22 @@ public class VerticalScrollBar extends ScrollBar{
 
 	public VerticalScrollBar(int x, int y, int w, int h) {
 		super(x, y, w, h);
-		margin1 = new Button(getX(), getY(), getWidth(),0,"/\\");
-		margin2 = new Button(getX(), getY()+getHeight(),getWidth(), 0,"\\/");
+		margin1 = new Button(getX(), getY(), getWidth(),0,"");
+		margin2 = new Button(getX(), getY()+getHeight(),getWidth(), 0,"");
 		
 		//Adding listeners
-		margin1.addSingleClickListener(() -> this.scroll(-20));
-		margin2.addSingleClickListener(() -> this.scroll(20));
+		margin1.addSingleClickListener(() -> {
+			int delta = -20;
+			if (!isValidDelta(delta))
+				delta = -margin1.getHeight();
+			this.scroll(delta);
+			});
+		margin2.addSingleClickListener(() -> {
+			int delta = 20;
+			if (!isValidDelta(delta))
+				delta = margin2.getHeight();
+			this.scroll(delta);
+		});
 	}
 
 	public void update(int elementsHeight, int windowHeight) {
@@ -53,7 +63,7 @@ public class VerticalScrollBar extends ScrollBar{
 		if (!isValidDelta (delta))
 			return;
 		margin1.resizeB(delta);
-		margin2.resizeT(-delta);
+		margin2.resizeT(delta);
 		scrollBar.move(0, delta);
 		scrollListeners.stream().forEach(l -> l.accept(rounder.round((double )delta*this.getHeight()/scrollBar.getHeight())));
 	}
@@ -73,6 +83,7 @@ public class VerticalScrollBar extends ScrollBar{
 	@Override
 	public void resizeB(int deltaY){
 		this.setHeight(getHeight()+deltaY);
+	
 	}
 
 	@Override

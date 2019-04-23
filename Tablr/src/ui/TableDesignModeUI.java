@@ -35,6 +35,7 @@ public class TableDesignModeUI extends UI {
 		setActive();
 		this.clear();
 		loadUIAttributes();
+		titleBar.setText("Table design mode: "+table.getName());
 		int currentHeight = getY()+titleHeight+edgeW;
 				
 		int namePosX = getX() + margin + edgeW;
@@ -296,7 +297,8 @@ public class TableDesignModeUI extends UI {
 			
 			
 			
-			ArrayList<UIElement> elmts = new ArrayList<UIElement>(){{ add(colName); add(colType); add(colBlankPol);}};
+			ArrayList<UIElement> elmts = new ArrayList<UIElement>(){
+				{ add(colName); add(colType); add(colBlankPol);}};
 			if(tablr.getColumnType(col) == Type.BOOLEAN){				
 				Checkbox defaultBoolean = new Checkbox(defPosX + defSizeX/2 - 10, currentHeight + 5,20,20,(Boolean) tablr.getDefaultValue(col));
 				elmts.add(defaultBoolean);
@@ -381,7 +383,7 @@ public class TableDesignModeUI extends UI {
 			
 			colType.addSingleClickListener(() -> {
 				if (colType.getError()){
-					System.out.println("[ListVieuw.java:250] : colType is in error");
+					System.out.println("[ListView.java:250] : colType is in error");
 					try{
 						tablr.setColumnType(col, Column.getNextType(Type.valueOf(colType.getText())));
 						colType.isNotError();

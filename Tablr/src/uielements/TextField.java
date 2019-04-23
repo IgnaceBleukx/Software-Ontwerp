@@ -92,7 +92,6 @@ public class TextField extends UIElement {
 	public void handleSingleClick() {
 
 		if (!isSelected()) {
-			//setSelected();
 			getUI().getTablr().notifyNewSelected(this);
 			this.prevText = getText();
 		}
@@ -111,7 +110,7 @@ public class TextField extends UIElement {
 				deselect();
 		}
 
-		if (keyCode == 27 &&  isSelected()) {
+		if (keyCode == 27 &&  isSelected()) { //Esc, restore
 			restoreText();
 			deselect();
 			if(getError()) isNotError();
