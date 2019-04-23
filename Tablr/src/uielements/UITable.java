@@ -26,12 +26,39 @@ public class UITable extends UIElement {
 	 * @param legend: The legendary of the table.
 	 * @param rows: The rows of the table.
 	 */
-	public UITable(int x, int y, int w, int h,UIRow legend, ArrayList<UIRow> rows) {
+	public UITable(int x, int y, int w, int h,UIRow legend, ArrayList<UIRow> newRows) {
 		super(x, y,w,h);
 		this.setLegend(legend);
 		this.addAllRows(rows);
 		scrollBarH.setUI(getUI());
 		scrollBarV.setUI(getUI());
+		updateScrollBars();
+		
+		//Adding listeners to scroll
+		scrollBarV.addPressListener((e) -> {
+			new ArrayList<>(pressListeners).stream().forEach(l -> l.accept(scrollBarV));
+		});
+		scrollBarV.addScrollListener((delta)->{
+			rows.stream().forEach(r -> r.move(0,-delta));
+		});
+		scrollBarV.addDragListener((newX,newY) ->{
+			int delta = newY - scrollBarV.getGrabPointY();
+			scrollBarV.scroll(delta);
+		});
+		
+		scrollBarH.addPressListener((e) -> {
+			new ArrayList<>(pressListeners).stream().forEach(l -> l.accept(scrollBarH));
+		});
+		scrollBarH.addScrollListener((delta) -> {
+			System.out.println("[UITable.java:53]: Rows in UITable:" + rows);
+			rows.stream().forEach(r -> r.move(-delta,0));
+			legend.move(-delta,0);
+		});
+		scrollBarH.addDragListener((newX,newY) -> {
+			int delta = newX - scrollBarH.getGrabPointX();
+			scrollBarH.scroll(delta);
+		});
+		
 	}
 
 	/**
@@ -40,7 +67,7 @@ public class UITable extends UIElement {
 	ArrayList<UIRow> rows =  new ArrayList<UIRow>();
 	
 	public ArrayList<UIRow> getRows() {
-		return rows;
+		return new ArrayList<UIRow>(rows);
 	}
 
 	/**
@@ -50,12 +77,12 @@ public class UITable extends UIElement {
 	
 	private static int scrollBarW = 10;
 	
-	VerticalScrollBar scrollBarV = new VerticalScrollBar(getEndX()-scrollBarW,getY(),scrollBarW,getHeight()-scrollBarW);
+	VerticalScrollBar scrollBarV = new VerticalScrollBar(getEndX()-scrollBarW,getY()+20,scrollBarW,getHeight()-scrollBarW-20);
 	HorizontalScrollBar scrollBarH = new HorizontalScrollBar(getX(),getEndY()-scrollBarW,getWidth()-scrollBarW,scrollBarW);
 	
 	private void updateScrollBars(){
-		scrollBarV.update(getRows().stream().mapToInt(r -> r.getHeight()).sum(),getHeight()-scrollBarW);
-		scrollBarH.update(getRows().stream().mapToInt(r -> r.getWidth()).max().orElse(getWidth()), getWidth()-scrollBarW);
+		scrollBarV.update(getRows().stream().mapToInt(r -> r.getHeight()).sum(),getHeight()-scrollBarW-20);
+		scrollBarH.update(getRows().stream().mapToInt(r -> r.getWidth()).max().orElse(legend.getWidth()), getWidth()-scrollBarW);
 	}
 	
 	/**
@@ -90,11 +117,14 @@ public class UITable extends UIElement {
 	public void paint(Graphics g) {
 		g.drawRect(getX(), getY(), getWidth(), getHeight());
 		Shape oldClip = g.getClip();
-		int[] i = GeometricUtils.intersection(getX(), getY(), getWidth(), getHeight(), oldClip.getBounds().x, 
+		int[] i = GeometricUtils.intersection(getX(), legend.getEndY(), getWidth(), getHeight()-legend.getHeight(), oldClip.getBounds().x, 
 												oldClip.getBounds().y, oldClip.getBounds().width, oldClip.getBounds().height);
 		g.setClip(new Rectangle(i[0],i[1],i[2],i[3]));
-		legend.paint(g);
 		rows.stream().forEach(r -> r.paint(g));
+		i = GeometricUtils.intersection(legend.getX(), legend.getY(), legend.getWidth(), legend.getHeight(), oldClip.getBounds().x, 
+				oldClip.getBounds().y, oldClip.getBounds().width, oldClip.getBounds().height);
+		g.setClip(new Rectangle(i[0],i[1],i[2],i[3]));
+		legend.paint(g);
 		g.setClip(oldClip);
 		if (getSelected() != null) {
 			UIElement s = this.getSelected();
@@ -126,10 +156,15 @@ public class UITable extends UIElement {
 
 		UIElement found = null;
 
+		
 		found = legend.locatedAt(x,y); //Look in legend
 		if (found != null) return found;
 
-		System.out.println("[UITable.java:91]: Rows in UITable: ");
+		found = scrollBarV.locatedAt(x, y);//Look in scrollbars
+		if (found != null) return found;
+		found = scrollBarH.locatedAt(x, y);
+		if (found != null) return found;
+		
 		rows.stream().forEach(e -> System.out.println(e));
 		for (UIRow e : rows) { //Look in rows
 			found = e.locatedAt(x,y);
@@ -181,6 +216,8 @@ public class UITable extends UIElement {
 		this.ui = ui;
 		rows.stream().forEach(r -> r.setUI(ui));
 		legend.setUI(ui);
+		scrollBarV.setUI(ui);
+		scrollBarH.setUI(ui);
 	}
 	
 	@Override
@@ -245,7 +282,6 @@ public class UITable extends UIElement {
 	@Override
 	public void resizeB(int deltaY){
 		this.setHeight(getHeight()+deltaY);
-		legend.resizeB(deltaY);
 		scrollBarV.resizeB(deltaY);
 		scrollBarH.resizeB(deltaY);
 		updateScrollBars();
@@ -258,6 +294,7 @@ public class UITable extends UIElement {
 		rows.stream().forEach(r -> r.move(0, deltaY));
 		scrollBarV.resizeT(deltaY);
 		scrollBarH.resizeT(deltaY);
+		updateScrollBars();
 	}
 	
 	@Override
