@@ -276,8 +276,7 @@ public class WindowManager {
 		getAllElements().stream().forEach(e -> e.selectElement(newElement));
 	}
 
-	public void tableResized(TableDesignModeUI tableDesignModeUI, int delta,
-			int i) {
+	public void tableResized(TableDesignModeUI tableDesignModeUI, int delta, int i) {
 		tableDesignModeUIs.values().stream().filter((tdui) -> !tdui.equals(tableDesignModeUI)).forEach((tdui) -> 
 		tdui.resizeR(delta, i));
 	}

@@ -32,11 +32,14 @@ public class VerticalScrollBar extends ScrollBar{
 		});
 	}
 
-	public void update(int elementsHeight, int windowHeight) {
-		this.setHeight(windowHeight);
-		if (elementsHeight <= windowHeight) { 
+	@Override
+	public void update(int elementsStartY,int elementsEndY, int windowStartY, int windowEndY) {
+		int outsideTop = elementsStartY < windowStartY ? windowStartY - elementsStartY : 0;
+		int outsideBot = elementsEndY > windowEndY ? elementsEndY - windowEndY : 0;
+		if (elementsEndY - elementsStartY <= windowEndY - windowStartY) {
 			this.disable();
-			scrollBar.setHeight(windowHeight);
+			scrollBar.setHeight(windowEndY - windowStartY);
+			scrollBar.setY(getY());
 			margin1.setY(getY());
 			margin1.setHeight(0);
 			margin2.setY(getEndY());
@@ -44,12 +47,36 @@ public class VerticalScrollBar extends ScrollBar{
 		}
 		else {
 			this.enable();
-			int newSize = elementsHeight > 0 ? windowHeight * windowHeight / elementsHeight : windowHeight;
-			int distance = scrollBar.getHeight() - newSize;
-			scrollBar.setHeight(newSize);
-			margin1.setHeight(0);
-			margin2.setY(scrollBar.getEndY());
-			margin2.setHeight(getEndY()-margin2.getY());
+			int elementsHeight = elementsEndY - elementsStartY;
+			int windowHeight = windowEndY - windowStartY;
+			int margin1Height = outsideTop * windowHeight / elementsHeight;
+			int margin2Height = outsideBot * windowHeight / elementsHeight;
+			margin1.setHeight(margin1Height);
+			margin2.setHeight(margin2Height);
+			margin2.setY(getEndY() - margin2.getHeight());
+			scrollBar.setY(margin1.getEndY());
+			scrollBar.setHeight(margin2.getY() - margin1.getEndY());
+			System.out.println(margin1);
+			System.out.println(margin2);
+			System.out.println(scrollBar);
+		}
+		
+	}
+	
+	private void swell(Button scrollBar,int amount) {
+		if (scrollBar.getY() - amount/2 < this.getY() && scrollBar.getEndY() + amount/2 > this.getEndY()) {
+			scrollBar.setY(getY());
+			scrollBar.setHeight(getHeight());
+		}
+		 if (scrollBar.getY() - amount/2 < this.getY()) {
+			int swellTop = scrollBar.getY() - this.getY();
+			scrollBar.resizeT(swellTop);
+			scrollBar.resizeB(amount-swellTop);
+		}
+		else if (scrollBar.getEndY() + amount/2 > this.getEndY()) {
+			int swellBottom = getEndY() - scrollBar.getEndY();
+			scrollBar.resizeB(swellBottom);
+			scrollBar.resizeT(amount - swellBottom);
 		}
 	}
 	
@@ -65,7 +92,8 @@ public class VerticalScrollBar extends ScrollBar{
 		margin1.resizeB(delta);
 		margin2.resizeT(delta);
 		scrollBar.move(0, delta);
-		scrollListeners.stream().forEach(l -> l.accept(rounder.round((double )delta*this.getHeight()/scrollBar.getHeight())));
+		int scrollAmount = rounder.round((double )delta*this.getHeight()/scrollBar.getHeight());
+		scrollListeners.stream().forEach(l -> l.accept(scrollAmount));
 	}
 	
 	@Override

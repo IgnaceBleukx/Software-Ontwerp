@@ -5,7 +5,6 @@ import java.util.ArrayList;
 import Utils.BooleanCaster;
 import exceptions.InvalidNameException;
 import exceptions.InvalidTypeException;
-import facades.Tablr;
 
 
 public class Column {

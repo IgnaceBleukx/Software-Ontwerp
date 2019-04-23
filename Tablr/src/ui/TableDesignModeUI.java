@@ -345,6 +345,7 @@ public class TableDesignModeUI extends UI {
 					tablr.removeColumn(table, i); //2 scrollbars waar we geen rekening mee moeten houden
 				}
 			});
+			colName.addSingleClickListener(() -> colName.select());
 			
 			colName.addKeyboardListener(-1,() -> {	
 				if (colName.getText().length() == 0) {

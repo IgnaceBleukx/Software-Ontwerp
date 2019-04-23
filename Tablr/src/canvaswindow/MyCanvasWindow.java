@@ -114,11 +114,11 @@ public class MyCanvasWindow extends CanvasWindow {
 		//Mouse dragged
 		else if (id == MouseEvent.MOUSE_DRAGGED) {
 			System.out.println("[MyCanvasWindow.java:88]: Mouse Dragged!");
-			dragCounter++;
 			try{
 				System.out.println("[MyCanvasWindow.java:119]: Dragging : " + getTablr().getSelectedUI().getDragging());
-				getTablr().getSelectedUI().getDragging().handleDrag(x, y);
-				getTablr().getSelectedUI().getDragging().handlePressed(x, y);
+				UIElement draggingItem = getTablr().getSelectedUI().getDragging();
+				draggingItem.handleDrag(x, y);
+				draggingItem.handlePressed(x, y);
 			}catch (NullPointerException e){}
 		}
 		
@@ -137,7 +137,6 @@ public class MyCanvasWindow extends CanvasWindow {
 	// Date that keeps track of the last time a 'Ctrl' button is clicked
 	private Date ctrlTimestamp = null;
 	private int milliSecondsWaiting = 1000;
-	private int dragCounter = 0;
 
 	private void checkCtrlT(int keyCode) {
 		// 17 is Ctrl

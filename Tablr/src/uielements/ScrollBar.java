@@ -32,7 +32,7 @@ public abstract class ScrollBar extends UIElement{
 	 * @param elementsSize 	The Size of the elements to scroll trough.
 	 * @param windowSize	The Size of the viewable window.
 	 */
-	public abstract void update(int elementsSize, int windowSize);
+	public abstract void update(int elementsStart, int elementsEnd,int windowStart, int windowEnd);
 	
 	public abstract void scroll(int delta);
 	
@@ -60,10 +60,15 @@ public abstract class ScrollBar extends UIElement{
 		active = false;
 	}
 	
+	public Button getScrollBar() {
+		return this.scrollBar;
+	}
+	
 	@Override
 	public void setGrabPointX(int x){
 		scrollBar.setGrabPointX(x);
 	}
+	
 	@Override
 	public void setGrabPointY(int y){
 		scrollBar.setGrabPointY(y);
@@ -76,7 +81,6 @@ public abstract class ScrollBar extends UIElement{
 	
 	@Override
 	public int getGrabPointY() {
-		System.out.println("[ScrollBar.java:71]: GrabpointY = " + scrollBar.getGrabPointY());
 		return scrollBar.getGrabPointY();
 	}
 
@@ -102,7 +106,7 @@ public abstract class ScrollBar extends UIElement{
 			return;
 		new HashMap<Integer, ArrayList<Runnable>>(keyboardListeners).get(keyCode).stream().forEach(l -> l.run());
 	}
-
+	
 	@Override
 	public void paint(Graphics g) {
 		if (isActive()) {

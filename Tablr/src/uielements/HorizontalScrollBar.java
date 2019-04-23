@@ -34,10 +34,34 @@ public class HorizontalScrollBar extends ScrollBar {
 		});
 	}
 	
+	@Override
+	public void update(int elementsStartX,int elementsEndX, int windowStartX, int windowEndX) {
+		int outsideLeft = elementsStartX < windowStartX ? windowStartX - elementsStartX : 0;
+		int outsideRight = elementsEndX > windowEndX ? elementsEndX - windowEndX : 0;
+		if (elementsEndX - elementsStartX <= windowEndX - windowStartX) {
+			this.disable();
+			scrollBar.setWidth(windowEndX - windowStartX);
+			scrollBar.setX(getX());
+			margin1.setX(getX());
+			margin1.setHeight(0);
+			margin2.setX(getEndX());
+			margin2.setHeight(0);
+		}
+		else {
+			this.enable();
+			int elementsWidth = elementsEndX - elementsStartX;
+			int windowWidth = windowEndX - windowStartX;
+			margin1.setWidth(outsideLeft * windowWidth / elementsWidth);
+			margin2.setWidth(outsideRight * windowWidth / elementsWidth);
+			margin2.setX(getEndX() - margin2.getWidth());
+			scrollBar.setX(margin1.getEndX());
+			scrollBar.setWidth(margin2.getX() - margin1.getEndX());
+		}
+	}
+	
 	/**
 	 * Changes the size of the scrollbar to match the subwindow's contents.
 	 */
-	@Override
 	public void update(int elementsWidth, int windowWidth) {
 		this.setWidth(windowWidth);
 		if (elementsWidth <= windowWidth) { 
@@ -69,7 +93,8 @@ public class HorizontalScrollBar extends ScrollBar {
 		margin1.resizeR(delta);
 		margin2.resizeL(delta);
 		scrollBar.move(delta, 0);
-		scrollListeners.stream().forEach(r -> r.accept(delta));
+		int scrollAmount = rounder.round((double )delta*this.getWidth()/scrollBar.getWidth());
+		scrollListeners.stream().forEach(r -> r.accept(scrollAmount));
 	}
 	
 	/**

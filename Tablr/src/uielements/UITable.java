@@ -4,6 +4,7 @@ import java.awt.Graphics;
 import java.awt.Rectangle;
 import java.awt.Shape;
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.HashMap;
 import java.util.function.BiConsumer;
 
@@ -44,6 +45,8 @@ public class UITable extends UIElement {
 		scrollBarV.addDragListener((newX,newY) ->{
 			int delta = newY - scrollBarV.getGrabPointY();
 			scrollBarV.scroll(delta);
+			scrollBarV.setGrabPointX(newX);
+			scrollBarV.setGrabPointY(newY);
 		});
 		
 		scrollBarH.addPressListener((e) -> {
@@ -57,6 +60,8 @@ public class UITable extends UIElement {
 		scrollBarH.addDragListener((newX,newY) -> {
 			int delta = newX - scrollBarH.getGrabPointX();
 			scrollBarH.scroll(delta);
+			scrollBarH.setGrabPointX(newX);
+			scrollBarV.setGrabPointY(newY);
 		});
 		
 	}
@@ -81,8 +86,14 @@ public class UITable extends UIElement {
 	HorizontalScrollBar scrollBarH = new HorizontalScrollBar(getX(),getEndY()-scrollBarW,getWidth()-scrollBarW,scrollBarW);
 	
 	private void updateScrollBars(){
-		scrollBarV.update(getRows().stream().mapToInt(r -> r.getHeight()).sum(),getHeight()-scrollBarW-20);
-		scrollBarH.update(getRows().stream().mapToInt(r -> r.getWidth()).max().orElse(legend.getWidth()), getWidth()-scrollBarW);
+		int elementsStartY = rows.stream().mapToInt(e -> e.getY()).sorted().findFirst().orElse(legend.getEndY());
+		int elementsEndY = rows.stream().map(e -> e.getEndY()).sorted(Comparator.reverseOrder()).findFirst().orElse(getEndY());
+		
+		int elementsStartX = rows.stream().mapToInt(e -> e.getX()).sorted().findFirst().orElse(legend.getX());
+		int elementsEndX = rows.stream().map(e -> e.getEndX()).sorted(Comparator.reverseOrder()).findFirst().orElse(legend.getEndX());
+
+		scrollBarV.update(elementsStartY, elementsEndY,legend.getEndY(),getEndY()-scrollBarW);
+		scrollBarH.update(elementsStartX, elementsEndX,getX(),getEndX()-scrollBarW);
 	}
 	
 	/**
@@ -274,6 +285,17 @@ public class UITable extends UIElement {
 	}
 	@Override
 	public void resizeR(int deltaX){
+		UIElement border = null;
+		for (UIRow r : rows) {
+			if (r.getX() < this.getX()) {
+				border = r;
+				break;
+			}
+		}
+		if (border != null) {
+			rows.stream().forEach(r -> r.move(deltaX, 0));
+			legend.move(deltaX,0);
+		}
 		this.setWidth(getWidth()+deltaX);
 		scrollBarV.resizeR(deltaX);
 		scrollBarH.resizeR(deltaX);
@@ -281,6 +303,16 @@ public class UITable extends UIElement {
 	}
 	@Override
 	public void resizeB(int deltaY){
+		UIElement border = null;
+		for (UIRow r :  rows) {
+			if (r.getY() < legend.getEndY()) {
+				border = r;
+				break;
+			}
+		}
+		if (border != null) {
+			rows.stream().forEach(r -> r.move(0, deltaY));
+		}
 		this.setHeight(getHeight()+deltaY);
 		scrollBarV.resizeB(deltaY);
 		scrollBarH.resizeB(deltaY);

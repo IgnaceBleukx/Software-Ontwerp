@@ -5,6 +5,7 @@ import java.awt.Graphics;
 import java.awt.Rectangle;
 import java.awt.Shape;
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.HashMap;
 import java.util.function.BiConsumer;
 import Utils.GeometricUtils;
@@ -28,7 +29,7 @@ public class ListView extends UIElement {
 		this.elements = elements;
 		elements.add(scrollBarV);
 		elements.add(scrollBarH);
-		updateScrollBar();
+		updateScrollBars();
 		
 		//Adding listeners to scroll
 		scrollBarV.addPressListener((e) -> {
@@ -42,6 +43,8 @@ public class ListView extends UIElement {
 		scrollBarV.addDragListener((newX,newY) -> {
 			int delta = newY - scrollBarV.getGrabPointY();
 			scrollBarV.scroll(delta);
+			scrollBarV.setGrabPointX(newX);
+			scrollBarV.setGrabPointY(newY);
 		});
 		
 		
@@ -56,6 +59,8 @@ public class ListView extends UIElement {
 		scrollBarH.addDragListener((newX,newY) -> {
 			int delta = newX - scrollBarH.getGrabPointX();
 			scrollBarH.scroll(delta);
+			scrollBarH.setGrabPointX(newX);
+			scrollBarH.setGrabPointY(newY);
 		});
 	}
 	
@@ -81,9 +86,16 @@ public class ListView extends UIElement {
 	/**
 	 * Updates the horizontal and vertical scrollbars.
 	 */
-	public void updateScrollBar() {
-		scrollBarV.update(elements.stream().filter(e -> !(e instanceof ScrollBar)).mapToInt(e -> e.getHeight()).sum(), this.getHeight()-scrollbarW);
-		scrollBarH.update(elements.stream().filter(e -> !(e instanceof ScrollBar)).mapToInt(e -> e.getWidth()).max().orElse(getWidth()-scrollbarW), this.getWidth()-scrollbarW);
+	public void updateScrollBars() {
+		ArrayList<UIElement> elementsCopy = new ArrayList<UIElement>(elements);
+		int elementsStartY = elementsCopy.stream().filter(e -> !(e instanceof ScrollBar)).mapToInt(e -> e.getY()).sorted().findFirst().orElse(getY());
+		int elementsEndY = elementsCopy.stream().filter(e -> !(e instanceof ScrollBar)).map(e -> e.getEndY()).sorted(Comparator.reverseOrder()).findFirst().orElse(getEndY());
+		
+		int elementsStartX = elementsCopy.stream().filter(e -> !(e instanceof ScrollBar)).mapToInt(e -> e.getX()).sorted().findFirst().orElse(getX());
+		int elementsEndX = elementsCopy.stream().filter(e -> !(e instanceof ScrollBar)).map(e -> e.getEndX()).sorted(Comparator.reverseOrder()).findFirst().orElse(getEndX());
+
+		scrollBarV.update(elementsStartY, elementsEndY,getY(),getEndY()-scrollbarW);
+		scrollBarH.update(elementsStartX, elementsEndX,getX(),getEndX()-scrollbarW);
 	}
 	
 	/**
@@ -93,7 +105,7 @@ public class ListView extends UIElement {
 	public void addElement(UIElement e){
 		this.elements.add(e);
 		e.setUI(getUI());
-		updateScrollBar();
+		updateScrollBars();
 	}
 	
 	/**
@@ -102,7 +114,7 @@ public class ListView extends UIElement {
 	 */
 	public void removeElement(UIElement e){
 		this.elements.remove(e);
-		updateScrollBar();
+		updateScrollBars();
 	}
 	
 	/**
@@ -207,6 +219,21 @@ public class ListView extends UIElement {
 	}
 	
 	/**
+	 * Handles selection of a new UIElement, passing the message to all its elements.
+	 */
+	@Override
+	public void selectElement(UIElement e) {
+		if (e==this) 
+			select();
+		else
+			deselect();
+
+		for (UIElement el : elements) {
+			el.selectElement(e);
+		}
+	}
+	
+	/**
 	 * Sets the UI this ListView belongs to.
 	 * @param ui	The UI
 	 */
@@ -254,7 +281,7 @@ public class ListView extends UIElement {
 		setWidth(getWidth()- deltaW);
 		setX(getX()+deltaW);
 		getElements().stream().forEach(e -> e.resizeL(deltaW));
-		updateScrollBar();
+		updateScrollBars();
 	}
 	
 	/**
@@ -265,7 +292,7 @@ public class ListView extends UIElement {
 	public void resizeR(int deltaW){
 		setWidth(getWidth() + deltaW);
 		getElements().stream().forEach(e -> e.resizeR(deltaW));
-		updateScrollBar();
+		updateScrollBars();
 	}
 	
 	/**
@@ -276,10 +303,18 @@ public class ListView extends UIElement {
 	public void resizeT(int deltaH){
 		this.setHeight(getHeight() - deltaH);
 		this.setY(getY()+deltaH);
-		getElements().stream().filter(e -> !(e instanceof ScrollBar)).forEach(e -> e.move(0, deltaH));
+		UIElement border = null;
+		for (UIElement e : elements) {
+			if (!(e instanceof ScrollBar) && e.getY() < this.getY()) {
+				border = e;
+				break;
+			}
+		}
+		if (deltaH > 0 || (deltaH < 0 && border == null))
+			getElements().stream().filter(e -> !(e instanceof ScrollBar)).forEach(e -> e.move(0, deltaH));
 		scrollBarH.resizeT(deltaH);
 		scrollBarV.resizeT(deltaH);
-		updateScrollBar();
+		updateScrollBars();
 	}
 	
 	/**
@@ -303,7 +338,7 @@ public class ListView extends UIElement {
 		}
 		scrollBarH.resizeB(deltaH);
 		scrollBarV.resizeB(deltaH);
-		updateScrollBar();
+		updateScrollBars();
 	}
 	
 	@Override
