@@ -43,6 +43,7 @@ public class TableRowsModeUI extends UI {
 	public void loadUI(Table tab){
 		setActive();
 		this.clear();
+		titleBar.setText("Table rows mode: "+tab.getName());
 		loadUIAttributes();
 		
 		int cellWidth = 100;
