@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
+import Utils.BooleanCaster;
 import uielements.Checkbox;
 import uielements.Dragger;
 import uielements.Text;
@@ -152,7 +153,9 @@ public class TableRowsModeUI extends UI {
 			for(Column col : getTablr().getColumns(tab)){
 				String val = getTablr().getValueString(col,i);
 				if(getTablr().getColumnType(col).equals(Type.BOOLEAN)){
-					Checkbox booleanValue = new Checkbox(x + (int)(widths[a]/2) - 10,y+(int)(cellHeight/2)-10,20,20, (Boolean) tablr.getValue(col,i));
+					Checkbox booleanValue;
+					booleanValue = new Checkbox(x + (int)(widths[a]/2) - 10,y+(int)(cellHeight/2)-10,20,20, BooleanCaster.cast(tablr.getValueString(col,i)));
+
 					emts.add(new VoidElement(x,y,widths[a], cellHeight, Color.white));
 					emts.add(booleanValue);
 					
