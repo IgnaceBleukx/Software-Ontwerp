@@ -239,7 +239,7 @@ public class TableDesignModeUI extends UI {
 			
 			colType.addSingleClickListener(() -> {
 				if (colType.getError()){
-					System.out.println("[ListVieuw.java:250] : colType is in error");
+					System.out.println("[ListView.java:250] : colType is in error");
 					try{
 						tablr.setColumnType(col, Column.getNextType(Type.valueOf(colType.getText())));
 						colType.isNotError();

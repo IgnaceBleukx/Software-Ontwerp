@@ -30,7 +30,7 @@ public class ListView extends UIElement {
 		elements.add(scrollBarH);
 		updateScrollBar();
 		
-		//add listeners
+		//Adding listeners to scroll
 		scrollBarV.addPressListener((e) -> {
 			new ArrayList<>(pressListeners).stream().forEach(l -> l.accept(scrollBarV));
 		});
@@ -54,11 +54,9 @@ public class ListView extends UIElement {
 		});
 		
 		scrollBarH.addDragListener((newX,newY) -> {
-			int delta = newY - scrollBarH.getGrabPointY();
+			int delta = newX - scrollBarH.getGrabPointX();
 			scrollBarH.scroll(delta);
 		});
-		
-		
 	}
 	
 	/**

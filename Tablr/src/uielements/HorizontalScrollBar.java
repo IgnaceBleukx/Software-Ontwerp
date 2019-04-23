@@ -18,6 +18,20 @@ public class HorizontalScrollBar extends ScrollBar {
 		margin1.setUI(getUI());
 		margin2.setUI(getUI());
 		scrollBar.setUI(getUI());
+		
+		//Adding listeners to scroll
+		margin1.addSingleClickListener(() -> {
+			int delta = -20;
+			if (!isValidDelta(delta))
+				delta = -margin1.getWidth();
+			this.scroll(delta);
+		});
+		margin2.addSingleClickListener(()->{
+			int delta = 20;
+			if (!isValidDelta(delta))
+				delta = margin2.getWidth();
+			this.scroll(delta);
+		});
 	}
 	
 	/**
@@ -37,10 +51,12 @@ public class HorizontalScrollBar extends ScrollBar {
 		else {
 			this.enable();
 			int newSize = elementsWidth > 0 ? windowWidth * windowWidth / elementsWidth : windowWidth;
-			int distance = scrollBar.getWidth() - newSize;
-			margin1.resizeR(distance);
-			margin2.resizeL(distance);
 			scrollBar.setWidth(newSize);
+			scrollBar.setX(getX());
+			margin1.setX(getX());
+			margin1.setWidth(0);
+			margin2.setX(scrollBar.getEndX());
+			margin2.setWidth(this.getEndX() - margin2.getX());
 		}
 	}
 	
@@ -49,9 +65,11 @@ public class HorizontalScrollBar extends ScrollBar {
 	 */
 	@Override
 	public void scroll(int delta) {
+		if (!isValidDelta(delta)) return;
 		margin1.resizeR(delta);
 		margin2.resizeL(delta);
 		scrollBar.move(delta, 0);
+		scrollListeners.stream().forEach(r -> r.accept(delta));
 	}
 	
 	/**
