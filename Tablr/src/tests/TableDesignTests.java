@@ -211,34 +211,34 @@ public class TableDesignTests {
 		 * Extension 1c
 		 */
 	    //Setting the default value to "true"
-		myCW.handleMouseEvent(0,500,60,1);
+		myCW.handleMouseEvent(MouseEvent.MOUSE_CLICKED,550,50,1);
 		d = "true";
 		for (int i=0;i<d.length();i++) myCW.handleKeyEvent(0,0,d.charAt(i));
 		//Changing the type to BOOLEAN:
-		myCW.handleMouseEvent(0,300,50,1);		
-		myCW.handleMouseEvent(0,300,50,1);
+		myCW.handleMouseEvent(MouseEvent.MOUSE_CLICKED,450,50,1);	
+		myCW.handleMouseEvent(MouseEvent.MOUSE_CLICKED,450,50,1);
 		//The type is BOOLEAN, so the default value is represented in a checkbox
-		assertTrue(tablr.getActiveUI().locatedAt(490,50) instanceof Checkbox);
+		assertTrue(tablr.getUIAt(560, 50).locatedAt(560,50) instanceof Checkbox);
 		assertEquals(true, tablr.getDefaultValue(tablr.getColumns(tablr.getActiveTable()).get(0)));
 		//Step1: The user clicks the default value for some column:
-		myCW.handleMouseEvent(0, 490,50,1);
-		//The default value was true, it becomes false:"
+		myCW.handleMouseEvent(MouseEvent.MOUSE_CLICKED, 560,50,1);
+		//The default value was true, it becomes false:
 		assertEquals(false, tablr.getDefaultValue(tablr.getColumns(tablr.getActiveTable()).get(0)));
 		//The user clicks the checkbox again, the default value becomes blank:
-		myCW.handleMouseEvent(0, 490,50,1);
+		myCW.handleMouseEvent(MouseEvent.MOUSE_CLICKED, 560,50,1);
 		assertEquals(null, tablr.getDefaultValue(tablr.getColumns(tablr.getActiveTable()).get(0)));
 		assertEquals("", tablr.getDefaultString(tablr.getColumns(tablr.getActiveTable()).get(0)));
 		//The default value is blank and the type is boolean, the checkbox is greyed out:
-		assertTrue(((Checkbox) tablr.getActiveUI().locatedAt(490,50)).getGreyedOut());
+		assertEquals(null, ((Checkbox) tablr.getUIAt(560, 50).locatedAt(560,50)).getValue());
 		//The user clicks the checkbox again, the default value becomes true:
-		myCW.handleMouseEvent(0, 490,50,1);
+		myCW.handleMouseEvent(MouseEvent.MOUSE_CLICKED, 560,50,1);
 		assertEquals(true, tablr.getDefaultValue(tablr.getColumns(tablr.getActiveTable()).get(0)));
 		//The user clicks the checkbox, indicating the blanking policy of the column:
-		myCW.handleMouseEvent(0,400, 50,1);
+		myCW.handleMouseEvent(MouseEvent.MOUSE_CLICKED, 560,50,1);
 		assertFalse(tablr.getBlankingPolicy(tablr.getColumns(tablr.getActiveTable()).get(0)));
 
 		//The user clicks the default value checkbox
-		myCW.handleMouseEvent(0, 490,50,1);
+		myCW.handleMouseEvent(MouseEvent.MOUSE_CLICKED, 560,50,1);
 		//The default value was true, it becomes false:
 		assertEquals(false, tablr.getDefaultValue(tablr.getColumns(tablr.getActiveTable()).get(0)));
 		//The user clicks the default value checkbox again:
