@@ -83,6 +83,7 @@ public class VerticalScrollBar extends ScrollBar{
 	@Override
 	public void resizeB(int deltaY){
 		this.setHeight(getHeight()+deltaY);
+	
 	}
 
 	@Override

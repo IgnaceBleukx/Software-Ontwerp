@@ -187,8 +187,6 @@ public abstract class UIElement {
 	
 	public abstract void handleKeyboardEvent(int keyCode, char keyChar);
 	
-	
-	
 	/**
 	 * constructor: x and y being the coordinates of the new element, w and h the dimensions
 	 * @param x: The x position of the left top corner of the Table.
@@ -277,9 +275,6 @@ public abstract class UIElement {
 	 */
 	public abstract void paint(Graphics g);
 
-	public void paintVerticalOffset(Graphics g, int offset) {
-	}
-	
 	/**
 	 * Draws text centered in the UIElement.
 	 * @param g		Graphics object
