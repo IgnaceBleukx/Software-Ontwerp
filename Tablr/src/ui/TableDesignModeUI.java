@@ -1,6 +1,7 @@
 package ui;
 
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
 
 import uielements.Checkbox;
@@ -70,7 +71,147 @@ public class TableDesignModeUI extends UI {
 				add(blank);
 				add(def);
 			}}
-		));		
+		));
+		
+		this.addUIElement(legend);
+		
+		ListView list = loadColumnAttributes(table);
+		this.addUIElement(list);
+		
+		nameDragger.addDragListener((newX,newY) -> { 
+			int delta = newX - nameDragger.getGrabPointX();
+			if (name.getWidth() + delta < 15){
+				int deltaFinal = 15 - name.getWidth();
+				System.out.println("mjildjilmqlsdifj" + deltaFinal );
+				legend.resizeElementR(deltaFinal, 0);
+				getListView().getElements().stream().filter(e -> e instanceof UIRow).forEach(r -> ((UIRow) r).resizeElementR(deltaFinal, 0));
+				tablr.tableResized(this, deltaFinal, 0);
+				
+			}
+			else{
+				int deltaFinal = delta;
+				legend.resizeElementR(deltaFinal, 0);
+				getListView().getElements().stream().filter(e -> e instanceof UIRow).forEach(r -> ((UIRow) r).resizeElementR(deltaFinal, 0));
+				tablr.tableResized(this, deltaFinal, 0);
+			}
+		});
+		
+		typeDragger.addDragListener((newX,newY) -> { 
+			int delta = newX - typeDragger.getGrabPointX();
+			if (type.getWidth() + delta < 15){
+				int deltaFinal = 15 - type.getWidth();
+				legend.resizeElementR(deltaFinal, 2);
+				getListView().getElements().stream().filter(e -> e instanceof UIRow).forEach(r -> ((UIRow) r).resizeElementR(deltaFinal, 1));
+				tablr.tableResized(this, deltaFinal, 1);
+				
+			}
+			else{
+				int deltaFinal = delta;
+				legend.resizeElementR(deltaFinal, 2);
+				getListView().getElements().stream().filter(e -> e instanceof UIRow).forEach(r -> ((UIRow) r).resizeElementR(deltaFinal, 1));
+				tablr.tableResized(this, deltaFinal, 1);
+			}
+		});
+		
+		blankDragger.addDragListener((newX,newY) -> { 
+			int delta = newX - blankDragger.getGrabPointX();
+			if (blank.getWidth() + delta < 24){
+				int deltaFinal = 24 - blank.getWidth();
+				legend.resizeElementR(deltaFinal, 4);
+				getListView().getElements().stream().filter(e -> e instanceof UIRow).forEach(r -> ((UIRow) r).resizeElementR(deltaFinal, 2));
+				tablr.tableResized(this, deltaFinal, 2);
+				
+			}
+			else{
+				int deltaFinal = delta;
+				legend.resizeElementR(deltaFinal, 4);
+				getListView().getElements().stream().filter(e -> e instanceof UIRow).forEach(r -> ((UIRow) r).resizeElementR(deltaFinal, 2));
+				tablr.tableResized(this, deltaFinal, 2);
+			}
+		});
+		
+		defDragger.addDragListener((newX,newY) -> { 
+			int delta = newX - defDragger.getGrabPointX();
+			if (def.getWidth() + delta < 24){
+				int deltaFinal = 24 - def.getWidth();
+				legend.resizeElementR(deltaFinal, 6);
+				getListView().getElements().stream().filter(e -> e instanceof UIRow).forEach(r -> ((UIRow) r).resizeElementR(deltaFinal, 3));
+				tablr.tableResized(this, deltaFinal, 3);
+				
+			}
+			else{
+				int deltaFinal = delta;
+				legend.resizeElementR(deltaFinal, 6);
+				getListView().getElements().stream().filter(e -> e instanceof UIRow).forEach(r -> ((UIRow) r).resizeElementR(deltaFinal, 3));
+				tablr.tableResized(this, deltaFinal, 3);
+			}
+		});
+		
+	
+		//Reload listview when domain changed
+		tablr.addDomainChangedListener(() -> {
+			Optional<UIElement> ll = getElements().stream().filter(e -> e instanceof ListView).findFirst();
+			getElements().remove(ll.orElseThrow(() -> new RuntimeException("No Listview in UI")));
+			this.addUIElement(loadColumnAttributes(table));
+			titleBar.setText("Table Design Mode: " + table.getName());
+		});
+		
+		titleBar.addKeyboardListener(17, () -> {
+			tablr.loadTableRowsModeUI(table);
+		});
+	}
+		
+	public void resizeR(int delta, int i){
+		this.getLegend().resizeElementR(delta, i*2);
+		getListView().getElements().stream().filter(e -> e instanceof UIRow).forEach(r -> ((UIRow) r).resizeElementR(delta, 3));
+	}
+	
+	/*
+	public void loadUI(Table table, int namePosXnew, int nameSizeXnew, 
+						int typePosXnew, int typeSizeXnew,
+						int blankPosXnew, int blankSizeXnew,
+						int defPosXnew, int defSizeXnew){
+		setActive();
+		this.clear();
+		loadUIAttributes();
+		int currentHeight = getY()+titleHeight+edgeW;
+				
+		int namePosX = getX() + margin + edgeW;
+		int nameSizeX = nameSizeXnew;
+		int typePosX = namePosX + nameSizeX;
+		int typeSizeX = typeSizeXnew;
+		int blankPosX = typePosX + typeSizeX;
+		int blankSizeX = blankSizeXnew;
+		int defPosX = blankPosX + blankSizeX;
+		int defSizeX = defSizeXnew;
+		
+		Text name = new Text(namePosX, currentHeight, nameSizeX, 15,"Name");
+		Dragger nameDragger = new Dragger(namePosX+nameSizeX - 2, currentHeight, 4, 15);
+		Text type = new Text(typePosX, currentHeight, typeSizeX, 15,"Type");
+		Dragger typeDragger = new Dragger(typePosX+typeSizeX - 2, currentHeight, 4, 15);
+		Text blank = new Text(blankPosX, currentHeight, blankSizeX, 15,"Blank");
+		Dragger blankDragger = new Dragger(blankPosX+blankSizeX - 2, currentHeight, 4, 15);
+		Text def = new Text(defPosX, currentHeight, defSizeX, 15,"Default");
+		Dragger defDragger = new Dragger(defPosX+defSizeX - 2, currentHeight, 4, 15);
+		
+		name.setBorder(true);
+		type.setBorder(true);
+		blank.setBorder(true);
+		def.setBorder(true);
+				
+		UIRow legend = new UIRow(namePosX,currentHeight,this.getWidth()-2*edgeW-10,15,(new ArrayList<UIElement>()
+			{{
+				add(nameDragger);
+				add(typeDragger);
+				add(blankDragger);
+				add(defDragger);
+				add(name);
+				add(type);
+				add(blank);
+				add(def);
+			}}
+		));	
+		
 		this.addUIElement(legend);
 		
 		ListView list = loadColumnAttributes(table);
@@ -112,8 +253,9 @@ public class TableDesignModeUI extends UI {
 		titleBar.addKeyboardListener(17, () -> {
 			tablr.loadTableRowsModeUI(table);
 		});
-	}	
-
+	}
+	*/
+	
 	private UIRow getLegend(){
 		Optional<UIElement> r = getElements().stream().filter(e -> e instanceof UIRow).findFirst();
 		UIRow row = (UIRow) r.orElseThrow(() -> new RuntimeException("No UIRow in UI"));

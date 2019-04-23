@@ -289,4 +289,9 @@ public class Tablr {
 		return windowManager.getTableRowsUIs();
 	}
 	
+	public void tableResized(TableDesignModeUI tableDesignModeUI, int delta,
+			int i) {
+		windowManager.tableResized(tableDesignModeUI, delta, i);
+	}
+	
 }

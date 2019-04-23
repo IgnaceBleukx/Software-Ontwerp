@@ -205,17 +205,7 @@ public class UIRow extends UIElement {
 	
 	@Override
 	public void resizeR(int deltaW){
-		//Finding the rightmost Textfield or Text element
-		ArrayList<UIElement> sortedR = new ArrayList<UIElement>(elements);
-		UIElement rightMost = null;
-		for (UIElement e : getElements()){
-			if (e instanceof TextField || e instanceof Text)
-				rightMost = e;
-		}
-		if (rightMost == null)
-				return;
-		//Resizing row
-		resizeElementR(deltaW,sortedR.indexOf(rightMost));
+		this.setWidth(getWidth()+deltaW);
 	}
 
 	public void resizeElementL(int deltaW, int index){

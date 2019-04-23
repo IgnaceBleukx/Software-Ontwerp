@@ -128,7 +128,7 @@ public class UI {
 		this.addUIElement(bottomLeft);
 		this.addUIElement(bottomRight);
 	}
-	
+
 	/**
 	 * X Coordinate
 	 */

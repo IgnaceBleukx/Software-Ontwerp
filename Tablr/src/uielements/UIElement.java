@@ -167,7 +167,7 @@ public abstract class UIElement {
 	public void addReleaseListener(Runnable f) {
 		releaseListeners.add(f);
 	}
-	
+
 	public void handlePressed(int x,int y){
 		this.beginDrag();
 		this.setGrabPointX(x);
