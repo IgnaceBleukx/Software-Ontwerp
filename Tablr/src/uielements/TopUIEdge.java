@@ -16,14 +16,6 @@ public class TopUIEdge extends UIEdge {
 	}
 
 	@Override
-	void swell(int i) {
-		if (isSwollen && i > 0) return;
-		setHeight(getHeight()+i);
-		this.move(0,-i);
-		isSwollen = true;
-	}
-
-	@Override
 	public TopUIEdge clone(){
 		return new TopUIEdge(getX(),getY(),getWidth(),getHeight());
 	}

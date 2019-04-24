@@ -27,17 +27,6 @@ public class LeftUIEdge extends UIEdge {
 	public void resizeR(int deltaW){
 		
 	}
-	
-	/**
-	 * Increases the clickbox for this UIElement to facilitate dragging.
-	 */
-	@Override
-	void swell(int i) {
-		if (isSwollen && i > 0) return;
-		this.setWidth(getWidth()+i);
-		this.move(-i,0);
-		isSwollen = true;
-	}
 
 	@Override
 	public LeftUIEdge clone(){

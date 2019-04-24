@@ -45,19 +45,6 @@ public class BottomRightUICorner extends UIEdge {
 		this.move(0,delta);
 	}
 	
-	/**
-	 * Increases the clickbox for this UIElement to facilitate dragging.
-	 */
-	@Override
-	void swell(int i) {
-		if (isSwollen && i > 0) return;
-		this.setWidth(getWidth()+i);
-		this.setHeight(getHeight()+i);
-		this.setX(getX()-i/2);
-		this.setY(getY()-i/2);
-		isSwollen = !isSwollen;
-	}
-
 	@Override
 	public BottomRightUICorner clone(){
 		return new BottomRightUICorner(getX(), getY(), getWidth(), getHeight());

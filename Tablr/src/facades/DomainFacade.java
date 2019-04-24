@@ -250,7 +250,7 @@ public class DomainFacade {
 	 * @throws ClassCastException
 	 */
 	public void setDefault(Column col, String def) throws ClassCastException {
-		System.out.println("[DomainFacade.java: 208] : Trying to set default value to : " + def);
+		System.out.println("[DomainFacade.java: 253] : Trying to set default value to : " + def);
 		col.setDefaultValue(Column.parseValue(col.getColumnType(),def));
 	}
 	

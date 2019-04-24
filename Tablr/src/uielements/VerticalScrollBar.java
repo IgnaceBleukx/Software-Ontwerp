@@ -63,23 +63,6 @@ public class VerticalScrollBar extends ScrollBar{
 		
 	}
 	
-	private void swell(Button scrollBar,int amount) {
-		if (scrollBar.getY() - amount/2 < this.getY() && scrollBar.getEndY() + amount/2 > this.getEndY()) {
-			scrollBar.setY(getY());
-			scrollBar.setHeight(getHeight());
-		}
-		 if (scrollBar.getY() - amount/2 < this.getY()) {
-			int swellTop = scrollBar.getY() - this.getY();
-			scrollBar.resizeT(swellTop);
-			scrollBar.resizeB(amount-swellTop);
-		}
-		else if (scrollBar.getEndY() + amount/2 > this.getEndY()) {
-			int swellBottom = getEndY() - scrollBar.getEndY();
-			scrollBar.resizeB(swellBottom);
-			scrollBar.resizeT(amount - swellBottom);
-		}
-	}
-	
 	@Override
 	public boolean isValidDelta(int delta) {
 		return scrollBar.getY()+delta >= getY() && scrollBar.getEndY()+delta <= getEndY();

@@ -18,6 +18,7 @@ import uielements.TopLeftUICorner;
 import uielements.TopRightUICorner;
 import uielements.TopUIEdge;
 import uielements.UIElement;
+import uielements.UIRow;
 import uielements.VoidElement;
 
 
@@ -54,43 +55,130 @@ public class UI {
 		//Adding listeners to UI attributes
 		leftResize.addDragListener((newX,newY) ->{
 			int delta = newX - leftResize.getGrabPointX();
-			this.resizeL(delta);
+			if (this.getWidth() - delta < 100){
+				int deltaFinal = -(100 - this.getWidth());
+				this.resizeL(deltaFinal);
+			}
+			else{
+				int deltaFinal = delta;
+				this.resizeL(deltaFinal);
+			}
 		});
 		rightResize.addDragListener((newX,newY) ->{
 			int delta = newX - rightResize.getGrabPointX();
-			this.resizeR(delta);
+			if (this.getWidth() + delta < 100){
+				int deltaFinal = 100 - this.getWidth();
+				this.resizeR(deltaFinal);
+			}
+			else{
+				int deltaFinal = delta;
+				this.resizeR(deltaFinal);
+			}
 		});
 		bottomResize.addDragListener((newX,newY) -> {
 			int delta = newY - bottomResize.getGrabPointY();
-			this.resizeB(delta);
+			if (this.getHeight() + delta < 100){
+				int deltaFinal = 100 - this.getHeight();
+				this.resizeB(deltaFinal);
+			}
+			else{
+				int deltaFinal = delta;
+				this.resizeB(deltaFinal);
+			}
 		});
+		
 		topResize.addDragListener((newX,newY) -> {
 			int delta = newY - topResize.getGrabPointY();
-			this.resizeT(delta);
+			if (this.getHeight() - delta < 100){
+				int deltaFinal = -(100 - this.getHeight());
+				this.resizeT(deltaFinal);
+			}
+			else{
+				int deltaFinal = delta;
+				this.resizeT(deltaFinal);
+			}
 		});
+		
+		
 		topLeft.addDragListener((newX,newY) ->{
 			int deltaX = newX - topLeft.getGrabPointX();
 			int deltaY = newY - topLeft.getGrabPointY();
-			this.resizeL(deltaX);
-			this.resizeT(deltaY);
+			if (this.getWidth() - deltaX < 100){
+				int deltaFinalX = -(100 - this.getWidth());
+				this.resizeL(deltaFinalX);
+			}
+			else{
+				int deltaFinalX = deltaX;
+				this.resizeL(deltaFinalX);
+			}
+			if (this.getHeight() - deltaY < 100){
+				int deltaFinalY = -(100 - this.getHeight());
+				this.resizeT(deltaFinalY);
+			}
+			else{
+				int deltaFinalY = deltaY;
+				this.resizeT(deltaFinalY);
+			}
 		});
 		topRight.addDragListener((newX,newY) ->{
 			int deltaX = newX - topRight.getGrabPointX();
 			int deltaY = newY - topRight.getGrabPointY();
-			this.resizeR(deltaX);
-			this.resizeT(deltaY);
+			if (this.getWidth() + deltaX < 100){
+				int deltaFinalX = 100 - this.getWidth();
+				this.resizeR(deltaFinalX);
+			}
+			else{
+				int deltaFinalX = deltaX;
+				this.resizeR(deltaFinalX);
+			}
+			if (this.getHeight() - deltaY < 100){
+				int deltaFinalY = -(100 - this.getHeight());
+				this.resizeT(deltaFinalY);
+			}
+			else{
+				int deltaFinalY = deltaY;
+				this.resizeT(deltaFinalY);
+			}
 		});
 		bottomLeft.addDragListener((newX,newY) ->{
 			int deltaX = newX - bottomLeft.getGrabPointX();
 			int deltaY = newY - bottomLeft.getGrabPointX();
-			this.resizeL(deltaX);
-			this.resizeB(deltaY);
+			if (this.getWidth() - deltaX < 100){
+				int deltaFinalX = -(100 - this.getWidth());
+				this.resizeL(deltaFinalX);
+			}
+			else{
+				int deltaFinalX = deltaX;
+				this.resizeL(deltaFinalX);
+			}
+			if (this.getHeight() + deltaY < 100){
+				int deltaFinalY = 100 - this.getHeight();
+				this.resizeB(deltaFinalY);
+			}
+			else{
+				int deltaFinalY = deltaY;
+				this.resizeB(deltaFinalY);
+			}
 		});
 		bottomRight.addDragListener((newX,newY)->{
 			int deltaX = newX - bottomRight.getGrabPointX();
 			int deltaY = newY - bottomRight.getGrabPointY();
-			this.resizeR(deltaX);
-			this.resizeB(deltaY);
+			if (this.getWidth() + deltaX < 100){
+				int deltaFinalX = 100 - this.getWidth();
+				this.resizeR(deltaFinalX);
+			}
+			else{
+				int deltaFinalX = deltaX;
+				this.resizeR(deltaFinalX);
+			}
+			if (this.getHeight() + deltaY < 100){
+				int deltaFinalY = 100 - this.getHeight();
+				this.resizeB(deltaFinalY);
+			}
+			else{
+				int deltaFinalY = deltaY;
+				this.resizeB(deltaFinalY);
+			}
 		});
 		
 		
@@ -520,9 +608,10 @@ public class UI {
 	 */
 	public void resizeT(int deltaH) {
 		int delta = getWidth() - deltaH < minHeight ? getWidth()-minHeight : deltaH;
-		setHeight(getHeight() - delta);
-		setY(getY()+delta);
-		elements.stream().forEach(e -> e.resizeT(delta));
+		int deltaFinal = getY() + delta < 0 ? getY() : delta;
+		setHeight(getHeight() - deltaFinal);
+		setY(getY()+deltaFinal);
+		elements.stream().forEach(e -> e.resizeT(deltaFinal));
 	}
 	
 	/**

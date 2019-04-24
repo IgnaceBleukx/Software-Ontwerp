@@ -23,17 +23,6 @@ public class TopRightUICorner extends UIEdge {
 	@Override
 	public void resizeB(int delta){
 	}
-	
-
-	@Override
-	void swell(int i) {
-		if (isSwollen && i > 0) return;
-		this.setWidth(getWidth()+i);
-		this.setHeight(getHeight()+i);
-		this.setX(getX()-i/2);
-		this.setY(getY()-i/2);
-		isSwollen = !isSwollen;
-	}
 
 	@Override
 	public TopRightUICorner clone(){

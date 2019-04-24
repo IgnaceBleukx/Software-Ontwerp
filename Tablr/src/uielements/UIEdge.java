@@ -18,21 +18,12 @@ public abstract class UIEdge extends UIElement {
 		this.setGrabPointX(x);
 		this.setGrabPointY(y);
 		new ArrayList<>(pressListeners).stream().forEach(l -> l.accept(this));
-		this.swell(10);
 	}
 	
 	@Override
 	public void handleReleased(){
 		this.endDrag();
-		if (isSwollen){
-			System.out.println("[UIEdge.java:27]: deswelling");
-			swell(-10);
-			isSwollen = false;
-		}
 	}
-	
-	abstract void swell(int i);
-	protected boolean isSwollen = false;
 	
 	@Override
 	public void handleDrag(int x, int y) {

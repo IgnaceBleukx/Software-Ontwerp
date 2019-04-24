@@ -27,17 +27,6 @@ public class BottomUIEdge extends UIEdge {
 	public void resizeB(int deltaH){
 		this.move(0, deltaH);
 	}
-	
-	/**
-	 * Increases the clickbox for this UIElement to facilitate dragging.
-	 */
-	@Override
-	void swell(int i) {
-		if (isSwollen && i > 0) return;
-		this.setHeight(getHeight()+i);
-		this.move(0, -i);
-		isSwollen = true;
-	}
 
 	@Override
 	public BottomUIEdge clone(){
