@@ -178,9 +178,16 @@ public class MyCanvasWindow extends CanvasWindow {
 		UI ui = tablr.getSelectedUI();
 		if(ui == null) return;
 		for (int i=0;i<ui.getElements().size();i++) {
-			UIElement e = tablr.getSelectedUI().getElements().get(i);
+			UIElement e;
+			try {
+				e = tablr.getSelectedUI().getElements().get(i);
+			} catch (IndexOutOfBoundsException e1) {
+				return;
+			}
 			e.handleKeyboardEvent(keyCode, keyChar);
-
+			
+			if (keyCode == 17)
+				tablr.controlPressed();
 			if (Character.isLetterOrDigit(keyChar) || keyCode == 8 || keyChar == '@' || keyChar == '.') {
 				e.handleKeyboardEvent(-1, Character.MIN_VALUE);
 			}

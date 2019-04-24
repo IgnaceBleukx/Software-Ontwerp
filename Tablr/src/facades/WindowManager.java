@@ -280,4 +280,25 @@ public class WindowManager {
 		tableDesignModeUIs.values().stream().filter((tdui) -> !tdui.equals(tableDesignModeUI)).forEach((tdui) -> 
 		tdui.resizeR(delta, i));
 	}
+	
+	/**
+	 * Variable holding the number of milliseconds since the epoch at the moment Ctrl was pressed.
+	 */
+	private long lastCtrl = 0;
+	
+	/**
+	 * Returns whether Ctrl has been pressed in the last second
+	 * @return	true iff the last time Ctrl was pressed is less than 1000 milliseconds ago.
+	 */
+	public boolean recentCtrl() {
+		return (System.currentTimeMillis() - lastCtrl < 1000);
+	}
+	
+	/**
+	 * Gets called by Tablr to notify the windowManager that Ctrl has been pressed.
+	 * Updates the timestamp that keeps track of the last time Ctrl was pressed.
+	 */
+	public void controlPressed() {
+		lastCtrl = System.currentTimeMillis();
+	}
 }
