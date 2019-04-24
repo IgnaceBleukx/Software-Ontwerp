@@ -205,7 +205,7 @@ public class UIRow extends UIElement {
 	
 	@Override
 	public void resizeR(int deltaW){
-		this.setWidth(getWidth()+deltaW);
+		//
 	}
 
 	public void resizeElementL(int deltaW, int index){

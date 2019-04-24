@@ -7,7 +7,9 @@ import java.util.Optional;
 import uielements.BottomUIEdge;
 import uielements.Button;
 import uielements.CloseButton;
+import uielements.Dragger;
 import uielements.RightUIEdge;
+import uielements.Text;
 import uielements.TopUIEdge;
 import uielements.ListView;
 import uielements.TextField;
@@ -22,16 +24,6 @@ import facades.Tablr;
 public class TablesModeUI extends UI {
 	
 	/**
-	 * Height of rows in the list of tables
-	 */
-	static int tableRowHeight = 35;
-	
-	/**
-	 * Width of the scrollbars.
-	 */
-	static int scrollBarWidth = 10;
-	
-	/**
 	 * Creates a new TablesModeUI
 	 * @param x		X Coordinate
 	 * @param y		Y Coordinate
@@ -42,7 +34,27 @@ public class TablesModeUI extends UI {
 	public TablesModeUI(int x, int y, int w, int h,Tablr t) {
 		super(x,y,w,h);
 		this.setTablr(t);
+		
+		columnResizeListeners.add((delta,index) -> {
+			getLegend().resizeElementR(delta, index);
+			getListview().getElements().stream().filter(e -> e instanceof UIRow).forEach(e -> ((UIRow) e).resizeElementR(delta,index+1));
+		});
 	}
+	
+	
+	
+	/**
+	 * Height of rows in the list of tables
+	 */
+	static int tableRowHeight = 35;
+	
+	/**
+	 * Width of the scrollbars.
+	 */
+	static int scrollBarWidth = 10;
+	
+	
+	
 	
 	/**
 	 * Loads all necessary UIElement and loads the names of a list of tables.
@@ -57,9 +69,21 @@ public class TablesModeUI extends UI {
 		
 		//Creating window layout
 		titleBar.setText("Tables mode");
-		
 		loadUIAttributes();
 
+		UIRow legend = new UIRow(getX()+edgeW,getY()+edgeW+titleHeight,getWidth()-2*edgeW-scrollBarWidth,15,new ArrayList<UIElement>());
+		Dragger tableNameDragger = new Dragger(legend.getEndX()-4,legend.getY(),4,legend.getHeight());
+		Text tableName = new Text(legend.getX()+tableRowHeight,legend.getY(),legend.getWidth()-4-tableRowHeight,legend.getHeight(),"Table name");
+		legend.addElement(tableNameDragger);
+		legend.addElement(tableName);
+		this.addUIElement(legend);
+		
+		tableNameDragger.addDragListener((newX,newY) -> {
+			int delta = newX - tableNameDragger.getGrabPointX();
+			getWindowManager().notifyTablesModeUIsColResized(delta,0);
+		});
+		
+		
 		ListView list = loadFromTables();
 		addUIElement(list);
 		
@@ -74,18 +98,26 @@ public class TablesModeUI extends UI {
 		});
 	}
 	
+	private ListView getListview() {
+		return (ListView) elements.stream().filter(e -> e instanceof ListView).findFirst().orElse(null);
+	}
+	
+	private UIRow getLegend() {
+		return (UIRow) elements.stream().filter(e -> e instanceof UIRow).findFirst().orElse(null);
+	}
+	
 	/**
 	 * Load all tables into a listview
 	 */
 	private ListView loadFromTables() {
 		ArrayList<UIElement> rows = new ArrayList<>();
-		ListView list = new ListView(getX()+edgeW, getY()+edgeW+titleHeight, getWidth()-2*edgeW, getHeight()-2*edgeW-titleHeight, rows);
+		ListView list = new ListView(getLegend().getX(),getLegend().getEndY(),getWidth()-2*edgeW, getEndY()-edgeW-getLegend().getEndY(), rows);
 
 		ArrayList<Table> tables = this.getTablr().getTables();
 		int y = list.getY();
 		for (int i=0;i<tables.size();i++) { 
 			Table curr = tables.get(i);
-			UIRow currRow = new UIRow(list.getX(), y, getWidth()-scrollBarWidth,tableRowHeight, new ArrayList<UIElement>());
+			UIRow currRow = new UIRow(list.getX(), y, getLegend().getWidth(),tableRowHeight, new ArrayList<UIElement>());
 			list.addElement(currRow);
 
 			int buttonSize = currRow.getHeight();
@@ -113,7 +145,7 @@ public class TablesModeUI extends UI {
 			});
 			
 			
-			TextField tableNameLabel = new TextField(deleteButton.getEndX(), y, getWidth()-buttonSize-scrollBarWidth, tableRowHeight, curr.getName());
+			TextField tableNameLabel = new TextField(deleteButton.getEndX(), y, getLegend().getWidth()-buttonSize, tableRowHeight, curr.getName());
 			currRow.addElement(tableNameLabel);
 			//Table name textfields listen to alphanumeric keyboard input
 			tableNameLabel.addKeyboardListener(-1, () -> {
@@ -181,15 +213,6 @@ public class TablesModeUI extends UI {
 		ArrayList<UIElement> clonedElements = new ArrayList<UIElement>();
 		elements.stream().forEach(e -> clonedElements.add(e.clone()));
 		clone.elements = clonedElements;
-		clone.titleBar = titleBar;
-		clone.leftResize = leftResize;
-		clone.rightResize = rightResize;
-		clone.topResize = topResize;
-		clone.bottomResize = bottomResize;
-		clone.topLeft = topLeft;
-		clone.topRight = topRight;
-		clone.bottomLeft = bottomLeft;
-		clone.bottomRight = bottomRight;
 		return clone;
 	}
 

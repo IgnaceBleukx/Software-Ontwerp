@@ -81,9 +81,27 @@ public class WindowManager {
 		return elements;
 	}
 	
-	public void addTablesModeUI(TablesModeUI ui) {
+	public void addTablesModeUI() {
+		TablesModeUI ui = null;
+		if (tablesModeUIs.isEmpty()) {
+			ui = new TablesModeUI(0,0,300,300,tablr);			
+		}else {
+			for (TablesModeUI tui : tablesModeUIs) {
+				if (!tui.isActive()) {
+					tui.isActive();
+					this.selectUI(tui);
+					tui.setTablr(tablr);
+					tui.setWindowManager(this);
+					return;
+				}
+			}
+			if (ui == null)
+				ui = tablesModeUIs.get(0).clone();
+		}
 		tablesModeUIs.add(ui);
 		loadTablesModeUI(ui);
+		ui.move(-ui.getX(), -ui.getY());
+		
 	}
 	
 	public void loadTablesModeUI(TablesModeUI ui){
@@ -107,10 +125,6 @@ public class WindowManager {
 	
 	public void loadTableDesignModeUI(Table table){
 		TableDesignModeUI ui = tableDesignModeUIs.get(table);
-		if (ui.isActive()){
-			ui = ui.clone();
-			ui.move(300, 300);
-		}
 		this.selectUI(ui);
 		ui.setTablr(tablr);
 		ui.setWindowManager(this);
@@ -126,6 +140,10 @@ public class WindowManager {
 		//loadTableRowsModeUI(table);
 	}
 
+	public void notifyTablesModeUIsColResized(Integer delta, Integer index) {
+		tablesModeUIs.stream().forEach(e -> e.getColumnResizeListeners().stream().forEach(l -> l.accept(delta,index)));
+	}
+	
 	
 	/**
 	 * Returns the UI at point (x,y).
@@ -301,4 +319,5 @@ public class WindowManager {
 	public void controlPressed() {
 		lastCtrl = System.currentTimeMillis();
 	}
+
 }

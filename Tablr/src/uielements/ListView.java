@@ -77,7 +77,7 @@ public class ListView extends UIElement {
 	/**
 	 * The horizontal scrollbar in this ListView
 	 */
-	private HorizontalScrollBar scrollBarH = new HorizontalScrollBar(getX(),getEndY()-scrollbarW,getWidth(), scrollbarW);
+	private HorizontalScrollBar scrollBarH = new HorizontalScrollBar(getX(),getEndY()-scrollbarW,getWidth()-scrollbarW, scrollbarW);
 		
 	public int getScrollBarWidth(){
 		return scrollbarW;
@@ -89,10 +89,10 @@ public class ListView extends UIElement {
 	public void updateScrollBars() {
 		ArrayList<UIElement> elementsCopy = new ArrayList<UIElement>(elements);
 		int elementsStartY = elementsCopy.stream().filter(e -> !(e instanceof ScrollBar)).mapToInt(e -> e.getY()).sorted().findFirst().orElse(getY());
-		int elementsEndY = elementsCopy.stream().filter(e -> !(e instanceof ScrollBar)).map(e -> e.getEndY()).sorted(Comparator.reverseOrder()).findFirst().orElse(getEndY());
+		int elementsEndY = elementsCopy.stream().filter(e -> !(e instanceof ScrollBar)).map(e -> e.getEndY()).sorted(Comparator.reverseOrder()).findFirst().orElse(getEndY()-scrollbarW);
 		
 		int elementsStartX = elementsCopy.stream().filter(e -> !(e instanceof ScrollBar)).mapToInt(e -> e.getX()).sorted().findFirst().orElse(getX());
-		int elementsEndX = elementsCopy.stream().filter(e -> !(e instanceof ScrollBar)).map(e -> e.getEndX()).sorted(Comparator.reverseOrder()).findFirst().orElse(getEndX());
+		int elementsEndX = elementsCopy.stream().filter(e -> !(e instanceof ScrollBar)).map(e -> e.getEndX()).sorted(Comparator.reverseOrder()).findFirst().orElse(getEndX()-scrollbarW);
 
 		scrollBarV.update(elementsStartY, elementsEndY,getY(),getEndY()-scrollbarW);
 		scrollBarH.update(elementsStartX, elementsEndX,getX(),getEndX()-scrollbarW);

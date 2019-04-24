@@ -59,9 +59,10 @@ public class Tablr {
 	}
 	
 
-	public void addTablesModeUI(TablesModeUI ui) {
-		windowManager.addTablesModeUI(ui);
+	public void addTablesModeUI() {
+		windowManager.addTablesModeUI();
 	}
+
 	
 	public void addTableRowsModeUI(Table t,TableRowsModeUI ui) {
 		windowManager.addTableRowsModeUI(t, ui);
