@@ -44,7 +44,7 @@ public class TableRowsModeUI extends UI {
 	public void loadUI(Table tab){
 		setActive();
 		this.clear();
-		titleBar.setText("Table rows mode: "+tab.getName());
+		titleBar.setText("Table Rows mode: "+tab.getName());
 		loadUIAttributes();
 		
 		int cellWidth = 100;
@@ -99,7 +99,13 @@ public class TableRowsModeUI extends UI {
 			
 			
 			addUIElement(loadTable(tab, legend));
-			titleBar.setText("Table Design Mode: " + tab.getName());
+			titleBar.setText("Table Rows Mode: " + tab.getName());
+		});
+		
+		titleBar.addKeyboardListener(10, () -> { //Ctrl+Enter, create new Table Design subwindow.
+			if (this.getWindowManager().recentCtrl()) {
+				//
+			}
 		});
 		
 		

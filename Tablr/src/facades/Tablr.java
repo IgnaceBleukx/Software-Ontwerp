@@ -294,4 +294,11 @@ public class Tablr {
 		windowManager.tableResized(tableDesignModeUI, delta, i);
 	}
 	
+	/**
+	 * Notifies the windowManager that Ctrl has been pressed.
+	 */
+	public void controlPressed() {
+		windowManager.controlPressed();
+	}
+	
 }
