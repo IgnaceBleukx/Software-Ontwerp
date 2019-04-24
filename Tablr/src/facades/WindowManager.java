@@ -141,6 +141,7 @@ public class WindowManager {
 		ui.setTablr(tablr);
 		ui.setWindowManager(this);
 		ui.loadUI(table);
+		ui.move(-ui.getX() + 300, -ui.getY()+300);
 	}
 	
 	public void loadTableDesignModeUI(Table table){
