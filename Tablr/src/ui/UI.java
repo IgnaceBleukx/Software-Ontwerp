@@ -222,10 +222,24 @@ public class UI {
 	}
 	
 	/**
+	 * @return 	The x-coordinate of the end of the UI.
+	 */
+	public int getEndX() {
+		return x + width;
+	}
+	
+	/**
 	 * @return	The Y coordinate of this UI
 	 */
 	public int getY(){
 		return y;
+	}
+	
+	/**
+	 * @return The y-coordinate of the end of the UI.
+	 */
+	public int getEndY() {
+		return y + height;
 	}
 	
 	/**
