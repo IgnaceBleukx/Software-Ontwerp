@@ -127,6 +127,7 @@ public class WindowManager {
 				this.selectUI(ui);
 				ui.setTablr(tablr);
 				ui.setWindowManager(this);
+				ui.setActive();
 				if (uis.size() == 1)
 					ui.loadUI(table);
 				return;
@@ -152,6 +153,7 @@ public class WindowManager {
 				this.selectUI(ui);
 				ui.setTablr(tablr);
 				ui.setWindowManager(this);
+				ui.setActive();
 				if (uis.size() == 1)
 					ui.loadUI(table);
 				return;
@@ -250,13 +252,14 @@ public class WindowManager {
 
 	public void paint(Graphics g) {
 		//Paint all UI's that are active
-		tablesModeUIs.stream().filter(u->u.isActive() && !u.equals(selectedUI)).forEach(e -> e.paint(g));
-		tableDesignModeUIs.values().stream().forEach(designUIs -> designUIs.stream().filter(ui -> ui.isActive() && !ui.equals(selectedUI)).forEach(ui -> ui.paint(g)));
-		tableRowsModeUIs.values().stream().forEach(rowUIs -> rowUIs.stream().filter(ui -> ui.isActive() && !ui.equals(selectedUI)).forEach(ui -> ui.paint(g)));
+//		tablesModeUIs.stream().filter(u->u.isActive() && !u.equals(selectedUI)).forEach(e -> e.paint(g));
+//		tableDesignModeUIs.values().stream().forEach(designUIs -> designUIs.stream().filter(ui -> ui.isActive() && !ui.equals(selectedUI)).forEach(ui -> ui.paint(g)));
+//		tableRowsModeUIs.values().stream().forEach(rowUIs -> rowUIs.stream().filter(ui -> ui.isActive() && !ui.equals(selectedUI)).forEach(ui -> ui.paint(g)));
 		
 		
 //		tableRowsModeUIs.values().stream().filter((u) -> u.isActive() && !u.equals(selectedUI)).forEach((e) -> e.paint(g));
 //		tableDesignModeUIs.values().stream().filter((u) -> u.isActive() && !u.equals(selectedUI)).forEach((e) -> e.paint(g));
+		getUIs().stream().filter(ui -> ui.isActive()).forEach(ui -> ui.paint(g));
 		if (selectedUI != null) selectedUI.paint(g);
  	}
 	
@@ -301,11 +304,7 @@ public class WindowManager {
 		Collections.reverse(reversedUI);
 		Optional<UI> newSelectedUI = reversedUI.stream().filter(e -> (!e.equals(selectedUI) && e.isActive())).findFirst();
 		
-		try {
-			selectUI(newSelectedUI.get());
-		} catch (NoSuchElementException e) {
-			selectUI(null);
-		}
+		selectUI(newSelectedUI.orElse(null));
 	}
 	
 	/**

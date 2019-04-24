@@ -97,7 +97,6 @@ public class UI {
 			int deltaX = newX - titleBar.getGrabPointX();
 			int deltaY = newY - titleBar.getGrabPointY();
 			this.move(deltaX, deltaY);
-			getWindowManager().selectUI(this);
 		});
 		close.addSingleClickListener(() -> {
 			setInactive();
