@@ -27,8 +27,8 @@ public class WindowManager {
 	public WindowManager(Tablr c) {
 		tablr = c;
 		tablesModeUIs = new ArrayList<TablesModeUI>();
-		tableRowsModeUIs = new HashMap<Table,TableRowsModeUI>();
-		tableDesignModeUIs = new HashMap<Table,TableDesignModeUI>();
+		tableRowsModeUIs = new HashMap<Table,ArrayList<TableRowsModeUI>>();
+		tableDesignModeUIs = new HashMap<Table,ArrayList<TableDesignModeUI>>();
 		
 	}
 	
@@ -37,8 +37,8 @@ public class WindowManager {
 	}
 	
 	private ArrayList<TablesModeUI> tablesModeUIs;
-	private HashMap<Table,TableRowsModeUI> tableRowsModeUIs;
-	private HashMap<Table,TableDesignModeUI> tableDesignModeUIs;
+	private HashMap<Table,ArrayList<TableRowsModeUI>> tableRowsModeUIs;
+	private HashMap<Table,ArrayList<TableDesignModeUI>> tableDesignModeUIs;
 	
 	/**
 	 * The selectedUI is the only UI that receives keyboard input
@@ -54,8 +54,11 @@ public class WindowManager {
 	private ArrayList<UI> getUIs() {
 		ArrayList<UI> uis = new ArrayList<>();
 		tablesModeUIs.stream().forEach(x -> uis.add(x));
-		tableRowsModeUIs.values().stream().forEach(x -> uis.add(x));
-		tableDesignModeUIs.values().stream().forEach(x -> uis.add(x));
+		tableDesignModeUIs.values().stream().forEach(designUIs -> designUIs.stream().forEach(ui -> uis.add(ui)));
+		tableRowsModeUIs.values().stream().forEach(rowUIs -> rowUIs.stream().forEach(ui -> uis.add(ui)));
+		
+//		tableRowsModeUIs.values().stream().forEach(x -> uis.add(x));
+//		tableDesignModeUIs.values().stream().forEach(x -> uis.add(x));
 		return uis;
 	}
 	
@@ -65,21 +68,24 @@ public class WindowManager {
 	private ArrayList<UIElement> getAllElements() {
 		ArrayList<UIElement> elements = new ArrayList<>();
 		tablesModeUIs.stream().forEach(ui -> elements.addAll(ui.getElements()));
-		tableRowsModeUIs.values().stream().forEach(ui -> elements.addAll(ui.getElements()));
-		tableDesignModeUIs.values().stream().forEach(ui -> elements.addAll(ui.getElements()));
+		tableDesignModeUIs.values().stream().forEach(designUIs -> designUIs.stream().forEach(ui -> elements.addAll(ui.getElements())));
+		tableRowsModeUIs.values().stream().forEach(rowUIs -> rowUIs.stream().forEach(ui -> elements.addAll(ui.getElements())));
+		
+//		tableRowsModeUIs.values().stream().forEach(ui -> elements.addAll(ui.getElements()));
+//		tableDesignModeUIs.values().stream().forEach(ui -> elements.addAll(ui.getElements()));
 		return elements;
 	}
 	
-	/**
-	 * Returns all UIElements in ALL UI's
-	 */
-	private ArrayList<UIElement> getAllActiveElements() {
-		ArrayList<UIElement> elements = new ArrayList<>();
-		tablesModeUIs.stream().filter(e -> e.isActive()).forEach(ui -> elements.addAll(ui.getElements()));
-		tableRowsModeUIs.values().stream().filter(e -> e.isActive()).forEach(ui -> elements.addAll(ui.getElements()));
-		tableDesignModeUIs.values().stream().filter(e -> e.isActive()).forEach(ui -> elements.addAll(ui.getElements()));
-		return elements;
-	}
+//	/**
+//	 * Returns all UIElements in ALL UI's
+//	 */
+//	private ArrayList<UIElement> getAllActiveElements() {
+//		ArrayList<UIElement> elements = new ArrayList<>();
+//		tablesModeUIs.stream().filter(e -> e.isActive()).forEach(ui -> elements.addAll(ui.getElements()));
+//		tableRowsModeUIs.values().stream().filter(e -> e.isActive()).forEach(ui -> elements.addAll(ui.getElements()));
+//		tableDesignModeUIs.values().stream().filter(e -> e.isActive()).forEach(ui -> elements.addAll(ui.getElements()));
+//		return elements;
+//	}
 	
 	public void addTablesModeUI() {
 		TablesModeUI ui = null;
@@ -112,36 +118,80 @@ public class WindowManager {
 	}
 	
 	public void loadTableRowsModeUI(Table table){
-		TableRowsModeUI ui = tableRowsModeUIs.get(table);
-		if (ui.isActive()){
-			ui = ui.clone();
-			ui.move(300,300);
+		TableRowsModeUI ui = null;
+		ArrayList<TableRowsModeUI> uis = tableRowsModeUIs.get(table);
+		if (uis.isEmpty()) throw new RuntimeException("No TableRowsModeUI for table " + table);
+		for (TableRowsModeUI rowMode : uis) {
+			if (!rowMode.isActive()){
+				ui = rowMode;
+				this.selectUI(ui);
+				ui.setTablr(tablr);
+				ui.setWindowManager(this);
+				ui.setActive();
+				if (uis.size() == 1)
+					ui.loadUI(table);
+				return;
+			}
+		}
+		if (ui == null) {
+			ui = uis.get(0).clone();
+			this.addTableRowsModeUI(table, ui);
 		}
 		this.selectUI(ui);
 		ui.setTablr(tablr);
 		ui.setWindowManager(this);
 		ui.loadUI(table);
+		ui.move(-ui.getX() + 300, -ui.getY()+300);
 	}
 	
 	public void loadTableDesignModeUI(Table table){
-		TableDesignModeUI ui = tableDesignModeUIs.get(table);
+		TableDesignModeUI ui = null;
+		ArrayList<TableDesignModeUI> uis = tableDesignModeUIs.get(table);
+		if (uis.isEmpty()) throw new RuntimeException("No TableDesignModeUI for table " + table);
+		for (TableDesignModeUI designMode : uis) {
+			if (!designMode.isActive()) {
+				ui = designMode;
+				this.selectUI(ui);
+				ui.setTablr(tablr);
+				ui.setWindowManager(this);
+				ui.setActive();
+				if (uis.size() == 1)
+					ui.loadUI(table);
+				return;
+			}
+		}
+		if (ui == null) {
+			ui = uis.get(0).clone();
+			this.addTableDesignModeUI(table, ui);
+		}
 		this.selectUI(ui);
 		ui.setTablr(tablr);
 		ui.setWindowManager(this);
 		ui.loadUI(table);
+		ui.move(-ui.getX()+300, -ui.getY());
 	}
 	
 	public void addTableDesignModeUI(Table table, TableDesignModeUI ui){
-		this.tableDesignModeUIs.put(table, ui);
+		if (!tableDesignModeUIs.containsKey(table))
+			tableDesignModeUIs.put(table,new ArrayList<TableDesignModeUI>());
+		this.tableDesignModeUIs.get(table).add(ui);
 	}
 	
 	public void addTableRowsModeUI(Table table, TableRowsModeUI ui){
-		this.tableRowsModeUIs.put(table,ui);
-		//loadTableRowsModeUI(table);
+		if (!tableRowsModeUIs.containsKey(table))
+			tableRowsModeUIs.put(table, new ArrayList<TableRowsModeUI>());
+		this.tableRowsModeUIs.get(table).add(ui);
 	}
 
-	public void notifyTablesModeUIsColResized(Integer delta, Integer index) {
+	public void notifyTablesModeUIsColResized(int delta, int index) {
 		tablesModeUIs.stream().forEach(e -> e.getColumnResizeListeners().stream().forEach(l -> l.accept(delta,index)));
+	}
+	public void notifyTableDesignModeUIsColResized(int delta, int index, Table table) {
+		tableDesignModeUIs.get(table).stream().forEach(e -> e.getColumnResizeListeners().stream().forEach(l -> l.accept(delta,index)));
+	}
+	public void notifyTableRowsModeUIsColResized(int delta, int index, Table table) {
+		tableRowsModeUIs.get(table).stream().forEach(e -> e.getColumnResizeListeners().stream().forEach(l -> l.accept(delta,index)));
+
 	}
 	
 	
@@ -157,14 +207,11 @@ public class WindowManager {
 		if (selectedUI.containsPoint(x, y)) {
 			return selectedUI;
 		}
-		else {
-			System.out.println("[WindowManager.java:118] " + getUIs());
-			for (UI ui : getUIs()) {
-				System.out.println("[WindowManager.java:121] " + ui);
-				if (ui.isActive() && ui.containsPoint(x,y)) return ui;
-			}
+		System.out.println("[WindowManager.java:118] " + getUIs());
+		for (UI ui : getUIs()) {
+			System.out.println("[WindowManager.java:121] " + ui);
+			if (ui.isActive() && ui.containsPoint(x,y)) return ui;
 		}
-	
 		return null;
 	}
 	
@@ -203,9 +250,14 @@ public class WindowManager {
 
 	public void paint(Graphics g) {
 		//Paint all UI's that are active
-		tablesModeUIs.stream().filter(u->u.isActive() && !u.equals(selectedUI)).forEach(e -> e.paint(g));
-		tableRowsModeUIs.values().stream().filter((u) -> u.isActive() && !u.equals(selectedUI)).forEach((e) -> e.paint(g));
-		tableDesignModeUIs.values().stream().filter((u) -> u.isActive() && !u.equals(selectedUI)).forEach((e) -> e.paint(g));
+//		tablesModeUIs.stream().filter(u->u.isActive() && !u.equals(selectedUI)).forEach(e -> e.paint(g));
+//		tableDesignModeUIs.values().stream().forEach(designUIs -> designUIs.stream().filter(ui -> ui.isActive() && !ui.equals(selectedUI)).forEach(ui -> ui.paint(g)));
+//		tableRowsModeUIs.values().stream().forEach(rowUIs -> rowUIs.stream().filter(ui -> ui.isActive() && !ui.equals(selectedUI)).forEach(ui -> ui.paint(g)));
+		
+		
+//		tableRowsModeUIs.values().stream().filter((u) -> u.isActive() && !u.equals(selectedUI)).forEach((e) -> e.paint(g));
+//		tableDesignModeUIs.values().stream().filter((u) -> u.isActive() && !u.equals(selectedUI)).forEach((e) -> e.paint(g));
+		getUIs().stream().filter(ui -> ui.isActive()).forEach(ui -> ui.paint(g));
 		if (selectedUI != null) selectedUI.paint(g);
  	}
 	
@@ -213,12 +265,12 @@ public class WindowManager {
 		return new ArrayList<TablesModeUI>(tablesModeUIs);
 	}
 	
-	public HashMap<Table,TableDesignModeUI> getTableDesignUIs() {
-		return new HashMap<Table,TableDesignModeUI>(tableDesignModeUIs);
+	public HashMap<Table,ArrayList<TableDesignModeUI>> getTableDesignUIs() {
+		return new HashMap<Table,ArrayList<TableDesignModeUI>>(tableDesignModeUIs);
 	}
 	
-	public HashMap<Table,TableRowsModeUI> getTableRowsUIs() {
-		return new HashMap<Table,TableRowsModeUI>(tableRowsModeUIs);
+	public HashMap<Table,ArrayList<TableRowsModeUI>> getTableRowsUIs() {
+		return new HashMap<Table,ArrayList<TableRowsModeUI>>(tableRowsModeUIs);
 	}
 	
 	public UI getSelectedUI() {
@@ -250,11 +302,7 @@ public class WindowManager {
 		Collections.reverse(reversedUI);
 		Optional<UI> newSelectedUI = reversedUI.stream().filter(e -> (!e.equals(selectedUI) && e.isActive())).findFirst();
 		
-		try {
-			selectUI(newSelectedUI.get());
-		} catch (NoSuchElementException e) {
-			selectUI(null);
-		}
+		selectUI(newSelectedUI.orElse(null));
 	}
 	
 	/**
@@ -277,26 +325,6 @@ public class WindowManager {
 	 */
 	public UIElement getLockedElement() {
 		return hardLockedElement;
-	}
-	
-	/**
-	 * Select element newElement. 
-	 * Behaviour varies depending on whether or not an element is blocking the UI from selecting different elements.
-	 * @param newElement: the element that wants to be selected
-	 */
-	public void selectElement(UIElement newElement) {
-		//An element has placed a lock on selecting other elements
-		if (lockedSelectedElement != null) { 
-			System.out.println("[WindowManager.java:164] cannot select because locked.");
-			return;
-		}
-		
-		getAllElements().stream().forEach(e -> e.selectElement(newElement));
-	}
-
-	public void tableResized(TableDesignModeUI tableDesignModeUI, int delta, int i) {
-		tableDesignModeUIs.values().stream().filter((tdui) -> !tdui.equals(tableDesignModeUI)).forEach((tdui) -> 
-		tdui.resizeR(delta, i));
 	}
 	
 	/**

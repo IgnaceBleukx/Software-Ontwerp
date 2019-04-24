@@ -23,8 +23,8 @@ import uielements.UIElement;
  */
 public class Tablr {
 	
-	DomainFacade domainFacade;
-	WindowManager windowManager;
+	private DomainFacade domainFacade;
+	private WindowManager windowManager;
 	
 	/**
 	 * Creates a new Tablr instance, creates the necessary objects to access domain and UI.
@@ -62,15 +62,6 @@ public class Tablr {
 	public void addTablesModeUI() {
 		windowManager.addTablesModeUI();
 	}
-
-	
-	public void addTableRowsModeUI(Table t,TableRowsModeUI ui) {
-		windowManager.addTableRowsModeUI(t, ui);
-	}
-	
-	public void loadTableModeUI(TablesModeUI ui){
-		windowManager.loadTablesModeUI(ui);
-	}
 	
 	public void loadTableRowsModeUI(Table table){
 		windowManager.loadTableRowsModeUI(table);
@@ -78,10 +69,6 @@ public class Tablr {
 	
 	public void loadTableDesignModeUI(Table table) {
 		windowManager.loadTableDesignModeUI(table);
-	}
-	
-	public void clearUIAt(int x, int y) {
-		windowManager.clearUIAt(x,y);
 	}
 	
 	/**
@@ -385,15 +372,6 @@ public class Tablr {
 	 */
 	private ArrayList<Runnable> DomainChangedListeners = new ArrayList<Runnable>();
 	
-	/**
-	 * Returns all UIElements at a given position
-	 * @param x		X position
-	 * @param y		Y position
-	 * @return		List containing UIElements at position (x,y)
-	 */
-	public ArrayList<UIElement> getElementsUIAt(int x, int y) {
-		return windowManager.getElementsUIAt(x,y);
-	}
 
 	/**
 	 * Toggles the value of a cell. Only affects cells that belong to a BOOLEAN column
@@ -403,16 +381,6 @@ public class Tablr {
 	public void toggleCellValueBoolean(Column col, int i) {
 		domainFacade.toggleCellValueBoolean(col,i);
 		domainChanged();
-	}
-	
-	/**
-	 * Returns the contents of a cell as an Object.
-	 * @param col			Column 
-	 * @param index			Index of cell within column
-	 * @return				Cell's value as Object
-	 */
-	public Object getValue(Column col, int index){
-		return domainFacade.getValue(col,index);
 	}
 
 	/**
@@ -467,18 +435,18 @@ public class Tablr {
 		return windowManager.getTablesModeUIs();
 	}
 	
-	public HashMap<Table,TableDesignModeUI> getTableDesignUIs() {
+	public HashMap<Table,ArrayList<TableDesignModeUI>> getTableDesignUIs() {
 		return windowManager.getTableDesignUIs();
 	}
 	
-	public HashMap<Table,TableRowsModeUI> getTableRowsUIs() {
+	public HashMap<Table,ArrayList<TableRowsModeUI>> getTableRowsUIs() {
 		return windowManager.getTableRowsUIs();
 	}
 	
-	public void tableResized(TableDesignModeUI tableDesignModeUI, int delta,
-			int i) {
-		windowManager.tableResized(tableDesignModeUI, delta, i);
-	}
+//	public void tableResized(TableDesignModeUI tableDesignModeUI, int delta,
+//			int i) {
+//		windowManager.tableResized(tableDesignModeUI, delta, i);
+//	}
 	
 	/**
 	 * Notifies the windowManager that Ctrl has been pressed.

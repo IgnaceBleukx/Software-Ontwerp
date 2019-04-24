@@ -80,6 +80,10 @@ public class UITable extends UIElement {
 	 */
 	UIRow legend;
 	
+	public UIRow getLegend() {
+		return legend;
+	}
+	
 	private static int scrollBarW = 10;
 	
 	VerticalScrollBar scrollBarV = new VerticalScrollBar(getEndX()-scrollBarW,getY()+20,scrollBarW,getHeight()-scrollBarW-20);

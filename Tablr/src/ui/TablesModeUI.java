@@ -46,12 +46,12 @@ public class TablesModeUI extends UI {
 	/**
 	 * Height of rows in the list of tables
 	 */
-	static int tableRowHeight = 35;
+	private static int tableRowHeight = 35;
 	
 	/**
 	 * Width of the scrollbars.
 	 */
-	static int scrollBarWidth = 10;
+	private static int scrollBarWidth = 10;
 	
 	
 	

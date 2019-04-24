@@ -33,26 +33,31 @@ public class TableRowsModeUI extends UI {
 		super(x,y,w,h);
 		this.setTablr(t);
 		
+		this.columnResizeListeners.add((delta,index) -> {
+			getUITable().getLegend().resizeElementR(delta, index*2);
+			getUITable().getRows().stream().forEach(r -> r.resizeElementR(delta,index));
+		});
+		
 	}
 	
 	/**
 	 * Loads all elements into the UI and activates it.
 	 * This involves loading all cells from a given table.
 	 * Also initializes all actions happening in response to mouse clicks, drags, ...
-	 * @param tab		Table from which to load cells
+	 * @param table		Table from which to load cells
 	 */
-	public void loadUI(Table tab){
+	public void loadUI(Table table){
 		setActive();
 		this.clear();
-		titleBar.setText("Table Rows mode: "+tab.getName());
+		titleBar.setText("Table Rows mode: "+table.getName());
 		loadUIAttributes();
 		
 		int cellWidth = 100;
 		
 		
-		UIRow legend = loadLegend(tab,cellWidth);
+		UIRow legend = loadLegend(table,cellWidth);
 		
-		UITable uiTable = loadTable(tab,legend);
+		UITable uiTable = loadTable(table,legend);
 		this.addUIElement(uiTable);
 		
 
@@ -64,22 +69,23 @@ public class TableRowsModeUI extends UI {
 			this.getElements().remove(ll.orElseThrow(() -> new RuntimeException("No UITable to bind listener to.")));
 			
 			//Updating legend:
-			ArrayList<String> columnNames = getTablr().getColumnNames(tab);
+			ArrayList<String> columnNames = getTablr().getColumnNames(table);
 			//Column added
 			if (legend.getElements().stream().filter(e -> !(e instanceof Dragger)).count() < columnNames.size()){
 				Text text = new Text(legend.getEndX(),legend.getY(),cellWidth,20,columnNames.get(columnNames.size()-1));
 				Dragger drag = new Dragger(text.getEndX()-2,legend.getY(),4,20);
-				drag.addDragListener((newX, newY) ->{
-					int delta = newX - drag.getGrabPointX();
-					legend.resizeElementR(delta, columnNames.size()-1);
-				});
 				legend.addElement(text);
 				legend.addElement(drag);
+				drag.addDragListener((newX, newY) ->{
+					int delta = newX - drag.getGrabPointX();
+					getWindowManager().notifyTableRowsModeUIsColResized(delta, legend.getElements().indexOf(text), table);
+				});
+				
 				legend.setWidth(legend.getElements().stream().mapToInt(e -> e.getWidth()).sum());
 			}
 			//Column deleted
 			else if (legend.getElements().stream().filter(e -> !(e instanceof Dragger)).count() > columnNames.size()){
-				ArrayList<String> legendNames = new ArrayList(legend.getElements().stream().filter(e -> !(e instanceof Dragger)).map(e -> ((Text) e).getText()).collect(Collectors.toList()));
+				ArrayList<String> legendNames = new ArrayList<String>(legend.getElements().stream().filter(e -> !(e instanceof Dragger)).map(e -> ((Text) e).getText()).collect(Collectors.toList()));
 				legendNames.removeAll(columnNames);
 				String removed = legendNames.get(0);
 				for (UIElement e : legend.getElements()){
@@ -98,8 +104,8 @@ public class TableRowsModeUI extends UI {
 			}
 			
 			
-			addUIElement(loadTable(tab, legend));
-			titleBar.setText("Table Rows Mode: " + tab.getName());
+			addUIElement(loadTable(table, legend));
+			titleBar.setText("Table Rows Mode: " + table.getName());
 		});
 		
 		titleBar.addKeyboardListener(10, () -> { //Ctrl+Enter, create new Table Design subwindow.
@@ -111,18 +117,17 @@ public class TableRowsModeUI extends UI {
 		
 	}
 	
-	private UIRow loadLegend(Table tab,int cellWidth){
+	private UIRow loadLegend(Table table,int cellWidth){
 		UIRow legend = new UIRow(getX()+edgeW,titleBar.getEndY(),getWidth(), 20, new ArrayList<UIElement>());		
 		int a = 0;
 		int margin = 20;
-		for(String name: getTablr().getColumnNames(tab)) {
+		for(String name: getTablr().getColumnNames(table)) {
 			Text el = new Text(getX() + margin+a*cellWidth,titleBar.getEndY(), cellWidth, 20, name);
 			Dragger drag = new Dragger(el.getEndX()-2,el.getY(),4,20);
 			int index = a;
 			drag.addDragListener((newX,newY) ->{
 				int delta = newX - drag.getGrabPointX();
-				legend.resizeElementR(delta, 2*index);
-				getUITable().getRows().forEach(r -> r.resizeElementR(delta,index));
+				getWindowManager().notifyTableRowsModeUIsColResized(delta, index, table);
 			});
 			legend.addElement(el);
 			legend.addElement(drag);
@@ -147,8 +152,6 @@ public class TableRowsModeUI extends UI {
 	 * @param cellWidth		Width of the UICells
 	 */
 	private UITable loadTable(Table tab, UIRow legend){
-		//Creating legend with all column names:
-		int amountOfColumns = getTablr().getColumns(tab).size();
 		int cellHeight = 35;
 			
 		UITable uiTable = new UITable(getX()+edgeW, titleBar.getEndY(),getWidth()-2*edgeW, getHeight()-2*edgeW-titleBar.getHeight(), legend, new ArrayList<UIRow>());
@@ -234,15 +237,6 @@ public class TableRowsModeUI extends UI {
 		ArrayList<UIElement> clonedElements = new ArrayList<UIElement>();
 		elements.stream().forEach(e -> clonedElements.add(e.clone()));
 		clone.elements = clonedElements;
-		clone.titleBar = titleBar.clone();
-		clone.leftResize = leftResize.clone();
-		clone.rightResize = rightResize.clone();
-		clone.topResize = topResize.clone();
-		clone.bottomResize = bottomResize.clone();
-		clone.topLeft = topLeft.clone();
-		clone.topRight = topRight.clone();
-		clone.bottomLeft = bottomLeft.clone();
-		clone.bottomRight = bottomRight.clone();
 		return clone;
 	}
 	

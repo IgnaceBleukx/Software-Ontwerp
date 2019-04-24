@@ -177,8 +177,6 @@ public class UIRow extends UIElement {
 		elements.stream().forEach(e -> e.move(deltaX, deltaY));
 	}
 	
-	Rounder rl = new Rounder();
-	
 	@Override
 	public void resizeL(int deltaW){
 		setX(getX() + deltaW);

@@ -60,31 +60,6 @@ public class HorizontalScrollBar extends ScrollBar {
 	}
 	
 	/**
-	 * Changes the size of the scrollbar to match the subwindow's contents.
-	 */
-	public void update(int elementsWidth, int windowWidth) {
-		this.setWidth(windowWidth);
-		if (elementsWidth <= windowWidth) { 
-			super.disable();
-			scrollBar.setWidth(windowWidth);
-			margin1.setX(getX());
-			margin1.setWidth(0);
-			margin2.setX(getEndX());
-			margin2.setWidth(0);
-		}
-		else {
-			this.enable();
-			int newSize = elementsWidth > 0 ? windowWidth * windowWidth / elementsWidth : windowWidth;
-			scrollBar.setWidth(newSize);
-			scrollBar.setX(getX());
-			margin1.setX(getX());
-			margin1.setWidth(0);
-			margin2.setX(scrollBar.getEndX());
-			margin2.setWidth(this.getEndX() - margin2.getX());
-		}
-	}
-	
-	/**
 	 * Scrolls horizontally.
 	 */
 	@Override

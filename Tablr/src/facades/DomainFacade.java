@@ -19,7 +19,7 @@ public class DomainFacade {
 	/**
 	 * Tables
 	 */
-	ArrayList<Table> tables = new ArrayList<>();
+	private ArrayList<Table> tables = new ArrayList<>();
 
 	/**
 	 * The active table is the table that is used when in
@@ -71,21 +71,6 @@ public class DomainFacade {
 	 */
 	public ArrayList<Table> getTables() {
 		return new ArrayList<Table>(tables);
-	}
-	
-	/**
-	 * This method returns a table from the list of tables, specified using a name.
-	 * @param name 	The name of the Table to be found.
-	 * @return 	Returns the table with the corresponding name
-	 * @return 	Returns null if the table name does not exist in the table manager.s
-	 */
-	public Table getTable(String name){
-		for (Table t: getTables()){
-			if (t.getName().equals(name)){
-				return t;
-			}
-		}
-		return null;
 	}
 	
 	/**

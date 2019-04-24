@@ -31,7 +31,7 @@ public class UI {
 	 * @param width		Width
 	 * @param height	Height
 	 */
-	public UI(int x, int y, int width, int height) {
+	UI(int x, int y, int width, int height) {
 		if (width < 0 || height < 0) 
 			throw new IllegalArgumentException("Illegal parameters in UI constructor");
 		this.x = x;
@@ -180,14 +180,11 @@ public class UI {
 				this.resizeB(deltaFinalY);
 			}
 		});
-		
-		
 		titleBar.addDragListener((newX,newY) -> { 
 			if (!titleBar.getDragging()) return;
 			int deltaX = newX - titleBar.getGrabPointX();
 			int deltaY = newY - titleBar.getGrabPointY();
 			this.move(deltaX, deltaY);
-			getWindowManager().selectUI(this);
 		});
 		close.addSingleClickListener(() -> {
 			setInactive();
@@ -281,18 +278,18 @@ public class UI {
 	/**
 	 * The edges of this UI, used to resize the UI
 	 */
-	protected LeftUIEdge leftResize;
-	protected RightUIEdge rightResize;
-	protected TopUIEdge topResize;
-	protected BottomUIEdge bottomResize;
+	private LeftUIEdge leftResize;
+	private RightUIEdge rightResize;
+	private TopUIEdge topResize;
+	private BottomUIEdge bottomResize;
 	
-	protected TopLeftUICorner topLeft;
-	protected TopRightUICorner topRight;
-	protected BottomLeftUICorner bottomLeft;
-	protected BottomRightUICorner bottomRight;
+	private TopLeftUICorner topLeft;
+	private TopRightUICorner topRight;
+	private BottomLeftUICorner bottomLeft;
+	private BottomRightUICorner bottomRight;
 	
-	protected static int minHeight = 100;
-	protected static int minWidth = 100;
+	private static int minHeight = 100;
+	private static int minWidth = 100;
 	
 	
 	/**
@@ -413,14 +410,6 @@ public class UI {
 		});
 		
 		e.setUI(this);
-	}
-	
-	/**
-	 * add the elements of a given list to the current UIElements-list in this UI
-	 * @param list: the UIElements to be added
-	 */
-	public void addAllUIElements(ArrayList<UIElement> list) {
-		list.stream().forEach(e -> addUIElement(e));	
 	}
 	
 	/**
@@ -641,15 +630,6 @@ public class UI {
 		ArrayList<UIElement> clonedElements = new ArrayList<UIElement>();
 		elements.stream().forEach(e -> clonedElements.add(e.clone()));
 		clone.elements = clonedElements;
-		clone.titleBar = this.titleBar.clone();
-		clone.leftResize = this.leftResize.clone();
-		clone.rightResize = this.rightResize.clone();
-		clone.topResize = this.topResize.clone();
-		clone.bottomResize = this.bottomResize.clone();
-		clone.topLeft = this.topLeft.clone();
-		clone.topRight = this.topRight.clone();
-		clone.bottomLeft = this.bottomLeft.clone();
-		clone.bottomRight = this.bottomRight.clone();
 		return clone;
 	}
 }
