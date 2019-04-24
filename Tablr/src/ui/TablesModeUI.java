@@ -24,16 +24,6 @@ import facades.Tablr;
 public class TablesModeUI extends UI {
 	
 	/**
-	 * Height of rows in the list of tables
-	 */
-	static int tableRowHeight = 35;
-	
-	/**
-	 * Width of the scrollbars.
-	 */
-	static int scrollBarWidth = 10;
-	
-	/**
 	 * Creates a new TablesModeUI
 	 * @param x		X Coordinate
 	 * @param y		Y Coordinate
@@ -44,7 +34,27 @@ public class TablesModeUI extends UI {
 	public TablesModeUI(int x, int y, int w, int h,Tablr t) {
 		super(x,y,w,h);
 		this.setTablr(t);
+		
+		columnResizeListeners.add((delta,index) -> {
+			getLegend().resizeElementR(delta, index);
+			getListview().getElements().stream().filter(e -> e instanceof UIRow).forEach(e -> ((UIRow) e).resizeElementR(delta,index+1));
+		});
 	}
+	
+	
+	
+	/**
+	 * Height of rows in the list of tables
+	 */
+	static int tableRowHeight = 35;
+	
+	/**
+	 * Width of the scrollbars.
+	 */
+	static int scrollBarWidth = 10;
+	
+	
+	
 	
 	/**
 	 * Loads all necessary UIElement and loads the names of a list of tables.
@@ -70,8 +80,7 @@ public class TablesModeUI extends UI {
 		
 		tableNameDragger.addDragListener((newX,newY) -> {
 			int delta = newX - tableNameDragger.getGrabPointX();
-			legend.resizeElementR(delta, 0);
-			getListview().getElements().stream().filter(e -> e instanceof UIRow).forEach(e -> ((UIRow) e).resizeElementR(delta,1));
+			getWindowManager().notifyTablesModeUIsColResized(delta,0);
 		});
 		
 		
@@ -203,15 +212,6 @@ public class TablesModeUI extends UI {
 		ArrayList<UIElement> clonedElements = new ArrayList<UIElement>();
 		elements.stream().forEach(e -> clonedElements.add(e.clone()));
 		clone.elements = clonedElements;
-		clone.titleBar = titleBar;
-		clone.leftResize = leftResize;
-		clone.rightResize = rightResize;
-		clone.topResize = topResize;
-		clone.bottomResize = bottomResize;
-		clone.topLeft = topLeft;
-		clone.topRight = topRight;
-		clone.bottomLeft = bottomLeft;
-		clone.bottomRight = bottomRight;
 		return clone;
 	}
 

@@ -3,6 +3,7 @@ package ui;
 import java.awt.Color;
 import java.awt.Graphics;
 import java.util.ArrayList;
+import java.util.function.BiConsumer;
 
 import facades.Tablr;
 import facades.WindowManager;
@@ -532,6 +533,12 @@ public class UI {
 		int delta = getWidth() + deltaH < minHeight ? getWidth()-minHeight : deltaH;
 		setHeight(getHeight()+delta);
 		elements.stream().forEach(e -> e.resizeB(delta));
+	}
+	
+	protected ArrayList<BiConsumer<Integer,Integer>> columnResizeListeners = new ArrayList<BiConsumer<Integer,Integer>>();
+	
+	public ArrayList<BiConsumer<Integer,Integer>> getColumnResizeListeners(){
+		return new ArrayList<BiConsumer<Integer, Integer>>(columnResizeListeners);
 	}
 	
 	@Override

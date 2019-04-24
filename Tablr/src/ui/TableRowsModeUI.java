@@ -32,6 +32,7 @@ public class TableRowsModeUI extends UI {
 	public TableRowsModeUI(int x, int y, int w, int h,Tablr t) {
 		super(x,y,w,h);
 		this.setTablr(t);
+		
 	}
 	
 	/**
