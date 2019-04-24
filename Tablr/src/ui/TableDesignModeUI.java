@@ -29,6 +29,12 @@ public class TableDesignModeUI extends UI {
 	public TableDesignModeUI(int x, int y, int w, int h,Tablr t) {
 		super(x,y,w,h);
 		this.setTablr(t);
+		
+		this.columnResizeListeners.add((delta,index) ->{
+			getLegend().resizeElementR(delta, index*2);
+			getListView().getElements().stream().filter(e -> e instanceof UIRow).forEach(r -> ((UIRow) r).resizeElementR(delta, 0));
+		});
+		
 	}
 	
 	public void loadUI(Table table){
@@ -81,70 +87,35 @@ public class TableDesignModeUI extends UI {
 		
 		nameDragger.addDragListener((newX,newY) -> { 
 			int delta = newX - nameDragger.getGrabPointX();
+			int deltaFinal = delta;
 			if (name.getWidth() + delta < 15){
-				int deltaFinal = 15 - name.getWidth();
-				legend.resizeElementR(deltaFinal, 0);
-				getListView().getElements().stream().filter(e -> e instanceof UIRow).forEach(r -> ((UIRow) r).resizeElementR(deltaFinal, 0));
-				tablr.tableResized(this, deltaFinal, 0);
-				
+				deltaFinal = 15 - name.getWidth();
 			}
-			else{
-				int deltaFinal = delta;
-				legend.resizeElementR(deltaFinal, 0);
-				getListView().getElements().stream().filter(e -> e instanceof UIRow).forEach(r -> ((UIRow) r).resizeElementR(deltaFinal, 0));
-				tablr.tableResized(this, deltaFinal, 0);
-			}
+			getWindowManager().notifyTableDesignModeUIsColResized(deltaFinal, 0, table);
 		});
 		
 		typeDragger.addDragListener((newX,newY) -> { 
 			int delta = newX - typeDragger.getGrabPointX();
-			if (type.getWidth() + delta < 15){
-				int deltaFinal = 15 - type.getWidth();
-				legend.resizeElementR(deltaFinal, 2);
-				getListView().getElements().stream().filter(e -> e instanceof UIRow).forEach(r -> ((UIRow) r).resizeElementR(deltaFinal, 1));
-				tablr.tableResized(this, deltaFinal, 1);
-				
-			}
-			else{
-				int deltaFinal = delta;
-				legend.resizeElementR(deltaFinal, 2);
-				getListView().getElements().stream().filter(e -> e instanceof UIRow).forEach(r -> ((UIRow) r).resizeElementR(deltaFinal, 1));
-				tablr.tableResized(this, deltaFinal, 1);
-			}
+			int deltaFinal = delta;
+			if (type.getWidth() + delta < 15)
+				deltaFinal = 15 - type.getWidth();
+			getWindowManager().notifyTableDesignModeUIsColResized(deltaFinal, 1, table);
 		});
 		
 		blankDragger.addDragListener((newX,newY) -> { 
 			int delta = newX - blankDragger.getGrabPointX();
-			if (blank.getWidth() + delta < 24){
-				int deltaFinal = 24 - blank.getWidth();
-				legend.resizeElementR(deltaFinal, 4);
-				getListView().getElements().stream().filter(e -> e instanceof UIRow).forEach(r -> ((UIRow) r).resizeElementR(deltaFinal, 2));
-				tablr.tableResized(this, deltaFinal, 2);
-				
-			}
-			else{
-				int deltaFinal = delta;
-				legend.resizeElementR(deltaFinal, 4);
-				getListView().getElements().stream().filter(e -> e instanceof UIRow).forEach(r -> ((UIRow) r).resizeElementR(deltaFinal, 2));
-				tablr.tableResized(this, deltaFinal, 2);
-			}
+			int deltaFinal = delta;
+			if (type.getWidth() + delta < 24)
+				deltaFinal = 24 - type.getWidth();
+			getWindowManager().notifyTableDesignModeUIsColResized(deltaFinal, 2, table);
 		});
 		
 		defDragger.addDragListener((newX,newY) -> { 
 			int delta = newX - defDragger.getGrabPointX();
-			if (def.getWidth() + delta < 24){
-				int deltaFinal = 24 - def.getWidth();
-				legend.resizeElementR(deltaFinal, 6);
-				getListView().getElements().stream().filter(e -> e instanceof UIRow).forEach(r -> ((UIRow) r).resizeElementR(deltaFinal, 3));
-				tablr.tableResized(this, deltaFinal, 3);
-				
-			}
-			else{
-				int deltaFinal = delta;
-				legend.resizeElementR(deltaFinal, 6);
-				getListView().getElements().stream().filter(e -> e instanceof UIRow).forEach(r -> ((UIRow) r).resizeElementR(deltaFinal, 3));
-				tablr.tableResized(this, deltaFinal, 3);
-			}
+			int deltaFinal = delta;
+			if (type.getWidth() + delta < 24)
+				deltaFinal = 24 - type.getWidth();
+			getWindowManager().notifyTableDesignModeUIsColResized(deltaFinal, 3, table);
 		});
 		
 	
@@ -340,16 +311,6 @@ public class TableDesignModeUI extends UI {
 		ArrayList<UIElement> clonedElements = new ArrayList<UIElement>();
 		elements.stream().forEach(e -> clonedElements.add(e.clone()));
 		clone.elements = clonedElements;
-		clone.margin = this.margin;
-		clone.titleBar = this.titleBar.clone();
-		clone.leftResize = this.leftResize.clone();
-		clone.rightResize = this.rightResize.clone();
-		clone.topResize = this.topResize.clone();
-		clone.bottomResize = this.bottomResize.clone();
-		clone.topLeft = this.topLeft.clone();
-		clone.topRight = this.topRight.clone();
-		clone.bottomLeft = this.bottomLeft.clone();
-		clone.bottomRight = this.bottomRight.clone();
 		return clone;
 	}
 	

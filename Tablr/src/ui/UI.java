@@ -92,8 +92,6 @@ public class UI {
 			this.resizeR(deltaX);
 			this.resizeB(deltaY);
 		});
-		
-		
 		titleBar.addDragListener((newX,newY) -> { 
 			if (!titleBar.getDragging()) return;
 			int deltaX = newX - titleBar.getGrabPointX();
@@ -552,15 +550,6 @@ public class UI {
 		ArrayList<UIElement> clonedElements = new ArrayList<UIElement>();
 		elements.stream().forEach(e -> clonedElements.add(e.clone()));
 		clone.elements = clonedElements;
-		clone.titleBar = this.titleBar.clone();
-		clone.leftResize = this.leftResize.clone();
-		clone.rightResize = this.rightResize.clone();
-		clone.topResize = this.topResize.clone();
-		clone.bottomResize = this.bottomResize.clone();
-		clone.topLeft = this.topLeft.clone();
-		clone.topRight = this.topRight.clone();
-		clone.bottomLeft = this.bottomLeft.clone();
-		clone.bottomRight = this.bottomRight.clone();
 		return clone;
 	}
 }

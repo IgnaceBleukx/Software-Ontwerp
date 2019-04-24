@@ -281,18 +281,18 @@ public class Tablr {
 		return windowManager.getTablesModeUIs();
 	}
 	
-	public HashMap<Table,TableDesignModeUI> getTableDesignUIs() {
+	public HashMap<Table,ArrayList<TableDesignModeUI>> getTableDesignUIs() {
 		return windowManager.getTableDesignUIs();
 	}
 	
-	public HashMap<Table,TableRowsModeUI> getTableRowsUIs() {
+	public HashMap<Table,ArrayList<TableRowsModeUI>> getTableRowsUIs() {
 		return windowManager.getTableRowsUIs();
 	}
 	
-	public void tableResized(TableDesignModeUI tableDesignModeUI, int delta,
-			int i) {
-		windowManager.tableResized(tableDesignModeUI, delta, i);
-	}
+//	public void tableResized(TableDesignModeUI tableDesignModeUI, int delta,
+//			int i) {
+//		windowManager.tableResized(tableDesignModeUI, delta, i);
+//	}
 	
 	/**
 	 * Notifies the windowManager that Ctrl has been pressed.
