@@ -151,8 +151,6 @@ public class TablesModeUI extends UI {
 				else {
 					System.out.println("[TablesModeUI.java:130]: Opening a table rows mode");
 					this.getWindowManager().loadTableRowsModeUI(curr);
-					tablr.changeTitle("Table Rows Mode: "+curr.getName());
-
 				}
 			});
 			

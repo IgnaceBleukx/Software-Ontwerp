@@ -25,10 +25,6 @@ public class MyCanvasWindow extends CanvasWindow {
 	public MyCanvasWindow(String title) {
 		super(title);
 		tablr = new Tablr();		
-		tablr.addTitleChangeRunnable(() -> {
-			//this.setTitle(communicationManager.getNewTitle());
-		});
-
 	}
 
 	/**
