@@ -71,24 +71,6 @@ public abstract class UIElement {
 	}
 	
 	/**
-	 * locks this element up: no other actions can be performed in the UI until the lock is resolved
-	 */
-	public void lock(){
-		this.lock = true;
-		System.out.println("[UIElement.java:49 Aquired hard lock on " + this);
-		getUI().getTablr().getLock(this);
-	}
-	
-	/**
-	 * relieves the lock state and unlocks the UI
-	 */
-	public void unlock(){
-		this.lock = false;
-		System.out.println("[UIElement.java:54 Released hard lock on " + this);
-		getUI().getTablr().releaseLock(this);
-	}
-	
-	/**
 	 * @return the lock state of this element
 	 */
 	public boolean getLocked(){
@@ -99,22 +81,22 @@ public abstract class UIElement {
 	/**
 	 * All objects that get notified when this UIElement is clicked.
 	 */
-	protected ArrayList<Runnable> singleClickListeners = new ArrayList();
+	protected ArrayList<Runnable> singleClickListeners = new ArrayList<Runnable>();
 	
 	/**
 	 * All objects that get notified when this UIElement is doubleclicked.
 	 */
-	protected ArrayList<Runnable> doubleClickListeners = new ArrayList();
+	protected ArrayList<Runnable> doubleClickListeners = new ArrayList<Runnable>();
 	
 	/**
 	 * All objects that get notified when this UIElement is pressed.
 	 */
-	protected ArrayList<Consumer<UIElement>> pressListeners = new ArrayList();
+	protected ArrayList<Consumer<UIElement>> pressListeners = new ArrayList<Consumer<UIElement>>();
 	
 	/**
 	 * All objects that get notified when this UIElement is released.
 	 */
-	protected ArrayList<Runnable> releaseListeners = new ArrayList();
+	protected ArrayList<Runnable> releaseListeners = new ArrayList<Runnable>();
 	
 	/**
 	 * HashMap that maps keycodes to a list of runnables that are to be executed
@@ -455,9 +437,5 @@ public abstract class UIElement {
 
 	@Override
 	public abstract UIElement clone();
-
-	protected Rectangle2D toShape(){
-		return new Rectangle(getX(),getY(),getWidth(),getHeight());
-	}
 
 }

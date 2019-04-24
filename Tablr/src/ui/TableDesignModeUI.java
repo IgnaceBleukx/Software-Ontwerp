@@ -24,7 +24,7 @@ import facades.Tablr;
  */
 public class TableDesignModeUI extends UI {
 	
-	int margin = getWidth() / 15;
+	private int margin = getWidth() / 15;
 	
 	public TableDesignModeUI(int x, int y, int w, int h,Tablr t) {
 		super(x,y,w,h);
@@ -134,13 +134,7 @@ public class TableDesignModeUI extends UI {
 
 		});
 	}
-		
-	public void resizeR(int delta, int i){
-		this.getLegend().resizeElementR(delta, i*2);
-		getListView().getElements().stream().filter(e -> e instanceof UIRow).forEach(r -> ((UIRow) r).resizeElementR(delta, 3));
-	}
-	
-	
+			
 	private UIRow getLegend(){
 		Optional<UIElement> r = getElements().stream().filter(e -> e instanceof UIRow).findFirst();
 		UIRow row = (UIRow) r.orElseThrow(() -> new RuntimeException("No UIRow in UI"));

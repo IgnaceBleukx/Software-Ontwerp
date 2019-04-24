@@ -206,14 +206,11 @@ public class WindowManager {
 		if (selectedUI.containsPoint(x, y)) {
 			return selectedUI;
 		}
-		else {
-			System.out.println("[WindowManager.java:118] " + getUIs());
-			for (UI ui : getUIs()) {
-				System.out.println("[WindowManager.java:121] " + ui);
-				if (ui.isActive() && ui.containsPoint(x,y)) return ui;
-			}
+		System.out.println("[WindowManager.java:118] " + getUIs());
+		for (UI ui : getUIs()) {
+			System.out.println("[WindowManager.java:121] " + ui);
+			if (ui.isActive() && ui.containsPoint(x,y)) return ui;
 		}
-	
 		return null;
 	}
 	
@@ -328,26 +325,6 @@ public class WindowManager {
 	public UIElement getLockedElement() {
 		return hardLockedElement;
 	}
-	
-	/**
-	 * Select element newElement. 
-	 * Behaviour varies depending on whether or not an element is blocking the UI from selecting different elements.
-	 * @param newElement: the element that wants to be selected
-	 */
-	public void selectElement(UIElement newElement) {
-		//An element has placed a lock on selecting other elements
-		if (lockedSelectedElement != null) { 
-			System.out.println("[WindowManager.java:164] cannot select because locked.");
-			return;
-		}
-		
-		getAllElements().stream().forEach(e -> e.selectElement(newElement));
-	}
-
-//	public void tableResized(TableDesignModeUI tableDesignModeUI, int delta, int i) {
-//		tableDesignModeUIs.values().stream().filter((tdui) -> !tdui.equals(tableDesignModeUI)).forEach((tdui) -> 
-//		tdui.resizeR(delta, i));
-//	}
 	
 	/**
 	 * Variable holding the number of milliseconds since the epoch at the moment Ctrl was pressed.

@@ -40,7 +40,7 @@ public class TextField extends UIElement {
 		return prevText;
 	}
 
-	public void restoreText() {
+	private void restoreText() {
 		System.out.println("[Textfield.java:37] Restoring text: "+getPrevText());
 		setText(getPrevText());
 	}

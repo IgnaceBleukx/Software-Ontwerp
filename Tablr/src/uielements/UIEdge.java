@@ -6,9 +6,9 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.function.BiConsumer;
 
-public abstract class UIEdge extends UIElement {
+abstract class UIEdge extends UIElement {
 
-	public UIEdge(int x, int y, int w, int h) {
+	UIEdge(int x, int y, int w, int h) {
 		super(x, y, w, h);
 	}
 

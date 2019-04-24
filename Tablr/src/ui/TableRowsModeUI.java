@@ -85,7 +85,7 @@ public class TableRowsModeUI extends UI {
 			}
 			//Column deleted
 			else if (legend.getElements().stream().filter(e -> !(e instanceof Dragger)).count() > columnNames.size()){
-				ArrayList<String> legendNames = new ArrayList(legend.getElements().stream().filter(e -> !(e instanceof Dragger)).map(e -> ((Text) e).getText()).collect(Collectors.toList()));
+				ArrayList<String> legendNames = new ArrayList<String>(legend.getElements().stream().filter(e -> !(e instanceof Dragger)).map(e -> ((Text) e).getText()).collect(Collectors.toList()));
 				legendNames.removeAll(columnNames);
 				String removed = legendNames.get(0);
 				for (UIElement e : legend.getElements()){
@@ -152,8 +152,6 @@ public class TableRowsModeUI extends UI {
 	 * @param cellWidth		Width of the UICells
 	 */
 	private UITable loadTable(Table tab, UIRow legend){
-		//Creating legend with all column names:
-		int amountOfColumns = getTablr().getColumns(tab).size();
 		int cellHeight = 35;
 			
 		UITable uiTable = new UITable(getX()+edgeW, titleBar.getEndY(),getWidth()-2*edgeW, getHeight()-2*edgeW-titleBar.getHeight(), legend, new ArrayList<UIRow>());
