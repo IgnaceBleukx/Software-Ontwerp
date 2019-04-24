@@ -32,7 +32,7 @@ public class TableDesignModeUI extends UI {
 		
 		this.columnResizeListeners.add((delta,index) ->{
 			getLegend().resizeElementR(delta, index*2);
-			getListView().getElements().stream().filter(e -> e instanceof UIRow).forEach(r -> ((UIRow) r).resizeElementR(delta, 0));
+			getListView().getElements().stream().filter(e -> e instanceof UIRow).forEach(r -> ((UIRow) r).resizeElementR(delta, index));
 		});
 		
 	}
@@ -105,16 +105,16 @@ public class TableDesignModeUI extends UI {
 		blankDragger.addDragListener((newX,newY) -> { 
 			int delta = newX - blankDragger.getGrabPointX();
 			int deltaFinal = delta;
-			if (type.getWidth() + delta < 24)
-				deltaFinal = 24 - type.getWidth();
+			if (blank.getWidth() + delta < 24)
+				deltaFinal = 24 - blank.getWidth();
 			getWindowManager().notifyTableDesignModeUIsColResized(deltaFinal, 2, table);
 		});
 		
 		defDragger.addDragListener((newX,newY) -> { 
 			int delta = newX - defDragger.getGrabPointX();
 			int deltaFinal = delta;
-			if (type.getWidth() + delta < 24)
-				deltaFinal = 24 - type.getWidth();
+			if (def.getWidth() + delta < 24)
+				deltaFinal = 24 - def.getWidth();
 			getWindowManager().notifyTableDesignModeUIsColResized(deltaFinal, 3, table);
 		});
 		
