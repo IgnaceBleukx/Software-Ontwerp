@@ -117,11 +117,13 @@ public class TablesModeUI extends UI {
 			currRow.addElement(tableNameLabel);
 			//Table name textfields listen to alphanumeric keyboard input
 			tableNameLabel.addKeyboardListener(-1, () -> {
-				tablr.renameTable(curr, tableNameLabel.getText());
-				ArrayList<Table> tablesSameName = tablr.getTablesByName(curr.getName());
+				
+				ArrayList<Table> tablesSameName = tablr.getTablesByName(tableNameLabel.getText());
+				System.out.println("[TablesModeUI.java:122] "+tablesSameName);
 			
-				if ((tablesSameName.size() > 1 && tableNameLabel.isSelected()) || tableNameLabel.getText().length() == 0) {
-					tableNameLabel.isError();
+				if ((tablesSameName.size() > 0 && tableNameLabel.isSelected()) || tableNameLabel.getText().length() == 0) {
+					if (!tableNameLabel.getText().equals(curr.getName()))
+						tableNameLabel.isError();
 					//c.getSelectionLock(tableNameLabel);
 				}
 				else if (tableNameLabel.getError() == true){
@@ -132,6 +134,7 @@ public class TablesModeUI extends UI {
 			
 			tableNameLabel.addKeyboardListener(10,() -> {
 				if (list.getError()) return;
+				tablr.renameTable(curr, tableNameLabel.getText());
 				tablr.domainChanged();
 			});
 
