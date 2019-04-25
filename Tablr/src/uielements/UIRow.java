@@ -164,6 +164,16 @@ public class UIRow extends UIElement {
 	public void resizeR(int deltaW){
 		//
 	}
+	
+	@Override
+	public void resizeT(int deltaH) {
+		this.move(0, deltaH);
+	}
+	
+	@Override
+	public void resizeB(int deltaH) {
+		//
+	}
 
 	public void resizeElementL(int deltaW, int index){
 		elements.sort((UIElement e1,UIElement e2) -> e1.getX() - e2.getX());
