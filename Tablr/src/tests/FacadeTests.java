@@ -16,7 +16,7 @@ public class FacadeTests {
 	public void testLoadUIModes() {
 		MyCanvasWindow myCW = new MyCanvasWindow("Table Design mode test");
 		Tablr tablr = myCW.getTablr();
-		Table t = new Table("Test Table");
+		Table t = tablr.addEmptyTable();
 		System.out.println(tablr);
 		tablr.loadTableDesignModeUI(t);
 		tablr.loadTableRowsModeUI(t);
