@@ -62,7 +62,6 @@ public class MyCanvasWindow extends CanvasWindow {
 		
 		if (id == MouseEvent.MOUSE_PRESSED || id == MouseEvent.MOUSE_CLICKED){ //Only search for a potential new UI with THESE actions
 			try {
-//				System.out.println("[MyCanvasWindow.java:66]: ui = " + tablr.getUIAt(x,y));
 				clicked = tablr.getUIAt(x, y).locatedAt(x, y);
 			} catch (NullPointerException e) {
 				System.out.println("[MyCanvasWindow.java:67]: No UI at these coordinates");

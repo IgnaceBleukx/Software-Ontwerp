@@ -79,7 +79,7 @@ public class TableDesignModeUI extends UI {
 				add(def);
 			}}
 		));
-		
+		legend.setWidth(legend.getElements().stream().filter(e -> !(e instanceof Dragger)).mapToInt(e ->e.getWidth()).sum()+2);
 		this.addUIElement(legend);
 		
 		ListView list = loadColumnAttributes(table);
@@ -162,7 +162,7 @@ public class TableDesignModeUI extends UI {
 		int defPosX = getLegend().getElements().get(6).getX();
 		int defSizeX = getLegend().getElements().get(6).getWidth();
 				
-		ListView listview = new ListView(getX()+edgeW, currentHeight, getWidth() - 2*edgeW,	getHeight()-2*edgeW-titleHeight-15,new ArrayList<UIElement>());
+		ListView list = new ListView(getX()+edgeW, currentHeight, getWidth() - 2*edgeW,	getHeight()-2*edgeW-titleHeight-15,new ArrayList<UIElement>());
 		
 		int index = 0; 
 		for(Column col : tablr.getColumns(table)){
@@ -204,16 +204,20 @@ public class TableDesignModeUI extends UI {
 				});*/
 			}
 			
-			UIRow uiRow = new UIRow(getX()+edgeW ,currentHeight, getLegend().getWidth(), 30,elmts);
+			UIRow uiRow = new UIRow(list.getX() ,currentHeight, list.getWidth()-list.getScrollBarWidth(), 30,elmts);
 			currentHeight += 30;
-			listview.addElement(uiRow);			
+			list.addElement(uiRow);			
 			
 			//Adding listeners
 			uiRow.addSingleClickListener(() -> {
-				for (UIElement e : getElements()){
-					if (e.getError()) return;
+				for (UIElement e : list.getElements()){
+					if (e.getError() || (e.isSelected() && !e.equals(uiRow))) 
+						return;
 				}
-				uiRow.select();
+				if (uiRow.isSelected())
+					uiRow.deselect();
+				else
+					uiRow.select();
 			});
 			
 			int i = index;
@@ -288,18 +292,18 @@ public class TableDesignModeUI extends UI {
 			index++;
 		}
 		
-		listview.addDoubleClickListener(() -> {
+		list.addDoubleClickListener(() -> {
 			for (UIElement e : getElements()){
 				if (e.getError()) return;
 			}
 			tablr.addEmptyColumn(table, Type.STRING, "");
 		});
 		
-		listview.addHorizontalScrollListener((delta) ->{
+		list.addHorizontalScrollListener((delta) ->{
 			getLegend().move(-delta,0);
 		});
 		
-		return listview;
+		return list;
 	}
 	
 	@Override
