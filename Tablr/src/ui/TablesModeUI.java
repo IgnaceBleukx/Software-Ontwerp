@@ -80,7 +80,10 @@ public class TablesModeUI extends UI {
 		
 		tableNameDragger.addDragListener((newX,newY) -> {
 			int delta = newX - tableNameDragger.getGrabPointX();
-			getWindowManager().notifyTablesModeUIsColResized(delta,0);
+			int deltaFinal = delta;
+			if (tableName.getWidth() + delta < minimumColumnWidth)
+				deltaFinal = minimumColumnWidth - tableName.getWidth();
+			getWindowManager().notifyTablesModeUIsColResized(deltaFinal,0);
 		});
 		
 		
