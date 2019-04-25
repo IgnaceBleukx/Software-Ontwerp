@@ -253,14 +253,6 @@ public class UITable extends UIElement {
 		return false;
 	}
 
-	@Override
-	public boolean hasElementInError() {
-		if (this.isSelected()) return true;
-		for (UIElement e : getRows()){
-			if (e.hasElementInError()) return true;
-		}
-		return false;
-	}
 
 	public void removeRow(UIRow uiRow) {
 		this.rows.remove(uiRow);
