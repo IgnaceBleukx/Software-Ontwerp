@@ -443,8 +443,11 @@ public class UI {
 		UIElement found = null;
 		for (UIElement e : getElements()) {
 			found = e.locatedAt(x,y);
+			if (found == null) e.deselect();
+		}
+		for (UIElement e : getElements()) {
+			found = e.locatedAt(x,y);
 			if (found != null) return found;
-			else e.deselect();
 		}
 		return null;
 	}

@@ -111,6 +111,12 @@ public class Checkbox extends UIElement {
 	public boolean isChecked() {
 		return value;
 	}
+	
+	@Override
+	public void move(int deltaX, int deltaY) {
+		setX(getX() + deltaX/2);
+		setY(getY() + deltaY);
+	}
 
 	@Override
 	public void resizeL(int deltaW){

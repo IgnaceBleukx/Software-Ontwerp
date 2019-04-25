@@ -151,7 +151,10 @@ public class ListView extends UIElement {
 	 */
 	@Override
 	public UIElement locatedAt(int x, int y) {
-		if (!containsPoint(x,y)) return null;
+		if (!containsPoint(x,y)) {
+			this.deselectAll();
+			return null;
+		}
 		
 		UIElement found = null;
 //		if (scrollBarV.containsPoint(x, y)) return scrollBarV.locatedAt(x, y);
@@ -231,6 +234,11 @@ public class ListView extends UIElement {
 		for (UIElement el : elements) {
 			el.selectElement(e);
 		}
+	}
+	
+	public void deselectAll() {
+		for (UIElement e : elements) e.deselect();
+		this.deselect();
 	}
 	
 	/**

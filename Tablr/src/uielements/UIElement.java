@@ -103,7 +103,21 @@ public abstract class UIElement {
 	 */
 	protected HashMap<Integer, ArrayList<Runnable>> keyboardListeners = new HashMap<Integer, ArrayList<Runnable>>();
 
+	/**
+	 * All objects that get notified when this UIElement is deselected.
+	 */
+	protected ArrayList<Runnable> deselectionListeners = new ArrayList<Runnable>();
+	
+
 	protected ArrayList<BiConsumer<Integer,Integer>> dragListeners = new ArrayList<>();
+	
+	/**
+	 * adds a listener for a singleClick action
+	 * @param f: the listener to be added
+	 */
+	public void addDeselectionListener(Runnable f) {
+		deselectionListeners.add(f);
+	}
 	
 	/**
 	 * Attaches a function to a keyCode; the function will be executed when the key is pressed
@@ -317,11 +331,13 @@ public abstract class UIElement {
 		this.isSelected = true;
 	}
 	
+
 	/**
 	 * set the element as not selected
 	 */
 	public void deselect() {
 		this.isSelected = false;
+		new ArrayList<>(deselectionListeners).stream().forEach(l -> l.run());
 	}
 
 	/**

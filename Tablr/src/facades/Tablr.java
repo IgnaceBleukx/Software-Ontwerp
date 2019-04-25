@@ -380,7 +380,6 @@ public class Tablr {
 	 */
 	public void domainChanged(){
 		DomainChangedListeners.stream().forEach(l -> l.run());
-		
 	}
 	
 	/**

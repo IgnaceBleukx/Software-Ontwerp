@@ -193,13 +193,15 @@ public class TableDesignModeUI extends UI {
 							colDefText.isNotError();
 						}
 					}catch(ClassCastException e){
-						System.out.println("Allez ja he");
 						colDefText.isError();
 					}
 				});
 				colDefText.addKeyboardListener(10,() -> {
 					tablr.domainChanged();
 				});
+				/*colDefText.addDeselectionListener(() -> {
+					tablr.domainChanged();
+				});*/
 			}
 			
 			UIRow uiRow = new UIRow(getX()+edgeW ,currentHeight, getWidth() - 2*edgeW - 10, 30,elmts);
