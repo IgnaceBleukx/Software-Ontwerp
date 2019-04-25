@@ -80,13 +80,13 @@ public class MyCanvasWindow extends CanvasWindow {
 			
 			//Mouse pressed
 			if (id  == MouseEvent.MOUSE_PRESSED) {
-				System.out.println("[MyCanvasWindow.java:83]: Mouse Pressed!");
+				System.out.println("[MyCanvasWindow.java:83]: Mouse Pressed at ("+x+","+y+")");
 				clicked.handlePressed(x, y);
 			}
 
 			//Mouse clicked
 			else if (id == MouseEvent.MOUSE_CLICKED) {
-				System.out.println("[MyCanvasWindow.java:99]: Mouse Clicked!");
+				System.out.println("[MyCanvasWindow.java:99]: Mouse Clicked at ("+x+","+y+")");
 				/**
 				 * Some element has a hard lock, ignore this input if the
 				 * element getting the input is not the element that has the hard lock

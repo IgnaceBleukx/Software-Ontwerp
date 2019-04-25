@@ -2,6 +2,7 @@ package tests;
 
 import static org.junit.Assert.*;
 
+import java.awt.event.KeyEvent;
 import java.awt.event.MouseEvent;
 
 import org.junit.Test;
@@ -161,6 +162,68 @@ public class TablesModeTests {
 		
 		// A Table Rows mode subwindow is shown.
 		assertEquals(1, tablr.getTableRowsUIs().size());
+	}
+	
+	@Test
+	public void testRenameTable() {
+		// Step 1: Load the window
+		MyCanvasWindow myCW = new MyCanvasWindow("Tables Mode");
+		Tablr tablr = myCW.getTablr();
+	
+		// Perform a ctrl+T to add tables mode subwindow
+		myCW.handleKeyEvent(1, 17, ' ');
+		myCW.handleKeyEvent(1, 84, ' ');
+		
+		// Double click on listview to create a two new tables (Table1 and Table2)
+		myCW.handleMouseEvent(MouseEvent.MOUSE_CLICKED, 155, 152, 2);
+		myCW.handleMouseEvent(MouseEvent.MOUSE_CLICKED, 155, 152, 2);
+		
+		//The user selects the second table
+		myCW.handleMouseEvent(MouseEvent.MOUSE_CLICKED, 90, 88, 1);
+		TextField textField = (TextField) tablr.getUIAt(90, 88).locatedAt(90, 88);
+		assertEquals("Table1",textField.getText());
+		
+		//User presses backspace to delete the '1' in Table1
+		myCW.handleKeyEvent(KeyEvent.KEY_TYPED, 8, Character.MIN_VALUE);
+		assertEquals("Table",textField.getText());
+		
+		//User presses 0 to create identical table names
+		myCW.handleKeyEvent(KeyEvent.KEY_TYPED, 48, '0');
+		assertEquals("Table0",textField.getText());
+		
+		//User presses backspace to delete the '0' 
+		myCW.handleKeyEvent(KeyEvent.KEY_TYPED, 8, Character.MIN_VALUE);
+		assertEquals("Table",textField.getText());
+		
+		//User presses Enter to confirm table name "Table"
+		myCW.handleKeyEvent(KeyEvent.KEY_TYPED, 10, Character.MIN_VALUE);
+		assertEquals("Table",textField.getText());
+		
+	}
+	
+	@Test
+	public void removeTable() {
+		// Step 1: Load the window
+		MyCanvasWindow myCW = new MyCanvasWindow("Tables Mode");
+		Tablr tablr = myCW.getTablr();
+	
+		// Perform a ctrl+T to add tables mode subwindow
+		myCW.handleKeyEvent(1, 17, ' ');
+		myCW.handleKeyEvent(1, 84, ' ');
+		
+		// Double click on listview to create a two new tables (Table1 and Table2)
+		myCW.handleMouseEvent(MouseEvent.MOUSE_CLICKED, 155, 152, 2);
+		assertEquals(1, tablr.getTables().size());
+
+		
+		//User selects the first table
+		myCW.handleMouseEvent(MouseEvent.MOUSE_CLICKED, 20, 54, 1);
+		
+		//User presses delete
+		myCW.handleKeyEvent(KeyEvent.KEY_TYPED, 127, Character.MIN_VALUE);
+		
+		assertEquals(0, tablr.getTables().size());
+		
 	}
 	
 }
