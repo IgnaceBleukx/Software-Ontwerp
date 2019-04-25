@@ -6,6 +6,9 @@ import java.awt.event.MouseEvent;
 
 import org.junit.Test;
 
+import uielements.Button;
+import uielements.ListView;
+import uielements.TextField;
 import canvaswindow.MyCanvasWindow;
 import facades.Tablr;
 
@@ -153,5 +156,71 @@ public class UIElementTests {
 		// Check the changed width of the subwindow
 		assertEquals(305, tablr.getTablesModeUIs().get(0).getWidth());
 		assertEquals(305, tablr.getTablesModeUIs().get(0).getHeight());
+	}
+	
+	@Test 
+	public void verticalScrollBar() {
+		// Load the window
+		MyCanvasWindow myCW = new MyCanvasWindow("Tables Mode");
+		Tablr tablr = myCW.getTablr();
+		
+		// Perform a ctrl+T to add tables mode subwindow
+		myCW.handleKeyEvent(1, 17, ' ');
+		myCW.handleKeyEvent(1, 84, ' ');
+		
+		// Add 7 tables
+		myCW.handleMouseEvent(MouseEvent.MOUSE_CLICKED, 155, 285, 2);
+		myCW.handleMouseEvent(MouseEvent.MOUSE_CLICKED, 155, 285, 2);
+		myCW.handleMouseEvent(MouseEvent.MOUSE_CLICKED, 155, 285, 2);
+		myCW.handleMouseEvent(MouseEvent.MOUSE_CLICKED, 155, 285, 2);
+		myCW.handleMouseEvent(MouseEvent.MOUSE_CLICKED, 155, 285, 2);
+		myCW.handleMouseEvent(MouseEvent.MOUSE_CLICKED, 155, 285, 2);
+		myCW.handleMouseEvent(MouseEvent.MOUSE_CLICKED, 155, 285, 2);
+		
+		// Check the name of the first shown table
+		myCW.handleMouseEvent(MouseEvent.MOUSE_CLICKED, 75, 55, 1);
+		TextField t = (TextField) tablr.getUIAt(75, 55).locatedAt(75, 55);
+		assertEquals("Table0", t.getText());
+		
+		// Drag the vertical scrollbar to the bottom
+		myCW.handleMouseEvent(MouseEvent.MOUSE_PRESSED, 293, 132, 1);
+		myCW.handleMouseEvent(MouseEvent.MOUSE_DRAGGED, 293, 170, 1);
+		myCW.handleMouseEvent(MouseEvent.MOUSE_RELEASED, 293, 170, 1);
+		
+		//Check the name of the first shown table
+		myCW.handleMouseEvent(MouseEvent.MOUSE_CLICKED, 75, 55, 1);
+		t = (TextField) tablr.getUIAt(75, 55).locatedAt(75, 55);
+		assertEquals("Table1", t.getText());
+	}
+	
+	@Test 
+	public void HorizontalScrollBar() {
+		// Load the window
+		MyCanvasWindow myCW = new MyCanvasWindow("Tables Mode");
+		Tablr tablr = myCW.getTablr();
+		
+		// Perform a ctrl+T to add tables mode subwindow
+		myCW.handleKeyEvent(1, 17, ' ');
+		myCW.handleKeyEvent(1, 84, ' ');
+		
+		// Add a tables
+		myCW.handleMouseEvent(MouseEvent.MOUSE_CLICKED, 155, 285, 2);
+		
+		// The clicked element is a button
+		myCW.handleMouseEvent(MouseEvent.MOUSE_CLICKED, 23, 49, 1);
+		Button b = (Button) tablr.getUIAt(23,49).locatedAt(23, 49);
+		
+		// Resize the subwindow, so it is possible to use the horizontalScrollbar
+		myCW.handleMouseEvent(MouseEvent.MOUSE_PRESSED, 299, 150, 1);
+		myCW.handleMouseEvent(MouseEvent.MOUSE_DRAGGED, 213, 150, 1);
+		
+		// Drag the horizontal scrollbar to the right
+		myCW.handleMouseEvent(MouseEvent.MOUSE_PRESSED, 49, 295, 1);
+		myCW.handleMouseEvent(MouseEvent.MOUSE_DRAGGED, 76, 295, 1);
+		myCW.handleMouseEvent(MouseEvent.MOUSE_RELEASED, 76, 295, 1);
+		
+		//The clicked element is now a textfield
+		myCW.handleMouseEvent(MouseEvent.MOUSE_CLICKED, 23, 49, 1);
+		TextField t = (TextField) tablr.getUIAt(23, 49).locatedAt(23, 49);
 	}
 }
