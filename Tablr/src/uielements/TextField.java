@@ -105,6 +105,7 @@ public class TextField extends UIElement {
 	
 	@Override
 	public void handleKeyboardEvent(int keyCode, char keyChar) {
+		if (!this.isSelected()) return;
 		if (keyCode == 10 && isSelected() == true) { //Enter, end editing
 			if (!getError())
 				deselect();
