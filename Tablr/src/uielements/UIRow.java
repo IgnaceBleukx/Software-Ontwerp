@@ -147,15 +147,6 @@ public class UIRow extends UIElement {
 		return false;
 	}
 
-	@Override
-	public boolean hasElementInError() {
-		if (this.getError()) return true;
-		for (UIElement e : elements){
-			if (e.hasElementInError()) return true;
-		}
-		return false;
-	}
-
 	private boolean selected;
 	
 	public void select(){

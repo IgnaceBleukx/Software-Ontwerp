@@ -254,20 +254,6 @@ public class UITable extends UIElement {
 	}
 
 	@Override
-	public boolean hasElementInError() {
-		if (this.isSelected()) return true;
-		for (UIElement e : getRows()){
-			if (e.hasElementInError()) return true;
-		}
-		return false;
-	}
-
-	public void removeRow(UIRow uiRow) {
-		this.rows.remove(uiRow);
-		updateScrollBars();
-	}
-	
-	@Override
 	public void move(int deltaX, int deltaY) {
 		setX(getX() + deltaX);
 		setY(getY() + deltaY);

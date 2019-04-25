@@ -9,8 +9,11 @@ import org.junit.Test;
 import uielements.Button;
 import uielements.ListView;
 import uielements.TextField;
+import uielements.UIElement;
+import uielements.UITable;
 import canvaswindow.MyCanvasWindow;
 import facades.Tablr;
+import ui.TableRowsModeUI;
 
 public class UIElementTests {
 
@@ -364,12 +367,237 @@ public class UIElementTests {
 		myCW.handleMouseEvent(MouseEvent.MOUSE_CLICKED, 345, 365, 1);
 		myCW.handleKeyEvent(0, 0, 'a');
 		
-		// Drag the horizontal scrollbar to the right
+		// Drag the vertical scrollbar to the bottom
 		myCW.handleMouseEvent(MouseEvent.MOUSE_PRESSED, 593, 400, 1);
 		myCW.handleMouseEvent(MouseEvent.MOUSE_DRAGGED, 593, 446, 1);
 		myCW.handleMouseEvent(MouseEvent.MOUSE_RELEASED, 593, 446, 1);
 		
 		TextField t = (TextField) tablr.getUIAt(345, 365).locatedAt(345, 365);
 		assertEquals("", t.getText());
+	}
+	
+	@Test
+	public void HorizontalScrollListenersUITable() {
+		// Load the window
+		MyCanvasWindow myCW = new MyCanvasWindow("Tables Mode");
+		Tablr tablr = myCW.getTablr();
+		
+		// Perform a ctrl+T to add tables mode subwindow
+		myCW.handleKeyEvent(1, 17, ' ');
+		myCW.handleKeyEvent(1, 84, ' ');
+		
+		// Add a tables
+		myCW.handleMouseEvent(MouseEvent.MOUSE_CLICKED, 155, 285, 2);
+		
+		// Click the table name
+		myCW.handleMouseEvent(MouseEvent.MOUSE_CLICKED, 55, 50, 2);
+		
+		// Add four columns to the table and open rows mode
+		myCW.handleMouseEvent(MouseEvent.MOUSE_CLICKED, 455, 168, 2);
+		myCW.handleMouseEvent(MouseEvent.MOUSE_CLICKED, 455, 168, 2);
+		myCW.handleMouseEvent(MouseEvent.MOUSE_CLICKED, 455, 168, 2);
+		myCW.handleMouseEvent(MouseEvent.MOUSE_CLICKED, 455, 168, 2);
+		myCW.handleMouseEvent(MouseEvent.MOUSE_CLICKED, 55, 50, 2);
+		
+		// Add a row to the table
+		myCW.handleMouseEvent(MouseEvent.MOUSE_CLICKED, 400, 390, 2);
+		
+		// Change text of first cell
+		myCW.handleMouseEvent(MouseEvent.MOUSE_CLICKED, 345, 365, 1);
+		myCW.handleKeyEvent(0, 0, 'a');
+		
+		// Drag the horizontal scrollbar to the right
+		myCW.handleMouseEvent(MouseEvent.MOUSE_PRESSED, 373, 590, 1);
+		myCW.handleMouseEvent(MouseEvent.MOUSE_DRAGGED, 488, 590, 1);
+		myCW.handleMouseEvent(MouseEvent.MOUSE_RELEASED, 488, 446, 1);
+		
+		TextField t = (TextField) tablr.getUIAt(345, 365).locatedAt(345, 365);
+		assertEquals("", t.getText());
+	}
+	
+	@Test
+	public void UITableVaria() {
+		// Load the window
+		MyCanvasWindow myCW = new MyCanvasWindow("Tables Mode");
+		Tablr tablr = myCW.getTablr();
+		
+		// Perform a ctrl+T to add tables mode subwindow
+		myCW.handleKeyEvent(1, 17, ' ');
+		myCW.handleKeyEvent(1, 84, ' ');
+		
+		// Add a tables
+		myCW.handleMouseEvent(MouseEvent.MOUSE_CLICKED, 155, 285, 2);
+		
+		// Click the table name
+		myCW.handleMouseEvent(MouseEvent.MOUSE_CLICKED, 55, 50, 2);
+		
+		// Add four columns to the table and open rows mode
+		myCW.handleMouseEvent(MouseEvent.MOUSE_CLICKED, 455, 168, 2);
+		myCW.handleMouseEvent(MouseEvent.MOUSE_CLICKED, 455, 168, 2);
+		myCW.handleMouseEvent(MouseEvent.MOUSE_CLICKED, 55, 50, 2);
+		
+		// Add a row to the table
+		myCW.handleMouseEvent(MouseEvent.MOUSE_CLICKED, 400, 390, 2);
+		myCW.handleMouseEvent(MouseEvent.MOUSE_CLICKED, 400, 390, 2);
+
+		UITable uit = (UITable) tablr.getUIAt(435, 480).locatedAt(435, 480);
+		assertFalse(uit.getError());
+
+		assertEquals(2, tablr.getRows(tablr.getTables().get(0)));
+		
+		// Click the second row and delete it
+		myCW.handleMouseEvent(MouseEvent.MOUSE_CLICKED, 311, 390, 1);
+		myCW.handleKeyEvent(1, 127, ' ');
+		
+		assertEquals(1, tablr.getRows(tablr.getTables().get(0)));
+	}
+	
+	@Test
+	public void resizeLeftRowsMode() {
+		// Load the window
+		MyCanvasWindow myCW = new MyCanvasWindow("Tables Mode");
+		Tablr tablr = myCW.getTablr();
+		
+		// Perform a ctrl+T to add tables mode subwindow
+		myCW.handleKeyEvent(1, 17, ' ');
+		myCW.handleKeyEvent(1, 84, ' ');
+		
+		// Add a table
+		myCW.handleMouseEvent(MouseEvent.MOUSE_CLICKED, 155, 285, 2);
+		
+		// Click the table name
+		myCW.handleMouseEvent(MouseEvent.MOUSE_CLICKED, 55, 50, 2);
+		
+		// Add four columns to the table and open rows mode
+		myCW.handleMouseEvent(MouseEvent.MOUSE_CLICKED, 455, 168, 2);
+		myCW.handleMouseEvent(MouseEvent.MOUSE_CLICKED, 55, 50, 2);
+		
+		// Add a row to the table
+		myCW.handleMouseEvent(MouseEvent.MOUSE_CLICKED, 400, 390, 2);
+		
+		System.out.println(tablr.getTableRowsUIs().entrySet().iterator().next().getValue());
+		// Confirm the first width and height of the tables mode
+		assertEquals(300, ((TableRowsModeUI) tablr.getTableRowsUIs().entrySet().iterator().next().getValue().get(0)).getWidth());
+		assertEquals(300, ((TableRowsModeUI) tablr.getTableRowsUIs().entrySet().iterator().next().getValue().get(0)).getHeight());
+	
+		// Drag the tables mode subwindow to the right
+		myCW.handleMouseEvent(MouseEvent.MOUSE_PRESSED, 302, 400, 1);
+		myCW.handleMouseEvent(MouseEvent.MOUSE_DRAGGED, 297, 400, 1);
+		
+		// Check the changed width and height of the subwindow
+		assertEquals(305, ((TableRowsModeUI) tablr.getTableRowsUIs().entrySet().iterator().next().getValue().get(0)).getWidth());
+		assertEquals(300, ((TableRowsModeUI) tablr.getTableRowsUIs().entrySet().iterator().next().getValue().get(0)).getHeight());
+	
+	}
+	
+	@Test
+	public void resizeRightRowsMode() {
+		// Load the window
+		MyCanvasWindow myCW = new MyCanvasWindow("Tables Mode");
+		Tablr tablr = myCW.getTablr();
+		
+		// Perform a ctrl+T to add tables mode subwindow
+		myCW.handleKeyEvent(1, 17, ' ');
+		myCW.handleKeyEvent(1, 84, ' ');
+		
+		// Add a table
+		myCW.handleMouseEvent(MouseEvent.MOUSE_CLICKED, 155, 285, 2);
+		
+		// Click the table name
+		myCW.handleMouseEvent(MouseEvent.MOUSE_CLICKED, 55, 50, 2);
+		
+		// Add four columns to the table and open rows mode
+		myCW.handleMouseEvent(MouseEvent.MOUSE_CLICKED, 455, 168, 2);
+		myCW.handleMouseEvent(MouseEvent.MOUSE_CLICKED, 55, 50, 2);
+		
+		// Add a row to the table
+		myCW.handleMouseEvent(MouseEvent.MOUSE_CLICKED, 400, 390, 2);
+		
+		System.out.println(tablr.getTableRowsUIs().entrySet().iterator().next().getValue());
+		// Confirm the first width and height of the tables mode
+		assertEquals(300, ((TableRowsModeUI) tablr.getTableRowsUIs().entrySet().iterator().next().getValue().get(0)).getWidth());
+		assertEquals(300, ((TableRowsModeUI) tablr.getTableRowsUIs().entrySet().iterator().next().getValue().get(0)).getHeight());
+	
+		// Drag the tables mode subwindow to the right
+		myCW.handleMouseEvent(MouseEvent.MOUSE_PRESSED, 599, 451, 1);
+		myCW.handleMouseEvent(MouseEvent.MOUSE_DRAGGED, 604, 451, 1);
+		
+		// Check the changed width and height of the subwindow
+		assertEquals(305, ((TableRowsModeUI) tablr.getTableRowsUIs().entrySet().iterator().next().getValue().get(0)).getWidth());
+		assertEquals(300, ((TableRowsModeUI) tablr.getTableRowsUIs().entrySet().iterator().next().getValue().get(0)).getHeight());
+	}
+	
+	@Test
+	public void resizeTopRowsMode() {
+		// Load the window
+		MyCanvasWindow myCW = new MyCanvasWindow("Tables Mode");
+		Tablr tablr = myCW.getTablr();
+		
+		// Perform a ctrl+T to add tables mode subwindow
+		myCW.handleKeyEvent(1, 17, ' ');
+		myCW.handleKeyEvent(1, 84, ' ');
+		
+		// Add a table
+		myCW.handleMouseEvent(MouseEvent.MOUSE_CLICKED, 155, 285, 2);
+		
+		// Click the table name
+		myCW.handleMouseEvent(MouseEvent.MOUSE_CLICKED, 55, 50, 2);
+		
+		// Add four columns to the table and open rows mode
+		myCW.handleMouseEvent(MouseEvent.MOUSE_CLICKED, 455, 168, 2);
+		myCW.handleMouseEvent(MouseEvent.MOUSE_CLICKED, 55, 50, 2);
+		
+		// Add a row to the table
+		myCW.handleMouseEvent(MouseEvent.MOUSE_CLICKED, 400, 390, 2);
+		
+		System.out.println(tablr.getTableRowsUIs().entrySet().iterator().next().getValue());
+		// Confirm the first width and height of the tables mode
+		assertEquals(300, ((TableRowsModeUI) tablr.getTableRowsUIs().entrySet().iterator().next().getValue().get(0)).getWidth());
+		assertEquals(300, ((TableRowsModeUI) tablr.getTableRowsUIs().entrySet().iterator().next().getValue().get(0)).getHeight());
+	
+		// Drag the tables mode subwindow to the right
+		myCW.handleMouseEvent(MouseEvent.MOUSE_PRESSED, 444, 300, 1);
+		myCW.handleMouseEvent(MouseEvent.MOUSE_DRAGGED, 444, 250, 1);
+		
+		// Check the changed width and height of the subwindow
+		assertEquals(300, ((TableRowsModeUI) tablr.getTableRowsUIs().entrySet().iterator().next().getValue().get(0)).getWidth());
+		assertEquals(350, ((TableRowsModeUI) tablr.getTableRowsUIs().entrySet().iterator().next().getValue().get(0)).getHeight());
+	}
+	
+	@Test
+	public void resizeBottomRowsMode() {
+		// Load the window
+		MyCanvasWindow myCW = new MyCanvasWindow("Tables Mode");
+		Tablr tablr = myCW.getTablr();
+		
+		// Perform a ctrl+T to add tables mode subwindow
+		myCW.handleKeyEvent(1, 17, ' ');
+		myCW.handleKeyEvent(1, 84, ' ');
+		
+		// Add a table
+		myCW.handleMouseEvent(MouseEvent.MOUSE_CLICKED, 155, 285, 2);
+		
+		// Click the table name
+		myCW.handleMouseEvent(MouseEvent.MOUSE_CLICKED, 55, 50, 2);
+		
+		// Add four columns to the table and open rows mode
+		myCW.handleMouseEvent(MouseEvent.MOUSE_CLICKED, 455, 168, 2);
+		myCW.handleMouseEvent(MouseEvent.MOUSE_CLICKED, 55, 50, 2);
+		
+		// Add a row to the table
+		myCW.handleMouseEvent(MouseEvent.MOUSE_CLICKED, 400, 390, 2);
+		
+		System.out.println(tablr.getTableRowsUIs().entrySet().iterator().next().getValue());
+		// Confirm the first width and height of the tables mode
+		assertEquals(300, ((TableRowsModeUI) tablr.getTableRowsUIs().entrySet().iterator().next().getValue().get(0)).getWidth());
+		assertEquals(300, ((TableRowsModeUI) tablr.getTableRowsUIs().entrySet().iterator().next().getValue().get(0)).getHeight());
+	
+		// Drag the tables mode subwindow to the right
+		myCW.handleMouseEvent(MouseEvent.MOUSE_PRESSED, 442, 597, 1);
+		myCW.handleMouseEvent(MouseEvent.MOUSE_DRAGGED, 442, 602, 1);
+		
+		// Check the changed width and height of the subwindow
+		assertEquals(300, ((TableRowsModeUI) tablr.getTableRowsUIs().entrySet().iterator().next().getValue().get(0)).getWidth());
+		assertEquals(305, ((TableRowsModeUI) tablr.getTableRowsUIs().entrySet().iterator().next().getValue().get(0)).getHeight());
 	}
 }
