@@ -112,20 +112,20 @@ public class Checkbox extends UIElement {
 		return value;
 	}
 	
-	@Override
-	public void move(int deltaX, int deltaY) {
-		setX(getX() + deltaX/2);
-		setY(getY() + deltaY);
-	}
+//	@Override
+//	public void move(int deltaX, int deltaY) {
+//		setX(getX() + deltaX);
+//		setY(getY() + deltaY);
+//	}
 
 	@Override
 	public void resizeL(int deltaW){
-		this.move(deltaW/2, 0);
+		this.move(deltaW, 0);
 	}
 	
 	@Override
 	public void resizeR(int deltaW){
-		this.move(deltaW/2, 0);
+		this.move(deltaW, 0);
 	}
 
 	@Override
