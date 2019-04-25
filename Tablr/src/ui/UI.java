@@ -215,6 +215,8 @@ public class UI {
 		this.addUIElement(bottomRight);
 	}
 
+	protected static int minimumColumnWidth = 30;
+	
 	/**
 	 * X Coordinate
 	 */

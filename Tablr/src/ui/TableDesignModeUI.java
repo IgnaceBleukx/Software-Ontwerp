@@ -67,7 +67,7 @@ public class TableDesignModeUI extends UI {
 		blank.setBorder(true);
 		def.setBorder(true);
 				
-		UIRow legend = new UIRow(namePosX,currentHeight,this.getWidth()-2*edgeW-10,15,(new ArrayList<UIElement>()
+		UIRow legend = new UIRow(namePosX,currentHeight,this.getWidth()-2*edgeW-margin+2,15,(new ArrayList<UIElement>()
 			{{
 				add(nameDragger);
 				add(typeDragger);
@@ -88,8 +88,8 @@ public class TableDesignModeUI extends UI {
 		nameDragger.addDragListener((newX,newY) -> { 
 			int delta = newX - nameDragger.getGrabPointX();
 			int deltaFinal = delta;
-			if (name.getWidth() + delta < 15){
-				deltaFinal = 15 - name.getWidth();
+			if (name.getWidth() + delta < minimumColumnWidth){
+				deltaFinal = minimumColumnWidth - name.getWidth();
 			}
 			getWindowManager().notifyTableDesignModeUIsColResized(deltaFinal, 0, table);
 		});
@@ -97,24 +97,24 @@ public class TableDesignModeUI extends UI {
 		typeDragger.addDragListener((newX,newY) -> { 
 			int delta = newX - typeDragger.getGrabPointX();
 			int deltaFinal = delta;
-			if (type.getWidth() + delta < 15)
-				deltaFinal = 15 - type.getWidth();
+			if (type.getWidth() + delta < minimumColumnWidth)
+				deltaFinal = minimumColumnWidth - type.getWidth();
 			getWindowManager().notifyTableDesignModeUIsColResized(deltaFinal, 1, table);
 		});
 		
 		blankDragger.addDragListener((newX,newY) -> { 
 			int delta = newX - blankDragger.getGrabPointX();
 			int deltaFinal = delta;
-			if (blank.getWidth() + delta < 24)
-				deltaFinal = 24 - blank.getWidth();
+			if (blank.getWidth() + delta < minimumColumnWidth)
+				deltaFinal = minimumColumnWidth - blank.getWidth();
 			getWindowManager().notifyTableDesignModeUIsColResized(deltaFinal, 2, table);
 		});
 		
 		defDragger.addDragListener((newX,newY) -> { 
 			int delta = newX - defDragger.getGrabPointX();
 			int deltaFinal = delta;
-			if (def.getWidth() + delta < 24)
-				deltaFinal = 24 - def.getWidth();
+			if (def.getWidth() + delta < minimumColumnWidth)
+				deltaFinal = minimumColumnWidth - def.getWidth();
 			getWindowManager().notifyTableDesignModeUIsColResized(deltaFinal, 3, table);
 		});
 		
@@ -131,7 +131,6 @@ public class TableDesignModeUI extends UI {
 			if (this.getWindowManager().recentCtrl()) {
 				tablr.loadTableRowsModeUI(table);
 			}
-
 		});
 	}
 			
@@ -166,7 +165,7 @@ public class TableDesignModeUI extends UI {
 		ListView listview = new ListView(getX()+edgeW, currentHeight, getWidth() - 2*edgeW,	getHeight()-2*edgeW-titleHeight-15,new ArrayList<UIElement>());
 		
 		int index = 0; 
-			for(Column col : tablr.getColumns(table)){
+		for(Column col : tablr.getColumns(table)){
 			TextField colName = new TextField(namePosX, currentHeight, nameSizeX, 30, tablr.getColumnName(col));
 			Text colType = new Text(typePosX, currentHeight, typeSizeX, 30, tablr.getColumnType(col).toString()); 
 			colType.setBorder(true);
@@ -188,20 +187,18 @@ public class TableDesignModeUI extends UI {
 				TextField colDefText = new TextField(defPosX,currentHeight, defSizeX ,30, defaultValue);
 				elmts.add(colDefText);
 				colDefText.addKeyboardListener(-1,()-> {
-					try{
-						if (colDefText.getText().length() == 0) {
-							tablr.setDefault(col,"");
+					try {
+						tablr.setDefault(col,colDefText.getText());
+						if (colDefText.getError()) {
+							colDefText.isNotError();
 						}
-						else{
-							tablr.setDefault(col,colDefText.getText());
-						}
-						if (colDefText.getError()) colDefText.isNotError();
 					}catch(ClassCastException e){
+						System.out.println("Allez ja he");
 						colDefText.isError();
 					}
 				});
 				colDefText.addKeyboardListener(10,() -> {
-					getTablr().domainChanged();
+					tablr.domainChanged();
 				});
 			}
 			
@@ -285,8 +282,8 @@ public class TableDesignModeUI extends UI {
 				}
 			});
 			
-			index++;
 			
+			index++;
 		}
 		
 		listview.addDoubleClickListener(() -> {
