@@ -193,7 +193,51 @@ public class UIElementTests {
 		assertEquals("Table1", t.getText());
 	}
 	
+	/**
+	 *  Click at free space instead of dragging the scrollbar
+	 */
 	@Test 
+	public void verticalScrollBarClick() {
+		// Load the window
+		MyCanvasWindow myCW = new MyCanvasWindow("Tables Mode");
+		Tablr tablr = myCW.getTablr();
+		
+		// Perform a ctrl+T to add tables mode subwindow
+		myCW.handleKeyEvent(1, 17, ' ');
+		myCW.handleKeyEvent(1, 84, ' ');
+		
+		// Add 7 tables
+		myCW.handleMouseEvent(MouseEvent.MOUSE_CLICKED, 155, 285, 2);
+		myCW.handleMouseEvent(MouseEvent.MOUSE_CLICKED, 155, 285, 2);
+		myCW.handleMouseEvent(MouseEvent.MOUSE_CLICKED, 155, 285, 2);
+		myCW.handleMouseEvent(MouseEvent.MOUSE_CLICKED, 155, 285, 2);
+		myCW.handleMouseEvent(MouseEvent.MOUSE_CLICKED, 155, 285, 2);
+		myCW.handleMouseEvent(MouseEvent.MOUSE_CLICKED, 155, 285, 2);
+		myCW.handleMouseEvent(MouseEvent.MOUSE_CLICKED, 155, 285, 2);
+		
+		// Check the name of the first shown table
+		myCW.handleMouseEvent(MouseEvent.MOUSE_CLICKED, 75, 55, 1);
+		TextField t = (TextField) tablr.getUIAt(75, 55).locatedAt(75, 55);
+		assertEquals("Table0", t.getText());
+		
+		// Drag the vertical scrollbar to the bottom
+		myCW.handleMouseEvent(MouseEvent.MOUSE_CLICKED, 293, 280, 1);
+		
+		//Check the name of the first shown table
+		myCW.handleMouseEvent(MouseEvent.MOUSE_CLICKED, 75, 55, 1);
+		t = (TextField) tablr.getUIAt(75, 55).locatedAt(75, 55);
+		assertEquals("Table1", t.getText());
+		
+		// Drag the vertical scrollbar to the top again
+		myCW.handleMouseEvent(MouseEvent.MOUSE_CLICKED, 293, 41, 1);
+		
+		//Check the name of the first shown table
+		myCW.handleMouseEvent(MouseEvent.MOUSE_CLICKED, 75, 55, 1);
+		t = (TextField) tablr.getUIAt(75, 55).locatedAt(75, 55);
+		assertEquals("Table0", t.getText());
+	}
+	
+	@Test
 	public void HorizontalScrollBar() {
 		// Load the window
 		MyCanvasWindow myCW = new MyCanvasWindow("Tables Mode");
@@ -222,5 +266,67 @@ public class UIElementTests {
 		//The clicked element is now a textfield
 		myCW.handleMouseEvent(MouseEvent.MOUSE_CLICKED, 23, 49, 1);
 		TextField t = (TextField) tablr.getUIAt(23, 49).locatedAt(23, 49);
+	}
+	
+	/**
+	 *  Click at free space instead of dragging the scrollbar
+	 */
+	@Test
+	public void HorizontalScrollBarClick() {
+		// Load the window
+		MyCanvasWindow myCW = new MyCanvasWindow("Tables Mode");
+		Tablr tablr = myCW.getTablr();
+		
+		// Perform a ctrl+T to add tables mode subwindow
+		myCW.handleKeyEvent(1, 17, ' ');
+		myCW.handleKeyEvent(1, 84, ' ');
+		
+		// Add a tables
+		myCW.handleMouseEvent(MouseEvent.MOUSE_CLICKED, 155, 285, 2);
+		
+		// The clicked element is a button
+		myCW.handleMouseEvent(MouseEvent.MOUSE_CLICKED, 23, 49, 1);
+		Button b = (Button) tablr.getUIAt(23,49).locatedAt(23, 49);
+		
+		// Resize the subwindow, so it is possible to use the horizontalScrollbar
+		myCW.handleMouseEvent(MouseEvent.MOUSE_PRESSED, 299, 150, 1);
+		myCW.handleMouseEvent(MouseEvent.MOUSE_DRAGGED, 213, 150, 1);
+		
+		// Drag the horizontal scrollbar to the right
+		myCW.handleMouseEvent(MouseEvent.MOUSE_CLICKED, 171, 293, 1);
+		myCW.handleMouseEvent(MouseEvent.MOUSE_CLICKED, 171, 293, 1);
+		
+		//The clicked element is now a textfield
+		myCW.handleMouseEvent(MouseEvent.MOUSE_CLICKED, 23, 49, 1);
+		TextField t = (TextField) tablr.getUIAt(23, 49).locatedAt(23, 49);
+	}
+	
+	@Test
+	public void dragTablesModeSubwindow() {
+		// Load the window
+		MyCanvasWindow myCW = new MyCanvasWindow("Tables Mode");
+		Tablr tablr = myCW.getTablr();
+		
+		// Perform a ctrl+T to add tables mode subwindow
+		myCW.handleKeyEvent(1, 17, ' ');
+		myCW.handleKeyEvent(1, 84, ' ');
+		
+		// Add a tables
+		myCW.handleMouseEvent(MouseEvent.MOUSE_CLICKED, 155, 285, 2);
+		
+		// Check the name of the first table
+		myCW.handleMouseEvent(MouseEvent.MOUSE_CLICKED, 60, 50, 1);
+		TextField t = (TextField) tablr.getUIAt(60, 50).locatedAt(60, 50);
+		assertEquals("Table0", t.getText());
+		
+		// Drag the horizontal scrollbar to the right
+		myCW.handleMouseEvent(MouseEvent.MOUSE_PRESSED, 141, 12, 1);
+		myCW.handleMouseEvent(MouseEvent.MOUSE_DRAGGED, 141, 312, 1);
+		myCW.handleMouseEvent(MouseEvent.MOUSE_RELEASED, 141, 312, 1);
+		
+		//Check if the table name is dragged
+		myCW.handleMouseEvent(MouseEvent.MOUSE_CLICKED, 60, 355, 1);
+		t = (TextField) tablr.getUIAt(60, 355).locatedAt(60, 355);
+		assertEquals("Table0", t.getText());		
 	}
 }
