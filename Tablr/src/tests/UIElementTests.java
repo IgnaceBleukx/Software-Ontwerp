@@ -329,4 +329,47 @@ public class UIElementTests {
 		t = (TextField) tablr.getUIAt(60, 355).locatedAt(60, 355);
 		assertEquals("Table0", t.getText());		
 	}
+
+	@Test
+	public void VerticalScrollListenersUITable() {
+		// Load the window
+		MyCanvasWindow myCW = new MyCanvasWindow("Tables Mode");
+		Tablr tablr = myCW.getTablr();
+		
+		// Perform a ctrl+T to add tables mode subwindow
+		myCW.handleKeyEvent(1, 17, ' ');
+		myCW.handleKeyEvent(1, 84, ' ');
+		
+		// Add a tables
+		myCW.handleMouseEvent(MouseEvent.MOUSE_CLICKED, 155, 285, 2);
+		
+		// Click the table name
+		myCW.handleMouseEvent(MouseEvent.MOUSE_CLICKED, 55, 50, 2);
+		
+		// Add a column to the table and open rows mode
+		myCW.handleMouseEvent(MouseEvent.MOUSE_CLICKED, 455, 168, 2);
+		myCW.handleMouseEvent(MouseEvent.MOUSE_CLICKED, 55, 50, 2);
+		
+		// Add 8 rows to the table
+		myCW.handleMouseEvent(MouseEvent.MOUSE_CLICKED, 535, 580, 2);
+		myCW.handleMouseEvent(MouseEvent.MOUSE_CLICKED, 535, 580, 2);
+		myCW.handleMouseEvent(MouseEvent.MOUSE_CLICKED, 535, 580, 2);
+		myCW.handleMouseEvent(MouseEvent.MOUSE_CLICKED, 535, 580, 2);
+		myCW.handleMouseEvent(MouseEvent.MOUSE_CLICKED, 535, 580, 2);
+		myCW.handleMouseEvent(MouseEvent.MOUSE_CLICKED, 535, 580, 2);
+		myCW.handleMouseEvent(MouseEvent.MOUSE_CLICKED, 535, 580, 2);
+		myCW.handleMouseEvent(MouseEvent.MOUSE_CLICKED, 535, 580, 2);
+		
+		// Change text of first cell
+		myCW.handleMouseEvent(MouseEvent.MOUSE_CLICKED, 345, 365, 1);
+		myCW.handleKeyEvent(0, 0, 'a');
+		
+		// Drag the horizontal scrollbar to the right
+		myCW.handleMouseEvent(MouseEvent.MOUSE_PRESSED, 593, 400, 1);
+		myCW.handleMouseEvent(MouseEvent.MOUSE_DRAGGED, 593, 446, 1);
+		myCW.handleMouseEvent(MouseEvent.MOUSE_RELEASED, 593, 446, 1);
+		
+		TextField t = (TextField) tablr.getUIAt(345, 365).locatedAt(345, 365);
+		assertEquals("", t.getText());
+	}
 }
