@@ -153,4 +153,122 @@ public class DomainTests {
 		col.terminate();
 		//test if terminating a column deletes the column from it's table
 		assertEquals(0,table.getColumns().size());
-	}}
+	}
+	
+	@Test (expected=InvalidTypeException.class)
+	public void testInvalidTypeColumn() throws InvalidTypeException {
+		Table table = new Table("name");
+		Column col = table.addEmptyColumn(Type.EMAIL, "a@b.com");
+		col.setNextType();
+	}
+	
+	@Test
+	public void removeRowTable() {
+		Table table = new Table("name");
+		Column col = table.addEmptyColumn(Type.STRING, "");
+		Column col2 = table.addEmptyColumn(Type.STRING, "");
+		Column col3 = table.addEmptyColumn(Type.STRING, "");
+		table.addRow();
+		table.removeRow(0);
+		assertEquals(0,table.getRows());
+		Type t = Type.BOOLEAN;
+		t = Type.INTEGER;
+		t = Type.EMAIL;
+		t = Type.STRING;
+	}
+	
+	@Test (expected = InvalidTypeException.class)
+	public void setInvalidColumnType() throws InvalidTypeException {
+		Table table = new Table("name");
+		Column col = table.addEmptyColumn(Type.STRING, "");
+		table.addRow();
+		col.changeCellValue(0, "abc");
+		col.setColumnType(Type.INTEGER);
+	}
+	
+	@Test
+	public void addAllCells() throws Exception {
+		Table table = new Table("name");
+		Column col = table.addEmptyColumn(Type.STRING, "");
+		Cell<String> c1 = new Cell<>("A");
+		Cell<String> c2 = new Cell<>("A");
+		Cell<String> c3 = new Cell<>("A");
+		
+		ArrayList<Cell<?>> cells = new ArrayList<>();
+		cells.add(c1);
+		cells.add(c2);
+		cells.add(c3);
+		col.addAllcells(cells);
+	}
+	
+	@Test
+	public void addBlankCellEmail() {
+		Table table = new Table("name");
+		Column col = table.addEmptyColumn(Type.EMAIL, "");
+		col.addBlankCell();
+	}
+	
+	@Test
+	public void changeCellValues() {
+		Table table = new Table("name");
+		Column col1 = table.addEmptyColumn(Type.STRING, "");
+		Column col2 = table.addEmptyColumn(Type.EMAIL, "");
+		Column col3 = table.addEmptyColumn(Type.INTEGER, "");
+		Column col4 = table.addEmptyColumn(Type.BOOLEAN, "");
+		table.addRow();
+		col1.changeCellValue(0, "String");
+		col2.changeCellValue(0, "a@b.com");
+		col3.changeCellValue(0, "1234");
+		col4.changeCellValue(0, "True");
+
+	}
+	
+	@Test
+	public void testIsValidValues() {
+		assertTrue(Column.isValidValue(Type.BOOLEAN, ""));
+		assertTrue(Column.isValidValue(Type.BOOLEAN, null));
+		assertTrue(Column.isValidValue(Type.BOOLEAN, "False"));
+		assertTrue(Column.isValidValue(Type.BOOLEAN, "false"));
+		assertTrue(Column.isValidValue(Type.BOOLEAN, "True"));
+		assertTrue(Column.isValidValue(Type.BOOLEAN, "true"));
+		assertFalse(Column.isValidValue(Type.INTEGER, "01"));
+	}
+	
+	@Test
+	public void testToggleDefaultBoolean() {
+		Table table = new Table("name");
+		Column colBadType = table.addEmptyColumn(Type.INTEGER, "143");
+		Column col1 = table.addEmptyColumn(Type.BOOLEAN, "");
+		colBadType.toggleDefaultBoolean();
+		col1.toggleDefaultBoolean();
+	}
+	
+	@Test
+	public void testNextType() {
+		assertEquals(Type.STRING,Column.getNextType(Type.INTEGER));	
+	}
+	
+	@Test
+	public void testToggleCellValueBoolean() {
+		Table table = new Table("name");
+		Column colBadType = table.addEmptyColumn(Type.INTEGER, "143");
+		Column col1 = table.addEmptyColumn(Type.BOOLEAN, "");
+		table.addRow();
+		
+		colBadType.toggleCellValueBoolean(0);
+		col1.toggleCellValueBoolean(0);
+		
+		col1.changeCellValue(0, "true");
+		col1.toggleCellValueBoolean(0);
+	}
+	
+	@Test
+	public void textNextValueBoolean() {
+		assertEquals(true, Column.nextValueBoolean(null, true));
+		assertEquals(false, Column.nextValueBoolean(true, true));
+		assertEquals(null, Column.nextValueBoolean(false, true));
+		assertEquals(true, Column.nextValueBoolean(false, false));
+	}
+}
+
+

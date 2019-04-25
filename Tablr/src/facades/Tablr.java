@@ -41,13 +41,6 @@ public class Tablr {
 		return domainFacade.getActiveTable();
 	}
 	
-	/**
-	 * Sets the active table to a given table.
-	 * @param table		The new active table
-	 */
-	public void setActiveTable(Table table) {
-		domainFacade.setActiveTable(table);
-	}
 	
 	/**
 	 * Returns whether the given table is empty, i.e. contains no columns (and thus no rows).
@@ -443,10 +436,6 @@ public class Tablr {
 		return windowManager.getTableRowsUIs();
 	}
 	
-//	public void tableResized(TableDesignModeUI tableDesignModeUI, int delta,
-//			int i) {
-//		windowManager.tableResized(tableDesignModeUI, delta, i);
-//	}
 	
 	/**
 	 * Notifies the windowManager that Ctrl has been pressed.

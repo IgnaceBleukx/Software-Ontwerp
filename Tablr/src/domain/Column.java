@@ -200,7 +200,7 @@ public class Column {
 	 * This method adds a collection of cells to the current column.
 	 * @param newCells: The cells to be added to the column.
 	 */
-	private void addAllcells(ArrayList<Cell<?>> newCells) {
+	public void addAllcells(ArrayList<Cell<?>> newCells) {
 		if (newCells == null) return;
 		for (Cell<?> c: newCells){
 			addCell(c);
@@ -285,13 +285,12 @@ public class Column {
 	 * 				As a result, no sensible value for the new cell can be found.
 	 */
 	public void addBlankCell() {
-		Cell<?> newCell;
+		Cell<?> newCell = null;
 		switch(getColumnType()){
 			case BOOLEAN : newCell = new Cell<Boolean>((Boolean) getDefault()); break;
 			case INTEGER : newCell = new Cell<Integer>((Integer) getDefault()); break;
 			case EMAIL   : newCell = new Cell<String> ((String)  getDefault()); break;
 			case STRING  : newCell = new Cell<String> ((String)  getDefault()); break;
-			default: throw new ClassCastException();
 		}	
 		cells.add(newCell);
 	}
@@ -307,14 +306,13 @@ public class Column {
 	 */
 	public void changeCellValue(int i, String string) throws ClassCastException{
 		if((string == "" || string == null) && !getBlankingPolicy()) throw new ClassCastException();
-		Cell<?> newCell;
+		Cell<?> newCell = null;
 		Object v = parseValue(getColumnType(),string);
 		switch(getColumnType()){
 			case BOOLEAN : newCell = new Cell<Boolean>((Boolean) v);break;
 			case INTEGER : newCell = new Cell<Integer>((Integer) v);break;
 			case EMAIL:  	newCell = new Cell<String>(string); break;
 			case STRING: 	newCell = new Cell<String>(string); break;
-			default : throw new ClassCastException();
 		}
 		newCell.setColumn(this);
 		cells.remove(i);
@@ -426,7 +424,7 @@ public class Column {
 	 * @param blanks		Whether blanks are allowed
 	 * @return				The next boolean value
 	 */
-	private static Boolean nextValueBoolean(Boolean current, boolean blanks){
+	public static Boolean nextValueBoolean(Boolean current, boolean blanks){
 		if (current == (Boolean) null) return true;
 		if (current == true) return false;
 		if (current == false && blanks) return null;
