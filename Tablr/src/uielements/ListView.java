@@ -8,6 +8,8 @@ import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.HashMap;
 import java.util.function.BiConsumer;
+import java.util.function.Consumer;
+
 import Utils.GeometricUtils;
 import ui.UI;
 
@@ -357,6 +359,11 @@ public class ListView extends UIElement {
 		clone.scrollBarH = scrollBarH;
 		clone.scrollBarV = scrollBarV;
 		return clone;
+	}
+
+	public void addHorizontalScrollListener(Consumer<Integer> f) {
+		scrollBarH.addScrollListener(f);
+		
 	}
 	
 }

@@ -183,7 +183,11 @@ public class UIRow extends UIElement {
 		elements.sort((UIElement e1,UIElement e2) -> e1.getX() - e2.getX());
 		List<UIElement> toMove = elements.subList(0, index-1);
 		toMove.stream().forEach(e -> e.move(deltaW, 0));
-		elements.get(index).resizeL(deltaW);
+		UIElement resize = elements.get(index);
+		if (resize instanceof Checkbox)
+			resize.resizeL(((Checkbox) resize).checkBoxResizer.round((double) deltaW/2));
+		else
+			resize.resizeL(deltaW);
 	}
 	
 	public void resizeElementR(int deltaW,int index){
@@ -192,13 +196,11 @@ public class UIRow extends UIElement {
 		toMove.stream().forEach(e -> e.move(deltaW, 0));
 		UIElement resize = elements.get(index);
 		if (resize instanceof Checkbox)
-			resize.resizeR(checkBoxResizer.round((double) deltaW/2));
+			resize.resizeR(((Checkbox) resize).checkBoxResizer.round((double) deltaW/2));
 		else
 			resize.resizeR(deltaW);
 		this.setWidth(getWidth()+deltaW);
 	}
-	
-	Rounder checkBoxResizer = new Rounder();
 	
 	public void removeElementAt(int index){
 		resizeElementR(-elements.get(index).getWidth(),index);

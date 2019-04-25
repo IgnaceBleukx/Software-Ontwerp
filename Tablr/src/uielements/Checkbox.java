@@ -6,6 +6,8 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.function.BiConsumer;
 
+import Utils.Rounder;
+
 public class Checkbox extends UIElement {
 
 	/**
@@ -133,5 +135,7 @@ public class Checkbox extends UIElement {
 		return new Checkbox(getX(),getY(),getWidth(),getHeight(),value);
 	}
 	
+	public Rounder checkBoxResizer = new Rounder();
+
 	
 }

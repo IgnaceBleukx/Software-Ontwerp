@@ -204,7 +204,7 @@ public class TableDesignModeUI extends UI {
 				});*/
 			}
 			
-			UIRow uiRow = new UIRow(getX()+edgeW ,currentHeight, getWidth() - 2*edgeW - 10, 30,elmts);
+			UIRow uiRow = new UIRow(getX()+edgeW ,currentHeight, getLegend().getWidth(), 30,elmts);
 			currentHeight += 30;
 			listview.addElement(uiRow);			
 			
@@ -293,6 +293,10 @@ public class TableDesignModeUI extends UI {
 				if (e.getError()) return;
 			}
 			tablr.addEmptyColumn(table, Type.STRING, "");
+		});
+		
+		listview.addHorizontalScrollListener((delta) ->{
+			getLegend().move(-delta,0);
 		});
 		
 		return listview;
