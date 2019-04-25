@@ -128,13 +128,25 @@ public class TableRowsModeUI extends UI {
 		for(String name: getTablr().getColumnNames(table)) {
 			Text el = new Text(legend.getX()+a*cellWidth,titleBar.getEndY(), cellWidth, 20, name);
 			Dragger drag = new Dragger(el.getEndX()-2,el.getY(),4,20);
-			int index = a;
 			drag.addDragListener((newX,newY) ->{
 				int delta = newX - drag.getGrabPointX();
 				int deltaFinal = delta;
 				if (el.getWidth() + delta < minimumColumnWidth)
 					deltaFinal = minimumColumnWidth - el.getWidth();
-				getWindowManager().notifyTableRowsModeUIsColResized(deltaFinal, index, table);
+				UITable uitable = null;
+				for (UIElement e : elements){
+					if (e instanceof UITable) uitable = (UITable)e;				
+				}
+				UIRow uiLegend = uitable.getLegend();
+				ArrayList<String> legendNames = new ArrayList<String>(uiLegend.getElements().stream().filter(e -> !(e instanceof Dragger)).map(e -> ((Text) e).getText()).collect(Collectors.toList()));
+				uiLegend.getElements().sort((UIElement e1,UIElement e2) -> e1.getX() - e2.getX());
+				int indexCurrent = 0;
+				for (UIElement e : legend.getElements()){
+					if (e.equals(drag)){
+						indexCurrent = legend.getElements().indexOf(e)/2;
+					}
+				}
+				getWindowManager().notifyTableRowsModeUIsColResized(deltaFinal, indexCurrent, table);
 			});
 			legend.addElement(el);
 			legend.addElement(drag);
