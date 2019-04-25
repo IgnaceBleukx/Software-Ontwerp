@@ -146,20 +146,6 @@ public class UIRow extends UIElement {
 		}
 		return false;
 	}
-
-	private boolean selected;
-	
-	public void select(){
-		this.selected = true;
-	}
-	
-	public void deselect(){
-		this.selected = false;
-	}
-	
-	public boolean isSelected(){
-		return this.selected;
-	}
 	
 	@Override
 	public void move(int deltaX, int deltaY) {
@@ -203,8 +189,11 @@ public class UIRow extends UIElement {
 	}
 	
 	public void removeElementAt(int index){
-		resizeElementR(-elements.get(index).getWidth(),index);
-		elements.remove(index);
+		UIElement toRemove = elements.get(index);
+		if (!(toRemove instanceof Dragger)) {
+			resizeElementR(-toRemove.getWidth(),index);
+		}
+		elements.remove(toRemove);
 	}
 	
 	@Override

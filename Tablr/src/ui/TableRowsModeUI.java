@@ -2,6 +2,7 @@ package ui;
 
 import java.awt.Color;
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
@@ -72,22 +73,25 @@ public class TableRowsModeUI extends UI {
 			ArrayList<String> columnNames = getTablr().getColumnNames(table);
 			//Column added
 			if (legend.getElements().stream().filter(e -> !(e instanceof Dragger)).count() < columnNames.size()){
-				Text text = new Text(legend.getEndX(),legend.getY(),cellWidth,20,columnNames.get(columnNames.size()-1));
+				Text text = new Text(legend.getEndX()-2,legend.getY(),cellWidth,20,columnNames.get(columnNames.size()-1));
 				Dragger drag = new Dragger(text.getEndX()-2,legend.getY(),4,20);
 				legend.addElement(text);
 				legend.addElement(drag);
 				drag.addDragListener((newX, newY) ->{
 					int delta = newX - drag.getGrabPointX();
-					getWindowManager().notifyTableRowsModeUIsColResized(delta, legend.getElements().indexOf(text), table);
+					int deltaFinal = delta;
+					if (text.getWidth()+delta < minimumColumnWidth)
+						deltaFinal = minimumColumnWidth - text.getWidth();
+					List<UIElement> legendPure = legend.getElements().stream().filter(e -> !(e instanceof Dragger)).collect(Collectors.toList());
+					getWindowManager().notifyTableRowsModeUIsColResized(deltaFinal,legendPure.indexOf(text), table);
 				});
-				
-				legend.setWidth(legend.getElements().stream().mapToInt(e -> e.getWidth()).sum());
 			}
 			//Column deleted
 			else if (legend.getElements().stream().filter(e -> !(e instanceof Dragger)).count() > columnNames.size()){
 				ArrayList<String> legendNames = new ArrayList<String>(legend.getElements().stream().filter(e -> !(e instanceof Dragger)).map(e -> ((Text) e).getText()).collect(Collectors.toList()));
 				legendNames.removeAll(columnNames);
 				String removed = legendNames.get(0);
+				legend.getElements().sort((UIElement e1,UIElement e2) -> e1.getX() - e2.getX());
 				for (UIElement e : legend.getElements()){
 					if (e instanceof Text && ((Text) e).getText().equals(removed)){
 						int index = legend.getElements().indexOf(e);
@@ -95,6 +99,7 @@ public class TableRowsModeUI extends UI {
 						legend.removeElementAt(index);
 					}
 				}
+				System.out.println("[TableRowsMode.java:106]: " + legend.getElements());
 			}
 			//Update columnnames
 			else {
@@ -102,8 +107,8 @@ public class TableRowsModeUI extends UI {
 					((Text) legend.getElements().get(2*i)).setText(columnNames.get(i));
 				}
 			}
-			
-			
+			legend.setWidth(legend.getElements().stream().filter(e -> !(e instanceof Dragger)).mapToInt(e -> e.getWidth()).sum()+2);
+
 			addUIElement(loadTable(table, legend));
 			titleBar.setText("Table Rows Mode: " + table.getName());
 		});
@@ -118,11 +123,10 @@ public class TableRowsModeUI extends UI {
 	}
 	
 	private UIRow loadLegend(Table table,int cellWidth){
-		UIRow legend = new UIRow(getX()+edgeW,titleBar.getEndY(),getWidth(), 20, new ArrayList<UIElement>());		
+		UIRow legend = new UIRow(getX()+edgeW+margin,titleBar.getEndY(),0, 20, new ArrayList<UIElement>());		
 		int a = 0;
-		int margin = 20;
 		for(String name: getTablr().getColumnNames(table)) {
-			Text el = new Text(getX() + margin+a*cellWidth,titleBar.getEndY(), cellWidth, 20, name);
+			Text el = new Text(legend.getX()+a*cellWidth,titleBar.getEndY(), cellWidth, 20, name);
 			Dragger drag = new Dragger(el.getEndX()-2,el.getY(),4,20);
 			int index = a;
 			drag.addDragListener((newX,newY) ->{
@@ -136,7 +140,7 @@ public class TableRowsModeUI extends UI {
 			legend.addElement(drag);
 			a++;
 		}
-		legend.setWidth(legend.getElements().stream().filter(e -> !(e instanceof Dragger)).mapToInt(e -> e.getWidth()).sum());
+		legend.setWidth(legend.getElements().stream().filter(e -> !(e instanceof Dragger)).mapToInt(e -> e.getWidth()).sum()+2);
 		return legend;
 	}
 	
@@ -164,14 +168,14 @@ public class TableRowsModeUI extends UI {
 		int y = legend.getEndY();
 		int [] widths = legend.getElements().stream().mapToInt(e -> e.getWidth()).toArray();
 		for(int i=0;i<numberOfRows;i++){
-			int x = getX()+margin;
+			int x = uiTable.getX()+margin;
 			int a = 0; 
 			ArrayList<UIElement> emts = new ArrayList<UIElement>();
 			for(Column col : getTablr().getColumns(tab)){
 				String val = getTablr().getValueString(col,i);
 				if(getTablr().getColumnType(col).equals(Type.BOOLEAN)){
 					Checkbox booleanValue;
-					booleanValue = new Checkbox(x + (int)(widths[a]/2) - 10,y+(int)(cellHeight/2)-10,20,20, BooleanCaster.cast(tablr.getValueString(col,i)));
+					booleanValue = new Checkbox(x + widths[a]/2 - 10,y+cellHeight/2-10,20,20, BooleanCaster.cast(tablr.getValueString(col,i)));
 
 					emts.add(new VoidElement(x,y,widths[a], cellHeight, Color.white));
 					emts.add(booleanValue);
@@ -203,7 +207,7 @@ public class TableRowsModeUI extends UI {
 				x += widths[a];
 				a += 2;
 			}
-			UIRow uiRow = new UIRow(uiTable.getX(),y,emts.stream().mapToInt(e -> e.getWidth()).sum(),cellHeight,emts);
+			UIRow uiRow = new UIRow(uiTable.getX(),y,emts.stream().mapToInt(e -> e.getWidth()).sum()+margin,cellHeight,emts);
 			uiTable.addRow(uiRow);
 			y += cellHeight;
 			
