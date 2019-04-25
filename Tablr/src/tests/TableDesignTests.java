@@ -87,7 +87,7 @@ public class TableDesignTests {
 		for(int i=0;i<name.length();i++){
 			myCW.handleKeyEvent(0,0,name.charAt(i));
 		}
-		assertEquals(name,tablr.getColumnName(tablr.getColumns(tablr.getActiveTable()).get(0)));
+		assertEquals(name,tablr.getColumnName(tablr.getColumns(tablr.getTables().get(0)).get(0)));
 		
 		//Step2.2: The user enters an invalid name:
 		TextField t = (TextField) tablr.getUIAt(385, 45).locatedAt(385,45);
