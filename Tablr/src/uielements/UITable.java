@@ -253,12 +253,6 @@ public class UITable extends UIElement {
 		return false;
 	}
 
-
-	public void removeRow(UIRow uiRow) {
-		this.rows.remove(uiRow);
-		updateScrollBars();
-	}
-	
 	@Override
 	public void move(int deltaX, int deltaY) {
 		setX(getX() + deltaX);
