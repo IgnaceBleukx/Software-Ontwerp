@@ -127,7 +127,10 @@ public class TableRowsModeUI extends UI {
 			int index = a;
 			drag.addDragListener((newX,newY) ->{
 				int delta = newX - drag.getGrabPointX();
-				getWindowManager().notifyTableRowsModeUIsColResized(delta, index, table);
+				int deltaFinal = delta;
+				if (el.getWidth() + delta < minimumColumnWidth)
+					deltaFinal = minimumColumnWidth - el.getWidth();
+				getWindowManager().notifyTableRowsModeUIsColResized(deltaFinal, index, table);
 			});
 			legend.addElement(el);
 			legend.addElement(drag);
