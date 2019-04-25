@@ -163,13 +163,17 @@ public class TablesModeUI extends UI {
 				}
 				else if (tableNameLabel.getError() == true){
 					tableNameLabel.isNotError();
+					tablr.renameTable(curr,tableNameLabel.getText());
 					//c.releaseSelectionLock(tableNameLabel);
+				}
+				else {
+					tablr.renameTable(curr,tableNameLabel.getText());
 				}
 			});
 			
 			tableNameLabel.addKeyboardListener(10,() -> {
 				if (list.getError()) return;
-				tablr.renameTable(curr, tableNameLabel.getText());
+				//tablr.renameTable(curr, tableNameLabel.getText());
 				tablr.domainChanged();
 			});
 
