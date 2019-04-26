@@ -98,7 +98,7 @@ public class TableDesignTests {
 		for(int i=0;i<name.length();i++){
 			myCW.handleKeyEvent(0,0,name.charAt(i));
 		}
-		assertNotEquals(name,tablr.getColumnName(tablr.getColumns(tablr.getActiveTable()).get(0)));
+		assertNotEquals(name,tablr.getColumnName(tablr.getColumns(tablr.getTables().get(0)).get(0)));
 		assertTrue(t.isSelected());
 		// t is in error because it has the same name as the second column
 		assertTrue(t.getError());
