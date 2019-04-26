@@ -63,17 +63,22 @@ public class MyCanvasWindow extends CanvasWindow {
 		
 		if (id == MouseEvent.MOUSE_PRESSED || id == MouseEvent.MOUSE_CLICKED){ //Only search for a potential new UI with THESE actions
 			try {
-				clicked = tablr.getUIAt(x, y).locatedAt(x, y);
+				System.out.println("ui += " + tablr.getTablesModeUIs() + " eeeeeeeee ");
+				getTablr().selectUI(tablr.getUIAt(x, y));
 			} catch (NullPointerException e) {
+				getTablr().selectUI(null);
 				System.out.println("[MyCanvasWindow.java:67]: No UI at these coordinates");
 				return;
 			}
 			
-			try{
-				getTablr().selectUI(clicked.getUI());
-			}catch (NullPointerException e){
-				getTablr().selectUI(null);
+			try {
+				clicked = tablr.getUIAt(x, y).locatedAt(x, y);
+				System.out.println("Clicked = " + clicked);
+			}	catch (NullPointerException e) {
+				System.out.println("[MyCanvasWindow.java:75]: No element clicked in UI");
+				return;
 			}
+			
 			if (clicked == null) return;
 			
 			System.out.println("[MyCanvasWindow.java:83]: Clicked on : " + clicked);
