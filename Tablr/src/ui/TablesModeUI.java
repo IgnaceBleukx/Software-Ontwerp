@@ -217,9 +217,6 @@ public class TablesModeUI extends UI {
 	@Override
 	public TablesModeUI clone(){
 		TablesModeUI clone = new TablesModeUI(getX(),getY(),getWidth(),getHeight(),getTablr());
-		ArrayList<UIElement> clonedElements = new ArrayList<UIElement>();
-		elements.stream().forEach(e -> clonedElements.add(e.clone()));
-		clone.elements = clonedElements;
 		return clone;
 	}
 

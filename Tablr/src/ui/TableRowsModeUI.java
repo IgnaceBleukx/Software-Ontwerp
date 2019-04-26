@@ -48,6 +48,12 @@ public class TableRowsModeUI extends UI {
 		super(x,y,w,h);
 		this.setTablr(t);
 		
+		for (UIElement e : legend.getElements()) {
+			if (e instanceof Text) {
+				cellWidth.add(e.getWidth());
+			}
+		}
+		
 		this.columnResizeListeners.add((delta,index) -> {
 			getUITable().getLegend().resizeElementR(delta, index*2);
 			getUITable().getRows().stream().forEach(r -> r.resizeElementR(delta,index));
@@ -131,16 +137,12 @@ public class TableRowsModeUI extends UI {
 			titleBar.setText("Table Rows Mode: " + table.getName());
 		});
 		
-		
-		titleBar.addKeyboardListener(10, () -> { //Ctrl+Enter, create new Table Rows subwindow.
-			for (UIElement e : getElements()){
-				if (e.getError()) return;
-			}
-			
+		titleBar.addKeyboardListener(10, () -> { //Ctrl+Enter, create new Table Design subwindow.
 			if (this.getWindowManager().recentCtrl()) {
-				tablr.loadTableDesignModeUI(table);
+				//
 			}
 		});
+		
 		
 	}
 	
@@ -268,7 +270,9 @@ public class TableRowsModeUI extends UI {
 				}
 			});
 		}		
-
+		uiTable.addKeyboardListener(17, () -> {
+			getTablr().loadTableDesignModeUI(tab);;
+		});
 		
 		uiTable.addDoubleClickListener(() -> {
 			getTablr().addRow(tab);
