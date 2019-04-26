@@ -72,7 +72,7 @@ public class TablesModeUI extends UI {
 		loadUIAttributes();
 
 		UIRow legend = new UIRow(getX()+edgeW,getY()+edgeW+titleHeight,getWidth()-2*edgeW-scrollBarWidth,15,new ArrayList<UIElement>());
-		Dragger tableNameDragger = new Dragger(legend.getEndX()-4,legend.getY(),4,legend.getHeight());
+		Dragger tableNameDragger = new Dragger(legend.getEndX()-2,legend.getY(),4,legend.getHeight());
 		Text tableName = new Text(legend.getX()+tableRowHeight,legend.getY(),legend.getWidth()-4-tableRowHeight,legend.getHeight(),"Table name");
 		legend.addElement(tableNameDragger);
 		legend.addElement(tableName);
