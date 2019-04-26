@@ -303,7 +303,7 @@ public class TableRowsTests {
 		// Step 2: The system indicates that this row is now selected.
 		UIRow r = (UIRow) tablr.getUIAt(315, 393).locatedAt(315, 393);
 		UITable table = (UITable) tablr.getUIAt(503, 537).locatedAt(503, 537);
-		assertEquals(table.getSelected(), r);
+		assertTrue(r.isSelected());
 
 		// Step 3: User presses Delete key
 		myCW.handleKeyEvent(0, 127, ' ');
