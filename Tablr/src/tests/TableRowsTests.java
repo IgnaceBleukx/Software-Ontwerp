@@ -83,7 +83,7 @@ public class TableRowsTests {
 	
 		// Step 2: The system added four new rows in prepareTable(). Its value for each column is the columns default.
 		assertEquals("default",tablr.getColumns(tablr.getTables().get(0)).get(0).getDefault());
-		assertEquals("default@email",tablr.getColumns(tablr.getTables().get(0)).get(1).getDefault());
+		assertEquals("",tablr.getColumns(tablr.getTables().get(0)).get(1).getDefault());
 		assertNull(tablr.getColumns(tablr.getTables().get(0)).get(2).getDefault());
 		assertEquals(999,tablr.getColumns(tablr.getTables().get(0)).get(3).getDefault());
 	}
