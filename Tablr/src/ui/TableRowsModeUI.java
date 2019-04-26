@@ -246,6 +246,10 @@ public class TableRowsModeUI extends UI {
 						if (!field.getError() && field.isSelected())
 							getTablr().domainChanged();
 					});
+
+					field.addDeselectionListener(() -> {
+						tablr.domainChanged();
+					});
 				}
 				x += widths[a];
 				a += 2;
@@ -284,9 +288,6 @@ public class TableRowsModeUI extends UI {
 	@Override
 	public TableRowsModeUI clone(){
 		TableRowsModeUI clone = new TableRowsModeUI(getX(),getY(),getWidth(),getHeight(),getUITable().getLegend(),getTablr());
-		ArrayList<UIElement> clonedElements = new ArrayList<UIElement>();
-		elements.stream().forEach(e -> clonedElements.add(e.clone()));
-		clone.elements = clonedElements;
 		return clone;
 	}
 	

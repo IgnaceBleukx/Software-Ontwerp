@@ -336,8 +336,10 @@ public abstract class UIElement {
 	 * set the element as not selected
 	 */
 	public void deselect() {
+		if (isSelected)	{
+			new ArrayList<>(deselectionListeners).stream().forEach(l -> l.run());
+		}
 		this.isSelected = false;
-		new ArrayList<>(deselectionListeners).stream().forEach(l -> l.run());
 	}
 
 	/**

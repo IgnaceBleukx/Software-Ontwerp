@@ -231,9 +231,9 @@ public class TableDesignModeUI extends UI {
 				colDefText.addKeyboardListener(10,() -> {
 					tablr.domainChanged();
 				});
-				/*colDefText.addDeselectionListener(() -> {
+				colDefText.addDeselectionListener(() -> {
 					tablr.domainChanged();
-				});*/
+				});
 			}
 			
 			UIRow uiRow = new UIRow(list.getX() ,currentHeight, list.getWidth()-list.getScrollBarWidth(), 30,elmts);
@@ -276,6 +276,10 @@ public class TableDesignModeUI extends UI {
 			});
 			
 			colName.addKeyboardListener(10,() -> {
+				tablr.domainChanged();
+			});
+
+			colName.addDeselectionListener(() -> {
 				tablr.domainChanged();
 			});
 			
@@ -341,10 +345,6 @@ public class TableDesignModeUI extends UI {
 	@Override
 	public TableDesignModeUI clone(){
 		TableDesignModeUI clone = new TableDesignModeUI(getX(),getY(),getWidth(),getHeight(),getLegend(),getTablr());
-		ArrayList<UIElement> clonedElements = new ArrayList<UIElement>();
-		elements.stream().forEach(e -> clonedElements.add(e.clone()));
-		clone.elements = clonedElements;
 		return clone;
 	}
-	
 }

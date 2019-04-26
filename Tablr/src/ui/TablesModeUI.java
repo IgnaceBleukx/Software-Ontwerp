@@ -193,6 +193,10 @@ public class TablesModeUI extends UI {
 				}
 			});
 			
+			tableNameLabel.addDeselectionListener(() -> {
+				tablr.domainChanged();
+			});
+			
 			y = currRow.getEndY();
 		}	
 		
