@@ -22,6 +22,9 @@ import facades.Tablr;
 
 public class TableRowsModeUI extends UI {
 	
+	ArrayList<Integer> cellWidth = new ArrayList<>();
+	private static int standardCellWidth = 100;
+	
 	/**
 	 * Creates a new TableRowsModeUI
 	 * @param x		X position of this UI
@@ -31,6 +34,17 @@ public class TableRowsModeUI extends UI {
 	 * @param t		Reference to Tablr, to modify the domain
 	 */
 	public TableRowsModeUI(int x, int y, int w, int h,Tablr t) {
+		super(x,y,w,h);
+		this.setTablr(t);
+		
+		this.columnResizeListeners.add((delta,index) -> {
+			getUITable().getLegend().resizeElementR(delta, index*2);
+			getUITable().getRows().stream().forEach(r -> r.resizeElementR(delta,index));
+		});
+		
+	}
+	
+	public TableRowsModeUI(int x, int y, int w, int h, UIRow legend, Tablr t) {
 		super(x,y,w,h);
 		this.setTablr(t);
 		
@@ -53,7 +67,11 @@ public class TableRowsModeUI extends UI {
 		titleBar.setText("Table Rows mode: "+table.getName());
 		loadUIAttributes();
 		
-		int cellWidth = 100;
+		if (cellWidth.size() == 0) {
+			for (String s : table.getColumnNames()) {
+				cellWidth.add(standardCellWidth);
+			}
+		}
 		
 		
 		UIRow legend = loadLegend(table,cellWidth);
@@ -73,7 +91,7 @@ public class TableRowsModeUI extends UI {
 			ArrayList<String> columnNames = getTablr().getColumnNames(table);
 			//Column added
 			if (legend.getElements().stream().filter(e -> !(e instanceof Dragger)).count() < columnNames.size()){
-				Text text = new Text(legend.getEndX()-2,legend.getY(),cellWidth,20,columnNames.get(columnNames.size()-1));
+				Text text = new Text(legend.getEndX()-2,legend.getY(),standardCellWidth,20,columnNames.get(columnNames.size()-1));
 				Dragger drag = new Dragger(text.getEndX()-2,legend.getY(),4,20);
 				legend.addElement(text);
 				legend.addElement(drag);
@@ -122,11 +140,17 @@ public class TableRowsModeUI extends UI {
 		
 	}
 	
-	private UIRow loadLegend(Table table,int cellWidth){
+	private UIRow loadLegend(Table table,ArrayList<Integer> cellWidth){
 		UIRow legend = new UIRow(getX()+edgeW+margin,titleBar.getEndY(),0, 20, new ArrayList<UIElement>());		
 		int a = 0;
 		for(String name: getTablr().getColumnNames(table)) {
-			Text el = new Text(legend.getX()+a*cellWidth,titleBar.getEndY(), cellWidth, 20, name);
+			
+			int textX = 0;
+			for (int count = 0; count < a; count++ ) {
+				textX+=cellWidth.get(count);
+			}
+			
+			Text el = new Text(legend.getX()+textX,titleBar.getEndY(), cellWidth.get(a), 20, name);
 			Dragger drag = new Dragger(el.getEndX()-2,el.getY(),4,20);
 			drag.addDragListener((newX,newY) ->{
 				int delta = newX - drag.getGrabPointX();
@@ -253,7 +277,7 @@ public class TableRowsModeUI extends UI {
 	
 	@Override
 	public TableRowsModeUI clone(){
-		TableRowsModeUI clone = new TableRowsModeUI(getX(),getY(),getWidth(),getHeight(),getTablr());
+		TableRowsModeUI clone = new TableRowsModeUI(getX(),getY(),getWidth(),getHeight(),getUITable().getLegend(),getTablr());
 		ArrayList<UIElement> clonedElements = new ArrayList<UIElement>();
 		elements.stream().forEach(e -> clonedElements.add(e.clone()));
 		clone.elements = clonedElements;
