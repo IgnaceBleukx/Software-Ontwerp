@@ -111,7 +111,7 @@ public class WindowManager {
 	}
 	
 	public void loadTablesModeUI(TablesModeUI ui){
-		if (System.currentTimeMillis()-lastLoad<100) return;
+//		if (System.currentTimeMillis()-lastLoad<100) return;
 		ui.setTablr(tablr);
 		ui.setWindowManager(this);
 		this.selectUI(ui);
@@ -121,7 +121,7 @@ public class WindowManager {
 	}
 	
 	public void loadTableRowsModeUI(Table table){
-		if (System.currentTimeMillis()-lastLoad<100) return;
+//		if (System.currentTimeMillis()-lastLoad<100) return;
 
 		TableRowsModeUI ui = null;
 		ArrayList<TableRowsModeUI> uis = tableRowsModeUIs.get(table);
@@ -157,7 +157,7 @@ public class WindowManager {
 	private long lastLoad = 0; 
 	
 	public void loadTableDesignModeUI(Table table){
-		if (System.currentTimeMillis()-lastLoad<100) return;
+//		if (System.currentTimeMillis()-lastLoad<100) return;
 
 		TableDesignModeUI ui = null;
 		ArrayList<TableDesignModeUI> uis = tableDesignModeUIs.get(table);
