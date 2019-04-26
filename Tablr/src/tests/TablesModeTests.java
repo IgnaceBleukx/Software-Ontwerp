@@ -61,8 +61,9 @@ public class TablesModeTests {
 		assertEquals("Table0",tablr.getTables().get(0).getName());
 		
 		// Step 1 & 2: The user clicks a table name and the textfield gets selected
-		myCW.handleMouseEvent(MouseEvent.MOUSE_CLICKED, 60, 30, 1);
-		TextField t = (TextField) tablr.getUIAt(60, 30).locatedAt(60, 30);
+		myCW.handleMouseEvent(MouseEvent.MOUSE_CLICKED, 60, 35, 1);
+
+		TextField t = (TextField) tablr.getUIAt(60, 35).locatedAt(60, 35);
 		assertEquals(t.isSelected(), true);
 		// Step 3: Remove the last character of the highlighted table name
 		// (8 is backspace)
@@ -72,6 +73,7 @@ public class TablesModeTests {
 		// Step 4: Check to see if table name gets red when it is empty or equal to name of another table
 		assertEquals(t.getError(), false);
 		for(int i = 0; i<5; i++){
+			System.out.println(tablr.getTables().get(0).getName());
 			myCW.handleKeyEvent(1, 8, ' ');
 		}
 		assertEquals("", tablr.getTables().get(0).getName());

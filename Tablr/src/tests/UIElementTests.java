@@ -8,6 +8,7 @@ import org.junit.Test;
 
 import uielements.Button;
 import uielements.ListView;
+import uielements.Text;
 import uielements.TextField;
 import uielements.UIElement;
 import uielements.UITable;
@@ -480,7 +481,7 @@ public class UIElementTests {
 		assertEquals(300, ((TableRowsModeUI) tablr.getTableRowsUIs().entrySet().iterator().next().getValue().get(0)).getWidth());
 		assertEquals(300, ((TableRowsModeUI) tablr.getTableRowsUIs().entrySet().iterator().next().getValue().get(0)).getHeight());
 	
-		// Drag the tables mode subwindow to the right
+		// Drag the tables mode subwindow to the left
 		myCW.handleMouseEvent(MouseEvent.MOUSE_PRESSED, 302, 400, 1);
 		myCW.handleMouseEvent(MouseEvent.MOUSE_DRAGGED, 297, 400, 1);
 		
@@ -580,7 +581,7 @@ public class UIElementTests {
 		// Click the table name
 		myCW.handleMouseEvent(MouseEvent.MOUSE_CLICKED, 55, 50, 2);
 		
-		// Add four columns to the table and open rows mode
+		// Add one column to the table and open rows mode
 		myCW.handleMouseEvent(MouseEvent.MOUSE_CLICKED, 455, 168, 2);
 		myCW.handleMouseEvent(MouseEvent.MOUSE_CLICKED, 55, 50, 2);
 		
@@ -599,5 +600,35 @@ public class UIElementTests {
 		// Check the changed width and height of the subwindow
 		assertEquals(300, ((TableRowsModeUI) tablr.getTableRowsUIs().entrySet().iterator().next().getValue().get(0)).getWidth());
 		assertEquals(305, ((TableRowsModeUI) tablr.getTableRowsUIs().entrySet().iterator().next().getValue().get(0)).getHeight());
+	}
+	
+	/**
+	 * Not yet tested
+	 */
+	@Test
+	public void resizeLegend() {
+		// Load the window
+		MyCanvasWindow myCW = new MyCanvasWindow("Tables Mode");
+		Tablr tablr = myCW.getTablr();
+		
+		// Perform a ctrl+T to add tables mode subwindow
+		myCW.handleKeyEvent(1, 17, ' ');
+		myCW.handleKeyEvent(1, 84, ' ');
+		
+		// Add a table
+		myCW.handleMouseEvent(MouseEvent.MOUSE_CLICKED, 155, 285, 2);
+		
+		// Click the table name
+		myCW.handleMouseEvent(MouseEvent.MOUSE_CLICKED, 55, 50, 2);
+		
+		// Add a column to the table
+		myCW.handleMouseEvent(MouseEvent.MOUSE_CLICKED, 455, 168, 2);
+
+		TextField t = (TextField) tablr.getUIAt(394, 50).locatedAt(394, 50);
+		
+		myCW.handleMouseEvent(MouseEvent.MOUSE_PRESSED, 425, 30, 1);
+		myCW.handleMouseEvent(MouseEvent.MOUSE_DRAGGED, 370, 30, 1);
+
+		Text te = (Text) tablr.getUIAt(394, 50).locatedAt(394, 50);
 	}
 }
