@@ -34,6 +34,7 @@ public class TablesModeUI extends UI {
 	public TablesModeUI(int x, int y, int w, int h,Tablr t) {
 		super(x,y,w,h);
 		this.setTablr(t);
+		legendWidth = getWidth()-2*edgeW-scrollBarWidth;
 		
 		columnResizeListeners.add((delta,index) -> {
 			getLegend().resizeElementR(delta, index);
@@ -41,7 +42,16 @@ public class TablesModeUI extends UI {
 		});
 	}
 	
-	
+	public TablesModeUI(int x, int y, int w, int h, UIRow legend, Tablr t) {
+		super(x,y,w,h);
+		this.setTablr(t);
+		legendWidth = legend.getWidth();
+		
+		columnResizeListeners.add((delta,index) -> {
+			getLegend().resizeElementR(delta, index);
+			getListview().getElements().stream().filter(e -> e instanceof UIRow).forEach(e -> ((UIRow) e).resizeElementR(delta,index+1));
+		});
+	}
 	
 	/**
 	 * Height of rows in the list of tables
@@ -53,8 +63,7 @@ public class TablesModeUI extends UI {
 	 */
 	private static int scrollBarWidth = 10;
 	
-	
-	
+	private int legendWidth;
 	
 	/**
 	 * Loads all necessary UIElement and loads the names of a list of tables.
@@ -71,9 +80,9 @@ public class TablesModeUI extends UI {
 		titleBar.setText("Tables mode");
 		loadUIAttributes();
 
-		UIRow legend = new UIRow(getX()+edgeW,getY()+edgeW+titleHeight,getWidth()-2*edgeW-scrollBarWidth,15,new ArrayList<UIElement>());
+		UIRow legend = new UIRow(getX()+edgeW,getY()+edgeW+titleHeight,legendWidth,15,new ArrayList<UIElement>());
 		Dragger tableNameDragger = new Dragger(legend.getEndX()-2,legend.getY(),4,legend.getHeight());
-		Text tableName = new Text(legend.getX()+tableRowHeight,legend.getY(),legend.getWidth()-4-tableRowHeight,legend.getHeight(),"Table name");
+		Text tableName = new Text(legend.getX()+tableRowHeight,legend.getY(),legend.getWidth()-2-tableRowHeight,legend.getHeight(),"Table name");
 		legend.addElement(tableNameDragger);
 		legend.addElement(tableName);
 		this.addUIElement(legend);
@@ -220,7 +229,7 @@ public class TablesModeUI extends UI {
 	
 	@Override
 	public TablesModeUI clone(){
-		TablesModeUI clone = new TablesModeUI(getX(),getY(),getWidth(),getHeight(),getTablr());
+		TablesModeUI clone = new TablesModeUI(getX(),getY(),getWidth(),getHeight(), getLegend(), getTablr());
 		return clone;
 	}
 
