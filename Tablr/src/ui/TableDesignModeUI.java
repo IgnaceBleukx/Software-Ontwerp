@@ -25,10 +25,27 @@ import facades.Tablr;
 public class TableDesignModeUI extends UI {
 	
 	private int margin = getWidth() / 15;
+	int namePosX;
+	int nameSizeX;
+	int typePosX;
+	int typeSizeX;
+	int blankPosX;
+	int blankSizeX;
+	int defPosX;
+	int defSizeX;
 	
 	public TableDesignModeUI(int x, int y, int w, int h,Tablr t) {
 		super(x,y,w,h);
 		this.setTablr(t);
+		
+		namePosX = getX() + margin + edgeW;
+		nameSizeX = getWidth()*5/15;
+		typePosX = getX() + margin + edgeW + nameSizeX;
+		typeSizeX = getWidth()*3/15;
+		blankPosX = getX() + margin + edgeW + nameSizeX + typeSizeX;
+		blankSizeX = getWidth()*2/15;
+		defPosX = getX() + margin + edgeW + nameSizeX + typeSizeX + blankSizeX;
+		defSizeX = getWidth() *4/15 - edgeW;
 		
 		this.columnResizeListeners.add((delta,index) ->{
 			getLegend().resizeElementR(delta, index*2);
@@ -37,21 +54,32 @@ public class TableDesignModeUI extends UI {
 		
 	}
 	
+	public TableDesignModeUI(int x, int y, int w, int h, UIRow legend, Tablr t) {
+		super(x,y,w,h);
+		this.setTablr(t);
+
+		namePosX = legend.getElements().get(0).getX();
+		nameSizeX = legend.getElements().get(0).getWidth();
+		typePosX = legend.getElements().get(2).getX();
+		typeSizeX = legend.getElements().get(2).getWidth();
+		blankPosX = legend.getElements().get(4).getX();
+		blankSizeX = legend.getElements().get(4).getWidth();
+		defPosX = legend.getElements().get(6).getX();
+		defSizeX = legend.getElements().get(6).getWidth();
+		
+		this.columnResizeListeners.add((delta,index) ->{
+			getLegend().resizeElementR(delta, index*2);
+			getListView().getElements().stream().filter(e -> e instanceof UIRow).forEach(r -> ((UIRow) r).resizeElementR(delta, index));
+		});
+	}
+	
 	public void loadUI(Table table){
 		setActive();
 		this.clear();
 		loadUIAttributes();
+		
 		titleBar.setText("Table design mode: "+table.getName());
 		int currentHeight = getY()+titleHeight+edgeW;
-				
-		int namePosX = getX() + margin + edgeW;
-		int nameSizeX = getWidth()*5/15;
-		int typePosX = getX() + margin + edgeW + nameSizeX;
-		int typeSizeX = getWidth()*3/15;
-		int blankPosX = getX() + margin + edgeW + nameSizeX + typeSizeX;
-		int blankSizeX = getWidth()*2/15;
-		int defPosX = getX() + margin + edgeW + nameSizeX + typeSizeX + blankSizeX;
-		int defSizeX = getWidth() *4/15 - edgeW;
 		
 		Text name = new Text(namePosX, currentHeight, nameSizeX, 15,"Name");
 		Dragger nameDragger = new Dragger(namePosX+nameSizeX - 2, currentHeight, 4, 15);
@@ -134,7 +162,7 @@ public class TableDesignModeUI extends UI {
 		});
 	}
 			
-	private UIRow getLegend(){
+	public UIRow getLegend(){
 		Optional<UIElement> r = getElements().stream().filter(e -> e instanceof UIRow).findFirst();
 		UIRow row = (UIRow) r.orElseThrow(() -> new RuntimeException("No UIRow in UI"));
 		return row;
@@ -153,14 +181,14 @@ public class TableDesignModeUI extends UI {
 	private ListView loadColumnAttributes(Table table) {
 		int currentHeight = getY() + edgeW+titleHeight+15;
 		
-		int namePosX = getLegend().getElements().get(0).getX();
-		int nameSizeX = getLegend().getElements().get(0).getWidth();
-		int typePosX = getLegend().getElements().get(2).getX();
-		int typeSizeX = getLegend().getElements().get(2).getWidth();
-		int blankPosX = getLegend().getElements().get(4).getX();
-		int blankSizeX = getLegend().getElements().get(4).getWidth();
-		int defPosX = getLegend().getElements().get(6).getX();
-		int defSizeX = getLegend().getElements().get(6).getWidth();
+		namePosX = getLegend().getElements().get(0).getX();
+		nameSizeX = getLegend().getElements().get(0).getWidth();
+		typePosX = getLegend().getElements().get(2).getX();
+		typeSizeX = getLegend().getElements().get(2).getWidth();
+		blankPosX = getLegend().getElements().get(4).getX();
+		blankSizeX = getLegend().getElements().get(4).getWidth();
+		defPosX = getLegend().getElements().get(6).getX();
+		defSizeX = getLegend().getElements().get(6).getWidth();
 				
 		ListView list = new ListView(getX()+edgeW, currentHeight, getWidth() - 2*edgeW,	getHeight()-2*edgeW-titleHeight-15,new ArrayList<UIElement>());
 		
@@ -308,7 +336,7 @@ public class TableDesignModeUI extends UI {
 	
 	@Override
 	public TableDesignModeUI clone(){
-		TableDesignModeUI clone = new TableDesignModeUI(getX(),getY(),getWidth(),getHeight(),getTablr());
+		TableDesignModeUI clone = new TableDesignModeUI(getX(),getY(),getWidth(),getHeight(),getLegend(),getTablr());
 		ArrayList<UIElement> clonedElements = new ArrayList<UIElement>();
 		elements.stream().forEach(e -> clonedElements.add(e.clone()));
 		clone.elements = clonedElements;
