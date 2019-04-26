@@ -83,7 +83,7 @@ public class TableRowsTests {
 	
 		// Step 2: The system added four new rows in prepareTable(). Its value for each column is the columns default.
 		assertEquals("default",tablr.getColumns(tablr.getTables().get(0)).get(0).getDefault());
-		assertEquals("default@email",tablr.getColumns(tablr.getTables().get(0)).get(1).getDefault());
+		assertEquals("",tablr.getColumns(tablr.getTables().get(0)).get(1).getDefault());
 		assertNull(tablr.getColumns(tablr.getTables().get(0)).get(2).getDefault());
 		assertEquals(999,tablr.getColumns(tablr.getTables().get(0)).get(3).getDefault());
 	}
@@ -303,7 +303,7 @@ public class TableRowsTests {
 		// Step 2: The system indicates that this row is now selected.
 		UIRow r = (UIRow) tablr.getUIAt(315, 393).locatedAt(315, 393);
 		UITable table = (UITable) tablr.getUIAt(503, 537).locatedAt(503, 537);
-		assertEquals(table.getSelected(), r);
+		assertTrue(r.isSelected());
 
 		// Step 3: User presses Delete key
 		myCW.handleKeyEvent(0, 127, ' ');
