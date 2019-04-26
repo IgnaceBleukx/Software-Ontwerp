@@ -72,11 +72,11 @@ public class TablesModeTests {
 		
 		// Step 4: Check to see if table name gets red when it is empty or equal to name of another table
 		assertEquals(t.getError(), false);
-		for(int i = 0; i<5; i++){
+		for(int i = 0; i<8; i++){
 			System.out.println(tablr.getTables().get(0).getName());
-			myCW.handleKeyEvent(1, 8, ' ');
+			myCW.handleKeyEvent(1, 8, Character.MIN_VALUE);
 		}
-		assertEquals("", tablr.getTables().get(0).getName());
+		assertEquals("T", tablr.getTables().get(0).getName());
 		assertEquals(t.getError(), true);
 		
 		// Add a character to the highlighted table name
@@ -89,7 +89,7 @@ public class TablesModeTests {
 		
 		// Or click outside table name 
 		myCW.handleMouseEvent(MouseEvent.MOUSE_CLICKED, 60, 30, 1);
-		assertEquals(true, t.isSelected());
+		assertEquals(false, t.isSelected());
 		myCW.handleMouseEvent(MouseEvent.MOUSE_CLICKED, 60, 300, 1);
 		assertEquals(false, t.isSelected());
 	}
