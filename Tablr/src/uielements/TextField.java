@@ -132,9 +132,8 @@ public class TextField extends UIElement {
 		
 		if (new HashMap<Integer, ArrayList<Runnable>>(keyboardListeners).get(keyCode) == null)
 			return;
-		if (isSelected()) {
-			new HashMap<Integer, ArrayList<Runnable>>(keyboardListeners).get(keyCode).stream().forEach(l -> l.run());
-		}
+		
+		new HashMap<Integer, ArrayList<Runnable>>(keyboardListeners).get(keyCode).stream().forEach(l -> l.run());
 	}
 	
 	@Override
