@@ -6,6 +6,7 @@ import java.awt.event.MouseEvent;
 import uielements.*;
 
 import java.util.ArrayList;
+import java.util.ConcurrentModificationException;
 import java.util.Date;
 
 import facades.Tablr;
@@ -171,20 +172,35 @@ public class MyCanvasWindow extends CanvasWindow {
 		checkCtrlT(keyCode);
 
 		UI ui = tablr.getSelectedUI();
-		if(ui == null) return;
-		for (int i=0;i<ui.getElements().size();i++) {
-			UIElement e;
+		if (ui == null) return;
+//		if(ui == null) return;
+//		for (int i=0;i<ui.getElements().size();i++) {
+//			UIElement e;
+//			try {
+//				e = tablr.getSelectedUI().getElements().get(i);
+//			} catch (IndexOutOfBoundsException e1) {
+//				return;
+//			}
+//			e.handleKeyboardEvent(keyCode, keyChar);
+//			
+//			if (keyCode == 17)
+//				tablr.controlPressed();
+//			if (Character.isLetterOrDigit(keyChar) || keyCode == 8 || keyChar == '@' || keyChar == '.') {
+//				e.handleKeyboardEvent(-1, Character.MIN_VALUE);
+//			}
+//		}
+		
+		for (UIElement e : ui.getElements()) {
 			try {
-				e = tablr.getSelectedUI().getElements().get(i);
-			} catch (IndexOutOfBoundsException e1) {
+				e.handleKeyboardEvent(keyCode, keyChar);
+				
+				if (keyCode == 17)
+					tablr.controlPressed();
+				if (Character.isLetterOrDigit(keyChar) || keyCode == 8 || keyChar == '@' || keyChar == '.') {
+					e.handleKeyboardEvent(-1, Character.MIN_VALUE);
+				}
+			} catch (ConcurrentModificationException e1) {
 				return;
-			}
-			e.handleKeyboardEvent(keyCode, keyChar);
-			
-			if (keyCode == 17)
-				tablr.controlPressed();
-			if (Character.isLetterOrDigit(keyChar) || keyCode == 8 || keyChar == '@' || keyChar == '.') {
-				e.handleKeyboardEvent(-1, Character.MIN_VALUE);
 			}
 		}
 		

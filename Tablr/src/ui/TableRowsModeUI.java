@@ -131,12 +131,16 @@ public class TableRowsModeUI extends UI {
 			titleBar.setText("Table Rows Mode: " + table.getName());
 		});
 		
-		titleBar.addKeyboardListener(10, () -> { //Ctrl+Enter, create new Table Design subwindow.
+		
+		titleBar.addKeyboardListener(10, () -> { //Ctrl+Enter, create new Table Rows subwindow.
+			for (UIElement e : getElements()){
+				if (e.getError()) return;
+			}
+			
 			if (this.getWindowManager().recentCtrl()) {
-				//
+				tablr.loadTableDesignModeUI(table);
 			}
 		});
-		
 		
 	}
 	
@@ -264,9 +268,7 @@ public class TableRowsModeUI extends UI {
 				}
 			});
 		}		
-		uiTable.addKeyboardListener(17, () -> {
-			getTablr().loadTableDesignModeUI(tab);;
-		});
+
 		
 		uiTable.addDoubleClickListener(() -> {
 			getTablr().addRow(tab);

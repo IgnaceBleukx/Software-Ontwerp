@@ -156,6 +156,10 @@ public class TableDesignModeUI extends UI {
 		});
 		
 		titleBar.addKeyboardListener(10, () -> { //Ctrl+Enter, create new Table Rows subwindow.
+			for (UIElement e : getElements()){
+				if (e.getError()) return;
+			}
+			
 			if (this.getWindowManager().recentCtrl()) {
 				tablr.loadTableRowsModeUI(table);
 			}
