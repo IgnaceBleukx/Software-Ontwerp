@@ -118,7 +118,7 @@ public class TablesModeTests {
 		UIRow r = (UIRow) l.getElements().get(2);
 		
 		// Step 1: The user clicks the margin to the left of a table name.
-		myCW.handleMouseEvent(MouseEvent.MOUSE_CLICKED, 6, 21, 1);
+		myCW.handleMouseEvent(MouseEvent.MOUSE_CLICKED, 19, 49, 1);
 		
 		// Step 2: row is selected
 		assertEquals(true, r.isSelected());
