@@ -138,14 +138,15 @@ public class TableRowsModeUI extends UI {
 					if (e instanceof UITable) uitable = (UITable)e;				
 				}
 				UIRow uiLegend = uitable.getLegend();
-				ArrayList<String> legendNames = new ArrayList<String>(uiLegend.getElements().stream().filter(e -> !(e instanceof Dragger)).map(e -> ((Text) e).getText()).collect(Collectors.toList()));
 				uiLegend.getElements().sort((UIElement e1,UIElement e2) -> e1.getX() - e2.getX());
-				int indexCurrent = 0;
-				for (UIElement e : legend.getElements()){
-					if (e.equals(drag)){
-						indexCurrent = legend.getElements().indexOf(e)/2;
-					}
-				}
+				ArrayList<String> legendNames = new ArrayList<String>(uiLegend.getElements().stream().filter(e -> !(e instanceof Dragger)).map(e -> ((Text) e).getText()).collect(Collectors.toList()));
+//				int indexCurrent = 0;
+//				for (UIElement e : legend.getElements()){
+//					if (e.equals(drag)){
+//						indexCurrent = legend.getElements().indexOf(e)/2;
+//					}
+//				}
+				int indexCurrent = legendNames.indexOf(el.getText());
 				getWindowManager().notifyTableRowsModeUIsColResized(deltaFinal, indexCurrent, table);
 			});
 			legend.addElement(el);
