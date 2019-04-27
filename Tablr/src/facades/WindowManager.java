@@ -94,7 +94,7 @@ public class WindowManager {
 		}else {
 			for (TablesModeUI tui : tablesModeUIs) {
 				if (!tui.isActive()) {
-					tui.isActive();
+					tui.setActive();
 					this.selectUI(tui);
 					tui.setTablr(tablr);
 					tui.setWindowManager(this);
