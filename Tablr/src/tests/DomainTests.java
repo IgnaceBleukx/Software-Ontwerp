@@ -50,10 +50,13 @@ public class DomainTests {
 		col.addCell(c);
 		//the cell is in the column
 		assertTrue(col.getCells().contains(c));
+<<<<<<< HEAD
+=======
 		//Switch the cell to another column
 		Column col2 = new Column("Test", null,Type.BOOLEAN,true);
 		col2.addCell(c);
 		
+>>>>>>> 688fc70c84aa165fc08e9a457b79821d4e2b44e9
 	}
 	
 	@Test (expected = ClassCastException.class)
