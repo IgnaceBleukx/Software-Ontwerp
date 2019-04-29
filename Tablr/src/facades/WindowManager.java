@@ -220,12 +220,11 @@ public class WindowManager {
 	 * @return
 	 */
 	public UI getUIAt(int x, int y) {
-		if (selectedUI.containsPoint(x, y)) {
+		if (selectedUI != null && selectedUI.containsPoint(x, y)) {
 			return selectedUI;
 		}
-		System.out.println("[WindowManager.java:118] " + getUIs());
 		for (UI ui : getUIs()) {
-			System.out.println("[WindowManager.java:121] " + ui);
+			System.out.println("[WindowManager.java:121] " + ui + ui.isActive());
 			if (ui.isActive() && ui.containsPoint(x,y)) 
 				return ui;
 		}

@@ -170,12 +170,6 @@ public class TableRowsModeUI extends UI {
 				UIRow uiLegend = uitable.getLegend();
 				uiLegend.getElements().sort((UIElement e1,UIElement e2) -> e1.getX() - e2.getX());
 				ArrayList<String> legendNames = new ArrayList<String>(uiLegend.getElements().stream().filter(e -> !(e instanceof Dragger)).map(e -> ((Text) e).getText()).collect(Collectors.toList()));
-//				int indexCurrent = 0;
-//				for (UIElement e : legend.getElements()){
-//					if (e.equals(drag)){
-//						indexCurrent = legend.getElements().indexOf(e)/2;
-//					}
-//				}
 				int indexCurrent = legendNames.indexOf(el.getText());
 				getWindowManager().notifyTableRowsModeUIsColResized(deltaFinal, indexCurrent, table);
 			});

@@ -110,7 +110,7 @@ public class Checkbox extends UIElement {
 	/**
 	 * @return	Whether this checkbox is checked.
 	 */
-	public boolean isChecked() {
+	public Boolean isChecked() {
 		return value;
 	}
 	
