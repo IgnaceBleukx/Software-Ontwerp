@@ -101,8 +101,8 @@ STRING</panel_attributes>
       <w>190</w>
       <h>50</h>
     </coordinates>
-    <panel_attributes>lt=-
-m1=1..1
+    <panel_attributes>lt=-&gt;
+
 m2=0..*
 has</panel_attributes>
     <additional_attributes>10.0;20.0;170.0;20.0</additional_attributes>

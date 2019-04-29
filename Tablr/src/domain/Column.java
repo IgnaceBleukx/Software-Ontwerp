@@ -192,7 +192,6 @@ public class Column {
 	 * @param c: The cell to be added.
 	 */
 	public void addCell(Cell<?> c){
-		c.setColumn(this);
 		cells.add(c);
 	}
 	
@@ -229,9 +228,6 @@ public class Column {
 	 */
 	public Cell<?> removeCell(int index){
 		Cell<?> c = this.cells.remove(index);
-		if (c != null){
-			c.setColumn(null);
-		}
 		return c;
 	}
 	
@@ -272,9 +268,6 @@ public class Column {
 	 */
 	public void terminate(){
 		table.removeColumn(this);
-		for (Cell<?> cell: this.getCells()){
-			cell.terminate();
-		}
 	}
 	
 	/**
@@ -314,7 +307,6 @@ public class Column {
 			case EMAIL:  	newCell = new Cell<String>(string); break;
 			case STRING: 	newCell = new Cell<String>(string); break;
 		}
-		newCell.setColumn(this);
 		cells.remove(i);
 		cells.add(i,newCell);		
 	}
