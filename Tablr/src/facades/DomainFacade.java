@@ -285,7 +285,6 @@ public class DomainFacade {
 	 */
 	public void toggleDefault(Column col) {
 		col.toggleDefaultBoolean();
-		
 	}
 	
 	/**

@@ -236,7 +236,7 @@ public class UIElementTests {
 		myCW.handleMouseEvent(MouseEvent.MOUSE_CLICKED, 75, 55, 1);
 		t = (TextField) tablr.getUIAt(75, 55).locatedAt(75, 55);
 		assertEquals("Table1", t.getText());
-		
+	
 		// Drag the vertical scrollbar to the top again
 		myCW.handleMouseEvent(MouseEvent.MOUSE_CLICKED, 293, 41, 1);
 		

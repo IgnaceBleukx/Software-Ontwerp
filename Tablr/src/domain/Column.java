@@ -153,6 +153,12 @@ public class Column {
 	 */
 	public void toggleBlanks() throws Exception{
 		if (allowsBlanks && getDefault() == null || allowsBlanks && getDefault() == "") throw new Exception("The column default is blank");
+		for (Cell c : getCells()) {
+			if (allowsBlanks && c.getValue() instanceof String && ((String) c.getValue()).isEmpty())
+				throw new Exception("A cell is blank!");
+			if (allowsBlanks && c.getValue() == null)
+				throw new Exception("A cell is blank!");
+		}
 		allowsBlanks = !allowsBlanks;
 	}
 	
@@ -176,7 +182,7 @@ public class Column {
 	 * @throws ClassCastException		If the proposed default value is not valid for the column's type
 	 */
 	public void setDefaultValue(Object v) throws ClassCastException{
-		if ((v == null || v == "") && !getBlankingPolicy()) throw new ClassCastException();
+		if ((v == null || v.equals("")) && !getBlankingPolicy()) throw new ClassCastException();
 		else if(v == null) this.defaultValue = v;
 		else if (isValidValue(this.getColumnType(),v.toString())) this.defaultValue = v;
 		else throw new ClassCastException();
@@ -374,8 +380,8 @@ public class Column {
 	/**
 	 * Toggles whether default values are allowed for a boolean Column
 	 */
-	public void toggleDefaultBoolean() {
-		if (getColumnType() != Type.BOOLEAN) return;
+	public void toggleDefaultBoolean() throws ClassCastException {
+		if (!getColumnType().equals(Type.BOOLEAN)) return;
 		System.out.println("[Column.java:377] : current default value = " + getDefault());
 		Boolean current = (Boolean) getDefault();
 		setDefaultValue(nextValueBoolean(current,getBlankingPolicy()));
