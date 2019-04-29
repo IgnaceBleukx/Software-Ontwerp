@@ -49,17 +49,7 @@ public class DomainTests {
 		Column col = new Column("Test", null,Type.BOOLEAN,true);
 		col.addCell(c);
 		//the cell is in the column
-		assertEquals(c.getColumn(),col);
-		
-		//Switch the cell to another column
-		Column col2 = new Column("Test", null,Type.BOOLEAN,true);
-		c.setColumn(col2);
-		col2.addCell(c);
-		assertEquals(c.getColumn(),col2);
-		
-		//Terminating a cell deletes it in it's column
-		c.terminate();
-		assertTrue(!col2.getCells().contains(c));
+		assertTrue(col.getCells().contains(c));
 	}
 	
 	@Test (expected = ClassCastException.class)

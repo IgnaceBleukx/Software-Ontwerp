@@ -24,34 +24,6 @@ public class Cell<T> {
 	public void setValue (T v){
 		this.value = v;
 	}
-
-	/**
-	 * This method returns the column to which this Cell belongs.
-	 */
-	public Column getColumn() {
-		return column;
-	}
-
-	/**
-	 * This method sets the column of the current cell.
-	 * @param column
-	 */
-	public void setColumn(Column column) {
-		this.column = column;
-	}
-	
-	/**
-	 * The column to which this Cell belongs.
-	 */
-	private Column column;
-	
-	
-	/**
-	 * This method terminates the cell and removes all its references within other objects.
-	 */
-	public void terminate(){
-		if (getColumn() != null) this.getColumn().removeCell(this);
-	}
 	
 	/**
 	 * Value in this cell. Null iff this cell is 'blank'.
