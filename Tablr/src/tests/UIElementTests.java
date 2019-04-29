@@ -2,6 +2,7 @@ package tests;
 
 import static org.junit.Assert.*;
 
+import java.awt.event.KeyEvent;
 import java.awt.event.MouseEvent;
 
 import org.junit.Test;
@@ -367,13 +368,15 @@ public class UIElementTests {
 		// Change text of first cell
 		myCW.handleMouseEvent(MouseEvent.MOUSE_CLICKED, 345, 365, 1);
 		myCW.handleKeyEvent(0, 0, 'a');
+		myCW.handleKeyEvent(0, 10, ' ');
 		
 		// Drag the vertical scrollbar to the bottom
 		myCW.handleMouseEvent(MouseEvent.MOUSE_PRESSED, 593, 400, 1);
-		myCW.handleMouseEvent(MouseEvent.MOUSE_DRAGGED, 593, 446, 1);
-		myCW.handleMouseEvent(MouseEvent.MOUSE_RELEASED, 593, 446, 1);
+		myCW.handleMouseEvent(MouseEvent.MOUSE_DRAGGED, 593, 455, 1);
+		myCW.handleMouseEvent(MouseEvent.MOUSE_RELEASED, 593, 455, 1);
 		
-		TextField t = (TextField) tablr.getUIAt(345, 365).locatedAt(345, 365);
+		TextField t = (TextField) tablr.getUIAt(345, 356).locatedAt(345, 356);
+		System.out.println(t.getText());
 		assertEquals("", t.getText());
 	}
 	
