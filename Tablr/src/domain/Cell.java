@@ -24,6 +24,7 @@ public class Cell<T> {
 	public void setValue (T v){
 		this.value = v;
 	}
+
 	
 	/**
 	 * Value in this cell. Null iff this cell is 'blank'.
