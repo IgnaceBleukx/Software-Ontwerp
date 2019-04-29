@@ -131,9 +131,13 @@ public class UIElementTests {
 		assertEquals(300, tablr.getTablesModeUIs().get(0).getWidth());
 		assertEquals(300, tablr.getTablesModeUIs().get(0).getHeight());
 	
-		// Drag the tables mode subwindow to the right
-		myCW.handleMouseEvent(MouseEvent.MOUSE_PRESSED, 140, 2, 1);
-		myCW.handleMouseEvent(MouseEvent.MOUSE_DRAGGED, 140, -18, 1);
+		// Drag the tables mode subwindow to the the bottom
+		myCW.handleMouseEvent(MouseEvent.MOUSE_PRESSED, 140, 10, 1);
+		myCW.handleMouseEvent(MouseEvent.MOUSE_DRAGGED, 140, 95, 1);
+		// Resize the top
+		myCW.handleMouseEvent(MouseEvent.MOUSE_PRESSED, 140, 87, 1);
+		myCW.handleMouseEvent(MouseEvent.MOUSE_DRAGGED, 140, 67, 1);
+		
 		
 		// Check the changed position of the subwindow
 		assertEquals(300, tablr.getTablesModeUIs().get(0).getWidth());
@@ -376,7 +380,6 @@ public class UIElementTests {
 		myCW.handleMouseEvent(MouseEvent.MOUSE_RELEASED, 593, 455, 1);
 		
 		TextField t = (TextField) tablr.getUIAt(345, 356).locatedAt(345, 356);
-		System.out.println(t.getText());
 		assertEquals("", t.getText());
 	}
 	
@@ -409,6 +412,7 @@ public class UIElementTests {
 		// Change text of first cell
 		myCW.handleMouseEvent(MouseEvent.MOUSE_CLICKED, 345, 365, 1);
 		myCW.handleKeyEvent(0, 0, 'a');
+		myCW.handleKeyEvent(KeyEvent.KEY_TYPED, 10, ' '); 
 		
 		// Drag the horizontal scrollbar to the right
 		myCW.handleMouseEvent(MouseEvent.MOUSE_PRESSED, 373, 590, 1);
