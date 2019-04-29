@@ -4,6 +4,10 @@ import static org.junit.Assert.*;
 
 import java.awt.event.KeyEvent;
 import java.awt.event.MouseEvent;
+import java.io.File;
+import java.io.IOException;
+
+import javax.imageio.ImageIO;
 
 import org.junit.Test;
 
@@ -215,7 +219,8 @@ public class UIElementTests {
 		myCW.handleKeyEvent(1, 17, ' ');
 		myCW.handleKeyEvent(1, 84, ' ');
 		
-		// Add 7 tables
+		// Add 8 tables
+		myCW.handleMouseEvent(MouseEvent.MOUSE_CLICKED, 155, 285, 2);
 		myCW.handleMouseEvent(MouseEvent.MOUSE_CLICKED, 155, 285, 2);
 		myCW.handleMouseEvent(MouseEvent.MOUSE_CLICKED, 155, 285, 2);
 		myCW.handleMouseEvent(MouseEvent.MOUSE_CLICKED, 155, 285, 2);
@@ -233,7 +238,6 @@ public class UIElementTests {
 		myCW.handleMouseEvent(MouseEvent.MOUSE_CLICKED, 293, 280, 1);
 		
 		//Check the name of the first shown table
-		myCW.handleMouseEvent(MouseEvent.MOUSE_CLICKED, 75, 55, 1);
 		t = (TextField) tablr.getUIAt(75, 55).locatedAt(75, 55);
 		assertEquals("Table1", t.getText());
 		
@@ -637,5 +641,17 @@ public class UIElementTests {
 		myCW.handleMouseEvent(MouseEvent.MOUSE_DRAGGED, 370, 30, 1);
 
 		Text te = (Text) tablr.getUIAt(394, 50).locatedAt(394, 50);
+	}
+	
+	
+	private void snapShot(MyCanvasWindow myCW,String out) {
+		File outputFile = new File(out);
+		try {
+			ImageIO.write(myCW.captureImage(), "png", outputFile);
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
 	}
 }
