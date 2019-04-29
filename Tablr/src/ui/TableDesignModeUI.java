@@ -202,9 +202,7 @@ public class TableDesignModeUI extends UI {
 			Text colType = new Text(typePosX, currentHeight, typeSizeX, 30, tablr.getColumnType(col).toString()); 
 			colType.setBorder(true);
 			Checkbox colBlankPol = new Checkbox(blankPosX + blankSizeX/2 - 10, currentHeight + 5, 20, 20, tablr.getBlankingPolicy(col));
-			String defaultValue = tablr.getDefaultString(col);
-			
-			
+			String defaultValue = tablr.getDefaultString(col);	
 			
 			ArrayList<UIElement> elmts = new ArrayList<UIElement>(){
 				{ add(colName); add(colType); add(colBlankPol);}};
@@ -220,7 +218,10 @@ public class TableDesignModeUI extends UI {
 				elmts.add(colDefText);
 				colDefText.addKeyboardListener(-1,()-> {
 					try {
-						tablr.setDefault(col,colDefText.getText());
+						if (colDefText.getText().isEmpty())
+							tablr.setDefault(col,"");
+						else
+							tablr.setDefault(col,colDefText.getText());
 						if (colDefText.getError()) {
 							colDefText.isNotError();
 						}

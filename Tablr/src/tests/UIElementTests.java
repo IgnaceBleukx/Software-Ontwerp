@@ -240,7 +240,7 @@ public class UIElementTests {
 		//Check the name of the first shown table
 		t = (TextField) tablr.getUIAt(75, 55).locatedAt(75, 55);
 		assertEquals("Table1", t.getText());
-		
+	
 		// Drag the vertical scrollbar to the top again
 		myCW.handleMouseEvent(MouseEvent.MOUSE_CLICKED, 293, 41, 1);
 		
