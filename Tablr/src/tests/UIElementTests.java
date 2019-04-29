@@ -181,7 +181,8 @@ public class UIElementTests {
 		myCW.handleKeyEvent(1, 17, ' ');
 		myCW.handleKeyEvent(1, 84, ' ');
 		
-		// Add 7 tables
+		// Add 8 tables
+		myCW.handleMouseEvent(MouseEvent.MOUSE_CLICKED, 155, 285, 2);
 		myCW.handleMouseEvent(MouseEvent.MOUSE_CLICKED, 155, 285, 2);
 		myCW.handleMouseEvent(MouseEvent.MOUSE_CLICKED, 155, 285, 2);
 		myCW.handleMouseEvent(MouseEvent.MOUSE_CLICKED, 155, 285, 2);
@@ -191,17 +192,16 @@ public class UIElementTests {
 		myCW.handleMouseEvent(MouseEvent.MOUSE_CLICKED, 155, 285, 2);
 		
 		// Check the name of the first shown table
-		myCW.handleMouseEvent(MouseEvent.MOUSE_CLICKED, 75, 55, 1);
 		TextField t = (TextField) tablr.getUIAt(75, 55).locatedAt(75, 55);
 		assertEquals("Table0", t.getText());
+		snapShot(myCW, "./between.png");
 		
 		// Drag the vertical scrollbar to the bottom
-		myCW.handleMouseEvent(MouseEvent.MOUSE_PRESSED, 293, 132, 1);
-		myCW.handleMouseEvent(MouseEvent.MOUSE_DRAGGED, 293, 170, 1);
-		myCW.handleMouseEvent(MouseEvent.MOUSE_RELEASED, 293, 170, 1);
+		myCW.handleMouseEvent(MouseEvent.MOUSE_PRESSED, 293, 105, 1);
+		myCW.handleMouseEvent(MouseEvent.MOUSE_DRAGGED, 293, 145, 1);
+		snapShot(myCW, "./after.png");
 		
 		//Check the name of the first shown table
-		myCW.handleMouseEvent(MouseEvent.MOUSE_CLICKED, 75, 55, 1);
 		t = (TextField) tablr.getUIAt(75, 55).locatedAt(75, 55);
 		assertEquals("Table1", t.getText());
 	}
@@ -421,7 +421,6 @@ public class UIElementTests {
 		// Drag the horizontal scrollbar to the right
 		myCW.handleMouseEvent(MouseEvent.MOUSE_PRESSED, 373, 590, 1);
 		myCW.handleMouseEvent(MouseEvent.MOUSE_DRAGGED, 488, 590, 1);
-		myCW.handleMouseEvent(MouseEvent.MOUSE_RELEASED, 488, 446, 1);
 		
 		TextField t = (TextField) tablr.getUIAt(345, 365).locatedAt(345, 365);
 		assertEquals("", t.getText());
