@@ -263,7 +263,6 @@ public class Tablr {
 	 */
 	public void setDefault(Column col, String def) throws ClassCastException {
 		domainFacade.setDefault(col,def);
-		domainChanged();
 	}
 
 	/**
@@ -381,7 +380,6 @@ public class Tablr {
 	 */
 	public void domainChanged(){
 		DomainChangedListeners.stream().forEach(l -> l.run());
-		
 	}
 	
 	/**

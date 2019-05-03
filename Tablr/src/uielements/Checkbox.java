@@ -6,6 +6,8 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.function.BiConsumer;
 
+import Utils.Rounder;
+
 public class Checkbox extends UIElement {
 
 	/**
@@ -108,18 +110,24 @@ public class Checkbox extends UIElement {
 	/**
 	 * @return	Whether this checkbox is checked.
 	 */
-	public boolean isChecked() {
+	public Boolean isChecked() {
 		return value;
 	}
+	
+//	@Override
+//	public void move(int deltaX, int deltaY) {
+//		setX(getX() + deltaX);
+//		setY(getY() + deltaY);
+//	}
 
 	@Override
 	public void resizeL(int deltaW){
-		this.move(deltaW/2, 0);
+		this.move(deltaW, 0);
 	}
 	
 	@Override
 	public void resizeR(int deltaW){
-		this.move(deltaW/2, 0);
+		this.move(deltaW, 0);
 	}
 
 	@Override
@@ -127,5 +135,7 @@ public class Checkbox extends UIElement {
 		return new Checkbox(getX(),getY(),getWidth(),getHeight(),value);
 	}
 	
+	public Rounder checkBoxResizer = new Rounder();
+
 	
 }

@@ -43,9 +43,9 @@ public class HorizontalScrollBar extends ScrollBar {
 			scrollBar.setWidth(windowEndX - windowStartX);
 			scrollBar.setX(getX());
 			margin1.setX(getX());
-			margin1.setHeight(0);
+			margin1.setWidth(0);
 			margin2.setX(getEndX());
-			margin2.setHeight(0);
+			margin2.setWidth(0);
 		}
 		else {
 			this.enable();

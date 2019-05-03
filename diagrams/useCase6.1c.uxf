@@ -4,91 +4,137 @@
   <element>
     <id>UMLClass</id>
     <coordinates>
-      <x>1150</x>
-      <y>330</y>
+      <x>1220</x>
+      <y>320</y>
       <w>130</w>
       <h>30</h>
     </coordinates>
-    <panel_attributes>DomainFacade</panel_attributes>
+    <panel_attributes>TextField</panel_attributes>
     <additional_attributes/>
   </element>
   <element>
     <id>UMLClass</id>
     <coordinates>
-      <x>890</x>
-      <y>330</y>
+      <x>960</x>
+      <y>320</y>
       <w>180</w>
       <h>30</h>
     </coordinates>
-    <panel_attributes>CommunicationManager</panel_attributes>
+    <panel_attributes>UI</panel_attributes>
     <additional_attributes/>
   </element>
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>260</x>
-      <y>380</y>
-      <w>290</w>
-      <h>40</h>
+      <x>340</x>
+      <y>370</y>
+      <w>280</w>
+      <h>50</h>
     </coordinates>
-    <panel_attributes>lt=&lt;&lt;.
-clicks the default value for some column</panel_attributes>
-    <additional_attributes>270.0;20.0;10.0;20.0</additional_attributes>
+    <panel_attributes>lt=&lt;-
+User confirms a new default value 
+(via Keyboard or Mouse)</panel_attributes>
+    <additional_attributes>260.0;20.0;10.0;20.0</additional_attributes>
   </element>
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>520</x>
-      <y>400</y>
+      <x>590</x>
+      <y>390</y>
       <w>210</w>
-      <h>60</h>
+      <h>40</h>
     </coordinates>
-    <panel_attributes>lt=&lt;&lt;.
-. . .
-
-See how click is handled</panel_attributes>
+    <panel_attributes>lt=&lt;-
+handleKeyEvent()</panel_attributes>
     <additional_attributes>190.0;20.0;10.0;20.0</additional_attributes>
   </element>
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>700</x>
-      <y>440</y>
+      <x>770</x>
+      <y>430</y>
       <w>300</w>
       <h>40</h>
     </coordinates>
-    <panel_attributes>lt=&lt;&lt;.
-getCommunicationManager()</panel_attributes>
+    <panel_attributes>lt=&lt;-
+getActiveUI()</panel_attributes>
     <additional_attributes>280.0;20.0;10.0;20.0</additional_attributes>
   </element>
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>970</x>
-      <y>470</y>
-      <w>260</w>
+      <x>770</x>
+      <y>500</y>
+      <w>530</w>
       <h>40</h>
     </coordinates>
-    <panel_attributes>lt=&lt;&lt;.
-toggleColumnType()</panel_attributes>
-    <additional_attributes>240.0;20.0;10.0;20.0</additional_attributes>
+    <panel_attributes>lt=&lt;-
+setDefaultValue()</panel_attributes>
+    <additional_attributes>10.0;20.0;510.0;20.0</additional_attributes>
   </element>
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>1200</x>
-      <y>370</y>
+      <x>1270</x>
+      <y>340</y>
       <w>30</w>
-      <h>160</h>
+      <h>320</h>
     </coordinates>
     <panel_attributes>lt=.</panel_attributes>
-    <additional_attributes>10.0;140.0;10.0;10.0</additional_attributes>
+    <additional_attributes>10.0;300.0;10.0;10.0</additional_attributes>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>280</x>
+      <y>640</y>
+      <w>1150</w>
+      <h>140</h>
+    </coordinates>
+    <panel_attributes/>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>280</x>
+      <y>640</y>
+      <w>50</w>
+      <h>30</h>
+    </coordinates>
+    <panel_attributes>alt
+</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>Text</id>
+    <coordinates>
+      <x>350</x>
+      <y>650</y>
+      <w>190</w>
+      <h>100</h>
+    </coordinates>
+    <panel_attributes>[If the default value is invalid (see assignment)]
+style=wordwrap</panel_attributes>
+    <additional_attributes/>
   </element>
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>700</x>
-      <y>370</y>
+      <x>760</x>
+      <y>710</y>
+      <w>540</w>
+      <h>40</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;-
+getLock()</panel_attributes>
+    <additional_attributes>10.0;20.0;520.0;20.0</additional_attributes>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>1270</x>
+      <y>620</y>
       <w>30</w>
       <h>180</h>
     </coordinates>
@@ -98,41 +144,52 @@ toggleColumnType()</panel_attributes>
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>970</x>
-      <y>370</y>
+      <x>770</x>
+      <y>360</y>
       <w>30</w>
-      <h>180</h>
+      <h>440</h>
     </coordinates>
     <panel_attributes>lt=.</panel_attributes>
-    <additional_attributes>10.0;160.0;10.0;10.0</additional_attributes>
+    <additional_attributes>10.0;420.0;10.0;10.0</additional_attributes>
   </element>
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>520</x>
-      <y>370</y>
+      <x>1040</x>
+      <y>360</y>
       <w>30</w>
-      <h>170</h>
+      <h>440</h>
     </coordinates>
     <panel_attributes>lt=.</panel_attributes>
-    <additional_attributes>10.0;150.0;10.0;10.0</additional_attributes>
+    <additional_attributes>10.0;420.0;10.0;10.0</additional_attributes>
   </element>
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>260</x>
-      <y>370</y>
+      <x>590</x>
+      <y>360</y>
       <w>30</w>
-      <h>170</h>
+      <h>440</h>
     </coordinates>
     <panel_attributes>lt=.</panel_attributes>
-    <additional_attributes>10.0;150.0;10.0;10.0</additional_attributes>
+    <additional_attributes>10.0;420.0;10.0;10.0</additional_attributes>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>340</x>
+      <y>360</y>
+      <w>30</w>
+      <h>440</h>
+    </coordinates>
+    <panel_attributes>lt=.</panel_attributes>
+    <additional_attributes>10.0;420.0;10.0;10.0</additional_attributes>
   </element>
   <element>
     <id>UMLActor</id>
     <coordinates>
-      <x>240</x>
-      <y>260</y>
+      <x>310</x>
+      <y>250</y>
       <w>60</w>
       <h>110</h>
     </coordinates>
@@ -142,42 +199,42 @@ toggleColumnType()</panel_attributes>
   <element>
     <id>UMLClass</id>
     <coordinates>
-      <x>480</x>
-      <y>330</y>
-      <w>100</w>
+      <x>530</x>
+      <y>320</y>
+      <w>150</w>
       <h>30</h>
     </coordinates>
-    <panel_attributes>UI</panel_attributes>
+    <panel_attributes>MyCanvasWindow</panel_attributes>
     <additional_attributes/>
   </element>
   <element>
     <id>UMLClass</id>
     <coordinates>
-      <x>660</x>
-      <y>330</y>
+      <x>720</x>
+      <y>320</y>
       <w>140</w>
       <h>30</h>
     </coordinates>
-    <panel_attributes>SingleClickListener</panel_attributes>
+    <panel_attributes>Tablr</panel_attributes>
     <additional_attributes/>
   </element>
   <element>
     <id>UMLUseCase</id>
     <coordinates>
-      <x>470</x>
-      <y>190</y>
+      <x>540</x>
+      <y>180</y>
       <w>280</w>
       <h>70</h>
     </coordinates>
-    <panel_attributes>Use case 4.6.1c: Edit Column Characteristic
+    <panel_attributes>Use case 4.6.1c: Edit Default Value
 </panel_attributes>
     <additional_attributes/>
   </element>
   <element>
     <id>UMLClass</id>
     <coordinates>
-      <x>810</x>
-      <y>190</y>
+      <x>880</x>
+      <y>180</y>
       <w>220</w>
       <h>70</h>
     </coordinates>
@@ -188,84 +245,62 @@ style=wordwrap</panel_attributes>
     <additional_attributes/>
   </element>
   <element>
-    <id>UMLNote</id>
+    <id>Relation</id>
     <coordinates>
-      <x>1100</x>
-      <y>190</y>
-      <w>140</w>
-      <h>70</h>
+      <x>1040</x>
+      <y>450</y>
+      <w>260</w>
+      <h>50</h>
     </coordinates>
-    <panel_attributes>NIET af!!!
-bg=blue</panel_attributes>
-    <additional_attributes/>
+    <panel_attributes>lt=&lt;-
+invoke handleKeyEvent()
+on all elements</panel_attributes>
+    <additional_attributes>240.0;20.0;10.0;20.0</additional_attributes>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>1270</x>
+      <y>670</y>
+      <w>170</w>
+      <h>60</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;-
+  setError()</panel_attributes>
+    <additional_attributes>10.0;40.0;80.0;40.0;80.0;10.0;10.0;10.0</additional_attributes>
   </element>
   <element>
     <id>UMLClass</id>
     <coordinates>
-      <x>140</x>
-      <y>370</y>
-      <w>1310</w>
-      <h>310</h>
-    </coordinates>
-    <panel_attributes/>
-    <additional_attributes/>
-  </element>
-  <element>
-    <id>UMLClass</id>
-    <coordinates>
-      <x>140</x>
-      <y>370</y>
-      <w>40</w>
+      <x>1410</x>
+      <y>320</y>
+      <w>130</w>
       <h>30</h>
     </coordinates>
-    <panel_attributes>ALT</panel_attributes>
-    <additional_attributes/>
-  </element>
-  <element>
-    <id>Text</id>
-    <coordinates>
-      <x>150</x>
-      <y>430</y>
-      <w>100</w>
-      <h>70</h>
-    </coordinates>
-    <panel_attributes>The column's type is Boolean
-style=wordwrap</panel_attributes>
-    <additional_attributes/>
-  </element>
-  <element>
-    <id>Text</id>
-    <coordinates>
-      <x>360</x>
-      <y>590</y>
-      <w>100</w>
-      <h>70</h>
-    </coordinates>
-    <panel_attributes>See Edit Table Name: use case 2
-style=wordwrap</panel_attributes>
+    <panel_attributes>UIElement</panel_attributes>
     <additional_attributes/>
   </element>
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>130</x>
-      <y>540</y>
-      <w>1340</w>
-      <h>30</h>
+      <x>770</x>
+      <y>550</y>
+      <w>720</w>
+      <h>40</h>
     </coordinates>
-    <panel_attributes>lt=-</panel_attributes>
-    <additional_attributes>10.0;10.0;1320.0;10.0</additional_attributes>
+    <panel_attributes>lt=&lt;-
+domainChanged()</panel_attributes>
+    <additional_attributes>700.0;20.0;10.0;20.0</additional_attributes>
   </element>
   <element>
-    <id>Text</id>
+    <id>Relation</id>
     <coordinates>
-      <x>150</x>
-      <y>560</y>
-      <w>100</w>
-      <h>70</h>
+      <x>1460</x>
+      <y>340</y>
+      <w>30</w>
+      <h>460</h>
     </coordinates>
-    <panel_attributes>Column's type is not Boolean
-style=wordwrap</panel_attributes>
-    <additional_attributes/>
+    <panel_attributes>lt=.</panel_attributes>
+    <additional_attributes>10.0;440.0;10.0;10.0</additional_attributes>
   </element>
 </diagram>

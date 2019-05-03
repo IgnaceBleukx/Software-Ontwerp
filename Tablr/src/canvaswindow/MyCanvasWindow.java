@@ -6,6 +6,7 @@ import java.awt.event.MouseEvent;
 import uielements.*;
 
 import java.util.ArrayList;
+import java.util.ConcurrentModificationException;
 import java.util.Date;
 
 import facades.Tablr;
@@ -62,18 +63,22 @@ public class MyCanvasWindow extends CanvasWindow {
 		
 		if (id == MouseEvent.MOUSE_PRESSED || id == MouseEvent.MOUSE_CLICKED){ //Only search for a potential new UI with THESE actions
 			try {
-//				System.out.println("[MyCanvasWindow.java:66]: ui = " + tablr.getUIAt(x,y));
-				clicked = tablr.getUIAt(x, y).locatedAt(x, y);
+				System.out.println("ui += " + tablr.getTablesModeUIs() + " eeeeeeeee ");
+				getTablr().selectUI(tablr.getUIAt(x, y));
 			} catch (NullPointerException e) {
+				getTablr().selectUI(null);
 				System.out.println("[MyCanvasWindow.java:67]: No UI at these coordinates");
 				return;
 			}
 			
-			try{
-				getTablr().selectUI(clicked.getUI());
-			}catch (NullPointerException e){
-				getTablr().selectUI(null);
+			try {
+				clicked = tablr.getUIAt(x, y).locatedAt(x, y);
+				System.out.println("Clicked = " + clicked);
+			}	catch (NullPointerException e) {
+				System.out.println("[MyCanvasWindow.java:75]: No element clicked in UI");
+				return;
 			}
+			
 			if (clicked == null) return;
 			
 			System.out.println("[MyCanvasWindow.java:83]: Clicked on : " + clicked);
@@ -172,20 +177,35 @@ public class MyCanvasWindow extends CanvasWindow {
 		checkCtrlT(keyCode);
 
 		UI ui = tablr.getSelectedUI();
-		if(ui == null) return;
-		for (int i=0;i<ui.getElements().size();i++) {
-			UIElement e;
+		if (ui == null) return;
+//		if(ui == null) return;
+//		for (int i=0;i<ui.getElements().size();i++) {
+//			UIElement e;
+//			try {
+//				e = tablr.getSelectedUI().getElements().get(i);
+//			} catch (IndexOutOfBoundsException e1) {
+//				return;
+//			}
+//			e.handleKeyboardEvent(keyCode, keyChar);
+//			
+//			if (keyCode == 17)
+//				tablr.controlPressed();
+//			if (Character.isLetterOrDigit(keyChar) || keyCode == 8 || keyChar == '@' || keyChar == '.') {
+//				e.handleKeyboardEvent(-1, Character.MIN_VALUE);
+//			}
+//		}
+		
+		for (UIElement e : ui.getElements()) {
 			try {
-				e = tablr.getSelectedUI().getElements().get(i);
-			} catch (IndexOutOfBoundsException e1) {
+				e.handleKeyboardEvent(keyCode, keyChar);
+				
+				if (keyCode == 17)
+					tablr.controlPressed();
+				if (Character.isLetterOrDigit(keyChar) || keyCode == 8 || keyChar == '@' || keyChar == '.') {
+					e.handleKeyboardEvent(-1, Character.MIN_VALUE);
+				}
+			} catch (ConcurrentModificationException e1) {
 				return;
-			}
-			e.handleKeyboardEvent(keyCode, keyChar);
-			
-			if (keyCode == 17)
-				tablr.controlPressed();
-			if (Character.isLetterOrDigit(keyChar) || keyCode == 8 || keyChar == '@' || keyChar == '.') {
-				e.handleKeyboardEvent(-1, Character.MIN_VALUE);
 			}
 		}
 		

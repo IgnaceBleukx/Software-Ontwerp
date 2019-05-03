@@ -302,7 +302,7 @@ public class CanvasWindow {
 	protected void handleKeyEvent(int id, int keyCode, char keyChar) {
 	}
 
-	BufferedImage captureImage() {
+	public BufferedImage captureImage() {
 		BufferedImage image = new BufferedImage(width, height, BufferedImage.TYPE_INT_RGB);
 		Graphics imageGraphics = image.getGraphics();
 		imageGraphics.setColor(Color.WHITE);

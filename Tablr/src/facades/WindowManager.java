@@ -94,7 +94,7 @@ public class WindowManager {
 		}else {
 			for (TablesModeUI tui : tablesModeUIs) {
 				if (!tui.isActive()) {
-					tui.isActive();
+					tui.setActive();
 					this.selectUI(tui);
 					tui.setTablr(tablr);
 					tui.setWindowManager(this);
@@ -111,13 +111,18 @@ public class WindowManager {
 	}
 	
 	public void loadTablesModeUI(TablesModeUI ui){
+//		if (System.currentTimeMillis()-lastLoad<100) return;
 		ui.setTablr(tablr);
 		ui.setWindowManager(this);
 		this.selectUI(ui);
 		ui.loadUI();
+		lastLoad = System.currentTimeMillis();
+
 	}
 	
 	public void loadTableRowsModeUI(Table table){
+//		if (System.currentTimeMillis()-lastLoad<100) return;
+
 		TableRowsModeUI ui = null;
 		ArrayList<TableRowsModeUI> uis = tableRowsModeUIs.get(table);
 		if (uis.isEmpty()) throw new RuntimeException("No TableRowsModeUI for table " + table);
@@ -142,9 +147,18 @@ public class WindowManager {
 		ui.setWindowManager(this);
 		ui.loadUI(table);
 		ui.move(-ui.getX() + 300, -ui.getY()+300);
+		lastLoad = System.currentTimeMillis();
+
 	}
 	
+	/**
+	 * Variable holding the number of milliseconds the last time a new subwindow was loaded.
+	 */
+	private long lastLoad = 0; 
+	
 	public void loadTableDesignModeUI(Table table){
+//		if (System.currentTimeMillis()-lastLoad<100) return;
+
 		TableDesignModeUI ui = null;
 		ArrayList<TableDesignModeUI> uis = tableDesignModeUIs.get(table);
 		if (uis.isEmpty()) throw new RuntimeException("No TableDesignModeUI for table " + table);
@@ -169,6 +183,8 @@ public class WindowManager {
 		ui.setWindowManager(this);
 		ui.loadUI(table);
 		ui.move(-ui.getX()+300, -ui.getY());
+		
+		lastLoad = System.currentTimeMillis();
 	}
 	
 	public void addTableDesignModeUI(Table table, TableDesignModeUI ui){
@@ -204,13 +220,13 @@ public class WindowManager {
 	 * @return
 	 */
 	public UI getUIAt(int x, int y) {
-		if (selectedUI.containsPoint(x, y)) {
+		if (selectedUI != null && selectedUI.containsPoint(x, y)) {
 			return selectedUI;
 		}
-		System.out.println("[WindowManager.java:118] " + getUIs());
 		for (UI ui : getUIs()) {
-			System.out.println("[WindowManager.java:121] " + ui);
-			if (ui.isActive() && ui.containsPoint(x,y)) return ui;
+			System.out.println("[WindowManager.java:121] " + ui + ui.isActive());
+			if (ui.isActive() && ui.containsPoint(x,y)) 
+				return ui;
 		}
 		return null;
 	}
@@ -337,7 +353,7 @@ public class WindowManager {
 	 * @return	true iff the last time Ctrl was pressed is less than 1000 milliseconds ago.
 	 */
 	public boolean recentCtrl() {
-		return (System.currentTimeMillis() - lastCtrl < 1000);
+		return (System.currentTimeMillis() - lastCtrl < 500);
 	}
 	
 	/**

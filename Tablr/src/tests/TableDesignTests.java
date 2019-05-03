@@ -3,8 +3,12 @@ package tests;
 import static org.junit.Assert.*;
 
 import java.awt.event.MouseEvent;
+import java.io.File;
+import java.io.IOException;
 import java.util.Random;
 import java.util.concurrent.ThreadLocalRandom;
+
+import javax.imageio.ImageIO;
 
 import org.hamcrest.Matcher;
 import org.junit.Before;
@@ -98,7 +102,7 @@ public class TableDesignTests {
 		for(int i=0;i<name.length();i++){
 			myCW.handleKeyEvent(0,0,name.charAt(i));
 		}
-		assertNotEquals(name,tablr.getColumnName(tablr.getColumns(tablr.getActiveTable()).get(0)));
+		assertNotEquals(name,tablr.getColumnName(tablr.getColumns(tablr.getTables().get(0)).get(0)));
 		assertTrue(t.isSelected());
 		// t is in error because it has the same name as the second column
 		assertTrue(t.getError());
@@ -113,6 +117,7 @@ public class TableDesignTests {
 		
 		//Or the user presses enter
 		myCW.handleMouseEvent(MouseEvent.MOUSE_CLICKED, 385, 45, 1);
+		t =  (TextField) tablr.getUIAt(385, 45).locatedAt(385, 45);
 		assertTrue(t.isSelected());
 		myCW.handleKeyEvent(0,10, ' ');
 		assertFalse(t.isSelected());
@@ -122,34 +127,35 @@ public class TableDesignTests {
 		 */
 		//Step 1: The user clicks the type of some column:
 		//The state of the column allows blanks and has a blank value as default, the type of the column is STRING:
-		assertEquals(Type.STRING,tablr.getColumnType(tablr.getColumns(tablr.getActiveTable()).get(0)));
+		assertEquals(Type.STRING,tablr.getColumnType(tablr.getColumns(tablr.getTables().get(0)).get(0)));
 		//The user clicks the column type:
 		myCW.handleMouseEvent(MouseEvent.MOUSE_CLICKED,455,50,1);
 		//The type of the column changes to EMAIL:
-		assertEquals(Type.EMAIL,tablr.getColumnType(tablr.getColumns(tablr.getActiveTable()).get(0)));
+		assertEquals(Type.EMAIL,tablr.getColumnType(tablr.getColumns(tablr.getTables().get(0)).get(0)));
 		//The user clicks the column type:
 		myCW.handleMouseEvent(MouseEvent.MOUSE_CLICKED,455,50,1);
 		//The type of the column changes to BOOLEAN:
-		assertEquals(Type.BOOLEAN,tablr.getColumnType(tablr.getColumns(tablr.getActiveTable()).get(0)));
+		assertEquals(Type.BOOLEAN,tablr.getColumnType(tablr.getColumns(tablr.getTables().get(0)).get(0)));
 		//The user clicks the column type:
 		myCW.handleMouseEvent(MouseEvent.MOUSE_CLICKED,455,50,1);	
 		//The type of the column changes to INTEGER:
-		assertEquals(Type.INTEGER,tablr.getColumnType(tablr.getColumns(tablr.getActiveTable()).get(0)));
+		assertEquals(Type.INTEGER,tablr.getColumnType(tablr.getColumns(tablr.getTables().get(0)).get(0)));
 		//The user clicks the column type:
 		myCW.handleMouseEvent(MouseEvent.MOUSE_CLICKED,455,50,1);
 		//The type of the column changes back to STRING:
-		assertEquals(Type.STRING,tablr.getColumnType(tablr.getColumns(tablr.getActiveTable()).get(0)));
+		assertEquals(Type.STRING,tablr.getColumnType(tablr.getColumns(tablr.getTables().get(0)).get(0)));
 		//Changing the default value for the column:
-		Text type = (Text) tablr.getUIAt(550, 50).locatedAt(550,50);
 		// Click default cell of first column
-		myCW.handleMouseEvent(MouseEvent.MOUSE_CLICKED, 500, 50, 1);
+		myCW.handleMouseEvent(MouseEvent.MOUSE_CLICKED, 550, 50, 1);
 		String d = "default";
 		for(int i=0;i<d.length();i++){
 			myCW.handleKeyEvent(0,0,d.charAt(i));
 		}
+		myCW.handleKeyEvent(0, 10, ' ');
 		//Trying to change the type of the column to email:
 		myCW.handleMouseEvent(MouseEvent.MOUSE_CLICKED,450,50,1);
 		//However, the current default value "default" is not valid for the type EMAIL:
+		Text type = (Text) tablr.getUIAt(450, 50).locatedAt(450,50);
 		assertTrue(type.getError());
 		//The user is not able to click on anything else in the application:
 		//Trying to click on the table name:
@@ -170,9 +176,10 @@ public class TableDesignTests {
 		assertFalse(type.getError());
 		//Setting default value back to blank:
 		myCW.handleMouseEvent(MouseEvent.MOUSE_CLICKED, 550, 50, 1);
-		for (int i=0;i<"default".length();i++) myCW.handleKeyEvent(0,8,' ');
-		assertEquals("",tablr.getDefaultString(tablr.getActiveTable().getColumns().get(0)));
-		
+		for (int i=0;i<"default".length();i++) 
+			myCW.handleKeyEvent(0,8,' ');
+		assertEquals("",tablr.getDefaultString(tablr.getTables().get(0).getColumns().get(0)));
+		myCW.handleKeyEvent(0,10,' ');
 		
 		/**
 		 * Extension 1b
@@ -181,11 +188,11 @@ public class TableDesignTests {
 		//Changing the default value to a non-blank value:
 		myCW.handleMouseEvent(MouseEvent.MOUSE_CLICKED,550,50,1);
 		myCW.handleKeyEvent(0,0,'d');
-		assertEquals("d",tablr.getDefaultString(tablr.getActiveTable().getColumns().get(0)));
+		assertEquals("d",tablr.getDefaultString(tablr.getTables().get(0).getColumns().get(0)));
 		//Step 1: The user clicks on the checkbox indicating whether it allows blanks or not:
 		myCW.handleMouseEvent(MouseEvent.MOUSE_CLICKED,500,50,1);
 		//The current blanking policy is true, it is changed to false:
-		assertFalse(tablr.getBlankingPolicy(tablr.getColumns(tablr.getActiveTable()).get(0)));
+		assertFalse(tablr.getBlankingPolicy(tablr.getColumns(tablr.getTables().get(0)).get(0)));
 		//Changing the blanking policy back to true:
 		myCW.handleMouseEvent(MouseEvent.MOUSE_CLICKED,500,50,1);
 		//Changing the default value to blank:
@@ -195,6 +202,9 @@ public class TableDesignTests {
 		myCW.handleMouseEvent(MouseEvent.MOUSE_CLICKED,500,50,1);
 		/*However, the current default value is blank, the checkbox becomes red and
 		the user is not able to click on anything else but the checkbox*/
+		box = (Checkbox) tablr.getUIAt(450, 50).locatedAt(500, 50);
+		assertEquals("",((TextField) tablr.getUIAt(550,50).locatedAt(550,50)).getText());
+		assertEquals("",tablr.getTables().get(0).getColumns().get(0).getDefault());
 		assertTrue(box.getError());
 		assertEquals(box,tablr.getLockedElement());
 		//Trying to click on the second column name:
@@ -205,7 +215,7 @@ public class TableDesignTests {
 		//The user clicks the checkbox again, so the blanking policy changes to true:
 		myCW.handleMouseEvent(MouseEvent.MOUSE_CLICKED,500,50,1);
 		assertFalse(box.getError());
-		assertTrue(tablr.getBlankingPolicy(tablr.getColumns(tablr.getActiveTable()).get(0)));
+		assertTrue(tablr.getBlankingPolicy(tablr.getColumns(tablr.getTables().get(0)).get(0)));
 		
 		/**
 		 * Extension 1c
@@ -213,38 +223,39 @@ public class TableDesignTests {
 	    //Setting the default value to "true"
 		myCW.handleMouseEvent(MouseEvent.MOUSE_CLICKED,550,50,1);
 		d = "true";
-		for (int i=0;i<d.length();i++) myCW.handleKeyEvent(0,0,d.charAt(i));
+		for (int i=0;i<d.length();i++) 
+			myCW.handleKeyEvent(0,0,d.charAt(i));
 		//Changing the type to BOOLEAN:
 		myCW.handleMouseEvent(MouseEvent.MOUSE_CLICKED,450,50,1);	
 		myCW.handleMouseEvent(MouseEvent.MOUSE_CLICKED,450,50,1);
 		//The type is BOOLEAN, so the default value is represented in a checkbox
 		assertTrue(tablr.getUIAt(560, 50).locatedAt(560,50) instanceof Checkbox);
-		assertEquals(true, tablr.getDefaultValue(tablr.getColumns(tablr.getActiveTable()).get(0)));
+		assertEquals(true, tablr.getDefaultValue(tablr.getColumns(tablr.getTables().get(0)).get(0)));
 		//Step1: The user clicks the default value for some column:
 		myCW.handleMouseEvent(MouseEvent.MOUSE_CLICKED, 560,50,1);
 		//The default value was true, it becomes false:
-		assertEquals(false, tablr.getDefaultValue(tablr.getColumns(tablr.getActiveTable()).get(0)));
+		assertEquals(false, tablr.getDefaultValue(tablr.getColumns(tablr.getTables().get(0)).get(0)));
 		//The user clicks the checkbox again, the default value becomes blank:
 		myCW.handleMouseEvent(MouseEvent.MOUSE_CLICKED, 560,50,1);
-		assertEquals(null, tablr.getDefaultValue(tablr.getColumns(tablr.getActiveTable()).get(0)));
-		assertEquals("", tablr.getDefaultString(tablr.getColumns(tablr.getActiveTable()).get(0)));
+		assertEquals(null, tablr.getDefaultValue(tablr.getColumns(tablr.getTables().get(0)).get(0)));
+		assertEquals("", tablr.getDefaultString(tablr.getColumns(tablr.getTables().get(0)).get(0)));
 		//The default value is blank and the type is boolean, the checkbox is greyed out:
 		assertEquals(null, ((Checkbox) tablr.getUIAt(560, 50).locatedAt(560,50)).getValue());
 		//The user clicks the checkbox again, the default value becomes true:
 		myCW.handleMouseEvent(MouseEvent.MOUSE_CLICKED, 560,50,1);
-		assertEquals(true, tablr.getDefaultValue(tablr.getColumns(tablr.getActiveTable()).get(0)));
+		assertEquals(true, tablr.getDefaultValue(tablr.getColumns(tablr.getTables().get(0)).get(0)));
 		//The user clicks the checkbox, indicating the blanking policy of the column:
-		myCW.handleMouseEvent(MouseEvent.MOUSE_CLICKED, 560,50,1);
-		assertFalse(tablr.getBlankingPolicy(tablr.getColumns(tablr.getActiveTable()).get(0)));
-
+		myCW.handleMouseEvent(MouseEvent.MOUSE_CLICKED, 500,50,1);
+		assertFalse(tablr.getBlankingPolicy(tablr.getColumns(tablr.getTables().get(0)).get(0)));
+		
 		//The user clicks the default value checkbox
 		myCW.handleMouseEvent(MouseEvent.MOUSE_CLICKED, 560,50,1);
 		//The default value was true, it becomes false:
-		assertEquals(false, tablr.getDefaultValue(tablr.getColumns(tablr.getActiveTable()).get(0)));
+		assertEquals(false, tablr.getDefaultValue(tablr.getColumns(tablr.getTables().get(0)).get(0)));
 		//The user clicks the default value checkbox again:
 		myCW.handleMouseEvent(MouseEvent.MOUSE_CLICKED, 560,50,1);
 		//The default value was false, it becomes true again:
-		assertEquals(true, tablr.getDefaultValue(tablr.getColumns(tablr.getActiveTable()).get(0)));
+		assertEquals(true, tablr.getDefaultValue(tablr.getColumns(tablr.getTables().get(0)).get(0)));
 
 		//The user changes the type to STRING by clicking the column type twice:
 		myCW.handleMouseEvent(MouseEvent.MOUSE_CLICKED,450,50,1);		
@@ -268,7 +279,7 @@ public class TableDesignTests {
 		
 		//The user changes the type of the column to EMAIL by clicking on the column type:
 		myCW.handleMouseEvent(MouseEvent.MOUSE_CLICKED,450,50,1);
-		assertEquals(Type.EMAIL,tablr.getColumnType(tablr.getColumns(tablr.getActiveTable()).get(0)));
+		assertEquals(Type.EMAIL,tablr.getColumnType(tablr.getColumns(tablr.getTables().get(0)).get(0)));
 		TextField defaultEmail = (TextField) tablr.getUIAt(550, 50).locatedAt(550,50);
 		//The user selects the default value textfield:
 		myCW.handleMouseEvent(MouseEvent.MOUSE_CLICKED, 550, 50, 1);
@@ -276,7 +287,7 @@ public class TableDesignTests {
 		d = "valid.email@tests.com";
 		for (int i=0;i<d.length();i++) myCW.handleKeyEvent(0, 0, d.charAt(i));
 		//The default value of the column is changed successfully:
-		assertEquals(d, tablr.getDefaultValue(tablr.getColumns(tablr.getActiveTable()).get(0)));
+		assertEquals(d, tablr.getDefaultValue(tablr.getColumns(tablr.getTables().get(0)).get(0)));
 		//Deleting the current default value:
 		myCW.handleMouseEvent(MouseEvent.MOUSE_CLICKED, 550, 50, 1);
 		for(int i =0;i<d.length();i++) myCW.handleKeyEvent(0, 8,' ');
@@ -293,7 +304,7 @@ public class TableDesignTests {
 		//The user changes the type of the column to INTEGER by clicking the column type twice:
 		myCW.handleMouseEvent(MouseEvent.MOUSE_CLICKED,450,50,1);
 		myCW.handleMouseEvent(MouseEvent.MOUSE_CLICKED,450,50,1);
-		assertEquals(Type.INTEGER,tablr.getColumnType(tablr.getColumns(tablr.getActiveTable()).get(0)));
+		assertEquals(Type.INTEGER,tablr.getColumnType(tablr.getColumns(tablr.getTables().get(0)).get(0)));
 		TextField defaultInteger = (TextField) tablr.getUIAt(550, 50).locatedAt(550,50);
 		//The user clicks on the textfield containing the default value:
 		myCW.handleMouseEvent(MouseEvent.MOUSE_CLICKED,550, 50,1);
@@ -301,7 +312,7 @@ public class TableDesignTests {
 		d = "999";
 		for (int i=0;i<d.length();i++) myCW.handleKeyEvent(0, 0, d.charAt(i));
 		//The default value is updated successfully
-		assertEquals(999, tablr.getDefaultValue(tablr.getColumns(tablr.getActiveTable()).get(0)));
+		assertEquals(999, tablr.getDefaultValue(tablr.getColumns(tablr.getTables().get(0)).get(0)));
 		//Clearing the textfield
 		for (int i=0;i<d.length();i++) myCW.handleKeyEvent(0, 8,' ');
 		//The user tries to enter a non-valid default value:
@@ -350,6 +361,18 @@ public class TableDesignTests {
 		assertFalse(tablr.getColumnNames(tablr.getTables().get(0)).contains("Column1"));
 		// ... and removes the value for the deleted column from all of the table's rows.
 		//The domain does not store values in rows, so this is automatically true when the column is deleted.
+	}
+	
+	
+	private void snapShot(MyCanvasWindow myCW,String out) {
+		File outputFile = new File(out);
+		try {
+			ImageIO.write(myCW.captureImage(), "png", outputFile);
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
 	}
 	
 }

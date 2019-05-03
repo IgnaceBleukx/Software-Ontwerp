@@ -146,29 +146,6 @@ public class UIRow extends UIElement {
 		}
 		return false;
 	}
-
-	@Override
-	public boolean hasElementInError() {
-		if (this.getError()) return true;
-		for (UIElement e : elements){
-			if (e.hasElementInError()) return true;
-		}
-		return false;
-	}
-
-	private boolean selected;
-	
-	public void select(){
-		this.selected = true;
-	}
-	
-	public void deselect(){
-		this.selected = false;
-	}
-	
-	public boolean isSelected(){
-		return this.selected;
-	}
 	
 	@Override
 	public void move(int deltaX, int deltaY) {
@@ -178,31 +155,23 @@ public class UIRow extends UIElement {
 	}
 	
 	@Override
-	public void resizeL(int deltaW){
-		setX(getX() + deltaW);
-		setWidth(getWidth() - deltaW);
-		elements.stream().filter(e -> !(e instanceof Checkbox || e instanceof Button)).forEach(e -> e.resizeL(deltaW));
-		elements.stream().filter(e -> (e instanceof Checkbox || e instanceof Button)).forEach(e -> e.move(deltaW, 0));
+	public void resizeL(int deltaW) {
+		this.move(deltaW,0);
 	}
 	
-//	@Override
-//	public void resizeR(int deltaW){
-//		setWidth(getWidth() + deltaW);
-//		ArrayList<UIElement> sortedR = new ArrayList<UIElement>(elements);
-//		sortedR.sort((UIElement e1, UIElement e2) -> e1.getX() - e2.getX());
-//		UIElement el = sortedR.get(sortedR.size()-1);
-//		ListIterator<UIElement> it = sortedR.listIterator();
-//		ArrayList<UIElement> toMove = new ArrayList<UIElement>();
-//		while (it.hasPrevious() && !(el instanceof TextField || el instanceof Text)){
-//			toMove.add(el);
-//			el = it.previous();
-//		}
-//		el.resizeR(deltaW);
-//		toMove.stream().forEach(e -> e.move(deltaW,0));
-//	}
 	
 	@Override
 	public void resizeR(int deltaW){
+		//
+	}
+	
+	@Override
+	public void resizeT(int deltaH) {
+		this.move(0, deltaH);
+	}
+	
+	@Override
+	public void resizeB(int deltaH) {
 		//
 	}
 
@@ -210,20 +179,31 @@ public class UIRow extends UIElement {
 		elements.sort((UIElement e1,UIElement e2) -> e1.getX() - e2.getX());
 		List<UIElement> toMove = elements.subList(0, index-1);
 		toMove.stream().forEach(e -> e.move(deltaW, 0));
-		elements.get(index).resizeL(deltaW);
+		UIElement resize = elements.get(index);
+		if (resize instanceof Checkbox)
+			resize.resizeL(((Checkbox) resize).checkBoxResizer.round((double) deltaW/2));
+		else
+			resize.resizeL(deltaW);
 	}
 	
 	public void resizeElementR(int deltaW,int index){
 		elements.sort((UIElement e1, UIElement e2) -> e1.getX() - e2.getX());
 		List<UIElement> toMove = elements.subList(index +1, elements.size());
 		toMove.stream().forEach(e -> e.move(deltaW, 0));
-		elements.get(index).resizeR(deltaW);
+		UIElement resize = elements.get(index);
+		if (resize instanceof Checkbox)
+			resize.resizeR(((Checkbox) resize).checkBoxResizer.round((double) deltaW/2));
+		else
+			resize.resizeR(deltaW);
 		this.setWidth(getWidth()+deltaW);
 	}
 	
 	public void removeElementAt(int index){
-		resizeElementR(-elements.get(index).getWidth(),index);
-		elements.remove(index);
+		UIElement toRemove = elements.get(index);
+		if (!(toRemove instanceof Dragger)) {
+			resizeElementR(-toRemove.getWidth(),index);
+		}
+		elements.remove(toRemove);
 	}
 	
 	@Override
