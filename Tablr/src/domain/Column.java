@@ -109,17 +109,17 @@ public class Column {
 	public void setColumnType(Type type) throws InvalidTypeException {
 		for (Cell<?> cell : getCells()){
 			String value = cell.getValue()==null ? "" : cell.getValue().toString();
-			if (!isValidValue(type,value)) {
+			if (!type.isValidValue(value)) {
 				throw new InvalidTypeException();
 			}
 		}
 		System.out.println("[Column.java:106]: Trying to set type "+ type + "while default value is: " + getDefault());
-		if (getDefault() != null && !isValidValue(type,getDefault().toString())){
+		if (getDefault() != null && !type.isValidValue(getDefault().toString())){
 			throw new InvalidTypeException();
 		}else{
 			this.type = type;
 			if (getDefault() == null) return;
-			this.defaultValue = parseValue(type,getDefault().toString());
+			this.defaultValue = type.parseValue(getDefault().toString());
 		}
 	}
 	
@@ -184,7 +184,7 @@ public class Column {
 	public void setDefaultValue(Object v) throws ClassCastException{
 		if ((v == null || v.equals("")) && !getBlankingPolicy()) throw new ClassCastException();
 		else if(v == null) this.defaultValue = v;
-		else if (isValidValue(this.getColumnType(),v.toString())) this.defaultValue = v;
+		else if (this.getColumnType().isValidValue(v.toString())) this.defaultValue = v;
 		else throw new ClassCastException();
 	}
 		
@@ -306,7 +306,7 @@ public class Column {
 	public void changeCellValue(int i, String string) throws ClassCastException{
 		if((string.isEmpty() || string == null) && !getBlankingPolicy()) throw new ClassCastException();
 		Cell<?> newCell = null;
-		Object v = parseValue(getColumnType(),string);
+		Object v = getColumnType().parseValue(string);
 		switch(getColumnType()){
 			case BOOLEAN : newCell = new Cell<Boolean>((Boolean) v);break;
 			case INTEGER : newCell = new Cell<Integer>((Integer) v);break;
@@ -316,59 +316,7 @@ public class Column {
 		cells.remove(i);
 		cells.add(i,newCell);		
 	}
-	
-	/**
-	 * Returns whether a value supplied in a string is a valid value for a certain column type.
-	 * @param type		Column type
-	 * @param string	Value 
-	 */
-	public static boolean isValidValue(Type type, String string){
-		if (string == "" || string == null) return true;
-		switch(type){
-			case BOOLEAN : {
-				return (string.equals("False") || string.equals("false") || string.equals("True") || string.equals("true"));
-			}
-			case INTEGER : 
-				if (string.charAt(0) == '0' && string.length() > 1) return false;
-				try {
-				Integer.parseInt(string);
-				return true;
-			}catch (NumberFormatException e){
-				return false;
-			}
-			case STRING : return true;
-			case EMAIL : return (string.indexOf("@") == string.lastIndexOf("@") && string.indexOf("@") != -1);
-			default :  return false;
-		}
-	}
-	
-	/**
-	 * Parses a value in a string to a certain type, if possible.
-	 * @param type		Type to parse to
-	 * @param string	Value in string form
-	 * @throws ClassCastException
-	 * 					The string cannot be parsed to the supplied type.
-	 * 					E.G. "abc" cannot be parsed to Int
-	 */
-	public static Object parseValue(Type type, String string) throws ClassCastException {
-		if (string == "" && type != Type.STRING && type != Type.EMAIL || string == null) return null;
-		else if (!isValidValue(type, string)) throw new ClassCastException();
-		else{
-			switch(type){
-				case BOOLEAN: {
-					return BooleanCaster.cast(string); 
-				}
-				case INTEGER : {
-					return Integer.parseInt(string);
-				}
-				case STRING : return string;
-				case EMAIL: return string;
-				default : return string;
-			}
-			 
-		}
-	}
-	
+		
 	/**
 	 * Toggles whether default values are allowed for a boolean Column
 	 */

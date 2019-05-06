@@ -200,7 +200,7 @@ public class UIElementTests {
 //		myCW.handleMouseEvent(MouseEvent.MOUSE_PRESSED, 293, 105, 1);
 //		myCW.handleMouseEvent(MouseEvent.MOUSE_DRAGGED, 293, 145, 1);
 		
-		CanvasWindow.replayRecording("./recordings/VerticalScrollBarTest/test", myCW);
+		CanvasWindow.replayRecording("./recordings/VerticalScrollBarTest/test.test", myCW);
 		
 		//Check the name of the first shown table
 		TextField t = (TextField) tablr.getUIAt(75, 55).locatedAt(75, 55);
@@ -387,7 +387,7 @@ public class UIElementTests {
 //		myCW.handleMouseEvent(MouseEvent.MOUSE_RELEASED, 593, 455, 1);
 //		snapShot(myCW,"pic3.png");
 		
-		CanvasWindow.replayRecording("./recordings/VerticalScrollListenersUITableTest/test",myCW);
+		CanvasWindow.replayRecording("./recordings/VerticalScrollListenersUITableTest/test.test",myCW);
 		
 		
 		TextField t = (TextField) tablr.getUIAt(345, 356).locatedAt(345, 356);
@@ -430,7 +430,7 @@ public class UIElementTests {
 //		myCW.handleMouseEvent(MouseEvent.MOUSE_PRESSED, 373, 590, 1);
 //		myCW.handleMouseEvent(MouseEvent.MOUSE_DRAGGED, 488, 590, 1);
 		
-		CanvasWindow.replayRecording("./recordings/HorizontalScrollListenersUITableTest/test", myCW);
+		CanvasWindow.replayRecording("./recordings/HorizontalScrollListenersUITableTest/test.test", myCW);
 		
 		TextField t = (TextField) tablr.getUIAt(345, 365).locatedAt(345, 365);
 		assertEquals("", t.getText());
