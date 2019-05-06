@@ -394,7 +394,7 @@ public class WindowManager {
 		execute(new Command() {
 			public void execute() { System.out.println("Command getyped (execute) => " + c); }
 			public void undo() { System.out.println("Command getyped (undo) => " + c);}
-		})
+		});
 	}
 	
 }
