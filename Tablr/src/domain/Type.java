@@ -10,6 +10,7 @@ public enum Type {
 	
 	EMAIL{
 		public Object parseValue(String string) {
+			if (!isValidValue(string)) throw new ClassCastException("The string " + string + " can not be cast to " +this);
 			if (string.equals("")) return null;
 			return string;
 		}
@@ -21,6 +22,7 @@ public enum Type {
 	},
 	INTEGER{
 		public Object parseValue(String string) {
+			if (!isValidValue(string)) throw new ClassCastException("The string " + string + " can not be cast to " +this);
 			if (string.isEmpty()) return null;
 			return Integer.parseInt(string);
 		}
@@ -39,6 +41,7 @@ public enum Type {
 	},
 	BOOLEAN{
 		public Object parseValue(String string){
+			if (!isValidValue(string)) throw new ClassCastException("The string " + string + " can not be cast to " +this);
 			return BooleanCaster.cast(string);
 		}
 		
@@ -50,6 +53,7 @@ public enum Type {
 	},
 	STRING{
 		public Object parseValue(String string) {
+			if (!isValidValue(string)) throw new ClassCastException("The string " + string + " can not be cast to " +this);
 			return string;
 		}
 		public boolean isValidValue(String string){
@@ -58,7 +62,7 @@ public enum Type {
 	};
 	
 	
-	public abstract Object parseValue(String string);
+	public abstract Object parseValue(String string) throws ClassCastException;
 	public abstract boolean isValidValue(String string);
 	
 }

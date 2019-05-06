@@ -216,13 +216,13 @@ public class DomainTests {
 	
 	@Test
 	public void testIsValidValues() {
-		assertTrue(Column.isValidValue(Type.BOOLEAN, ""));
-		assertTrue(Column.isValidValue(Type.BOOLEAN, null));
-		assertTrue(Column.isValidValue(Type.BOOLEAN, "False"));
-		assertTrue(Column.isValidValue(Type.BOOLEAN, "false"));
-		assertTrue(Column.isValidValue(Type.BOOLEAN, "True"));
-		assertTrue(Column.isValidValue(Type.BOOLEAN, "true"));
-		assertFalse(Column.isValidValue(Type.INTEGER, "01"));
+		assertTrue(Type.BOOLEAN.isValidValue(""));
+		assertTrue(Type.BOOLEAN.isValidValue(null));
+		assertTrue(Type.BOOLEAN.isValidValue("False"));
+		assertTrue(Type.BOOLEAN.isValidValue("false"));
+		assertTrue(Type.BOOLEAN.isValidValue("True"));
+		assertTrue(Type.BOOLEAN.isValidValue("true"));
+		assertFalse(Type.INTEGER.isValidValue("01"));
 	}
 	
 	@Test
