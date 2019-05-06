@@ -15,6 +15,7 @@ import ui.UI;
 import uielements.Text;
 import uielements.UIElement;
 import uielements.UIRow;
+import uielements.VoidElement;
 
 /**
  * Facade for the UI part of the program. 
@@ -29,7 +30,12 @@ public class WindowManager {
 		tablesModeUIs = new ArrayList<TablesModeUI>();
 		tableRowsModeUIs = new HashMap<Table,ArrayList<TableRowsModeUI>>();
 		tableDesignModeUIs = new HashMap<Table,ArrayList<TableDesignModeUI>>();
-		
+		ctrlListener = new VoidElement(-1, -1, 0, 0, null){
+			public void handleKeyboardEvent(int keyCode, char keyChar) {
+				super.handleKeyboardEvent(keyCode, keyChar);
+				System.out.println("[Windowmanager.36]: KeyboardEvent in voidelement");
+			}
+		};
 	}
 	
 	public Tablr getCommunicationManager() {
@@ -39,6 +45,7 @@ public class WindowManager {
 	private ArrayList<TablesModeUI> tablesModeUIs;
 	private HashMap<Table,ArrayList<TableRowsModeUI>> tableRowsModeUIs;
 	private HashMap<Table,ArrayList<TableDesignModeUI>> tableDesignModeUIs;
+	private VoidElement ctrlListener = null;
 	
 	/**
 	 * The selectedUI is the only UI that receives keyboard input
@@ -365,8 +372,6 @@ public class WindowManager {
 	}
 	
 	// Command methods to fix undo and redo
-	
-	// TODO: Variabele die bijhoudt welke commandos er recent zijn uitgevoerd
 	
 	public interface Command {
 		void execute();
