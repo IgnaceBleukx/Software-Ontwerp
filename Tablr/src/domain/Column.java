@@ -323,23 +323,24 @@ public class Column {
 	 * @param string	Value 
 	 */
 	public static boolean isValidValue(Type type, String string){
-		if (string == "" || string == null) return true;
-		switch(type){
-			case BOOLEAN : {
-				return (string.equals("False") || string.equals("false") || string.equals("True") || string.equals("true"));
-			}
-			case INTEGER : 
-				if (string.charAt(0) == '0' && string.length() > 1) return false;
-				try {
-				Integer.parseInt(string);
-				return true;
-			}catch (NumberFormatException e){
-				return false;
-			}
-			case STRING : return true;
-			case EMAIL : return (string.indexOf("@") == string.lastIndexOf("@") && string.indexOf("@") != -1);
-			default :  return false;
-		}
+//		if (string == "" || string == null) return true;
+//		switch(type){
+//			case BOOLEAN : {
+//				return (string.equals("False") || string.equals("false") || string.equals("True") || string.equals("true"));
+//			}
+//			case INTEGER : 
+//				if (string.charAt(0) == '0' && string.length() > 1) return false;
+//				try {
+//				Integer.parseInt(string);
+//				return true;
+//			}catch (NumberFormatException e){
+//				return false;
+//			}
+//			case STRING : return true;
+//			case EMAIL : return (string.indexOf("@") == string.lastIndexOf("@") && string.indexOf("@") != -1);
+//			default :  return false;
+//		}
+		return type.isValidValue(string);
 	}
 	
 	/**
@@ -351,22 +352,23 @@ public class Column {
 	 * 					E.G. "abc" cannot be parsed to Int
 	 */
 	public static Object parseValue(Type type, String string) throws ClassCastException {
-		if (string == "" && type != Type.STRING && type != Type.EMAIL || string == null) return null;
-		else if (!isValidValue(type, string)) throw new ClassCastException();
-		else{
-			switch(type){
-				case BOOLEAN: {
-					return BooleanCaster.cast(string); 
-				}
-				case INTEGER : {
-					return Integer.parseInt(string);
-				}
-				case STRING : return string;
-				case EMAIL: return string;
-				default : return string;
-			}
-			 
-		}
+//		if (string == "" && type != Type.STRING && type != Type.EMAIL || string == null) return null;
+//		else if (!isValidValue(type, string)) throw new ClassCastException();
+//		else{
+//			switch(type){
+//				case BOOLEAN: {
+//					return BooleanCaster.cast(string); 
+//				}
+//				case INTEGER : {
+//					return Integer.parseInt(string);
+//				}
+//				case STRING : return string;
+//				case EMAIL: return string;
+//				default : return string;
+//			}
+//			 
+//		}
+		return type.parseValue(string);
 	}
 	
 	/**
