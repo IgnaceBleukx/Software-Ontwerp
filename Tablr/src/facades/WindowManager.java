@@ -363,5 +363,40 @@ public class WindowManager {
 	public void controlPressed() {
 		lastCtrl = System.currentTimeMillis();
 	}
+	
+	// Command methods to fix undo and redo
+	
+	// TODO: Variabele die bijhoudt welke commandos er recent zijn uitgevoerd
+	
+	public interface Command {
+		void execute();
+		void undo();
+	}
+	private ArrayList<Command> undoStack = new ArrayList<>();
+	int nbCommandsUndone;
+	
+	void undo() {
+		if(undoStack.size() > nbCommandsUndone)
+			undoStack.get(undoStack.size() - ++nbCommandsUndone).undo();
+	}
+	
+	void redo(){
+		if(nbCommandsUndone > 0)
+			undoStack.get(undoStack.size() - nbCommandsUndone--).execute();
+	}
 
+	void execute(Command command){
+		undoStack.add(command);
+		command.execute();
+	}
+	
+	void characterTyped(char c) {
+		execute(new Command() {
+			public void execute() { System.out.println("Command getyped (execute) => " + c); }
+			public void undo() { System.out.println("Command getyped (undo) => " + c);}
+		})
+	}
+	
 }
+
+
