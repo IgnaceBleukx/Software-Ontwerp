@@ -1,6 +1,7 @@
 package facades;
 
 import java.awt.Graphics;
+import java.awt.event.KeyEvent;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
@@ -30,12 +31,17 @@ public class WindowManager {
 		tablesModeUIs = new ArrayList<TablesModeUI>();
 		tableRowsModeUIs = new HashMap<Table,ArrayList<TableRowsModeUI>>();
 		tableDesignModeUIs = new HashMap<Table,ArrayList<TableDesignModeUI>>();
-		ctrlListener = new VoidElement(-1, -1, 0, 0, null){
-			public void handleKeyboardEvent(int keyCode, char keyChar) {
-				super.handleKeyboardEvent(keyCode, keyChar);
-				System.out.println("[Windowmanager.36]: KeyboardEvent in voidelement");
-			}
-		};
+		keyListener = new VoidElement(-1, -1, 300, 300, null);
+		
+		// 'A' is pressed
+		keyListener.addKeyboardListener(65, () -> {
+			System.out.println("A is pressed in windowmanager");
+		});
+		// 'Z' is pressed
+		keyListener.addKeyboardListener(90, () -> {
+			System.out.println("Z is pressed in windowmanager");
+				undo();
+		});
 	}
 	
 	public Tablr getCommunicationManager() {
@@ -45,7 +51,7 @@ public class WindowManager {
 	private ArrayList<TablesModeUI> tablesModeUIs;
 	private HashMap<Table,ArrayList<TableRowsModeUI>> tableRowsModeUIs;
 	private HashMap<Table,ArrayList<TableDesignModeUI>> tableDesignModeUIs;
-	private VoidElement ctrlListener = null;
+	private VoidElement keyListener = null;
 	
 	/**
 	 * The selectedUI is the only UI that receives keyboard input
@@ -379,11 +385,15 @@ public class WindowManager {
 	}
 	
 	private ArrayList<Command> undoStack = new ArrayList<>();
-	int nbCommandsUndone;
+	int nbCommandsUndone = 0;
 	
 	void undo() {
 		if(undoStack.size() > nbCommandsUndone)
 			undoStack.get(undoStack.size() - ++nbCommandsUndone).undo();
+
+//		System.out.println("[WindowManager 396]: undo");
+//		System.out.println(nbCommandsUndone);
+//		System.out.println(undoStack);
 	}
 	
 	void redo(){
@@ -392,14 +402,18 @@ public class WindowManager {
 	}
 
 	void execute(Command command){
-		System.out.println(undoStack);
+		for(; nbCommandsUndone > 0; nbCommandsUndone--)
+			undoStack.remove(undoStack.size() - 1);
 		undoStack.add(command);
 		command.execute();
+//		System.out.println("[WindowManager 409]: exec");
+//		System.out.println(nbCommandsUndone);
+//		System.out.println(undoStack);
 	}
 	
-	void characterTyped(char c) {
+	void characterPressed(char c) {
 		execute(new Command() {
-			public void execute() { System.out.println("Command getyped (execute) => " + c); }
+			public void execute() { keyListener.handleKeyboardEvent(KeyEvent.getExtendedKeyCodeForChar(c), c); }
 			public void undo() { System.out.println("Command getyped (undo) => " + c);}
 		});
 	}

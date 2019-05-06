@@ -446,7 +446,7 @@ public class Tablr {
 	 * Notifies the windowManager that a char has been pressed.
 	 */
 	public void characterPressed(char c) {
-		windowManager.characterTyped(c);
+		windowManager.characterPressed(c);
 	}
 	
 }

@@ -2,6 +2,8 @@ package uielements;
 
 import java.awt.Color;
 import java.awt.Graphics;
+import java.util.ArrayList;
+import java.util.HashMap;
 
 public class VoidElement extends UIElement{
 
@@ -43,7 +45,10 @@ public class VoidElement extends UIElement{
 
 	@Override
 	public void handleKeyboardEvent(int keyCode, char keyChar) {
-
+		if (new HashMap<Integer, ArrayList<Runnable>>(keyboardListeners).get(keyCode) == null)
+			return;
+		
+		new HashMap<Integer, ArrayList<Runnable>>(keyboardListeners).get(keyCode).stream().forEach(l -> l.run());
 	}
 
 	@Override

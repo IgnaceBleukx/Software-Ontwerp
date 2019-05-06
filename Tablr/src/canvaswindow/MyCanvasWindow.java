@@ -196,8 +196,14 @@ public class MyCanvasWindow extends CanvasWindow {
 //			}
 //		}
 		
+		// Notify tablr to add a keyevent command
 		if(id == KeyEvent.KEY_PRESSED) {
-			tablr.characterPressed(keyChar);
+			if (keyCode == 17){
+				tablr.controlPressed();
+			} else {
+				tablr.characterPressed(keyChar);
+			}
+			
 		}
 		
 		for (UIElement e : ui.getElements()) {
