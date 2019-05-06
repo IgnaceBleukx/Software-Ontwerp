@@ -442,4 +442,11 @@ public class Tablr {
 		windowManager.controlPressed();
 	}
 	
+	/**
+	 * Notifies the windowManager that a char has been pressed.
+	 */
+	public void characterPressed(char c) {
+		windowManager.characterTyped(c);
+	}
+	
 }

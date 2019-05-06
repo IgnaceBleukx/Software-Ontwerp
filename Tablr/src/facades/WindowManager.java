@@ -372,6 +372,7 @@ public class WindowManager {
 		void execute();
 		void undo();
 	}
+	
 	private ArrayList<Command> undoStack = new ArrayList<>();
 	int nbCommandsUndone;
 	
@@ -386,6 +387,7 @@ public class WindowManager {
 	}
 
 	void execute(Command command){
+		System.out.println(undoStack);
 		undoStack.add(command);
 		command.execute();
 	}

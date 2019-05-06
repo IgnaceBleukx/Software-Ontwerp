@@ -1,6 +1,7 @@
 package canvaswindow;
 
 import java.awt.Graphics;
+import java.awt.event.KeyEvent;
 import java.awt.event.MouseEvent;
 
 import uielements.*;
@@ -195,15 +196,19 @@ public class MyCanvasWindow extends CanvasWindow {
 //			}
 //		}
 		
+		if(id == KeyEvent.KEY_PRESSED) {
+			tablr.characterPressed(keyChar);
+		}
+		
 		for (UIElement e : ui.getElements()) {
 			try {
 				e.handleKeyboardEvent(keyCode, keyChar);
-				
 				if (keyCode == 17)
 					tablr.controlPressed();
 				if (Character.isLetterOrDigit(keyChar) || keyCode == 8 || keyChar == '@' || keyChar == '.') {
 					e.handleKeyboardEvent(-1, Character.MIN_VALUE);
 				}
+				
 			} catch (ConcurrentModificationException e1) {
 				return;
 			}
