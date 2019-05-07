@@ -64,9 +64,6 @@ public class WindowManager {
 	
 	public ArrayList<UI> getUIs() {
 		ArrayList<UI> allUIs = new ArrayList<>();
-//		tablesModeUIs.stream().forEach(x -> uis.add(x));
-//		tableDesignModeUIs.values().stream().forEach(designUIs -> designUIs.stream().forEach(ui -> uis.add(ui)));
-//		tableRowsModeUIs.values().stream().forEach(rowUIs -> rowUIs.stream().forEach(ui -> uis.add(ui)));
 		this.uis.values().stream().forEach(l -> allUIs.addAll(l));
 		return allUIs;
 	}
@@ -76,9 +73,6 @@ public class WindowManager {
 	 */
 	private ArrayList<UIElement> getAllElements() {
 		ArrayList<UIElement> elements = new ArrayList<>();
-//		tablesModeUIs.stream().forEach(ui -> elements.addAll(ui.getElements()));
-//		tableDesignModeUIs.values().stream().forEach(designUIs -> designUIs.stream().forEach(ui -> elements.addAll(ui.getElements())));
-//		tableRowsModeUIs.values().stream().forEach(rowUIs -> rowUIs.stream().forEach(ui -> elements.addAll(ui.getElements())));
 		uis.values().stream().forEach(l -> l.stream().forEach(u -> elements.addAll(u.getElements())));
 		return elements;
 	}
