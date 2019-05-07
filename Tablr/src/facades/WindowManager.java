@@ -5,7 +5,6 @@ import java.awt.event.KeyEvent;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
-import java.util.NoSuchElementException;
 import java.util.Optional;
 
 import domain.Table;
@@ -13,9 +12,7 @@ import ui.TableDesignModeUI;
 import ui.TablesModeUI;
 import ui.TableRowsModeUI;
 import ui.UI;
-import uielements.Text;
 import uielements.UIElement;
-import uielements.UIRow;
 import uielements.VoidElement;
 
 /**
@@ -68,9 +65,6 @@ public class WindowManager {
 		tablesModeUIs.stream().forEach(x -> uis.add(x));
 		tableDesignModeUIs.values().stream().forEach(designUIs -> designUIs.stream().forEach(ui -> uis.add(ui)));
 		tableRowsModeUIs.values().stream().forEach(rowUIs -> rowUIs.stream().forEach(ui -> uis.add(ui)));
-		
-//		tableRowsModeUIs.values().stream().forEach(x -> uis.add(x));
-//		tableDesignModeUIs.values().stream().forEach(x -> uis.add(x));
 		return uis;
 	}
 	
@@ -82,22 +76,8 @@ public class WindowManager {
 		tablesModeUIs.stream().forEach(ui -> elements.addAll(ui.getElements()));
 		tableDesignModeUIs.values().stream().forEach(designUIs -> designUIs.stream().forEach(ui -> elements.addAll(ui.getElements())));
 		tableRowsModeUIs.values().stream().forEach(rowUIs -> rowUIs.stream().forEach(ui -> elements.addAll(ui.getElements())));
-		
-//		tableRowsModeUIs.values().stream().forEach(ui -> elements.addAll(ui.getElements()));
-//		tableDesignModeUIs.values().stream().forEach(ui -> elements.addAll(ui.getElements()));
 		return elements;
 	}
-	
-//	/**
-//	 * Returns all UIElements in ALL UI's
-//	 */
-//	private ArrayList<UIElement> getAllActiveElements() {
-//		ArrayList<UIElement> elements = new ArrayList<>();
-//		tablesModeUIs.stream().filter(e -> e.isActive()).forEach(ui -> elements.addAll(ui.getElements()));
-//		tableRowsModeUIs.values().stream().filter(e -> e.isActive()).forEach(ui -> elements.addAll(ui.getElements()));
-//		tableDesignModeUIs.values().stream().filter(e -> e.isActive()).forEach(ui -> elements.addAll(ui.getElements()));
-//		return elements;
-//	}
 	
 	public void addTablesModeUI() {
 		TablesModeUI ui = null;
@@ -123,18 +103,14 @@ public class WindowManager {
 	}
 	
 	public void loadTablesModeUI(TablesModeUI ui){
-//		if (System.currentTimeMillis()-lastLoad<100) return;
 		ui.setTablr(tablr);
 		ui.setWindowManager(this);
 		this.selectUI(ui);
 		ui.loadUI();
 		lastLoad = System.currentTimeMillis();
-
 	}
 	
 	public void loadTableRowsModeUI(Table table){
-//		if (System.currentTimeMillis()-lastLoad<100) return;
-
 		TableRowsModeUI ui = null;
 		ArrayList<TableRowsModeUI> uis = tableRowsModeUIs.get(table);
 		if (uis.isEmpty()) throw new RuntimeException("No TableRowsModeUI for table " + table);
@@ -160,7 +136,6 @@ public class WindowManager {
 		ui.loadUI(table);
 		ui.move(-ui.getX() + 300, -ui.getY()+300);
 		lastLoad = System.currentTimeMillis();
-
 	}
 	
 	/**
@@ -169,7 +144,6 @@ public class WindowManager {
 	private long lastLoad = 0; 
 	
 	public void loadTableDesignModeUI(Table table){
-//		if (System.currentTimeMillis()-lastLoad<100) return;
 
 		TableDesignModeUI ui = null;
 		ArrayList<TableDesignModeUI> uis = tableDesignModeUIs.get(table);
@@ -195,7 +169,6 @@ public class WindowManager {
 		ui.setWindowManager(this);
 		ui.loadUI(table);
 		ui.move(-ui.getX()+300, -ui.getY());
-		
 		lastLoad = System.currentTimeMillis();
 	}
 	
@@ -276,14 +249,6 @@ public class WindowManager {
 	}
 
 	public void paint(Graphics g) {
-		//Paint all UI's that are active
-//		tablesModeUIs.stream().filter(u->u.isActive() && !u.equals(selectedUI)).forEach(e -> e.paint(g));
-//		tableDesignModeUIs.values().stream().forEach(designUIs -> designUIs.stream().filter(ui -> ui.isActive() && !ui.equals(selectedUI)).forEach(ui -> ui.paint(g)));
-//		tableRowsModeUIs.values().stream().forEach(rowUIs -> rowUIs.stream().filter(ui -> ui.isActive() && !ui.equals(selectedUI)).forEach(ui -> ui.paint(g)));
-		
-		
-//		tableRowsModeUIs.values().stream().filter((u) -> u.isActive() && !u.equals(selectedUI)).forEach((e) -> e.paint(g));
-//		tableDesignModeUIs.values().stream().filter((u) -> u.isActive() && !u.equals(selectedUI)).forEach((e) -> e.paint(g));
 		getUIs().stream().filter(ui -> ui.isActive()).forEach(ui -> ui.paint(g));
 		if (selectedUI != null) selectedUI.paint(g);
  	}
