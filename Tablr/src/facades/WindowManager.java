@@ -33,18 +33,17 @@ public class WindowManager {
 		tableDesignModeUIs = new HashMap<Table,ArrayList<TableDesignModeUI>>();
 		keyListener = new VoidElement(-1, -1, 300, 300, null);
 		
-		// 'A' is pressed
-		keyListener.addKeyboardListener(65, () -> {
-			System.out.println("A is pressed in windowmanager");
-		});
 		// 'Z' is pressed
 		keyListener.addKeyboardListener(90, () -> {
-			System.out.println("Z is pressed in windowmanager");
-				undo();
+			System.out.println("Z is pressed");
+			if (recentCtrl()) {
+				System.out.println("CTRL + Z is pressed in windowmanager");
+				tablr.undo();
+			}
 		});
 	}
 	
-	public Tablr getCommunicationManager() {
+	public Tablr getTablr() {
 		return tablr;
 	}
 	
@@ -377,47 +376,9 @@ public class WindowManager {
 		lastCtrl = System.currentTimeMillis();
 	}
 	
-	// Command methods to fix undo and redo
-	
-	public interface Command {
-		void execute();
-		void undo();
+	public void zIsPressed(char z) {
+		keyListener.handleKeyboardEvent(KeyEvent.getExtendedKeyCodeForChar(z), z);
 	}
-	
-	private ArrayList<Command> undoStack = new ArrayList<>();
-	int nbCommandsUndone = 0;
-	
-	void undo() {
-		if(undoStack.size() > nbCommandsUndone)
-			undoStack.get(undoStack.size() - ++nbCommandsUndone).undo();
-
-//		System.out.println("[WindowManager 396]: undo");
-//		System.out.println(nbCommandsUndone);
-//		System.out.println(undoStack);
-	}
-	
-	void redo(){
-		if(nbCommandsUndone > 0)
-			undoStack.get(undoStack.size() - nbCommandsUndone--).execute();
-	}
-
-	void execute(Command command){
-		for(; nbCommandsUndone > 0; nbCommandsUndone--)
-			undoStack.remove(undoStack.size() - 1);
-		undoStack.add(command);
-		command.execute();
-//		System.out.println("[WindowManager 409]: exec");
-//		System.out.println(nbCommandsUndone);
-//		System.out.println(undoStack);
-	}
-	
-	void characterPressed(char c) {
-		execute(new Command() {
-			public void execute() { keyListener.handleKeyboardEvent(KeyEvent.getExtendedKeyCodeForChar(c), c); }
-			public void undo() { System.out.println("Command getyped (undo) => " + c);}
-		});
-	}
-	
 }
 
 

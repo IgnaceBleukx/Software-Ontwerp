@@ -441,12 +441,16 @@ public class Tablr {
 	public void controlPressed() {
 		windowManager.controlPressed();
 	}
+
+	public void undo() {
+		domainFacade.undo();
+	}
 	
 	/**
 	 * Notifies the windowManager that a char has been pressed.
 	 */
-	public void characterPressed(char c) {
-		windowManager.characterPressed(c);
+	public void zIsPressed(char z) {
+		windowManager.zIsPressed(z);
 	}
 	
 }

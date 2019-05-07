@@ -1,5 +1,6 @@
 package facades;
 
+import java.awt.event.KeyEvent;
 import java.util.ArrayList;
 
 import domain.Column;
@@ -52,9 +53,23 @@ public class DomainFacade {
 	 * Adds an empty table to the list of tables
 	 */
 	public Table addEmptyTable() {
+		System.out.println("[DomainFacade 56] ");
+		System.out.println(undoStack);
 		String name = nextName();
 		Table t = new Table(name);
 		addTable(t);
+		undoStack.add(new Command() {
+			private Table table = t;
+
+			public void execute() {addEmptyTable();}
+
+			public void undo() {
+				removeTable(table);
+			}
+			
+		});
+		System.out.println("[DomainFacade 67] ");
+		System.out.println(undoStack);
 		return t;
 	}
 	
@@ -316,4 +331,41 @@ public class DomainFacade {
 		return col.getCell(index).getValue();
 		
 	}
+	
+	// Command methods to fix undo and redo
+
+	
+	public interface Command {
+		void execute();
+		void undo();
+	}
+	
+	private ArrayList<Command> undoStack = new ArrayList<>();
+	int nbCommandsUndone = 0;
+	
+	void undo() {
+		if(undoStack.size() > nbCommandsUndone)
+			undoStack.get(undoStack.size() - ++nbCommandsUndone).undo();
+		System.out.println(undoStack);
+	}
+	
+	void redo(){
+		if(nbCommandsUndone > 0)
+			undoStack.get(undoStack.size() - nbCommandsUndone--).execute();
+	}
+
+	void execute(Command command){
+		for(; nbCommandsUndone > 0; nbCommandsUndone--)
+			undoStack.remove(undoStack.size() - 1);
+		undoStack.add(command);
+		command.execute();
+	}
+	
+//	void characterPressed(char c) {
+//		execute(new Command() {
+//			public void execute() { System.out.println("domainFacade: " + KeyEvent.getExtendedKeyCodeForChar(c) + c); }
+//			public void undo() { System.out.println("Command getyped (undo) => " + c);}
+//		});
+//	}
+	
 }
