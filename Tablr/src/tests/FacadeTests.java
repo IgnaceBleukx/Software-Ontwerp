@@ -104,7 +104,7 @@ public class FacadeTests {
 		WindowManager m = ui.getWindowManager();
 		
 		m.loadTableRowsModeUI(t);
-		TableRowsModeUI a = m.getTableRowsUIs().get(t).get(0);
+		TableRowsModeUI a = m.getTableRowsUIs(t).get(0);
 		a.setActive();
 		m.loadTableRowsModeUI(t);
 	}
@@ -120,7 +120,7 @@ public class FacadeTests {
 		WindowManager m = ui.getWindowManager();
 		
 		m.loadTableDesignModeUI(t);
-		TableDesignModeUI a = m.getTableDesignUIs().get(t).get(0);
+		TableDesignModeUI a = m.getTableDesignModeUIs(t).get(0);
 		a.setActive();
 		m.loadTableDesignModeUI(t);
 	}

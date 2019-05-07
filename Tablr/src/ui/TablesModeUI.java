@@ -193,7 +193,6 @@ public class TablesModeUI extends UI {
 				}
 				if (tablr.isEmptyTable(curr)) {
 					System.out.println("[TablesModeUI.java:125]: Opening an empty table -> DesignMode");
-				//	tablr.changeTitle("Table Design Mode: "+curr.getName());
 					this.getWindowManager().loadTableDesignModeUI(curr);
 				}
 				else {

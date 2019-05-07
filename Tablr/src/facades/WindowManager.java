@@ -6,6 +6,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 import domain.Table;
 import ui.TableDesignModeUI;
@@ -25,9 +26,9 @@ public class WindowManager {
 	
 	public WindowManager(Tablr c) {
 		tablr = c;
-		tablesModeUIs = new ArrayList<TablesModeUI>();
-		tableRowsModeUIs = new HashMap<Table,ArrayList<TableRowsModeUI>>();
-		tableDesignModeUIs = new HashMap<Table,ArrayList<TableDesignModeUI>>();
+//		tablesModeUIs = new ArrayList<TablesModeUI>();
+//		tableRowsModeUIs = new HashMap<Table,ArrayList<TableRowsModeUI>>();
+//		tableDesignModeUIs = new HashMap<Table,ArrayList<TableDesignModeUI>>();
 		keyListener = new VoidElement(-1, -1, 300, 300, null);
 		
 		// 'Z' is pressed
@@ -44,9 +45,10 @@ public class WindowManager {
 		return tablr;
 	}
 	
-	private ArrayList<TablesModeUI> tablesModeUIs;
-	private HashMap<Table,ArrayList<TableRowsModeUI>> tableRowsModeUIs;
-	private HashMap<Table,ArrayList<TableDesignModeUI>> tableDesignModeUIs;
+//	private ArrayList<TablesModeUI> tablesModeUIs;
+//	private HashMap<Table,ArrayList<TableRowsModeUI>> tableRowsModeUIs;
+//	private HashMap<Table,ArrayList<TableDesignModeUI>> tableDesignModeUIs;
+	private HashMap<Table,ArrayList<UI>> uis = new HashMap<Table,ArrayList<UI>>();
 	private VoidElement keyListener = null;
 	
 	/**
@@ -60,12 +62,13 @@ public class WindowManager {
 	private UI prevSelectedUI;
 
 	
-	private ArrayList<UI> getUIs() {
-		ArrayList<UI> uis = new ArrayList<>();
-		tablesModeUIs.stream().forEach(x -> uis.add(x));
-		tableDesignModeUIs.values().stream().forEach(designUIs -> designUIs.stream().forEach(ui -> uis.add(ui)));
-		tableRowsModeUIs.values().stream().forEach(rowUIs -> rowUIs.stream().forEach(ui -> uis.add(ui)));
-		return uis;
+	public ArrayList<UI> getUIs() {
+		ArrayList<UI> allUIs = new ArrayList<>();
+//		tablesModeUIs.stream().forEach(x -> uis.add(x));
+//		tableDesignModeUIs.values().stream().forEach(designUIs -> designUIs.stream().forEach(ui -> uis.add(ui)));
+//		tableRowsModeUIs.values().stream().forEach(rowUIs -> rowUIs.stream().forEach(ui -> uis.add(ui)));
+		this.uis.values().stream().forEach(l -> allUIs.addAll(l));
+		return allUIs;
 	}
 	
 	/**
@@ -73,18 +76,20 @@ public class WindowManager {
 	 */
 	private ArrayList<UIElement> getAllElements() {
 		ArrayList<UIElement> elements = new ArrayList<>();
-		tablesModeUIs.stream().forEach(ui -> elements.addAll(ui.getElements()));
-		tableDesignModeUIs.values().stream().forEach(designUIs -> designUIs.stream().forEach(ui -> elements.addAll(ui.getElements())));
-		tableRowsModeUIs.values().stream().forEach(rowUIs -> rowUIs.stream().forEach(ui -> elements.addAll(ui.getElements())));
+//		tablesModeUIs.stream().forEach(ui -> elements.addAll(ui.getElements()));
+//		tableDesignModeUIs.values().stream().forEach(designUIs -> designUIs.stream().forEach(ui -> elements.addAll(ui.getElements())));
+//		tableRowsModeUIs.values().stream().forEach(rowUIs -> rowUIs.stream().forEach(ui -> elements.addAll(ui.getElements())));
+		uis.values().stream().forEach(l -> l.stream().forEach(u -> elements.addAll(u.getElements())));
 		return elements;
 	}
 	
 	public void addTablesModeUI() {
 		TablesModeUI ui = null;
-		if (tablesModeUIs.isEmpty()) {
+		if (!uis.containsKey(null)) {
+			uis.put(null, new ArrayList<UI>());
 			ui = new TablesModeUI(0,0,300,300,tablr);			
 		}else {
-			for (TablesModeUI tui : tablesModeUIs) {
+			for (TablesModeUI tui : getTablesModeUIs()) {
 				if (!tui.isActive()) {
 					tui.setActive();
 					this.selectUI(tui);
@@ -94,14 +99,26 @@ public class WindowManager {
 				}
 			}
 			if (ui == null)
-				ui = tablesModeUIs.get(0).clone();
+				ui = getTablesModeUIs().get(0).clone();
 		}
-		tablesModeUIs.add(ui);
+		uis.get(null).add(ui);
 		loadTablesModeUI(ui);
 		ui.move(-ui.getX(), -ui.getY());
 		
 	}
+
+	public void addTableDesignModeUI(Table table, TableDesignModeUI ui){
+		if (!uis.containsKey(table))
+			uis.put(table, new ArrayList<UI>());
+		this.uis.get(table).add(ui);
+	}
 	
+	public void addTableRowsModeUI(Table table, TableRowsModeUI ui){
+		if (!uis.containsKey(table))
+			uis.put(table, new ArrayList<UI>());
+		this.uis.get(table).add(ui);
+	}
+
 	public void loadTablesModeUI(TablesModeUI ui){
 		ui.setTablr(tablr);
 		ui.setWindowManager(this);
@@ -109,44 +126,10 @@ public class WindowManager {
 		ui.loadUI();
 		lastLoad = System.currentTimeMillis();
 	}
-	
-	public void loadTableRowsModeUI(Table table){
-		TableRowsModeUI ui = null;
-		ArrayList<TableRowsModeUI> uis = tableRowsModeUIs.get(table);
-		if (uis.isEmpty()) throw new RuntimeException("No TableRowsModeUI for table " + table);
-		for (TableRowsModeUI rowMode : uis) {
-			if (!rowMode.isActive()){
-				ui = rowMode;
-				this.selectUI(ui);
-				ui.setTablr(tablr);
-				ui.setWindowManager(this);
-				ui.setActive();
-				if (uis.size() == 1)
-					ui.loadUI(table);
-				return;
-			}
-		}
-		if (ui == null) {
-			ui = uis.get(0).clone();
-			this.addTableRowsModeUI(table, ui);
-		}
-		this.selectUI(ui);
-		ui.setTablr(tablr);
-		ui.setWindowManager(this);
-		ui.loadUI(table);
-		ui.move(-ui.getX() + 300, -ui.getY()+300);
-		lastLoad = System.currentTimeMillis();
-	}
-	
-	/**
-	 * Variable holding the number of milliseconds the last time a new subwindow was loaded.
-	 */
-	private long lastLoad = 0; 
-	
-	public void loadTableDesignModeUI(Table table){
 
+	public void loadTableDesignModeUI(Table table){
 		TableDesignModeUI ui = null;
-		ArrayList<TableDesignModeUI> uis = tableDesignModeUIs.get(table);
+		ArrayList<TableDesignModeUI> uis = getTableDesignModeUIs(table);
 		if (uis.isEmpty()) throw new RuntimeException("No TableDesignModeUI for table " + table);
 		for (TableDesignModeUI designMode : uis) {
 			if (!designMode.isActive()) {
@@ -171,27 +154,48 @@ public class WindowManager {
 		ui.move(-ui.getX()+300, -ui.getY());
 		lastLoad = System.currentTimeMillis();
 	}
-	
-	public void addTableDesignModeUI(Table table, TableDesignModeUI ui){
-		if (!tableDesignModeUIs.containsKey(table))
-			tableDesignModeUIs.put(table,new ArrayList<TableDesignModeUI>());
-		this.tableDesignModeUIs.get(table).add(ui);
-	}
-	
-	public void addTableRowsModeUI(Table table, TableRowsModeUI ui){
-		if (!tableRowsModeUIs.containsKey(table))
-			tableRowsModeUIs.put(table, new ArrayList<TableRowsModeUI>());
-		this.tableRowsModeUIs.get(table).add(ui);
+
+	public void loadTableRowsModeUI(Table table){
+		TableRowsModeUI ui = null;
+		ArrayList<TableRowsModeUI> uis = getTableRowsUIs(table);
+		if (uis.isEmpty()) throw new RuntimeException("No TableRowsModeUI for table " + table);
+		for (TableRowsModeUI rowMode : uis) {
+			if (!rowMode.isActive()){
+				ui = rowMode;
+				this.selectUI(ui);
+				ui.setTablr(tablr);
+				ui.setWindowManager(this);
+				ui.setActive();
+				if (uis.size() == 1)
+					ui.loadUI(table);
+				return;
+			}
+		}
+		if (ui == null) {
+			ui = uis.get(0).clone();
+			this.addTableRowsModeUI(table, ui);
+		}
+		this.selectUI(ui);
+		ui.setTablr(tablr);
+		ui.setWindowManager(this);
+		ui.loadUI(table);
+		ui.move(-ui.getX() + 300, -ui.getY()+300);
+		lastLoad = System.currentTimeMillis();
 	}
 
+	/**
+	 * Variable holding the number of milliseconds the last time a new subwindow was loaded.
+	 */
+	private long lastLoad = 0;
+
 	public void notifyTablesModeUIsColResized(int delta, int index) {
-		tablesModeUIs.stream().forEach(e -> e.getColumnResizeListeners().stream().forEach(l -> l.accept(delta,index)));
+		getTablesModeUIs().stream().forEach(e -> e.getColumnResizeListeners().stream().forEach(l -> l.accept(delta,index)));
 	}
 	public void notifyTableDesignModeUIsColResized(int delta, int index, Table table) {
-		tableDesignModeUIs.get(table).stream().forEach(e -> e.getColumnResizeListeners().stream().forEach(l -> l.accept(delta,index)));
+		getTableDesignModeUIs(table).stream().forEach(e -> e.getColumnResizeListeners().stream().forEach(l -> l.accept(delta,index)));
 	}
 	public void notifyTableRowsModeUIsColResized(int delta, int index, Table table) {
-		tableRowsModeUIs.get(table).stream().forEach(e -> e.getColumnResizeListeners().stream().forEach(l -> l.accept(delta,index)));
+		getTablesModeUIs().stream().forEach(e -> e.getColumnResizeListeners().stream().forEach(l -> l.accept(delta,index)));
 
 	}
 	
@@ -254,15 +258,16 @@ public class WindowManager {
  	}
 	
 	public ArrayList<TablesModeUI> getTablesModeUIs() {
-		return new ArrayList<TablesModeUI>(tablesModeUIs);
+		return new ArrayList<TablesModeUI>(uis.get(null).stream().map(u -> (TablesModeUI) u).collect(Collectors.toList()));
 	}
 	
-	public HashMap<Table,ArrayList<TableDesignModeUI>> getTableDesignUIs() {
-		return new HashMap<Table,ArrayList<TableDesignModeUI>>(tableDesignModeUIs);
+	public ArrayList<TableDesignModeUI> getTableDesignModeUIs(Table table) {
+		System.out.println("[WindowManager.java:266]: " + uis.get(table));
+		return new ArrayList<TableDesignModeUI>(uis.get(table).stream().filter(u -> u instanceof TableDesignModeUI).map(u -> (TableDesignModeUI) u).collect(Collectors.toList()));
 	}
 	
-	public HashMap<Table,ArrayList<TableRowsModeUI>> getTableRowsUIs() {
-		return new HashMap<Table,ArrayList<TableRowsModeUI>>(tableRowsModeUIs);
+	public ArrayList<TableRowsModeUI> getTableRowsUIs(Table table) {
+		return new ArrayList<TableRowsModeUI>(uis.get(table).stream().filter(u -> u instanceof TableRowsModeUI).map(u -> (TableRowsModeUI) u).collect(Collectors.toList()));
 	}
 	
 	public UI getSelectedUI() {

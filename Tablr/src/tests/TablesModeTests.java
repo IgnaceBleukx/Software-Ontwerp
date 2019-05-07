@@ -8,6 +8,7 @@ import java.awt.event.MouseEvent;
 import org.junit.Test;
 
 import canvaswindow.MyCanvasWindow;
+import domain.Table;
 import facades.Tablr;
 import uielements.ListView;
 import uielements.TextField;
@@ -24,7 +25,7 @@ public class TablesModeTests {
 		Tablr tablr = myCW.getTablr();
 		
 		// There are no tables yet
-		assertEquals(tablr.getTableDesignUIs().size(), 0);
+		assertEquals(tablr.getUIs().size(), 0);
 
 		// Perform a ctrl+T to add tables mode subwindow
 		myCW.handleKeyEvent(1, 17, ' ');
@@ -151,7 +152,8 @@ public class TablesModeTests {
 		
 		// Step 2: The system creates a new Table Design subwindow for the doubleclicked table 
 		// (if the table has no columns), or a new Table Rows subwindow for the double-clicked table (otherwise).
-		assertEquals(1, tablr.getTableDesignUIs().size());
+		Table table = tablr.getTables().get(0);
+		assertEquals(1, tablr.getTableDesignUIs(table).size());
 		
 		// The user double-clicks below the list of tables to create a column
 		myCW.handleMouseEvent(MouseEvent.MOUSE_CLICKED, 380, 100 , 2);
@@ -163,7 +165,7 @@ public class TablesModeTests {
 		myCW.handleMouseEvent(0, 60, 40, 2);
 		
 		// A Table Rows mode subwindow is shown.
-		assertEquals(1, tablr.getTableRowsUIs().size());
+		assertEquals(1, tablr.getTableRowsUIs(table).size());
 	}
 	
 	@Test

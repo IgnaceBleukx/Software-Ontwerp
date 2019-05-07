@@ -19,6 +19,7 @@ import uielements.UIElement;
 import uielements.UITable;
 import canvaswindow.CanvasWindow;
 import canvaswindow.MyCanvasWindow;
+import domain.Table;
 import facades.Tablr;
 import ui.TableRowsModeUI;
 
@@ -496,18 +497,19 @@ public class UIElementTests {
 		// Add a row to the table
 		myCW.handleMouseEvent(MouseEvent.MOUSE_CLICKED, 400, 390, 2);
 		
-		System.out.println(tablr.getTableRowsUIs().entrySet().iterator().next().getValue());
+		Table table = tablr.getTables().get(0);
+		System.out.println(tablr.getTableRowsUIs(table).get(0));
 		// Confirm the first width and height of the tables mode
-		assertEquals(300, ((TableRowsModeUI) tablr.getTableRowsUIs().entrySet().iterator().next().getValue().get(0)).getWidth());
-		assertEquals(300, ((TableRowsModeUI) tablr.getTableRowsUIs().entrySet().iterator().next().getValue().get(0)).getHeight());
+		assertEquals(300, ((TableRowsModeUI) tablr.getTableRowsUIs(table).get(0)).getWidth());
+		assertEquals(300, ((TableRowsModeUI) tablr.getTableRowsUIs(table).get(0)).getHeight());
 	
 		// Drag the tables mode subwindow to the left
 		myCW.handleMouseEvent(MouseEvent.MOUSE_PRESSED, 302, 400, 1);
 		myCW.handleMouseEvent(MouseEvent.MOUSE_DRAGGED, 297, 400, 1);
 		
 		// Check the changed width and height of the subwindow
-		assertEquals(305, ((TableRowsModeUI) tablr.getTableRowsUIs().entrySet().iterator().next().getValue().get(0)).getWidth());
-		assertEquals(300, ((TableRowsModeUI) tablr.getTableRowsUIs().entrySet().iterator().next().getValue().get(0)).getHeight());
+		assertEquals(305, ((TableRowsModeUI) tablr.getTableRowsUIs(table).get(0)).getWidth());
+		assertEquals(300, ((TableRowsModeUI) tablr.getTableRowsUIs(table).get(0)).getHeight());
 	
 	}
 	
@@ -534,18 +536,19 @@ public class UIElementTests {
 		// Add a row to the table
 		myCW.handleMouseEvent(MouseEvent.MOUSE_CLICKED, 400, 390, 2);
 		
-		System.out.println(tablr.getTableRowsUIs().entrySet().iterator().next().getValue());
+		Table table = tablr.getTables().get(0);
+		System.out.println(tablr.getTableRowsUIs(table).get(0));
 		// Confirm the first width and height of the tables mode
-		assertEquals(300, ((TableRowsModeUI) tablr.getTableRowsUIs().entrySet().iterator().next().getValue().get(0)).getWidth());
-		assertEquals(300, ((TableRowsModeUI) tablr.getTableRowsUIs().entrySet().iterator().next().getValue().get(0)).getHeight());
+		assertEquals(300, ((TableRowsModeUI) tablr.getTableRowsUIs(table).get(0)).getWidth());
+		assertEquals(300, ((TableRowsModeUI) tablr.getTableRowsUIs(table).get(0)).getHeight());
 	
 		// Drag the tables mode subwindow to the right
 		myCW.handleMouseEvent(MouseEvent.MOUSE_PRESSED, 599, 451, 1);
 		myCW.handleMouseEvent(MouseEvent.MOUSE_DRAGGED, 604, 451, 1);
 		
 		// Check the changed width and height of the subwindow
-		assertEquals(305, ((TableRowsModeUI) tablr.getTableRowsUIs().entrySet().iterator().next().getValue().get(0)).getWidth());
-		assertEquals(300, ((TableRowsModeUI) tablr.getTableRowsUIs().entrySet().iterator().next().getValue().get(0)).getHeight());
+		assertEquals(305, ((TableRowsModeUI) tablr.getTableRowsUIs(table).get(0)).getWidth());
+		assertEquals(300, ((TableRowsModeUI) tablr.getTableRowsUIs(table).get(0)).getHeight());
 	}
 	
 	@Test
@@ -571,18 +574,19 @@ public class UIElementTests {
 		// Add a row to the table
 		myCW.handleMouseEvent(MouseEvent.MOUSE_CLICKED, 400, 390, 2);
 		
-		System.out.println(tablr.getTableRowsUIs().entrySet().iterator().next().getValue());
+		Table table = tablr.getTables().get(0);
+		System.out.println(tablr.getTableRowsUIs(table).get(0));
 		// Confirm the first width and height of the tables mode
-		assertEquals(300, ((TableRowsModeUI) tablr.getTableRowsUIs().entrySet().iterator().next().getValue().get(0)).getWidth());
-		assertEquals(300, ((TableRowsModeUI) tablr.getTableRowsUIs().entrySet().iterator().next().getValue().get(0)).getHeight());
+		assertEquals(300, ((TableRowsModeUI) tablr.getTableRowsUIs(table).get(0)).getWidth());
+		assertEquals(300, ((TableRowsModeUI) tablr.getTableRowsUIs(table).get(0)).getHeight());
 	
 		// Drag the tables mode subwindow to the right
 		myCW.handleMouseEvent(MouseEvent.MOUSE_PRESSED, 444, 300, 1);
 		myCW.handleMouseEvent(MouseEvent.MOUSE_DRAGGED, 444, 250, 1);
 		
 		// Check the changed width and height of the subwindow
-		assertEquals(300, ((TableRowsModeUI) tablr.getTableRowsUIs().entrySet().iterator().next().getValue().get(0)).getWidth());
-		assertEquals(350, ((TableRowsModeUI) tablr.getTableRowsUIs().entrySet().iterator().next().getValue().get(0)).getHeight());
+		assertEquals(300, ((TableRowsModeUI) tablr.getTableRowsUIs(table).get(0)).getWidth());
+		assertEquals(350, ((TableRowsModeUI) tablr.getTableRowsUIs(table).get(0)).getHeight());
 	}
 	
 	@Test
@@ -608,18 +612,19 @@ public class UIElementTests {
 		// Add a row to the table
 		myCW.handleMouseEvent(MouseEvent.MOUSE_CLICKED, 400, 390, 2);
 		
-		System.out.println(tablr.getTableRowsUIs().entrySet().iterator().next().getValue());
+		Table table = tablr.getTables().get(0);
+		System.out.println(tablr.getTableRowsUIs(table).get(0));
 		// Confirm the first width and height of the tables mode
-		assertEquals(300, ((TableRowsModeUI) tablr.getTableRowsUIs().entrySet().iterator().next().getValue().get(0)).getWidth());
-		assertEquals(300, ((TableRowsModeUI) tablr.getTableRowsUIs().entrySet().iterator().next().getValue().get(0)).getHeight());
+		assertEquals(300, ((TableRowsModeUI) tablr.getTableRowsUIs(table).get(0)).getWidth());
+		assertEquals(300, ((TableRowsModeUI) tablr.getTableRowsUIs(table).get(0)).getHeight());
 	
 		// Drag the tables mode subwindow to the right
 		myCW.handleMouseEvent(MouseEvent.MOUSE_PRESSED, 442, 597, 1);
 		myCW.handleMouseEvent(MouseEvent.MOUSE_DRAGGED, 442, 602, 1);
 		
 		// Check the changed width and height of the subwindow
-		assertEquals(300, ((TableRowsModeUI) tablr.getTableRowsUIs().entrySet().iterator().next().getValue().get(0)).getWidth());
-		assertEquals(305, ((TableRowsModeUI) tablr.getTableRowsUIs().entrySet().iterator().next().getValue().get(0)).getHeight());
+		assertEquals(300, ((TableRowsModeUI) tablr.getTableRowsUIs(table).get(0)).getWidth());
+		assertEquals(305, ((TableRowsModeUI) tablr.getTableRowsUIs(table).get(0)).getHeight());
 	}
 	
 	/**

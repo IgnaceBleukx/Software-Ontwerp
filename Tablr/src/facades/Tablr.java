@@ -426,12 +426,16 @@ public class Tablr {
 		return windowManager.getTablesModeUIs();
 	}
 	
-	public HashMap<Table,ArrayList<TableDesignModeUI>> getTableDesignUIs() {
-		return windowManager.getTableDesignUIs();
+	public ArrayList<TableDesignModeUI> getTableDesignUIs(Table table) {
+		return windowManager.getTableDesignModeUIs(table);
 	}
 	
-	public HashMap<Table,ArrayList<TableRowsModeUI>> getTableRowsUIs() {
-		return windowManager.getTableRowsUIs();
+	public ArrayList<TableRowsModeUI> getTableRowsUIs(Table table) {
+		return windowManager.getTableRowsUIs(table);
+	}
+	
+	public ArrayList<UI> getUIs(){
+		return windowManager.getUIs();
 	}
 	
 	/**
