@@ -1,22 +1,4 @@
-1. Is it a problem that any domain element can use its reference to CommunicationManager
-   to modify the UI? 
-
-
-
-
-A cell needs to have different types of values (string, boolean, ...). Currently we implement this by using Generics: Value<Boolean>, ... Is this a good approach?
-    => Lijkt oke
-Is it necessary to have a association between Table and Cell? Isn't it enough to have Table -> Column or Row -> Cell?
-    => No, column -> row, de rest niet. TableManager known rows and column, vindt cellen via columns enzovoort (die bevat al de logic)
-Is it okay to just repaint the canvas after each mouse or keyboard event? Or can we assume that in the future other types of events might create the need to repaint?
-    => Voorlopig zo laten, als we tijd hebben evt flexibeler maken
-How detailed should sequence diagrams be? Should they be a complete trace through our program of just be an interaction between USER and TABLR?
-    => Minstens 1 gedetailleerd, maar ook soms abstract genoeg
-How much code coverage should we aim for when testing?
-    => 75% minimum, 80%, ideally 90%. Altijd met uitleg (moeilijk te testen, legacy code die niet gebruikt wordt, ...)
-Design: facade voor UI en facade voor Domain, tablemanager gebruikt beiden om respectievelijke delen aan te passen.
-
-MVC oke als ge kunt uitleggen waarom, niet zomaar. Maar als een logisch design natuurlijk groeit naar iets MVC-achtig.
-
-
-Volgende iteratie: canvas met meerdere tables
+* Mag stored table een computed table bijhouden?
+* Waar moeten we onze queries ingeven? Mag dat eventueel in een apart window?
+	Zoals design Ignace?
+* Wat doet de parser?
