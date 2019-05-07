@@ -71,7 +71,7 @@ public class FacadeTests {
 		assertTrue(!(ui == null));
 		
 		WindowManager m = ui.getWindowManager();
-		assertEquals(tablr,m.getCommunicationManager());
+		assertEquals(tablr,m.getTablr());
 		
 		m.addTablesModeUI();
 		m.clearUIAt(100, 100);
@@ -88,7 +88,7 @@ public class FacadeTests {
 		assertTrue(!(ui == null));
 		
 		WindowManager m = ui.getWindowManager();
-		assertEquals(tablr,m.getCommunicationManager());
+		assertEquals(tablr,m.getTablr());
 		
 		m.addTablesModeUI();
 	}
