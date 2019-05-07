@@ -220,7 +220,7 @@ public class TableRowsTests {
 		// Remove the default string
 		for(int i=0;i<d1.length();i++){
 			myCW.handleKeyEvent(0, 8, ' ');
-		}			
+		}
 		// Error when the field is blank
 		assertTrue(textField.getError());
 		// Add char to prevent lock
@@ -267,7 +267,9 @@ public class TableRowsTests {
 		Checkbox cb = (Checkbox) tablr.getUIAt(570, 350).locatedAt(570, 350);		
 		assertNull(cb.isChecked());
 		myCW.handleMouseEvent(MouseEvent.MOUSE_CLICKED, 570, 350 , 1);
-		cb = (Checkbox) tablr.getUIAt(570, 350).locatedAt(570, 350);		
+		cb = (Checkbox) tablr.getUIAt(570, 350).locatedAt(570, 350);	
+		snapShot(myCW, "pic1.png");
+
 		assertTrue(cb.isChecked());
 		myCW.handleMouseEvent(MouseEvent.MOUSE_CLICKED, 570, 350, 1);
 		cb = (Checkbox) tablr.getUIAt(570, 350).locatedAt(570, 350);		

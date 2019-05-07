@@ -3,6 +3,7 @@ package domain;
 import java.util.ArrayList;
 
 import Utils.BooleanCaster;
+import Utils.DebugPrinter;
 import exceptions.InvalidNameException;
 import exceptions.InvalidTypeException;
 
@@ -120,6 +121,10 @@ public class Column {
 			this.type = type;
 			if (getDefault() == null) return;
 			this.defaultValue = type.parseValue(getDefault().toString());
+		}
+		for(Cell<?> cell: getCells()) {
+			Object value = cell.getValue();
+			cells.set(cells.indexOf(cell), new Cell(type.parseValue(value.toString())));
 		}
 	}
 	
@@ -304,7 +309,7 @@ public class Column {
 	 * @throws ClassCastException	The column's type is not set correctly.
 	 */
 	public void changeCellValue(int i, String string) throws ClassCastException{
-		if((string == "" || string == null) && !getBlankingPolicy()) throw new ClassCastException();
+		if((string == null || string.isEmpty()) && !getBlankingPolicy()) throw new ClassCastException();
 		Cell<?> newCell = null;
 		Object v = getColumnType().parseValue(string);
 		switch(getColumnType()){
@@ -350,18 +355,20 @@ public class Column {
 		if (this.getColumnType() != Type.BOOLEAN) return;
 		System.out.println(getCell(index).getValue());
 		
-		Object cellValue = getCell(index).getValue();
-		String cellValueString;
-		if (cellValue == null)
-			cellValueString = null;
-		else cellValueString = cellValue.toString();
-		Boolean value;
-		if (cellValueString == null)
-			value = nextValueBoolean(null,getBlankingPolicy());
-		else
-			value = nextValueBoolean(BooleanCaster.cast(cellValueString),getBlankingPolicy());
-		if (value == null) changeCellValue(index,null);
-		else changeCellValue(index,Boolean.toString(value));
+		DebugPrinter.print(getCell(index).getValue());
+		Boolean cellValue = (Boolean) getCell(index).getValue();
+		changeCellValue(index,Type.BOOLEAN.toString(nextValueBoolean(cellValue,getBlankingPolicy())));
+//		String cellValueString;
+//		if (cellValue == null)
+//			cellValueString = null;
+//		else cellValueString = cellValue.toString();
+//		Boolean value;
+//		if (cellValueString == null)
+//			value = nextValueBoolean(null,getBlankingPolicy());
+//		else
+//			value = nextValueBoolean(BooleanCaster.cast(cellValueString),getBlankingPolicy());
+//		if (value == null) changeCellValue(index,null);
+//		else changeCellValue(index,Boolean.toString(value));
 	}
 	
 	/**

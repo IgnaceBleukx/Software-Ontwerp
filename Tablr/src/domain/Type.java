@@ -65,4 +65,10 @@ public enum Type {
 	public abstract Object parseValue(String string) throws ClassCastException;
 	public abstract boolean isValidValue(String string);
 	
+	public String toString(Boolean val) {
+		if (val == null) return "";
+		if (val.equals(false)) return "false";
+		else return "true";
+	}
+	
 }
