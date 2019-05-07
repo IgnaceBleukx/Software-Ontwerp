@@ -434,7 +434,6 @@ public class Tablr {
 		return windowManager.getTableRowsUIs();
 	}
 	
-	
 	/**
 	 * Notifies the windowManager that Ctrl has been pressed.
 	 */

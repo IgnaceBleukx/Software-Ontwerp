@@ -223,7 +223,6 @@ public class WindowManager {
 
 	}
 	
-	
 	/**
 	 * Returns the UI at point (x,y).
 	 * If multiple UI's overlap, the current active UI will be returned.

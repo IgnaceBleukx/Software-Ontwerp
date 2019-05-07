@@ -377,5 +377,13 @@ public class Column {
 		return true;
 	}
 
+	public Object getValueAt(int rowN) {
+		return cells.get(rowN).getValue();
+	}
+
+	public Object getValueAtString(int rowN) {
+		return cells.get(rowN).getValue();
+	}
+
 	
 }

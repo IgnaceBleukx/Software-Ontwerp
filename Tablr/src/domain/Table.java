@@ -1,6 +1,8 @@
 package domain;
 
 import java.util.ArrayList;
+import java.util.stream.Collectors;
+
 import exceptions.InvalidNameException;
 
 
