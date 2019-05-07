@@ -368,20 +368,6 @@ public class UI {
 		this.width = width;
 	}
 	
-//	/**
-//	 * Paints this UI and all its elements
-//	 */
-//	public void paintUI(Graphics g) {
-//		g.setColor(Color.LIGHT_GRAY);
-//		g.fillRect(getX(),getY(), getWidth(), getHeight());
-//		g.setClip(getX(),getY(),getWidth(),getHeight());	
-//		for(UIElement e : getElements()) {
-//			System.out.println("[UI.java:277]: " + e);
-//			e.paint(g);
-//		}
-//		g.setClip(null);
-//		
-//	}
 		
 	/**
 	 * All of the UIElements that make up this UI
@@ -622,6 +608,10 @@ public class UI {
 	
 	public ArrayList<BiConsumer<Integer,Integer>> getColumnResizeListeners(){
 		return new ArrayList<BiConsumer<Integer, Integer>>(columnResizeListeners);
+	}
+	
+	public void columnChanged(int delta, int index) {
+		columnResizeListeners.stream().forEach(l -> l.accept(delta, index));
 	}
 	
 	@Override

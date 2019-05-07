@@ -105,5 +105,11 @@ public class FormsModeUI extends UI {
 		}		
 		return list;
 	}
+	
+	@Override
+	public FormsModeUI clone() {
+		FormsModeUI clone = new FormsModeUI(getX(),getY(),getWidth(),getHeight(),getTablr());
+		return clone;
+	}
 
 }
