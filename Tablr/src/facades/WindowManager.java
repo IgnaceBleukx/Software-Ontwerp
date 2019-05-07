@@ -8,6 +8,7 @@ import java.util.HashMap;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
+import Utils.DebugPrinter;
 import domain.Table;
 import ui.FormsModeUI;
 import ui.TableDesignModeUI;
@@ -184,6 +185,7 @@ public class WindowManager {
 	}
 	
 	public void loadFormsModeUI(Table table) {
+		DebugPrinter.print("Loading FormsModeUI");
 		FormsModeUI ui = null;
 		ArrayList<FormsModeUI> uis = getFormsModeUIs(table);
 		if (uis.isEmpty()) throw new RuntimeException("No FormModeUI for the table " + table);

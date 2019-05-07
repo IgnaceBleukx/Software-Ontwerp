@@ -2,8 +2,11 @@ package ui;
 
 import java.awt.Color;
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
+import Utils.DebugPrinter;
 import uielements.BottomUIEdge;
 import uielements.Button;
 import uielements.CloseButton;
@@ -126,6 +129,19 @@ public class TablesModeUI extends UI {
 		ListView list = new ListView(getLegend().getX(),getLegend().getEndY(),getWidth()-2*edgeW, getEndY()-edgeW-getLegend().getEndY(), rows);
 
 		ArrayList<Table> tables = this.getTablr().getTables();
+		
+		list.addKeyboardListener(112, () -> {
+			DebugPrinter.print(list.getElements());
+			ArrayList<UIRow> r = new ArrayList<UIRow>(list.getElements().stream().filter(e -> e instanceof UIRow).map(e -> (UIRow) e).collect(Collectors.toList()));
+			for (int i=0;i<tables.size();i++) {
+				if(r.get(i).isSelected()) {
+					tablr.loadFormsModeUI(tables.get(i));
+					return;
+				}
+			}
+		});
+		
+		
 		int y = list.getY();
 		for (int i=0;i<tables.size();i++) { 
 			Table curr = tables.get(i);

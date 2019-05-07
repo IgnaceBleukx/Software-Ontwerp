@@ -9,6 +9,7 @@ import domain.Table;
 import domain.Type;
 import exceptions.InvalidNameException;
 import exceptions.InvalidTypeException;
+import ui.FormsModeUI;
 import ui.TableDesignModeUI;
 import ui.TableRowsModeUI;
 import ui.TablesModeUI;
@@ -60,6 +61,10 @@ public class Tablr {
 		windowManager.loadTableRowsModeUI(table);
 	}
 	
+	public void loadFormsModeUI(Table table) {
+		windowManager.loadFormsModeUI(table);
+	}
+	
 	public void loadTableDesignModeUI(Table table) {
 		windowManager.loadTableDesignModeUI(table);
 	}
@@ -72,6 +77,7 @@ public class Tablr {
 		Table t = domainFacade.addEmptyTable();
 		windowManager.addTableDesignModeUI(t, new TableDesignModeUI(300,0,300,300,this));
 		windowManager.addTableRowsModeUI(t, new TableRowsModeUI(300, 300, 300, 300, this));
+		windowManager.addFormModeUI(t,new FormsModeUI(0,300,300,300,this));
 		domainChanged();
 		return t;
 	}

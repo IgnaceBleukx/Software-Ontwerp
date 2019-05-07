@@ -20,7 +20,7 @@ import uielements.VoidElement;
 
 public class FormsModeUI extends UI {
 
-	FormsModeUI(int x, int y, int width, int height, Tablr tablr) {
+	public FormsModeUI(int x, int y, int width, int height, Tablr tablr) {
 		super(x, y, width, height);
 		this.setTablr(tablr);
 		
@@ -31,39 +31,93 @@ public class FormsModeUI extends UI {
 		this.clear();
 		loadUIAttributes();
 		
-		titleBar.setText("Table design mode: "+table.getName());
+		titleBar.setText("Forms mode: "+table.getName());
 		int currentHeight = getY()+titleHeight+edgeW;
+		
+		//Adding legend to UI:
+		UIRow legend = new UIRow(getX()+edgeW,titleBar.getEndY(),180,15,new ArrayList<UIElement>());
+		Text colNameText = new Text(legend.getX(),legend.getY(),80,15,"ColName");
+		Text valueText = new Text(legend.getX()+80,legend.getY(),100,15,"Value of row "+rowNumber);
+		legend.addElement(colNameText);
+		legend.addElement(valueText);
+		
+		this.addUIElement(legend);
+		
+		legend.addKeyboardListener(33, () ->{
+			increaseRowN();
+			this.reloadListView(table);
+		});
+		legend.addKeyboardListener(34, ()  -> {
+			decreaseRowN();
+			this.reloadListView(table);
+		});
+		
+		this.addUIElement(getForm(table));
 	
+		//Reload listview when domain is changed
+		tablr.addDomainChangedListener(() -> {
+			//Remove the old listview
+			Optional<UIElement> l = getElements().stream().filter(e -> e instanceof ListView).findFirst();
+			this.getElements().remove(l.orElseThrow(() -> new RuntimeException("No listview to bind listener to.")));
+			
+			//Load new listview from table
+			addUIElement(getForm(table));
+		});
+		
 	}
 	
 	private UIRow getLegend() {
-		return null;
+		return (UIRow) getElements().stream().filter(e -> e instanceof UIRow).findFirst().orElse(null);
 	}
 	
-	private void reloadListView(Table table,int rowNumber) {
+	private void reloadListView(Table table) {
 		Optional<UIElement> list = this.getElements().stream().filter(e -> e instanceof ListView).findFirst();
 		this.elements.remove(list.orElseThrow(() -> new RuntimeException()));
-		this.addUIElement(getForm(table,rowNumber));
+		this.addUIElement(getForm(table));
+		((Text) getLegend().getElements().get(1)).setText("Value of row "+rowNumber);
 	}
 	
-	private int cellHeigth = 20;
+	private void increaseRowN() {
+		rowNumber++;
+		((Text) getLegend().getElements().get(1)).setText("Value of row "+rowNumber);
+	}
+	private void decreaseRowN() {
+		if (rowNumber == 0) 
+			return;
+		rowNumber--;
+		((Text) getLegend().getElements().get(1)).setText("Value of row "+rowNumber);
+
+	}
 	
-	private ListView getForm(Table table, int rowNumber) {
-		ListView list = new ListView(getX()+edgeW,getLegend().getEndY(), getWidth() - 2*edgeW,	getHeight()-2*edgeW-titleHeight-15,new ArrayList<UIElement>());
-		
-		int currentHeigth = list.getY();
+	private int rowNumber;
+	private int cellHeight = 35;
+	
+	private ListView getForm(Table table) {
+		ListView list = new ListView(getX()+edgeW,getLegend().getEndY(), 180,getEndY()-edgeW-getLegend().getEndY(),new ArrayList<UIElement>());
+			
+		int currentHeight = list.getY();
+		if (tablr.getColumns(table).isEmpty()) {
+			list.addElement(new Text(list.getX(),list.getY(),list.getWidth(),list.getHeight(),"Index out of bounds"));
+			return list;
+		}
 		for(Column col : getTablr().getColumns(table)){
 			ArrayList<UIElement> emts = new ArrayList<UIElement>();
-			String val = getTablr().getValueString(col,rowNumber);
+			String val;
+			try{
+				val = getTablr().getValueString(col,rowNumber);
+			} catch (IndexOutOfBoundsException e) {
+				list.addElement(new Text(list.getX(),list.getY(),list.getWidth(),list.getHeight(),"Index out of bounds"));
+				return list;
+			}
 			//Creating columnLabel
-			Text colLabel = new Text(getX()+edgeW,currentHeigth,80,cellHeigth,tablr.getColumnName(col));			
+			Text colLabel = new Text(getX()+edgeW,currentHeight,80,cellHeight,tablr.getColumnName(col));			
 			emts.add(colLabel);
 			
 			if(getTablr().getColumnType(col).equals(Type.BOOLEAN)){
 				Checkbox booleanValue;
-				booleanValue = new Checkbox(colLabel.getEndX()+50-10,currentHeigth+cellHeigth/2-10,20,20, BooleanCaster.cast(tablr.getValueString(col,rowNumber)));
+				booleanValue = new Checkbox(colLabel.getEndX()+50-10,currentHeight+cellHeight/2-10,20,20, BooleanCaster.cast(tablr.getValueString(col,rowNumber)));
 
-				emts.add(new VoidElement(colLabel.getEndX(),currentHeigth,100, cellHeigth, Color.white));
+				emts.add(new VoidElement(colLabel.getEndX(),currentHeight,100, cellHeight, Color.white));
 				emts.add(booleanValue);
 				
 				int index = rowNumber;
@@ -72,7 +126,7 @@ public class FormsModeUI extends UI {
 				);
 			}
 			else{				
-				TextField field =  new TextField(colLabel.getEndX(),currentHeigth,100, cellHeigth,val);
+				TextField field =  new TextField(colLabel.getEndX(),currentHeight,100, cellHeight,val);
 				emts.add(field);
 				int index = rowNumber;
 				field.addKeyboardListener(-1, () -> {
@@ -95,13 +149,8 @@ public class FormsModeUI extends UI {
 				});
 			}
 			
-			colLabel.addKeyboardListener(33, () ->{
-				this.reloadListView(table,rowNumber+1);
-			});
-			colLabel.addKeyboardListener(34, ()  -> {
-				this.reloadListView(table,rowNumber-1);
-			});
-			
+			list.addElement(new UIRow(list.getX(),currentHeight,list.getWidth()-list.getScrollBarWidth(),cellHeight,emts));
+			currentHeight += cellHeight;
 		}		
 		return list;
 	}

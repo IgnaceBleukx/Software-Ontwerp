@@ -206,7 +206,7 @@ public class MyCanvasWindow extends CanvasWindow {
 			
 		}
 		
-		for (UIElement e : ui.getElements()) {
+		for (UIElement e : new ArrayList<UIElement>(ui.getElements())) {
 			try {
 				e.handleKeyboardEvent(keyCode, keyChar);
 				if (keyCode == 17)

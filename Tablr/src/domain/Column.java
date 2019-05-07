@@ -304,7 +304,7 @@ public class Column {
 	 * @throws ClassCastException	The column's type is not set correctly.
 	 */
 	public void changeCellValue(int i, String string) throws ClassCastException{
-		if((string.isEmpty() || string == null) && !getBlankingPolicy()) throw new ClassCastException();
+		if((string == "" || string == null) && !getBlankingPolicy()) throw new ClassCastException();
 		Cell<?> newCell = null;
 		Object v = getColumnType().parseValue(string);
 		switch(getColumnType()){
