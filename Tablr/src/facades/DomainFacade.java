@@ -119,7 +119,6 @@ public class DomainFacade {
 	 */
 	public void toggleBlanks(Column col) throws Exception {
 		col.toggleBlanks();
-		
 	}
 	
 	/**
