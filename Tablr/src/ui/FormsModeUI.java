@@ -57,20 +57,10 @@ public class FormsModeUI extends UI {
 			legend.addElement(valueDragger);
 			legend.addElement(colNameText);
 			legend.addElement(valueText);
-				
-			legend.addKeyboardListener(33, () ->{
-				rowNumber++;
-				titleBar.setText("Forms Mode: " + table.getName() + " - Row " + rowNumber);
-				this.reloadListView(table);
-			});
-			legend.addKeyboardListener(34, ()  -> {
-				rowNumber--;
-				titleBar.setText("Forms Mode: " + table.getName() + " - Row " + rowNumber);
-				this.reloadListView(table);
-			});
 		}
 		
 		this.addUIElement(legend);
+		//Adding listeners to legend
 		ArrayList<UIElement> legendElementsCopy = legend.getElements();
 		legendElementsCopy.sort((UIElement e1,UIElement e2) -> e1.getX() - e2.getX());
 		DebugPrinter.print(legendElementsCopy);
@@ -93,6 +83,31 @@ public class FormsModeUI extends UI {
 			getWindowManager().notifyFormsModeUIsColResized(deltaFinal,1,table);
 		});
 		
+		legend.addKeyboardListener(33, () ->{
+			rowNumber++;
+			titleBar.setText("Forms Mode: " + table.getName() + " - Row " + rowNumber);
+			this.reloadListView(table);
+		});
+		legend.addKeyboardListener(34, ()  -> {
+			if (rowNumber > 0)
+				rowNumber--;
+			titleBar.setText("Forms Mode: " + table.getName() + " - Row " + rowNumber);
+			this.reloadListView(table);
+		});
+		legend.addKeyboardListener(78, () ->{
+			if (!getWindowManager().recentCtrl())
+				return;
+			tablr.addRow(table);
+		});
+		legend.addKeyboardListener(68, () ->{
+			if (!getWindowManager().recentCtrl())
+				return;
+			try {
+				tablr.removeRow(table, rowNumber);
+			}catch(IndexOutOfBoundsException e) {
+				//The row does not exist, do nothing
+			}
+		});
 		
 		ListView list = getForm(table);
 		this.addUIElement(list);
@@ -123,8 +138,8 @@ public class FormsModeUI extends UI {
 	private ListView getListView() {
 		return (ListView) elements.stream().filter(e -> e instanceof ListView).findFirst().orElse(null);
 	}
-	private int rowNumber;
-	private int cellHeight = 35;
+	private int rowNumber=0;
+	private static final int cellHeight = 35;
 	
 	private ListView getForm(Table table) {
 		ListView list = new ListView(getX()+edgeW,getLegend().getEndY(), getWidth()-2*edgeW,getEndY()-edgeW-getLegend().getEndY(),new ArrayList<UIElement>());
