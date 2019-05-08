@@ -73,15 +73,28 @@ public class DomainFacade {
 	 * Remove tables from the list of tables
 	 * @param table		Table to remove
 	 */
-	public void removeTable(Table table) {
-		this.tables.remove(table);
+	public void removeTable(Table table) {		
+		execute(new Command() {
+			public void execute() { 		
+				getTablesPure().remove(table);
+			}
+
+			public void undo() { addTable(table); }
+		});
 	}
 	
 	/**
-	 * Returns the table
+	 * Returns a clone of the tables
 	 */
 	public ArrayList<Table> getTables() {
 		return new ArrayList<Table>(tables);
+	}
+	
+	/**
+	 * Returns the tables
+	 */
+	public ArrayList<Table> getTablesPure() {
+		return tables;
 	}
 	
 	/**
