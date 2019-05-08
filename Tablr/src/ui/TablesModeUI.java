@@ -79,7 +79,13 @@ public class TablesModeUI extends UI {
 			Text tableName = new Text(legend.getX()+tableRowHeight,legend.getY(),legend.getWidth()-2-tableRowHeight,legend.getHeight(),"Table name");
 			legend.addElement(tableNameDragger);
 			legend.addElement(tableName);
-			
+		}
+		
+		this.addUIElement(legend);
+		ArrayList<UIElement> legendElementsCopy = getLegend().getElements();
+		legendElementsCopy.sort((UIElement e1, UIElement e2) -> e1.getX() - e2.getX());
+		Text tableName = (Text) legendElementsCopy.get(0);
+		Dragger tableNameDragger = (Dragger) legendElementsCopy.get(1);
 		
 		tableNameDragger.addDragListener((newX,newY) -> {
 			int delta = newX - tableNameDragger.getGrabPointX();
@@ -88,8 +94,6 @@ public class TablesModeUI extends UI {
 				deltaFinal = minimumColumnWidth - tableName.getWidth();
 			getWindowManager().notifyTablesModeUIsColResized(deltaFinal,0);
 		});
-		}
-		this.addUIElement(legend);
 		
 		ListView list = loadFromTables();
 		addUIElement(list);
