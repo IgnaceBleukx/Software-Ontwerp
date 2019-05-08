@@ -83,12 +83,14 @@ public class TablesModeUI extends UI {
 		titleBar.setText("Tables mode");
 		loadUIAttributes();
 
-		UIRow legend = new UIRow(getX()+edgeW,getY()+edgeW+titleHeight,legendWidth,15,new ArrayList<UIElement>());
-		Dragger tableNameDragger = new Dragger(legend.getEndX()-2,legend.getY(),4,legend.getHeight());
-		Text tableName = new Text(legend.getX()+tableRowHeight,legend.getY(),legend.getWidth()-2-tableRowHeight,legend.getHeight(),"Table name");
-		legend.addElement(tableNameDragger);
-		legend.addElement(tableName);
-		this.addUIElement(legend);
+		if (getLegend() == null) {
+			UIRow legend = new UIRow(getX()+edgeW,getY()+edgeW+titleHeight,legendWidth,15,new ArrayList<UIElement>());
+			Dragger tableNameDragger = new Dragger(legend.getEndX()-2,legend.getY(),4,legend.getHeight());
+			Text tableName = new Text(legend.getX()+tableRowHeight,legend.getY(),legend.getWidth()-2-tableRowHeight,legend.getHeight(),"Table name");
+			legend.addElement(tableNameDragger);
+			legend.addElement(tableName);
+			this.addUIElement(legend);
+			
 		
 		tableNameDragger.addDragListener((newX,newY) -> {
 			int delta = newX - tableNameDragger.getGrabPointX();
@@ -97,7 +99,7 @@ public class TablesModeUI extends UI {
 				deltaFinal = minimumColumnWidth - tableName.getWidth();
 			getWindowManager().notifyTablesModeUIsColResized(deltaFinal,0);
 		});
-		
+		}
 		
 		ListView list = loadFromTables();
 		addUIElement(list);

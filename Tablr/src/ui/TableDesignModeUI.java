@@ -3,7 +3,9 @@ package ui;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
+import Utils.DebugPrinter;
 import uielements.Checkbox;
 import uielements.Dragger;
 import uielements.ListView;
@@ -25,127 +27,104 @@ import facades.Tablr;
 public class TableDesignModeUI extends UI {
 	
 	private int margin = getWidth() / 15;
-	int namePosX;
-	int nameSizeX;
-	int typePosX;
-	int typeSizeX;
-	int blankPosX;
-	int blankSizeX;
-	int defPosX;
-	int defSizeX;
-	
+
 	public TableDesignModeUI(int x, int y, int w, int h,Tablr t) {
 		super(x,y,w,h);
 		this.setTablr(t);
-		
-		namePosX = getX() + margin + edgeW;
-		nameSizeX = getWidth()*5/15;
-		typePosX = getX() + margin + edgeW + nameSizeX;
-		typeSizeX = getWidth()*3/15;
-		blankPosX = getX() + margin + edgeW + nameSizeX + typeSizeX;
-		blankSizeX = getWidth()*2/15;
-		defPosX = getX() + margin + edgeW + nameSizeX + typeSizeX + blankSizeX;
-		defSizeX = getWidth() *4/15 - edgeW;
-		
 		this.columnResizeListeners.add((delta,index) ->{
 			getLegend().resizeElementR(delta, index*2);
 			getListView().getElements().stream().filter(e -> e instanceof UIRow).forEach(r -> ((UIRow) r).resizeElementR(delta, index));
 		});
 		
-	}
-	
-	public TableDesignModeUI(int x, int y, int w, int h, UIRow legend, Tablr t) {
-		super(x,y,w,h);
-		this.setTablr(t);
-
-		namePosX = legend.getElements().get(0).getX();
-		nameSizeX = legend.getElements().get(0).getWidth();
-		typePosX = legend.getElements().get(2).getX();
-		typeSizeX = legend.getElements().get(2).getWidth();
-		blankPosX = legend.getElements().get(4).getX();
-		blankSizeX = legend.getElements().get(4).getWidth();
-		defPosX = legend.getElements().get(6).getX();
-		defSizeX = legend.getElements().get(6).getWidth();
-		
-		this.columnResizeListeners.add((delta,index) ->{
-			getLegend().resizeElementR(delta, index*2);
-			getListView().getElements().stream().filter(e -> e instanceof UIRow).forEach(r -> ((UIRow) r).resizeElementR(delta, index));
-		});
 	}
 	
 	public void loadUI(Table table){
 		setActive();
+		UIRow legend = getLegend();
+		if(getLegend() != null)
+			legend = getLegend();
 		this.clear();
 		loadUIAttributes();
 		
 		titleBar.setText("Table design mode: "+table.getName());
 		int currentHeight = getY()+titleHeight+edgeW;
 		
-		Text name = new Text(namePosX, currentHeight, nameSizeX, 15,"Name");
-		Dragger nameDragger = new Dragger(namePosX+nameSizeX - 2, currentHeight, 4, 15);
-		Text type = new Text(typePosX, currentHeight, typeSizeX, 15,"Type");
-		Dragger typeDragger = new Dragger(typePosX+typeSizeX - 2, currentHeight, 4, 15);
-		Text blank = new Text(blankPosX, currentHeight, blankSizeX, 15,"Blank");
-		Dragger blankDragger = new Dragger(blankPosX+blankSizeX - 2, currentHeight, 4, 15);
-		Text def = new Text(defPosX, currentHeight, defSizeX, 15,"Default");
-		Dragger defDragger = new Dragger(defPosX+defSizeX - 2, currentHeight, 4, 15);
 		
-		name.setBorder(true);
-		type.setBorder(true);
-		blank.setBorder(true);
-		def.setBorder(true);
-				
-		UIRow legend = new UIRow(namePosX,currentHeight,this.getWidth()-2*edgeW-margin+2,15,(new ArrayList<UIElement>()
-			{{
-				add(nameDragger);
-				add(typeDragger);
-				add(blankDragger);
-				add(defDragger);
-				add(name);
-				add(type);
-				add(blank);
-				add(def);
-			}}
-		));
-		legend.setWidth(legend.getElements().stream().filter(e -> !(e instanceof Dragger)).mapToInt(e ->e.getWidth()).sum()+2);
-		this.addUIElement(legend);
-		
+		if(legend == null) {
+			DebugPrinter.print("Legend is null");
+			int namePosX = getX() + margin + edgeW;
+			int nameSizeX = getWidth()*5/15;
+			int typePosX = getX() + margin + edgeW + nameSizeX;
+			int typeSizeX = getWidth()*3/15;
+			int blankPosX = getX() + margin + edgeW + nameSizeX + typeSizeX;
+			int blankSizeX = getWidth()*2/15;
+			int defPosX = getX() + margin + edgeW + nameSizeX + typeSizeX + blankSizeX;
+			int defSizeX = getWidth() *4/15 - edgeW;
+			
+			Text name = new Text(namePosX, currentHeight, nameSizeX, 15,"Name");
+			Dragger nameDragger = new Dragger(namePosX+nameSizeX - 2, currentHeight, 4, 15);
+			Text type = new Text(typePosX, currentHeight, typeSizeX, 15,"Type");
+			Dragger typeDragger = new Dragger(typePosX+typeSizeX - 2, currentHeight, 4, 15);
+			Text blank = new Text(blankPosX, currentHeight, blankSizeX, 15,"Blank");
+			Dragger blankDragger = new Dragger(blankPosX+blankSizeX - 2, currentHeight, 4, 15);
+			Text def = new Text(defPosX, currentHeight, defSizeX, 15,"Default");
+			Dragger defDragger = new Dragger(defPosX+defSizeX - 2, currentHeight, 4, 15);
+			
+			name.setBorder(true);
+			type.setBorder(true);
+			blank.setBorder(true);
+			def.setBorder(true);
+					
+			legend = new UIRow(namePosX,currentHeight,this.getWidth()-2*edgeW-margin+2,15,(new ArrayList<UIElement>()
+				{{
+					add(nameDragger);
+					add(typeDragger);
+					add(blankDragger);
+					add(defDragger);
+					add(name);
+					add(type);
+					add(blank);
+					add(def);
+				}}
+			));
+			legend.setWidth(legend.getElements().stream().filter(e -> !(e instanceof Dragger)).mapToInt(e ->e.getWidth()).sum()+2);
+			
+			nameDragger.addDragListener((newX,newY) -> { 
+				int delta = newX - nameDragger.getGrabPointX();
+				int deltaFinal = delta;
+				if (name.getWidth() + delta < minimumColumnWidth){
+					deltaFinal = minimumColumnWidth - name.getWidth();
+				}
+				getWindowManager().notifyTableDesignModeUIsColResized(deltaFinal, 0, table);
+			});
+			
+			typeDragger.addDragListener((newX,newY) -> { 
+				int delta = newX - typeDragger.getGrabPointX();
+				int deltaFinal = delta;
+				if (type.getWidth() + delta < minimumColumnWidth)
+					deltaFinal = minimumColumnWidth - type.getWidth();
+				getWindowManager().notifyTableDesignModeUIsColResized(deltaFinal, 1, table);
+			});
+			
+			blankDragger.addDragListener((newX,newY) -> { 
+				int delta = newX - blankDragger.getGrabPointX();
+				int deltaFinal = delta;
+				if (blank.getWidth() + delta < minimumColumnWidth)
+					deltaFinal = minimumColumnWidth - blank.getWidth();
+				getWindowManager().notifyTableDesignModeUIsColResized(deltaFinal, 2, table);
+			});
+			
+			defDragger.addDragListener((newX,newY) -> { 
+				int delta = newX - defDragger.getGrabPointX();
+				int deltaFinal = delta;
+				if (def.getWidth() + delta < minimumColumnWidth)
+					deltaFinal = minimumColumnWidth - def.getWidth();
+				getWindowManager().notifyTableDesignModeUIsColResized(deltaFinal, 3, table);
+			});
+		}
+		this.addUIElement(legend);		
 		ListView list = loadColumnAttributes(table);
 		this.addUIElement(list);
-		
-		nameDragger.addDragListener((newX,newY) -> { 
-			int delta = newX - nameDragger.getGrabPointX();
-			int deltaFinal = delta;
-			if (name.getWidth() + delta < minimumColumnWidth){
-				deltaFinal = minimumColumnWidth - name.getWidth();
-			}
-			getWindowManager().notifyTableDesignModeUIsColResized(deltaFinal, 0, table);
-		});
-		
-		typeDragger.addDragListener((newX,newY) -> { 
-			int delta = newX - typeDragger.getGrabPointX();
-			int deltaFinal = delta;
-			if (type.getWidth() + delta < minimumColumnWidth)
-				deltaFinal = minimumColumnWidth - type.getWidth();
-			getWindowManager().notifyTableDesignModeUIsColResized(deltaFinal, 1, table);
-		});
-		
-		blankDragger.addDragListener((newX,newY) -> { 
-			int delta = newX - blankDragger.getGrabPointX();
-			int deltaFinal = delta;
-			if (blank.getWidth() + delta < minimumColumnWidth)
-				deltaFinal = minimumColumnWidth - blank.getWidth();
-			getWindowManager().notifyTableDesignModeUIsColResized(deltaFinal, 2, table);
-		});
-		
-		defDragger.addDragListener((newX,newY) -> { 
-			int delta = newX - defDragger.getGrabPointX();
-			int deltaFinal = delta;
-			if (def.getWidth() + delta < minimumColumnWidth)
-				deltaFinal = minimumColumnWidth - def.getWidth();
-			getWindowManager().notifyTableDesignModeUIsColResized(deltaFinal, 3, table);
-		});
-		
 	
 		//Reload listview when domain changed
 		tablr.addDomainChangedListener(() -> {
@@ -168,7 +147,7 @@ public class TableDesignModeUI extends UI {
 			
 	public UIRow getLegend(){
 		Optional<UIElement> r = getElements().stream().filter(e -> e instanceof UIRow).findFirst();
-		UIRow row = (UIRow) r.orElseThrow(() -> new RuntimeException("No UIRow in UI"));
+		UIRow row = (UIRow) r.orElse(null);
 		return row;
 	}
 	
@@ -185,14 +164,14 @@ public class TableDesignModeUI extends UI {
 	private ListView loadColumnAttributes(Table table) {
 		int currentHeight = getY() + edgeW+titleHeight+15;
 		
-		namePosX = getLegend().getElements().get(0).getX();
-		nameSizeX = getLegend().getElements().get(0).getWidth();
-		typePosX = getLegend().getElements().get(2).getX();
-		typeSizeX = getLegend().getElements().get(2).getWidth();
-		blankPosX = getLegend().getElements().get(4).getX();
-		blankSizeX = getLegend().getElements().get(4).getWidth();
-		defPosX = getLegend().getElements().get(6).getX();
-		defSizeX = getLegend().getElements().get(6).getWidth();
+		int namePosX = getLegend().getElements().get(0).getX();
+		int nameSizeX = getLegend().getElements().get(0).getWidth();
+		int typePosX = getLegend().getElements().get(2).getX();
+		int typeSizeX = getLegend().getElements().get(2).getWidth();
+		int blankPosX = getLegend().getElements().get(4).getX();
+		int blankSizeX = getLegend().getElements().get(4).getWidth();
+		int defPosX = getLegend().getElements().get(6).getX();
+		int defSizeX = getLegend().getElements().get(6).getWidth();
 				
 		ListView list = new ListView(getX()+edgeW, currentHeight, getWidth() - 2*edgeW,	getHeight()-2*edgeW-titleHeight-15,new ArrayList<UIElement>());
 		
@@ -345,7 +324,10 @@ public class TableDesignModeUI extends UI {
 	
 	@Override
 	public TableDesignModeUI clone(){
-		TableDesignModeUI clone = new TableDesignModeUI(getX(),getY(),getWidth(),getHeight(),getLegend(),getTablr());
+		TableDesignModeUI clone = new TableDesignModeUI(getX(),getY(),getWidth(),getHeight(),getTablr());
+		ArrayList<UIElement> clonedElements = new ArrayList<>(elements.stream().map(e -> e.clone()).collect(Collectors.toList()));
+		clone.elements = clonedElements;
+		DebugPrinter.print(clone.elements);
 		return clone;
 	}
 }

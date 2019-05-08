@@ -4,6 +4,7 @@ import java.awt.Color;
 import java.util.ArrayList;
 import java.util.Optional;
 import java.util.function.Supplier;
+import java.util.stream.Collectors;
 
 import Utils.BooleanCaster;
 import domain.Column;
@@ -57,10 +58,6 @@ public class FormsModeUI extends UI {
 		ListView list = getForm(table);
 		this.addUIElement(list);
 	
-		TextBox queryInput = new TextBox(list.getEndX()+10,legend.getY(),getEndX()-edgeW-10-list.getEndX()-5,list.getHeight()-30,"");
-		Button submit = new Button(queryInput.getEndX()-60,queryInput.getEndY()+5,60,20,"Submit");
-		this.addUIElement(queryInput);
-		this.addUIElement(submit);
 		
 		//Reload listview when domain is changed
 		tablr.addDomainChangedListener(() -> {
@@ -166,6 +163,8 @@ public class FormsModeUI extends UI {
 	@Override
 	public FormsModeUI clone() {
 		FormsModeUI clone = new FormsModeUI(getX(),getY(),getWidth(),getHeight(),getTablr());
+		ArrayList<UIElement> clonedElements = new ArrayList<>(elements.stream().map(e -> e.clone()).collect(Collectors.toList()));
+		clone.elements = clonedElements;
 		return clone;
 	}
 
