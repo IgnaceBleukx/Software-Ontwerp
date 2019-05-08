@@ -164,10 +164,11 @@ public class FormsModeUI extends UI {
 			emts.add(colLabel);
 			
 			if(getTablr().getColumnType(col).equals(Type.BOOLEAN)){
-				Checkbox booleanValue;
-				booleanValue = new Checkbox(colLabel.getEndX()+50-10,currentHeight+cellHeight/2-10,20,20, BooleanCaster.cast(tablr.getValueString(col,rowNumber)));
-
-				emts.add(new VoidElement(colLabel.getEndX(),currentHeight,100, cellHeight, Color.white));
+				
+				VoidElement v = new VoidElement(colLabel.getEndX(),currentHeight,legendElements.get(1).getWidth()+6, cellHeight, Color.white);
+				Checkbox booleanValue = new Checkbox((v.getX()+v.getWidth())/2-10,currentHeight+cellHeight/2-10,20,20, BooleanCaster.cast(tablr.getValueString(col,rowNumber)));
+				
+				emts.add(v);
 				emts.add(booleanValue);
 				
 				int index = rowNumber;
@@ -199,7 +200,7 @@ public class FormsModeUI extends UI {
 				});
 			}
 			
-			list.addElement(new UIRow(list.getX(),currentHeight,list.getWidth()-list.getScrollBarWidth(),cellHeight,emts));
+			list.addElement(new UIRow(list.getX(),currentHeight,getLegend().getWidth(),cellHeight,emts));
 			currentHeight += cellHeight;
 		}		
 		return list;
