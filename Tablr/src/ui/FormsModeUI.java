@@ -10,9 +10,11 @@ import domain.Column;
 import domain.Table;
 import domain.Type;
 import facades.Tablr;
+import uielements.Button;
 import uielements.Checkbox;
 import uielements.ListView;
 import uielements.Text;
+import uielements.TextBox;
 import uielements.TextField;
 import uielements.UIElement;
 import uielements.UIRow;
@@ -52,8 +54,14 @@ public class FormsModeUI extends UI {
 			this.reloadListView(table);
 		});
 		
-		this.addUIElement(getForm(table));
+		ListView list = getForm(table);
+		this.addUIElement(list);
 	
+		TextBox queryInput = new TextBox(list.getEndX()+10,legend.getY(),getEndX()-edgeW-10-list.getEndX()-5,list.getHeight()-30,"");
+		Button submit = new Button(queryInput.getEndX()-60,queryInput.getEndY()+5,60,20,"Submit");
+		this.addUIElement(queryInput);
+		this.addUIElement(submit);
+		
 		//Reload listview when domain is changed
 		tablr.addDomainChangedListener(() -> {
 			//Remove the old listview
