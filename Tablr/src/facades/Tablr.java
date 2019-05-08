@@ -453,6 +453,7 @@ public class Tablr {
 
 	public void undo() {
 		domainFacade.undo();
+		domainChanged();
 	}
 	
 	/**

@@ -3,6 +3,7 @@ package facades;
 import java.awt.event.KeyEvent;
 import java.util.ArrayList;
 
+import Utils.DebugPrinter;
 import domain.Column;
 import domain.Table;
 import domain.Type;
@@ -53,24 +54,19 @@ public class DomainFacade {
 	 * Adds an empty table to the list of tables
 	 */
 	public Table addEmptyTable() {
-		System.out.println("[DomainFacade 56] ");
-		System.out.println(undoStack);
 		String name = nextName();
-		Table t = new Table(name);
-		addTable(t);
-		undoStack.add(new Command() {
-			private Table table = t;
+		Table table = new Table(name);
+		
+		execute(new Command() {			
+			public void execute() { 		
+					addTable(table);
+					DebugPrinter.print(table); 
+				}
 
-			public void execute() {addEmptyTable();}
-
-			public void undo() {
-				removeTable(table);
-			}
+			public void undo() { removeTable(table); }
 			
 		});
-		System.out.println("[DomainFacade 67] ");
-		System.out.println(undoStack);
-		return t;
+		return table;
 	}
 	
 	/**
@@ -343,9 +339,11 @@ public class DomainFacade {
 	int nbCommandsUndone = 0;
 	
 	void undo() {
-		if(undoStack.size() > nbCommandsUndone)
+		DebugPrinter.print(undoStack);
+		DebugPrinter.print(nbCommandsUndone);
+		if(undoStack.size() > nbCommandsUndone) {
 			undoStack.get(undoStack.size() - ++nbCommandsUndone).undo();
-		System.out.println(undoStack);
+		}
 	}
 	
 	void redo(){
