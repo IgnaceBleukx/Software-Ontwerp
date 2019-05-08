@@ -13,6 +13,7 @@ import domain.Type;
 import facades.Tablr;
 import uielements.Button;
 import uielements.Checkbox;
+import uielements.Dragger;
 import uielements.ListView;
 import uielements.Text;
 import uielements.TextBox;
@@ -27,37 +28,66 @@ public class FormsModeUI extends UI {
 		super(x, y, width, height);
 		this.setTablr(tablr);
 		
+		this.columnResizeListeners.add((delta,index) -> {
+			getLegend().resizeElementR(delta, index*2);
+			getListView().getElements().stream().filter(e -> e instanceof UIRow).forEach(r -> ((UIRow) r).resizeElementR(delta, index));
+		});
 	}
 		
 	public void loadUI(Table table) {
 		setActive();
+		UIRow legend = getLegend();
 		this.clear();
 		loadUIAttributes();
 		
-		titleBar.setText("Forms mode: "+table.getName());
+		titleBar.setText("Forms Mode: " + table.getName() + " - Row " + rowNumber);
 		int currentHeight = getY()+titleHeight+edgeW;
 		
-		//Adding legend to UI:
-		UIRow legend = new UIRow(getX()+edgeW,titleBar.getEndY(),180,15,new ArrayList<UIElement>());
-		Text colNameText = new Text(legend.getX(),legend.getY(),80,15,"ColName");
-		Text valueText = new Text(legend.getX()+80,legend.getY(),100,15,"Value of row "+rowNumber);
-		legend.addElement(colNameText);
-		legend.addElement(valueText);
-		
+		if (legend == null) {
+			//Adding legend to UI:
+			legend = new UIRow(getX()+edgeW,titleBar.getEndY(),180,15,new ArrayList<UIElement>());
+			Text colNameText = new Text(legend.getX(),legend.getY(),80,15,"ColName");
+			Text valueText = new Text(legend.getX()+80,legend.getY(),100,15,"Value of row");
+					
+			Dragger nameDragger = new Dragger(colNameText.getEndX()-2,colNameText.getY(),4,15);
+			Dragger valueDragger = new Dragger(valueText.getEndX()-2,valueText.getY(),4,15);
+			
+			legend.addElement(nameDragger);
+			legend.addElement(valueDragger);
+			legend.addElement(colNameText);
+			legend.addElement(valueText);
+			
+			nameDragger.addDragListener((newX,newY) -> {
+				int delta = newX - nameDragger.getGrabPointX();
+				int deltaFinal = delta;
+				if (colNameText.getWidth() + delta < minimumColumnWidth)
+					deltaFinal = minimumColumnWidth - colNameText.getWidth();
+				getWindowManager().notifyFormsModeUIsColResized(deltaFinal,0,table);
+			});
+			valueDragger.addDragListener((newX,newY) -> {
+				int delta = newX - valueDragger.getGrabPointX();
+				int deltaFinal = delta;
+				if (valueText.getWidth() + delta < minimumColumnWidth)
+					deltaFinal = minimumColumnWidth - valueText.getWidth();
+				getWindowManager().notifyFormsModeUIsColResized(deltaFinal,0,table);
+			});
+			
+			
+			legend.addKeyboardListener(33, () ->{
+				rowNumber++;
+				titleBar.setText("Forms Mode: " + table.getName() + " - Row " + rowNumber);
+				this.reloadListView(table);
+			});
+			legend.addKeyboardListener(34, ()  -> {
+				rowNumber--;
+				titleBar.setText("Forms Mode: " + table.getName() + " - Row " + rowNumber);
+				this.reloadListView(table);
+			});
+		}
 		this.addUIElement(legend);
-		
-		legend.addKeyboardListener(33, () ->{
-			increaseRowN();
-			this.reloadListView(table);
-		});
-		legend.addKeyboardListener(34, ()  -> {
-			decreaseRowN();
-			this.reloadListView(table);
-		});
 		
 		ListView list = getForm(table);
 		this.addUIElement(list);
-	
 		
 		//Reload listview when domain is changed
 		tablr.addDomainChangedListener(() -> {
@@ -79,21 +109,11 @@ public class FormsModeUI extends UI {
 		Optional<UIElement> list = this.getElements().stream().filter(e -> e instanceof ListView).findFirst();
 		this.elements.remove(list.orElseThrow(() -> new RuntimeException()));
 		this.addUIElement(getForm(table));
-		((Text) getLegend().getElements().get(1)).setText("Value of row "+rowNumber);
 	}
 	
-	private void increaseRowN() {
-		rowNumber++;
-		((Text) getLegend().getElements().get(1)).setText("Value of row "+rowNumber);
+	private ListView getListView() {
+		return (ListView) elements.stream().filter(e -> e instanceof ListView).findFirst().orElse(null);
 	}
-	private void decreaseRowN() {
-		if (rowNumber == 0) 
-			return;
-		rowNumber--;
-		((Text) getLegend().getElements().get(1)).setText("Value of row "+rowNumber);
-
-	}
-	
 	private int rowNumber;
 	private int cellHeight = 35;
 	

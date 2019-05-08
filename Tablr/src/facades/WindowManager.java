@@ -225,7 +225,9 @@ public class WindowManager {
 	}
 	public void notifyTableRowsModeUIsColResized(int delta, int index, Table table) {
 		getTableRowsUIs(table).forEach(u -> u.columnChanged(delta, index));
-
+	}
+	public void notifyFormsModeUIsColResized(int delta, int index,Table table) {
+		getFormsModeUIs(table).forEach(u -> u.columnChanged(delta, index));	
 	}
 	
 	/**
@@ -301,7 +303,6 @@ public class WindowManager {
 	
 	public ArrayList<FormsModeUI> getFormsModeUIs(Table table){
 		return new ArrayList<FormsModeUI>(uis.get(table).stream().filter(ui -> ui instanceof FormsModeUI).map(ui -> (FormsModeUI) ui).collect(Collectors.toList()));
-		
 	}
 
 	public UI getSelectedUI() {
@@ -382,6 +383,8 @@ public class WindowManager {
 	public void zIsPressed(char z) {
 		keyListener.handleKeyboardEvent(KeyEvent.getExtendedKeyCodeForChar(z), z);
 	}
+
+	
 }
 
 
