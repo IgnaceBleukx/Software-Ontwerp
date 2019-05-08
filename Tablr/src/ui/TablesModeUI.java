@@ -45,17 +45,6 @@ public class TablesModeUI extends UI {
 		});
 	}
 	
-	public TablesModeUI(int x, int y, int w, int h, UIRow legend, Tablr t) {
-		super(x,y,w,h);
-		this.setTablr(t);
-		legendWidth = legend.getWidth();
-		
-		columnResizeListeners.add((delta,index) -> {
-			getLegend().resizeElementR(delta, index);
-			getListview().getElements().stream().filter(e -> e instanceof UIRow).forEach(e -> ((UIRow) e).resizeElementR(delta,index+1));
-		});
-	}
-	
 	/**
 	 * Height of rows in the list of tables
 	 */
@@ -74,6 +63,7 @@ public class TablesModeUI extends UI {
 	 */
 	public void loadUI(){
 		setActive();
+		UIRow legend = getLegend();
 		this.clear();		
 		
 		//Creating background:
@@ -83,13 +73,12 @@ public class TablesModeUI extends UI {
 		titleBar.setText("Tables mode");
 		loadUIAttributes();
 
-		if (getLegend() == null) {
-			UIRow legend = new UIRow(getX()+edgeW,getY()+edgeW+titleHeight,legendWidth,15,new ArrayList<UIElement>());
+		if (legend == null) {
+			legend = new UIRow(getX()+edgeW,getY()+edgeW+titleHeight,legendWidth,15,new ArrayList<UIElement>());
 			Dragger tableNameDragger = new Dragger(legend.getEndX()-2,legend.getY(),4,legend.getHeight());
 			Text tableName = new Text(legend.getX()+tableRowHeight,legend.getY(),legend.getWidth()-2-tableRowHeight,legend.getHeight(),"Table name");
 			legend.addElement(tableNameDragger);
 			legend.addElement(tableName);
-			this.addUIElement(legend);
 			
 		
 		tableNameDragger.addDragListener((newX,newY) -> {
@@ -100,6 +89,7 @@ public class TablesModeUI extends UI {
 			getWindowManager().notifyTablesModeUIsColResized(deltaFinal,0);
 		});
 		}
+		this.addUIElement(legend);
 		
 		ListView list = loadFromTables();
 		addUIElement(list);
@@ -246,7 +236,9 @@ public class TablesModeUI extends UI {
 	
 	@Override
 	public TablesModeUI clone(){
-		TablesModeUI clone = new TablesModeUI(getX(),getY(),getWidth(),getHeight(), getLegend(), getTablr());
+		TablesModeUI clone = new TablesModeUI(getX(),getY(),getWidth(),getHeight(), getTablr());
+		ArrayList<UIElement> clonedElements = new ArrayList<>(elements.stream().map(e -> e.clone()).collect(Collectors.toList()));
+		clone.elements = clonedElements;
 		return clone;
 	}
 
