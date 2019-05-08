@@ -69,6 +69,26 @@ public class TableRowsModeUI extends UI {
 		if (legend == null)
 			legend = loadLegend(table,cellWidth);
 		
+		ArrayList<UIElement> legendElementsCopy = legend.getElements();
+		legendElementsCopy.sort((UIElement e1, UIElement e2) -> e1.getX()-e2.getX());
+		for(Dragger drag: legendElementsCopy.stream().filter(e -> e instanceof Dragger).map(e -> (Dragger) e).collect(Collectors.toList())) {
+			Text el = (Text) legendElementsCopy.get(legendElementsCopy.indexOf(drag)-1);
+			drag.addDragListener((newX,newY) ->{
+				int delta = newX - drag.getGrabPointX();
+				int deltaFinal = delta;
+				if (el.getWidth() + delta < minimumColumnWidth)
+					deltaFinal = minimumColumnWidth - el.getWidth();
+				UITable uitable = null;
+				for (UIElement e : elements){
+					if (e instanceof UITable) uitable = (UITable)e;				
+				}
+				UIRow uiLegend = uitable.getLegend();
+				uiLegend.getElements().sort((UIElement e1,UIElement e2) -> e1.getX() - e2.getX());
+				ArrayList<String> legendNames = new ArrayList<String>(uiLegend.getElements().stream().filter(e -> !(e instanceof Dragger)).map(e -> ((Text) e).getText()).collect(Collectors.toList()));
+				int indexCurrent = legendNames.indexOf(el.getText());
+				getWindowManager().notifyTableRowsModeUIsColResized(deltaFinal, indexCurrent, table);
+			});
+		}
 		UITable uiTable = loadTable(table,legend);
 		this.addUIElement(uiTable);
 		
@@ -147,21 +167,6 @@ public class TableRowsModeUI extends UI {
 			
 			Text el = new Text(legend.getX()+textX,titleBar.getEndY(), cellWidth.get(a), 20, name);
 			Dragger drag = new Dragger(el.getEndX()-2,el.getY(),4,20);
-			drag.addDragListener((newX,newY) ->{
-				int delta = newX - drag.getGrabPointX();
-				int deltaFinal = delta;
-				if (el.getWidth() + delta < minimumColumnWidth)
-					deltaFinal = minimumColumnWidth - el.getWidth();
-				UITable uitable = null;
-				for (UIElement e : elements){
-					if (e instanceof UITable) uitable = (UITable)e;				
-				}
-				UIRow uiLegend = uitable.getLegend();
-				uiLegend.getElements().sort((UIElement e1,UIElement e2) -> e1.getX() - e2.getX());
-				ArrayList<String> legendNames = new ArrayList<String>(uiLegend.getElements().stream().filter(e -> !(e instanceof Dragger)).map(e -> ((Text) e).getText()).collect(Collectors.toList()));
-				int indexCurrent = legendNames.indexOf(el.getText());
-				getWindowManager().notifyTableRowsModeUIsColResized(deltaFinal, indexCurrent, table);
-			});
 			legend.addElement(el);
 			legend.addElement(drag);
 			a++;
