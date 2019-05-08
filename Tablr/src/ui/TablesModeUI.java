@@ -126,8 +126,9 @@ public class TablesModeUI extends UI {
 
 		ArrayList<Table> tables = this.getTablr().getTables();
 		
-		list.addKeyboardListener(112, () -> {
-			DebugPrinter.print(list.getElements());
+		list.addKeyboardListener(70, () -> {
+			if (!getWindowManager().recentCtrl())
+				return;
 			ArrayList<UIRow> r = new ArrayList<UIRow>(list.getElements().stream().filter(e -> e instanceof UIRow).map(e -> (UIRow) e).collect(Collectors.toList()));
 			for (int i=0;i<tables.size();i++) {
 				if(r.get(i).isSelected()) {
