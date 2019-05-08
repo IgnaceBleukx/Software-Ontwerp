@@ -55,20 +55,18 @@ public class DomainFacade {
 	 */
 	public Table addEmptyTable() {
 		String name = nextName();
-		Table t = new Table(name);
-		addTable(t);
-		DebugPrinter.print(t);
-		undoStack.add(new Command() {
-			private Table table = t;
+		Table table = new Table(name);
+		
+		execute(new Command() {			
+			public void execute() { 		
+					addTable(table);
+					DebugPrinter.print(table); 
+				}
 
-			public void execute() { addEmptyTable(); }
-
-			public void undo() { removeTable(table); DebugPrinter.print(undoStack); }
+			public void undo() { removeTable(table); }
 			
 		});
-//		System.out.println("[DomainFacade 67] ");
-//		System.out.println(undoStack);
-		return t;
+		return table;
 	}
 	
 	/**
@@ -76,10 +74,7 @@ public class DomainFacade {
 	 * @param table		Table to remove
 	 */
 	public void removeTable(Table table) {
-		DebugPrinter.print(table);
-		DebugPrinter.print(getTables());
 		this.tables.remove(table);
-		DebugPrinter.print(getTables());
 	}
 	
 	/**
@@ -336,7 +331,6 @@ public class DomainFacade {
 
 	
 	public interface Command {
-		Table table = null;
 		void execute();
 		void undo();
 	}
@@ -348,11 +342,8 @@ public class DomainFacade {
 		DebugPrinter.print(undoStack);
 		DebugPrinter.print(nbCommandsUndone);
 		if(undoStack.size() > nbCommandsUndone) {
-			DebugPrinter.print(undoStack.get(undoStack.size() - ++nbCommandsUndone));
 			undoStack.get(undoStack.size() - ++nbCommandsUndone).undo();
 		}
-		System.out.println(undoStack);
-		System.out.println(nbCommandsUndone);
 	}
 	
 	void redo(){
@@ -361,8 +352,8 @@ public class DomainFacade {
 	}
 
 	void execute(Command command){
-//		for(; nbCommandsUndone > 0; nbCommandsUndone--)
-//			undoStack.remove(undoStack.size() - 1);
+		for(; nbCommandsUndone > 0; nbCommandsUndone--)
+			undoStack.remove(undoStack.size() - 1);
 		undoStack.add(command);
 		command.execute();
 	}
