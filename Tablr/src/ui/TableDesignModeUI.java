@@ -88,41 +88,53 @@ public class TableDesignModeUI extends UI {
 				}}
 			));
 			legend.setWidth(legend.getElements().stream().filter(e -> !(e instanceof Dragger)).mapToInt(e ->e.getWidth()).sum()+2);
-			
-			nameDragger.addDragListener((newX,newY) -> { 
-				int delta = newX - nameDragger.getGrabPointX();
-				int deltaFinal = delta;
-				if (name.getWidth() + delta < minimumColumnWidth){
-					deltaFinal = minimumColumnWidth - name.getWidth();
-				}
-				getWindowManager().notifyTableDesignModeUIsColResized(deltaFinal, 0, table);
-			});
-			
-			typeDragger.addDragListener((newX,newY) -> { 
-				int delta = newX - typeDragger.getGrabPointX();
-				int deltaFinal = delta;
-				if (type.getWidth() + delta < minimumColumnWidth)
-					deltaFinal = minimumColumnWidth - type.getWidth();
-				getWindowManager().notifyTableDesignModeUIsColResized(deltaFinal, 1, table);
-			});
-			
-			blankDragger.addDragListener((newX,newY) -> { 
-				int delta = newX - blankDragger.getGrabPointX();
-				int deltaFinal = delta;
-				if (blank.getWidth() + delta < minimumColumnWidth)
-					deltaFinal = minimumColumnWidth - blank.getWidth();
-				getWindowManager().notifyTableDesignModeUIsColResized(deltaFinal, 2, table);
-			});
-			
-			defDragger.addDragListener((newX,newY) -> { 
-				int delta = newX - defDragger.getGrabPointX();
-				int deltaFinal = delta;
-				if (def.getWidth() + delta < minimumColumnWidth)
-					deltaFinal = minimumColumnWidth - def.getWidth();
-				getWindowManager().notifyTableDesignModeUIsColResized(deltaFinal, 3, table);
-			});
 		}
+		
 		this.addUIElement(legend);		
+		ArrayList<UIElement> legendElementsCopy = legend.getElements();
+		legendElementsCopy.sort((UIElement e1,UIElement e2) -> e1.getX() - e2.getX());
+		Text name = (Text) legendElementsCopy.get(0);
+		Dragger nameDragger = (Dragger) legendElementsCopy.get(1);
+		Text type = (Text) legendElementsCopy.get(2);
+		Dragger typeDragger = (Dragger) legendElementsCopy.get(3);
+		Text blank = (Text) legendElementsCopy.get(4);
+		Dragger blankDragger = (Dragger) legendElementsCopy.get(5);
+		Text def = (Text) legendElementsCopy.get(6);
+		Dragger defDragger = (Dragger) legendElementsCopy.get(7);
+	
+		nameDragger.addDragListener((newX,newY) -> { 
+			int delta = newX - nameDragger.getGrabPointX();
+			int deltaFinal = delta;
+			if (name.getWidth() + delta < minimumColumnWidth){
+				deltaFinal = minimumColumnWidth - name.getWidth();
+			}
+			getWindowManager().notifyTableDesignModeUIsColResized(deltaFinal, 0, table);
+		});
+		
+		typeDragger.addDragListener((newX,newY) -> { 
+			int delta = newX - typeDragger.getGrabPointX();
+			int deltaFinal = delta;
+			if (type.getWidth() + delta < minimumColumnWidth)
+				deltaFinal = minimumColumnWidth - type.getWidth();
+			getWindowManager().notifyTableDesignModeUIsColResized(deltaFinal, 1, table);
+		});
+		
+		blankDragger.addDragListener((newX,newY) -> { 
+			int delta = newX - blankDragger.getGrabPointX();
+			int deltaFinal = delta;
+			if (blank.getWidth() + delta < minimumColumnWidth)
+				deltaFinal = minimumColumnWidth - blank.getWidth();
+			getWindowManager().notifyTableDesignModeUIsColResized(deltaFinal, 2, table);
+		});
+		
+		defDragger.addDragListener((newX,newY) -> { 
+			int delta = newX - defDragger.getGrabPointX();
+			int deltaFinal = delta;
+			if (def.getWidth() + delta < minimumColumnWidth)
+				deltaFinal = minimumColumnWidth - def.getWidth();
+			getWindowManager().notifyTableDesignModeUIsColResized(deltaFinal, 3, table);
+		});
+		
 		ListView list = loadColumnAttributes(table);
 		this.addUIElement(list);
 	
