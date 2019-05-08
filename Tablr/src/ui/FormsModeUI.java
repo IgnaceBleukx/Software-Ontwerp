@@ -2,11 +2,13 @@ package ui;
 
 import java.awt.Color;
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
 import java.util.function.Supplier;
 import java.util.stream.Collectors;
 
 import Utils.BooleanCaster;
+import Utils.DebugPrinter;
 import domain.Column;
 import domain.Table;
 import domain.Type;
@@ -41,38 +43,21 @@ public class FormsModeUI extends UI {
 		loadUIAttributes();
 		
 		titleBar.setText("Forms Mode: " + table.getName() + " - Row " + rowNumber);
-		int currentHeight = getY()+titleHeight+edgeW;
 		
 		if (legend == null) {
 			//Adding legend to UI:
-			legend = new UIRow(getX()+edgeW,titleBar.getEndY(),180,15,new ArrayList<UIElement>());
-			Text colNameText = new Text(legend.getX(),legend.getY(),80,15,"ColName");
-			Text valueText = new Text(legend.getX()+80,legend.getY(),100,15,"Value of row");
+			legend = new UIRow(getX()+edgeW,titleBar.getEndY(),getWidth()-2*edgeW-10,15,new ArrayList<UIElement>());
+			Text colNameText = new Text(legend.getX(),legend.getY(),78,15,"ColName");
+			Text valueText = new Text(colNameText.getEndX()+4,legend.getY(),legend.getWidth()-colNameText.getWidth()-8,15,"Value of row");
 					
-			Dragger nameDragger = new Dragger(colNameText.getEndX()-2,colNameText.getY(),4,15);
-			Dragger valueDragger = new Dragger(valueText.getEndX()-2,valueText.getY(),4,15);
+			Dragger nameDragger = new Dragger(colNameText.getEndX(),colNameText.getY(),4,15);
+			Dragger valueDragger = new Dragger(valueText.getEndX(),valueText.getY(),4,15);
 			
 			legend.addElement(nameDragger);
 			legend.addElement(valueDragger);
 			legend.addElement(colNameText);
 			legend.addElement(valueText);
-			
-			nameDragger.addDragListener((newX,newY) -> {
-				int delta = newX - nameDragger.getGrabPointX();
-				int deltaFinal = delta;
-				if (colNameText.getWidth() + delta < minimumColumnWidth)
-					deltaFinal = minimumColumnWidth - colNameText.getWidth();
-				getWindowManager().notifyFormsModeUIsColResized(deltaFinal,0,table);
-			});
-			valueDragger.addDragListener((newX,newY) -> {
-				int delta = newX - valueDragger.getGrabPointX();
-				int deltaFinal = delta;
-				if (valueText.getWidth() + delta < minimumColumnWidth)
-					deltaFinal = minimumColumnWidth - valueText.getWidth();
-				getWindowManager().notifyFormsModeUIsColResized(deltaFinal,0,table);
-			});
-			
-			
+				
 			legend.addKeyboardListener(33, () ->{
 				rowNumber++;
 				titleBar.setText("Forms Mode: " + table.getName() + " - Row " + rowNumber);
@@ -84,10 +69,34 @@ public class FormsModeUI extends UI {
 				this.reloadListView(table);
 			});
 		}
+		
 		this.addUIElement(legend);
+		ArrayList<UIElement> legendElementsCopy = legend.getElements();
+		legendElementsCopy.sort((UIElement e1,UIElement e2) -> e1.getX() - e2.getX());
+		DebugPrinter.print(legendElementsCopy);
+		Dragger nameDragger = (Dragger) legendElementsCopy.get(1);
+		Text colNameText = (Text) legendElementsCopy.get(0);
+		nameDragger.addDragListener((newX,newY) -> {
+			int delta = newX - nameDragger.getGrabPointX();
+			int deltaFinal = delta;
+			if (colNameText.getWidth() + delta < minimumColumnWidth)
+				deltaFinal = minimumColumnWidth - colNameText.getWidth();
+			getWindowManager().notifyFormsModeUIsColResized(deltaFinal,0,table);
+		});
+		Dragger valueDragger = (Dragger) legendElementsCopy.get(3);
+		Text valueText = (Text) legendElementsCopy.get(2);
+		valueDragger.addDragListener((newX,newY) -> {
+			int delta = newX - valueDragger.getGrabPointX();
+			int deltaFinal = delta;
+			if (valueText.getWidth() + delta < minimumColumnWidth)
+				deltaFinal = minimumColumnWidth - valueText.getWidth();
+			getWindowManager().notifyFormsModeUIsColResized(deltaFinal,1,table);
+		});
+		
 		
 		ListView list = getForm(table);
 		this.addUIElement(list);
+		legend.setWidth(list.getWidth()-list.getScrollBarWidth());
 		
 		//Reload listview when domain is changed
 		tablr.addDomainChangedListener(() -> {
@@ -118,24 +127,25 @@ public class FormsModeUI extends UI {
 	private int cellHeight = 35;
 	
 	private ListView getForm(Table table) {
-		ListView list = new ListView(getX()+edgeW,getLegend().getEndY(), 180,getEndY()-edgeW-getLegend().getEndY(),new ArrayList<UIElement>());
+		ListView list = new ListView(getX()+edgeW,getLegend().getEndY(), getWidth()-2*edgeW,getEndY()-edgeW-getLegend().getEndY(),new ArrayList<UIElement>());
 			
 		int currentHeight = list.getY();
 		if (tablr.getColumns(table).isEmpty()) {
 			list.addElement(new Text(list.getX(),list.getY(),list.getWidth(),list.getHeight(),"Index out of bounds"));
 			return list;
 		}
+		ArrayList<UIElement> legendElements = new ArrayList<>(getLegend().getElements().stream().filter(e -> !(e instanceof Dragger)).collect(Collectors.toList()));
 		for(Column col : getTablr().getColumns(table)){
 			ArrayList<UIElement> emts = new ArrayList<UIElement>();
 			String val;
 			try{
 				val = getTablr().getValueString(col,rowNumber);
 			} catch (IndexOutOfBoundsException e) {
-				list.addElement(new Text(list.getX(),list.getY(),list.getWidth(),list.getHeight(),"Index out of bounds"));
+				list.addElement(new Text(list.getX(),list.getY(),list.getWidth()-list.getScrollBarWidth(),list.getHeight()-list.getScrollBarWidth(),"Index out of bounds"));
 				return list;
 			}
 			//Creating columnLabel
-			Text colLabel = new Text(getX()+edgeW,currentHeight,80,cellHeight,tablr.getColumnName(col));			
+			Text colLabel = new Text(legendElements.get(0).getX(),currentHeight,legendElements.get(0).getWidth()+2,cellHeight,tablr.getColumnName(col));			
 			emts.add(colLabel);
 			
 			if(getTablr().getColumnType(col).equals(Type.BOOLEAN)){
@@ -151,7 +161,7 @@ public class FormsModeUI extends UI {
 				);
 			}
 			else{				
-				TextField field =  new TextField(colLabel.getEndX(),currentHeight,100, cellHeight,val);
+				TextField field =  new TextField(colLabel.getEndX(),currentHeight,legendElements.get(1).getWidth()+6, cellHeight,val);
 				emts.add(field);
 				int index = rowNumber;
 				field.addKeyboardListener(-1, () -> {
