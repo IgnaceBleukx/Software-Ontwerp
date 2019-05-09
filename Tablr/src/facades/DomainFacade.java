@@ -290,8 +290,11 @@ public class DomainFacade {
 	 * @throws ClassCastException	The new value is not valid for the column's type
 	 */
 	public void changeCellValue(Column col, int i, String string) throws ClassCastException {
-		col.changeCellValue(i,string);
-		
+		execute(new Command() {
+			String prevValue;
+			public void execute() { col.changeCellValue(i,string); prevValue = (String) col.getCell(i).getValue(); }
+			public void undo() { col.changeCellValue(i, prevValue); }
+		});
 	}
 	
 	/**
@@ -301,7 +304,20 @@ public class DomainFacade {
 	 */
 	public void toggleColumnType(Column col) throws InvalidTypeException {
 		col.setNextType();
-		
+		execute(new Command() {
+			public void execute() { 
+				try {
+					col.setNextType();
+				} catch (InvalidTypeException e) {
+					DebugPrinter.print(e);
+				} }
+			public void undo() { 
+				try {
+					col.setPreviousType();
+				} catch (InvalidTypeException e) {
+					DebugPrinter.print(e);
+				}  }
+		});
 	}
 	
 	/**
