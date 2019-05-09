@@ -48,7 +48,7 @@ public class QueryTextField extends TextField {
 		int[] i = GeometricUtils.intersection(getX(), getY(), getWidth(), getHeight(), oldClip.getBounds().x, 
 												oldClip.getBounds().y, oldClip.getBounds().width, oldClip.getBounds().height);
 		
-		ArrayList<String> sqlSyntax = new ArrayList<String>(Arrays.asList("FROM","SELECT","JOIN","WHERE","AS"));
+		ArrayList<String> sqlSyntax = new ArrayList<String>(Arrays.asList("FROM","SELECT","JOIN","WHERE","AS","AND","OR","INNER","ON"));
 		String[] words = getText().split(" ");
 		int x = getX()+10;
 		g.setClip(new Rectangle(i[0],i[1],i[2],i[3]));
@@ -63,13 +63,7 @@ public class QueryTextField extends TextField {
 		if(isSelected())
 			g.drawString("<", x, y);
 		g.setClip(oldClip);
-		
-		
-//		if (!this.isSelected())
-//			g.drawString(this.getText(), super.getX()+10, y);
-//		else
-//			g.drawString(this.getText() + "<", super.getX()+10, y);
-		
+
 	}
 		
 
