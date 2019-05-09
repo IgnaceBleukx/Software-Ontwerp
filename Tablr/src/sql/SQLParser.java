@@ -225,11 +225,7 @@ public class SQLParser extends StreamTokenizer {
 		expect(TT_WHERE);
 		String cond = parseExpr();
 		result.append(" WHERE " + cond);
-		return result.toString();
-	}
-	
-	public static void main(String[] args) {
-		
+		return q;
 	}
 	
 }
