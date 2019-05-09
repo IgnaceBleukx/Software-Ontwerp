@@ -14,16 +14,8 @@ public abstract class Table {
 	 */
 	public Table(String name) {
 		setName(name);
-		setQuery("");
 	}
 	
-	/**
-	 * Creates a new empty computated Table
-	 */
-	public Table(String name, String query) {
-		setName(name);
-		setQuery(query);
-	}
 	
 	/**
 	 * The table's name
@@ -55,23 +47,6 @@ public abstract class Table {
 	public abstract String getQueryString();
 	
 
-	private String query;
-	
-	/**
-	 * This method sets the query of the current Table.
-	 * @param query 	The Query of the table.
-	 */
-	public void setQuery(String query) {
-		this.query = query;
-	}
-	
-	/**
-	 * This method returns the query of the current Table.
-	 * @return
-	 */
-	public String getQuery() {
-		return this.query;
-	}
 
 	
 	/**
