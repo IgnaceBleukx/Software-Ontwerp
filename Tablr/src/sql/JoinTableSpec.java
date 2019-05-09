@@ -3,6 +3,7 @@ package sql;
 import java.util.ArrayList;
 import java.util.HashMap;
 
+import Utils.DebugPrinter;
 import domain.Cell;
 import domain.Column;
 import domain.StoredTable;
@@ -73,12 +74,14 @@ public class JoinTableSpec extends TableSpec {
 	public Table resolve(ArrayList<Table> tables) throws InvalidQueryException {
 		Table left = leftTable.resolve(tables);
 		Table right = rightTable.resolve(tables);
+
 		
 		String columnNameLeft = leftCell.getcolumnName();
 		String columnNameRight = rightCell.getcolumnName();
 		
 		ArrayList<Column> columnsLeft = left.getColumns();
 		ArrayList<Column> columnsRight = right.getColumns();
+
 		
 		Column leftColumn = columnsLeft.
 							stream().
@@ -91,22 +94,32 @@ public class JoinTableSpec extends TableSpec {
 				filter(c -> c.getName().equals(columnNameRight)).
 				findFirst().
 				orElseThrow(() -> new InvalidQueryException("Unable to find column "+columnNameRight+" in JOIN clause"));
+
 		
 		ArrayList<RowPair> matches = new ArrayList<>();
 		
 		//Find rows that match, save as tuples (i1, i2)
-		for (int i=0; i< leftColumn.getCells().size();i++) {
-			for (int j=0; i<rightColumn.getCells().size();i++) {
-				if (leftColumn.getCells().get(i).getValue().equals(rightColumn.getCells().get(j))){
+		for (int i=0; i<leftColumn.getCells().size();i++) {
+			for (int j=0; j<rightColumn.getCells().size();j++) {
+				if (leftColumn.getCells().get(i).getValue().equals(rightColumn.getCells().get(j).getValue())){
 					matches.add(new RowPair(i,j));
+				}
+				else {
+					DebugPrinter.print("No match: "+leftColumn.getCells().get(i).getValue()+" and "+rightColumn.getCells().get(j).getValue());
 				}
 			}
 		}
+		DebugPrinter.print(matches);
 		
 		ArrayList<Column> newColumns = new ArrayList<Column>();
-			columnsLeft.stream()
-					   .forEach((c) -> createDuplicateColumn(c, newColumns));
-
+		columnsLeft.stream()
+				   .forEach((c) -> createDuplicateColumn(c, newColumns));
+		columnsRight.stream()
+					.filter((c)->!c.getName().equals(columnNameRight))
+					.forEach((c) -> createDuplicateColumn(c,newColumns));
+		
+		StoredTable t = new StoredTable("t");
+		t.addAllColumns(newColumns);
 		
 		//Build new table from the list of matches (i1,i2)
 		for (RowPair p : matches) {
@@ -114,9 +127,10 @@ public class JoinTableSpec extends TableSpec {
 			ArrayList<Cell> rightCells = right.getRowByIndex(p.getRightIndex(),columnNameRight);
 			ArrayList<Cell> newRow = new ArrayList<Cell>(leftCells);
 			newRow.addAll(rightCells);
+			t.addRow(newRow);
 		}
 		
-		return null;
+		return t;
 	}
 	
 	private void createDuplicateColumn(Column c, ArrayList<Column> list) {

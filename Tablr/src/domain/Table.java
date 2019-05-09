@@ -140,4 +140,21 @@ public abstract class Table {
 				.map((c)->c.getCell(i))
 				.collect(Collectors.toList()));
 	}
+	
+	/**
+	 * Prints the table in a somewhat readable form
+	 */
+	public void printTable() {
+		getColumnNames().stream().forEach(System.out::print);
+		System.out.println("");
+		
+		for (int i=0;i<getColumns().get(0).getCells().size();i++) {
+			for (int j=0;j<getColumns().size();j++) {
+				String val = getColumns().get(j).getCells().get(i).getValue().toString();
+				System.out.print(String.format("%4s", val));
+			}
+			System.out.println("");
+
+		}
+	}
 }

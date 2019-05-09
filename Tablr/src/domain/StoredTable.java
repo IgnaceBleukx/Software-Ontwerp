@@ -2,6 +2,8 @@ package domain;
 
 import java.util.ArrayList;
 
+import javax.management.RuntimeErrorException;
+
 import exceptions.InvalidNameException;
 import sql.Query;
 
@@ -77,6 +79,19 @@ public class StoredTable extends Table {
 	public void addRow(){
 		nbOfRows++;
 		columns.stream().forEach(col -> col.addBlankCell());
+	}
+	
+	/**
+	 * This method adds a row to the current Table.
+	 */
+	public void addRow(ArrayList<Cell> c){
+		if (c.size() != getColumns().size())
+			throw new RuntimeException();
+		
+		nbOfRows++;
+		for (int i=0;i<getColumns().size();i++) {
+			getColumns().get(i).addCell(c.get(i));
+		}
 	}
 	
 

@@ -114,7 +114,6 @@ public class Column {
 				throw new InvalidTypeException();
 			}
 		}
-		System.out.println("[Column.java:106]: Trying to set type "+ type + "while default value is: " + getDefault());
 		if (getDefault() != null && !type.isValidValue(getDefault().toString())){
 			throw new InvalidTypeException();
 		}else{
