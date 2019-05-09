@@ -157,7 +157,7 @@ public class DomainFacade {
 	}
 	
 	public String getTableQuery(Table table) {
-		return table.getQuery();
+		return table.getQueryString();
 	}
 	
 	/**
