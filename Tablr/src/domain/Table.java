@@ -46,7 +46,9 @@ public abstract class Table {
 	 */
 	public abstract String getQueryString();
 	
-
+	public void addAllColumns(ArrayList<Column> c) {
+		this.columns = new ArrayList<Column>(c);
+	}
 
 	
 	/**
@@ -119,5 +121,23 @@ public abstract class Table {
 	 */
 	public boolean isComputedTable() {
 		return (!isStoredTable());
+	}
+	
+	/**
+	 * Clones this table
+	 */
+	public StoredTable clone(String newName) {
+		StoredTable t = new StoredTable(newName);
+		t.addAllColumns(getColumns());
+		return t;
+	}
+	
+	public ArrayList<Cell> getRowByIndex(int i,String ignoreCol) {
+		return new ArrayList<Cell>(
+				getColumns()
+				.stream()
+				.filter((c)->!c.getName().equals(ignoreCol))
+				.map((c)->c.getCell(i))
+				.collect(Collectors.toList()));
 	}
 }
