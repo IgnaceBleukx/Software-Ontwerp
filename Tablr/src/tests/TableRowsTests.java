@@ -24,8 +24,8 @@ public class TableRowsTests {
 	public MyCanvasWindow prepareTable(){
 		// Step 1: Load the tables mode window
 		MyCanvasWindow myCW = new MyCanvasWindow("Table Rows Mode");
-		myCW.handleKeyEvent(1, 17, ' ');
-		myCW.handleKeyEvent(1, 84, ' ');
+		myCW.handleKeyEvent(1, 17, Character.MIN_VALUE);
+		myCW.handleKeyEvent(1, 84, Character.MIN_VALUE);
 
 		// Double click on listview to create a new table
 		myCW.handleMouseEvent(MouseEvent.MOUSE_CLICKED, 155, 152, 2);
@@ -100,8 +100,8 @@ public class TableRowsTests {
 		// Step 1: Load the window
 		MyCanvasWindow myCW = new MyCanvasWindow("Table Rows Mode");
 		Tablr tablr = myCW.getTablr();
-		myCW.handleKeyEvent(1, 17, ' ');
-		myCW.handleKeyEvent(1, 84, ' ');
+		myCW.handleKeyEvent(1, 17, Character.MIN_VALUE);
+		myCW.handleKeyEvent(1, 84, Character.MIN_VALUE);
 
 		// Double click on listview to create a new table
 		myCW.handleMouseEvent(MouseEvent.MOUSE_CLICKED, 155, 152, 2);
@@ -207,11 +207,11 @@ public class TableRowsTests {
 		assertTrue(textField.isSelected());
 		// Remove the default string
 		for(int i=0;i<d1.length();i++){
-			myCW.handleKeyEvent(0, 8, ' ');
+			myCW.handleKeyEvent(0, 8, Character.MIN_VALUE);
 		}
 		// No error when the field is blank
 		assertEquals(false, textField.getError());
-		myCW.handleKeyEvent(0,10, ' ');
+		myCW.handleKeyEvent(0,10, Character.MIN_VALUE);
 		
 		//Column 1
 		myCW.handleMouseEvent(MouseEvent.MOUSE_CLICKED, 460, 350 , 1);
@@ -219,48 +219,48 @@ public class TableRowsTests {
 		assertTrue(textField.isSelected());
 		// Remove the default string
 		for(int i=0;i<d1.length();i++){
-			myCW.handleKeyEvent(0, 8, ' ');
+			myCW.handleKeyEvent(0, 8, Character.MIN_VALUE);
 		}
 		// Error when the field is blank
 		assertTrue(textField.getError());
 		// Add char to prevent lock
 		myCW.handleKeyEvent(0, 0, 'a');
-		myCW.handleKeyEvent(0, 10,' ');
+		myCW.handleKeyEvent(0, 10,Character.MIN_VALUE);
 		
 		// Column 2: @ verwijderen
 		myCW.handleMouseEvent(MouseEvent.MOUSE_CLICKED, 550, 350 , 1);
 		textField = (TextField) tablr.getUIAt(550, 350).locatedAt(550, 350);
 		for(int i=0;i<6;i++){
-			myCW.handleKeyEvent(0, 8, ' ');
+			myCW.handleKeyEvent(0, 8, Character.MIN_VALUE);
 		}
-		myCW.handleKeyEvent(0,10, ' ');		
+		myCW.handleKeyEvent(0,10, Character.MIN_VALUE);		
 		
 		// Error when the field is blank
 		assertTrue(textField.getError());
 		// Add @ to prevent lock
 		myCW.handleKeyEvent(0, 0, '@');
-		myCW.handleKeyEvent(0, 10, ' ');
+		myCW.handleKeyEvent(0, 10, Character.MIN_VALUE);
 		
 		//Column2 deleten:
 		myCW.handleMouseEvent(MouseEvent.MOUSE_CLICKED, 310,110, 1);		
-		myCW.handleKeyEvent(0, 127, ' ');
+		myCW.handleKeyEvent(0, 127, Character.MIN_VALUE);
 		
 		
 		// Column 3: @ verwijderen
 		myCW.handleMouseEvent(MouseEvent.MOUSE_CLICKED, 550, 350 , 1);
 		textField = (TextField) tablr.getUIAt(550,350).locatedAt(550, 350);
 		for(int i=0;i<d2.length();i++){
-			myCW.handleKeyEvent(0, 8, ' ');
+			myCW.handleKeyEvent(0, 8, Character.MIN_VALUE);
 		}
 		// Error when the field is blank
 		assertTrue(textField.getError());
 		// Add @ to prevent lock
 		myCW.handleKeyEvent(0, 0, '@');
-		myCW.handleKeyEvent(0, 10, ' ');
+		myCW.handleKeyEvent(0, 10, Character.MIN_VALUE);
 		
 		//Column3 deleten:
 		myCW.handleMouseEvent(MouseEvent.MOUSE_CLICKED, 310,110, 1);		
-		myCW.handleKeyEvent(0, 127, ' ');
+		myCW.handleKeyEvent(0, 127, Character.MIN_VALUE);
 		
 		
 		// Column 4: 
@@ -277,7 +277,7 @@ public class TableRowsTests {
 		
 		//Column4 deleten
 		myCW.handleMouseEvent(MouseEvent.MOUSE_CLICKED, 310,110, 1);		
-		myCW.handleKeyEvent(0, 127, ' ');
+		myCW.handleKeyEvent(0, 127, Character.MIN_VALUE);
 		
 		// Click on checkbox of column 5 
 		cb = (Checkbox) tablr.getUIAt(570, 350).locatedAt(570, 350);
@@ -288,29 +288,29 @@ public class TableRowsTests {
 		
 		//Column5 deleten
 		myCW.handleMouseEvent(MouseEvent.MOUSE_CLICKED, 310,110, 1);		
-		myCW.handleKeyEvent(0, 127, ' ');
+		myCW.handleKeyEvent(0, 127, Character.MIN_VALUE);
 		
 		// Column 6: Remove all digits
 		myCW.handleMouseEvent(MouseEvent.MOUSE_CLICKED, 561, 363 , 1);
 		textField = (TextField) tablr.getUIAt(561, 363).locatedAt(561, 363);
 		assertTrue(textField.isSelected());
 		for(int i=0;i<textField.getText().length();i++){
-			myCW.handleKeyEvent(0, 8, ' ');
+			myCW.handleKeyEvent(0, 8, Character.MIN_VALUE);
 		}
 		// No error when the field is blank
 		assertFalse(textField.getError());
 		
 		//Column6 deleten
 		myCW.handleMouseEvent(MouseEvent.MOUSE_CLICKED, 310,110, 1);		
-		myCW.handleKeyEvent(0, 127, ' ');
+		myCW.handleKeyEvent(0, 127, Character.MIN_VALUE);
 		
 		// Column 7: Remove all the digits
 		myCW.handleMouseEvent(MouseEvent.MOUSE_CLICKED, 570, 350 , 1);
 		textField = (TextField) tablr.getUIAt(570, 350).locatedAt(570, 350);
 		assertTrue(textField.isSelected());
-		myCW.handleKeyEvent(0, 8, ' ');
-		myCW.handleKeyEvent(0, 8, ' ');
-		myCW.handleKeyEvent(0, 8, ' ');
+		myCW.handleKeyEvent(0, 8, Character.MIN_VALUE);
+		myCW.handleKeyEvent(0, 8, Character.MIN_VALUE);
+		myCW.handleKeyEvent(0, 8, Character.MIN_VALUE);
 
 		
 		snapShot(myCW,"pic.png");
@@ -338,7 +338,7 @@ public class TableRowsTests {
 		assertTrue(r.isSelected());
 
 		// Step 3: User presses Delete key
-		myCW.handleKeyEvent(0, 127, ' ');
+		myCW.handleKeyEvent(0, 127, Character.MIN_VALUE);
 		
 		// Step 4: The system removes the row from the table and shows the updated list of rows
 		assertEquals(3,tablr.getTables().get(0).getRows());

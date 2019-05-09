@@ -13,7 +13,7 @@ import javax.naming.CommunicationException;
 
 import Utils.GeometricUtils;
 
-public class TextField extends UIElement {
+public class QueryTextField extends TextField {
 
 	/**
 	 * Constructor of the TextField.
@@ -21,45 +21,11 @@ public class TextField extends UIElement {
 	 * @param y: The y position of the left top corner of the TextField.
 	 * @param checked: Whether the TextField is checked or not.
 	 */
-	public TextField(int x, int y,int w, int h, String t) {
-		super(x, y, w, h);
+	public QueryTextField(int x, int y,int w, int h, String t) {
+		super(x, y, w, h, t);
 		setText(t);
 	}
 	
-	/**
-	 * The text in this Textfield
-	 */
-	private String text;
-
-	/**
-	 * Last text before started editing
-	 */
-	private String prevText;
-
-	public String getPrevText() {
-		return prevText;
-	}
-
-	protected void restoreText() {
-		System.out.println("[Textfield.java:37] Restoring text: "+getPrevText());
-		setText(getPrevText());
-	}
-	
-	/**
-	 * This method sets the text of the current TextBox
-	 * @param t: The text to be set.
-	 */
-	public void setText(String t){
-		if (t == null) this.text = "";
-		else this.text = t;
-	}
-	
-	/**
-	 * This method returns the text of the current TextBox.
-	 */
-	public String getText(){
-		return this.text;
-	}
 
 	@Override
 	public void paint(Graphics g) {
@@ -86,21 +52,6 @@ public class TextField extends UIElement {
 		else
 			g.drawString(this.getText() + "<", super.getX()+10, y);
 		g.setClip(oldClip);
-	}
-	
-	@Override
-	public void handleSingleClick() {
-
-		if (!isSelected()) {
-			getUI().getTablr().notifyNewSelected(this);
-			this.prevText = getText();
-		}
-	}
-	
-	
-	@Override
-	public void handleDoubleClick() {
-		new ArrayList<>(doubleClickListeners).forEach(l -> l.run());
 	}
 	
 	@Override
@@ -136,13 +87,9 @@ public class TextField extends UIElement {
 		new HashMap<Integer, ArrayList<Runnable>>(keyboardListeners).get(keyCode).stream().forEach(l -> l.run());
 	}
 	
-	@Override
-	public void handleDrag(int x, int y) {
-		new ArrayList<BiConsumer<Integer,Integer>>(dragListeners).stream().forEach(r -> r.accept(x, y));
-	}
 
 	@Override
-	public TextField clone(){
-		return new TextField(getX(),getY(),getWidth(),getHeight(),getText());
+	public QueryTextField clone(){
+		return new QueryTextField(getX(),getY(),getWidth(),getHeight(),getText());
 	}
 }

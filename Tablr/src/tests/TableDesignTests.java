@@ -45,8 +45,8 @@ public class TableDesignTests {
 		// Load the window
 		MyCanvasWindow myCW = new MyCanvasWindow("Table Design mode test");
 		Tablr tablr = myCW.getTablr();
-		myCW.handleKeyEvent(1, 17, ' ');
-		myCW.handleKeyEvent(1, 84, ' ');
+		myCW.handleKeyEvent(1, 17, Character.MIN_VALUE);
+		myCW.handleKeyEvent(1, 84, Character.MIN_VALUE);
 		// Double click on listview to create a new table
 		myCW.handleMouseEvent(MouseEvent.MOUSE_CLICKED, 155, 152, 2);
 		// The user double-clicks a table name.
@@ -68,8 +68,8 @@ public class TableDesignTests {
 		MyCanvasWindow myCW = new MyCanvasWindow("Table Design mode test");
 		Tablr tablr = myCW.getTablr();
 		// Open a new tables mode subwindow
-		myCW.handleKeyEvent(1, 17, ' ');
-		myCW.handleKeyEvent(1, 84, ' ');
+		myCW.handleKeyEvent(1, 17, Character.MIN_VALUE);
+		myCW.handleKeyEvent(1, 84, Character.MIN_VALUE);
 		// Double click on listview to create a new table
 		myCW.handleMouseEvent(MouseEvent.MOUSE_CLICKED, 155, 152, 2);
 		// The user double-clicks a table name.
@@ -86,7 +86,7 @@ public class TableDesignTests {
 		//Step2: The user tries to change the name of the column:
 		//Step2.1: The user sets a valid name for the column:
 		//Clearing the name:
-		for(int i=0;i<7;i++) myCW.handleKeyEvent(0,8,' ');
+		for(int i=0;i<7;i++) myCW.handleKeyEvent(0,8,Character.MIN_VALUE);
 		String name = "name";
 		for(int i=0;i<name.length();i++){
 			myCW.handleKeyEvent(0,0,name.charAt(i));
@@ -96,7 +96,7 @@ public class TableDesignTests {
 		//Step2.2: The user enters an invalid name:
 		TextField t = (TextField) tablr.getUIAt(385, 45).locatedAt(385,45);
 		//Clearing the name:
-		for(int i=0;i<4;i++) myCW.handleKeyEvent(0,8,' ');
+		for(int i=0;i<4;i++) myCW.handleKeyEvent(0,8,Character.MIN_VALUE);
 		assertTrue(t.getError());
 		name = "Column1";
 		for(int i=0;i<name.length();i++){
@@ -108,7 +108,7 @@ public class TableDesignTests {
 		assertTrue(t.getError());
 		
 		//Backspace so the name becomes valid:
-		myCW.handleKeyEvent(0,8,' ');
+		myCW.handleKeyEvent(0,8,Character.MIN_VALUE);
 		assertFalse(t.getError());
 		
 		//The user clicks outside the textfield to finish editing the column name:
@@ -119,7 +119,7 @@ public class TableDesignTests {
 		myCW.handleMouseEvent(MouseEvent.MOUSE_CLICKED, 385, 45, 1);
 		t =  (TextField) tablr.getUIAt(385, 45).locatedAt(385, 45);
 		assertTrue(t.isSelected());
-		myCW.handleKeyEvent(0,10, ' ');
+		myCW.handleKeyEvent(0,10, Character.MIN_VALUE);
 		assertFalse(t.isSelected());
 		
 		/**
@@ -151,7 +151,7 @@ public class TableDesignTests {
 		for(int i=0;i<d.length();i++){
 			myCW.handleKeyEvent(0,0,d.charAt(i));
 		}
-		myCW.handleKeyEvent(0, 10, ' ');
+		myCW.handleKeyEvent(0, 10, Character.MIN_VALUE);
 		//Trying to change the type of the column to email:
 		myCW.handleMouseEvent(MouseEvent.MOUSE_CLICKED,450,50,1);
 		//However, the current default value "default" is not valid for the type EMAIL:
@@ -177,9 +177,9 @@ public class TableDesignTests {
 		//Setting default value back to blank:
 		myCW.handleMouseEvent(MouseEvent.MOUSE_CLICKED, 550, 50, 1);
 		for (int i=0;i<"default".length();i++) 
-			myCW.handleKeyEvent(0,8,' ');
+			myCW.handleKeyEvent(0,8,Character.MIN_VALUE);
 		assertEquals("",tablr.getDefaultString(tablr.getTables().get(0).getColumns().get(0)));
-		myCW.handleKeyEvent(0,10,' ');
+		myCW.handleKeyEvent(0,10,Character.MIN_VALUE);
 		
 		/**
 		 * Extension 1b
@@ -197,7 +197,7 @@ public class TableDesignTests {
 		myCW.handleMouseEvent(MouseEvent.MOUSE_CLICKED,500,50,1);
 		//Changing the default value to blank:
 		myCW.handleMouseEvent(MouseEvent.MOUSE_CLICKED,550,50,1);
-		myCW.handleKeyEvent(0,8,' ');
+		myCW.handleKeyEvent(0,8,Character.MIN_VALUE);
 		//Trying to change the blanking policy back to false:
 		myCW.handleMouseEvent(MouseEvent.MOUSE_CLICKED,500,50,1);
 		/*However, the current default value is blank, the checkbox becomes red and
@@ -264,7 +264,7 @@ public class TableDesignTests {
 		myCW.handleMouseEvent(MouseEvent.MOUSE_CLICKED,550,50,1);
 		TextField defaultString = (TextField) tablr.getUIAt(550, 50).locatedAt(550,50);
 		for(int i=0;i<4;i++){
-			myCW.handleKeyEvent(0,8,' ');
+			myCW.handleKeyEvent(0,8,Character.MIN_VALUE);
 		}
 		assertEquals(0,defaultString.getText().length());
 		//However, the column does not allow blanks:
@@ -275,7 +275,7 @@ public class TableDesignTests {
 		myCW.handleMouseEvent(MouseEvent.MOUSE_CLICKED,500, 50, 1);
 		//Deleting the current default value:
 		myCW.handleMouseEvent(MouseEvent.MOUSE_CLICKED,550, 60, 1);
-		myCW.handleKeyEvent(0,8,' ');
+		myCW.handleKeyEvent(0,8,Character.MIN_VALUE);
 		
 		//The user changes the type of the column to EMAIL by clicking on the column type:
 		myCW.handleMouseEvent(MouseEvent.MOUSE_CLICKED,450,50,1);
@@ -290,7 +290,7 @@ public class TableDesignTests {
 		assertEquals(d, tablr.getDefaultValue(tablr.getColumns(tablr.getTables().get(0)).get(0)));
 		//Deleting the current default value:
 		myCW.handleMouseEvent(MouseEvent.MOUSE_CLICKED, 550, 50, 1);
-		for(int i =0;i<d.length();i++) myCW.handleKeyEvent(0, 8,' ');
+		for(int i =0;i<d.length();i++) myCW.handleKeyEvent(0, 8,Character.MIN_VALUE);
 		assertEquals(0,defaultEmail.getText().length());
 		//The user tries to enter a non-valid default value:
 		d = "wrong@Value@default.com";
@@ -298,7 +298,7 @@ public class TableDesignTests {
 		assertTrue(defaultEmail.getError());
 		//Deleting the current default value:
 		myCW.handleMouseEvent(MouseEvent.MOUSE_CLICKED, 550, 50, 1);
-		for(int i =0;i<d.length();i++) myCW.handleKeyEvent(0, 8,' ');
+		for(int i =0;i<d.length();i++) myCW.handleKeyEvent(0, 8,Character.MIN_VALUE);
 		assertEquals(0,defaultEmail.getText().length());
 
 		//The user changes the type of the column to INTEGER by clicking the column type twice:
@@ -314,7 +314,7 @@ public class TableDesignTests {
 		//The default value is updated successfully
 		assertEquals(999, tablr.getDefaultValue(tablr.getColumns(tablr.getTables().get(0)).get(0)));
 		//Clearing the textfield
-		for (int i=0;i<d.length();i++) myCW.handleKeyEvent(0, 8,' ');
+		for (int i=0;i<d.length();i++) myCW.handleKeyEvent(0, 8,Character.MIN_VALUE);
 		//The user tries to enter a non-valid default value:
 		d = "007";
 		for (int i=0;i<d.length();i++) myCW.handleKeyEvent(0, 0, d.charAt(i));
@@ -330,8 +330,8 @@ public class TableDesignTests {
 		// Load the window
 		MyCanvasWindow myCW = new MyCanvasWindow("Table Design mode test");
 		Tablr tablr = myCW.getTablr();
-		myCW.handleKeyEvent(1, 17, ' ');
-		myCW.handleKeyEvent(1, 84, ' ');
+		myCW.handleKeyEvent(1, 17, Character.MIN_VALUE);
+		myCW.handleKeyEvent(1, 84, Character.MIN_VALUE);
 		// Double click on listview to create a new table
 		myCW.handleMouseEvent(MouseEvent.MOUSE_CLICKED, 155, 152, 2);
 		// The user double-clicks a table name.
@@ -354,7 +354,7 @@ public class TableDesignTests {
 		//Step 2: The system indicates that the column is now selected
 		assertEquals(true, firstColumn.isSelected());
 		//Step 3: The user presses the delete key:
-		myCW.handleKeyEvent(0, 127,' ');
+		myCW.handleKeyEvent(0, 127,Character.MIN_VALUE);
 
 		//Step 4: The system removes the column from the list of columns...
 		assertEquals(1,tablr.getColumns(tablr.getTables().get(0)).size());

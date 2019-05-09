@@ -28,8 +28,8 @@ public class TablesModeTests {
 		assertEquals(tablr.getUIs().size(), 0);
 
 		// Perform a ctrl+T to add tables mode subwindow
-		myCW.handleKeyEvent(1, 17, ' ');
-		myCW.handleKeyEvent(1, 84, ' ');
+		myCW.handleKeyEvent(1, 17, Character.MIN_VALUE);
+		myCW.handleKeyEvent(1, 84, Character.MIN_VALUE);
 		
 		assertEquals(tablr.getTables().size(), 0);
 		
@@ -53,8 +53,8 @@ public class TablesModeTests {
 		Tablr tablr = myCW.getTablr();
 		
 		// Perform a ctrl+T
-		myCW.handleKeyEvent(1, 17, ' ');
-		myCW.handleKeyEvent(1, 84, ' ');
+		myCW.handleKeyEvent(1, 17, Character.MIN_VALUE);
+		myCW.handleKeyEvent(1, 84, Character.MIN_VALUE);
 		// Double click on listview to create a new table
 		myCW.handleMouseEvent(MouseEvent.MOUSE_CLICKED, 155, 152, 2);
 		
@@ -68,7 +68,7 @@ public class TablesModeTests {
 		assertEquals(t.isSelected(), true);
 		// Step 3: Remove the last character of the highlighted table name
 		// (8 is backspace)
-		myCW.handleKeyEvent(0, 8, ' ');
+		myCW.handleKeyEvent(0, 8, Character.MIN_VALUE);
 		assertEquals("Table", tablr.getTables().get(0).getName());
 		
 		// Step 4: Check to see if table name gets red when it is empty or equal to name of another table
@@ -85,7 +85,7 @@ public class TablesModeTests {
 		assertEquals("a", tablr.getTables().get(0).getName());
 		
 		// Step 5: Press Enter to finish editing
-		myCW.handleKeyEvent(1, 10, ' ');
+		myCW.handleKeyEvent(1, 10, Character.MIN_VALUE);
 		assertEquals(t.isSelected(), false);
 		
 		// Or click outside table name 
@@ -106,8 +106,8 @@ public class TablesModeTests {
 		Tablr tablr = myCW.getTablr();
 
 		// Perform a ctrl+T to add tables mode subwindow
-		myCW.handleKeyEvent(1, 17, ' ');
-		myCW.handleKeyEvent(1, 84, ' ');
+		myCW.handleKeyEvent(1, 17, Character.MIN_VALUE);
+		myCW.handleKeyEvent(1, 84, Character.MIN_VALUE);
 		
 		// Double click on listview to create a new table
 		myCW.handleMouseEvent(MouseEvent.MOUSE_CLICKED, 155, 152, 2);
@@ -125,7 +125,7 @@ public class TablesModeTests {
 		assertEquals(true, r.isSelected());
 
 		// Step 3: User presses Delete key
-		myCW.handleKeyEvent(0, 127, ' ');
+		myCW.handleKeyEvent(0, 127, Character.MIN_VALUE);
 		
 		// Step 4: The system removes the table and shows the updated list of tables
 		assertEquals(tablr.getTables().size(), 0);
@@ -141,8 +141,8 @@ public class TablesModeTests {
 		Tablr tablr = myCW.getTablr();
 	
 		// Perform a ctrl+T to add tables mode subwindow
-		myCW.handleKeyEvent(1, 17, ' ');
-		myCW.handleKeyEvent(1, 84, ' ');
+		myCW.handleKeyEvent(1, 17, Character.MIN_VALUE);
+		myCW.handleKeyEvent(1, 84, Character.MIN_VALUE);
 		
 		// Double click on listview to create a new table
 		myCW.handleMouseEvent(MouseEvent.MOUSE_CLICKED, 155, 152, 2);
@@ -175,8 +175,8 @@ public class TablesModeTests {
 		Tablr tablr = myCW.getTablr();
 	
 		// Perform a ctrl+T to add tables mode subwindow
-		myCW.handleKeyEvent(1, 17, ' ');
-		myCW.handleKeyEvent(1, 84, ' ');
+		myCW.handleKeyEvent(1, 17, Character.MIN_VALUE);
+		myCW.handleKeyEvent(1, 84, Character.MIN_VALUE);
 		
 		// Double click on listview to create a two new tables (Table1 and Table2)
 		myCW.handleMouseEvent(MouseEvent.MOUSE_CLICKED, 155, 152, 2);
@@ -212,8 +212,8 @@ public class TablesModeTests {
 		Tablr tablr = myCW.getTablr();
 	
 		// Perform a ctrl+T to add tables mode subwindow
-		myCW.handleKeyEvent(1, 17, ' ');
-		myCW.handleKeyEvent(1, 84, ' ');
+		myCW.handleKeyEvent(1, 17, Character.MIN_VALUE);
+		myCW.handleKeyEvent(1, 84, Character.MIN_VALUE);
 		
 		// Double click on listview to create a two new tables (Table1 and Table2)
 		myCW.handleMouseEvent(MouseEvent.MOUSE_CLICKED, 155, 152, 2);

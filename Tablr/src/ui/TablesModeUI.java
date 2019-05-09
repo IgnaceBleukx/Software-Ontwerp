@@ -15,6 +15,7 @@ import uielements.RightUIEdge;
 import uielements.Text;
 import uielements.TopUIEdge;
 import uielements.ListView;
+import uielements.QueryTextField;
 import uielements.TextField;
 import uielements.Titlebar;
 import uielements.UIElement;
@@ -23,6 +24,8 @@ import uielements.LeftUIEdge;
 import uielements.VoidElement;
 import domain.Table;
 import facades.Tablr;
+import sql.SQLParser;
+import sql.SQLParser.ParseException;
 
 public class TablesModeUI extends UI {
 	
@@ -173,7 +176,7 @@ public class TablesModeUI extends UI {
 			TextField tableNameLabel = new TextField(deleteButton.getEndX(), y, tableNameWidth, tableRowHeight, curr.getName());
 			currRow.addElement(tableNameLabel);
 			
-			TextField queryLabel = new TextField(tableNameLabel.getEndX(),y,queryLabelWidth,tableRowHeight, tablr.getTableQuery(curr));
+			QueryTextField queryLabel = new QueryTextField(tableNameLabel.getEndX(),y,queryLabelWidth,tableRowHeight, tablr.getTableQuery(curr));
 			currRow.addElement(queryLabel);
 			
 			//Listener to select rows
@@ -240,6 +243,17 @@ public class TablesModeUI extends UI {
 			
 			tableNameLabel.addDeselectionListener(() -> {
 				tablr.domainChanged();
+			});
+			
+			queryLabel.addKeyboardListener(-1,() ->{
+				try {
+					SQLParser.parseQuery(queryLabel.getText());
+					if (queryLabel.getError())
+						queryLabel.isNotError();
+				}catch(RuntimeException e) {
+					DebugPrinter.print("Parse exception");
+					queryLabel.isError();
+				}
 			});
 			
 			y = currRow.getEndY();
