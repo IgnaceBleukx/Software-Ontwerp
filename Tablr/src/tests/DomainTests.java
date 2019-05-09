@@ -9,6 +9,7 @@ import org.junit.Test;
 
 import domain.Cell;
 import domain.Column;
+import domain.StoredTable;
 import domain.Table;
 import domain.Type;
 import exceptions.InvalidNameException;
@@ -21,7 +22,7 @@ public class DomainTests {
 	 * @return 	The created table.
 	 */
 	public Table buildTable() {
-		Table table = new Table("name");
+		StoredTable table = new StoredTable("name");
 		table.addRow();
 		table.addRow();
 		table.addEmptyColumn(Type.STRING, "");
@@ -97,7 +98,7 @@ public class DomainTests {
 	
 	@Test
 	public void testColumnInTable() throws InvalidNameException {
-		Table t = new Table("Table 1");
+		StoredTable t = new StoredTable("Table 1");
 		
 		t.addEmptyColumn(Type.STRING, "Default");
 		t.addRow();
@@ -129,7 +130,7 @@ public class DomainTests {
 	
 	@Test
 	public void testRowBasic() {
-		Table t = new Table("Table1");
+		StoredTable t = new StoredTable("Table1");
 		t.addEmptyColumn(Type.STRING, "");
 		t.addRow();
 		assertEquals(1, t.getRows());
@@ -138,7 +139,7 @@ public class DomainTests {
 	
 	@Test
 	public void terminateColumn(){
-		Table table = new Table("name");
+		StoredTable table = new StoredTable("name");
 		Column col = table.addEmptyColumn(Type.STRING, "");
 		table.addRow();
 		col.terminate();
@@ -148,14 +149,14 @@ public class DomainTests {
 	
 	@Test (expected=InvalidTypeException.class)
 	public void testInvalidTypeColumn() throws InvalidTypeException {
-		Table table = new Table("name");
+		StoredTable table = new StoredTable("name");
 		Column col = table.addEmptyColumn(Type.EMAIL, "a@b.com");
 		col.setNextType();
 	}
 	
 	@Test
 	public void removeRowTable() {
-		Table table = new Table("name");
+		StoredTable table = new StoredTable("name");
 		Column col = table.addEmptyColumn(Type.STRING, "");
 		Column col2 = table.addEmptyColumn(Type.STRING, "");
 		Column col3 = table.addEmptyColumn(Type.STRING, "");
@@ -170,7 +171,7 @@ public class DomainTests {
 	
 	@Test (expected = InvalidTypeException.class)
 	public void setInvalidColumnType() throws InvalidTypeException {
-		Table table = new Table("name");
+		StoredTable table = new StoredTable("name");
 		Column col = table.addEmptyColumn(Type.STRING, "");
 		table.addRow();
 		col.changeCellValue(0, "abc");
@@ -179,7 +180,7 @@ public class DomainTests {
 	
 	@Test
 	public void addAllCells() throws Exception {
-		Table table = new Table("name");
+		StoredTable table = new StoredTable("name");
 		Column col = table.addEmptyColumn(Type.STRING, "");
 		Cell<String> c1 = new Cell<>("A");
 		Cell<String> c2 = new Cell<>("A");
@@ -194,14 +195,14 @@ public class DomainTests {
 	
 	@Test
 	public void addBlankCellEmail() {
-		Table table = new Table("name");
+		StoredTable table = new StoredTable("name");
 		Column col = table.addEmptyColumn(Type.EMAIL, "");
 		col.addBlankCell();
 	}
 	
 	@Test
 	public void changeCellValues() {
-		Table table = new Table("name");
+		StoredTable table = new StoredTable("name");
 		Column col1 = table.addEmptyColumn(Type.STRING, "");
 		Column col2 = table.addEmptyColumn(Type.EMAIL, "");
 		Column col3 = table.addEmptyColumn(Type.INTEGER, "");
@@ -227,7 +228,7 @@ public class DomainTests {
 	
 	@Test
 	public void testToggleDefaultBoolean() {
-		Table table = new Table("name");
+		StoredTable table = new StoredTable("name");
 		Column colBadType = table.addEmptyColumn(Type.INTEGER, "143");
 		Column col1 = table.addEmptyColumn(Type.BOOLEAN, "");
 		colBadType.toggleDefaultBoolean();
@@ -241,7 +242,7 @@ public class DomainTests {
 	
 	@Test
 	public void testToggleCellValueBoolean() {
-		Table table = new Table("name");
+		StoredTable table = new StoredTable("name");
 		Column colBadType = table.addEmptyColumn(Type.INTEGER, "143");
 		Column col1 = table.addEmptyColumn(Type.BOOLEAN, "");
 		table.addRow();

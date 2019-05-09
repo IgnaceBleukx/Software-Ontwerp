@@ -13,6 +13,7 @@ import uielements.CloseButton;
 import uielements.UIElement;
 import canvaswindow.MyCanvasWindow;
 import domain.Column;
+import domain.StoredTable;
 import domain.Table;
 import domain.Type;
 import facades.Tablr;
@@ -25,8 +26,8 @@ public class FacadeTests {
 	public void testLoadUIModes() {
 		MyCanvasWindow myCW = new MyCanvasWindow("Table Design mode test");
 		Tablr tablr = myCW.getTablr();
-		Table table1 = tablr.addEmptyTable();
-		Table table2 = tablr.addEmptyTable();
+		StoredTable table1 = (StoredTable) tablr.addEmptyTable();
+		StoredTable table2 = (StoredTable) tablr.addEmptyTable();
 		table2.addEmptyColumn(Type.STRING, "default");
 		tablr.loadTableDesignModeUI(table1);
 		tablr.loadTableDesignModeUI(table2);
@@ -113,7 +114,7 @@ public class FacadeTests {
 	public void testTableDesignModeUIs() {
 		MyCanvasWindow myCW = new MyCanvasWindow("Table Design mode test");
 		Tablr tablr = myCW.getTablr();
-		Table t = tablr.addEmptyTable();
+		StoredTable t = (StoredTable)tablr.addEmptyTable();
 		tablr.addTablesModeUI();
 		TablesModeUI ui = tablr.getTablesModeUIs().get(0);
 		assertTrue(!(ui == null));

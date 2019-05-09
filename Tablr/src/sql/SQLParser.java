@@ -46,7 +46,11 @@ public class SQLParser extends StreamTokenizer {
 	
 	public static class ParseException extends RuntimeException {}
 	
-	public static Query parseQuery(String text) { return new SQLParser(text).parseQuery(); }
+	public static Query parseQuery(String text) { 
+		Query result = new SQLParser(text).parseQuery();
+		result.setSQL(text);
+		return result;
+	}
 	
 	@Override
 	public int nextToken() {

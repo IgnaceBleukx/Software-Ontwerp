@@ -16,6 +16,7 @@ import uielements.UIRow;
 import uielements.UITable;
 import uielements.VoidElement;
 import domain.Column;
+import domain.StoredTable;
 import domain.Table;
 import domain.Type;
 import facades.Tablr;
@@ -256,18 +257,20 @@ public class TableRowsModeUI extends UI {
 			});
 			
 			uiRow.addKeyboardListener(127, () -> {
-				if(uiRow.isSelected()){
+				if(uiRow.isSelected() && tab.isStoredTable()){
 					int index = uiTable.getRows().indexOf(uiRow);
-					getTablr().removeRow(tab,index);
+					getTablr().removeRow((StoredTable)tab,index);
 				}
 			});
 		}		
 		uiTable.addKeyboardListener(17, () -> {
-			getTablr().loadTableDesignModeUI(tab);;
+			if (tab.isStoredTable())
+				getTablr().loadTableDesignModeUI((StoredTable)tab);
 		});
 		
 		uiTable.addDoubleClickListener(() -> {
-			getTablr().addRow(tab);
+			if (tab.isStoredTable())
+				getTablr().addRow((StoredTable)tab);
 		});
 		
 		return uiTable;

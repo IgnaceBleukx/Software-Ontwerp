@@ -10,6 +10,7 @@ import java.util.stream.Collectors;
 import Utils.BooleanCaster;
 import Utils.DebugPrinter;
 import domain.Column;
+import domain.StoredTable;
 import domain.Table;
 import domain.Type;
 import facades.Tablr;
@@ -97,14 +98,21 @@ public class FormsModeUI extends UI {
 		legend.addKeyboardListener(78, () ->{
 			if (!getWindowManager().recentCtrl())
 				return;
-			tablr.addRow(table);
+			if (table.isStoredTable()) { //Stored table
+				StoredTable t = (StoredTable) table;
+				tablr.addRow(t);
+			}
+				
 		});
 		legend.addKeyboardListener(68, () ->{
 			if (!getWindowManager().recentCtrl())
 				return;
 			try {
-				tablr.removeRow(table, rowNumber);
-			}catch(IndexOutOfBoundsException e) {
+				if (table.isStoredTable()) { //Stored table
+					StoredTable t = (StoredTable) table;
+					tablr.removeRow(t,rowNumber);
+				}
+			} catch(IndexOutOfBoundsException e) {
 				//The row does not exist, do nothing
 			}
 		});

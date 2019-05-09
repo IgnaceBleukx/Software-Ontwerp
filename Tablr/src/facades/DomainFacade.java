@@ -5,6 +5,7 @@ import java.util.ArrayList;
 
 import Utils.DebugPrinter;
 import domain.Column;
+import domain.StoredTable;
 import domain.Table;
 import domain.Type;
 import exceptions.InvalidNameException;
@@ -55,7 +56,7 @@ public class DomainFacade {
 	 */
 	public Table addEmptyTable() {
 		String name = nextName();
-		Table table = new Table(name);
+		StoredTable table = new StoredTable(name);
 		
 		execute(new Command() {			
 			public void execute() { 		
@@ -151,13 +152,12 @@ public class DomainFacade {
 	 * @param type				Type of the new column
 	 * @param defaultValue		The default value of the new column 
 	 */
-	public void addEmptyColumn(Table table, Type type, Object defaultValue) {
+	public void addEmptyColumn(StoredTable table, Type type, Object defaultValue) {
 		table.addEmptyColumn(type, defaultValue);
-		
 	}
 	
 	public String getTableQuery(Table table) {
-		return table.getQuery();
+		return table.getQueryString();
 	}
 	
 	/**
@@ -174,7 +174,7 @@ public class DomainFacade {
 	 * Adds an empty row to a table
 	 * @param tab		Table 
 	 */
-	public void addRow(Table tab) {
+	public void addRow(StoredTable tab) {
 		tab.addRow();
 		
 	}
@@ -219,7 +219,7 @@ public class DomainFacade {
 	 * @param tab		Table
 	 * @param index		Index
 	 */
-	public void removeRow(Table tab, int index) {
+	public void removeRow(StoredTable tab, int index) {
 		tab.removeRow(index);
 		
 	}

@@ -13,6 +13,7 @@ public class Query {
 	private ArrayList<ColumnSpec> columnSpecs = new ArrayList<ColumnSpec>();
 	private TableSpec tableSpecs;
 	private Expression<Boolean> expression;
+	private String sql;
 	
 	public String toString() {
 		String columnSpecsStr = columnSpecs == null? "Null" : columnSpecs.toString();
@@ -28,7 +29,7 @@ public class Query {
 				+ "		"+expressionStr +"\n";
 	}
 	
-	public Table run() {
+	public Table run(ArrayList<Table> tables) {
 		return null;}
 	
 	public void addColumnSpec(ColumnSpec columnSpec) {
@@ -41,6 +42,14 @@ public class Query {
 	
 	public void setExpression(Expression e) {
 		this.expression = e;
+	}
+	
+	public String toSQL() {
+		return sql;
+	}
+	
+	public void setSQL(String sql) {
+		this.sql = sql;
 	}
 	
 }
