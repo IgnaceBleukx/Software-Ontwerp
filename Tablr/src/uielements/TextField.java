@@ -40,7 +40,7 @@ public class TextField extends UIElement {
 		return prevText;
 	}
 
-	private void restoreText() {
+	protected void restoreText() {
 		System.out.println("[Textfield.java:37] Restoring text: "+getPrevText());
 		setText(getPrevText());
 	}
@@ -125,7 +125,7 @@ public class TextField extends UIElement {
 		}
 
 		
-		if ((Character.isLetterOrDigit(keyChar) || keyChar == '@' || keyChar == '.') && isSelected()) {
+		if ((Character.isLetterOrDigit(keyChar) || keyChar == '@' || keyChar == '.' || keyChar == ' ') && isSelected()) {
 			setText(getText()+keyChar);
 		}
 		

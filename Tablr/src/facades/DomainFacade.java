@@ -79,7 +79,6 @@ public class DomainFacade {
 			public void execute() { 		
 				getTablesPure().remove(table);
 			}
-
 			public void undo() { addTable(table); }
 		});
 	}
@@ -92,7 +91,7 @@ public class DomainFacade {
 	}
 	
 	/**
-	 * Returns the tables
+	 * Returns the tables (no clone)
 	 */
 	public ArrayList<Table> getTablesPure() {
 		return tables;
@@ -134,7 +133,13 @@ public class DomainFacade {
 	 * @param newName	New name
 	 */
 	public void renameTable(Table t, String newName) {
-		t.setName(newName);
+		String currentName = t.getName();
+		execute(new Command() {
+			public void execute() { 		
+				t.setName(newName);;
+			}
+			public void undo() { t.setName(currentName); }
+		});
 	}
 	
 	/**
@@ -143,7 +148,22 @@ public class DomainFacade {
 	 * @throws Exception	When trying to disallow blanks while the default value is blank
 	 */
 	public void toggleBlanks(Column col) throws Exception {
-		col.toggleBlanks();
+		execute(new Command() {
+			public void execute() { 		
+				try {
+					col.toggleBlanks();
+				} catch (Exception e) {
+					DebugPrinter.print("column default is blank");
+				}
+			}
+			public void undo() { 
+				try {
+					col.toggleBlanks();
+				} catch (Exception e) {
+					DebugPrinter.print("column default is blank");
+				} 
+			}
+		});
 	}
 	
 	/**
