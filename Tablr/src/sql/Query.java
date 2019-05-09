@@ -1,8 +1,12 @@
 package sql;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 
+import domain.ComputedTable;
 import domain.Table;
+import exceptions.InvalidNameException;
+import exceptions.InvalidQueryException;
 import Utils.DebugPrinter;
 
 
@@ -29,9 +33,7 @@ public class Query {
 				+ "		"+expressionStr +"\n";
 	}
 	
-	public Table run(ArrayList<Table> tables) {
-		return null;}
-	
+
 	public void addColumnSpec(ColumnSpec columnSpec) {
 		this.columnSpecs.add(columnSpec);
 	}
@@ -50,6 +52,19 @@ public class Query {
 	
 	public void setSQL(String sql) {
 		this.sql = sql;
+	}
+	
+	public  HashMap<String,String> findTableNameAliases() {
+		return (tableSpecs.findTableNameAliases());
+	}
+	
+	public TableSpec getTableSpecs() {
+		return this.tableSpecs;
+	}
+
+
+	public Table resolveFrom(ArrayList<Table> tables) throws InvalidQueryException {
+		return tableSpecs.resolve(tables);
 	}
 	
 }

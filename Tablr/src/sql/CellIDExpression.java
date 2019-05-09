@@ -15,8 +15,8 @@ public class CellIDExpression extends Expression {
 		return rowID;
 	}
 	
-	public String columnName() {
-		return columnName();
+	public String getcolumnName() {
+		return columnName;
 	}
 	
 	private String rowID;
