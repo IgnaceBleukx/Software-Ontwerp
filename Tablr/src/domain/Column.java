@@ -136,6 +136,14 @@ public class Column {
 		this.setColumnType(getNextType(getColumnType()));
 	}
 	
+	/**
+	 * This method sets the previous type for the column, the order of which is: INTEGER -> STRING -> EMAIL -> BOOLEAN
+	 * @throws InvalidTypeException 
+	 * 
+	 */
+	public void setPreviousType() throws InvalidTypeException{
+		this.setColumnType(getPreviousType(getColumnType()));
+	}
 	
 	/**
 	 * Does the column allow a blank field
@@ -342,6 +350,21 @@ public class Column {
 			case EMAIL: 	return (Type.BOOLEAN); 
 			case BOOLEAN: 	return (Type.INTEGER); 
 			case INTEGER: 	return (Type.STRING); 
+			default:  return null;
+		}
+	}
+
+	/**
+	 * Returns the previous type in the standard order ( STRING -> INTEGER -> BOOLEAN -> EMAIL -> STRING ...)
+	 * @param type		Some type.
+	 * @return			Next type
+	 */
+	public static Type getPreviousType(Type type){
+		switch (type) {
+			case STRING: 	return (Type.INTEGER);   
+			case EMAIL: 	return (Type.STRING); 
+			case BOOLEAN: 	return (Type.EMAIL); 
+			case INTEGER: 	return (Type.BOOLEAN); 
 			default:  return null;
 		}
 	}

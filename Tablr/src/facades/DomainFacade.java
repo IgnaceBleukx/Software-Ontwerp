@@ -19,6 +19,9 @@ import ui.UI;
  */
 public class DomainFacade {
 	
+//	TODO: toggleBlanks fixen: checkbox moet rood worden bij default is leeg en dan klikken op checkbox
+//			removeRow de undo action is nog niet in orde!!
+	
 	/**
 	 * Tables
 	 */
@@ -172,8 +175,12 @@ public class DomainFacade {
 	 * @param type				Type of the new column
 	 * @param defaultValue		The default value of the new column 
 	 */
-	public void addEmptyColumn(StoredTable table, Type type, Object defaultValue) {
-		table.addEmptyColumn(type, defaultValue);
+	public void addEmptyColumn(StoredTable table, Type type, Object defaultValue) {	
+		execute(new Command() {
+			Column column = null;
+			public void execute() { column = table.addEmptyColumn(type, defaultValue); }
+			public void undo() { table.removeColumn(column);}
+		});
 	}
 	
 	public String getTableQuery(Table table) {
@@ -187,15 +194,31 @@ public class DomainFacade {
 	 * @throws InvalidNameException		When this name is already in use in the relevant table.
 	 */
 	public void setColumnName(Column col, String text) throws InvalidNameException {
-		col.setName(text);
+		execute(new Command(){
+			String curText = col.getName();
+			public void execute() { try {
+				col.setName(text);
+			} catch (InvalidNameException e) {
+				DebugPrinter.print(e);
+			}}
+			public void undo() { try {
+				col.setName(curText);
+			} catch (InvalidNameException e) {
+				DebugPrinter.print(e);
+			} }
+		});
 	}
 	
 	/**
 	 * Adds an empty row to a table
-	 * @param tab		Table 
+	 * @param table		Table 
 	 */
-	public void addRow(StoredTable tab) {
-		tab.addRow();
+	public void addRow(StoredTable table) {
+		execute(new Command() {
+			int index = table.getRows();
+			public void execute() { table.addRow(); }
+			public void undo() { table.removeRow(index);}
+		});
 		
 	}
 	
@@ -240,8 +263,10 @@ public class DomainFacade {
 	 * @param index		Index
 	 */
 	public void removeRow(StoredTable tab, int index) {
-		tab.removeRow(index);
-		
+		execute(new Command(){
+			public void execute() {tab.removeRow(index);}
+			public void undo() {DebugPrinter.print("undo remove a row");}			
+		});
 	}
 	
 	/**
@@ -250,7 +275,11 @@ public class DomainFacade {
 	 * @param index		Index
 	 */
 	public void removeColumn(Table table, int index) {
-		table.removeColumn(index);
+		execute(new Command(){
+			Column column;
+			public void execute() { column = table.removeColumn(index); }
+			public void undo() { table.addColumn(column); }	
+		});
 	}
 	
 	/**
@@ -261,8 +290,11 @@ public class DomainFacade {
 	 * @throws ClassCastException	The new value is not valid for the column's type
 	 */
 	public void changeCellValue(Column col, int i, String string) throws ClassCastException {
-		col.changeCellValue(i,string);
-		
+		execute(new Command() {
+			String prevValue;
+			public void execute() { col.changeCellValue(i,string); prevValue = (String) col.getCell(i).getValue(); }
+			public void undo() { col.changeCellValue(i, prevValue); }
+		});
 	}
 	
 	/**
@@ -272,7 +304,20 @@ public class DomainFacade {
 	 */
 	public void toggleColumnType(Column col) throws InvalidTypeException {
 		col.setNextType();
-		
+		execute(new Command() {
+			public void execute() { 
+				try {
+					col.setNextType();
+				} catch (InvalidTypeException e) {
+					DebugPrinter.print(e);
+				} }
+			public void undo() { 
+				try {
+					col.setPreviousType();
+				} catch (InvalidTypeException e) {
+					DebugPrinter.print(e);
+				}  }
+		});
 	}
 	
 	/**

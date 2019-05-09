@@ -122,6 +122,14 @@ public abstract class Table {
 	public boolean isComputedTable() {
 		return (!isStoredTable());
 	}
+
+	/**
+	 * Adds a given column to the table
+	 * @param column
+	 */
+	public void addColumn(Column column) {
+		this.columns.add(column);
+	}
 	
 	/**
 	 * Clones this table
