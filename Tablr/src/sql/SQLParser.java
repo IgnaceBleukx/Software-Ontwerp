@@ -1,4 +1,4 @@
-package sqlparser;
+package sql;
 
 import java.io.IOException;
 import java.io.StreamTokenizer;
