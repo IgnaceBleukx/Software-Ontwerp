@@ -120,4 +120,10 @@ public abstract class Table {
 	public boolean isComputedTable() {
 		return (!isStoredTable());
 	}
+
+	public void addColumn(Column column) {
+		this.columns.add(column);
+	}
+
+	
 }
