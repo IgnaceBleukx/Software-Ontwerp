@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 
 import domain.Column;
+import domain.StoredTable;
 import domain.Table;
 import domain.Type;
 import exceptions.InvalidNameException;
@@ -65,7 +66,7 @@ public class Tablr {
 		windowManager.loadFormsModeUI(table);
 	}
 	
-	public void loadTableDesignModeUI(Table table) {
+	public void loadTableDesignModeUI(StoredTable table) {
 		windowManager.loadTableDesignModeUI(table);
 	}
 	
@@ -152,7 +153,7 @@ public class Tablr {
 	 * @param type			Type of the new column (see domain/Type)
 	 * @param defaultValue	Default value for the new column.
 	 */
-	public void addEmptyColumn(Table table, Type type, Object defaultValue) {
+	public void addEmptyColumn(StoredTable table, Type type, Object defaultValue) {
 		domainFacade.addEmptyColumn(table,type, defaultValue);
 		domainChanged();
 	}
@@ -171,7 +172,7 @@ public class Tablr {
 	 * Adds a row to a table
 	 * @param tab		Table
 	 */
-	public void addRow(Table tab) {
+	public void addRow(StoredTable tab) {
 		domainFacade.addRow(tab);
 		domainChanged();
 	}
@@ -216,7 +217,7 @@ public class Tablr {
 	 * @param tab		Table
 	 * @param index		Index of row within Table
 	 */
-	public void removeRow(Table tab, int index) {
+	public void removeRow(StoredTable tab, int index) {
 		domainFacade.removeRow(tab,index);
 		domainChanged();
 	}

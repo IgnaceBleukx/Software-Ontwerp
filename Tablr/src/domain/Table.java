@@ -6,7 +6,7 @@ import java.util.stream.Collectors;
 import exceptions.InvalidNameException;
 
 
-public class Table {
+public abstract class Table {
 	
 	/**
 	 * Creates a new Table
@@ -37,11 +37,18 @@ public class Table {
 		this.name = name;
 	}
 	
+	/**
+	 * Returns the query associated with this Table.
+	 * Computed Tables will always have have a valid SQL query,
+	 * while Stored Tables will always have a query "".
+	 */
+	public abstract String getQueryString();
+	
 	
 	/**
 	 * The table's columns from left to right
 	 */
-	private ArrayList<Column> columns = new ArrayList<Column>();
+	protected ArrayList<Column> columns = new ArrayList<Column>();
 	
 	/**
 	 * This method returns the columns of the current Table.
@@ -51,34 +58,28 @@ public class Table {
 		return columns;
 	}
 
- 	/**
- 	 * Adds an empty column to the table
- 	 * @param type			Column type
- 	 * @param defaultValue	Default value of the new column
- 	 * @return				The newly added column
- 	 */
- 	public Column addEmptyColumn(Type type, Object defaultValue){
- 		Column col;
-		try {
-			col = new Column(newColumnName(), null,type,defaultValue);
-			while(col.getCells().size() != nbOfRows){
-				col.addBlankCell();
-			}
-			col.setTable(this);
-			this.columns.add(col);
-			return col;
-		} catch (InvalidNameException e) {
-			return null;
-		}
- 	}
-
 	
 	/**
-	 * This method removes a Column from the current table.
-	 * @param column	Reference to the column to delete
+	 * The number of rows in this table.
 	 */
-	public void removeColumn(Column column) {
-		removeColumn(columns.indexOf(column));
+	protected int nbOfRows;
+	
+	/**
+	 * This method returns the number of rows of the current Table.
+	 */
+	public int getRows() {
+		return nbOfRows;
+	}
+	
+	/**
+	 * This method returns an ArrayList of all the names of the columns of the current Table.
+	 */
+	public ArrayList<String> getColumnNames() {
+		ArrayList<String> names = new ArrayList<String>();
+		for (Column column: this.getColumns()){
+			names.add(column.getName());
+		}
+		return names;
 	}
 	
 	/**
@@ -94,64 +95,25 @@ public class Table {
 	}
 	
 	/**
-	 * The number of rows in this table.
+	 * This method removes a Column from the current table.
+	 * @param column	Reference to the column to delete
 	 */
-	private int nbOfRows;
-	
-	/**
-	 * This method returns the number of rows of the current Table.
-	 */
-	public int getRows() {
-		return nbOfRows;
+	public void removeColumn(Column column) {
+		removeColumn(columns.indexOf(column));
 	}
 	
 	/**
-	 * This method adds a blank row to the current Table.
+	 * Returns whether this table is a Stored Table.
 	 */
-	public void addRow(){
-		nbOfRows++;
-		columns.stream().forEach(col -> col.addBlankCell());
-	}
-		
-	/**
-	 * This method removes a row from the table based on index.
-	 * @param index 	The index of the row to be removed.
-	 * @return 			The removed row.
-	 */
-	public void removeRow(int index){
-		nbOfRows--;
-		for (Column c: columns){
-			c.removeCell(index);
-		}
+	public boolean isStoredTable() {
+		return this.getQueryString().equals("");
 	}
 	
 	/**
-	 * This method returns the next standard column name for the current table.
-	 * Standard column names are 'ColumnXYZ' where XYZ is the smallest integer
-	 * value that is not used yet as a column name in this table.
+	 * Returns whether this table is a Computed Table.
+	 * 
 	 */
-	private String newColumnName() {
-		ArrayList<String> names = getColumnNames();
-		String name = "Column";
-		int i = 0;
-		while(name == "Column") {
-			if (!names.contains("Column"+i)) {
-				name=("Column"+i);
-			}
-			i++;
-		}
-		return name;
+	public boolean isComputedTable() {
+		return (!isStoredTable());
 	}
-	
-	/**
-	 * This method returns an ArrayList of all the names of the columns of the current Table.
-	 */
-	public ArrayList<String> getColumnNames() {
-		ArrayList<String> names = new ArrayList<String>();
-		for (Column column: this.getColumns()){
-			names.add(column.getName());
-		}
-		return names;
-	}
-	
 }

@@ -21,6 +21,7 @@ import uielements.UIElement;
 import uielements.UIRow;
 import uielements.LeftUIEdge;
 import uielements.VoidElement;
+import domain.StoredTable;
 import domain.Table;
 import facades.Tablr;
 
@@ -204,9 +205,8 @@ public class TablesModeUI extends UI {
 				for (UIElement e : getElements()){
 					if (e.getError()) return;
 				}
-				if (tablr.isEmptyTable(curr)) {
-					System.out.println("[TablesModeUI.java:125]: Opening an empty table -> DesignMode");
-					this.getWindowManager().loadTableDesignModeUI(curr);
+				if (tablr.isEmptyTable(curr) && curr.isStoredTable()) {
+					this.getWindowManager().loadTableDesignModeUI((StoredTable)curr);
 				}
 				else {
 					System.out.println("[TablesModeUI.java:130]: Opening a table rows mode");

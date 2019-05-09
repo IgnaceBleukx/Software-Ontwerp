@@ -14,6 +14,7 @@ import uielements.TextField;
 import uielements.UIElement;
 import uielements.UIRow;
 import domain.Column;
+import domain.StoredTable;
 import domain.Table;
 import domain.Type;
 import exceptions.InvalidNameException;
@@ -38,7 +39,7 @@ public class TableDesignModeUI extends UI {
 		
 	}
 	
-	public void loadUI(Table table){
+	public void loadUI(StoredTable table){
 		setActive();
 		UIRow legend = getLegend();
 		if(getLegend() != null)
@@ -173,7 +174,7 @@ public class TableDesignModeUI extends UI {
 	 * Loads the columns from a given table
 	 * @return 		A Listview containing all information.
 	 */
-	private ListView loadColumnAttributes(Table table) {
+	private ListView loadColumnAttributes(StoredTable table) {
 		int currentHeight = getY() + edgeW+titleHeight+15;
 		
 		int namePosX = getLegend().getElements().get(0).getX();

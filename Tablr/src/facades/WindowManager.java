@@ -9,6 +9,7 @@ import java.util.Optional;
 import java.util.stream.Collectors;
 
 import Utils.DebugPrinter;
+import domain.StoredTable;
 import domain.Table;
 import ui.FormsModeUI;
 import ui.TableDesignModeUI;
@@ -128,7 +129,7 @@ public class WindowManager {
 		lastLoad = System.currentTimeMillis();
 	}
 
-	public void loadTableDesignModeUI(Table table){
+	public void loadTableDesignModeUI(StoredTable table){
 		TableDesignModeUI ui = null;
 		ArrayList<TableDesignModeUI> uis = getTableDesignModeUIs(table);
 		if (uis.isEmpty()) throw new RuntimeException("No TableDesignModeUI for table " + table);
