@@ -11,5 +11,8 @@ public class StringExpression extends Expression {
 	}
 	
 	private String value;
-
+	
+	public String toString() {
+		return "StringExpression(\""+value+"\")";
+	}
 }

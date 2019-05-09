@@ -1,13 +1,17 @@
 package sql;
 
-public class NumberExpression extends Expression {
+public class NumberExpression extends Expression<Double> {
 	public NumberExpression(double value) {
 		this.value = value;
 	}
 	
 	private double value;
 	
-	public double eval() {
+	public Double eval() {
 		return value;
+	}
+	
+	public String toString() {
+		return "NumberExpression("+value+")";
 	}
 }

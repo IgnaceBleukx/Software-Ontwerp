@@ -1,6 +1,7 @@
 package sql;
 
 import java.io.IOException;
+import sql.*;
 import java.io.StreamTokenizer;
 import java.io.StringReader;
 import java.util.HashMap;
@@ -40,7 +41,7 @@ public class SQLParser extends StreamTokenizer {
 	
 	public static class ParseException extends RuntimeException {}
 	
-	public static String parseQuery(String text) { return new SQLParser(text).parseQuery(); }
+	public static Query parseQuery(String text) { return new SQLParser(text).parseQuery(); }
 	
 	@Override
 	public int nextToken() {
@@ -178,9 +179,12 @@ public class SQLParser extends StreamTokenizer {
 		return parseDisjunction();
 	}
 	
-	public String parseQuery() {
+	public Query parseQuery() {
 		StringBuilder result = new StringBuilder();
+		Query q = new Query();
 		expect(TT_SELECT);
+		
+		//Read ColumnSpecs of SELECT clause
 		result.append("SELECT ");
 		for (;;) {
 			String e = parseExpr();
@@ -193,6 +197,8 @@ public class SQLParser extends StreamTokenizer {
 			} else
 				break;
 		}
+		
+		//Read TableSpecs of FROM clause
 		expect(TT_FROM);
 		result.append(" FROM ");
 		{
@@ -214,10 +220,16 @@ public class SQLParser extends StreamTokenizer {
 			String cell2 = parseCellId();
 			result.append(" INNER JOIN " + tableName + " AS " + rowId + " ON " + cell1 + " = " + cell2);
 		}
+		
+		//Read expression of WHERE clause
 		expect(TT_WHERE);
 		String cond = parseExpr();
 		result.append(" WHERE " + cond);
 		return result.toString();
+	}
+	
+	public static void main(String[] args) {
+		
 	}
 	
 }

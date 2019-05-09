@@ -1,15 +1,19 @@
 package sql;
 
-public class BooleanExpression extends Expression {
+public class BooleanExpression extends Expression<Boolean> {
 	
 	public BooleanExpression(boolean value) {
 		this.value = value;
 	}
 	
-	public boolean eval() {
+	public Boolean eval() {
 		return value;
 	}
 	
 	private boolean value;
+	
+	public String toString() {
+		return "BooleanExpression("+value+")";
 
+	}
 }
