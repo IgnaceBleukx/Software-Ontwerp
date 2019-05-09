@@ -6,6 +6,7 @@ import java.awt.Graphics;
 import java.awt.Rectangle;
 import java.awt.Shape;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.function.BiConsumer;
 
@@ -46,47 +47,31 @@ public class QueryTextField extends TextField {
 		Shape oldClip = g.getClip();
 		int[] i = GeometricUtils.intersection(getX(), getY(), getWidth(), getHeight(), oldClip.getBounds().x, 
 												oldClip.getBounds().y, oldClip.getBounds().width, oldClip.getBounds().height);
+		
+		ArrayList<String> sqlSyntax = new ArrayList<String>(Arrays.asList("FROM","SELECT","JOIN","WHERE","AS"));
+		String[] words = getText().split(" ");
+		int x = getX()+10;
 		g.setClip(new Rectangle(i[0],i[1],i[2],i[3]));
-		if (!this.isSelected())
-			g.drawString(this.getText(), super.getX()+10, y);
-		else
-			g.drawString(this.getText() + "<", super.getX()+10, y);
+		for (String word : words) {
+			g.setColor(Color.black);
+			if (sqlSyntax.contains(word.toUpperCase()))
+				g.setColor(Color.BLUE);
+			g.drawString(word, x, y);
+			x += metrics.stringWidth(word) + 3;
+		}
+		g.setColor(Color.BLACK);
+		if(isSelected())
+			g.drawString("<", x, y);
 		g.setClip(oldClip);
+		
+		
+//		if (!this.isSelected())
+//			g.drawString(this.getText(), super.getX()+10, y);
+//		else
+//			g.drawString(this.getText() + "<", super.getX()+10, y);
+		
 	}
-	
-	@Override
-	public void handleKeyboardEvent(int keyCode, char keyChar) {
-		if (!this.isSelected()) return;
-		if (keyCode == 10 && isSelected() == true) { //Enter, end editing
-			if (!getError())
-				deselect();
-		}
-
-		if (keyCode == 27 &&  isSelected()) { //Esc, restore
-			restoreText();
-			deselect();
-			if(getError()) isNotError();
-		}
-				
-		if (keyCode == 8 && isSelected()) { //Backspace: remove character
-			if (getText().length() > 0) {
-				String newText = getText().substring(0, getText().length() - 1);
-				setText(newText);
-			}	
-		}
-
 		
-		if ((Character.isLetterOrDigit(keyChar) || keyChar == '@' || keyChar == '.' || keyChar == ' ') && isSelected()) {
-			setText(getText()+keyChar);
-		}
-		
-		
-		if (new HashMap<Integer, ArrayList<Runnable>>(keyboardListeners).get(keyCode) == null)
-			return;
-		
-		new HashMap<Integer, ArrayList<Runnable>>(keyboardListeners).get(keyCode).stream().forEach(l -> l.run());
-	}
-	
 
 	@Override
 	public QueryTextField clone(){
