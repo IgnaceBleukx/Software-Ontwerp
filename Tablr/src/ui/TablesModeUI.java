@@ -40,7 +40,7 @@ public class TablesModeUI extends UI {
 		legendWidth = getWidth()-2*edgeW-scrollBarWidth;
 		
 		columnResizeListeners.add((delta,index) -> {
-			getLegend().resizeElementR(delta, index);
+			getLegend().resizeElementR(delta, 2*index);
 			getListview().getElements().stream().filter(e -> e instanceof UIRow).forEach(e -> ((UIRow) e).resizeElementR(delta,index+1));
 		});
 	}
@@ -75,10 +75,14 @@ public class TablesModeUI extends UI {
 
 		if (legend == null) {
 			legend = new UIRow(getX()+edgeW,getY()+edgeW+titleHeight,legendWidth,15,new ArrayList<UIElement>());
-			Dragger tableNameDragger = new Dragger(legend.getEndX()-2,legend.getY(),4,legend.getHeight());
-			Text tableName = new Text(legend.getX()+tableRowHeight,legend.getY(),legend.getWidth()-2-tableRowHeight,legend.getHeight(),"Table name");
+			Text tableName = new Text(legend.getX()+tableRowHeight,legend.getY(),legend.getWidth()-4-150-tableRowHeight,legend.getHeight(),"Table name");
+			Dragger tableNameDragger = new Dragger(tableName.getEndX(),legend.getY(),4,legend.getHeight());
+			Text query = new Text(tableNameDragger.getEndX(),legend.getY(),legend.getEndX()-tableNameDragger.getEndX()-4,legend.getHeight(),"Query");
+			Dragger queryDragger = new Dragger(query.getEndX(),legend.getY(),4,legend.getHeight());
 			legend.addElement(tableNameDragger);
 			legend.addElement(tableName);
+			legend.addElement(query);
+			legend.addElement(queryDragger);
 		}
 		
 		this.addUIElement(legend);
@@ -86,6 +90,9 @@ public class TablesModeUI extends UI {
 		legendElementsCopy.sort((UIElement e1, UIElement e2) -> e1.getX() - e2.getX());
 		Text tableName = (Text) legendElementsCopy.get(0);
 		Dragger tableNameDragger = (Dragger) legendElementsCopy.get(1);
+		Text query = (Text) legendElementsCopy.get(2);
+		Dragger queryDragger = (Dragger) legendElementsCopy.get(3);
+		DebugPrinter.print(legendElementsCopy);
 		
 		tableNameDragger.addDragListener((newX,newY) -> {
 			int delta = newX - tableNameDragger.getGrabPointX();
@@ -94,6 +101,15 @@ public class TablesModeUI extends UI {
 				deltaFinal = minimumColumnWidth - tableName.getWidth();
 			getWindowManager().notifyTablesModeUIsColResized(deltaFinal,0);
 		});
+		
+		queryDragger.addDragListener((newX, newY) -> {
+			int delta = newX - queryDragger.getGrabPointX();
+			int deltaFinal = delta;
+			if (tableName.getWidth() + delta < minimumColumnWidth) 
+				deltaFinal = minimumColumnWidth - query.getWidth();
+			getWindowManager().notifyTablesModeUIsColResized(deltaFinal,1);
+		});
+		
 		
 		ListView list = loadFromTables();
 		addUIElement(list);
@@ -149,6 +165,17 @@ public class TablesModeUI extends UI {
 			Button deleteButton = new Button(list.getX(), y,buttonSize,buttonSize,"");
 			currRow.addElement(deleteButton);
 			
+			ArrayList<UIElement> legendElementsCopy = getLegend().getElements();
+			legendElementsCopy.sort((UIElement e1, UIElement e2) -> e1.getX() - e2.getX());
+			int tableNameWidth = legendElementsCopy.get(0).getWidth()+2;
+			int queryLabelWidth = legendElementsCopy.get(2).getWidth()+6;
+			
+			TextField tableNameLabel = new TextField(deleteButton.getEndX(), y, tableNameWidth, tableRowHeight, curr.getName());
+			currRow.addElement(tableNameLabel);
+			
+			TextField queryLabel = new TextField(tableNameLabel.getEndX(),y,queryLabelWidth,tableRowHeight, tablr.getTableQuery(curr));
+			currRow.addElement(queryLabel);
+			
 			//Listener to select rows
 			deleteButton.addSingleClickListener(() -> {
 				for (UIElement e : list.getElements()){
@@ -169,9 +196,6 @@ public class TablesModeUI extends UI {
 				}
 			});
 			
-			
-			TextField tableNameLabel = new TextField(deleteButton.getEndX(), y, getLegend().getWidth()-buttonSize, tableRowHeight, curr.getName());
-			currRow.addElement(tableNameLabel);
 			//Table name textfields listen to alphanumeric keyboard input
 			tableNameLabel.addKeyboardListener(-1, () -> {
 				

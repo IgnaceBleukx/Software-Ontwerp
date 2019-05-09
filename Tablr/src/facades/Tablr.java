@@ -82,6 +82,10 @@ public class Tablr {
 		return t;
 	}
 	
+	public String getTableQuery(Table table) {
+		return domainFacade.getTableQuery(table);
+	}
+	
 	/**
 	 * Returns a copy of the list of all tables.
 	 * @return	A list containing all tables the domain knows of.

@@ -156,6 +156,10 @@ public class DomainFacade {
 		
 	}
 	
+	public String getTableQuery(Table table) {
+		return table.getQuery();
+	}
+	
 	/**
 	 * Sets the name of a column.
 	 * @param col						Column

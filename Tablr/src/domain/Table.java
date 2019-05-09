@@ -9,11 +9,20 @@ import exceptions.InvalidNameException;
 public class Table {
 	
 	/**
-	 * Creates a new Table
+	 * Creates a new empty stored Table
 	 * @param name		The name of this table
 	 */
 	public Table(String name) {
 		setName(name);
+		setQuery("");
+	}
+	
+	/**
+	 * Creates a new empty computated Table
+	 */
+	public Table(String name, String query) {
+		setName(name);
+		setQuery(query);
 	}
 	
 	/**
@@ -37,6 +46,23 @@ public class Table {
 		this.name = name;
 	}
 	
+	private String query;
+	
+	/**
+	 * This method sets the query of the current Table.
+	 * @param query 	The Query of the table.
+	 */
+	public void setQuery(String query) {
+		this.query = query;
+	}
+	
+	/**
+	 * This method returns the query of the current Table.
+	 * @return
+	 */
+	public String getQuery() {
+		return this.query;
+	}
 	
 	/**
 	 * The table's columns from left to right
