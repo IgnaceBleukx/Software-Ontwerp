@@ -1,7 +1,7 @@
 package sql;
 
-public class OrExpression extends Expression<Boolean> {
-	public OrExpression(Expression<Boolean> expression1, Expression<Boolean> expression2) {
+public class ORExpression extends Expression<Boolean> {
+	public ORExpression(Expression<Boolean> expression1, Expression<Boolean> expression2) {
 		this.expression1 = expression1;
 		this.expression2 = expression2;
 	}

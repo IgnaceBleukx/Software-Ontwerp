@@ -1,5 +1,7 @@
 package sql;
 
+import Utils.DebugPrinter;
+
 public class StringExpression extends Expression {
 
 	public StringExpression(String value) {

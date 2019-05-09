@@ -1,6 +1,6 @@
 package sql;
 
-public class SimpleTableSpec {
+public class SimpleTableSpec extends TableSpec {
 	public SimpleTableSpec(String tableName, String rowID) {
 		this.tableName = tableName;
 		this.rowID = rowID;

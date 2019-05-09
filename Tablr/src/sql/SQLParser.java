@@ -1,12 +1,17 @@
 package sql;
 
 import java.io.IOException;
+
 import sql.*;
+
 import java.io.StreamTokenizer;
 import java.io.StringReader;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Set;
+
+import Utils.DebugPrinter;
 
 public class SQLParser extends StreamTokenizer {
 	
@@ -85,53 +90,53 @@ public class SQLParser extends StreamTokenizer {
 		return result;
 	}
 	
-	public String parseCellId() {
+	public CellIDExpression parseCellId() {
 		String rowId = expectIdent();
 		expect('.');
 		String colName = expectIdent();
-		return rowId + "." + colName;
+		return new CellIDExpression(rowId, colName);
 	}
 	
-	public String parsePrimaryExpr() {
+	public Expression parsePrimaryExpr() {
 		switch (ttype) {
 		case TT_TRUE:
 			nextToken();
-			return "TRUE";
+			return new BooleanExpression(true);
 		case TT_FALSE:
 			nextToken();
-			return "FALSE";
+			return new BooleanExpression(false);
 		case TT_NUMBER: {
 			int value = (int)nval;
 			nextToken();
-			return String.valueOf(value);
+			return new NumberExpression(value);
 		}
 		case '"': {
 			String value = sval;
 			nextToken();
-			return '"' + value + '"';
+			return new StringExpression(value);
 		}
 		case TT_IDENT: return parseCellId();
 		case '(': {
 			nextToken();
-			String result = parseExpr();
+			Expression result = parseExpr();
 			expect(')');
-			return "(" + result + ")";
+			return new BracketExpression<>(result);
 		}
 		default: throw error();
 		}
 	}
 	
-	public String parseSum() {
-		String e = parsePrimaryExpr();
+	public Expression parseSum() {
+		Expression e = parsePrimaryExpr();
 		for (;;) {
 			switch (ttype) {
 			case '+':
 				nextToken();
-				e = e + " + " + parsePrimaryExpr();
+				e = new PlusExpression(e,parsePrimaryExpr());
 				break;
 			case '-':
+				e = new MinusExpression(e,parsePrimaryExpr());
 				nextToken();
-				e = e + " - " + parsePrimaryExpr();
 				break;
 			default:
 				return e;
@@ -139,44 +144,45 @@ public class SQLParser extends StreamTokenizer {
 		}
 	}
 		
-	public String parseRelationalExpr() {
-		String e = parseSum();
+	public Expression parseRelationalExpr() {
+		Expression e = parseSum();
 		switch (ttype) {
-		case '=':
-		case '<':
-		case '>':
-			char operator = (char)ttype;
-			nextToken();
-			return e + " " + operator + " " + parseSum();
+			case '=': {nextToken(); return new EqualsExpression(e,parseSum());}
+			case '<': {nextToken(); return new SmallerThanExpression(e,parseSum());} 
+			case '>': {nextToken(); return new GreaterThanExpression(e,parseSum());}
 		default:
 			return e;
 		}
 	}
 	
-	public String parseConjunction() {
-		String e = parseRelationalExpr();
+	public Expression parseConjunction() {
+		Expression e = parseRelationalExpr();
 		switch (ttype) {
 		case TT_AND:
 			nextToken();
-			return e + " AND " + parseConjunction();
+			return new ANDExpression(e,parseConjunction());
 		default:
 			return e;
 		}
 	}
 	
-	public String parseDisjunction() {
-		String e = parseConjunction();
+	public Expression parseDisjunction() {
+		Expression e = parseConjunction();
 		switch (ttype) {
 		case TT_OR:
 			nextToken();
-			return e + " OR " + parseDisjunction();
+			return new ORExpression(e, parseDisjunction());
 		default:
 			return e;
 		}
 	}
 
-	public String parseExpr() { 
+	public Expression parseExpr() { 
 		return parseDisjunction();
+	}
+	
+	public static CellIDExpression parseCellIDExpression(String e) {
+		return new CellIDExpression(e.split("\\.")[0], e.split("\\.")[1]);
 	}
 	
 	public Query parseQuery() {
@@ -187,24 +193,28 @@ public class SQLParser extends StreamTokenizer {
 		//Read ColumnSpecs of SELECT clause
 		result.append("SELECT ");
 		for (;;) {
-			String e = parseExpr();
+			Expression e = parseExpr();
 			expect(TT_AS);
 			String colName = expectIdent();
 			result.append(e + " AS " + colName);
+			q.addColumnSpec(new ColumnSpec((CellIDExpression) e,colName));
 			if (ttype == ',') {
 				nextToken();
 				result.append(", ");
 			} else
 				break;
 		}
+		DebugPrinter.print(q);
 		
 		//Read TableSpecs of FROM clause
 		expect(TT_FROM);
 		result.append(" FROM ");
+		TableSpec prevSpec = null;
 		{
 			String tableName = expectIdent();
 			expect(TT_AS);
 			String rowId = expectIdent();
+			prevSpec = new SimpleTableSpec(tableName, rowId);
 			result.append(tableName + " AS " + rowId);
 			
 		}
@@ -215,17 +225,31 @@ public class SQLParser extends StreamTokenizer {
 			expect(TT_AS);
 			String rowId = expectIdent();
 			expect(TT_ON);
-			String cell1 = parseCellId();
+			CellIDExpression cell1 = parseCellId();
 			expect('=');
-			String cell2 = parseCellId();
+			CellIDExpression cell2 = parseCellId();
+			SimpleTableSpec rightTable = new SimpleTableSpec(tableName,rowId);
+			prevSpec = new JoinTableSpec(prevSpec, rightTable, cell1, cell2);
 			result.append(" INNER JOIN " + tableName + " AS " + rowId + " ON " + cell1 + " = " + cell2);
 		}
+		q.setTableSpecs(prevSpec);
+		
+		DebugPrinter.print(q);
 		
 		//Read expression of WHERE clause
 		expect(TT_WHERE);
-		String cond = parseExpr();
+		Expression cond = parseExpr();
 		result.append(" WHERE " + cond);
+		q.setExpression(cond);
 		return q;
+	}
+	
+	public static void main(String[] args) {
+		Query q = parseQuery("SELECT student.name AS name, student.program AS program "
+					        +"FROM enrollments AS enrollment INNER JOIN students AS student "
+					        +"ON enrollment.student_id = student.student_id "
+					        +"WHERE enrollment.course_id = \"SWOP\"");
+		System.out.println(q);
 	}
 	
 }

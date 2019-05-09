@@ -7,18 +7,25 @@ import Utils.DebugPrinter;
 
 
 public class Query {
-	private ArrayList<ColumnSpec> columnSpecs;
+	public Query() {
+		
+	}
+	private ArrayList<ColumnSpec> columnSpecs = new ArrayList<ColumnSpec>();
 	private TableSpec tableSpecs;
 	private Expression<Boolean> expression;
 	
 	public String toString() {
+		String columnSpecsStr = columnSpecs == null? "Null" : columnSpecs.toString();
+		String tableSpecsStr = tableSpecs == null? "Null" : tableSpecs.toString();
+		String expressionStr = expression == null? "Null" : expression.toString();
+		
 		return "Query: \n"
 				+ "SELECT \n"
-				+ "		"+columnSpecs.toString() +"\n"
+				+ "		"+columnSpecsStr +"\n"
 				+ "FROM \n"
-				+ "		"+tableSpecs.toString() +"\n"
+				+ "		"+tableSpecsStr +"\n"
 				+ "WHERE \n"
-				+ "		"+expression.toString() +"\n";
+				+ "		"+expressionStr +"\n";
 	}
 	
 	public Table run() {

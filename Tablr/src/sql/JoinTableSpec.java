@@ -10,14 +10,14 @@ public class JoinTableSpec extends TableSpec {
 
 	}
 	
-	SimpleTableSpec leftTable;
+	TableSpec leftTable;
 	SimpleTableSpec rightTable;
 
 	
 	CellIDExpression leftCell;
 	CellIDExpression rightCell;
 	
-	public SimpleTableSpec getLeftTable() {
+	public TableSpec getLeftTable() {
 		return this.leftTable;
 	}
 	
