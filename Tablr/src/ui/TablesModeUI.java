@@ -45,17 +45,6 @@ public class TablesModeUI extends UI {
 		});
 	}
 	
-	public TablesModeUI(int x, int y, int w, int h, UIRow legend, Tablr t) {
-		super(x,y,w,h);
-		this.setTablr(t);
-		legendWidth = legend.getWidth();
-		
-		columnResizeListeners.add((delta,index) -> {
-			getLegend().resizeElementR(delta, index);
-			getListview().getElements().stream().filter(e -> e instanceof UIRow).forEach(e -> ((UIRow) e).resizeElementR(delta,index+1));
-		});
-	}
-	
 	/**
 	 * Height of rows in the list of tables
 	 */
@@ -74,6 +63,7 @@ public class TablesModeUI extends UI {
 	 */
 	public void loadUI(){
 		setActive();
+		UIRow legend = getLegend();
 		this.clear();		
 		
 		//Creating background:
@@ -83,12 +73,19 @@ public class TablesModeUI extends UI {
 		titleBar.setText("Tables mode");
 		loadUIAttributes();
 
-		UIRow legend = new UIRow(getX()+edgeW,getY()+edgeW+titleHeight,legendWidth,15,new ArrayList<UIElement>());
-		Dragger tableNameDragger = new Dragger(legend.getEndX()-2,legend.getY(),4,legend.getHeight());
-		Text tableName = new Text(legend.getX()+tableRowHeight,legend.getY(),legend.getWidth()-2-tableRowHeight,legend.getHeight(),"Table name");
-		legend.addElement(tableNameDragger);
-		legend.addElement(tableName);
+		if (legend == null) {
+			legend = new UIRow(getX()+edgeW,getY()+edgeW+titleHeight,legendWidth,15,new ArrayList<UIElement>());
+			Dragger tableNameDragger = new Dragger(legend.getEndX()-2,legend.getY(),4,legend.getHeight());
+			Text tableName = new Text(legend.getX()+tableRowHeight,legend.getY(),legend.getWidth()-2-tableRowHeight,legend.getHeight(),"Table name");
+			legend.addElement(tableNameDragger);
+			legend.addElement(tableName);
+		}
+		
 		this.addUIElement(legend);
+		ArrayList<UIElement> legendElementsCopy = getLegend().getElements();
+		legendElementsCopy.sort((UIElement e1, UIElement e2) -> e1.getX() - e2.getX());
+		Text tableName = (Text) legendElementsCopy.get(0);
+		Dragger tableNameDragger = (Dragger) legendElementsCopy.get(1);
 		
 		tableNameDragger.addDragListener((newX,newY) -> {
 			int delta = newX - tableNameDragger.getGrabPointX();
@@ -97,7 +94,6 @@ public class TablesModeUI extends UI {
 				deltaFinal = minimumColumnWidth - tableName.getWidth();
 			getWindowManager().notifyTablesModeUIsColResized(deltaFinal,0);
 		});
-		
 		
 		ListView list = loadFromTables();
 		addUIElement(list);
@@ -130,8 +126,9 @@ public class TablesModeUI extends UI {
 
 		ArrayList<Table> tables = this.getTablr().getTables();
 		
-		list.addKeyboardListener(112, () -> {
-			DebugPrinter.print(list.getElements());
+		list.addKeyboardListener(70, () -> {
+			if (!getWindowManager().recentCtrl())
+				return;
 			ArrayList<UIRow> r = new ArrayList<UIRow>(list.getElements().stream().filter(e -> e instanceof UIRow).map(e -> (UIRow) e).collect(Collectors.toList()));
 			for (int i=0;i<tables.size();i++) {
 				if(r.get(i).isSelected()) {
@@ -244,7 +241,9 @@ public class TablesModeUI extends UI {
 	
 	@Override
 	public TablesModeUI clone(){
-		TablesModeUI clone = new TablesModeUI(getX(),getY(),getWidth(),getHeight(), getLegend(), getTablr());
+		TablesModeUI clone = new TablesModeUI(getX(),getY(),getWidth(),getHeight(), getTablr());
+		ArrayList<UIElement> clonedElements = new ArrayList<>(elements.stream().map(e -> e.clone()).collect(Collectors.toList()));
+		clone.elements = clonedElements;
 		return clone;
 	}
 
