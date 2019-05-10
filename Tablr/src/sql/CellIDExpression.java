@@ -1,14 +1,31 @@
 package sql;
 
+import java.util.ArrayList;
 
-public class CellIDExpression extends Expression {
+import domain.Column;
+import domain.Table;
+
+public class CellIDExpression extends Expression<String> {
 	public CellIDExpression(String rowID, String columnName) {
 		this.rowID = rowID;
 		this.columnName = columnName;
 	}
 	
-	public String eval() {
-		throw new RuntimeException("CellIDExpression should not eval(), use getRowID() and getColumnName() instead.");
+	@Override
+	public String eval(ArrayList<Table> tables, int rowNb) {
+		String colName;
+		Table table;
+		if (tables.size() == 1) {
+			table = tables.get(0);
+			colName = rowID+"."+columnName;
+		}
+		else {
+			table = tables.stream().filter(t -> t.getName().equals(rowID)).findFirst().orElseThrow(() -> new RuntimeException("Table " + rowID + "not found"));
+			colName = columnName;
+		}
+		Column col = table.getColumns().stream().filter(c -> c.getName().equals(colName)).
+				findFirst().orElseThrow(() -> new RuntimeException("No column "+ colName + "in table"));
+		return col.getValueAtString(rowNb);
 	}
 	
 	public String getRowID() {
@@ -25,4 +42,5 @@ public class CellIDExpression extends Expression {
 	public String toString() {
 		return "cellIDExpression("+rowID+"."+columnName+")";
 	}
+
 }

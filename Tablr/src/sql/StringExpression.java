@@ -1,14 +1,17 @@
 package sql;
 
-import Utils.DebugPrinter;
+import java.util.ArrayList;
 
-public class StringExpression extends Expression {
+import Utils.DebugPrinter;
+import domain.Table;
+
+public class StringExpression extends Expression<String> {
 
 	public StringExpression(String value) {
 		this.value = value;
 	}
 	
-	public String eval() {
+	public String eval(ArrayList<Table> tables, int rowNb) {
 		return value;
 	}
 	

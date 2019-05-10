@@ -380,17 +380,6 @@ public class Column {
 		DebugPrinter.print(getCell(index).getValue());
 		Boolean cellValue = (Boolean) getCell(index).getValue();
 		changeCellValue(index,Type.BOOLEAN.toString(nextValueBoolean(cellValue,getBlankingPolicy())));
-//		String cellValueString;
-//		if (cellValue == null)
-//			cellValueString = null;
-//		else cellValueString = cellValue.toString();
-//		Boolean value;
-//		if (cellValueString == null)
-//			value = nextValueBoolean(null,getBlankingPolicy());
-//		else
-//			value = nextValueBoolean(BooleanCaster.cast(cellValueString),getBlankingPolicy());
-//		if (value == null) changeCellValue(index,null);
-//		else changeCellValue(index,Boolean.toString(value));
 	}
 	
 	/**
@@ -410,8 +399,8 @@ public class Column {
 		return cells.get(rowN).getValue();
 	}
 
-	public Object getValueAtString(int rowN) {
-		return cells.get(rowN).getValue();
+	public String getValueAtString(int rowN) {
+		return cells.get(rowN).getValueString();
 	}
 
 	
