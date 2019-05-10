@@ -1,9 +1,13 @@
 package sql;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 
+import domain.Cell;
+import domain.Column;
 import domain.ComputedTable;
+import domain.StoredTable;
 import domain.Table;
 import exceptions.InvalidNameException;
 import exceptions.InvalidQueryException;
@@ -65,6 +69,30 @@ public class Query {
 
 	public Table resolveFrom(ArrayList<Table> tables) throws InvalidQueryException {
 		return tableSpecs.resolve(tables);
+	}
+	
+	public Table resolveWhere(Table table) {
+		ArrayList<Integer> keep = new ArrayList<Integer>();
+		ArrayList<Table> t = new ArrayList<Table>(Arrays.asList(table));
+		for (int i = 0;i < table.getColumns().size();i++) {
+			if (expression.eval(t, i));
+				keep.add(i);
+		}
+		
+		Table resolved = new StoredTable("t");
+		for (Column c : table.getColumns()) {
+			ArrayList<Cell<?>> newVals = new ArrayList<Cell<?>>();
+			for (int index : keep) {
+				newVals.add(new Cell(c.getValueAt(index)));
+			}
+			try {
+				resolved.addColumn(new Column(c.getName(),newVals));
+			} catch (InvalidNameException e) {
+				e.printStackTrace();
+			}
+		}
+		
+		return resolved;
 	}
 	
 }

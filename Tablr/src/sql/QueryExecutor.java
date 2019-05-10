@@ -1,6 +1,8 @@
 package sql;
 
+import java.awt.List;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 
 import domain.ComputedTable;
@@ -17,6 +19,7 @@ public class QueryExecutor {
 		
 		// --> tableSpecs
 		//2. Filter rows (WHERE)
+		t = q.resolveWhere(t);
 		// --> expression
 		//3. Return columns (SELECT)
 		// --> columnSpecs
