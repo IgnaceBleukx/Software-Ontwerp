@@ -13,8 +13,18 @@ public class CellIDExpression extends Expression<String> {
 	
 	@Override
 	public String eval(ArrayList<Table> tables, int rowNb) {
-		Table tab = tables.stream().filter(t -> t.getName().equals(rowID)).findFirst().orElseThrow(() -> new RuntimeException("The table " + getRowID() + "could not be found"));
-		Column col = tab.getColumns().stream().filter(c -> c.getName().equals(columnName)).findFirst().orElseThrow(() -> new RuntimeException("The column " + columnName + "could not be found in " + tab.getName()));
+		String colName;
+		Table table;
+		if (tables.size() == 1) {
+			table = tables.get(0);
+			colName = rowID+"."+columnName;
+		}
+		else {
+			table = tables.stream().filter(t -> t.getName().equals(rowID)).findFirst().orElseThrow(() -> new RuntimeException("Table " + rowID + "not found"));
+			colName = columnName;
+		}
+		Column col = table.getColumns().stream().filter(c -> c.getName().equals(colName)).
+				findFirst().orElseThrow(() -> new RuntimeException("No column "+ colName + "in table"));
 		return col.getValueAtString(rowNb);
 	}
 	
