@@ -3,6 +3,7 @@ package sql;
 import java.util.ArrayList;
 import java.util.HashMap;
 
+import domain.Column;
 import domain.ComputedTable;
 import domain.Table;
 import exceptions.InvalidNameException;
@@ -65,6 +66,39 @@ public class Query {
 
 	public Table resolveFrom(ArrayList<Table> tables) throws InvalidQueryException {
 		return tableSpecs.resolve(tables);
+	}
+	
+	public ArrayList<ColumnSpec> getColumnSpecs() {
+		return this.columnSpecs;
+	}
+	
+	public Table selectColumns(Table oldTable, HashMap<String,String> tableNameAliases) throws InvalidNameException {
+		ArrayList<Column> cols = oldTable.getColumns();
+		ArrayList<Column> newCols = new ArrayList<>();
+		for (Column c : cols) {
+			for (ColumnSpec spec : getColumnSpecs()) {
+				//Given a columnSpec tableName.columnName,
+				//A column should be kept if:
+				//1. a columnSpec is tableName.columnName
+				//2. a columnSpec is tableNameAlias.columnName and 
+				//	 an alias tableNameAlias -> tableName exists.
+				if (spec.getCellID().getRowID().equals(c.getName())
+						|| tableNameAliases.get(spec.getCellID().getRowID()).equals(c.getName())) {
+					//Keep column
+					newCols.add(c);
+				}
+			}
+			
+		}
+		
+		//Rename columns according to columnSpecs
+		for (int i=0; i<getColumnSpecs().size(); i++) {
+			newCols.get(i).setName(getColumnSpecs().get(i).getName());
+		}
+		
+		Table newTable = new ComputedTable("Result",this);
+		newTable.addAllColumns(newCols);
+		return newTable;
 	}
 	
 }

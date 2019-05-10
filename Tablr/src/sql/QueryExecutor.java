@@ -3,12 +3,14 @@ package sql;
 import java.util.ArrayList;
 import java.util.HashMap;
 
+import domain.Column;
 import domain.ComputedTable;
 import domain.Table;
+import exceptions.InvalidNameException;
 import exceptions.InvalidQueryException;
 
 public class QueryExecutor {
-	public static ComputedTable executeQuery(Query q, ArrayList<Table> tables) throws InvalidQueryException {
+	public static ComputedTable executeQuery(Query q, ArrayList<Table> tables) throws InvalidQueryException, InvalidNameException {
 	
 		//Order of execution:
 		//1. Get necessary tables (FROM+JOIN)
@@ -21,7 +23,11 @@ public class QueryExecutor {
 		//3. Return columns (SELECT)
 		// --> columnSpecs
 		
-		
+		//[
+		//	 ColumnSpec(cellIDExpression(student.name) AS name), 
+		//   ColumnSpec(cellIDExpression(student.program) AS program)
+		//]
+		t = q.selectColumns(t, tableNames);
 		
 		
 		return null;

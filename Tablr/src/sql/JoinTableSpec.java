@@ -108,11 +108,10 @@ public class JoinTableSpec extends TableSpec {
 					matches.add(new RowPair(i,j));
 				}
 				else {
-					DebugPrinter.print("No match: "+leftColumn.getCells().get(i).getValue()+" and "+rightColumn.getCells().get(j).getValue());
+					//DebugPrinter.print("No match: "+leftColumn.getCells().get(i).getValue()+" and "+rightColumn.getCells().get(j).getValue());
 				}
 			}
 		}
-		DebugPrinter.print(matches);
 		
 		ArrayList<Column> newColumns = new ArrayList<Column>();
 		columnsLeft.stream()

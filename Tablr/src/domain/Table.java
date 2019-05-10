@@ -153,7 +153,8 @@ public abstract class Table {
 	 * Prints the table in a somewhat readable form
 	 */
 	public void printTable() {
-		getColumnNames().stream().forEach(System.out::print);
+		System.out.println(getName());
+		getColumnNames().stream().forEach((name)->System.out.print(name+" "));
 		System.out.println("");
 		
 		for (int i=0;i<getColumns().get(0).getCells().size();i++) {
@@ -164,5 +165,6 @@ public abstract class Table {
 			System.out.println("");
 
 		}
+		System.out.println("");
 	}
 }
