@@ -74,6 +74,9 @@ public class JoinTableSpec extends TableSpec {
 	public Table resolve(ArrayList<Table> tables) throws InvalidQueryException {
 		Table left = leftTable.resolve(tables);
 		Table right = rightTable.resolve(tables);
+		
+		String tableNameLeft = left.getName();
+		String tableNameRight = right.getName();
 
 		
 		String columnNameLeft = leftCell.getcolumnName();
@@ -113,10 +116,10 @@ public class JoinTableSpec extends TableSpec {
 		
 		ArrayList<Column> newColumns = new ArrayList<Column>();
 		columnsLeft.stream()
-				   .forEach((c) -> createDuplicateColumn(c, newColumns));
+				   .forEach((c) -> createDuplicateColumn(tableNameLeft,c, newColumns));
 		columnsRight.stream()
 					.filter((c)->!c.getName().equals(columnNameRight))
-					.forEach((c) -> createDuplicateColumn(c,newColumns));
+					.forEach((c) -> createDuplicateColumn(tableNameRight,c,newColumns));
 		
 		StoredTable t = new StoredTable("t");
 		t.addAllColumns(newColumns);
@@ -133,9 +136,9 @@ public class JoinTableSpec extends TableSpec {
 		return t;
 	}
 	
-	private void createDuplicateColumn(Column c, ArrayList<Column> list) {
+	private void createDuplicateColumn(String tableName, Column c, ArrayList<Column> list) {
 		try {
-			list.add(new Column(c.getName(),null,c.getColumnType(),c.getDefault()));
+			list.add(new Column(tableName+"."+c.getName(),null,c.getColumnType(),c.getDefault()));
 		} catch (InvalidNameException e) {
 			//
 		}

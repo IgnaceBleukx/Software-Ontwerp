@@ -41,7 +41,7 @@ public class SimpleTableSpec extends TableSpec {
 	public Table resolve(ArrayList<Table>  tables) throws InvalidQueryException {
 		for (Table t : tables) {
 			if (t.getName().equals(tableName))
-				return t.clone("Temp");
+				return t.clone(t.getName());
 		}
 		throw new InvalidQueryException("Table name not found in WHERE clause");
 		
