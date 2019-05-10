@@ -76,7 +76,7 @@ public class Query {
 		return this.columnSpecs;
 	}
 	
-	public Table selectColumns(Table oldTable, HashMap<String,String> tableNameAliases) throws InvalidNameException {
+	public ComputedTable selectColumns(Table oldTable, HashMap<String,String> tableNameAliases) throws InvalidNameException {
 		ArrayList<Column> cols = oldTable.getColumns();
 		ArrayList<Column> newCols = new ArrayList<>();
 		for (Column c : cols) {
@@ -86,10 +86,13 @@ public class Query {
 				//1. a columnSpec is tableName.columnName
 				//2. a columnSpec is tableNameAlias.columnName and 
 				//	 an alias tableNameAlias -> tableName exists.
-				if (spec.getCellID().getRowID().equals(c.getName())
-						|| tableNameAliases.get(spec.getCellID().getRowID()).equals(c.getName())) {
+
+				DebugPrinter.print("ColumnSpec: "+tableNameAliases.get(spec.getCellID().getRowID())+"."+spec.getCellID().getcolumnName());
+				DebugPrinter.print("Column name: "+c.getName());
+				if ((tableNameAliases.get(spec.getCellID().getRowID())+"."+spec.getCellID().getcolumnName()).equals(c.getName())) {
 					//Keep column
 					newCols.add(c);
+					DebugPrinter.print(c.getName()+" added.");
 				}
 			}
 			
@@ -100,7 +103,7 @@ public class Query {
 			newCols.get(i).setName(getColumnSpecs().get(i).getName());
 		}
 		
-		Table newTable = new ComputedTable("Result",this);
+		ComputedTable newTable = new ComputedTable("Result",this);
 		newTable.addAllColumns(newCols);
 		return newTable;
 

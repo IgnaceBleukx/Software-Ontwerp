@@ -15,6 +15,8 @@ import sql.CellIDExpression;
 import sql.ColumnSpec;
 import sql.JoinTableSpec;
 import sql.Query;
+import sql.QueryExecutor;
+import sql.SQLParser;
 import sql.SimpleTableSpec;
 
 public class SQLTests {
@@ -38,13 +40,29 @@ public class SQLTests {
 	@Test
 	public void testSELECT() throws InvalidNameException  {
 		ArrayList<Table> tables = createTables();
+		tables.get(0).getColumns().get(0).setName("Table1.colA");
+		tables.get(0).getColumns().get(1).setName("Table1.colB");
 		Query q = new Query();
+		HashMap<String,String> aliases = new HashMap<String,String>();
+		aliases.put("Table1", "Table1");
 		q.addColumnSpec(new ColumnSpec(new CellIDExpression("Table1","colA"),"newColA"));
-		Table newTable = q.selectColumns(tables.get(0), new HashMap<String,String>());
+		Table newTable = q.selectColumns(tables.get(0),aliases);
 		newTable.printTable();
 		//[
 		//	ColumnSpec(cellIDExpression(Table1.colA) AS newColA), 
+		//  = SELECT Table1.colA as newColA
 		//]
+	}
+	
+	@Test
+	public void testQueryNoWhere() throws InvalidNameException, InvalidQueryException {
+		ArrayList<Table> tables = createTables();
+		Query q = SQLParser.parseQuery("SELECT t1.colA AS result "
+		        +"FROM Table1 AS t1 INNER JOIN Table2 AS t2 "
+		        +"ON t1.colB = t2.colC "
+		        +"WHERE TRUE");
+		Table t = QueryExecutor.executeQuery(q, tables);
+		//t.printTable();
 	}
 	
 	public ArrayList<Table> createTables() throws InvalidNameException {
