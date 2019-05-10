@@ -1,13 +1,17 @@
 package sql;
 
+import java.util.ArrayList;
 
-public class CellIDExpression extends Expression {
+import domain.Table;
+
+public class CellIDExpression extends Expression<String> {
 	public CellIDExpression(String rowID, String columnName) {
 		this.rowID = rowID;
 		this.columnName = columnName;
 	}
 	
-	public String eval() {
+	@Override
+	public String eval(ArrayList<Table> tables, int rowNb) {
 		throw new RuntimeException("CellIDExpression should not eval(), use getRowID() and getColumnName() instead.");
 	}
 	
@@ -25,4 +29,5 @@ public class CellIDExpression extends Expression {
 	public String toString() {
 		return "cellIDExpression("+rowID+"."+columnName+")";
 	}
+
 }

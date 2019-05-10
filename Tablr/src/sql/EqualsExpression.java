@@ -1,5 +1,9 @@
 package sql;
 
+import java.util.ArrayList;
+
+import domain.Table;
+
 public class EqualsExpression extends Expression<Boolean> {
 	public EqualsExpression(Expression<?> expression1, Expression<?> expression2) {
 		this.expression1 = expression1;
@@ -9,8 +13,8 @@ public class EqualsExpression extends Expression<Boolean> {
 	private Expression<?> expression1;
 	private Expression<?> expression2;
 	
-	public Boolean eval() {
-		return (expression1.eval().equals(expression2.eval()));
+	public Boolean eval(ArrayList<Table> tables, int rowNb) {
+		return (expression1.eval(tables, rowNb).equals(expression2.eval(tables, rowNb)));
 	}
 	
 	public String toString() {

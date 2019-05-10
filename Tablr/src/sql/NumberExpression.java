@@ -1,5 +1,9 @@
 package sql;
 
+import java.util.ArrayList;
+
+import domain.Table;
+
 public class NumberExpression extends Expression<Double> {
 	public NumberExpression(double value) {
 		this.value = value;
@@ -7,7 +11,7 @@ public class NumberExpression extends Expression<Double> {
 	
 	private double value;
 	
-	public Double eval() {
+	public Double eval(ArrayList<Table> tables, int rowNb) {
 		return value;
 	}
 	
