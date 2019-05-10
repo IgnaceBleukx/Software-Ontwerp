@@ -2,6 +2,7 @@ package sql;
 
 import java.util.ArrayList;
 
+import domain.Column;
 import domain.Table;
 
 public class CellIDExpression extends Expression<String> {
@@ -12,7 +13,9 @@ public class CellIDExpression extends Expression<String> {
 	
 	@Override
 	public String eval(ArrayList<Table> tables, int rowNb) {
-		throw new RuntimeException("CellIDExpression should not eval(), use getRowID() and getColumnName() instead.");
+		Table tab = tables.stream().filter(t -> t.getName().equals(rowID)).findFirst().orElseThrow(() -> new RuntimeException("The table " + getRowID() + "could not be found"));
+		Column col = tab.getColumns().stream().filter(c -> c.getName().equals(columnName)).findFirst().orElseThrow(() -> new RuntimeException("The column " + columnName + "could not be found in " + tab.getName()));
+		return col.getValueAtString(rowNb);
 	}
 	
 	public String getRowID() {

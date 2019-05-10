@@ -30,4 +30,10 @@ public class Cell<T> {
 	 * Value in this cell. Null iff this cell is 'blank'.
 	 */
 	private T value;
+
+
+	public String getValueString() {
+		if (value == null) return null;
+		return value.toString();
+	}
 }
