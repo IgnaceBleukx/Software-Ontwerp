@@ -3,6 +3,7 @@ package tests;
 import static org.junit.Assert.*;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 
 import domain.*;
 import exceptions.InvalidNameException;
@@ -11,12 +12,56 @@ import exceptions.InvalidQueryException;
 import org.junit.Test;
 
 import sql.CellIDExpression;
+import sql.ColumnSpec;
 import sql.JoinTableSpec;
+import sql.Query;
 import sql.SimpleTableSpec;
 
 public class SQLTests {
+
 	@Test
 	public void testJOIN() throws InvalidNameException, InvalidQueryException {
+
+		ArrayList<Table> tables = createTables();
+
+		SimpleTableSpec s1 = new SimpleTableSpec("Table1", "Table1");
+		SimpleTableSpec s2 = new SimpleTableSpec("Table2", "Table2");
+		JoinTableSpec s = new JoinTableSpec(s1, s2, 
+				new CellIDExpression("Table1", "colB"), 
+				new CellIDExpression("Table2", "colC"));
+		Table result = s.resolve(tables);
+		result.printTable();
+		
+		
+	}
+	
+	@Test
+	public void testSELECT() throws InvalidNameException  {
+		ArrayList<Table> tables = createTables();
+		Query q = new Query();
+		q.addColumnSpec(new ColumnSpec(new CellIDExpression("Table1","colA"),"newColA"));
+		Table newTable = q.selectColumns(tables.get(0), new HashMap<String,String>());
+		newTable.printTable();
+		//[
+		//	ColumnSpec(cellIDExpression(Table1.colA) AS newColA), 
+		//]
+	}
+	
+	public ArrayList<Table> createTables() throws InvalidNameException {
+		//
+		//Table1
+		//colA colB 
+		//   7   1
+		//   8   2
+		//   9   1
+		//  11   2
+
+		//Table2
+		//colC colD 
+		//   1  -1
+		//   1  -2
+		//   2  -4
+		//   2  -5
 		StoredTable table1 = new StoredTable("Table1");
 		StoredTable table2 = new StoredTable("Table2");
 		
@@ -74,21 +119,9 @@ public class SQLTests {
 		table1.addAllColumns(cols1);
 		table2.addAllColumns(cols2);
 		
-		table1.printTable();
-		table2.printTable();
-		
 		ArrayList<Table> tables = new ArrayList<>();
 		tables.add(table1);
 		tables.add(table2);
-
-		SimpleTableSpec s1 = new SimpleTableSpec("Table1", "Table1");
-		SimpleTableSpec s2 = new SimpleTableSpec("Table2", "Table2");
-		JoinTableSpec s = new JoinTableSpec(s1, s2, 
-				new CellIDExpression("Table1", "colB"), 
-				new CellIDExpression("Table2", "colC"));
-		Table result = s.resolve(tables);
-		result.printTable();
-		
-		
+		return tables;
 	}
 }
