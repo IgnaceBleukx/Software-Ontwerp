@@ -340,6 +340,16 @@ public class Column {
 	}
 	
 	/**
+	 * Toggles whether default values are allowed for a boolean Column
+	 */
+	public void togglePreviousDefaultBoolean() throws ClassCastException {
+		if (!getColumnType().equals(Type.BOOLEAN)) return;
+		System.out.println("[Column.java:377] : current default value = " + getDefault());
+		Boolean current = (Boolean) getDefault();
+		setDefaultValue(previousValueBoolean(current,getBlankingPolicy()));
+	}
+	
+	/**
 	 * Returns the next type in the standard order (STRING->EMAIL->BOOLEAN->INTEGER->STRING->...)
 	 * @param type		Some type.
 	 * @return			Next type
