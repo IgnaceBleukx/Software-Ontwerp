@@ -48,11 +48,15 @@ public class SQLTests {
 		ArrayList<Table> tables = createTables1();
 		Query q = new Query();
 		TableSpec s = new SimpleTableSpec("Table1","Table1");
-		EqualsExpression e = new EqualsExpression(new CellIDExpression("Table1","colA"),new StringExpression("7"));
+		EqualsExpression e = new EqualsExpression(new CellIDExpression("Table1","colA"),new NumberExpression(7));
 		q.setExpression(e);
 		q.setTableSpecs(s);
 		Table newTable = q.resolveWhere(tables.get(0));
 		newTable.printTable();
+		assertEquals(1,newTable.getRows());
+		assertEquals(7,newTable.getColumns().get(0).getValueAt(0));
+		assertEquals(1,newTable.getColumns().get(1).getValueAt(0));
+		
 	}
 	
 	@Test

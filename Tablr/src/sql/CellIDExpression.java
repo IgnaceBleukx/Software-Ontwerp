@@ -5,14 +5,14 @@ import java.util.ArrayList;
 import domain.Column;
 import domain.Table;
 
-public class CellIDExpression extends Expression<String> {
+public class CellIDExpression extends Expression<Object> {
 	public CellIDExpression(String rowID, String columnName) {
 		this.rowID = rowID;
 		this.columnName = columnName;
 	}
 	
 	@Override
-	public String eval(ArrayList<Table> tables, int rowNb) {
+	public Object eval(ArrayList<Table> tables, int rowNb) {
 		String colName;
 		Table table;
 		if (tables.size() == 1) {
@@ -25,7 +25,7 @@ public class CellIDExpression extends Expression<String> {
 		}
 		Column col = table.getColumns().stream().filter(c -> c.getName().equals(colName)).
 				findFirst().orElseThrow(() -> new RuntimeException("No column "+ colName + "in table"));
-		return col.getValueAtString(rowNb);
+		return col.getValueAt(rowNb);
 	}
 	
 	public String getRowID() {

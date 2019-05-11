@@ -4,14 +4,14 @@ import java.util.ArrayList;
 
 import domain.Table;
 
-public class NumberExpression extends Expression<Double> {
-	public NumberExpression(double value) {
+public class NumberExpression extends Expression<Integer> {
+	public NumberExpression(int value) {
 		this.value = value;
 	}
 	
-	private double value;
+	private int value;
 	
-	public Double eval(ArrayList<Table> tables, int rowNb) {
+	public Integer eval(ArrayList<Table> tables, int rowNb) {
 		return value;
 	}
 	
