@@ -13,11 +13,13 @@ import org.junit.Test;
 
 import sql.CellIDExpression;
 import sql.ColumnSpec;
+import sql.EqualsExpression;
 import sql.JoinTableSpec;
 import sql.Query;
 import sql.QueryExecutor;
 import sql.SQLParser;
 import sql.SimpleTableSpec;
+import sql.StringExpression;
 
 public class SQLTests {
 
@@ -61,6 +63,16 @@ public class SQLTests {
 		        +"FROM Table1 AS t1 INNER JOIN Table2 AS t2 "
 		        +"ON t1.colB = t2.colC "
 		        +"WHERE TRUE");
+		Table t = QueryExecutor.executeQuery(q, tables);
+		//t.printTable();
+	}
+	
+	@Test
+	public void testWhere() throws InvalidNameException, InvalidQueryException {
+		ArrayList<Table> tables = createTables();
+		Query q = SQLParser.parseQuery("SELECT t1.colA AS col1, t1.colB AS col2 "
+		        +"FROM Table1 AS t1 "
+		        +"WHERE t1.colA = 7");
 		Table t = QueryExecutor.executeQuery(q, tables);
 		//t.printTable();
 	}
