@@ -200,6 +200,8 @@ public class MyCanvasWindow extends CanvasWindow {
 		if(id == KeyEvent.KEY_PRESSED) {
 			if (keyCode == 17){
 				tablr.controlPressed();
+			} else if (keyCode == 16) {
+				tablr.shiftPressed();
 			} else if (keyCode == 90){
 				tablr.zIsPressed(keyChar);
 			}

@@ -462,10 +462,17 @@ public class Tablr {
 	}
 	
 	/**
-	 * Notifies the windowManager that a char has been pressed.
+	 * Notifies the windowManager that 'z' has been pressed.
 	 */
 	public void zIsPressed(char z) {
 		windowManager.zIsPressed(z);
+	}
+	
+	/**
+	 * Notifies the windowManager that 'shift' has been pressed.
+	 */
+	public void shiftPressed() {
+		windowManager.shiftPressed();
 	}
 	
 }

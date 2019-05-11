@@ -38,8 +38,12 @@ public class WindowManager {
 		keyListener.addKeyboardListener(90, () -> {
 			System.out.println("Z is pressed");
 			if (recentCtrl()) {
-				System.out.println("CTRL + Z is pressed in windowmanager");
-				tablr.undo();
+				if(recentShift()) {
+					DebugPrinter.print("CTRL + SHIFT + Z is pressed");
+				} else {
+					System.out.println("CTRL + Z is pressed in windowmanager");
+					tablr.undo();
+				}
 			}
 		});
 	}
@@ -367,7 +371,7 @@ public class WindowManager {
 	
 	/**
 	 * Returns whether Ctrl has been pressed in the last second
-	 * @return	true iff the last time Ctrl was pressed is less than 1000 milliseconds ago.
+	 * @return	true iff the last time Ctrl was pressed is less than 500 milliseconds ago.
 	 */
 	public boolean recentCtrl() {
 		return (System.currentTimeMillis() - lastCtrl < 500);
@@ -383,6 +387,23 @@ public class WindowManager {
 	
 	public void zIsPressed(char z) {
 		keyListener.handleKeyboardEvent(KeyEvent.getExtendedKeyCodeForChar(z), z);
+	}
+	
+	/**
+	 * Variable holding the number of milliseconds since the epoch at the moment Shift was pressed.
+	 */
+	private long lastShift = 0;
+	
+	/**
+	 * Returns whether Shift has been pressed in the last second
+	 * @return	true iff the last time Shift was pressed is less than 500 milliseconds ago.
+	 */
+	public boolean recentShift() {
+		return (System.currentTimeMillis() - lastShift < 500);
+	}
+	
+	public void shiftPressed() {
+		lastShift = System.currentTimeMillis();
 	}
 
 	
