@@ -74,8 +74,8 @@ public abstract class Table {
 	 * This method returns the number of rows of the current Table.
 	 */
 	public int getRows() {
-		return nbOfRows;
-		//return getColumns().isEmpty() ? nbOfRows : getColumns().get(0).getCells().size();
+		//return nbOfRows;
+		return getColumns().isEmpty() ? nbOfRows : getColumns().get(0).getCells().size();
 	}
 	
 	/**

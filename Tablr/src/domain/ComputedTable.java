@@ -6,7 +6,6 @@ public class ComputedTable extends Table {
 
 	public ComputedTable(String name, Query query) {
 		super(name);
-		
 	}
 
 	@Override

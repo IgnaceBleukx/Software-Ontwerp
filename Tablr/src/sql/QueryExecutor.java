@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
 
+import Utils.DebugPrinter;
 import domain.Column;
 import domain.ComputedTable;
 import domain.Table;
@@ -19,9 +20,17 @@ public class QueryExecutor {
 		HashMap<String,String> tableNames = q.findTableNameAliases();
 		Table t = q.resolveFrom(tables);
 		
+		DebugPrinter.print("==== Temporary table after JOIN: ");
+		t.printTable();
+		DebugPrinter.print("====");
+		
 		// --> tableSpecs
 		//2. Filter rows (WHERE)
 		t = q.resolveWhere(t);
+		
+		DebugPrinter.print("==== Temporary table after WHERE: ");
+		t.printTable();
+		DebugPrinter.print("====");
 		// --> expression
 		//3. Return columns (SELECT)
 		// --> columnSpecs
@@ -30,10 +39,13 @@ public class QueryExecutor {
 		//	 ColumnSpec(cellIDExpression(student.name) AS name), 
 		//   ColumnSpec(cellIDExpression(student.program) AS program)
 		//]
-		t = q.selectColumns(t, tableNames);
+		ComputedTable t2 = q.selectColumns(t, tableNames);
 		
-		
-		return null;
+		DebugPrinter.print("==== Final table after SELECT: ");
+		t.printTable();
+		DebugPrinter.print("==== ");
+
+		return t2;
 	}
 	
 	

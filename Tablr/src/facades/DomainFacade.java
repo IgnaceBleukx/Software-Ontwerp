@@ -327,7 +327,11 @@ public class DomainFacade {
 	 * @throws ClassCastException
 	 */
 	public void setDefault(Column col, String def) throws ClassCastException {
-		col.setDefaultValue(col.getColumnType().parseValue(def));
+		execute(new Command() {
+			String prev = col.getDefault().toString();
+			public void execute() { col.setDefaultValue(col.getColumnType().parseValue(def)); }
+			public void undo() { col.setDefaultValue(col.getColumnType().parseValue(prev)); }
+		});
 	}
 	
 	/**

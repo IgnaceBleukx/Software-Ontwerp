@@ -15,10 +15,6 @@ public class EqualsExpression extends Expression<Boolean> {
 	private Expression<?> expression2;
 	
 	public Boolean eval(ArrayList<Table> tables, int rowNb) {
-		DebugPrinter.print(expression1);
-		DebugPrinter.print(expression1.eval(tables, rowNb));
-		DebugPrinter.print(expression2);
-		DebugPrinter.print(expression2.eval(tables, rowNb));
 		return (expression1.eval(tables, rowNb).equals(expression2.eval(tables, rowNb)));
 	}
 	
