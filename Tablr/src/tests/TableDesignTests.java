@@ -105,7 +105,9 @@ public class TableDesignTests {
 		assertNotEquals(name,tablr.getColumnName(tablr.getColumns(tablr.getTables().get(0)).get(0)));
 		assertTrue(t.isSelected());
 		// t is in error because it has the same name as the second column
+		snapShot(myCW,"pic1.png");
 		assertTrue(t.getError());
+		
 		
 		//Backspace so the name becomes valid:
 		myCW.handleKeyEvent(0,8,Character.MIN_VALUE);

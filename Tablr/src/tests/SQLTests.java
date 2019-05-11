@@ -13,9 +13,13 @@ import org.junit.Test;
 
 import sql.CellIDExpression;
 import sql.ColumnSpec;
+import sql.EqualsExpression;
 import sql.JoinTableSpec;
+import sql.NumberExpression;
 import sql.Query;
 import sql.SimpleTableSpec;
+import sql.StringExpression;
+import sql.TableSpec;
 
 public class SQLTests {
 
@@ -36,6 +40,18 @@ public class SQLTests {
 	}
 	
 	@Test
+	public void testWHERE() throws InvalidNameException {
+		ArrayList<Table> tables = createTables();
+		Query q = new Query();
+		TableSpec s = new SimpleTableSpec("Table1","Table1");
+		EqualsExpression e = new EqualsExpression(new CellIDExpression("Table1","colA"),new StringExpression("7"));
+		q.setExpression(e);
+		q.setTableSpecs(s);
+		Table newTable = q.resolveWhere(tables.get(0));
+		newTable.printTable();
+	}
+	
+	@Test
 	public void testSELECT() throws InvalidNameException  {
 		ArrayList<Table> tables = createTables();
 		Query q = new Query();
@@ -46,6 +62,8 @@ public class SQLTests {
 		//	ColumnSpec(cellIDExpression(Table1.colA) AS newColA), 
 		//]
 	}
+	
+	
 	
 	public ArrayList<Table> createTables() throws InvalidNameException {
 		//

@@ -17,11 +17,11 @@ public class CellIDExpression extends Expression<String> {
 		Table table;
 		if (tables.size() == 1) {
 			table = tables.get(0);
-			colName = rowID+"."+columnName;
+			colName = columnName;
 		}
 		else {
 			table = tables.stream().filter(t -> t.getName().equals(rowID)).findFirst().orElseThrow(() -> new RuntimeException("Table " + rowID + "not found"));
-			colName = columnName;
+			colName = rowID+"."+columnName;
 		}
 		Column col = table.getColumns().stream().filter(c -> c.getName().equals(colName)).
 				findFirst().orElseThrow(() -> new RuntimeException("No column "+ colName + "in table"));

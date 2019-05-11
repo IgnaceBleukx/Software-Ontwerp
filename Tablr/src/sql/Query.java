@@ -109,9 +109,10 @@ public class Query {
 	public Table resolveWhere(Table table) {
 		ArrayList<Integer> keep = new ArrayList<Integer>();
 		ArrayList<Table> t = new ArrayList<Table>(Arrays.asList(table));
-		for (int i = 0;i < table.getColumns().size();i++) {
-			if (expression.eval(t, i));
+		for (int i=0;i < table.getRows();i++) {
+			if (expression.eval(t, i) == true) {
 				keep.add(i);
+			}
 		}
 		
 		Table resolved = new StoredTable("t");

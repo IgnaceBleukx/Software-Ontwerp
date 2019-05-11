@@ -75,6 +75,7 @@ public abstract class Table {
 	 */
 	public int getRows() {
 		return nbOfRows;
+		//return getColumns().isEmpty() ? nbOfRows : getColumns().get(0).getCells().size();
 	}
 	
 	/**
