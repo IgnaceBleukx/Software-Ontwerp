@@ -389,8 +389,21 @@ public class DomainFacade {
 	 * @throws InvalidTypeException		Changing the type bring the column into an invalid state
 	 */
 	public void setColumnType(Column col, Type type) throws InvalidTypeException {
-		col.setColumnType(type);
-		
+		execute(new Command() {
+			public void execute() { 
+				try {
+					col.setColumnType(type);
+				} catch (InvalidTypeException e) {
+					DebugPrinter.print("setColumnType exceptie in commando");
+				} }
+			public void undo() { 
+				 try {
+					col.setColumnType(Column.getPreviousType(type));
+				} catch (InvalidTypeException e) {
+					DebugPrinter.print("setColumnType exceptie in commando");
+				}
+			}
+		});
 	}
 	
 	/**
@@ -399,8 +412,10 @@ public class DomainFacade {
 	 * @param i			Index of the cell
 	 */
 	public void toggleCellValueBoolean(Column col, int i) {
-		col.toggleCellValueBoolean(i);
-		
+		execute(new Command() {
+			public void execute() { col.toggleCellValueBoolean(i); DebugPrinter.print("toggle value boolean"); }
+			public void undo() {  col.togglePreviousCellValueBoolean(i);  }
+		});
 	}
 	
 	/**

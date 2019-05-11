@@ -383,6 +383,19 @@ public class Column {
 	}
 	
 	/**
+	 * Toggles the value of a boolean cell based in <i>index</i>, accounting for the Column's blanking policy to the previous (undo).
+	 * @param index			Index of the cell
+	 */
+	public void togglePreviousCellValueBoolean(int index){
+		if (this.getColumnType() != Type.BOOLEAN) return;
+		System.out.println(getCell(index).getValue());
+		
+		DebugPrinter.print(getCell(index).getValue());
+		Boolean cellValue = (Boolean) getCell(index).getValue();
+		changeCellValue(index,Type.BOOLEAN.toString(previousValueBoolean(cellValue,getBlankingPolicy())));
+	}
+	
+	/**
 	 * Returns the next correct boolean value given the current value and blanking policy
 	 * @param current		Current boolean value
 	 * @param blanks		Whether blanks are allowed
@@ -392,6 +405,19 @@ public class Column {
 		if (current == (Boolean) null) return true;
 		if (current == true) return false;
 		if (current == false && blanks) return null;
+		return true;
+	}
+	
+	/**
+	 * Returns the previous correct boolean value given the current value and blanking policy
+	 * @param current		Current boolean value
+	 * @param blanks		Whether blanks are allowed
+	 * @return				The previous boolean value
+	 */
+	public static Boolean previousValueBoolean(Boolean current, boolean blanks){
+		if (current == (Boolean) null) return false;
+		if (current == true && blanks) return null;
+		if (current == false) return true;
 		return true;
 	}
 
