@@ -6,7 +6,7 @@ import domain.Table;
 
 public class BooleanExpression extends Expression<Boolean> {
 	
-	public BooleanExpression(boolean value) {
+	public BooleanExpression(Boolean value) {
 		this.value = value;
 	}
 	
@@ -14,7 +14,7 @@ public class BooleanExpression extends Expression<Boolean> {
 		return value;
 	}
 	
-	private boolean value;
+	private Boolean value;
 	
 	public String toString() {
 		return "BooleanExpression("+value+")";

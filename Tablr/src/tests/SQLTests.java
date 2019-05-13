@@ -12,6 +12,7 @@ import exceptions.InvalidQueryException;
 
 import org.junit.Test;
 
+import sql.BooleanExpression;
 import sql.CellIDExpression;
 import sql.ColumnSpec;
 import sql.EqualsExpression;
@@ -44,6 +45,15 @@ public class SQLTests {
 	}
 	
 	@Test
+	public void testWHEREQuery() throws InvalidNameException, InvalidQueryException {
+		String query = "SELECT t.colA AS a, t.colB as b FROM Table1 AS t WHERE t.a 7";
+		Query q = SQLParser.parseQuery(query);
+		Table result = QueryExecutor.executeQuery(q, createTables1());
+		result.printTable();
+		
+	}
+	
+	@Test
 	public void testWHERE() throws InvalidNameException {
 		ArrayList<Table> tables = createTables1();
 		Query q = new Query();
@@ -56,7 +66,18 @@ public class SQLTests {
 		assertEquals(1,newTable.getRows());
 		assertEquals(7,newTable.getColumns().get(0).getValueAt(0));
 		assertEquals(1,newTable.getColumns().get(1).getValueAt(0));
-		
+		//SELECT * FROM Table1 AS Table1 WHERE Table1.colA = 7
+	}
+	
+	@Test
+	public void testWHERE2() throws InvalidNameException {
+		TableSpec s = new SimpleTableSpec("Table1","t");
+		EqualsExpression e = new EqualsExpression(new CellIDExpression("Table1","colB"),new BooleanExpression(null));
+		Query q = new Query();
+		q.setTableSpecs(s);
+		q.setExpression(e);
+		Table newTable = q.resolveWhere(createTableMixedTypes());
+		newTable.printTable();
 	}
 	
 	@Test
@@ -229,24 +250,24 @@ public class SQLTests {
 		Column colC = new Column("colC",null,Type.INTEGER, 0);
 		Column colD = new Column("colD",null,Type.INTEGER, 0);
 		
-		Cell CellA11 = new Cell<Integer>(7);
-		Cell CellA12 = new Cell<Integer>(1);
-		Cell CellA21 = new Cell<Integer>(8);
-		Cell CellA22 = new Cell<Integer>(2);
-		Cell CellA31 = new Cell<Integer>(9);
-		Cell CellA32 = new Cell<Integer>(1);
-		Cell CellA41 = new Cell<Integer>(11);
-		Cell CellA42 = new Cell<Integer>(2);
+		Cell<Integer> CellA11 = new Cell<Integer>(7);
+		Cell<Integer> CellA12 = new Cell<Integer>(1);
+		Cell<Integer> CellA21 = new Cell<Integer>(8);
+		Cell<Integer> CellA22 = new Cell<Integer>(2);
+		Cell<Integer> CellA31 = new Cell<Integer>(9);
+		Cell<Integer> CellA32 = new Cell<Integer>(1);
+		Cell<Integer> CellA41 = new Cell<Integer>(11);
+		Cell<Integer> CellA42 = new Cell<Integer>(2);
 		
 		
-		Cell CellB11 = new Cell<Integer>(1);
-		Cell CellB12 = new Cell<Integer>(-1);
-		Cell CellB21 = new Cell<Integer>(1);
-		Cell CellB22 = new Cell<Integer>(-2);
-		Cell CellB31 = new Cell<Integer>(2);
-		Cell CellB32 = new Cell<Integer>(-4);
-		Cell CellB41 = new Cell<Integer>(2);
-		Cell CellB42 = new Cell<Integer>(-5);
+		Cell<Integer> CellB11 = new Cell<Integer>(1);
+		Cell<Integer> CellB12 = new Cell<Integer>(-1);
+		Cell<Integer> CellB21 = new Cell<Integer>(1);
+		Cell<Integer> CellB22 = new Cell<Integer>(-2);
+		Cell<Integer> CellB31 = new Cell<Integer>(2);
+		Cell<Integer> CellB32 = new Cell<Integer>(-4);
+		Cell<Integer> CellB41 = new Cell<Integer>(2);
+		Cell<Integer> CellB42 = new Cell<Integer>(-5);
 		
 		colA.addCell(CellA11);
 		colA.addCell(CellA21);
@@ -283,4 +304,56 @@ public class SQLTests {
 		tables.add(table2);
 		return tables;
 	}
+
+	/**
+	 * Table:
+	 * colA	 colB    colC    	 colD
+	 *  1	 true  	 ""    "test@email.1.com"
+	 *  2	 false "test2"        ""
+	 *  3	 null  "test3" "test@email.3.com"
+	 *	4	 null  "test4" "test@email.4.com"
+	 * @throws InvalidNameException 
+	 */
+	public Table createTableMixedTypes() throws InvalidNameException {
+		Cell<Integer> A1 = new Cell<Integer>(1);
+		Cell<Integer> A2 = new Cell<Integer>(2);
+		Cell<Integer> A3 = new Cell<Integer>(3);
+		Cell<Integer> A4 = new Cell<Integer>(4);
+		
+		Column colA = new Column("colA",new ArrayList<Cell<?>>(Arrays.asList(A1,A2,A3,A4)),Type.INTEGER,0);
+		
+		Cell<Boolean> B1 = new Cell<Boolean>(true);
+		Cell<Boolean> B2 = new Cell<Boolean>(false);
+		Cell<Boolean> B3 = new Cell<Boolean>(null);
+		Cell<Boolean> B4 = new Cell<Boolean>(null);
+		
+		Column colB = new Column("colB",new ArrayList<Cell<?>>(Arrays.asList(B1,B2,B3,B4)),Type.INTEGER,0);
+
+		
+		Cell<String> C1 = new Cell<String>("");
+		Cell<String> C2 = new Cell<String>("test2");
+		Cell<String> C3 = new Cell<String>("test3");
+		Cell<String> C4 = new Cell<String>("test4");
+
+		Column colC = new Column("colC",new ArrayList<Cell<?>>(Arrays.asList(C1,C2,C3,C4)),Type.INTEGER,0);
+
+		Cell<String> D1 = new Cell<String>("test@email.1.com");
+		Cell<String> D2 = new Cell<String>("");
+		Cell<String> D3 = new Cell<String>("test@email.3.com");
+		Cell<String> D4 = new Cell<String>("test@email.4.com");
+		
+		Column colD = new Column("colD",new ArrayList<Cell<?>>(Arrays.asList(D1,D2,D3,D4)),Type.INTEGER,0);
+
+		StoredTable table = new StoredTable("Table1");
+		table.addColumn(colA);
+		table.addColumn(colB);
+		table.addColumn(colC);
+		table.addColumn(colD);
+		
+		table.printTable();
+		
+		return table;
+		
+	}
+	
 }

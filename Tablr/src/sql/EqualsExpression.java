@@ -15,9 +15,14 @@ public class EqualsExpression extends Expression<Boolean> {
 	private Expression<?> expression2;
 	
 	public Boolean eval(ArrayList<Table> tables, int rowNb) {
-		DebugPrinter.print(expression1.eval(tables, rowNb).getClass());
-		DebugPrinter.print(expression2.eval(tables, rowNb).getClass());
-		return (expression1.eval(tables, rowNb).equals(expression2.eval(tables, rowNb)));
+		Object e1 = expression1.eval(tables, rowNb);
+		Object e2 = expression2.eval(tables, rowNb);
+		if (e1 == null && e2 == null)
+			return true;
+		else if (e1 == null && e2 != null || e1 != null && e2 == null)
+			return false;
+		else
+			return (e1.equals(e2));
 	}
 	
 	public String toString() {

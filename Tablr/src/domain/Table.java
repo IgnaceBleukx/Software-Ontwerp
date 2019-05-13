@@ -155,13 +155,15 @@ public abstract class Table {
 	 */
 	public void printTable() {
 		System.out.println(getName());
-		getColumnNames().stream().forEach((name)->System.out.print(name+" "));
+		getColumnNames().stream().forEach((name)->System.out.print(String.format("%15s",name+" ")));
 		System.out.println("");
 		
 		for (int i=0;i<getColumns().get(0).getCells().size();i++) {
 			for (int j=0;j<getColumns().size();j++) {
-				String val = getColumns().get(j).getCells().get(i).getValue().toString();
-				System.out.print(String.format("%4s", val));
+				Object val = getColumns().get(j).getCells().get(i).getValue();
+				String valString = val == null ? "null" : val.toString();
+				valString = valString.isEmpty() ? "BLANK" : valString;
+				System.out.print(String.format("%15s", valString+" "));
 			}
 			System.out.println("");
 
