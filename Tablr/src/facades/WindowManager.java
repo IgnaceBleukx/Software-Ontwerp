@@ -29,14 +29,11 @@ public class WindowManager {
 	
 	public WindowManager(Tablr c) {
 		tablr = c;
-//		tablesModeUIs = new ArrayList<TablesModeUI>();
-//		tableRowsModeUIs = new HashMap<Table,ArrayList<TableRowsModeUI>>();
-//		tableDesignModeUIs = new HashMap<Table,ArrayList<TableDesignModeUI>>();
 		keyListener = new VoidElement(-1, -1, 300, 300, null);
 		
 		// 'Z' is pressed
 		keyListener.addKeyboardListener(90, () -> {
-			System.out.println("Z is pressed");
+			DebugPrinter.print("Z is pressed");
 			if (recentCtrl()) {
 				if(recentShift()) {
 					DebugPrinter.print("CTRL + SHIFT + Z is pressed");
@@ -53,9 +50,6 @@ public class WindowManager {
 		return tablr;
 	}
 	
-//	private ArrayList<TablesModeUI> tablesModeUIs;
-//	private HashMap<Table,ArrayList<TableRowsModeUI>> tableRowsModeUIs;
-//	private HashMap<Table,ArrayList<TableDesignModeUI>> tableDesignModeUIs;
 	private HashMap<Table,ArrayList<UI>> uis = new HashMap<Table,ArrayList<UI>>();
 	private VoidElement keyListener = null;
 	
@@ -249,7 +243,7 @@ public class WindowManager {
 			return selectedUI;
 		}
 		for (UI ui : getUIs()) {
-			System.out.println("[WindowManager.java:121] " + ui + ui.isActive());
+			DebugPrinter.print(ui +"-"+ ui.isActive());
 			if (ui.isActive() && ui.containsPoint(x,y)) 
 				return ui;
 		}
@@ -299,7 +293,7 @@ public class WindowManager {
 	}
 	
 	public ArrayList<TableDesignModeUI> getTableDesignModeUIs(Table table) {
-		System.out.println("[WindowManager.java:266]: " + uis.get(table));
+		DebugPrinter.print(uis.get(table));
 		return new ArrayList<TableDesignModeUI>(uis.get(table).stream().filter(u -> u instanceof TableDesignModeUI).map(u -> (TableDesignModeUI) u).collect(Collectors.toList()));
 	}
 	
