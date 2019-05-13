@@ -7,6 +7,7 @@ import java.awt.event.MouseEvent;
 
 import org.junit.Test;
 
+import Utils.DebugPrinter;
 import canvaswindow.MyCanvasWindow;
 import domain.Table;
 import facades.Tablr;
@@ -74,7 +75,7 @@ public class TablesModeTests {
 		// Step 4: Check to see if table name gets red when it is empty or equal to name of another table
 		assertEquals(t.getError(), false);
 		for(int i = 0; i<8; i++){
-			System.out.println(tablr.getTables().get(0).getName());
+			DebugPrinter.print(tablr.getTables().get(0).getName());
 			myCW.handleKeyEvent(1, 8, Character.MIN_VALUE);
 		}
 		assertEquals("T", tablr.getTables().get(0).getName());

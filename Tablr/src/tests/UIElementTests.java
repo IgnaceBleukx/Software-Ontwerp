@@ -11,6 +11,7 @@ import javax.imageio.ImageIO;
 
 import org.junit.Test;
 
+import Utils.DebugPrinter;
 import uielements.Button;
 import uielements.ListView;
 import uielements.Text;
@@ -498,7 +499,7 @@ public class UIElementTests {
 		myCW.handleMouseEvent(MouseEvent.MOUSE_CLICKED, 400, 390, 2);
 		
 		Table table = tablr.getTables().get(0);
-		System.out.println(tablr.getTableRowsUIs(table).get(0));
+		DebugPrinter.print(tablr.getTableRowsUIs(table).get(0));
 		// Confirm the first width and height of the tables mode
 		assertEquals(300, ((TableRowsModeUI) tablr.getTableRowsUIs(table).get(0)).getWidth());
 		assertEquals(300, ((TableRowsModeUI) tablr.getTableRowsUIs(table).get(0)).getHeight());
@@ -537,7 +538,7 @@ public class UIElementTests {
 		myCW.handleMouseEvent(MouseEvent.MOUSE_CLICKED, 400, 390, 2);
 		
 		Table table = tablr.getTables().get(0);
-		System.out.println(tablr.getTableRowsUIs(table).get(0));
+		DebugPrinter.print(tablr.getTableRowsUIs(table).get(0));
 		// Confirm the first width and height of the tables mode
 		assertEquals(300, ((TableRowsModeUI) tablr.getTableRowsUIs(table).get(0)).getWidth());
 		assertEquals(300, ((TableRowsModeUI) tablr.getTableRowsUIs(table).get(0)).getHeight());
@@ -575,7 +576,7 @@ public class UIElementTests {
 		myCW.handleMouseEvent(MouseEvent.MOUSE_CLICKED, 400, 390, 2);
 		
 		Table table = tablr.getTables().get(0);
-		System.out.println(tablr.getTableRowsUIs(table).get(0));
+		DebugPrinter.print(tablr.getTableRowsUIs(table).get(0));
 		// Confirm the first width and height of the tables mode
 		assertEquals(300, ((TableRowsModeUI) tablr.getTableRowsUIs(table).get(0)).getWidth());
 		assertEquals(300, ((TableRowsModeUI) tablr.getTableRowsUIs(table).get(0)).getHeight());
@@ -613,7 +614,7 @@ public class UIElementTests {
 		myCW.handleMouseEvent(MouseEvent.MOUSE_CLICKED, 400, 390, 2);
 		
 		Table table = tablr.getTables().get(0);
-		System.out.println(tablr.getTableRowsUIs(table).get(0));
+		DebugPrinter.print(tablr.getTableRowsUIs(table).get(0));
 		// Confirm the first width and height of the tables mode
 		assertEquals(300, ((TableRowsModeUI) tablr.getTableRowsUIs(table).get(0)).getWidth());
 		assertEquals(300, ((TableRowsModeUI) tablr.getTableRowsUIs(table).get(0)).getHeight());
