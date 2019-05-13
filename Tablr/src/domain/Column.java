@@ -334,7 +334,7 @@ public class Column {
 	 */
 	public void toggleDefaultBoolean() throws ClassCastException {
 		if (!getColumnType().equals(Type.BOOLEAN)) return;
-		System.out.println("[Column.java:377] : current default value = " + getDefault());
+		DebugPrinter.print("current default value = " + getDefault());
 		Boolean current = (Boolean) getDefault();
 		setDefaultValue(nextValueBoolean(current,getBlankingPolicy()));
 	}
@@ -344,7 +344,7 @@ public class Column {
 	 */
 	public void togglePreviousDefaultBoolean() throws ClassCastException {
 		if (!getColumnType().equals(Type.BOOLEAN)) return;
-		System.out.println("[Column.java:377] : current default value = " + getDefault());
+		DebugPrinter.print("current default value = " + getDefault());
 		Boolean current = (Boolean) getDefault();
 		setDefaultValue(previousValueBoolean(current,getBlankingPolicy()));
 	}
@@ -385,8 +385,6 @@ public class Column {
 	 */
 	public void toggleCellValueBoolean(int index){
 		if (this.getColumnType() != Type.BOOLEAN) return;
-		System.out.println(getCell(index).getValue());
-		
 		DebugPrinter.print(getCell(index).getValue());
 		Boolean cellValue = (Boolean) getCell(index).getValue();
 		changeCellValue(index,Type.BOOLEAN.toString(nextValueBoolean(cellValue,getBlankingPolicy())));
@@ -398,7 +396,7 @@ public class Column {
 	 */
 	public void togglePreviousCellValueBoolean(int index){
 		if (this.getColumnType() != Type.BOOLEAN) return;
-		System.out.println(getCell(index).getValue());
+		DebugPrinter.print(getCell(index).getValue());
 		
 		DebugPrinter.print(getCell(index).getValue());
 		Boolean cellValue = (Boolean) getCell(index).getValue();
