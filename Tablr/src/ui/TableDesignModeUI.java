@@ -1,6 +1,7 @@
 package ui;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -15,7 +16,6 @@ import uielements.UIElement;
 import uielements.UIRow;
 import domain.Column;
 import domain.StoredTable;
-import domain.Table;
 import domain.Type;
 import exceptions.InvalidNameException;
 import exceptions.InvalidTypeException;
@@ -54,41 +54,31 @@ public class TableDesignModeUI extends UI {
 		if(legend == null) {
 			DebugPrinter.print("Legend is null");
 			int namePosX = getX() + margin + edgeW;
-			int nameSizeX = getWidth()*5/15;
-			int typePosX = getX() + margin + edgeW + nameSizeX;
-			int typeSizeX = getWidth()*3/15;
-			int blankPosX = getX() + margin + edgeW + nameSizeX + typeSizeX;
-			int blankSizeX = getWidth()*2/15;
-			int defPosX = getX() + margin + edgeW + nameSizeX + typeSizeX + blankSizeX;
-			int defSizeX = getWidth() *4/15 - edgeW;
+			int nameSizeX = (getWidth()-16-2*edgeW)*5/15;
+			int typePosX = namePosX + nameSizeX + 2;
+			int typeSizeX = (getWidth()-16-2*edgeW)*3/15;
+			int blankPosX = typePosX + typeSizeX +2;
+			int blankSizeX = (getWidth()-16-2*edgeW)*2/15;
+			int defPosX = blankPosX + blankSizeX + 2;
+			int defSizeX = (getWidth()-16-2*edgeW)*4/15;
 			
 			Text name = new Text(namePosX, currentHeight, nameSizeX, 15,"Name");
-			Dragger nameDragger = new Dragger(namePosX+nameSizeX - 2, currentHeight, 4, 15);
+			Dragger nameDragger = new Dragger(namePosX+nameSizeX, currentHeight, 4, 15);
 			Text type = new Text(typePosX, currentHeight, typeSizeX, 15,"Type");
-			Dragger typeDragger = new Dragger(typePosX+typeSizeX - 2, currentHeight, 4, 15);
+			Dragger typeDragger = new Dragger(typePosX+typeSizeX, currentHeight, 4, 15);
 			Text blank = new Text(blankPosX, currentHeight, blankSizeX, 15,"Blank");
-			Dragger blankDragger = new Dragger(blankPosX+blankSizeX - 2, currentHeight, 4, 15);
+			Dragger blankDragger = new Dragger(blankPosX+blankSizeX, currentHeight, 4, 15);
 			Text def = new Text(defPosX, currentHeight, defSizeX, 15,"Default");
-			Dragger defDragger = new Dragger(defPosX+defSizeX - 2, currentHeight, 4, 15);
+			Dragger defDragger = new Dragger(def.getEndX(), currentHeight, 4, 15);
 			
 			name.setBorder(true);
 			type.setBorder(true);
 			blank.setBorder(true);
 			def.setBorder(true);
 					
-			legend = new UIRow(namePosX,currentHeight,this.getWidth()-2*edgeW-margin+2,15,(new ArrayList<UIElement>()
-				{{
-					add(nameDragger);
-					add(typeDragger);
-					add(blankDragger);
-					add(defDragger);
-					add(name);
-					add(type);
-					add(blank);
-					add(def);
-				}}
-			));
-			legend.setWidth(legend.getElements().stream().filter(e -> !(e instanceof Dragger)).mapToInt(e ->e.getWidth()).sum()+2);
+			legend = new UIRow(namePosX,currentHeight,this.getWidth(),15,new ArrayList<UIElement>(
+										Arrays.asList(nameDragger,typeDragger,blankDragger,defDragger,name,type,blank,def)));
+			legend.setWidth(legend.getElements().stream().mapToInt(e ->e.getWidth()).sum()-8);
 		}
 		
 		this.addUIElement(legend);		
@@ -190,8 +180,8 @@ public class TableDesignModeUI extends UI {
 		
 		int index = 0; 
 		for(Column col : tablr.getColumns(table)){
-			TextField colName = new TextField(namePosX, currentHeight, nameSizeX, 30, tablr.getColumnName(col));
-			Text colType = new Text(typePosX, currentHeight, typeSizeX, 30, tablr.getColumnType(col).toString()); 
+			TextField colName = new TextField(namePosX, currentHeight, nameSizeX+2, 30, tablr.getColumnName(col));
+			Text colType = new Text(typePosX, currentHeight, typeSizeX+2, 30, tablr.getColumnType(col).toString()); 
 			colType.setBorder(true);
 			Checkbox colBlankPol = new Checkbox(blankPosX + blankSizeX/2 - 10, currentHeight + 5, 20, 20, tablr.getBlankingPolicy(col));
 			String defaultValue = tablr.getDefaultString(col);	
