@@ -14,6 +14,7 @@ import java.util.function.BiFunction;
 import java.util.function.Consumer;
 import java.util.function.Function;
 
+import Utils.DebugPrinter;
 import facades.Tablr;
 import ui.UI;
 
@@ -49,7 +50,7 @@ public abstract class UIElement {
 	 * sets this element as an error element: it's value is incorrect and should be resolved
 	 */
 	public void isError() {
-		System.out.println("[UIElement.java:33] Acquired selection lock on "+this);
+		DebugPrinter.print("Acquired selection lock on "+this);
 		getUI().getTablr().getSelectionLock(this);
 		this.error = true;
 	}
@@ -59,7 +60,7 @@ public abstract class UIElement {
 	 */
 	public void isNotError() {
 		this.error = false;
-		System.out.println("[UIElement.java:40] Released selection lock on "+this);
+		DebugPrinter.print("Released selection lock on "+this);
 		getUI().getTablr().releaseSelectionLock(this);
 	}
 	
@@ -168,7 +169,7 @@ public abstract class UIElement {
 		this.beginDrag();
 		this.setGrabPointX(x);
 		this.setGrabPointY(y);
-		System.out.println("Handeling pressed for: " + this);
+		DebugPrinter.print("Handeling pressed for: " + this);
 		new ArrayList<>(pressListeners).stream().forEach(l -> l.accept(this));
 	}
 	

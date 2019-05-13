@@ -11,6 +11,7 @@ import java.util.function.BiConsumer;
 
 import javax.naming.CommunicationException;
 
+import Utils.DebugPrinter;
 import Utils.GeometricUtils;
 
 public class TextField extends UIElement {
@@ -41,7 +42,7 @@ public class TextField extends UIElement {
 	}
 
 	protected void restoreText() {
-		System.out.println("[Textfield.java:37] Restoring text: "+getPrevText());
+		DebugPrinter.print("Restoring text: "+getPrevText());
 		setText(getPrevText());
 	}
 	

@@ -156,11 +156,8 @@ public class ListView extends UIElement {
 		if (!containsPoint(x,y)) {
 			this.deselectAll();
 			return null;
-		}
-		
+		}	
 		UIElement found = null;
-//		if (scrollBarV.containsPoint(x, y)) return scrollBarV.locatedAt(x, y);
-//		if (scrollBarH.containsPoint(x, y)) return scrollBarH.locatedAt(x, y);
 		for (UIElement e : elements) {
 			System.out.println(e);
 			found = e.locatedAt(x,y);
@@ -250,8 +247,6 @@ public class ListView extends UIElement {
 	@Override
 	public void setUI(UI ui) {
 		this.ui = ui;
-//		scrollBarV.setUI(ui);
-//		scrollBarH.setUI(ui);
 		elements.stream().forEach(e -> e.setUI(ui));
 	}
 	
