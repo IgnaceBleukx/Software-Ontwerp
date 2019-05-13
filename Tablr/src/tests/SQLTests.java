@@ -309,14 +309,14 @@ public class SQLTests {
 	 * Table:
 	 * colA	 colB    colC    	 colD
 	 *  1	 true  	 ""    "test@email.1.com"
-	 *  2	 false "test2"        ""
+	 *  null false "test2"        ""
 	 *  3	 null  "test3" "test@email.3.com"
 	 *	4	 null  "test4" "test@email.4.com"
 	 * @throws InvalidNameException 
 	 */
 	public Table createTableMixedTypes() throws InvalidNameException {
 		Cell<Integer> A1 = new Cell<Integer>(1);
-		Cell<Integer> A2 = new Cell<Integer>(2);
+		Cell<Integer> A2 = new Cell<Integer>(null);
 		Cell<Integer> A3 = new Cell<Integer>(3);
 		Cell<Integer> A4 = new Cell<Integer>(4);
 		

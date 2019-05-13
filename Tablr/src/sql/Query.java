@@ -117,7 +117,6 @@ public class Query {
 				keep.add(i);
 			}
 		}
-		DebugPrinter.print(keep);
 		
 		Table resolved = new StoredTable("t");
 		for (Column c : table.getColumns()) {
