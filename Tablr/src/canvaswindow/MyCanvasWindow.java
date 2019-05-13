@@ -10,6 +10,7 @@ import java.util.ArrayList;
 import java.util.ConcurrentModificationException;
 import java.util.Date;
 
+import Utils.DebugPrinter;
 import facades.Tablr;
 import ui.TablesModeUI;
 import ui.UI;
@@ -64,19 +65,18 @@ public class MyCanvasWindow extends CanvasWindow {
 		
 		if (id == MouseEvent.MOUSE_PRESSED || id == MouseEvent.MOUSE_CLICKED){ //Only search for a potential new UI with THESE actions
 			try {
-				System.out.println("ui += " + tablr.getTablesModeUIs() + " eeeeeeeee ");
 				getTablr().selectUI(tablr.getUIAt(x, y));
 			} catch (NullPointerException e) {
 				getTablr().selectUI(null);
-				System.out.println("[MyCanvasWindow.java:67]: No UI at these coordinates");
+				DebugPrinter.print("No UI at these coordinates");
 				return;
 			}
 			
 			try {
 				clicked = tablr.getUIAt(x, y).locatedAt(x, y);
-				System.out.println("Clicked = " + clicked);
+				DebugPrinter.print("Clicked on : " + clicked);
 			}	catch (NullPointerException e) {
-				System.out.println("[MyCanvasWindow.java:75]: No element clicked in UI");
+				DebugPrinter.print("No element clicked in UI");
 				return;
 			}
 			
@@ -86,13 +86,13 @@ public class MyCanvasWindow extends CanvasWindow {
 			
 			//Mouse pressed
 			if (id  == MouseEvent.MOUSE_PRESSED) {
-				System.out.println("[MyCanvasWindow.java:83]: Mouse Pressed at ("+x+","+y+")");
+				DebugPrinter.print("Mouse Pressed at ("+x+","+y+")");
 				clicked.handlePressed(x, y);
 			}
 
 			//Mouse clicked
 			else if (id == MouseEvent.MOUSE_CLICKED) {
-				System.out.println("[MyCanvasWindow.java:99]: Mouse Clicked at ("+x+","+y+")");
+				DebugPrinter.print("Mouse Pressed at ("+x+","+y+")");
 				/**
 				 * Some element has a hard lock, ignore this input if the
 				 * element getting the input is not the element that has the hard lock
@@ -117,7 +117,7 @@ public class MyCanvasWindow extends CanvasWindow {
 		else if (id == MouseEvent.MOUSE_DRAGGED) {
 			System.out.println("[MyCanvasWindow.java:88]: Mouse Dragged!");
 			try{
-				System.out.println("[MyCanvasWindow.java:119]: Dragging : " + getTablr().getSelectedUI().getDragging());
+				DebugPrinter.print("Dragging : " + getTablr().getSelectedUI().getDragging());
 				UIElement draggingItem = getTablr().getSelectedUI().getDragging();
 				draggingItem.handleDrag(x, y);
 				draggingItem.handlePressed(x, y);
@@ -126,7 +126,7 @@ public class MyCanvasWindow extends CanvasWindow {
 		
 		//Mouse released
 		else if (id == MouseEvent.MOUSE_RELEASED) {	
-			System.out.println("[MyCanvasWindow.java:94]: Mouse Released!");
+			DebugPrinter.print("Mouse Released!");
 			try{
 				getTablr().getSelectedUI().getDragging().handleReleased();
 				getTablr().getSelectedUI().setDragging(null);
@@ -149,7 +149,7 @@ public class MyCanvasWindow extends CanvasWindow {
 		// 84 is 'T'
 		// If Ctrl is pressed within 'milliSecondsWaiting' then the user pressed Ctrl+T 
 		if (keyCode == 84 && ctrlTimestamp != null && (new Date().getTime() - ctrlTimestamp.getTime() < milliSecondsWaiting)) {
-			System.out.println("[MyCanvasWindow.java: 113] Create a new tables subwindow");
+			DebugPrinter.print("Create a new tables subwindow");
 			
 			tablr.addTablesModeUI();
 			
@@ -174,7 +174,7 @@ public class MyCanvasWindow extends CanvasWindow {
 	 */
 	@Override
 	public void handleKeyEvent(int id, int keyCode, char keyChar){
-		System.out.println("Keycode: "+keyCode);
+		DebugPrinter.print("Keycode: "+keyCode);
 		checkCtrlT(keyCode);
 
 		UI ui = tablr.getSelectedUI();
