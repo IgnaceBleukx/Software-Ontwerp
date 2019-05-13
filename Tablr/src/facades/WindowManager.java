@@ -40,6 +40,7 @@ public class WindowManager {
 			if (recentCtrl()) {
 				if(recentShift()) {
 					DebugPrinter.print("CTRL + SHIFT + Z is pressed");
+					tablr.redo();
 				} else {
 					System.out.println("CTRL + Z is pressed in windowmanager");
 					tablr.undo();
@@ -405,8 +406,6 @@ public class WindowManager {
 	public void shiftPressed() {
 		lastShift = System.currentTimeMillis();
 	}
-
-	
 }
 
 

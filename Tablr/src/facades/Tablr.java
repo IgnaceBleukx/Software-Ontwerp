@@ -461,6 +461,11 @@ public class Tablr {
 		domainChanged();
 	}
 	
+	public void redo() {
+		domainFacade.redo();
+		domainChanged();
+	}
+	
 	/**
 	 * Notifies the windowManager that 'z' has been pressed.
 	 */
