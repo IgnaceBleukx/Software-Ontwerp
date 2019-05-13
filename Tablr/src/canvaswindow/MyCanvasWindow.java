@@ -59,9 +59,6 @@ public class MyCanvasWindow extends CanvasWindow {
 	@Override
 	public void handleMouseEvent(int id, int x, int y, int clickCount){
 		UIElement clicked = null;
-
-//		System.out.println(x);
-//		System.out.println(y);
 		
 		if (id == MouseEvent.MOUSE_PRESSED || id == MouseEvent.MOUSE_CLICKED){ //Only search for a potential new UI with THESE actions
 			try {
@@ -82,7 +79,7 @@ public class MyCanvasWindow extends CanvasWindow {
 			
 			if (clicked == null) return;
 			
-			System.out.println("[MyCanvasWindow.java:83]: Clicked on : " + clicked);
+			DebugPrinter.print("Clicked on : " + clicked);
 			
 			//Mouse pressed
 			if (id  == MouseEvent.MOUSE_PRESSED) {
@@ -179,23 +176,7 @@ public class MyCanvasWindow extends CanvasWindow {
 
 		UI ui = tablr.getSelectedUI();
 		if (ui == null) return;
-//		if(ui == null) return;
-//		for (int i=0;i<ui.getElements().size();i++) {
-//			UIElement e;
-//			try {
-//				e = tablr.getSelectedUI().getElements().get(i);
-//			} catch (IndexOutOfBoundsException e1) {
-//				return;
-//			}
-//			e.handleKeyboardEvent(keyCode, keyChar);
-//			
-//			if (keyCode == 17)
-//				tablr.controlPressed();
-//			if (Character.isLetterOrDigit(keyChar) || keyCode == 8 || keyChar == '@' || keyChar == '.') {
-//				e.handleKeyboardEvent(-1, Character.MIN_VALUE);
-//			}
-//		}
-		
+	
 		// Notify tablr to add a keyevent command
 		if(id == KeyEvent.KEY_PRESSED) {
 			if (keyCode == 17){
