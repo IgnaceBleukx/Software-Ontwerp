@@ -183,7 +183,7 @@ public class TablesModeUI extends UI {
 			//Listener to select rows
 			deleteButton.addSingleClickListener(() -> {
 				for (UIElement e : list.getElements()){
-					System.out.println("[TablesModeUI.java:77]: "  + e);
+					DebugPrinter.print(e);
 					if (e.getError() || (e.isSelected() && !e.equals(currRow))) return;
 				}
 				if(currRow.isSelected()) 
@@ -204,7 +204,7 @@ public class TablesModeUI extends UI {
 			tableNameLabel.addKeyboardListener(-1, () -> {
 				
 				ArrayList<Table> tablesSameName = tablr.getTablesByName(tableNameLabel.getText());
-				System.out.println("[TablesModeUI.java:122] "+tablesSameName);
+				DebugPrinter.print(tablesSameName);
 			
 				if ((tablesSameName.size() > 0 && tableNameLabel.isSelected()) || tableNameLabel.getText().length() == 0) {
 					if (!tableNameLabel.getText().equals(curr.getName()))
@@ -236,7 +236,7 @@ public class TablesModeUI extends UI {
 					this.getWindowManager().loadTableDesignModeUI((StoredTable)curr);
 				}
 				else {
-					System.out.println("[TablesModeUI.java:130]: Opening a table rows mode");
+					DebugPrinter.print("Opening a table rows mode");
 					this.getWindowManager().loadTableRowsModeUI(curr);
 				}
 			});

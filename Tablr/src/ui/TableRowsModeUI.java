@@ -7,6 +7,7 @@ import java.util.Optional;
 import java.util.stream.Collectors;
 
 import Utils.BooleanCaster;
+import Utils.DebugPrinter;
 import uielements.Checkbox;
 import uielements.Dragger;
 import uielements.Text;
@@ -133,7 +134,7 @@ public class TableRowsModeUI extends UI {
 						finalLegend.removeElementAt(index);
 					}
 				}
-				System.out.println("[TableRowsMode.java:106]: " + finalLegend.getElements());
+				DebugPrinter.print(finalLegend.getElements());
 			}
 			//Update columnnames
 			else {
