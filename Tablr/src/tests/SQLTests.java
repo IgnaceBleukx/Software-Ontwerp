@@ -12,6 +12,7 @@ import exceptions.InvalidQueryException;
 
 import org.junit.Test;
 
+import Utils.DebugPrinter;
 import sql.BooleanExpression;
 import sql.CellIDExpression;
 import sql.ColumnSpec;
@@ -40,17 +41,51 @@ public class SQLTests {
 				new CellIDExpression("Table2", "colC"));
 		Table result = s.resolve(tables);
 		result.printTable();
+		String[] columnNamesExpected = new String[]{
+				"Table1.colA",
+				"Table1.colB",
+				"Table2.colC",
+				"Table2.colD"
+		};
 		
+		for (int i=0;i<4;i++) {
+			assertTrue(result.getColumns().get(i).getName().equals(columnNamesExpected[i]));
+		}
+		
+		int[] column1 = new int[]{7,7,8,8,9,9,11,11};
+		int[] column4 = new int[]{-1,-2,-4,-5,-1,-2,-4,-5};
+		
+		for (int i=0;i<8;i++) {
+			assertTrue(result.getColumns().get(0).getValueAt(i).equals(column1[i]));
+			assertTrue(result.getColumns().get(3).getValueAt(i).equals(column4[i]));
+		}
 		
 	}
 	
 	@Test
+	public void testSimpleTableSpec() throws InvalidNameException, InvalidQueryException {
+		ArrayList<Table> tables = createTables1();
+
+		SimpleTableSpec s1 = new SimpleTableSpec("Table1", "Table1");
+		SimpleTableSpec s2 = new SimpleTableSpec("Table2", "Table2");
+		Table result = s1.resolve(tables);
+		
+		assertTrue(result.getColumnNames().get(0).equals("Table1.colA"));
+		assertTrue(result.getColumnNames().get(1).equals("Table1.colB"));
+		assertEquals(result.getColumns().get(0).getCells().size(),4);
+		assertEquals(result.getColumns().get(0).getCells().get(0).getValue(),7);
+	}
+	
+	@Test
 	public void testWHEREQuery() throws InvalidNameException, InvalidQueryException {
-		String query = "SELECT t.colA AS a, t.colB as b FROM Table1 AS t WHERE t.a 7";
+		String query = "SELECT t.colA AS a, t.colB AS b FROM Table1 AS t WHERE t.colA = 7";
 		Query q = SQLParser.parseQuery(query);
 		Table result = QueryExecutor.executeQuery(q, createTables1());
-		result.printTable();
 		
+		assertTrue(result.getColumnNames().get(0).equals("a"));
+		assertTrue(result.getColumnNames().get(1).equals("b"));
+		assertEquals(result.getColumns().get(0).getValueAt(0),7);
+		assertEquals(result.getColumns().get(1).getValueAt(0),1);
 	}
 	
 	@Test
@@ -78,11 +113,19 @@ public class SQLTests {
 		q.setExpression(e);
 		Table newTable = q.resolveWhere(createTableMixedTypes());
 		newTable.printTable();
+		
+		assertTrue(newTable.getColumns().get(0).getCells().size() == 2);
+		assertNull(newTable.getColumns().get(1).getCells().get(0).getValue());
+		
+		
 	}
 	
 	@Test
 	public void testSELECT() throws InvalidNameException  {
 		ArrayList<Table> tables = createTables1();
+		
+		//Manually modify column names,
+		//to simulate executing from a JOIN
 		tables.get(0).getColumns().get(0).setName("Table1.colA");
 		tables.get(0).getColumns().get(1).setName("Table1.colB");
 		Query q = new Query();
@@ -95,9 +138,13 @@ public class SQLTests {
 		//	ColumnSpec(cellIDExpression(Table1.colA) AS newColA), 
 		//  = SELECT Table1.colA as newColA
 		//]
+		assertTrue(newTable.getColumnNames().get(0).equals("newColA"));
+		assertEquals(newTable.getColumns().get(0).getValueAt(0),7);
+		assertEquals(newTable.getColumns().get(0).getValueAt(1),8);
+		assertEquals(newTable.getColumns().get(0).getValueAt(2),9);
+		assertEquals(newTable.getColumns().get(0).getValueAt(3),11);
 	}
 	
-
 	
 	
 	@Test
@@ -108,7 +155,12 @@ public class SQLTests {
 		        +"ON t1.colB = t2.colC "
 		        +"WHERE TRUE");
 		Table t = QueryExecutor.executeQuery(q, tables);
-		//t.printTable();
+		
+		assertTrue(t.getColumns().get(0).getName().equals("result"));
+		int[] results = new int[]{7,7,8,8,9,9,11,11};
+		for (int i=0;i<8;i++) {
+			assertEquals(t.getColumns().get(0).getValueAt(i),results[i]);
+		}
 	}
 	
 	@Test
@@ -118,7 +170,11 @@ public class SQLTests {
 		        +"FROM Table1 AS t1 "
 		        +"WHERE t1.colA = 7");
 		Table t = QueryExecutor.executeQuery(q, tables);
-		//t.printTable();
+		
+		assertTrue(t.getColumnNames().get(0).equals("col1"));
+		assertTrue(t.getColumnNames().get(1).equals("col2"));
+		assertEquals(t.getColumns().get(0).getValueAt(0),7);
+		assertEquals(t.getColumns().get(1).getValueAt(0),1);
 	}
 	
 	/**
