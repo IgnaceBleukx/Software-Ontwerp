@@ -1,6 +1,7 @@
 package sql;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 
 import domain.Table;
 
@@ -13,8 +14,8 @@ public class MinusExpression extends Expression<Double> {
 	private Expression<Double> expression1;
 	private Expression<Double> expression2;
 	
-	public Double eval(ArrayList<Table> tables, int rowNb) {
-		return ((Double)expression1.eval(tables, rowNb) - (Double)expression2.eval(tables, rowNb));
+	public Double eval(ArrayList<Table> tables, int rowNb, HashMap<String,String> tableNames) {
+		return ((Double)expression1.eval(tables, rowNb, tableNames) - (Double)expression2.eval(tables, rowNb, tableNames));
 	}
 	
 	public String toString() {

@@ -44,20 +44,19 @@ public class SQLTests {
 		String[] columnNamesExpected = new String[]{
 				"Table1.colA",
 				"Table1.colB",
-				"Table2.colC",
 				"Table2.colD"
 		};
 		
-		for (int i=0;i<4;i++) {
+		for (int i=0;i<3;i++) {
 			assertTrue(result.getColumns().get(i).getName().equals(columnNamesExpected[i]));
 		}
 		
 		int[] column1 = new int[]{7,7,8,8,9,9,11,11};
-		int[] column4 = new int[]{-1,-2,-4,-5,-1,-2,-4,-5};
+		int[] column3 = new int[]{-1,-2,-4,-5,-1,-2,-4,-5};
 		
 		for (int i=0;i<8;i++) {
 			assertTrue(result.getColumns().get(0).getValueAt(i).equals(column1[i]));
-			assertTrue(result.getColumns().get(3).getValueAt(i).equals(column4[i]));
+			assertTrue(result.getColumns().get(2).getValueAt(i).equals(column3[i]));
 		}
 		
 	}
@@ -69,6 +68,7 @@ public class SQLTests {
 		SimpleTableSpec s1 = new SimpleTableSpec("Table1", "Table1");
 		SimpleTableSpec s2 = new SimpleTableSpec("Table2", "Table2");
 		Table result = s1.resolve(tables);
+		result.printTable();
 		
 		assertTrue(result.getColumnNames().get(0).equals("Table1.colA"));
 		assertTrue(result.getColumnNames().get(1).equals("Table1.colB"));
@@ -96,7 +96,13 @@ public class SQLTests {
 		EqualsExpression e = new EqualsExpression(new CellIDExpression("Table1","colA"),new NumberExpression(7));
 		q.setExpression(e);
 		q.setTableSpecs(s);
-		Table newTable = q.resolveWhere(tables.get(0));
+		HashMap<String,String> alias = new HashMap<>();
+		alias.put("Table1","Table1");
+		//Rename column to simulate situation after JOIN
+		tables.get(0).getColumns().get(0).setName("Table1.colA");
+		tables.get(0).getColumns().get(1).setName("Table1.colB");
+		
+		Table newTable = q.resolveWhere(tables.get(0),alias);
 		newTable.printTable();
 		assertEquals(1,newTable.getRows());
 		assertEquals(7,newTable.getColumns().get(0).getValueAt(0));
@@ -107,11 +113,18 @@ public class SQLTests {
 	@Test
 	public void testWHERE2() throws InvalidNameException {
 		TableSpec s = new SimpleTableSpec("Table1","t");
+		HashMap<String,String> alias = new HashMap<String,String>();
+		alias.put("Table1", "Table1");
+		Table t = createTableMixedTypes();
+		t.getColumns().get(0).setName("Table1.colA");
+		t.getColumns().get(1).setName("Table1.colB");
+		t.getColumns().get(2).setName("Table1.colC");
+		t.getColumns().get(3).setName("Table1.colD");
 		EqualsExpression e = new EqualsExpression(new CellIDExpression("Table1","colB"),new BooleanExpression(null));
 		Query q = new Query();
 		q.setTableSpecs(s);
 		q.setExpression(e);
-		Table newTable = q.resolveWhere(createTableMixedTypes());
+		Table newTable = q.resolveWhere(t,alias);
 		newTable.printTable();
 		
 		assertTrue(newTable.getColumns().get(0).getCells().size() == 2);

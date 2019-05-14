@@ -88,13 +88,21 @@ public class JoinTableSpec extends TableSpec {
 		
 		Column leftColumn = columnsLeft.
 							stream().
-							filter(c -> c.getName().equals(columnNameLeft)).
-							findFirst().
+							filter(c -> {
+								//DebugPrinter.print("Found: "+c.getName());
+								//DebugPrinter.print("Searching for: "+tableNameLeft+"."+columnNameLeft);
+								return c.getName().equals(tableNameLeft+"."+columnNameLeft);
+							})
+							.findFirst().
 							orElseThrow(() -> new InvalidQueryException("Unable to find column "+columnNameLeft+" in JOIN clause"));
 		
 		Column rightColumn = columnsRight.
 				stream().
-				filter(c -> c.getName().equals(columnNameRight)).
+				filter(c -> {
+					//DebugPrinter.print("Found: "+c.getName());
+					//DebugPrinter.print("Searching for: "+tableNameRight+"."+columnNameRight);
+					return c.getName().equals(tableNameRight+"."+columnNameRight);
+				}).
 				findFirst().
 				orElseThrow(() -> new InvalidQueryException("Unable to find column "+columnNameRight+" in JOIN clause"));
 
@@ -117,7 +125,7 @@ public class JoinTableSpec extends TableSpec {
 		columnsLeft.stream()
 				   .forEach((c) -> createDuplicateColumn(tableNameLeft,c, newColumns));
 		columnsRight.stream()
-					.filter((c)->!c.getName().equals(columnNameRight))
+					.filter((c)->!c.getName().equals(tableNameRight+"."+columnNameRight))
 					.forEach((c) -> createDuplicateColumn(tableNameRight,c,newColumns));
 		
 		StoredTable t = new StoredTable("t");
@@ -126,7 +134,7 @@ public class JoinTableSpec extends TableSpec {
 		//Build new table from the list of matches (i1,i2)
 		for (RowPair p : matches) {
 			ArrayList<Cell> leftCells = left.getRowByIndex(p.getLeftIndex(),"");
-			ArrayList<Cell> rightCells = right.getRowByIndex(p.getRightIndex(),columnNameRight);
+			ArrayList<Cell> rightCells = right.getRowByIndex(p.getRightIndex(),tableNameRight+"."+columnNameRight);
 			ArrayList<Cell> newRow = new ArrayList<Cell>(leftCells);
 			newRow.addAll(rightCells);
 			t.addRow(newRow);
@@ -137,7 +145,10 @@ public class JoinTableSpec extends TableSpec {
 	
 	private void createDuplicateColumn(String tableName, Column c, ArrayList<Column> list) {
 		try {
-			list.add(new Column(tableName+"."+c.getName(),null,c.getColumnType(),c.getDefault()));
+			if (c.getName().contains("."))
+				list.add(new Column(c.getName(),null,c.getColumnType(),c.getDefault()));
+			else
+				list.add(new Column(tableName+"."+c.getName(),null,c.getColumnType(),c.getDefault()));
 		} catch (InvalidNameException e) {
 			//
 		}

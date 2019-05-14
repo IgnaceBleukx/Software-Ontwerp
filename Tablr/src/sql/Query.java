@@ -87,8 +87,8 @@ public class Query {
 				//2. a columnSpec is tableNameAlias.columnName and 
 				//	 an alias tableNameAlias -> tableName exists.
 
-				DebugPrinter.print("ColumnSpec: "+tableNameAliases.get(spec.getCellID().getRowID())+"."+spec.getCellID().getcolumnName());
-				DebugPrinter.print("Column name: "+c.getName());
+				//DebugPrinter.print("ColumnSpec: "+tableNameAliases.get(spec.getCellID().getRowID())+"."+spec.getCellID().getcolumnName());
+				//DebugPrinter.print("Column name: "+c.getName());
 				if ((tableNameAliases.get(spec.getCellID().getRowID())+"."+spec.getCellID().getcolumnName()).equals(c.getName())) {
 					//Keep column
 					newCols.add(c);
@@ -109,11 +109,11 @@ public class Query {
 
 	}
 	
-	public Table resolveWhere(Table table) {
+	public Table resolveWhere(Table table, HashMap<String, String> tableNames) {
 		ArrayList<Integer> keep = new ArrayList<Integer>();
 		ArrayList<Table> t = new ArrayList<Table>(Arrays.asList(table));
 		for (int i=0;i < table.getRows();i++) {
-			if (expression.eval(t, i)) {
+			if (expression.eval(t, i,tableNames)) {
 				keep.add(i);
 			}
 		}

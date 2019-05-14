@@ -26,7 +26,7 @@ public class QueryExecutor {
 		
 		// --> tableSpecs
 		//2. Filter rows (WHERE)
-		t = q.resolveWhere(t);
+		t = q.resolveWhere(t,tableNames);
 		
 		DebugPrinter.print("==== Temporary table after WHERE: ");
 		t.printTable();

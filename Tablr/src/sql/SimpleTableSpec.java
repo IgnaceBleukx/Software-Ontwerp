@@ -3,6 +3,7 @@ package sql;
 import java.util.ArrayList;
 import java.util.HashMap;
 
+import domain.Column;
 import domain.Table;
 import exceptions.InvalidQueryException;
 
@@ -39,11 +40,20 @@ public class SimpleTableSpec extends TableSpec {
 
 	@Override
 	public Table resolve(ArrayList<Table>  tables) throws InvalidQueryException {
+		Table t2 = null;
 		for (Table t : tables) {
-			if (t.getName().equals(tableName))
-				return t.clone(t.getName());
+			if (t.getName().equals(tableName)) {
+				t2 = t.clone(t.getName());
+			}
 		}
-		throw new InvalidQueryException("Table name not found in WHERE clause");
+		if (t2 == null)
+			throw new InvalidQueryException("Table name not found in WHERE clause");
+
 		
+		for (Column c : t2.getColumns()) {
+			if (!c.getName().contains("."))
+				c.setName(tableName+"."+c.getName());
+		}
+		return t2;
 	}
 }

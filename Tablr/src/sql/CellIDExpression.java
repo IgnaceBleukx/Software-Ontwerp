@@ -1,7 +1,9 @@
 package sql;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 
+import Utils.DebugPrinter;
 import domain.Column;
 import domain.Table;
 
@@ -12,7 +14,7 @@ public class CellIDExpression extends Expression<Object> {
 	}
 	
 	@Override
-	public Object eval(ArrayList<Table> tables, int rowNb) {
+	public Object eval(ArrayList<Table> tables, int rowNb, HashMap<String,String> tableNames) {
 		String colName;
 		Table table;
 		if (tables.size() == 1) {
@@ -23,8 +25,15 @@ public class CellIDExpression extends Expression<Object> {
 			table = tables.stream().filter(t -> t.getName().equals(rowID)).findFirst().orElseThrow(() -> new RuntimeException("Table " + rowID + "not found"));
 			colName = rowID+"."+columnName;
 		}
-		Column col = table.getColumns().stream().filter(c -> c.getName().equals(colName)).
-				findFirst().orElseThrow(() -> new RuntimeException("No column "+ colName + "in table"));
+		Column col = table.getColumns().stream().filter(c -> {
+			String tableName = tableNames.get(rowID);
+			DebugPrinter.print("Found: "+c.getName());
+			DebugPrinter.print("Searched for: "+tableName+"."+colName);
+
+			return c.getName().equals(tableName+"."+colName);
+		})
+		.findFirst().
+		orElseThrow(() -> new RuntimeException("No column "+ colName + "in table"));
 		return col.getValueAt(rowNb);
 	}
 	

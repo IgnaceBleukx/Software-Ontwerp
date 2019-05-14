@@ -208,7 +208,7 @@ public class SQLParser extends StreamTokenizer {
 			} else
 				break;
 		}
-		DebugPrinter.print(q);
+		
 		
 		//Read TableSpecs of FROM clause
 		expect(TT_FROM);
@@ -238,13 +238,13 @@ public class SQLParser extends StreamTokenizer {
 		}
 		q.setTableSpecs(prevSpec);
 		
-		DebugPrinter.print(q);
 		
 		//Read expression of WHERE clause
 		expect(TT_WHERE);
 		Expression cond = parseExpr();
 		result.append(" WHERE " + cond);
 		q.setExpression(cond);
+		DebugPrinter.print(q);
 		return q;
 	}
 	

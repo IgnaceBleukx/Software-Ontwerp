@@ -1,6 +1,7 @@
 package sql;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 
 import Utils.DebugPrinter;
 import domain.Table;
@@ -11,7 +12,7 @@ public class StringExpression extends Expression<String> {
 		this.value = value;
 	}
 	
-	public String eval(ArrayList<Table> tables, int rowNb) {
+	public String eval(ArrayList<Table> tables, int rowNb, HashMap<String,String> tableNames) {
 		return value;
 	}
 	

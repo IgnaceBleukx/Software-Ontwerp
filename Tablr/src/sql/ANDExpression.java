@@ -1,6 +1,7 @@
 package sql;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 
 import domain.Table;
 
@@ -13,8 +14,8 @@ public class ANDExpression extends Expression<Boolean> {
 	private Expression<Boolean> expression1;
 	private Expression<Boolean> expression2;
 	
-	public Boolean eval(ArrayList<Table> tables, int rowNb) {
-		return ((Boolean)expression1.eval(tables, rowNb)&&(Boolean)expression2.eval(tables, rowNb));
+	public Boolean eval(ArrayList<Table> tables, int rowNb,HashMap<String,String> tableNames) {
+		return ((Boolean)expression1.eval(tables, rowNb,tableNames)&&(Boolean)expression2.eval(tables, rowNb,tableNames));
 	}
 	
 	public String toString() {

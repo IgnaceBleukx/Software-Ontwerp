@@ -1,6 +1,7 @@
 package sql;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 
 import domain.Table;
 
@@ -10,7 +11,7 @@ public class BooleanExpression extends Expression<Boolean> {
 		this.value = value;
 	}
 	
-	public Boolean eval(ArrayList<Table> tables, int rowNb) {
+	public Boolean eval(ArrayList<Table> tables, int rowNb, HashMap<String,String> tableNames) {
 		return value;
 	}
 	

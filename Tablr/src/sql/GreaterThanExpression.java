@@ -1,6 +1,7 @@
 package sql;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 
 import domain.Table;
 
@@ -13,8 +14,8 @@ public class GreaterThanExpression extends Expression<Boolean> {
 	private Expression<Integer> expression1;
 	private Expression<Integer> expression2;
 	
-	public Boolean eval(ArrayList<Table> tables, int rowNb) {
-		return ((int)expression1.eval(tables, rowNb) > (int)expression2.eval(tables, rowNb));
+	public Boolean eval(ArrayList<Table> tables, int rowNb, HashMap<String,String> tableNames) {
+		return ((int)expression1.eval(tables, rowNb, tableNames) > (int)expression2.eval(tables, rowNb, tableNames));
 	}
 	
 	public String toString() {

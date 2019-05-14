@@ -1,6 +1,7 @@
 package sql;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 
 import domain.Table;
 
@@ -11,7 +12,7 @@ public class NumberExpression extends Expression<Integer> {
 	
 	private int value;
 	
-	public Integer eval(ArrayList<Table> tables, int rowNb) {
+	public Integer eval(ArrayList<Table> tables, int rowNb, HashMap<String,String> tableNames) {
 		return value;
 	}
 	

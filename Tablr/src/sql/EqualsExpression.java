@@ -1,6 +1,7 @@
 package sql;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 
 import Utils.DebugPrinter;
 import domain.Table;
@@ -14,9 +15,9 @@ public class EqualsExpression extends Expression<Boolean> {
 	private Expression<?> expression1;
 	private Expression<?> expression2;
 	
-	public Boolean eval(ArrayList<Table> tables, int rowNb) {
-		Object e1 = expression1.eval(tables, rowNb);
-		Object e2 = expression2.eval(tables, rowNb);
+	public Boolean eval(ArrayList<Table> tables, int rowNb, HashMap<String,String> tableNames) {
+		Object e1 = expression1.eval(tables, rowNb, tableNames);
+		Object e2 = expression2.eval(tables, rowNb, tableNames);
 		if (e1 == null && e2 == null)
 			return true;
 		else if (e1 == null && e2 != null || e1 != null && e2 == null)
