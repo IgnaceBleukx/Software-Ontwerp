@@ -5,11 +5,16 @@ import java.util.ArrayList;
 import java.util.HashMap;
 
 import domain.Column;
+import domain.ComputedTable;
 import domain.StoredTable;
 import domain.Table;
 import domain.Type;
 import exceptions.InvalidNameException;
+import exceptions.InvalidQueryException;
 import exceptions.InvalidTypeException;
+import sql.Query;
+import sql.QueryExecutor;
+import sql.SQLParser;
 import ui.FormsModeUI;
 import ui.TableDesignModeUI;
 import ui.TableRowsModeUI;
@@ -478,6 +483,23 @@ public class Tablr {
 	 */
 	public void shiftPressed() {
 		windowManager.shiftPressed();
+	}
+	
+	/**
+	 * Executes a query from a given SQL command.
+	 * Returns the table
+	 * @throws InvalidNameException 
+	 * @throws InvalidQueryException 
+	 */
+	public void replaceTableFromQuery(String query, Table t) throws InvalidQueryException, InvalidNameException {
+		Query q = SQLParser.parseQuery(query);
+		ComputedTable newTable = QueryExecutor.executeQuery(q, getTables());
+		
+		int index = getTables().indexOf(t);
+		newTable.setName(t.getName());
+		domainFacade.replaceTable(index, newTable);
+		
+		domainChanged();
 	}
 	
 }

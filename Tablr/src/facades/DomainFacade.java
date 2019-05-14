@@ -462,11 +462,8 @@ public class DomainFacade {
 		command.execute();
 	}
 	
-//	void characterPressed(char c) {
-//		execute(new Command() {
-//			public void execute() { System.out.println("domainFacade: " + KeyEvent.getExtendedKeyCodeForChar(c) + c); }
-//			public void undo() { System.out.println("Command getyped (undo) => " + c);}
-//		});
-//	}
+	void replaceTable(int index, Table newTable) {
+		tables.set(index, newTable);
+	}
 	
 }

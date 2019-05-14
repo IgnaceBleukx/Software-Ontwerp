@@ -24,6 +24,8 @@ import uielements.LeftUIEdge;
 import uielements.VoidElement;
 import domain.StoredTable;
 import domain.Table;
+import exceptions.InvalidNameException;
+import exceptions.InvalidQueryException;
 import facades.Tablr;
 import sql.SQLParser;
 import sql.SQLParser.ParseException;
@@ -179,6 +181,25 @@ public class TablesModeUI extends UI {
 			
 			QueryTextField queryLabel = new QueryTextField(tableNameLabel.getEndX(),y,queryLabelWidth,tableRowHeight, tablr.getTableQuery(curr));
 			currRow.addElement(queryLabel);
+			
+			queryLabel.addDeselectionListener(()-> {
+				DebugPrinter.print("Executing query");
+				for (UIElement e : getElements()){
+					if (e.getError()) return;
+				}
+				try {
+					tablr.replaceTableFromQuery(queryLabel.getText(), curr);
+				} catch (InvalidQueryException e3) {
+					DebugPrinter.print("Invalid query: ERROR");
+					queryLabel.isError();
+				} catch (InvalidNameException e3) {
+					//
+					DebugPrinter.print("InvalidNameException");
+				}
+				
+				
+				
+			});
 			
 			//Listener to select rows
 			deleteButton.addSingleClickListener(() -> {
