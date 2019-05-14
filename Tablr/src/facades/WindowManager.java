@@ -427,6 +427,15 @@ public class WindowManager {
 			}
 		}
 	}
+
+	/**
+	 * Called when a Table has been removed from the domain.
+	 * This removes all UIs depending on the removed tables.
+	 * @param t
+	 */
+	public void tableRemoved(Table t) {
+		uis.remove(t);
+	}
 }
 
 
