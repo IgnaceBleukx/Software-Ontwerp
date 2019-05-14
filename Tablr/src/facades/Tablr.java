@@ -4,6 +4,7 @@ import java.awt.Graphics;
 import java.util.ArrayList;
 import java.util.HashMap;
 
+import Utils.DebugPrinter;
 import domain.Column;
 import domain.ComputedTable;
 import domain.StoredTable;
@@ -497,7 +498,9 @@ public class Tablr {
 	public void replaceTableFromQuery(String query, Table t) throws InvalidQueryException, InvalidNameException {
 		Query q = SQLParser.parseQuery(query);
 		ComputedTable newTable = QueryExecutor.executeQuery(q, getTables());
-		
+		newTable.setQuery(q);
+		DebugPrinter.print("Added new table");
+		newTable.printTable();
 		int index = getTables().indexOf(t);
 		newTable.setName(t.getName());
 		domainFacade.replaceTable(index, newTable);
