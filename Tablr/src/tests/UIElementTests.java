@@ -2,7 +2,6 @@ package tests;
 
 import static org.junit.Assert.*;
 
-import java.awt.event.KeyEvent;
 import java.awt.event.MouseEvent;
 import java.io.File;
 import java.io.IOException;
@@ -13,10 +12,8 @@ import org.junit.Test;
 
 import Utils.DebugPrinter;
 import uielements.Button;
-import uielements.ListView;
 import uielements.Text;
 import uielements.TextField;
-import uielements.UIElement;
 import uielements.UITable;
 import canvaswindow.CanvasWindow;
 import canvaswindow.MyCanvasWindow;
