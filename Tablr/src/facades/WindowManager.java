@@ -12,6 +12,7 @@ import java.util.stream.Collectors;
 import Utils.DebugPrinter;
 import domain.StoredTable;
 import domain.Table;
+import exceptions.InvalidNameException;
 import ui.FormsModeUI;
 import ui.TableDesignModeUI;
 import ui.TablesModeUI;
@@ -39,10 +40,10 @@ public class WindowManager {
 			DebugPrinter.print("Z is pressed");
 			if(recentShift()) {
 				DebugPrinter.print("CTRL + SHIFT + Z is pressed");
-	//			tablr.redo();
+				tablr.redo();
 			} else {
 				System.out.println("CTRL + Z is pressed in windowmanager");
-	//			tablr.undo();
+				tablr.undo();
 			}
 			
 		});

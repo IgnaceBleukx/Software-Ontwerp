@@ -124,6 +124,8 @@ public class TableRowsTests {
 		for(int i=0;i<d1.length();i++){
 			myCW.handleKeyEvent(0, 0, d1.charAt(i));
 		}
+		myCW.handleKeyEvent(0,10,Character.MIN_VALUE);
+
 		//Changing default value for column1.
 		// String met default = "default" en Blanks_al = false
 		myCW.handleMouseEvent(MouseEvent.MOUSE_CLICKED,540,75, 1);
@@ -131,6 +133,8 @@ public class TableRowsTests {
 		for(int i=0;i<d1.length();i++){
 			myCW.handleKeyEvent(0, 0, d1.charAt(i));
 		}		
+		myCW.handleKeyEvent(0,10,Character.MIN_VALUE);
+
 		//Toggle Blanks
 		myCW.handleMouseEvent(MouseEvent.MOUSE_CLICKED,500,75, 1);
 		
@@ -142,7 +146,8 @@ public class TableRowsTests {
 		for(int i=0;i<d2.length();i++){
 			myCW.handleKeyEvent(0, 0, d2.charAt(i));
 		}
-		
+		myCW.handleKeyEvent(0,10,Character.MIN_VALUE);
+
 		//Changing default value for column3:
 		// Email met default = "default@email" en Blanks_al = false
 		myCW.handleMouseEvent(MouseEvent.MOUSE_CLICKED, 450, 135, 1);
@@ -150,6 +155,7 @@ public class TableRowsTests {
 		for(int i=0;i<d2.length();i++){
 			myCW.handleKeyEvent(0, 0, d2.charAt(i));
 		}
+		myCW.handleKeyEvent(0,10,Character.MIN_VALUE);
 		//Toggle Blanks
 		myCW.handleMouseEvent(MouseEvent.MOUSE_CLICKED, 500, 135, 1);
 		
@@ -166,8 +172,8 @@ public class TableRowsTests {
 		//set default
 		myCW.handleMouseEvent(MouseEvent.MOUSE_CLICKED, 560,195,1);
 		//Toggle Blanks
-		myCW.handleMouseEvent(MouseEvent.MOUSE_CLICKED, 504, 195, 1);
-		
+		myCW.handleMouseEvent(MouseEvent.MOUSE_CLICKED, 495, 195, 1);
+
 		
 		//Changing default value for column6:
 		// Integer: default = 999  && Blanks_al = true
@@ -189,8 +195,9 @@ public class TableRowsTests {
 		for(int i=0;i<d4.length();i++){
 			myCW.handleKeyEvent(0, 0, d4.charAt(i));
 		}
+		snapShot(myCW,"pic1.png");
 		//Toggle Blanks
-		myCW.handleMouseEvent(MouseEvent.MOUSE_CLICKED, 505, 250, 1);
+		myCW.handleMouseEvent(MouseEvent.MOUSE_CLICKED, 495, 250, 1);
 		
 		// Go to ROWS mode
 		myCW.handleMouseEvent(MouseEvent.MOUSE_CLICKED, 80, 50, 2);
@@ -252,6 +259,7 @@ public class TableRowsTests {
 		for(int i=0;i<d2.length();i++){
 			myCW.handleKeyEvent(0, 8, Character.MIN_VALUE);
 		}
+
 		// Error when the field is blank
 		assertTrue(textField.getError());
 		// Add @ to prevent lock
@@ -297,6 +305,8 @@ public class TableRowsTests {
 		for(int i=0;i<textField.getText().length();i++){
 			myCW.handleKeyEvent(0, 8, Character.MIN_VALUE);
 		}
+		myCW.handleKeyEvent(0,10,Character.MIN_VALUE);
+
 		// No error when the field is blank
 		assertFalse(textField.getError());
 		
