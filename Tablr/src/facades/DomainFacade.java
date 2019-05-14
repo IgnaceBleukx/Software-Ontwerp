@@ -58,18 +58,22 @@ public class DomainFacade {
 	 * Adds an empty table to the list of tables
 	 */
 	public Table addEmptyTable() {
-		String name = nextName();
+		String name = nextTableName();
 		StoredTable table = new StoredTable(name);
 		
-		execute(new Command() {			
-			public void execute() { 		
-					addTable(table);
-					DebugPrinter.print(table); 
-				}
+		try {
+			execute(new Command() {			
+				public void execute() { 		
+						addTable(table);
+						DebugPrinter.print(table); 
+					}
 
-			public void undo() { removeTable(table); }
-			
-		});
+				public void undo() { removeTable(table); }
+				
+			});
+		} catch (InvalidNameException e) {
+			throw new RuntimeException("InvalidNameExcpetion while adding emptytable");
+		}
 		return table;
 	}
 	
@@ -78,12 +82,16 @@ public class DomainFacade {
 	 * @param table		Table to remove
 	 */
 	public void removeTable(Table table) {		
-		execute(new Command() {
-			public void execute() { 		
-				getTablesPure().remove(table);
-			}
-			public void undo() { addTable(table); }
-		});
+		try {
+			execute(new Command() {
+				public void execute() { 		
+					getTablesPure().remove(table);
+				}
+				public void undo() { addTable(table); }
+			});
+		} catch (InvalidNameException e) {
+			throw new RuntimeException("InvalidNameException while removing table");
+		}
 	}
 	
 	/**
@@ -105,7 +113,7 @@ public class DomainFacade {
 	 * Logical names are 'TableX' where X is the smallest integer
 	 * not yet used as a table name.
 	 */
-	private String nextName(){
+	private String nextTableName(){
 		String name = "Table";
 		int i = 0;
 		while(name == "Table"){
@@ -134,15 +142,20 @@ public class DomainFacade {
 	 * Renames a table.
 	 * @param t			Table
 	 * @param newName	New name
+	 * @throws InvalidNameException 
 	 */
 	public void renameTable(Table t, String newName) {
 		String currentName = t.getName();
-		execute(new Command() {
-			public void execute() { 		
-				t.setName(newName);;
-			}
-			public void undo() { t.setName(currentName); }
-		});
+		try {
+			execute(new Command() {
+				public void execute() { 		
+					t.setName(newName);;
+				}
+				public void undo() { t.setName(currentName); }
+			});
+		} catch (InvalidNameException e) {
+			throw new RuntimeException("InvalidNameException while renaming table");
+		}
 	}
 	
 	/**
@@ -176,11 +189,15 @@ public class DomainFacade {
 	 * @param defaultValue		The default value of the new column 
 	 */
 	public void addEmptyColumn(StoredTable table, Type type, Object defaultValue) {	
-		execute(new Command() {
-			Column column = null;
-			public void execute() { column = table.addEmptyColumn(type, defaultValue); }
-			public void undo() { table.removeColumn(column);}
-		});
+		try {
+			execute(new Command() {
+				Column column = null;
+				public void execute() { column = table.addEmptyColumn(type, defaultValue); }
+				public void undo() { table.removeColumn(column);}
+			});
+		} catch (InvalidNameException e) {
+			throw new RuntimeException("InvalidNameException while adding new empty column");
+		}
 	}
 	
 	public String getTableQuery(Table table) {
@@ -214,11 +231,15 @@ public class DomainFacade {
 	 * @param table		Table 
 	 */
 	public void addRow(StoredTable table) {
-		execute(new Command() {
-			int index = table.getRows();
-			public void execute() { table.addRow(); }
-			public void undo() { table.removeRow(index);}
-		});
+		try {
+			execute(new Command() {
+				int index = table.getRows();
+				public void execute() { table.addRow(); }
+				public void undo() { table.removeRow(index);}
+			});
+		} catch (InvalidNameException e) {
+			throw new RuntimeException("InvalidNameException while adding row");
+		}
 		
 	}
 	
@@ -263,22 +284,27 @@ public class DomainFacade {
 	 * @param index		Index
 	 */
 	public void removeRow(StoredTable tab, int index) {
-		execute(new Command(){
-			public void execute() {tab.removeRow(index);}
-			public void undo() {DebugPrinter.print("undo remove a row");}			
-		});
+		try {
+			execute(new Command(){
+				public void execute() {tab.removeRow(index);}
+				public void undo() {DebugPrinter.print("undo remove a row");}			
+			});
+		} catch (InvalidNameException e) {
+			throw new RuntimeException("InvalidNameException while removing row");
+		}
 	}
 	
 	/**
 	 * Remove a column specified by its index from a table
 	 * @param tab		Table
 	 * @param index		Index
+	 * @throws InvalidNameException 
 	 */
-	public void removeColumn(Table table, int index) {
+	public void removeColumn(Table table, int index) throws InvalidNameException {
 		execute(new Command(){
 			Column column;
 			public void execute() { column = table.removeColumn(index); }
-			public void undo() { table.addColumn(column); }	
+			public void undo() throws InvalidNameException { table.addColumn(column); }	
 		});
 	}
 	
@@ -290,11 +316,15 @@ public class DomainFacade {
 	 * @throws ClassCastException	The new value is not valid for the column's type
 	 */
 	public void changeCellValue(Column col, int i, String string) throws ClassCastException {
-		execute(new Command() {
-			String prevValue;
-			public void execute() { col.changeCellValue(i,string); prevValue = (String) col.getCell(i).getValue(); }
-			public void undo() { col.changeCellValue(i, prevValue); }
-		});
+		try {
+			execute(new Command() {
+				String prevValue;
+				public void execute() { col.changeCellValue(i,string); prevValue = (String) col.getCell(i).getValue(); }
+				public void undo() { col.changeCellValue(i, prevValue); }
+			});
+		} catch (InvalidNameException e) {
+			throw new RuntimeException("InvalidNameException while chaning cell value");
+		}
 	}
 	
 	/**
@@ -303,20 +333,24 @@ public class DomainFacade {
 	 * @throws InvalidTypeException		When changing the type results in invalid value of cells within the column.
 	 */
 	public void toggleColumnType(Column col) throws InvalidTypeException {
-		execute(new Command() {
-			public void execute() { 
-				try {
-					col.setNextType();
-				} catch (InvalidTypeException e) {
-					DebugPrinter.print(e);
-				} }
-			public void undo() { 
-				try {
-					col.setPreviousType();
-				} catch (InvalidTypeException e) {
-					DebugPrinter.print(e);
-				}  }
-		});
+		try {
+			execute(new Command() {
+				public void execute() { 
+					try {
+						col.setNextType();
+					} catch (InvalidTypeException e) {
+						DebugPrinter.print(e);
+					} }
+				public void undo() { 
+					try {
+						col.setPreviousType();
+					} catch (InvalidTypeException e) {
+						DebugPrinter.print(e);
+					}  }
+			});
+		} catch (InvalidNameException e) {
+			throw new RuntimeException("InvalidNameException while toggeling column type");
+		}
 	}
 	
 	/**
@@ -326,11 +360,15 @@ public class DomainFacade {
 	 * @throws ClassCastException
 	 */
 	public void setDefault(Column col, String def) throws ClassCastException {
-		execute(new Command() {
-			String prev = col.getDefault().toString();
-			public void execute() { col.setDefaultValue(col.getColumnType().parseValue(def)); }
-			public void undo() { col.setDefaultValue(col.getColumnType().parseValue(prev)); }
-		});
+		try {
+			execute(new Command() {
+				String prev = col.getDefault() == null ? null : col.getDefault().toString();	
+				public void execute() { col.setDefaultValue(col.getColumnType().parseValue(def)); }
+				public void undo() { col.setDefaultValue(col.getColumnType().parseValue(prev)); }
+			});
+		} catch (InvalidNameException e) {
+			throw new RuntimeException("InvalidNameException while setting default value");
+		}
 	}
 	
 	/**
@@ -378,10 +416,14 @@ public class DomainFacade {
 	 * @param col	Column
 	 */
 	public void toggleDefault(Column col) {
-		execute(new Command() {
-			public void execute() { col.toggleDefaultBoolean(); }
-			public void undo() { col.togglePreviousDefaultBoolean(); }
-		});
+		try {
+			execute(new Command() {
+				public void execute() { col.toggleDefaultBoolean(); }
+				public void undo() { col.togglePreviousDefaultBoolean(); }
+			});
+		} catch (InvalidNameException e) {
+			throw new RuntimeException("InvalidNameException while toggeling default");
+		}
 	}
 	
 	/**
@@ -391,22 +433,26 @@ public class DomainFacade {
 	 * @throws InvalidTypeException		Changing the type bring the column into an invalid state
 	 */
 	public void setColumnType(Column col, Type type) throws InvalidTypeException {
-		execute(new Command() {
-			public void execute() { 
-				try {
-					col.setColumnType(type);
-					DebugPrinter.print("setColumnType");
-				} catch (InvalidTypeException e) {
-					DebugPrinter.print("setColumnType exceptie in commando");
-				} }
-			public void undo() { 
-				 try {
-					col.setColumnType(Column.getPreviousType(type));
-				} catch (InvalidTypeException e) {
-					DebugPrinter.print("setColumnType exceptie in commando");
+		try {
+			execute(new Command() {
+				public void execute() { 
+					try {
+						col.setColumnType(type);
+						DebugPrinter.print("setColumnType");
+					} catch (InvalidTypeException e) {
+						DebugPrinter.print("setColumnType exceptie in commando");
+					} }
+				public void undo() { 
+					 try {
+						col.setColumnType(Column.getPreviousType(type));
+					} catch (InvalidTypeException e) {
+						DebugPrinter.print("setColumnType exceptie in commando");
+					}
 				}
-			}
-		});
+			});
+		} catch (InvalidNameException e) {
+			throw new RuntimeException("InvalidNameException while setting column type");
+		}
 	}
 	
 	/**
@@ -415,10 +461,14 @@ public class DomainFacade {
 	 * @param i			Index of the cell
 	 */
 	public void toggleCellValueBoolean(Column col, int i) {
-		execute(new Command() {
-			public void execute() { col.toggleCellValueBoolean(i); DebugPrinter.print("toggle value boolean"); }
-			public void undo() {  col.togglePreviousCellValueBoolean(i);  }
-		});
+		try {
+			execute(new Command() {
+				public void execute() { col.toggleCellValueBoolean(i); DebugPrinter.print("toggle value boolean"); }
+				public void undo() {  col.togglePreviousCellValueBoolean(i);  }
+			});
+		} catch (InvalidNameException e) {
+			throw new RuntimeException("InvalidNameException while toggeling cell value boolean");
+		}
 	}
 	
 	/**
@@ -435,14 +485,14 @@ public class DomainFacade {
 
 	
 	public interface Command {
-		void execute();
-		void undo();
+		void execute() throws InvalidNameException;
+		void undo() throws InvalidNameException;
 	}
 	
 	private ArrayList<Command> undoStack = new ArrayList<>();
 	int nbCommandsUndone = 0;
 	
-	void undo() {
+	void undo() throws InvalidNameException {
 		DebugPrinter.print(undoStack);
 		DebugPrinter.print(nbCommandsUndone);
 		if(undoStack.size() > nbCommandsUndone) {
@@ -450,23 +500,17 @@ public class DomainFacade {
 		}
 	}
 	
-	void redo(){
+	void redo() throws InvalidNameException{
 		if(nbCommandsUndone > 0)
 			undoStack.get(undoStack.size() - nbCommandsUndone--).execute();
 	}
 
-	void execute(Command command){
+	void execute(Command command) throws InvalidNameException{
 		for(; nbCommandsUndone > 0; nbCommandsUndone--)
 			undoStack.remove(undoStack.size() - 1);
 		undoStack.add(command);
 		command.execute();
 	}
-	
-//	void characterPressed(char c) {
-//		execute(new Command() {
-//			public void execute() { System.out.println("domainFacade: " + KeyEvent.getExtendedKeyCodeForChar(c) + c); }
-//			public void undo() { System.out.println("Command getyped (undo) => " + c);}
-//		});
-//	}
+
 	
 }

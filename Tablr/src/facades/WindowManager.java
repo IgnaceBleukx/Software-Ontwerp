@@ -33,16 +33,17 @@ public class WindowManager {
 		
 		// 'Z' is pressed
 		keyListener.addKeyboardListener(90, () -> {
+			if(! recentCtrl())
+				return;
 			DebugPrinter.print("Z is pressed");
-			if (recentCtrl()) {
-				if(recentShift()) {
-					DebugPrinter.print("CTRL + SHIFT + Z is pressed");
-					tablr.redo();
-				} else {
-					System.out.println("CTRL + Z is pressed in windowmanager");
-					tablr.undo();
-				}
+			if(recentShift()) {
+				DebugPrinter.print("CTRL + SHIFT + Z is pressed");
+	//			tablr.redo();
+			} else {
+				System.out.println("CTRL + Z is pressed in windowmanager");
+	//			tablr.undo();
 			}
+			
 		});
 	}
 	

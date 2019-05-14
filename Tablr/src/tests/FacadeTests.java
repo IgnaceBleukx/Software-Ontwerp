@@ -16,6 +16,7 @@ import domain.Column;
 import domain.StoredTable;
 import domain.Table;
 import domain.Type;
+import exceptions.InvalidNameException;
 import facades.Tablr;
 import facades.WindowManager;
 
@@ -23,7 +24,7 @@ public class FacadeTests {
 
 	
 	@Test
-	public void testLoadUIModes() {
+	public void testLoadUIModes() throws InvalidNameException {
 		MyCanvasWindow myCW = new MyCanvasWindow("Table Design mode test");
 		Tablr tablr = myCW.getTablr();
 		StoredTable table1 = (StoredTable) tablr.addEmptyTable();
