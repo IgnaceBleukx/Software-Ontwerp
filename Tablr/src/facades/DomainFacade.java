@@ -294,8 +294,13 @@ public class DomainFacade {
 	public void changeCellValue(Column col, int i, String string) throws ClassCastException {
 		execute(new Command() {
 			String prevValue;
-			public void execute() { col.changeCellValue(i,string); prevValue = (String) col.getCell(i).getValue(); }
-			public void undo() { col.changeCellValue(i, prevValue); }
+			public void execute() { 
+				prevValue = col.getCell(i).getValueString(); 
+				col.changeCellValue(i,string); 
+			}
+			public void undo() { 
+				col.changeCellValue(i, prevValue); 
+			}
 		});
 	}
 	
