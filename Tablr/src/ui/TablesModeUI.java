@@ -272,7 +272,7 @@ public class TablesModeUI extends UI {
 					if (queryLabel.getError())
 						queryLabel.isNotError();
 				}catch(RuntimeException e) {
-					DebugPrinter.print("Parse exception");
+					DebugPrinter.print(e.getMessage());
 					queryLabel.isError();
 				}
 			});
@@ -304,6 +304,11 @@ public class TablesModeUI extends UI {
 		ArrayList<UIElement> clonedElements = new ArrayList<>(elements.stream().map(e -> e.clone()).collect(Collectors.toList()));
 		clone.elements = clonedElements;
 		return clone;
+	}
+	
+	@Override
+	public String toString() {
+		return "TablesmodeUI : X="+getX() + " Y="+getY() + " W=" +getWidth() + " H="+getHeight();
 	}
 
 }

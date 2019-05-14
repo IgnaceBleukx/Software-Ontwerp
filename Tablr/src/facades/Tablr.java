@@ -117,6 +117,7 @@ public class Tablr {
 	 */
 	public void removeTable(Table t) {
 		domainFacade.removeTable(t);
+		windowManager.tableRemoved(t);
 		domainChanged();
 	}
 	

@@ -169,7 +169,7 @@ public abstract class UIElement {
 		this.beginDrag();
 		this.setGrabPointX(x);
 		this.setGrabPointY(y);
-		DebugPrinter.print("Handeling pressed for: " + this);
+		//DebugPrinter.print("Handeling pressed for: " + this);
 		new ArrayList<>(pressListeners).stream().forEach(l -> l.accept(this));
 	}
 	

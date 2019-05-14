@@ -6,6 +6,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.Optional;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 import Utils.DebugPrinter;
@@ -400,6 +401,39 @@ public class WindowManager {
 	
 	public void shiftPressed() {
 		lastShift = System.currentTimeMillis();
+	}
+	
+	/**
+	 * Deletes a UI from the list of UI's.
+	 * This method only affects the list if there
+	 * were multiple UIs of the same type and the same table.
+	 * @param ui	The UI to delete
+	 */
+	public void deleteUI(UI ui) {
+		Class c = ui.getClass();
+		Set<Table> keys = uis.keySet();
+		for (Table t : keys) {
+			ArrayList<UI> activeUIs = uis.get(t);
+			if (activeUIs.contains(ui)) {
+				if (activeUIs.stream().filter((e)->e.getClass().equals(c)).count() > 1) {
+					DebugPrinter.print(activeUIs);
+					DebugPrinter.print("Multiple UI's for key "+t.getName()+", removing");
+					activeUIs.remove(ui);
+				}
+				else {
+					DebugPrinter.print("One UI, no effect");
+				}
+			}
+		}
+	}
+
+	/**
+	 * Called when a Table has been removed from the domain.
+	 * This removes all UIs depending on the removed tables.
+	 * @param t
+	 */
+	public void tableRemoved(Table t) {
+		uis.remove(t);
 	}
 }
 
