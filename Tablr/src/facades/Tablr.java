@@ -140,8 +140,9 @@ public class Tablr {
 	 * Renames a table.
 	 * @param t		Table to rename
 	 * @param name	New name for the table
+	 * @throws InvalidNameException 
 	 */
-	public void renameTable(Table t, String name) {
+	public void renameTable(Table t, String name){
 		domainFacade.renameTable(t, name);
 	}
 	
@@ -235,8 +236,9 @@ public class Tablr {
 	 * Removes a column from a table.
 	 * @param table		Table
 	 * @param index		Index of Column within Table
+	 * @throws InvalidNameException 
 	 */
-	public void removeColumn(Table table, int index) {
+	public void removeColumn(Table table, int index) throws InvalidNameException {
 		domainFacade.removeColumn(table, index);
 		domainChanged();
 	}
@@ -461,12 +463,12 @@ public class Tablr {
 		windowManager.controlPressed();
 	}
 
-	public void undo() {
+	public void undo() throws InvalidNameException {
 		domainFacade.undo();
 		domainChanged();
 	}
 	
-	public void redo() {
+	public void redo() throws InvalidNameException {
 		domainFacade.redo();
 		domainChanged();
 	}

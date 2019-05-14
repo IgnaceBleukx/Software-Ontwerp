@@ -238,7 +238,11 @@ public class TableDesignModeUI extends UI {
 			int i = index;
 			uiRow.addKeyboardListener(127,() -> {
 				if(uiRow.isSelected()){
-					tablr.removeColumn(table, i); //2 scrollbars waar we geen rekening mee moeten houden
+					try {
+						tablr.removeColumn(table, i);
+					} catch (InvalidNameException e) {
+						throw new RuntimeException("InvalidNameException while removing column");
+					} //2 scrollbars waar we geen rekening mee moeten houden
 				}
 			});
 			colName.addSingleClickListener(() -> colName.select());

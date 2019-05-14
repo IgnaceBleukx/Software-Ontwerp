@@ -123,7 +123,8 @@ public class Column {
 		}
 		for(Cell<?> cell: getCells()) {
 			Object value = cell.getValue();
-			cells.set(cells.indexOf(cell), new Cell(type.parseValue(value.toString())));
+			String valueString = value == null ? null : value.toString();
+			cells.set(cells.indexOf(cell), new Cell(type.parseValue(valueString)));
 		}
 	}
 	
