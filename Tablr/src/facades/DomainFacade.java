@@ -453,6 +453,9 @@ public class DomainFacade {
 		undoStack.add(command);
 		command.execute();
 	}
-
 	
+	void replaceTable(int index, Table newTable) {
+		tables.set(index, newTable);
+	}
+
 }
