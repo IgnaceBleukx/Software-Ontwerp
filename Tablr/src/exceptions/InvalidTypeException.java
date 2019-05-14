@@ -5,6 +5,6 @@ package exceptions;
  * with regard to the column's type
  *
  */
-public class InvalidTypeException extends Exception {
+public class InvalidTypeException extends RuntimeException {
 
 }

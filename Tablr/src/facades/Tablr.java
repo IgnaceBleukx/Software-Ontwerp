@@ -458,12 +458,12 @@ public class Tablr {
 		windowManager.controlPressed();
 	}
 
-	public void undo() throws InvalidNameException {
+	public void undo(){
 		domainFacade.undo();
 		domainChanged();
 	}
 	
-	public void redo() throws InvalidNameException {
+	public void redo(){
 		domainFacade.redo();
 		domainChanged();
 	}

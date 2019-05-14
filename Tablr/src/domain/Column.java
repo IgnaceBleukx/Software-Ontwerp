@@ -4,6 +4,7 @@ import java.util.ArrayList;
 
 import Utils.BooleanCaster;
 import Utils.DebugPrinter;
+import exceptions.BlankException;
 import exceptions.InvalidNameException;
 import exceptions.InvalidTypeException;
 
@@ -164,13 +165,13 @@ public class Column {
 	 * Changes whether this column allows blank values
 	 * @throws Exception		When trying to disallow blanks while the default value is blank
 	 */
-	public void toggleBlanks() throws Exception{
-		if (allowsBlanks && getDefault() == null || allowsBlanks && getDefault() == "") throw new Exception("The column default is blank");
+	public void toggleBlanks() {
+		if (allowsBlanks && getDefault() == null || allowsBlanks && getDefault() == "") throw new BlankException();
 		for (Cell c : getCells()) {
 			if (allowsBlanks && c.getValue() instanceof String && ((String) c.getValue()).isEmpty())
-				throw new Exception("A cell is blank!");
+				throw new BlankException();
 			if (allowsBlanks && c.getValue() == null)
-				throw new Exception("A cell is blank!");
+				throw new BlankException();
 		}
 		allowsBlanks = !allowsBlanks;
 	}
