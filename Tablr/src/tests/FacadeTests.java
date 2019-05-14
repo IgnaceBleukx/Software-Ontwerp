@@ -69,7 +69,7 @@ public class FacadeTests {
 		tablr.addEmptyTable();
 		tablr.addTablesModeUI();
 		TablesModeUI ui = tablr.getTablesModeUIs().get(0);
-		ui.setInactive();
+		ui.terminate();
 		assertTrue(!(ui == null));
 		
 		WindowManager m = ui.getWindowManager();

@@ -65,7 +65,7 @@ public class MyCanvasWindow extends CanvasWindow {
 				getTablr().selectUI(tablr.getUIAt(x, y));
 			} catch (NullPointerException e) {
 				getTablr().selectUI(null);
-				DebugPrinter.print("No UI at these coordinates");
+				//DebugPrinter.print("No UI at these coordinates");
 				return;
 			}
 			
@@ -73,7 +73,7 @@ public class MyCanvasWindow extends CanvasWindow {
 				clicked = tablr.getUIAt(x, y).locatedAt(x, y);
 				DebugPrinter.print("Clicked on : " + clicked);
 			}	catch (NullPointerException e) {
-				DebugPrinter.print("No element clicked in UI");
+				//DebugPrinter.print("No element clicked in UI");
 				return;
 			}
 			
@@ -83,13 +83,13 @@ public class MyCanvasWindow extends CanvasWindow {
 			
 			//Mouse pressed
 			if (id  == MouseEvent.MOUSE_PRESSED) {
-				DebugPrinter.print("Mouse Pressed at ("+x+","+y+")");
+				//DebugPrinter.print("Mouse Pressed at ("+x+","+y+")");
 				clicked.handlePressed(x, y);
 			}
 
 			//Mouse clicked
 			else if (id == MouseEvent.MOUSE_CLICKED) {
-				DebugPrinter.print("Mouse Pressed at ("+x+","+y+")");
+				//DebugPrinter.print("Mouse Pressed at ("+x+","+y+")");
 				/**
 				 * Some element has a hard lock, ignore this input if the
 				 * element getting the input is not the element that has the hard lock
@@ -112,9 +112,8 @@ public class MyCanvasWindow extends CanvasWindow {
 		
 		//Mouse dragged
 		else if (id == MouseEvent.MOUSE_DRAGGED) {
-			System.out.println("[MyCanvasWindow.java:88]: Mouse Dragged!");
 			try{
-				DebugPrinter.print("Dragging : " + getTablr().getSelectedUI().getDragging());
+				//DebugPrinter.print("Dragging : " + getTablr().getSelectedUI().getDragging());
 				UIElement draggingItem = getTablr().getSelectedUI().getDragging();
 				draggingItem.handleDrag(x, y);
 				draggingItem.handlePressed(x, y);
@@ -123,7 +122,7 @@ public class MyCanvasWindow extends CanvasWindow {
 		
 		//Mouse released
 		else if (id == MouseEvent.MOUSE_RELEASED) {	
-			DebugPrinter.print("Mouse Released!");
+			//DebugPrinter.print("Mouse Released!");
 			try{
 				getTablr().getSelectedUI().getDragging().handleReleased();
 				getTablr().getSelectedUI().setDragging(null);

@@ -187,7 +187,7 @@ public class UI {
 			this.move(deltaX, deltaY);
 		});
 		close.addSingleClickListener(() -> {
-			setInactive();
+			terminate();
 			getWindowManager().selectNewUI();
 		});		
 		
@@ -495,9 +495,11 @@ public class UI {
 	/**
 	 * Deactivates this UI, meaning it will no longer be drawn on the canvas, but its contents will be preserved.
 	 */
-	public void setInactive() {
+	public void terminate() {
 		active = false;
+		getWindowManager().deleteUI(this);
 	}
+	
 	
 	/**
 	 * Returns if this is active (and thus should be drawn).

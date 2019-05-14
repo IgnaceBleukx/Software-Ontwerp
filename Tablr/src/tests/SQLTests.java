@@ -177,6 +177,11 @@ public class SQLTests {
 		assertEquals(t.getColumns().get(1).getValueAt(0),1);
 	}
 	
+	@Test
+	public void testBasic() {
+		
+	}
+	
 	/**
 	 * Creates a list containing one Table:
 	 * 

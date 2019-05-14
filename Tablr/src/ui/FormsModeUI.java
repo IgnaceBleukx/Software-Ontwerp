@@ -220,5 +220,10 @@ public class FormsModeUI extends UI {
 		clone.elements = clonedElements;
 		return clone;
 	}
+	
+	@Override
+	public String toString() {
+		return "FormsUI : X="+getX() + " Y="+getY() + " W=" +getWidth() + " H="+getHeight();
+	}
 
 }

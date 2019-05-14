@@ -285,4 +285,9 @@ public class TableRowsModeUI extends UI {
 		return clone;
 	}
 	
+	@Override
+	public String toString() {
+		return "RowsUI : X="+getX() + " Y="+getY() + " W=" +getWidth() + " H="+getHeight();
+	}
+	
 }

@@ -337,4 +337,9 @@ public class TableDesignModeUI extends UI {
 		DebugPrinter.print(clone.elements);
 		return clone;
 	}
+	
+	@Override
+	public String toString() {
+		return "DesignUI : X="+getX() + " Y="+getY() + " W=" +getWidth() + " H="+getHeight();
+	}
 }
