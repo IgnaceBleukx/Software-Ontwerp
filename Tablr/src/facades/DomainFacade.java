@@ -58,7 +58,7 @@ public class DomainFacade {
 	/**
 	 * Adds an empty table to the list of tables
 	 */
-	public Table addEmptyTable() {
+	public StoredTable addEmptyTable() {
 		String name = nextTableName();
 		StoredTable table = new StoredTable(name);
 		

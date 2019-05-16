@@ -80,8 +80,8 @@ public class Tablr {
 	 * Adds an empty table to the domain.
 	 * @return	The newly added table.
 	 */
-	public Table addEmptyTable() {
-		Table t = domainFacade.addEmptyTable();
+	public StoredTable addEmptyTable() {
+		StoredTable t = domainFacade.addEmptyTable();
 		windowManager.addTableDesignModeUI(t, new TableDesignModeUI(300,0,300,300,this));
 		windowManager.addTableRowsModeUI(t, new TableRowsModeUI(300, 300, 300, 300, this));
 		windowManager.addFormModeUI(t,new FormsModeUI(0,300,300,300,this));
