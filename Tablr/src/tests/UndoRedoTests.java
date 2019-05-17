@@ -100,6 +100,35 @@ public class UndoRedoTests {
 		assertFalse(t.getColumns(table0).contains(column1));
 		
 	}
+	
+	@Test
+	public void undoRedoAddColumn() {
+		Tablr t = new Tablr();
+		//Add a table
+		StoredTable table0 = t.addEmptyTable();
+		//Add a column to the table
+		t.addEmptyColumn(table0, Type.STRING, "default0");
+		t.addEmptyColumn(table0, Type.STRING, "default1");
+		t.addEmptyColumn(table0, Type.STRING, "default2");
+		Column column0 = t.getColumns(table0).get(0);
+		Column column1 = t.getColumns(table0).get(1);
+		Column column2 = t.getColumns(table0).get(2);	
+		//Remove column1
+		assertEquals(3,t.getColumns(table0).size());
+		
+		//Undo the adding of column2
+		t.undo();	
+		assertEquals(2,t.getColumns(table0).size());
+		assertTrue(t.getColumns(table0).contains(column0));
+		assertTrue(t.getColumns(table0).contains(column1));
+		assertTrue(!t.getColumns(table0).contains(column2));
+		
+		//Redo the adding of column2
+		t.redo();
+		DebugPrinter.print(t.getColumns(table0));
+		assertEquals(3,t.getColumns(table0).size());
+		assertFalse(t.getColumns(table0).contains(column2));
+	}
 
 
 	@Test
@@ -144,7 +173,7 @@ public class UndoRedoTests {
 		//Redo the removing of the second row
 		t.redo();
 		assertEquals(2,t.getRows(table0));
-
+	}
 	
 	// TODO: Assert Error
 	@Test
