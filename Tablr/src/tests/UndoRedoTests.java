@@ -155,7 +155,6 @@ public class UndoRedoTests {
 		
 	}
 
-	// TODO: Assert Error
 	@Test
 	public void undoRedoToggleBlanks() throws Exception {
 		Tablr t = new Tablr();
@@ -275,6 +274,49 @@ public class UndoRedoTests {
 		t.redo();
 		assertEquals(Type.EMAIL, col.getColumnType());
 	}
+
+	@Test
+	public void undoRedoChangeDefault() {
+		Tablr t = new Tablr();
+		//Add a table
+		StoredTable table0 = t.addEmptyTable();
+		//Add a column to the table
+		t.addEmptyColumn(table0, Type.STRING, "default0");
+		Column col = t.getColumns(table0).get(0);
+		
+		// Change default value of col to "def"
+		t.setDefault(col, "def");
+		assertEquals("def", col.getDefault());
+		
+		// Undo change name of column
+		t.undo();
+		assertEquals("default0", col.getDefault());
+		
+		// Redo change name of column
+		t.redo();
+		assertEquals("def", col.getDefault());
+	}
 	
+	@Test
+	public void undoRedoToggleDefault() {
+		Tablr t = new Tablr();
+		//Add a table
+		StoredTable table0 = t.addEmptyTable();
+		//Add a column to the table
+		t.addEmptyColumn(table0, Type.BOOLEAN, null);
+		Column col = t.getColumns(table0).get(0);
+		
+		// Change default value of col to allow
+		t.toggleDefault(col);
+		assertEquals(true, col.getDefault());
+		
+		// Undo change name of column
+		t.undo();
+		assertEquals(null, col.getDefault());
+		
+		// Redo change name of column
+		t.redo();
+		assertEquals(true, col.getDefault());
+	}
 }
 
