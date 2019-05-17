@@ -273,7 +273,13 @@ public class DomainFacade {
 				col.toggleBlanks();
 			}			
 			public void undo() { 
-				col.toggleBlanks();
+				try {
+					col.toggleBlanks();
+				}catch(BlankException e) {
+					DebugPrinter.print("BlankException");
+					undoStack.remove(this);
+					nbCommandsUndone--;
+				}
 			}
 		});
 	}
