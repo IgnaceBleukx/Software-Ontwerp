@@ -101,8 +101,9 @@ public class UndoRedoTests {
 		
 	}
 	
+	// TODO: Assert Error
 	@Test
-	public void undoRedoToggleBlanks() {
+	public void undoRedoToggleBlanks() throws Exception {
 		Tablr t = new Tablr();
 		//Add a table
 		StoredTable table0 = t.addEmptyTable();
@@ -112,17 +113,14 @@ public class UndoRedoTests {
 		
 		assertTrue(column0.getBlankingPolicy());
 		
-		//Remove column1
-		try {
-			t.toggleBlanks(column0);
-		} catch (Exception e) {
-			DebugPrinter.print(e);
-		}
+		//Toggle blanks of Column0
+		t.toggleBlanks(column0);
+		
+		assertFalse(column0.getBlankingPolicy());
 		
 		//Undo the removing of column1
 		t.undo();
 		assertFalse(column0.getBlankingPolicy());
-		
 		
 		//Redo the removing of column1
 		t.redo();
