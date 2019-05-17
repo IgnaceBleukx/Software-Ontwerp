@@ -38,41 +38,13 @@ public class DomainFacade {
 	private Table activeTable;
 
 	/**
-	 * Returns a clone of the tables
-	 */
-	public ArrayList<Table> getTables() {
-		return new ArrayList<Table>(tables);
-	}
-
-	/**
-	 * Returns the tables (no clone)
-	 */
-	public ArrayList<Table> getTablesPure() {
-		return tables;
-	}
-
-	public String getTableQuery(Table table) {
-		return table.getQueryString();
-	}
-
-	/**
-	 * Sets the active table to some table t
-	 */
-	public void setActiveTable(Table t) {
-		this.activeTable = t;
-	}
-
-	public Table getActiveTable() {
-		return this.activeTable;
-	}
-	/**
 	 * Adds a new table to the list of tables
 	 * @param table		Table to add
 	 */
 	public void addTable(Table table) {
 		this.tables.add(table);
 	}
-	
+
 	/**
 	 * Adds an empty table to the list of tables
 	 */
@@ -80,25 +52,22 @@ public class DomainFacade {
 		String name = nextTableName();
 		StoredTable table = new StoredTable(name);
 		
-		try {
-			execute(new Command() {			
-				public void execute() { 		
-						addTable(table);
-						DebugPrinter.print(table); 
-				}
-
-				public void undo() { 
-					removeTable(table); 
-					removeLastCommand();
-				}
-				
-			});
-		} catch (InvalidNameException e) {
-			throw new RuntimeException("InvalidNameExcpetion while adding emptytable");
-		}
+		execute(new Command() {			
+			public void execute() { 		
+				addTable(table);
+				DebugPrinter.print(table); 
+			}
+	
+			public void undo() { 
+				tables.remove(table);
+			}
+			public String toString() {
+				return "AddEmptyTable";
+			}
+		});
 		return table;
 	}
-	
+
 	/**
 	 * Remove tables from the list of tables
 	 * @param table		Table to remove
@@ -117,7 +86,34 @@ public class DomainFacade {
 			throw new RuntimeException("InvalidNameException while removing table");
 		}
 	}
-	
+
+	/**
+	 * Renames a table.
+	 * @param t			Table
+	 * @param newName	New name
+	 * @throws InvalidNameException 
+	 */
+	public void renameTable(Table t, String newName) {
+		String currentName = t.getName();
+		execute(new Command() {
+			public void execute() { 		
+				t.setName(newName);;
+			}
+			public void undo() { t.setName(currentName); }
+		});
+	}
+
+	/**
+	 * Returns a list of all table names
+	 */
+	private ArrayList<String> getNames() {
+		ArrayList<String> names = new ArrayList<String>();
+		for(Table t : getTables()){
+			names.add(t.getName());
+		}
+		return names;
+	}
+
 	/**
 	 * Returns the next logical name for a table.
 	 * Logical names are 'TableX' where X is the smallest integer
@@ -136,34 +132,36 @@ public class DomainFacade {
 		}
 		return name;
 	}
-	
+
 	/**
-	 * Returns a list of all table names
+	 * Returns a clone of the tables
 	 */
-	private ArrayList<String> getNames() {
-		ArrayList<String> names = new ArrayList<String>();
-		for(Table t : getTables()){
-			names.add(t.getName());
-		}
-		return names;
+	public ArrayList<Table> getTables() {
+		return new ArrayList<Table>(tables);
 	}
-	
+
 	/**
-	 * Renames a table.
-	 * @param t			Table
-	 * @param newName	New name
-	 * @throws InvalidNameException 
+	 * Returns the tables (no clone)
 	 */
-	public void renameTable(Table t, String newName) {
-		String currentName = t.getName();
-		execute(new Command() {
-			public void execute() { 		
-				t.setName(newName);;
-			}
-			public void undo() { t.setName(currentName); }
-		});
+	public ArrayList<Table> getTablesPure() {
+		return tables;
 	}
-	
+
+	public String getTableQuery(Table table) {
+		return table.getQueryString();
+	}
+
+	public Table getActiveTable() {
+		return this.activeTable;
+	}
+
+	/**
+	 * Sets the active table to some table t
+	 */
+	public void setActiveTable(Table t) {
+		this.activeTable = t;
+	}
+
 	/**
 	 * Toggles allowing blank values in a column
 	 * @param col			The column
@@ -450,9 +448,11 @@ public class DomainFacade {
 		if(undoStack.size() > nbCommandsUndone) {
 			undoStack.get(undoStack.size() - ++nbCommandsUndone).undo();
 		}
+		DebugPrinter.print(undoStack);
 	}
 	
 	void redo(){
+		DebugPrinter.print(undoStack);
 		if(nbCommandsUndone > 0)
 			undoStack.get(undoStack.size() - nbCommandsUndone--).execute();
 	}

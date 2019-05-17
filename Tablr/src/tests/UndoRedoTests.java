@@ -144,7 +144,7 @@ public class UndoRedoTests {
 		//Redo the removing of the second row
 		t.redo();
 		assertEquals(2,t.getRows(table0));
-
+	}
 	
 	// TODO: Assert Error
 	@Test
