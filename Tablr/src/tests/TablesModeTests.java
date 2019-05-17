@@ -97,11 +97,11 @@ public class TablesModeTests {
 	}
 	
 	/**
-	 * use case 4.3: Delete Table
+	 * use case 4.4: Delete Table
 	 * 
 	 */
 	@Test
-	public void useCase3() {
+	public void useCase4() {
 		// Load the window
 		MyCanvasWindow myCW = new MyCanvasWindow("Tables Mode");
 		Tablr tablr = myCW.getTablr();
@@ -136,7 +136,7 @@ public class TablesModeTests {
 	 * use case 4.4: Open Table
 	 */
 	@Test
-	public void useCase4() {
+	public void useCase5() {
 		// Step 1: Load the window
 		MyCanvasWindow myCW = new MyCanvasWindow("Tables Mode");
 		Tablr tablr = myCW.getTablr();

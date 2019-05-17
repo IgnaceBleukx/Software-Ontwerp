@@ -38,10 +38,10 @@ public class TableDesignTests {
 
 
 	/**
-	 * Use case 5: add column
+	 * Use case 6: add column
 	 */
 	@Test
-	public void useCase5() {
+	public void useCase6() {
 		// Load the window
 		MyCanvasWindow myCW = new MyCanvasWindow("Table Design mode test");
 		Tablr tablr = myCW.getTablr();
@@ -64,7 +64,7 @@ public class TableDesignTests {
 	}
 	
 	@Test
-	public void useCase6() {
+	public void useCase7() {
 		MyCanvasWindow myCW = new MyCanvasWindow("Table Design mode test");
 		Tablr tablr = myCW.getTablr();
 		// Open a new tables mode subwindow
@@ -325,10 +325,10 @@ public class TableDesignTests {
 	}
 	
 	/**
-	 * Use case 7: Delete Column
+	 * Use case 8: Delete Column
 	 */
 	@Test
-	public void useCase7() {
+	public void useCase8() {
 		// Load the window
 		MyCanvasWindow myCW = new MyCanvasWindow("Table Design mode test");
 		Tablr tablr = myCW.getTablr();
