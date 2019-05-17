@@ -222,7 +222,30 @@ public class UndoRedoTests {
 		// redo renaming of column0
 		t.redo();
 		assertEquals("Column", column0.getName());
+	}
+	
+	@Test
+	public void undoRedoToggleColumnType() {
+		Tablr t = new Tablr();
+		//Add a table
+		StoredTable table0 = t.addEmptyTable();
+		//Add a column to the table
+		t.addEmptyColumn(table0, Type.STRING, "default0");
+		Column col = t.getColumns(table0).get(0);
 		
+		assertEquals(Type.STRING, col.getColumnType());
+		t.setDefault(col, "@");
 		
+		// Toggle Column type
+		t.toggleColumnType(col);
+		assertEquals(Type.EMAIL, col.getColumnType());
+		
+		// undo toggling
+		t.undo();
+		assertEquals(Type.STRING, col.getColumnType());
+		
+		// Redo toggling
+		t.redo();
+		assertEquals(Type.EMAIL, col.getColumnType());
 	}
 }
