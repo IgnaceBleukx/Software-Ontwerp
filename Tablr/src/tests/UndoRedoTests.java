@@ -76,25 +76,30 @@ public class UndoRedoTests {
 		Tablr t = new Tablr();
 		//Add a table
 		StoredTable table0 = t.addEmptyTable();
-		//Add some columns to the table
+		//Add a column to the table
 		t.addEmptyColumn(table0, Type.STRING, "default0");
 		t.addEmptyColumn(table0, Type.STRING, "default1");
 		t.addEmptyColumn(table0, Type.STRING, "default2");
 		Column column0 = t.getColumns(table0).get(0);
 		Column column1 = t.getColumns(table0).get(1);
 		Column column2 = t.getColumns(table0).get(2);	
-		
-		//Undo the adding of the last column
-		t.undo();
-		assertEquals(2,t.getColumns(table0).size());
-		assertFalse(t.getColumns(table0).contains(column2));
-		
-		//Redo the adding of the last column
-		t.redo();
+		//Remove column1
 		assertEquals(3,t.getColumns(table0).size());
-		assertTrue(t.getColumns(table0).contains(column2));
+		
+		//Undo the adding of column2
+		t.undo();	
+		assertEquals(2,t.getColumns(table0).size());
+		assertTrue(t.getColumns(table0).contains(column0));
+		assertTrue(t.getColumns(table0).contains(column1));
+		assertTrue(!t.getColumns(table0).contains(column2));
+		
+		//Redo the adding of column2
+		t.redo();
+		DebugPrinter.print(t.getColumns(table0));
+		assertEquals(3,t.getColumns(table0).size());
+		assertFalse(t.getColumns(table0).contains(column2));
 	}
-	
+
 	@Test
 	public void undoRedoRemoveColumn() {
 		Tablr t = new Tablr();
@@ -123,7 +128,58 @@ public class UndoRedoTests {
 		assertEquals(2,t.getColumns(table0).size());
 		assertFalse(t.getColumns(table0).contains(column1));
 	}
+	
+	@Test
+	public void undoRedoChangeColumnName() {
+		Tablr t = new Tablr();
+		//Add a table
+		StoredTable table0 = t.addEmptyTable();
+		//Add a column to the table
+		t.addEmptyColumn(table0, Type.STRING, "default0");
+		Column column0 = t.getColumns(table0).get(0);
+		
+		assertEquals("Column0", column0.getName());
+		
+		// Change name of column
+		t.setColumnName(column0, "Column");
+		assertEquals("Column", column0.getName());
+		
+		// undo renaming of column0
+		t.undo();
+		assertEquals("Column0", column0.getName());
+		
+		// redo renaming of column0
+		t.redo();
+		assertEquals("Column", column0.getName());
+		
+		
+	}
 
+	// TODO: Assert Error
+	@Test
+	public void undoRedoToggleBlanks() throws Exception {
+		Tablr t = new Tablr();
+		//Add a table
+		StoredTable table0 = t.addEmptyTable();
+		//Add a column to the table
+		t.addEmptyColumn(table0, Type.STRING, "default0");
+		Column column0 = t.getColumns(table0).get(0);
+		
+		assertTrue(column0.getBlankingPolicy());
+		
+		//Toggle blanks of Column0
+		t.toggleBlanks(column0);
+		assertTrue(!column0.getBlankingPolicy());
+		
+		//Undo the removing of column1
+		t.undo();
+		assertTrue(column0.getBlankingPolicy());
+		
+		//Redo the removing of column1
+		t.redo();
+		assertTrue(!column0.getBlankingPolicy());
+		
+	}
 
 	@Test
 	public void undoRedoAddRow(){
@@ -192,32 +248,5 @@ public class UndoRedoTests {
 		t.redo();
 		assertEquals("newValue",t.getValueString(column0, 0));
 
-	}
-	
-	// TODO: Assert Error
-	@Test
-	public void undoRedoToggleBlanks() throws Exception {
-		Tablr t = new Tablr();
-		//Add a table
-		StoredTable table0 = t.addEmptyTable();
-		//Add a column to the table
-		t.addEmptyColumn(table0, Type.STRING, "default0");
-		Column column0 = t.getColumns(table0).get(0);
-		
-		assertTrue(column0.getBlankingPolicy());
-		
-		//Toggle blanks of Column0
-		t.toggleBlanks(column0);
-		
-		assertFalse(column0.getBlankingPolicy());
-		
-		//Undo the removing of column1
-		t.undo();
-		assertFalse(column0.getBlankingPolicy());
-		
-		//Redo the removing of column1
-		t.redo();
-		assertTrue(column0.getBlankingPolicy());
-		
 	}
 }
