@@ -4,6 +4,10 @@ import static org.junit.Assert.*;
 
 import java.awt.event.KeyEvent;
 import java.awt.event.MouseEvent;
+import java.io.File;
+import java.io.IOException;
+
+import javax.imageio.ImageIO;
 
 import org.junit.Test;
 
@@ -11,6 +15,8 @@ import Utils.DebugPrinter;
 import canvaswindow.MyCanvasWindow;
 import domain.Table;
 import facades.Tablr;
+import ui.FormsModeUI;
+import ui.TableRowsModeUI;
 import uielements.ListView;
 import uielements.TextField;
 import uielements.UIRow;
@@ -133,7 +139,7 @@ public class TablesModeTests {
 	}
 	
 	/**
-	 * use case 4.4: Open Table
+	 * use case 4.5: Open Table
 	 */
 	@Test
 	public void useCase5() {
@@ -142,7 +148,7 @@ public class TablesModeTests {
 		Tablr tablr = myCW.getTablr();
 	
 		// Perform a ctrl+T to add tables mode subwindow
-		myCW.handleKeyEvent(1, 17, Character.MIN_VALUE);
+		myCW.handleKeyEvent(KeyEvent.KEY_PRESSED, 17, Character.MIN_VALUE);
 		myCW.handleKeyEvent(1, 84, Character.MIN_VALUE);
 		
 		// Double click on listview to create a new table
@@ -161,12 +167,22 @@ public class TablesModeTests {
 		
 		// Table has a column
 		assertEquals(1, tablr.getColumns(tablr.getTables().get(0)).size());
-		
+
 		// The user double-clicks the table name to open the table rows mode subwindow
-		myCW.handleMouseEvent(0, 60, 40, 2);
-		
+		myCW.handleMouseEvent(MouseEvent.MOUSE_CLICKED, 50, 40, 2);
+
 		// A Table Rows mode subwindow is shown.
-		assertEquals(1, tablr.getTableRowsUIs(table).size());
+		assertTrue(tablr.getUIAt(500,500) instanceof TableRowsModeUI);
+
+		//ALTERNATIVE PATH : a forms subwindow is opened
+		//The user selects a table
+		myCW.handleMouseEvent(MouseEvent.MOUSE_CLICKED,20,40,1);
+		//The user presses CTRL+F
+		myCW.handleKeyEvent(KeyEvent.KEY_PRESSED, 17,Character.MIN_VALUE);
+		myCW.handleKeyEvent(1, 70,Character.MIN_VALUE);
+		snapShot(myCW,"pic1.png");
+		//A new forms subwindow is opened
+		assertTrue(tablr.getUIAt(100, 500) instanceof FormsModeUI);
 	}
 	
 	@Test
@@ -228,6 +244,17 @@ public class TablesModeTests {
 		myCW.handleKeyEvent(KeyEvent.KEY_TYPED, 127, Character.MIN_VALUE);
 		
 		assertEquals(0, tablr.getTables().size());
+		
+	}
+	
+	private void snapShot(MyCanvasWindow myCW,String out) {
+		File outputFile = new File(out);
+		try {
+			ImageIO.write(myCW.captureImage(), "png", outputFile);
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 		
 	}
 	
