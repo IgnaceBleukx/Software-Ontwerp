@@ -296,5 +296,27 @@ public class UndoRedoTests {
 		t.redo();
 		assertEquals("def", col.getDefault());
 	}
+	
+	@Test
+	public void undoRedoToggleDefault() {
+		Tablr t = new Tablr();
+		//Add a table
+		StoredTable table0 = t.addEmptyTable();
+		//Add a column to the table
+		t.addEmptyColumn(table0, Type.BOOLEAN, null);
+		Column col = t.getColumns(table0).get(0);
+		
+		// Change default value of col to allow
+		t.toggleDefault(col);
+		assertEquals(true, col.getDefault());
+		
+		// Undo change name of column
+		t.undo();
+		assertEquals(null, col.getDefault());
+		
+		// Redo change name of column
+		t.redo();
+		assertEquals(true, col.getDefault());
+	}
 }
 
