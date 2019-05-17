@@ -275,4 +275,6 @@ public class UndoRedoTests {
 		t.redo();
 		assertEquals(Type.EMAIL, col.getColumnType());
 	}
+	
 }
+

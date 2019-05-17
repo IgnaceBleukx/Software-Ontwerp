@@ -3,6 +3,7 @@ package facades;
 import java.awt.Graphics;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.function.Consumer;
 
 import Utils.DebugPrinter;
 import domain.Column;
@@ -85,7 +86,7 @@ public class Tablr {
 		windowManager.addTableDesignModeUI(t, new TableDesignModeUI(300,0,300,300,this));
 		windowManager.addTableRowsModeUI(t, new TableRowsModeUI(300, 300, 300, 300, this));
 		windowManager.addFormModeUI(t,new FormsModeUI(0,300,300,300,this));
-		domainChanged();
+		domainChanged(null);
 		return t;
 	}
 	
@@ -119,7 +120,7 @@ public class Tablr {
 	public void removeTable(Table t) {
 		domainFacade.removeTable(t);
 		windowManager.tableRemoved(t);
-		domainChanged();
+		domainChanged(null);
 	}
 	
 	/**
@@ -156,7 +157,7 @@ public class Tablr {
 	 */
 	public void toggleBlanks(Column col) throws Exception{
 		domainFacade.toggleBlanks(col);
-		domainChanged();
+		domainChanged(col.getTable());
 	}
 	
 	/**
@@ -167,7 +168,7 @@ public class Tablr {
 	 */
 	public void addEmptyColumn(StoredTable table, Type type, Object defaultValue) {
 		domainFacade.addEmptyColumn(table,type, defaultValue);
-		domainChanged();
+		domainChanged(table);
 	}
 
 	/**
@@ -182,11 +183,11 @@ public class Tablr {
 	
 	/**
 	 * Adds a row to a table
-	 * @param tab		Table
+	 * @param table		Table
 	 */
-	public void addRow(StoredTable tab) {
-		domainFacade.addRow(tab);
-		domainChanged();
+	public void addRow(StoredTable table) {
+		domainFacade.addRow(table);
+		domainChanged(table);
 	}
 	
 	/**
@@ -226,12 +227,12 @@ public class Tablr {
 	
 	/**
 	 * Removes a row from a table
-	 * @param tab		Table
+	 * @param table		Table
 	 * @param index		Index of row within Table
 	 */
-	public void removeRow(StoredTable tab, int index) {
-		domainFacade.removeRow(tab,index);
-		domainChanged();
+	public void removeRow(StoredTable table, int index) {
+		domainFacade.removeRow(table,index);
+		domainChanged(table);
 	}
 	
 	/**
@@ -242,7 +243,7 @@ public class Tablr {
 	 */
 	public void removeColumn(Table table, int index) throws InvalidNameException {
 		domainFacade.removeColumn(table, index);
-		domainChanged();
+		domainChanged(table);
 	}
 	
 	/**
@@ -272,7 +273,7 @@ public class Tablr {
 	 */
 	public void toggleColumnType(Column col) throws InvalidTypeException {
 		domainFacade.toggleColumnType(col);
-		domainChanged();
+		domainChanged(col.getTable());
 	}
 	
 	/**
@@ -349,7 +350,7 @@ public class Tablr {
 	 */
 	public void toggleDefault(Column col) {
 		domainFacade.toggleDefault(col);
-		domainChanged();
+		domainChanged(col.getTable());
 	}
 	
 	/**
@@ -376,13 +377,13 @@ public class Tablr {
 	 */
 	public void setColumnType(Column col, Type type) throws InvalidTypeException {
 		domainFacade.setColumnType(col,type);
-		domainChanged();
+		domainChanged(col.getTable());
 	}
 	
 	/**
 	 * A list of action to be performed when the domain changes.
 	 */
-	private ArrayList<Runnable> DomainChangedListeners = new ArrayList<Runnable>();
+	private ArrayList<Consumer<Table>> DomainChangedListeners = new ArrayList<Consumer<Table>>();
 	
 
 	/**
@@ -392,21 +393,21 @@ public class Tablr {
 	 */
 	public void toggleCellValueBoolean(Column col, int i) {
 		domainFacade.toggleCellValueBoolean(col,i);
-		domainChanged();
+		domainChanged(col.getTable());
 	}
 
 	/**
 	 * Called when the domain has changed. Runs all necessary actions.
 	 */
-	public void domainChanged(){
-		DomainChangedListeners.stream().forEach(l -> l.run());
+	public void domainChanged(Table table){
+		DomainChangedListeners.stream().forEach(l -> l.accept(table));
 	}
 	
 	/**
 	 * Adds a Runnable to the list of actions that is executed when the domain changes.
 	 * @param r		Runnable
 	 */
-	public void addDomainChangedListener(Runnable r){
+	public void addDomainChangedListener(Consumer<Table> r){
 		this.DomainChangedListeners.add(r);
 	}
 
@@ -467,12 +468,12 @@ public class Tablr {
 
 	public void undo(){
 		domainFacade.undo();
-		domainChanged();
+		domainChanged(null);
 	}
 	
 	public void redo(){
 		domainFacade.redo();
-		domainChanged();
+		domainChanged(null);
 	}
 	
 	/**
@@ -498,7 +499,7 @@ public class Tablr {
 		newTable.setName(t.getName());
 		domainFacade.replaceTable(index, newTable);
 		
-		domainChanged();
+		domainChanged(null);
 	}
 
 	public void notifyKeyListener(int keyCode, char keyChar) {

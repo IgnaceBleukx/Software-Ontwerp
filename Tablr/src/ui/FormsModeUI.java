@@ -121,7 +121,8 @@ public class FormsModeUI extends UI {
 		legend.setWidth(list.getWidth()-list.getScrollBarWidth());
 		
 		//Reload listview when domain is changed
-		tablr.addDomainChangedListener(() -> {
+		tablr.addDomainChangedListener((Table t) -> {
+			if (t != null && !t.equals(table)) return;
 			//Remove the old listview
 			Optional<UIElement> l = getElements().stream().filter(e -> e instanceof ListView).findFirst();
 			this.getElements().remove(l.orElseThrow(() -> new RuntimeException("No listview to bind listener to.")));
@@ -199,11 +200,11 @@ public class FormsModeUI extends UI {
 				
 				field.addKeyboardListener(10,() ->{
 					if (!field.getError() && field.isSelected())
-						getTablr().domainChanged();
+						getTablr().domainChanged(table);
 				});
 
 				field.addDeselectionListener(() -> {
-					tablr.domainChanged();
+					tablr.domainChanged(table);
 				});
 			}
 			

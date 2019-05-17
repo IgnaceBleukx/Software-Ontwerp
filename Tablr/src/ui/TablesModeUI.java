@@ -121,7 +121,7 @@ public class TablesModeUI extends UI {
 		addUIElement(list);
 		
 		//Reload listview when domain changed
-		tablr.addDomainChangedListener(() -> {
+		tablr.addDomainChangedListener((Table t) -> {
 			//Remove the old listview
 			Optional<UIElement> l = getElements().stream().filter(e -> e instanceof ListView).findFirst();
 			this.getElements().remove(l.orElseThrow(() -> new RuntimeException("No listview to bind listener to.")));
@@ -245,7 +245,7 @@ public class TablesModeUI extends UI {
 			tableNameLabel.addKeyboardListener(10,() -> {
 				if (list.getError()) return;
 				//tablr.renameTable(curr, tableNameLabel.getText());
-				tablr.domainChanged();
+				tablr.domainChanged(null);
 			});
 
 			//Table name textfields listen to double click events to switch modes
@@ -263,7 +263,7 @@ public class TablesModeUI extends UI {
 			});
 			
 			tableNameLabel.addDeselectionListener(() -> {
-				tablr.domainChanged();
+				tablr.domainChanged(null);
 			});
 			
 			queryLabel.addKeyboardListener(-1,() ->{

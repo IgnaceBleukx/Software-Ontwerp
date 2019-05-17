@@ -98,7 +98,8 @@ public class TableRowsModeUI extends UI {
 		
 		//Adding domainchangedListener
 		UIRow finalLegend = legend;
-		tablr.addDomainChangedListener(() ->{
+		tablr.addDomainChangedListener((Table t) ->{
+			if (t != null && !t.equals(table)) return;
 			//Remove the old uiTable
 			Optional<UIElement> ll = getElements().stream().filter(e -> e instanceof UITable).findFirst();
 			this.getElements().remove(ll.orElseThrow(() -> new RuntimeException("No UITable to bind listener to.")));
@@ -236,11 +237,11 @@ public class TableRowsModeUI extends UI {
 					
 					field.addKeyboardListener(10,() ->{
 						if (!field.getError() && field.isSelected())
-							getTablr().domainChanged();
+							getTablr().domainChanged(tab);
 					});
 
 					field.addDeselectionListener(() -> {
-						tablr.domainChanged();
+						tablr.domainChanged(tab);
 					});
 				}
 				x += widths[a];

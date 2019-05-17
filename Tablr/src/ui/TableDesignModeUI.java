@@ -5,7 +5,6 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
-
 import Utils.DebugPrinter;
 import uielements.Checkbox;
 import uielements.Dragger;
@@ -20,6 +19,7 @@ import domain.Type;
 import exceptions.InvalidNameException;
 import exceptions.InvalidTypeException;
 import facades.Tablr;
+import domain.Table;
 
 /**
  * Create a new TableDesignModeUI
@@ -130,7 +130,8 @@ public class TableDesignModeUI extends UI {
 		this.addUIElement(list);
 	
 		//Reload listview when domain changed
-		tablr.addDomainChangedListener(() -> {
+		getTablr().addDomainChangedListener((Table t) -> {
+			if (t != null && !t.equals(table)) return;
 			Optional<UIElement> ll = getElements().stream().filter(e -> e instanceof ListView).findFirst();
 			getElements().remove(ll.orElseThrow(() -> new RuntimeException("No Listview in UI")));
 			this.addUIElement(loadColumnAttributes(table));
@@ -212,10 +213,10 @@ public class TableDesignModeUI extends UI {
 					}
 				});
 				colDefText.addKeyboardListener(10,() -> {
-					tablr.domainChanged();
+					tablr.domainChanged(table);
 				});
 				colDefText.addDeselectionListener(() -> {
-					tablr.domainChanged();
+					tablr.domainChanged(table);
 				});
 			}
 			
@@ -263,11 +264,11 @@ public class TableDesignModeUI extends UI {
 			});
 			
 			colName.addKeyboardListener(10,() -> {
-				tablr.domainChanged();
+				tablr.domainChanged(table);
 			});
 
 			colName.addDeselectionListener(() -> {
-				tablr.domainChanged();
+				tablr.domainChanged(table);
 			});
 			
 			colBlankPol.addSingleClickListener(() -> {
