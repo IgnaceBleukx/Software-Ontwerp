@@ -163,6 +163,100 @@ public class DomainFacade {
 	}
 
 	/**
+	 * Adds an empty column to a table
+	 * @param table				Table
+	 * @param type				Type of the new column
+	 * @param defaultValue		The default value of the new column 
+	 */
+	public void addEmptyColumn(StoredTable table, Type type, Object defaultValue) {	
+		execute(new Command() {
+			Column column = null;
+			public void execute() { column = table.addEmptyColumn(type, defaultValue); }
+			public void undo() { table.removeColumn(column);}
+		});
+	}
+
+	/**
+	 * Returns a list of all columns in a table
+	 * @param tab		Tablr
+	 */
+	public ArrayList<Column> getColumns(Table tab) {
+		return tab.getColumns();
+	}
+
+	/**
+	 * Returns a list of all column names in a table.
+	 * @param table		Table
+	 */
+	public ArrayList<String> getColumnNames(Table table) {
+		return table.getColumnNames();
+	}
+
+	/**
+	 * Remove a column specified by its index from a table
+	 * @param tab		Table
+	 * @param index		Index
+	 * @throws InvalidNameException 
+	 */
+	public void removeColumn(Table table, int index) throws InvalidNameException {
+		execute(new Command(){
+			Column column;
+			public void execute() { column = table.removeColumn(index); }
+			public void undo() throws InvalidNameException { table.addColumn(column); }	
+		});
+	}
+
+	/**
+	 * Sets the name of a column.
+	 * @param col						Column
+	 * @param text						Name
+	 * @throws InvalidNameException		When this name is already in use in the relevant table.
+	 */
+	public void setColumnName(Column col, String text) throws InvalidNameException {
+		execute(new Command(){
+			String curText = col.getName();
+			public void execute() {
+				col.setName(text);
+			}
+			public void undo() {
+				col.setName(curText);
+			}
+		});
+	}
+
+	/**
+	 * Returns the type of this column
+	 */
+	public Type getColumnType(Column col) {
+		return col.getColumnType();
+		
+	}
+
+	/**
+	 * Changes the type of a column to its next value.
+	 * @param col						Column
+	 * @throws InvalidTypeException		When changing the type results in invalid value of cells within the column.
+	 */
+	public void toggleColumnType(Column col) {
+		execute(new Command() {
+			public void execute() { 
+					col.setNextType();
+			 }
+			public void undo() { 
+				col.setPreviousType();
+			}
+		});
+	}
+
+	/**
+	 * Whether this column allows blank values
+	 * @param col	Column
+	 */
+	public boolean getBlankingPolicy(Column col) {
+		return col.getBlankingPolicy();
+	}
+
+	/**
 	 * Toggles allowing blank values in a column
 	 * @param col			The column
 	 * @throws Exception	When trying to disallow blanks while the default value is blank
@@ -183,37 +277,64 @@ public class DomainFacade {
 	}
 	
 	/**
-	 * Adds an empty column to a table
-	 * @param table				Table
-	 * @param type				Type of the new column
-	 * @param defaultValue		The default value of the new column 
-	 */
-	public void addEmptyColumn(StoredTable table, Type type, Object defaultValue) {	
-		execute(new Command() {
-			Column column = null;
-			public void execute() { column = table.addEmptyColumn(type, defaultValue); }
-			public void undo() { table.removeColumn(column);}
-		});
-	}
-	
-	/**
-	 * Sets the name of a column.
+	 * Sets the type of this column
 	 * @param col						Column
-	 * @param text						Name
-	 * @throws InvalidNameException		When this name is already in use in the relevant table.
+	 * @param type						New Type
+	 * @throws InvalidTypeException		Changing the type bring the column into an invalid state
 	 */
-	public void setColumnName(Column col, String text) throws InvalidNameException {
-		execute(new Command(){
-			String curText = col.getName();
-			public void execute() {
-				col.setName(text);
+	public void setColumnType(Column col, Type type){
+		execute(new Command() {
+			public void execute() { 
+				col.setColumnType(type);
 			}
-			public void undo() {
-				col.setName(curText);
+			public void undo() { 
+				col.setColumnType(Column.getPreviousType(type));
 			}
 		});
+		}
+
+	/**
+	 * Returns the default value of this column as a string
+	 * @param col	Column
+	 */
+	public String getDefaultString(Column col) {
+		Object v = col.getDefault();
+		return v == null ? "" : v.toString();
 	}
-	
+
+	/**
+	 * Returns the default value of this column as an Object
+	 * @param col	Column
+	 */
+	public Object getDefaultValue(Column col) {
+		return col.getDefault();
+	}
+
+	/**
+	 * Sets the default value for a column
+	 * @param col
+	 * @param def
+	 * @throws ClassCastException
+	 */
+	public void setDefault(Column col, String def) throws ClassCastException {
+		execute(new Command() {
+				String prev = col.getDefault() == null ? null : col.getDefault().toString();	
+				public void execute() { col.setDefaultValue(col.getColumnType().parseValue(def)); }
+				public void undo() { col.setDefaultValue(col.getColumnType().parseValue(prev)); }
+			});
+		}
+
+	/**
+	 * Toggles the default value for boolean columns
+	 * @param col	Column
+	 */
+	public void toggleDefault(Column col) {
+		execute(new Command() {
+				public void execute() { col.toggleDefaultBoolean(); }
+				public void undo() { col.togglePreviousDefaultBoolean(); }
+			});
+		}
+
 	/**
 	 * Adds an empty row to a table
 	 * @param table		Table 
@@ -227,40 +348,13 @@ public class DomainFacade {
 	}
 	
 	/**
-	 * Returns a list of all columns in a table
-	 * @param tab		Tablr
-	 */
-	public ArrayList<Column> getColumns(Table tab) {
-		return tab.getColumns();
-	}
-
-	/**
-	 * Gets the value of a cell specified by its index, as a string.
-	 * @param col		Column
-	 * @param i			Index of the cell
-	 * @return			String representation of the column's value
-	 */
-	public String getValueString(Column col, int i) {
-		Object v = col.getCell(i).getValue();
-		return v == null ? "" : v.toString();
-	}
-	
-	/**
-	 * Returns a list of all column names in a table.
-	 * @param table		Table
-	 */
-	public ArrayList<String> getColumnNames(Table table) {
-		return table.getColumnNames();
-	}
-
-	/**
 	 * Returns the number of rows in a table
 	 * @param tab		Table
 	 */
 	public int getRows(Table tab) {
 		return tab.getRows();
 	}
-	
+
 	/**
 	 * Remove a row specified by its index from a table
 	 * @param tab		Table
@@ -272,19 +366,26 @@ public class DomainFacade {
 			public void undo() {DebugPrinter.print("undo remove a row");}			
 		});
 	}
-	
+
 	/**
-	 * Remove a column specified by its index from a table
-	 * @param tab		Table
-	 * @param index		Index
-	 * @throws InvalidNameException 
+	 * Returns the value of a cell in a column
+	 * @param col		The Column
+	 * @param index		Index of the cell
 	 */
-	public void removeColumn(Table table, int index) throws InvalidNameException {
-		execute(new Command(){
-			Column column;
-			public void execute() { column = table.removeColumn(index); }
-			public void undo() throws InvalidNameException { table.addColumn(column); }	
-		});
+	public Object getValue(Column col, int index) {
+		return col.getCell(index).getValue();
+		
+	}
+
+	/**
+	 * Gets the value of a cell specified by its index, as a string.
+	 * @param col		Column
+	 * @param i			Index of the cell
+	 * @return			String representation of the column's value
+	 */
+	public String getValueString(Column col, int i) {
+		Object v = col.getCell(i).getValue();
+		return v == null ? "" : v.toString();
 	}
 	
 	/**
@@ -308,102 +409,11 @@ public class DomainFacade {
 	}
 	
 	/**
-	 * Changes the type of a column to its next value.
-	 * @param col						Column
-	 * @throws InvalidTypeException		When changing the type results in invalid value of cells within the column.
-	 */
-	public void toggleColumnType(Column col) {
-		execute(new Command() {
-			public void execute() { 
-					col.setNextType();
-			 }
-			public void undo() { 
-				col.setPreviousType();
-			}
-		});
-	}
-	
-	/**
-	 * Sets the default value for a column
-	 * @param col
-	 * @param def
-	 * @throws ClassCastException
-	 */
-	public void setDefault(Column col, String def) throws ClassCastException {
-		execute(new Command() {
-				String prev = col.getDefault() == null ? null : col.getDefault().toString();	
-				public void execute() { col.setDefaultValue(col.getColumnType().parseValue(def)); }
-				public void undo() { col.setDefaultValue(col.getColumnType().parseValue(prev)); }
-			});
-		}
-	
-	/**
-	 * Returns the type of this column
-	 */
-	public Type getColumnType(Column col) {
-		return col.getColumnType();
-		
-	}
-	
-	/**
 	 * Returns the name of a column
 	 */
 	public String getColumnName(Column col) {
 		return col.getName();
 	}
-	
-	/**
-	 * Whether this column allows blank values
-	 * @param col	Column
-	 */
-	public boolean getBlankingPolicy(Column col) {
-		return col.getBlankingPolicy();
-	}
-	
-	/**
-	 * Returns the default value of this column as a string
-	 * @param col	Column
-	 */
-	public String getDefaultString(Column col) {
-		Object v = col.getDefault();
-		return v == null ? "" : v.toString();
-	}
-	
-	/**
-	 * Returns the default value of this column as an Object
-	 * @param col	Column
-	 */
-	public Object getDefaultValue(Column col) {
-		return col.getDefault();
-	}
-	
-	/**
-	 * Toggles the default value for boolean columns
-	 * @param col	Column
-	 */
-	public void toggleDefault(Column col) {
-		execute(new Command() {
-				public void execute() { col.toggleDefaultBoolean(); }
-				public void undo() { col.togglePreviousDefaultBoolean(); }
-			});
-		}
-	
-	/**
-	 * Sets the type of this column
-	 * @param col						Column
-	 * @param type						New Type
-	 * @throws InvalidTypeException		Changing the type bring the column into an invalid state
-	 */
-	public void setColumnType(Column col, Type type){
-		execute(new Command() {
-			public void execute() { 
-				col.setColumnType(type);
-			}
-			public void undo() { 
-				col.setColumnType(Column.getPreviousType(type));
-			}
-		});
-		}
 	
 	/**
 	 * Toggles the value of a boolean cell, accounting for its current value and column's blanking policy
@@ -421,15 +431,7 @@ public class DomainFacade {
 		}
 	}
 	
-	/**
-	 * Returns the value of a cell in a column
-	 * @param col		The Column
-	 * @param index		Index of the cell
-	 */
-	public Object getValue(Column col, int index) {
-		return col.getCell(index).getValue();
-		
-	}
+	
 	
 	// Command methods to fix undo and redo
 
