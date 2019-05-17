@@ -199,11 +199,16 @@ public class DomainFacade {
 	 * @param index		Index
 	 * @throws InvalidNameException 
 	 */
-	public void removeColumn(Table table, int index) throws InvalidNameException {
+	public void removeColumn(Table table, int index) {
 		execute(new Command(){
 			Column column;
-			public void execute() { column = table.removeColumn(index); }
-			public void undo() throws InvalidNameException { table.addColumn(column); }	
+			public void execute() { 
+				column = table.removeColumn(index); 
+			}
+			
+			public void undo() { 
+				table.addColumn(column);
+			}	
 		});
 	}
 
@@ -268,11 +273,7 @@ public class DomainFacade {
 				col.toggleBlanks();
 			}			
 			public void undo() { 
-				try {
-					col.toggleBlanks();
-				} catch (Exception e) {
-					DebugPrinter.print("column default is blank");
-				} 
+				col.toggleBlanks();
 			}
 		});
 	}

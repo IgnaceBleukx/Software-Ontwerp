@@ -169,15 +169,15 @@ public class UndoRedoTests {
 		
 		//Toggle blanks of Column0
 		t.toggleBlanks(column0);
-		assertTrue(!column0.getBlankingPolicy());
+		assertFalse(column0.getBlankingPolicy());
 		
-		//Undo the removing of column1
+		//Undo the toggeling of blanks of column0
 		t.undo();
 		assertTrue(column0.getBlankingPolicy());
 		
-		//Redo the removing of column1
+		//Redo the removing of blanks of column0
 		t.redo();
-		assertTrue(!column0.getBlankingPolicy());
+		assertFalse(column0.getBlankingPolicy());
 		
 	}
 
