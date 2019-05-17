@@ -77,11 +77,11 @@ public class TableRowsTests {
 	}
 	
 	/**
-	 * Use case 8: Add a row
+	 * Use case 9: Add a row
 	 * 
 	 */
 	@Test
-	public void useCase8(){
+	public void useCase9(){
 		MyCanvasWindow myCW = prepareTable();
 		Tablr tablr = myCW.getTablr();
 	
@@ -96,7 +96,7 @@ public class TableRowsTests {
 	 * use Case 4.9: Edit row value
 	 */
 	@Test
-	public void useCase9() {
+	public void useCase10() {
 		// Step 1: Load the window
 		MyCanvasWindow myCW = new MyCanvasWindow("Table Rows Mode");
 		Tablr tablr = myCW.getTablr();
@@ -332,10 +332,10 @@ public class TableRowsTests {
 	}
 	
 	/**
-	 * use case 4.10: Delete Row 
+	 * use case 4.11: Delete Row 
 	 */
 	@Test
-	public void useCase10() {		
+	public void useCase11() {		
 		MyCanvasWindow myCW = prepareTable();
 		Tablr tablr = myCW.getTablr();
 		
