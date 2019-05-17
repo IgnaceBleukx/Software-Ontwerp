@@ -72,11 +72,35 @@ public class UndoRedoTests {
 	}
 	
 	@Test
+	public void undoRedoAddColumn() {
+		Tablr t = new Tablr();
+		//Add a table
+		StoredTable table0 = t.addEmptyTable();
+		//Add some columns to the table
+		t.addEmptyColumn(table0, Type.STRING, "default0");
+		t.addEmptyColumn(table0, Type.STRING, "default1");
+		t.addEmptyColumn(table0, Type.STRING, "default2");
+		Column column0 = t.getColumns(table0).get(0);
+		Column column1 = t.getColumns(table0).get(1);
+		Column column2 = t.getColumns(table0).get(2);	
+		
+		//Undo the adding of the last column
+		t.undo();
+		assertEquals(2,t.getColumns(table0).size());
+		assertFalse(t.getColumns(table0).contains(column2));
+		
+		//Redo the adding of the last column
+		t.redo();
+		assertEquals(3,t.getColumns(table0).size());
+		assertTrue(t.getColumns(table0).contains(column2));
+	}
+	
+	@Test
 	public void undoRedoRemoveColumn() {
 		Tablr t = new Tablr();
 		//Add a table
 		StoredTable table0 = t.addEmptyTable();
-		//Add a column to the table
+		//Add some column to the table
 		t.addEmptyColumn(table0, Type.STRING, "default0");
 		t.addEmptyColumn(table0, Type.STRING, "default1");
 		t.addEmptyColumn(table0, Type.STRING, "default2");
@@ -98,7 +122,6 @@ public class UndoRedoTests {
 		DebugPrinter.print(t.getColumns(table0));
 		assertEquals(2,t.getColumns(table0).size());
 		assertFalse(t.getColumns(table0).contains(column1));
-		
 	}
 
 
@@ -144,6 +167,31 @@ public class UndoRedoTests {
 		//Redo the removing of the second row
 		t.redo();
 		assertEquals(2,t.getRows(table0));
+	}
+	
+	@Test
+	public void undoRedoChangeCellValue() {
+		Tablr t = new Tablr();
+		//Add a table
+		StoredTable table0 = t.addEmptyTable();
+		//Add a column
+		t.addEmptyColumn(table0, Type.STRING, "default");
+		Column column0 = t.getColumns(table0).get(0);
+		//Add a row
+		t.addRow(table0);
+		assertEquals("default",t.getValueString(column0, 0));
+		//Change the value of the cell
+		t.changeCellValue(column0, 0, "newValue");
+		assertEquals("newValue",t.getValueString(column0, 0));
+
+		//Undo the value change
+		t.undo();
+		assertEquals("default",t.getValueString(column0, 0));
+		
+		//Redo the value change
+		t.redo();
+		assertEquals("newValue",t.getValueString(column0, 0));
+
 	}
 	
 	// TODO: Assert Error

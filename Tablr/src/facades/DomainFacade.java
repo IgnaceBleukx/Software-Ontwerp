@@ -2,6 +2,7 @@ package facades;
 
 import java.awt.event.KeyEvent;
 import java.util.ArrayList;
+import java.util.stream.Collectors;
 
 import Utils.DebugPrinter;
 import domain.Column;
@@ -347,6 +348,10 @@ public class DomainFacade {
 		});
 	}
 	
+	private ArrayList<Object> getRowValues(Table table, int index){
+		return new ArrayList<Object>(table.getRowByIndex(index, "").stream().map(c -> c.getValue()).collect(Collectors.toList()));
+	}
+	
 	/**
 	 * Returns the number of rows in a table
 	 * @param tab		Table
@@ -361,9 +366,14 @@ public class DomainFacade {
 	 * @param index		Index
 	 */
 	public void removeRow(StoredTable tab, int index) {
+		ArrayList<Object> rowValues = getRowValues(tab,index);
 		execute(new Command(){
-			public void execute() {tab.removeRow(index);}
-			public void undo() {DebugPrinter.print("undo remove a row");}			
+			public void execute() {
+				tab.removeRow(index);
+			}
+			public void undo() {
+				tab.addFilledRow(rowValues);
+			}			
 		});
 	}
 
