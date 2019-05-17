@@ -6,7 +6,6 @@ import org.junit.*;
 
 import Utils.DebugPrinter;
 import domain.*;
-import domain.Table;
 import facades.Tablr;
 
 public class UndoRedoTests {
@@ -99,6 +98,35 @@ public class UndoRedoTests {
 		DebugPrinter.print(t.getColumns(table0));
 		assertEquals(2,t.getColumns(table0).size());
 		assertFalse(t.getColumns(table0).contains(column1));
+		
+	}
+	
+	@Test
+	public void undoRedoToggleBlanks() {
+		Tablr t = new Tablr();
+		//Add a table
+		StoredTable table0 = t.addEmptyTable();
+		//Add a column to the table
+		t.addEmptyColumn(table0, Type.STRING, "default0");
+		Column column0 = t.getColumns(table0).get(0);
+		
+		assertTrue(column0.getBlankingPolicy());
+		
+		//Remove column1
+		try {
+			t.toggleBlanks(column0);
+		} catch (Exception e) {
+			DebugPrinter.print(e);
+		}
+		
+		//Undo the removing of column1
+		t.undo();
+		assertFalse(column0.getBlankingPolicy());
+		
+		
+		//Redo the removing of column1
+		t.redo();
+		assertTrue(column0.getBlankingPolicy());
 		
 	}
 }
