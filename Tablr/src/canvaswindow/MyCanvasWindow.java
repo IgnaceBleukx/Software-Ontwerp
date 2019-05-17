@@ -174,6 +174,7 @@ public class MyCanvasWindow extends CanvasWindow {
 		checkCtrlT(keyCode);
 
 		UI ui = tablr.getSelectedUI();
+		tablr.notifyKeyListener(keyCode,keyChar);
 		if (ui == null) return;
 	
 		// Notify tablr to add a keyevent command
@@ -182,17 +183,12 @@ public class MyCanvasWindow extends CanvasWindow {
 				tablr.controlPressed();
 			} else if (keyCode == 16) {
 				tablr.shiftPressed();
-			} else if (keyCode == 90){
-				tablr.zIsPressed(keyChar);
 			}
-			
 		}
 		
 		for (UIElement e : new ArrayList<UIElement>(ui.getElements())) {
 			try {
 				e.handleKeyboardEvent(keyCode, keyChar);
-				if (keyCode == 17)
-					tablr.controlPressed();
 				if (Character.isLetterOrDigit(keyChar) || keyCode == 8 || keyChar == '@' || keyChar == '.') {
 					e.handleKeyboardEvent(-1, Character.MIN_VALUE);
 				}

@@ -476,13 +476,6 @@ public class Tablr {
 	}
 	
 	/**
-	 * Notifies the windowManager that 'z' has been pressed.
-	 */
-	public void zIsPressed(char z) {
-		windowManager.zIsPressed(z);
-	}
-	
-	/**
 	 * Notifies the windowManager that 'shift' has been pressed.
 	 */
 	public void shiftPressed() {
@@ -506,6 +499,11 @@ public class Tablr {
 		domainFacade.replaceTable(index, newTable);
 		
 		domainChanged();
+	}
+
+	public void notifyKeyListener(int keyCode, char keyChar) {
+		windowManager.notifyKeyListener(keyCode, keyChar);
+		
 	}
 	
 }

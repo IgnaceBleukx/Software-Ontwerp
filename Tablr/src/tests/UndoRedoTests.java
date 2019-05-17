@@ -101,4 +101,48 @@ public class UndoRedoTests {
 		assertFalse(t.getColumns(table0).contains(column1));
 		
 	}
+
+	@Test
+	public void undoRedoAddRow(){
+		Tablr t = new Tablr();
+		//Add a table
+		StoredTable table0 = t.addEmptyTable();
+		//Add a column
+		t.addEmptyColumn(table0, Type.STRING,"default");
+		//Add some rows
+		t.addRow(table0);
+		t.addRow(table0);
+		t.addRow(table0);
+		
+		//Undo the adding of the last row
+		t.undo();
+		assertEquals(2,table0.getRows());
+		
+		//Redo the adding of the last row
+		t.redo();
+		assertEquals(3,table0.getRows());
+	}
+	
+	@Test
+	public void undoRedoRemoveRow(){
+		Tablr t = new Tablr();
+		//Add a table
+		StoredTable table0 = t.addEmptyTable();
+		//Add a column
+		t.addEmptyColumn(table0, Type.STRING, "default");
+		//Add some rows
+		t.addRow(table0);
+		t.addRow(table0);
+		t.addRow(table0);
+		//Remove the second row
+		t.removeRow(table0, 1);
+		
+		//Undo the removing of the second row
+		t.undo();
+		assertEquals(3,t.getRows(table0));
+	
+		//Redo the removing of the second row
+		t.redo();
+		assertEquals(2,t.getRows(table0));
+	}
 }

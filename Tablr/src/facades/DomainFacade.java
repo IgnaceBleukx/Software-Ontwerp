@@ -38,6 +38,24 @@ public class DomainFacade {
 	private Table activeTable;
 
 	/**
+	 * Returns a clone of the tables
+	 */
+	public ArrayList<Table> getTables() {
+		return new ArrayList<Table>(tables);
+	}
+
+	/**
+	 * Returns the tables (no clone)
+	 */
+	public ArrayList<Table> getTablesPure() {
+		return tables;
+	}
+
+	public String getTableQuery(Table table) {
+		return table.getQueryString();
+	}
+
+	/**
 	 * Sets the active table to some table t
 	 */
 	public void setActiveTable(Table t) {
@@ -67,9 +85,12 @@ public class DomainFacade {
 				public void execute() { 		
 						addTable(table);
 						DebugPrinter.print(table); 
-					}
+				}
 
-				public void undo() { removeTable(table); }
+				public void undo() { 
+					removeTable(table); 
+					removeLastCommand();
+				}
 				
 			});
 		} catch (InvalidNameException e) {
@@ -88,25 +109,13 @@ public class DomainFacade {
 				public void execute() { 		
 					getTablesPure().remove(table);
 				}
-				public void undo() { addTable(table); }
+				public void undo() { 
+					addTable(table); 
+				}
 			});
 		} catch (InvalidNameException e) {
 			throw new RuntimeException("InvalidNameException while removing table");
 		}
-	}
-	
-	/**
-	 * Returns a clone of the tables
-	 */
-	public ArrayList<Table> getTables() {
-		return new ArrayList<Table>(tables);
-	}
-	
-	/**
-	 * Returns the tables (no clone)
-	 */
-	public ArrayList<Table> getTablesPure() {
-		return tables;
 	}
 	
 	/**
@@ -187,10 +196,6 @@ public class DomainFacade {
 			public void execute() { column = table.addEmptyColumn(type, defaultValue); }
 			public void undo() { table.removeColumn(column);}
 		});
-	}
-	
-	public String getTableQuery(Table table) {
-		return table.getQueryString();
 	}
 	
 	/**
@@ -457,6 +462,10 @@ public class DomainFacade {
 			undoStack.remove(undoStack.size() - 1);
 		undoStack.add(command);
 		command.execute();
+	}
+	
+	public void removeLastCommand() {
+		undoStack.remove(undoStack.size()-1);
 	}
 	
 	void replaceTable(int index, Table newTable) {

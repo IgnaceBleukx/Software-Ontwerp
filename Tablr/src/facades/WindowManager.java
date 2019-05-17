@@ -33,18 +33,27 @@ public class WindowManager {
 		tablr = c;
 		keyListener = new VoidElement(-1, -1, 300, 300, null);
 		
-		// 'Z' is pressed
-		keyListener.addKeyboardListener(90, () -> {
-			System.out.println("Z is pressed");
-			if (recentCtrl()) {
-				if(recentShift()) {
-					DebugPrinter.print("CTRL + SHIFT + Z is pressed");
-					tablr.redo();
-				} else {
-					System.out.println("CTRL + Z is pressed in windowmanager");
-					tablr.undo();
-				}
-			}
+//		// 'Z' is pressed
+//		keyListener.addKeyboardListener(90, () -> {
+//			System.out.println("Z is pressed");
+//			if (recentCtrl()) {
+//				if(recentShift()) {
+//					DebugPrinter.print("CTRL + SHIFT + Z is pressed");
+//					tablr.redo();
+//				} else {
+//					System.out.println("CTRL + Z is pressed in windowmanager");
+//					tablr.undo();
+//				}
+//			}
+//		});
+		keyListener.addKeyboardListener(85, () -> {
+			DebugPrinter.print("UNDO");
+			tablr.undo();
+			
+		});
+		keyListener.addKeyboardListener(82,() -> {
+			DebugPrinter.print("REDO");
+			tablr.redo();
 		});
 	}
 	
@@ -382,10 +391,6 @@ public class WindowManager {
 		lastCtrl = System.currentTimeMillis();
 	}
 	
-	public void zIsPressed(char z) {
-		keyListener.handleKeyboardEvent(KeyEvent.getExtendedKeyCodeForChar(z), z);
-	}
-	
 	/**
 	 * Variable holding the number of milliseconds since the epoch at the moment Shift was pressed.
 	 */
@@ -434,6 +439,11 @@ public class WindowManager {
 	 */
 	public void tableRemoved(Table t) {
 		uis.remove(t);
+	}
+
+	public void notifyKeyListener(int keyCode, char keyChar) {
+		keyListener.handleKeyboardEvent(keyCode, keyChar);
+		
 	}
 }
 
