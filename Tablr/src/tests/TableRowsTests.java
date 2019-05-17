@@ -77,7 +77,7 @@ public class TableRowsTests {
 	}
 	
 	/**
-	 * Use case 9: Add a row
+	 * Use case 9: Add a row in table rows mode
 	 * 
 	 */
 	@Test
