@@ -151,6 +151,17 @@ public abstract class Table {
 	}
 	
 	/**
+	 * This method adds a row with values to the bottom of the current table
+	 * @param values 	The values to add to fill the new row.
+	 */
+	public void addFilledRow(ArrayList<Object> values) {
+		int index = 0;
+		for (Object v : values) {
+			getColumns().get(index++).addCell(new Cell(v));
+		}
+	}
+	
+	/**
 	 * Prints the table in a somewhat readable form
 	 */
 	public void printTable() {

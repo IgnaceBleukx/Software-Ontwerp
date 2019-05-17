@@ -148,9 +148,11 @@ public class TableRowsModeUI extends UI {
 			titleBar.setText("Table Rows Mode: " + table.getName());
 		});
 		
-		titleBar.addKeyboardListener(10, () -> { //Ctrl+Enter, create new Table Design subwindow.
+		titleBar.addKeyboardListener(10, () -> { //Ctrl+Enter, create new Table Design subwindow. 
+			//TODO: table in tablerows is zoizo storedtable
 			if (this.getWindowManager().recentCtrl()) {
-				//
+				if (table.isStoredTable())
+					getTablr().loadTableDesignModeUI((StoredTable)table);
 			}
 		});
 		
@@ -263,11 +265,7 @@ public class TableRowsModeUI extends UI {
 					getTablr().removeRow((StoredTable)tab,index);
 				}
 			});
-		}		
-		uiTable.addKeyboardListener(17, () -> {
-			if (tab.isStoredTable())
-				getTablr().loadTableDesignModeUI((StoredTable)tab);
-		});
+		}
 		
 		uiTable.addDoubleClickListener(() -> {
 			if (tab.isStoredTable())
