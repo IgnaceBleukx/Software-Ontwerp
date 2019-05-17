@@ -199,4 +199,30 @@ public class UndoRedoTests {
 		assertTrue(!column0.getBlankingPolicy());
 		
 	}
+	
+	@Test
+	public void undoRedoChangeColumnName() {
+		Tablr t = new Tablr();
+		//Add a table
+		StoredTable table0 = t.addEmptyTable();
+		//Add a column to the table
+		t.addEmptyColumn(table0, Type.STRING, "default0");
+		Column column0 = t.getColumns(table0).get(0);
+		
+		assertEquals("Column0", column0.getName());
+		
+		// Change name of column
+		t.setColumnName(column0, "Column");
+		assertEquals("Column", column0.getName());
+		
+		// undo renaming of column0
+		t.undo();
+		assertEquals("Column0", column0.getName());
+		
+		// redo renaming of column0
+		t.redo();
+		assertEquals("Column", column0.getName());
+		
+		
+	}
 }
