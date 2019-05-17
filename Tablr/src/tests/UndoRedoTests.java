@@ -6,7 +6,6 @@ import org.junit.*;
 
 import Utils.DebugPrinter;
 import domain.*;
-import domain.Table;
 import facades.Tablr;
 
 public class UndoRedoTests {
@@ -102,6 +101,7 @@ public class UndoRedoTests {
 		
 	}
 
+
 	@Test
 	public void undoRedoAddRow(){
 		Tablr t = new Tablr();
@@ -144,5 +144,32 @@ public class UndoRedoTests {
 		//Redo the removing of the second row
 		t.redo();
 		assertEquals(2,t.getRows(table0));
+
+	
+	// TODO: Assert Error
+	@Test
+	public void undoRedoToggleBlanks() throws Exception {
+		Tablr t = new Tablr();
+		//Add a table
+		StoredTable table0 = t.addEmptyTable();
+		//Add a column to the table
+		t.addEmptyColumn(table0, Type.STRING, "default0");
+		Column column0 = t.getColumns(table0).get(0);
+		
+		assertTrue(column0.getBlankingPolicy());
+		
+		//Toggle blanks of Column0
+		t.toggleBlanks(column0);
+		
+		assertFalse(column0.getBlankingPolicy());
+		
+		//Undo the removing of column1
+		t.undo();
+		assertFalse(column0.getBlankingPolicy());
+		
+		//Redo the removing of column1
+		t.redo();
+		assertTrue(column0.getBlankingPolicy());
+		
 	}
 }
