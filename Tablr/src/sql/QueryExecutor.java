@@ -14,7 +14,11 @@ import exceptions.InvalidQueryException;
 
 public class QueryExecutor {
 	public static ComputedTable executeQuery(Query q, ArrayList<Table> tables) throws InvalidQueryException, InvalidNameException {
-	
+		//If an empty query was entered,
+		//return a null table
+		if (q == null)
+			return null;
+		
 		//Order of execution:
 		//1. Get necessary tables (FROM+JOIN)
 		HashMap<String,String> tableNames = q.findTableNameAliases();

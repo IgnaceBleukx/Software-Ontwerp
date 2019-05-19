@@ -47,6 +47,8 @@ public class SQLParser extends StreamTokenizer {
 	public static class ParseException extends RuntimeException {}
 	
 	public static Query parseQuery(String text) { 
+		if (text.equals(""))
+			return null;
 		Query result = new SQLParser(text).parseQuery();
 		result.setSQL(text);
 		return result;

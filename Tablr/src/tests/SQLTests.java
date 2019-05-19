@@ -12,6 +12,8 @@ import exceptions.InvalidQueryException;
 
 import org.junit.Test;
 
+import canvaswindow.CanvasWindow;
+import canvaswindow.MyCanvasWindow;
 import Utils.DebugPrinter;
 import sql.BooleanExpression;
 import sql.CellIDExpression;
@@ -192,7 +194,9 @@ public class SQLTests {
 	
 	@Test
 	public void testBasic() {
-		
+		MyCanvasWindow myCW = new MyCanvasWindow("Test");
+		CanvasWindow.replayRecording("Tablr/recordings/Queries/test.test", myCW);
+		myCW.getTablr().getTables().stream().forEach((t) -> t.printTable());
 	}
 	
 	/**

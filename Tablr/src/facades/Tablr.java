@@ -492,6 +492,8 @@ public class Tablr {
 	public void replaceTableFromQuery(String query, Table t) throws InvalidQueryException, InvalidNameException {
 		Query q = SQLParser.parseQuery(query);
 		ComputedTable newTable = QueryExecutor.executeQuery(q, getTables());
+		if (newTable == null)
+			return;
 		newTable.setQuery(q);
 		DebugPrinter.print("Added new table");
 		newTable.printTable();
@@ -499,7 +501,11 @@ public class Tablr {
 		newTable.setName(t.getName());
 		domainFacade.replaceTable(index, newTable);
 		
-		domainChanged(null);
+		windowManager.addTableDesignModeUI(newTable, new TableDesignModeUI(300,0,300,300,this));
+		windowManager.addTableRowsModeUI(newTable, new TableRowsModeUI(300, 300, 300, 300, this));
+		windowManager.addFormModeUI(newTable,new FormsModeUI(0,300,300,300,this));
+		
+		domainChanged(newTable);
 	}
 
 	public void notifyKeyListener(int keyCode, char keyChar) {

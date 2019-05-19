@@ -47,13 +47,18 @@ public class WindowManager {
 //			}
 //		});
 		keyListener.addKeyboardListener(85, () -> {
-			DebugPrinter.print("UNDO");
-			tablr.undo();
+			if (recentCtrl()) {
+				DebugPrinter.print("UNDO");
+				tablr.undo();
+			}
+
 			
 		});
 		keyListener.addKeyboardListener(82,() -> {
-			DebugPrinter.print("REDO");
-			tablr.redo();
+			if (recentCtrl()) {
+				DebugPrinter.print("REDO");
+				tablr.redo();
+			}
 		});
 	}
 	
