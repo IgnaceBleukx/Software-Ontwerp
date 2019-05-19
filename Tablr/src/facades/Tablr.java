@@ -499,7 +499,13 @@ public class Tablr {
 		newTable.printTable();
 		int index = getTables().indexOf(t);
 		newTable.setName(t.getName());
+		
+		Table oldTable = domainFacade.getTables().get(index);
 		domainFacade.replaceTable(index, newTable);
+		
+		//Closes any window that containing
+		//values of the overwritten table.
+		windowManager.tableRemoved(t);
 		
 		windowManager.addTableDesignModeUI(newTable, new TableDesignModeUI(300,0,300,300,this));
 		windowManager.addTableRowsModeUI(newTable, new TableRowsModeUI(300, 300, 300, 300, this));

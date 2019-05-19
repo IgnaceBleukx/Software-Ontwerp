@@ -83,17 +83,22 @@ public class FormsModeUI extends UI {
 			getWindowManager().notifyFormsModeUIsColResized(deltaFinal,1,table);
 		});
 		
+		//PageUp, next row
 		legend.addKeyboardListener(33, () ->{
 			rowNumber++;
 			titleBar.setText("Forms Mode: " + table.getName() + " - Row " + rowNumber);
 			this.reloadListView(table);
 		});
+		
+		//PageDown, previous row
 		legend.addKeyboardListener(34, ()  -> {
 			if (rowNumber > 0)
 				rowNumber--;
 			titleBar.setText("Forms Mode: " + table.getName() + " - Row " + rowNumber);
 			this.reloadListView(table);
 		});
+		
+		//Ctrl+N, add row
 		legend.addKeyboardListener(78, () ->{
 			if (!getWindowManager().recentCtrl())
 				return;
@@ -103,6 +108,8 @@ public class FormsModeUI extends UI {
 			}
 				
 		});
+		
+		//Ctrl+D, delete row
 		legend.addKeyboardListener(68, () ->{
 			if (!getWindowManager().recentCtrl())
 				return;

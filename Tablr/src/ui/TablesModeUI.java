@@ -223,6 +223,8 @@ public class TablesModeUI extends UI {
 			
 			//Table name textfields listen to alphanumeric keyboard input
 			tableNameLabel.addKeyboardListener(-1, () -> {
+				//TODO: if a table is used in a query,
+				//Don't allow changing its name!
 				
 				ArrayList<Table> tablesSameName = tablr.getTablesByName(tableNameLabel.getText());
 				DebugPrinter.print(tablesSameName);
@@ -266,6 +268,7 @@ public class TablesModeUI extends UI {
 				tablr.domainChanged(null);
 			});
 			
+			//Listen for text input in query field
 			queryLabel.addKeyboardListener(-1,() ->{
 				try {
 					SQLParser.parseQuery(queryLabel.getText());

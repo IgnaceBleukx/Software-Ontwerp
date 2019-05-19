@@ -150,7 +150,6 @@ public class TableRowsModeUI extends UI {
 		});
 		
 		titleBar.addKeyboardListener(10, () -> { //Ctrl+Enter, create new Table Design subwindow. 
-			//TODO: table in tablerows is zoizo storedtable
 			if (this.getWindowManager().recentCtrl()) {
 				if (table.isStoredTable())
 					getTablr().loadTableDesignModeUI((StoredTable)table);
@@ -260,6 +259,7 @@ public class TableRowsModeUI extends UI {
 				else uiRow.select();
 			});
 			
+			//Delete row
 			uiRow.addKeyboardListener(127, () -> {
 				if(uiRow.isSelected() && tab.isStoredTable()){
 					int index = uiTable.getRows().indexOf(uiRow);
