@@ -625,11 +625,8 @@ public class UIElementTests {
 		assertEquals(305, ((TableRowsModeUI) tablr.getTableRowsUIs(table).get(0)).getHeight());
 	}
 	
-	/**
-	 * Not yet tested
-	 */
 	@Test
-	public void resizeLegend() {
+	public void resizeLegendTablesMode() {
 		// Load the window
 		MyCanvasWindow myCW = new MyCanvasWindow("Tables Mode");
 		Tablr tablr = myCW.getTablr();
@@ -638,23 +635,28 @@ public class UIElementTests {
 		myCW.handleKeyEvent(1, 17, ' ');
 		myCW.handleKeyEvent(1, 84, ' ');
 		
-		// Add a table
-		myCW.handleMouseEvent(MouseEvent.MOUSE_CLICKED, 155, 285, 2);
+		// Add a table to the list
+		myCW.handleMouseEvent(MouseEvent.MOUSE_CLICKED,100,150,2);
 		
-		// Click the table name
-		myCW.handleMouseEvent(MouseEvent.MOUSE_CLICKED, 55, 50, 2);
+		Text tableName = (Text) tablr.getUIAt(100,100).locatedAt(45,20);
+		Text query = (Text) tablr.getUIAt(100, 100).locatedAt(150, 20);
+		TextField tableNameInput = (TextField) tablr.getUIAt(100,100).locatedAt(45, 40);
+		TextField queryInput = (TextField) tablr.getUIAt(100, 100).locatedAt(150, 40);
+		int tableNameWidth = tableName.getWidth();
+		int queryX = query.getX();
+		int tableNameInputWidth = tableNameInput.getWidth();
+		int queryInputX = queryInput.getX();
 		
-		// Add a column to the table
-		myCW.handleMouseEvent(MouseEvent.MOUSE_CLICKED, 455, 168, 2);
-
-		TextField t = (TextField) tablr.getUIAt(394, 50).locatedAt(394, 50);
+		//Drag the table name dragger 30px to the right
+		myCW.handleMouseEvent(MouseEvent.MOUSE_PRESSED, 135, 20, 1);
+		myCW.handleMouseEvent(MouseEvent.MOUSE_DRAGGED, 165, 20, 1);
 		
-		myCW.handleMouseEvent(MouseEvent.MOUSE_PRESSED, 425, 30, 1);
-		myCW.handleMouseEvent(MouseEvent.MOUSE_DRAGGED, 370, 30, 1);
-
-		Text te = (Text) tablr.getUIAt(394, 50).locatedAt(394, 50);
+		assertEquals(30,tableName.getWidth()-tableNameWidth);
+		assertEquals(-30,queryX-query.getX());
+		assertEquals(30,tableNameInput.getWidth()-tableNameInputWidth);
+		assertEquals(-30,queryInputX-queryInput.getX());
+		
 	}
-	
 	
 	private void snapShot(MyCanvasWindow myCW,String out) {
 		File outputFile = new File(out);
