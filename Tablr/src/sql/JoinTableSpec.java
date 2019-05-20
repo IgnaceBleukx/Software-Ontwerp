@@ -153,7 +153,14 @@ public class JoinTableSpec extends TableSpec {
 			//
 		}
 	}
-	
+
+	@Override
+	public ArrayList<String> getName() {
+		ArrayList<String> l = new ArrayList<String>();
+		l.addAll(leftTable.getName());
+		l.addAll(rightTable.getName());
+		return l;
+	}
 }
 
 class RowPair {

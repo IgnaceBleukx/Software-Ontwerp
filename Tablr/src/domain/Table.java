@@ -46,6 +46,23 @@ public abstract class Table {
 	 */
 	public abstract String getQueryString();
 	
+	/**
+	 * a list of tables whose queries reference this table
+	 */
+	private ArrayList<ComputedTable> queryReferenceTables;
+	
+	public void addReference(ComputedTable t) {
+		queryReferenceTables.add(t);
+	}
+	
+	public void removeReference(ComputedTable t){
+		queryReferenceTables.remove(t);
+	}
+	
+	public ArrayList<ComputedTable> getReferences(){
+		return queryReferenceTables;
+	}
+	
 	public void addAllColumns(ArrayList<Column> c) {
 		this.columns = new ArrayList<Column>(c);
 	}
@@ -185,4 +202,11 @@ public abstract class Table {
 		}
 		System.out.println("");
 	}
+
+	/**
+	 * checks if any of the tables that reference this table are referencing a certain column
+	 * @param column: the column to check out
+	 * @return
+	 */
+	protected abstract boolean queryContainsColumn(Column column);
 }

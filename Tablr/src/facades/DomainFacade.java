@@ -2,16 +2,20 @@ package facades;
 
 import java.awt.event.KeyEvent;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.stream.Collectors;
 
 import Utils.DebugPrinter;
 import domain.Column;
+import domain.ComputedTable;
 import domain.StoredTable;
 import domain.Table;
 import domain.Type;
 import exceptions.BlankException;
 import exceptions.InvalidNameException;
 import exceptions.InvalidTypeException;
+import sql.ColumnSpec;
+import sql.Query;
 import ui.UI;
 
 /**
@@ -90,6 +94,28 @@ public class DomainFacade {
 			}
 			public void undo() { 
 				addTableAt(table,index); 
+			}
+		});
+		
+	}
+	
+
+	/**
+	 * Remove computed tables from the list of tables (extra functionality of references)
+	 * @param table		Table to remove
+	 */
+	public void removeTable(ComputedTable table) {		
+		int index = tables.indexOf(table);
+		execute(new Command() {
+			public void execute() { 		
+				getTablesPure().remove(table);
+				for (int i = 0; i < getTablesPure().size(); i++) {
+					getTablesPure().get(i).removeReference(table);
+				}
+			}
+			public void undo() { 
+				addTableAt(table,index); 
+				addReferenceTables(table);
 			}
 		});
 		
@@ -496,6 +522,21 @@ public class DomainFacade {
 	
 	void replaceTable(int index, Table newTable) {
 		tables.set(index, newTable);
+	}
+
+	/**
+	 * every table that is referenced by the query of a computed table gets a reference to that computed table.
+	 * @param ct: the computed table in question
+	 */
+	public void addReferenceTables(ComputedTable ct) {
+		Query q = ct.getQuery();
+		ArrayList<String> nameList = q.tableNames();
+		for (int i = 0; i < tables.size(); i++) {
+			Table table = tables.get(i);
+			if(nameList.contains(table.getName())) {
+				table.addReference(ct);
+			}
+		}
 	}
 
 }

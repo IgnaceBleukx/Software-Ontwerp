@@ -62,6 +62,10 @@ public class Query {
 		return (tableSpecs.findTableNameAliases());
 	}
 	
+	public ArrayList<String> tableNames(){
+		return (tableSpecs.getName());
+	}
+	
 	public TableSpec getTableSpecs() {
 		return this.tableSpecs;
 	}
@@ -75,6 +79,7 @@ public class Query {
 	public ArrayList<ColumnSpec> getColumnSpecs() {
 		return this.columnSpecs;
 	}
+	
 	
 	public ComputedTable selectColumns(Table oldTable, HashMap<String,String> tableNameAliases) throws InvalidNameException {
 		ArrayList<Column> cols = oldTable.getColumns();

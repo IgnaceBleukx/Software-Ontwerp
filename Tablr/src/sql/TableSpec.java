@@ -13,4 +13,6 @@ public abstract class TableSpec {
 
 	public abstract Table resolve(ArrayList<Table> tables) throws InvalidQueryException;
 
+	public abstract ArrayList<String> getName();
+
 }

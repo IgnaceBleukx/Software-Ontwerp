@@ -37,6 +37,13 @@ public class SimpleTableSpec extends TableSpec {
 		m.put(rowID,tableName);
 		return m;
 	}
+	
+	@Override
+	public ArrayList<String> getName(){
+		ArrayList<String> l = new ArrayList<String>();
+		l.add(tableName);
+		return l;
+	}
 
 	@Override
 	public Table resolve(ArrayList<Table>  tables) throws InvalidQueryException {

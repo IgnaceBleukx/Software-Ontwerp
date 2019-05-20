@@ -1,10 +1,12 @@
 package domain;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 
 import javax.management.RuntimeErrorException;
 
 import exceptions.InvalidNameException;
+import sql.ColumnSpec;
 import sql.Query;
 
 public class StoredTable extends Table {
@@ -93,6 +95,22 @@ public class StoredTable extends Table {
 			getColumns().get(i).addCell(c.get(i));
 		}
 	}
-	
 
+	@Override
+	protected boolean queryContainsColumn(Column c) {
+		for (int i = 0; i < getReferences().size(); i++) {
+			ComputedTable t = getReferences().get(i);
+			Query q = t.getQuery();
+			HashMap<String, String> tableNames = q.findTableNameAliases();
+			String tableAlias = tableNames.get(this.getName());
+			for(int j = 0; j < q.getColumnSpecs().size(); j++) {
+				ColumnSpec spec = q.getColumnSpecs().get(j);
+				if (spec.getCellID().getRowID() == tableAlias && spec.getCellID().getcolumnName() == c.getName()) {
+					return true;
+				}
+			}
+			
+		}
+		return false;
+	}
 }

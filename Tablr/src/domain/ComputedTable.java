@@ -18,4 +18,13 @@ public class ComputedTable extends Table {
 	public void setQuery(Query q) {
 		this.q = q;
 	}
+	
+	public Query getQuery() {
+		return q;
+	}
+
+	@Override
+	protected boolean queryContainsColumn(Column column) {
+		return false;
+	}
 }
