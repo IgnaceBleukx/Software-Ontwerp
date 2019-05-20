@@ -12,6 +12,7 @@ import org.junit.Test;
 
 import Utils.DebugPrinter;
 import uielements.Button;
+import uielements.Checkbox;
 import uielements.Text;
 import uielements.TextField;
 import uielements.UITable;
@@ -625,11 +626,8 @@ public class UIElementTests {
 		assertEquals(305, ((TableRowsModeUI) tablr.getTableRowsUIs(table).get(0)).getHeight());
 	}
 	
-	/**
-	 * Not yet tested
-	 */
 	@Test
-	public void resizeLegend() {
+	public void resizeLegendTablesMode() {
 		// Load the window
 		MyCanvasWindow myCW = new MyCanvasWindow("Tables Mode");
 		Tablr tablr = myCW.getTablr();
@@ -638,23 +636,77 @@ public class UIElementTests {
 		myCW.handleKeyEvent(1, 17, ' ');
 		myCW.handleKeyEvent(1, 84, ' ');
 		
-		// Add a table
-		myCW.handleMouseEvent(MouseEvent.MOUSE_CLICKED, 155, 285, 2);
+		// Add a table to the list
+		myCW.handleMouseEvent(MouseEvent.MOUSE_CLICKED,100,150,2);
 		
-		// Click the table name
-		myCW.handleMouseEvent(MouseEvent.MOUSE_CLICKED, 55, 50, 2);
+		Text tableName = (Text) tablr.getUIAt(100,100).locatedAt(45,20);
+		Text query = (Text) tablr.getUIAt(100, 100).locatedAt(150, 20);
+		TextField tableNameInput = (TextField) tablr.getUIAt(100,100).locatedAt(45, 40);
+		TextField queryInput = (TextField) tablr.getUIAt(100, 100).locatedAt(150, 40);
+		int tableNameWidth = tableName.getWidth();
+		int queryX = query.getX();
+		int tableNameInputWidth = tableNameInput.getWidth();
+		int queryInputX = queryInput.getX();
 		
-		// Add a column to the table
-		myCW.handleMouseEvent(MouseEvent.MOUSE_CLICKED, 455, 168, 2);
-
-		TextField t = (TextField) tablr.getUIAt(394, 50).locatedAt(394, 50);
+		//Drag the table name dragger 30px to the right
+		myCW.handleMouseEvent(MouseEvent.MOUSE_PRESSED, 135, 20, 1);
+		myCW.handleMouseEvent(MouseEvent.MOUSE_DRAGGED, 165, 20, 1);
 		
-		myCW.handleMouseEvent(MouseEvent.MOUSE_PRESSED, 425, 30, 1);
-		myCW.handleMouseEvent(MouseEvent.MOUSE_DRAGGED, 370, 30, 1);
-
-		Text te = (Text) tablr.getUIAt(394, 50).locatedAt(394, 50);
+		assertEquals(30,tableName.getWidth()-tableNameWidth);
+		assertEquals(-30,queryX-query.getX());
+		assertEquals(30,tableNameInput.getWidth()-tableNameInputWidth);
+		assertEquals(-30,queryInputX-queryInput.getX());
 	}
 	
+	@Test
+	public void resizeLegendDesignMode() {
+		//Load window
+		MyCanvasWindow myCW = new MyCanvasWindow("Tables Mode");
+		Tablr tablr = myCW.getTablr();
+		
+		// Perform a ctrl+T to add tables mode subwindow
+		myCW.handleKeyEvent(1, 17, ' ');
+		myCW.handleKeyEvent(1, 84, ' ');
+		
+		// Add a table to the list
+		myCW.handleMouseEvent(MouseEvent.MOUSE_CLICKED,100,150,2);
+		//Open table design mode for table0
+		myCW.handleMouseEvent(MouseEvent.MOUSE_CLICKED, 45, 40,2);
+		//Add a column to the table
+		myCW.handleMouseEvent(MouseEvent.MOUSE_CLICKED, 400, 150, 2);
+		
+		Text name = (Text) tablr.getUIAt(370, 25).locatedAt(370,25);
+		Text type = (Text) tablr.getUIAt(370, 25).locatedAt(450,25);
+		Text blank = (Text) tablr.getUIAt(370, 25).locatedAt(490,25);
+		Text def = (Text) tablr.getUIAt(370, 25).locatedAt(550,25);
+		TextField nameInput = (TextField) tablr.getUIAt(370, 25).locatedAt(370,45);
+		Text typeInput = (Text) tablr.getUIAt(370, 25).locatedAt(450,45);
+		Checkbox blankInput = (Checkbox) tablr.getUIAt(370, 25).locatedAt(490,45);
+		TextField defInput = (TextField) tablr.getUIAt(370, 25).locatedAt(550,45);
+
+		int nameWidth = name.getWidth();
+		int typeWidth = type.getWidth();
+		int blankX = blank.getX();
+		int defX = def.getX();
+		int nameInputWidth = nameInput.getWidth();
+		int typeInputWidth = typeInput.getWidth();
+		int blankInputX = blankInput.getX();
+		int defInputX = defInput.getX();
+		
+		//Drag typedragger 30px to the right
+		myCW.handleMouseEvent(MouseEvent.MOUSE_PRESSED, 475,25, 1);
+		myCW.handleMouseEvent(MouseEvent.MOUSE_DRAGGED, 505,25, 1);
+
+		assertEquals(name.getWidth(),nameWidth);
+		assertEquals(30,type.getWidth()-typeWidth);
+		assertEquals(30,blank.getX()-blankX);
+		assertEquals(30,def.getX()-defX);
+		assertEquals(nameInput.getWidth(),nameInputWidth);
+		assertEquals(30,typeInput.getWidth()-typeInputWidth);
+		assertEquals(30,blankInput.getX()-blankInputX);
+		assertEquals(30,defInput.getX()-defInputX);
+		
+	}
 	
 	private void snapShot(MyCanvasWindow myCW,String out) {
 		File outputFile = new File(out);

@@ -89,7 +89,7 @@ public class MyCanvasWindow extends CanvasWindow {
 
 			//Mouse clicked
 			else if (id == MouseEvent.MOUSE_CLICKED) {
-				//DebugPrinter.print("Mouse Pressed at ("+x+","+y+")");
+				DebugPrinter.print("Mouse clicked at ("+x+","+y+")");
 				/**
 				 * Some element has a hard lock, ignore this input if the
 				 * element getting the input is not the element that has the hard lock

@@ -427,7 +427,7 @@ public class WindowManager {
 			if (activeUIs.contains(ui)) {
 				if (activeUIs.stream().filter((e)->e.getClass().equals(c)).count() > 1) {
 					DebugPrinter.print(activeUIs);
-					DebugPrinter.print("Multiple UI's for key "+t.getName()+", removing");
+					DebugPrinter.print("Multiple UI's for key "+(t==null ? "null" : t.getName())+", removing");
 					activeUIs.remove(ui);
 				}
 				else {
