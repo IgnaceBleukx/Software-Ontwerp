@@ -707,6 +707,52 @@ public class UIElementTests {
 		assertEquals(30,defInput.getX()-defInputX);
 		
 	}
+
+	@Test
+	public void resizeLegendRowsMode() {
+		//Load window
+		MyCanvasWindow myCW = new MyCanvasWindow("Table Design Mode");
+		Tablr tablr = myCW.getTablr();
+		
+		// Perform a ctrl+T to add tables mode subwindow
+		myCW.handleKeyEvent(1, 17, ' ');
+		myCW.handleKeyEvent(1, 84, ' ');
+		
+		// Add a table to the list
+		myCW.handleMouseEvent(MouseEvent.MOUSE_CLICKED,100,150,2);
+		//Open table design mode for table0
+		myCW.handleMouseEvent(MouseEvent.MOUSE_CLICKED, 45, 40,2);
+		//Add some columns to the table
+		myCW.handleMouseEvent(MouseEvent.MOUSE_CLICKED, 400, 150, 2);
+		myCW.handleMouseEvent(MouseEvent.MOUSE_CLICKED, 400, 150, 2);
+		//Open table rows mode
+		myCW.handleMouseEvent(MouseEvent.MOUSE_CLICKED, 80, 50, 2);
+		//Add row
+		myCW.handleMouseEvent(MouseEvent.MOUSE_CLICKED, 400, 500, 2);
+		
+		
+		Text col0Label = (Text) tablr.getUIAt(370, 330).locatedAt(370, 330);
+		Text col1Label = (Text) tablr.getUIAt(370, 330).locatedAt(470, 330);
+		TextField col0Input = (TextField) tablr.getUIAt(370, 330).locatedAt(370, 360);
+		TextField col1Input = (TextField) tablr.getUIAt(370, 330).locatedAt(470, 360);
+
+		int col0LabelWidth = col0Label.getWidth();
+		int col1LabelX = col1Label.getX();
+		int col0InputWidth = col0Input.getWidth();
+		int col1InputX = col1Input.getX();
+		
+		//Drag the column0 dragger 30px to the right
+		myCW.handleMouseEvent(MouseEvent.MOUSE_PRESSED, 325, 325, 1);
+		myCW.handleMouseEvent(MouseEvent.MOUSE_DRAGGED, 355, 325, 1);
+
+		snapShot(myCW,"rowsMode.png");
+		
+		assertEquals(30, col0Label.getWidth()-col0LabelWidth);
+		assertEquals(30, col1Label.getX()-col1LabelX);
+		assertEquals(30, col0Input.getWidth()-col0InputWidth);
+		assertEquals(30, col1Input.getX()-col1InputX);
+		
+	}
 	
 	private void snapShot(MyCanvasWindow myCW,String out) {
 		File outputFile = new File(out);
