@@ -124,6 +124,7 @@ public class UndoRedoTests {
 		assertTrue(t.getColumns(table0).contains(column0));
 		assertTrue(t.getColumns(table0).contains(column1));
 		assertTrue(t.getColumns(table0).contains(column2));
+		assertEquals(1,t.getColumns(table0).indexOf(column1));
 		
 		//Redo the removing of column1
 		t.redo();
@@ -215,13 +216,20 @@ public class UndoRedoTests {
 		t.addRow(table0);
 		t.addRow(table0);
 		t.addRow(table0);
+		//Add some values to the rows
+		t.changeCellValue(t.getColumns(table0).get(0),0, "a");
+		t.changeCellValue(t.getColumns(table0).get(0),1, "b");
+		t.changeCellValue(t.getColumns(table0).get(0),2, "c");
 		//Remove the second row
 		t.removeRow(table0, 1);
 		
 		//Undo the removing of the second row
 		t.undo();
 		assertEquals(3,t.getRows(table0));
-	
+		assertEquals("a",t.getValueString(t.getColumns(table0).get(0), 0));
+		assertEquals("b",t.getValueString(t.getColumns(table0).get(0), 1));
+		assertEquals("c",t.getValueString(t.getColumns(table0).get(0), 2));
+
 		//Redo the removing of the second row
 		t.redo();
 		assertEquals(2,t.getRows(table0));

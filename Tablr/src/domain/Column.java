@@ -88,7 +88,6 @@ public class Column {
 		return columnNames.indexOf(name) == columnNames.lastIndexOf(name);
 	}
 	
-	
 	/**
 	 * Holds the Type of the Column
 	 * default value: String
@@ -213,6 +212,15 @@ public class Column {
 	 */
 	public void addCell(Cell<?> c){
 		cells.add(c);
+	}
+	
+	/**
+	 * This method adds a cell to the column on a given index.
+	 * @param c 	The cell to be added to the column.
+	 * @param index The index on which the cell must be added to the column.
+	 */
+	public void addCellAt(Cell<?> c, int index) {
+		cells.add(index,c);
 	}
 	
 	/**

@@ -376,17 +376,17 @@ public class DomainFacade {
 
 	/**
 	 * Remove a row specified by its index from a table
-	 * @param tab		Table
+	 * @param table		Table
 	 * @param index		Index
 	 */
-	public void removeRow(StoredTable tab, int index) {
-		ArrayList<Object> rowValues = getRowValues(tab,index);
+	public void removeRow(StoredTable table, int index) {
+		ArrayList<Object> rowValues = getRowValues(table,index);
 		execute(new Command(){
 			public void execute() {
-				tab.removeRow(index);
+				table.removeRow(index);
 			}
 			public void undo() {
-				tab.addFilledRow(rowValues);
+				table.addFilledRowAt(rowValues,index);
 			}			
 		});
 	}
