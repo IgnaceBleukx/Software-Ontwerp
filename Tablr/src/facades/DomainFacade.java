@@ -16,6 +16,8 @@ import exceptions.InvalidNameException;
 import exceptions.InvalidTypeException;
 import sql.ColumnSpec;
 import sql.Query;
+import sql.QueryExecutor;
+import sql.SQLParser;
 import ui.UI;
 
 /**
@@ -104,7 +106,7 @@ public class DomainFacade {
 	 * Remove computed tables from the list of tables (extra functionality of references)
 	 * @param table		Table to remove
 	 */
-	public void removeTable(ComputedTable table) {		
+	public void removeTable(ComputedTable table) {		//TODO: als een computed table gewoon moet removed worden wordt nog vaak automatisch de bovenste removeTable gebruikt
 		int index = tables.indexOf(table);
 		execute(new Command() {
 			public void execute() { 		
@@ -537,6 +539,9 @@ public class DomainFacade {
 				table.addReference(ct);
 			}
 		}
+	}
+
+	public void tableChanged(Table changingTable) {
 	}
 
 }

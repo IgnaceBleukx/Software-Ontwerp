@@ -3,6 +3,7 @@ package facades;
 import java.awt.Graphics;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Optional;
 import java.util.function.Consumer;
 
 import Utils.DebugPrinter;
@@ -23,6 +24,7 @@ import ui.TableDesignModeUI;
 import ui.TableRowsModeUI;
 import ui.TablesModeUI;
 import ui.UI;
+import uielements.ListView;
 import uielements.UIElement;
 
 /**
@@ -119,6 +121,16 @@ public class Tablr {
 	 * @param t		Table to delete.
 	 */
 	public void removeTable(Table t) {
+		domainFacade.removeTable(t);
+		windowManager.tableRemoved(t);
+		domainChanged(null);
+	}
+	
+	/**
+	 * Removes a given table from the domain.
+	 * @param t		Table to delete.
+	 */
+	public void removeTable(ComputedTable t) {
 		domainFacade.removeTable(t);
 		windowManager.tableRemoved(t);
 		domainChanged(null);
@@ -264,7 +276,7 @@ public class Tablr {
 	 */
 	public void changeCellValue(Column col, int i, String string) throws ClassCastException {
 		domainFacade.changeCellValue(col,i,string);
-		//domainChanged();
+		domainChanged(col.getTable());
 	}
 
 	/**
@@ -513,8 +525,23 @@ public class Tablr {
 		windowManager.addFormModeUI(newTable,new FormsModeUI(0,300,300,300,this));
 		
 		domainFacade.addReferenceTables(newTable); //adds this table as a referencing table to the tables it requires
+		//add listener: if a table is changed, check if this computed table is built on that table and adjust if necessary.
+		addDomainChangedListener((Table changingTable) -> {try {
+			tableChanged(changingTable, newTable);
+		} catch (InvalidNameException | InvalidQueryException e) {}
+		});
 		
 		domainChanged(newTable);
+	}
+	
+	public void tableChanged(Table changingTable, ComputedTable computed) throws InvalidNameException, InvalidQueryException {
+		for (int i = 0; i < changingTable.getReferences().size(); i++) {
+			ComputedTable toChange = changingTable.getReferences().get(i);
+			if(toChange == computed) {
+				replaceTableFromQuery(toChange.getQueryString(), toChange);
+				removeTable(computed);
+			}
+		}		
 	}
 
 	public void notifyKeyListener(int keyCode, char keyChar) {
