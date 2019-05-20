@@ -2,25 +2,18 @@ package ui;
 
 import java.awt.Color;
 import java.util.ArrayList;
-import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
 import Utils.DebugPrinter;
-import uielements.BottomUIEdge;
 import uielements.Button;
-import uielements.CloseButton;
 import uielements.Dragger;
-import uielements.RightUIEdge;
 import uielements.Text;
-import uielements.TopUIEdge;
 import uielements.ListView;
 import uielements.QueryTextField;
 import uielements.TextField;
-import uielements.Titlebar;
 import uielements.UIElement;
 import uielements.UIRow;
-import uielements.LeftUIEdge;
 import uielements.VoidElement;
 import domain.StoredTable;
 import domain.Table;
@@ -28,7 +21,6 @@ import exceptions.InvalidNameException;
 import exceptions.InvalidQueryException;
 import facades.Tablr;
 import sql.SQLParser;
-import sql.SQLParser.ParseException;
 
 public class TablesModeUI extends UI {
 	

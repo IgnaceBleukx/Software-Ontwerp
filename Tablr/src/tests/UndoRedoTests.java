@@ -116,7 +116,7 @@ public class UndoRedoTests {
 		t.removeColumn(table0, 1);
 		
 		//Undo the removing of column1
-		t.undo();	
+		t.undo();
 		assertEquals(3,t.getColumns(table0).size());
 		assertTrue(t.getColumns(table0).contains(column0));
 		assertTrue(t.getColumns(table0).contains(column1));
@@ -246,7 +246,7 @@ public class UndoRedoTests {
 		//Redo the value change
 		t.redo();
 
-		assertEquals("Column", column0.getName());
+		assertEquals("Column0", column0.getName());
 		assertEquals("newValue",t.getValueString(column0, 0));
 	}
 	
