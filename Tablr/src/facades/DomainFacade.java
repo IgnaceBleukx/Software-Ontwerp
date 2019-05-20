@@ -45,6 +45,15 @@ public class DomainFacade {
 	public void addTable(Table table) {
 		this.tables.add(table);
 	}
+	
+	/**
+	 * This method adds a table to the current list of tables at a given index.
+	 * @param table 	The table to be added to the list of tables.
+	 * @param index 	The index on which the table must be added.
+	 */
+	private void addTableAt(Table table, int index) {
+		tables.add(index, table);
+	}
 
 	/**
 	 * Adds an empty table to the list of tables
@@ -74,18 +83,16 @@ public class DomainFacade {
 	 * @param table		Table to remove
 	 */
 	public void removeTable(Table table) {		
-		try {
-			execute(new Command() {
-				public void execute() { 		
-					getTablesPure().remove(table);
-				}
-				public void undo() { 
-					addTable(table); 
-				}
-			});
-		} catch (InvalidNameException e) {
-			throw new RuntimeException("InvalidNameException while removing table");
-		}
+		int index = tables.indexOf(table);
+		execute(new Command() {
+			public void execute() { 		
+				getTablesPure().remove(table);
+			}
+			public void undo() { 
+				addTableAt(table,index); 
+			}
+		});
+		
 	}
 
 	/**
@@ -207,7 +214,7 @@ public class DomainFacade {
 			}
 			
 			public void undo() { 
-				table.addColumn(column);
+				table.addColumnAt(column, index);
 			}	
 		});
 	}

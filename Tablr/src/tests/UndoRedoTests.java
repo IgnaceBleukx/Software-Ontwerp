@@ -45,7 +45,10 @@ public class UndoRedoTests {
 		//Undo the removing of table1
 		t.undo();
 		assertEquals(3,t.getTables().size());
+		assertTrue(t.getTables().contains(table0));
 		assertTrue(t.getTables().contains(table1));
+		assertTrue(t.getTables().contains(table2));
+		assertEquals(1,t.getTables().indexOf(table1));
 		
 		//Redo the removing of table1
 		t.redo();

@@ -132,6 +132,10 @@ public abstract class Table {
 		this.columns.add(column);
 	}
 	
+	public void addColumnAt(Column column, int index) {
+		this.columns.add(index,column);
+	}
+	
 	/**
 	 * Clones this table
 	 */
