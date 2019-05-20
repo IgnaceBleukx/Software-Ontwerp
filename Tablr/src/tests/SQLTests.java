@@ -91,7 +91,7 @@ public class SQLTests {
 	}
 	
 	@Test
-	public void testWHERE() throws InvalidNameException {
+	public void testWHERE() throws InvalidNameException, InvalidQueryException {
 		ArrayList<Table> tables = createTables1();
 		Query q = new Query();
 		TableSpec s = new SimpleTableSpec("Table1","Table1");
@@ -113,7 +113,7 @@ public class SQLTests {
 	}
 	
 	@Test
-	public void testWHERE2() throws InvalidNameException {
+	public void testWHERE2() throws InvalidNameException, InvalidQueryException {
 		TableSpec s = new SimpleTableSpec("Table1","t");
 		HashMap<String,String> alias = new HashMap<String,String>();
 		alias.put("Table1", "Table1");
