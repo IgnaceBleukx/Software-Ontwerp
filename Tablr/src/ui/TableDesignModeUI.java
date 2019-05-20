@@ -252,8 +252,6 @@ public class TableDesignModeUI extends UI {
 			colName.addSingleClickListener(() -> colName.select());
 			
 			colName.addKeyboardListener(-1,() -> {	
-				//TODO: if a column name is referred to in 
-				//a query, only the original name is valid!
 				if (colName.getText().length() == 0) {
 					colName.isError(); 
 					return;
