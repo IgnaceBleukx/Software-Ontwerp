@@ -53,7 +53,7 @@ public class CellIDExpression extends Expression<Object> {
 			return c.getName().equals(tableName+"."+colName);
 		})
 		.findFirst().
-		orElseThrow(() -> new RuntimeException("No column "+ colName + "in table"));
+		orElseThrow(() -> new RuntimeException("No column "+ colName + " in table"));
 		return col.getValueAt(rowNb);
 	}
 	

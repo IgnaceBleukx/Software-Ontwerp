@@ -160,7 +160,46 @@ public class SQLTests {
 		assertEquals(newTable.getColumns().get(0).getValueAt(3),11);
 	}
 	
+	@Test
+	public void testAND() throws InvalidNameException, InvalidQueryException {
+		ArrayList<Table> tables = createTables1();
+		String query = "SELECT t.colA AS a FROM Table1 AS t WHERE (t.colA >5 AND t.colA < 10)";
+		Query q = SQLParser.parseQuery(query);
+		ComputedTable t = QueryExecutor.executeQuery(q, tables);
+		t.printTable();
+	}
 	
+	@Test
+	public void testExampleMovies () throws InvalidNameException, InvalidQueryException {
+		ArrayList<Table> tables = createExampleTablesMovie();
+		String query = "SELECT movie.title AS title FROM movies AS movie WHERE movie.imdb_score > 7";
+	    Query q = SQLParser.parseQuery(query);
+	    Table table = QueryExecutor.executeQuery(q, tables);
+	    table.printTable();
+	    assertEquals("Star Wars",table.getColumns().get(0).getValueAt(0));
+	    assertEquals("WALL.E", table.getColumns().get(0).getValueAt(1));
+	}
+	
+	@Test
+	public void testExampleStudent() throws InvalidNameException, InvalidQueryException {
+		ArrayList<Table> tables = createExampleTablesStudents();
+		String query = "SELECT student.name AS name, student.program AS program "+
+						"FROM enrollments AS enrollment INNER JOIN students AS student "+
+						"ON enrollment.student_id = student.student_id "+
+						"WHERE enrollment.course_id = \"SWOP\"";
+		Query q = SQLParser.parseQuery(query);
+		Table table = QueryExecutor.executeQuery(q, tables);
+		table.printTable();
+		assertEquals("Piet",table.getColumns().get(0).getValueAt(0));
+		assertEquals("Joris",table.getColumns().get(0).getValueAt(1));
+		assertEquals("Korneel",table.getColumns().get(0).getValueAt(2));
+		assertEquals("Schakeljaar Toegepaste Informatica",table.getColumns().get(1).getValueAt(0));
+		assertEquals("Informatica",table.getColumns().get(1).getValueAt(1));
+		assertEquals("Fysica",table.getColumns().get(1).getValueAt(2));
+		assertEquals("name",table.getColumnNames().get(0));
+		assertEquals("program",table.getColumnNames().get(1));
+
+	}
 	
 	@Test
 	public void testQueryNoWhere() throws InvalidNameException, InvalidQueryException {
@@ -199,6 +238,102 @@ public class SQLTests {
 		myCW.getTablr().getTables().stream().forEach((t) -> t.printTable());
 	}
 	
+	/**
+	 * Creates a list of Tables containing two Tables:
+	 * Table1
+	 *	colA colB 
+	 *    7   1
+	 *    8   2
+	 *    9   1
+	 *   11   2
+	 *
+	 * Table2
+	 * colC colD 
+	 *    1  -1
+	 *    1  -2
+	 *    2  -4
+	 *    2  -5
+	 * @throws InvalidNameException Will never happen with well-defined tables.
+	 */
+	public ArrayList<Table> createTables1() throws InvalidNameException {
+	
+		//
+		//Table1
+		//colA colB 
+		//   7   1
+		//   8   2
+		//   9   1
+		//  11   2
+	
+		//Table2
+		//colC colD 
+		//   1  -1
+		//   1  -2
+		//   2  -4
+		//   2  -5
+		StoredTable table1 = new StoredTable("Table1");
+		StoredTable table2 = new StoredTable("Table2");
+		
+		Column colA = new Column("colA",null,Type.INTEGER, 0);
+		Column colB = new Column("colB",null,Type.INTEGER, 0);
+		Column colC = new Column("colC",null,Type.INTEGER, 0);
+		Column colD = new Column("colD",null,Type.INTEGER, 0);
+		
+		Cell<Integer> CellA11 = new Cell<Integer>(7);
+		Cell<Integer> CellA12 = new Cell<Integer>(1);
+		Cell<Integer> CellA21 = new Cell<Integer>(8);
+		Cell<Integer> CellA22 = new Cell<Integer>(2);
+		Cell<Integer> CellA31 = new Cell<Integer>(9);
+		Cell<Integer> CellA32 = new Cell<Integer>(1);
+		Cell<Integer> CellA41 = new Cell<Integer>(11);
+		Cell<Integer> CellA42 = new Cell<Integer>(2);
+		
+		
+		Cell<Integer> CellB11 = new Cell<Integer>(1);
+		Cell<Integer> CellB12 = new Cell<Integer>(-1);
+		Cell<Integer> CellB21 = new Cell<Integer>(1);
+		Cell<Integer> CellB22 = new Cell<Integer>(-2);
+		Cell<Integer> CellB31 = new Cell<Integer>(2);
+		Cell<Integer> CellB32 = new Cell<Integer>(-4);
+		Cell<Integer> CellB41 = new Cell<Integer>(2);
+		Cell<Integer> CellB42 = new Cell<Integer>(-5);
+		
+		colA.addCell(CellA11);
+		colA.addCell(CellA21);
+		colA.addCell(CellA31);
+		colA.addCell(CellA41);
+		
+		colB.addCell(CellA12);
+		colB.addCell(CellA22);
+		colB.addCell(CellA32);
+		colB.addCell(CellA42);
+		
+		colC.addCell(CellB11);
+		colC.addCell(CellB21);
+		colC.addCell(CellB31);
+		colC.addCell(CellB41);
+		
+		colD.addCell(CellB12);
+		colD.addCell(CellB22);
+		colD.addCell(CellB32);
+		colD.addCell(CellB42);
+		
+		ArrayList<Column> cols1 = new ArrayList<Column>();
+		cols1.add(colA);
+		cols1.add(colB);
+		ArrayList<Column> cols2 = new ArrayList<Column>();
+		cols2.add(colC);
+		cols2.add(colD);
+		
+		table1.addAllColumns(cols1);
+		table2.addAllColumns(cols2);
+		
+		ArrayList<Table> tables = new ArrayList<>();
+		tables.add(table1);
+		tables.add(table2);
+		return tables;
+	}
+
 	/**
 	 * Creates a list containing one Table:
 	 * 
@@ -288,102 +423,6 @@ public class SQLTests {
 	}
 	
 	/**
-	 * Creates a list of Tables containing two Tables:
-	 * Table1
-	 *	colA colB 
-	 *    7   1
-     *    8   2
-     *    9   1
-     *   11   2
-     *
-	 * Table2
-	 * colC colD 
-	 *    1  -1
-	 *    1  -2
-	 *    2  -4
-	 *    2  -5
-	 * @throws InvalidNameException Will never happen with well-defined tables.
-	 */
-	public ArrayList<Table> createTables1() throws InvalidNameException {
-
-		//
-		//Table1
-		//colA colB 
-		//   7   1
-		//   8   2
-		//   9   1
-		//  11   2
-
-		//Table2
-		//colC colD 
-		//   1  -1
-		//   1  -2
-		//   2  -4
-		//   2  -5
-		StoredTable table1 = new StoredTable("Table1");
-		StoredTable table2 = new StoredTable("Table2");
-		
-		Column colA = new Column("colA",null,Type.INTEGER, 0);
-		Column colB = new Column("colB",null,Type.INTEGER, 0);
-		Column colC = new Column("colC",null,Type.INTEGER, 0);
-		Column colD = new Column("colD",null,Type.INTEGER, 0);
-		
-		Cell<Integer> CellA11 = new Cell<Integer>(7);
-		Cell<Integer> CellA12 = new Cell<Integer>(1);
-		Cell<Integer> CellA21 = new Cell<Integer>(8);
-		Cell<Integer> CellA22 = new Cell<Integer>(2);
-		Cell<Integer> CellA31 = new Cell<Integer>(9);
-		Cell<Integer> CellA32 = new Cell<Integer>(1);
-		Cell<Integer> CellA41 = new Cell<Integer>(11);
-		Cell<Integer> CellA42 = new Cell<Integer>(2);
-		
-		
-		Cell<Integer> CellB11 = new Cell<Integer>(1);
-		Cell<Integer> CellB12 = new Cell<Integer>(-1);
-		Cell<Integer> CellB21 = new Cell<Integer>(1);
-		Cell<Integer> CellB22 = new Cell<Integer>(-2);
-		Cell<Integer> CellB31 = new Cell<Integer>(2);
-		Cell<Integer> CellB32 = new Cell<Integer>(-4);
-		Cell<Integer> CellB41 = new Cell<Integer>(2);
-		Cell<Integer> CellB42 = new Cell<Integer>(-5);
-		
-		colA.addCell(CellA11);
-		colA.addCell(CellA21);
-		colA.addCell(CellA31);
-		colA.addCell(CellA41);
-		
-		colB.addCell(CellA12);
-		colB.addCell(CellA22);
-		colB.addCell(CellA32);
-		colB.addCell(CellA42);
-		
-		colC.addCell(CellB11);
-		colC.addCell(CellB21);
-		colC.addCell(CellB31);
-		colC.addCell(CellB41);
-		
-		colD.addCell(CellB12);
-		colD.addCell(CellB22);
-		colD.addCell(CellB32);
-		colD.addCell(CellB42);
-		
-		ArrayList<Column> cols1 = new ArrayList<Column>();
-		cols1.add(colA);
-		cols1.add(colB);
-		ArrayList<Column> cols2 = new ArrayList<Column>();
-		cols2.add(colC);
-		cols2.add(colD);
-		
-		table1.addAllColumns(cols1);
-		table2.addAllColumns(cols2);
-		
-		ArrayList<Table> tables = new ArrayList<>();
-		tables.add(table1);
-		tables.add(table2);
-		return tables;
-	}
-
-	/**
 	 * Table:
 	 * colA	 colB    colC    	 colD
 	 *  1	 true  	 ""    "test@email.1.com"
@@ -432,6 +471,105 @@ public class SQLTests {
 		
 		return table;
 		
+	}
+	
+	/**
+	 * This method returns an arraylist of one table containing movie titles and imdb_scores
+	 * @return
+	 * @throws InvalidNameException
+	 */
+	public ArrayList<Table> createExampleTablesMovie() throws InvalidNameException{
+		ArrayList<Table> tables = new ArrayList<Table>();
+		Table movies = new StoredTable("movies");
+		ArrayList<Cell<?>> titles = new ArrayList<Cell<?>>();
+		titles.add(new Cell<String>("Star Wars"));
+		titles.add(new Cell<String>("Pulp Fiction"));
+		titles.add(new Cell<String>("Fight Club"));
+		titles.add(new Cell<String>("Avengers: The Endgame"));
+		titles.add(new Cell<String>("WALL.E"));
+		
+		ArrayList<Cell<?>> scores = new ArrayList<Cell<?>>();
+		scores.add(new Cell<Integer>(8));
+		scores.add(new Cell<Integer>(6));
+		scores.add(new Cell<Integer>(7));
+		scores.add(new Cell<Integer>(5));
+		scores.add(new Cell<Integer>(9));
+		
+		
+		Column title = new Column("title", titles, Type.STRING,"");
+		Column score = new Column("imdb_score", scores, Type.INTEGER,null);
+		
+		movies.addColumn(title);
+		movies.addColumn(score);
+		tables.add(movies);
+		return tables;
+	}
+	
+	/**
+	 * This method returns an array list with two tables, one containing student information and one containing enrollments information
+	 * @return
+	 */
+	public ArrayList<Table> createExampleTablesStudents(){
+		ArrayList<Table> tables = new ArrayList<Table>();
+		//First table
+		Table students = new StoredTable("students");
+		ArrayList<Cell<?>> studentNames =new ArrayList<Cell<?>>();
+		studentNames.add(new Cell<String>("Jan"));
+		studentNames.add(new Cell<String>("Piet"));
+		studentNames.add(new Cell<String>("Joris"));
+		studentNames.add(new Cell<String>("Korneel"));
+		Column studentStudendNames = new Column("name",studentNames,Type.STRING,"");
+		
+		ArrayList<Cell<?>> student_student_ids =new ArrayList<Cell<?>>();
+		student_student_ids.add(new Cell<Integer>(12345));
+		student_student_ids.add(new Cell<Integer>(23456));
+		student_student_ids.add(new Cell<Integer>(34567));
+		student_student_ids.add(new Cell<Integer>(45678));
+		Column studentStudentIds = new Column("student_id",student_student_ids,Type.INTEGER,null);
+		
+		ArrayList<Cell<?>> student_student_programs = new ArrayList<Cell<?>>();
+		student_student_programs.add(new Cell<String>("Informatica"));
+		student_student_programs.add(new Cell<String>("Schakeljaar Toegepaste Informatica"));
+		student_student_programs.add(new Cell<String>("Informatica"));
+		student_student_programs.add(new Cell<String>("Fysica"));
+		Column studentStudentPrograms = new Column("program",student_student_programs,Type.STRING,"");
+		
+		students.addColumn(studentStudentIds);
+		students.addColumn(studentStudendNames);
+		students.addColumn(studentStudentPrograms);
+		tables.add(students);
+		
+		//Second table
+		Table enrollments = new StoredTable("enrollments");
+		ArrayList<Cell<?>> enrollments_student_ids = new ArrayList<Cell<?>>();
+		enrollments_student_ids.add(new Cell<Integer>(23456));
+		enrollments_student_ids.add(new Cell<Integer>(45678));
+		enrollments_student_ids.add(new Cell<Integer>(23456));
+		enrollments_student_ids.add(new Cell<Integer>(34567));
+		enrollments_student_ids.add(new Cell<Integer>(12345));
+		enrollments_student_ids.add(new Cell<Integer>(12345));
+		enrollments_student_ids.add(new Cell<Integer>(45678));
+		enrollments_student_ids.add(new Cell<Integer>(23456));
+		enrollments_student_ids.add(new Cell<Integer>(12346));
+		Column enrollmentStudentIds = new Column("student_id",enrollments_student_ids,Type.INTEGER,null);
+		
+		ArrayList<Cell<?>> enrollments_course_ids = new ArrayList<Cell<?>>();
+		enrollments_course_ids.add(new Cell<String>("SWOP"));
+		enrollments_course_ids.add(new Cell<String>("BVP"));
+		enrollments_course_ids.add(new Cell<String>("AB"));
+		enrollments_course_ids.add(new Cell<String>("SWOP"));
+		enrollments_course_ids.add(new Cell<String>("BVP"));
+		enrollments_course_ids.add(new Cell<String>("AB"));
+		enrollments_course_ids.add(new Cell<String>("SWOP"));
+		enrollments_course_ids.add(new Cell<String>("BVP"));
+		enrollments_course_ids.add(new Cell<String>("SWOP"));
+		Column enrollmentsCourseIds = new Column("course_id",enrollments_course_ids, Type.STRING,"");
+		
+		enrollments.addColumn(enrollmentStudentIds);
+		enrollments.addColumn(enrollmentsCourseIds);
+		tables.add(enrollments);
+	
+		return tables;
 	}
 	
 }

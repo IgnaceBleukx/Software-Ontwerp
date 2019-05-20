@@ -143,6 +143,8 @@ public class Query {
 				//A column should be kept if:
 				//a columnSpec is tableNameAlias.columnName and 
 				//an alias tableNameAlias -> tableName exists.
+				DebugPrinter.print(tableNameAliases.get(spec.getCellID().getRowID())+"."+spec.getCellID().getcolumnName());
+				DebugPrinter.print(c.getName());
 				if ((tableNameAliases.get(spec.getCellID().getRowID())+"."+spec.getCellID().getcolumnName()).equals(c.getName())) {
 					//Keep column
 					newCols.add(c);
