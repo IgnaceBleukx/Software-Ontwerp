@@ -76,6 +76,7 @@ public class Query {
 		return this.columnSpecs;
 	}
 	
+	
 	public ComputedTable selectColumns(Table oldTable, HashMap<String,String> tableNameAliases) throws InvalidNameException {
 		ArrayList<Column> cols = oldTable.getColumns();
 		ArrayList<Column> newCols = new ArrayList<>();
