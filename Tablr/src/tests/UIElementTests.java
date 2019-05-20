@@ -2,6 +2,7 @@ package tests;
 
 import static org.junit.Assert.*;
 
+import java.awt.event.KeyEvent;
 import java.awt.event.MouseEvent;
 import java.io.File;
 import java.io.IOException;
@@ -20,7 +21,10 @@ import canvaswindow.CanvasWindow;
 import canvaswindow.MyCanvasWindow;
 import domain.Table;
 import facades.Tablr;
+import ui.FormsModeUI;
+import ui.TableDesignModeUI;
 import ui.TableRowsModeUI;
+import ui.TablesModeUI;
 
 public class UIElementTests {
 
@@ -751,6 +755,125 @@ public class UIElementTests {
 		assertEquals(30, col1Label.getX()-col1LabelX);
 		assertEquals(30, col0Input.getWidth()-col0InputWidth);
 		assertEquals(30, col1Input.getX()-col1InputX);
+		
+	}
+	
+	@Test
+	public void cloneTablesModeUI() {
+		//Load window
+		MyCanvasWindow myCW = new MyCanvasWindow("Tables Mode");
+		Tablr tablr = myCW.getTablr();
+		
+		//Create a new tables mode subwindow
+		myCW.handleKeyEvent(1, 17, ' ');
+		myCW.handleKeyEvent(1, 84, ' ');
+		//Resize the tables subwindow to a width of 400px
+		myCW.handleMouseEvent(MouseEvent.MOUSE_PRESSED,299,150,1);
+		myCW.handleMouseEvent(MouseEvent.MOUSE_DRAGGED, 399, 150, 1);
+				
+		TablesModeUI tablesMode1 = (TablesModeUI) tablr.getUIAt(100, 100);
+		//Create another tables mode subwindow
+		myCW.handleKeyEvent(1, 17, ' ');
+		myCW.handleKeyEvent(1, 84, ' ');
+		
+		assertEquals(2,tablr.getTablesModeUIs().size());
+		assertNotEquals(tablesMode1,tablr.getUIAt(100, 100));
+		assertEquals(400, tablr.getUIAt(100, 100).getWidth());
+	}
+	
+	@Test
+	public void cloneTableDesignModeUI() {
+		//Load window
+		MyCanvasWindow myCW = new MyCanvasWindow("Tables Mode");
+		Tablr tablr = myCW.getTablr();
+		
+		//Create a new tables mode subwindow
+		myCW.handleKeyEvent(1, 17, ' ');
+		myCW.handleKeyEvent(1, 84, ' ');
+		//Add a table
+		myCW.handleMouseEvent(MouseEvent.MOUSE_CLICKED, 100, 150,2);
+		//Open a first tables design mode window
+		myCW.handleMouseEvent(MouseEvent.MOUSE_CLICKED, 70, 50, 2);
+		//Close the tables mode window
+		myCW.handleMouseEvent(MouseEvent.MOUSE_CLICKED, 287, 11, 1);
+		
+		//Resize the tables design subwindow
+		myCW.handleMouseEvent(MouseEvent.MOUSE_PRESSED,302,150,1);
+		myCW.handleMouseEvent(MouseEvent.MOUSE_DRAGGED, 202, 150, 1);
+		TableDesignModeUI designMode = (TableDesignModeUI) tablr.getUIAt(400, 150);
+		
+		//Open another tables subwindow
+		myCW.handleKeyEvent(1, 17, ' ');
+		myCW.handleKeyEvent(1, 84, ' ');
+		//Open antoher tables design subwindow
+		myCW.handleMouseEvent(MouseEvent.MOUSE_CLICKED, 70, 50, 2);
+
+		assertEquals(2,tablr.getTableDesignUIs(tablr.getTables().get(0)).size());
+		assertNotEquals(designMode,tablr.getUIAt(400, 150));
+		assertEquals(400,tablr.getUIAt(400, 150).getWidth());
+	}
+
+	@Test
+	public void cloneTableRowsModeUI(){
+		//Load window
+		MyCanvasWindow myCW = new MyCanvasWindow("Tables Mode");
+		Tablr tablr = myCW.getTablr();
+		
+		//Create a new tables mode subwindow
+		myCW.handleKeyEvent(1, 17, ' ');
+		myCW.handleKeyEvent(1, 84, ' ');
+		//Add a table
+		myCW.handleMouseEvent(MouseEvent.MOUSE_CLICKED, 100, 150,2);
+		//Open a first tables design mode window
+		myCW.handleMouseEvent(MouseEvent.MOUSE_CLICKED, 70, 50, 2);
+		//Add a column to the table
+		myCW.handleMouseEvent(MouseEvent.MOUSE_CLICKED,400,250,2);
+		//Open a first table rows mode for the table
+		myCW.handleMouseEvent(MouseEvent.MOUSE_CLICKED, 70, 50, 2);
+		
+		//Resize the table rows subwindow
+		myCW.handleMouseEvent(MouseEvent.MOUSE_PRESSED, 301, 400, 1);
+		myCW.handleMouseEvent(MouseEvent.MOUSE_DRAGGED, 201, 400, 1);
+		TableRowsModeUI rowsMode = (TableRowsModeUI) tablr.getUIAt(400, 400);
+		//Open a second rowsMode for the table
+		myCW.handleMouseEvent(MouseEvent.MOUSE_CLICKED, 70, 50, 2);
+
+		assertEquals(2,tablr.getTableRowsUIs(tablr.getTables().get(0)).size());
+		assertNotEquals(rowsMode, tablr.getUIAt(400, 500));
+		assertEquals(400,tablr.getUIAt(400, 500).getWidth());
+	}
+	
+	@Test
+	public void cloneFormsModeUI() {
+		//Load window
+		MyCanvasWindow myCW = new MyCanvasWindow("Tables Mode");
+		Tablr tablr = myCW.getTablr();
+		
+		//Create a new tables mode subwindow
+		myCW.handleKeyEvent(1, 17, ' ');
+		myCW.handleKeyEvent(1, 84, ' ');
+		//Add a table
+		myCW.handleMouseEvent(MouseEvent.MOUSE_CLICKED, 100, 150,2);
+		//Open a first forms mode ui for the table
+		myCW.handleMouseEvent(MouseEvent.MOUSE_CLICKED, 25, 55, 1);
+		myCW.handleKeyEvent(1, 17, ' ');
+		myCW.handleKeyEvent(1, 70, ' ');
+		
+
+		//Resize the forms mode to a width of 400px
+		myCW.handleMouseEvent(MouseEvent.MOUSE_PRESSED,299,450,1);
+		myCW.handleMouseEvent(MouseEvent.MOUSE_DRAGGED, 399,450, 1);
+		FormsModeUI formsMode = (FormsModeUI) tablr.getUIAt(150, 500);
+		
+		//Open a second forms mode for the table
+		myCW.handleMouseEvent(MouseEvent.MOUSE_CLICKED, 25, 55, 1);
+		myCW.handleMouseEvent(MouseEvent.MOUSE_CLICKED, 25, 55, 1);
+		myCW.handleKeyEvent(1, 17, ' ');
+		myCW.handleKeyEvent(1, 70, ' ');
+		
+		assertEquals(2,tablr.getFormsModeUIs(tablr.getTables().get(0)).size());
+		assertNotEquals(formsMode, tablr.getUIAt(150, 500));
+		assertEquals(400, tablr.getUIAt(150, 500).getWidth());
 		
 	}
 	

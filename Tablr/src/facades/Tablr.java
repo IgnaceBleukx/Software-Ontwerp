@@ -467,6 +467,10 @@ public class Tablr {
 		return windowManager.getTableRowsUIs(table);
 	}
 	
+	public ArrayList<FormsModeUI> getFormsModeUIs(Table table){
+		return windowManager.getFormsModeUIs(table);
+	}
+	
 	public ArrayList<UI> getUIs(){
 		return windowManager.getUIs();
 	}
