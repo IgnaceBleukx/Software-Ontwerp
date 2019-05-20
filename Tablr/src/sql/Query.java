@@ -62,6 +62,10 @@ public class Query {
 		return (tableSpecs.findTableNameAliases());
 	}
 	
+	public ArrayList<String> tableNames(){
+		return (tableSpecs.getName());
+	}
+	
 	public TableSpec getTableSpecs() {
 		return this.tableSpecs;
 	}

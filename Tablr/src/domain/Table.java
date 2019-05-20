@@ -55,7 +55,7 @@ public abstract class Table {
 		queryReferenceTables.add(t);
 	}
 	
-	public void removeReference(ComputedTable t) throws Exception{
+	public void removeReference(ComputedTable t){
 		queryReferenceTables.remove(t);
 	}
 	
@@ -203,5 +203,10 @@ public abstract class Table {
 		System.out.println("");
 	}
 
+	/**
+	 * checks if any of the tables that reference this table are referencing a certain column
+	 * @param column: the column to check out
+	 * @return
+	 */
 	protected abstract boolean queryContainsColumn(Column column);
 }

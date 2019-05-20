@@ -14,6 +14,7 @@ import domain.Type;
 import exceptions.InvalidNameException;
 import exceptions.InvalidQueryException;
 import exceptions.InvalidTypeException;
+import sql.ColumnSpec;
 import sql.Query;
 import sql.QueryExecutor;
 import sql.SQLParser;
@@ -490,7 +491,7 @@ public class Tablr {
 	 * @throws InvalidQueryException 
 	 */
 	public void replaceTableFromQuery(String query, Table t) throws InvalidQueryException, InvalidNameException {
-		Query q = SQLParser.parseQuery(query);
+		Query q = SQLParser.parseQuery(query);		
 		ComputedTable newTable = QueryExecutor.executeQuery(q, getTables());
 		if (newTable == null)
 			return;
@@ -510,6 +511,8 @@ public class Tablr {
 		windowManager.addTableDesignModeUI(newTable, new TableDesignModeUI(300,0,300,300,this));
 		windowManager.addTableRowsModeUI(newTable, new TableRowsModeUI(300, 300, 300, 300, this));
 		windowManager.addFormModeUI(newTable,new FormsModeUI(0,300,300,300,this));
+		
+		domainFacade.addReferenceTables(newTable); //adds this table as a referencing table to the tables it requires
 		
 		domainChanged(newTable);
 	}
