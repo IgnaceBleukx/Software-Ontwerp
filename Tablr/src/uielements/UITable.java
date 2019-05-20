@@ -245,15 +245,6 @@ public class UITable extends UIElement {
 	}
 	
 	@Override
-	public boolean hasSelectedElement() {
-		if (this.isSelected()) return true;
-		for (UIElement e : getRows()){
-			if (e.hasSelectedElement()) return true;
-		}
-		return false;
-	}
-
-	@Override
 	public void move(int deltaX, int deltaY) {
 		setX(getX() + deltaX);
 		setY(getY() + deltaY);

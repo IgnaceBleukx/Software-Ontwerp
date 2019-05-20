@@ -355,14 +355,6 @@ public abstract class UIElement {
 			deselect();
 		}
 	}
-	
-	public boolean hasSelectedElement(){
-		return this.isSelected();
-	}
-	
-	public boolean hasElementInError(){
-		return this.getError();
-	}
 
 	private int grabPointX;
 	private int grabPointY;

@@ -166,18 +166,6 @@ public class ListView extends UIElement {
 		}
 		return this;		
 	}
-
-	/**
-	 * Checks if this ListView has a element that is currently selected.
-	 */
-	@Override
-	public boolean hasSelectedElement() {
-		if (this.isSelected()) return true;
-		for (UIElement e : getElements()){
-			if (e.hasSelectedElement()) return true;
-		}
-		return false;
-	}
 	
 	/**
 	 * Handles a single click by running all actions associated with it.
