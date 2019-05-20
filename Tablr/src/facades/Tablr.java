@@ -276,7 +276,6 @@ public class Tablr {
 	 */
 	public void changeCellValue(Column col, int i, String string) throws ClassCastException {
 		domainFacade.changeCellValue(col,i,string);
-		domainChanged(col.getTable());
 	}
 
 	/**
@@ -466,6 +465,10 @@ public class Tablr {
 	
 	public ArrayList<TableRowsModeUI> getTableRowsUIs(Table table) {
 		return windowManager.getTableRowsUIs(table);
+	}
+	
+	public ArrayList<FormsModeUI> getFormsModeUIs(Table table){
+		return windowManager.getFormsModeUIs(table);
 	}
 	
 	public ArrayList<UI> getUIs(){

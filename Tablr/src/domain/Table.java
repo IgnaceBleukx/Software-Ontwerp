@@ -49,7 +49,7 @@ public abstract class Table {
 	/**
 	 * a list of tables whose queries reference this table
 	 */
-	private ArrayList<ComputedTable> queryReferenceTables;
+	private ArrayList<ComputedTable> queryReferenceTables = new ArrayList<ComputedTable>();
 	
 	public void addReference(ComputedTable t) {
 		queryReferenceTables.add(t);

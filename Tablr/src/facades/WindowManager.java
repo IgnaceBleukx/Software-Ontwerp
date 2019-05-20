@@ -258,6 +258,11 @@ public class WindowManager {
 		if (selectedUI != null && selectedUI.containsPoint(x, y)) {
 			return selectedUI;
 		}
+		for (UI ui : UIHistory) {
+			DebugPrinter.print(ui +"-"+ ui.isActive());
+			if (ui.isActive() && ui.containsPoint(x,y)) 
+				return ui;
+		}
 		for (UI ui : getUIs()) {
 			DebugPrinter.print(ui +"-"+ ui.isActive());
 			if (ui.isActive() && ui.containsPoint(x,y)) 
@@ -265,6 +270,8 @@ public class WindowManager {
 		}
 		return null;
 	}
+	
+	private ArrayList<UI> UIHistory = new ArrayList<UI>();
 	
 	public void newSelected(UIElement e) {
 		getAllElements().stream().forEach(el -> el.selectElement(e));
@@ -326,12 +333,18 @@ public class WindowManager {
 	}
 	
 	public void selectUI(UI u) {
+		if (u != null && u.equals(selectedUI))
+			return;
 		if (u != null && !u.equals(selectedUI))
 			this.prevSelectedUI = selectedUI;
-		if (selectedUI != null)
+		if (selectedUI != null) {
 			selectedUI.deselect();
+		}
 		this.selectedUI = u;
-		if (u != null) u.select();
+		if (u != null) {
+			UIHistory.add(0,u);
+			u.select();
+		}
 	}
 	
 	/**
@@ -429,6 +442,7 @@ public class WindowManager {
 					DebugPrinter.print(activeUIs);
 					DebugPrinter.print("Multiple UI's for key "+(t==null ? "null" : t.getName())+", removing");
 					activeUIs.remove(ui);
+					UIHistory.remove(ui);
 				}
 				else {
 					DebugPrinter.print("One UI, no effect");
