@@ -276,7 +276,6 @@ public class Tablr {
 	 */
 	public void changeCellValue(Column col, int i, String string) throws ClassCastException {
 		domainFacade.changeCellValue(col,i,string);
-		domainChanged(col.getTable());
 	}
 
 	/**
