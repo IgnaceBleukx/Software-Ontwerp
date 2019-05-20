@@ -99,6 +99,11 @@ public class DomainFacade {
 		
 	}
 	
+
+	/**
+	 * Remove computed tables from the list of tables (extra functionality of references)
+	 * @param table		Table to remove
+	 */
 	public void removeTable(ComputedTable table) {		
 		int index = tables.indexOf(table);
 		execute(new Command() {
