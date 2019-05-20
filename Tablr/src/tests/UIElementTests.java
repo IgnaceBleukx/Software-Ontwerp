@@ -742,8 +742,8 @@ public class UIElementTests {
 		int col1InputX = col1Input.getX();
 		
 		//Drag the column0 dragger 30px to the right
-		myCW.handleMouseEvent(MouseEvent.MOUSE_PRESSED, 325, 325, 1);
-		myCW.handleMouseEvent(MouseEvent.MOUSE_DRAGGED, 355, 325, 1);
+		myCW.handleMouseEvent(MouseEvent.MOUSE_PRESSED, 425, 325, 1);
+		myCW.handleMouseEvent(MouseEvent.MOUSE_DRAGGED, 455, 325, 1);
 
 		snapShot(myCW,"rowsMode.png");
 		
