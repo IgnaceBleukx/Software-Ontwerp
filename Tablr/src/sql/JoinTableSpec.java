@@ -11,7 +11,19 @@ import domain.Table;
 import exceptions.InvalidNameException;
 import exceptions.InvalidQueryException;
 
+/**
+ * Creates a new JoinTableSpec.
+ * A JoinTableSpec specifies the JOIN of two tables on a certain condition,
+ * e.g. Table1 AS t1  JOIN Table2 AS t2 on t1.id = t2.id
+ */
 public class JoinTableSpec extends TableSpec {
+	/**
+	 * Creates a new JoinTableSpec
+	 * @param leftTable		Left table alias
+	 * @param rightTable	Right table alias
+	 * @param leftCell		left column name in join condition
+	 * @param rightCell		right column name in join condition
+	 */
 	public JoinTableSpec(TableSpec leftTable, SimpleTableSpec rightTable, 
 						 CellIDExpression leftCell, CellIDExpression rightCell) {
 		this.leftTable = leftTable;
@@ -28,22 +40,38 @@ public class JoinTableSpec extends TableSpec {
 	CellIDExpression leftCell;
 	CellIDExpression rightCell;
 	
+	/**
+	 * Returns the left table
+	 */
 	public TableSpec getLeftTable() {
 		return this.leftTable;
 	}
 	
+	/**
+	 * Returns the right table
+	 */
 	public SimpleTableSpec getRightTable() {
 		return this.rightTable;
 	}
 	
+	/**
+	 * Returns the left column of the join condition
+	 */
 	public CellIDExpression getLeftCell() {
 		return leftCell;
 	}
 	
+	
+	/**
+	 * Returns the right column of the join condition
+	 */
 	public CellIDExpression getRightCell() {
 		return rightCell;
 	}
 	
+	/**
+	 * Returns a string representation of this object
+	 */
 	public String toString() {
 		return "JoinTableSpec("+leftTable.toString()+" INNER JOIN "+rightTable.toString()
 				+" ON "+leftCell.toString()+" = "+rightCell.toString()+")";
@@ -67,7 +95,7 @@ public class JoinTableSpec extends TableSpec {
 
 	/**
 	 * Resolves this TableSpec into a Table
-	 * @throws InvalidQueryException 
+	 * @throws InvalidQueryException 	When a non-existing column was specified in the join condition
 	 * @throws InvalidNameException 
 	 */
 	@Override
@@ -85,22 +113,19 @@ public class JoinTableSpec extends TableSpec {
 		ArrayList<Column> columnsLeft = left.getColumns();
 		ArrayList<Column> columnsRight = right.getColumns();
 
-		
+		//Find left column
 		Column leftColumn = columnsLeft.
 							stream().
 							filter(c -> {
-								//DebugPrinter.print("Found: "+c.getName());
-								//DebugPrinter.print("Searching for: "+tableNameLeft+"."+columnNameLeft);
 								return c.getName().equals(tableNameLeft+"."+columnNameLeft);
 							})
 							.findFirst().
 							orElseThrow(() -> new InvalidQueryException("Unable to find column "+columnNameLeft+" in JOIN clause"));
 		
+		//Find right column
 		Column rightColumn = columnsRight.
 				stream().
 				filter(c -> {
-					//DebugPrinter.print("Found: "+c.getName());
-					//DebugPrinter.print("Searching for: "+tableNameRight+"."+columnNameRight);
 					return c.getName().equals(tableNameRight+"."+columnNameRight);
 				}).
 				findFirst().
@@ -116,11 +141,13 @@ public class JoinTableSpec extends TableSpec {
 					matches.add(new RowPair(i,j));
 				}
 				else {
-					//DebugPrinter.print("No match: "+leftColumn.getCells().get(i).getValue()+" and "+rightColumn.getCells().get(j).getValue());
+					
 				}
 			}
 		}
 		
+		//Create clones of the necessary columns, omitting one of 
+		//the columns used to join
 		ArrayList<Column> newColumns = new ArrayList<Column>();
 		columnsLeft.stream()
 				   .forEach((c) -> createDuplicateColumn(tableNameLeft,c, newColumns));
@@ -143,6 +170,10 @@ public class JoinTableSpec extends TableSpec {
 		return t;
 	}
 	
+	/**
+	 * Creates a list of columns for the new table. Used by resolve() because
+	 * Java doesn't allow catching exceptions while streaming.
+	 */
 	private void createDuplicateColumn(String tableName, Column c, ArrayList<Column> list) {
 		try {
 			if (c.getName().contains("."))
@@ -154,6 +185,9 @@ public class JoinTableSpec extends TableSpec {
 		}
 	}
 
+	/**
+	 * Returns a list containing the two names of the tables used
+	 */
 	@Override
 	public ArrayList<String> getName() {
 		ArrayList<String> l = new ArrayList<String>();
@@ -163,6 +197,11 @@ public class JoinTableSpec extends TableSpec {
 	}
 }
 
+/**
+ * Class containing pairs of integers (i1,i2).
+ * Used to combine rows while joining
+ *
+ */
 class RowPair {
 	public RowPair(int i1, int i2) {
 		this.i1 = i1;

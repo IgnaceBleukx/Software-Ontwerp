@@ -12,7 +12,18 @@ import domain.Table;
 import exceptions.InvalidNameException;
 import exceptions.InvalidQueryException;
 
+/**
+ * Class that contains all logic to execute a query.
+ *
+ */
 public class QueryExecutor {
+	/**
+	 * Executes a query
+	 * @param q							Query
+	 * @param tables					List of tables
+	 * @return							ComputedTable containing the result of the query
+	 * @throws InvalidQueryException	Error during execution of query
+	 */
 	public static ComputedTable executeQuery(Query q, ArrayList<Table> tables) throws InvalidQueryException, InvalidNameException {
 		//If an empty query was entered,
 		//return a null table

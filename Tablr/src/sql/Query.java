@@ -13,16 +13,29 @@ import exceptions.InvalidNameException;
 import exceptions.InvalidQueryException;
 import Utils.DebugPrinter;
 
-
+/**
+ * Class containing a Query object.
+ * A query as described consists of only three parts, as it only
+ * support SELECT, FROM and WHERE. Each part is set by the SQLParser.
+ * 
+ * columnSpecs: describes which columns to SELECT.
+ * tableSpecs: describes which tables to select FROM.
+ * expression: describes an expression that has to be true for all resulting rows.
+ *
+ * A Query also keeps a String representation of its SQL command.
+ */
 public class Query {
 	public Query() {
-		
 	}
+	
 	private ArrayList<ColumnSpec> columnSpecs = new ArrayList<ColumnSpec>();
 	private TableSpec tableSpecs;
 	private Expression<Boolean> expression;
 	private String sql;
 	
+	/**
+	 * Returns a string representation of this object
+	 */
 	public String toString() {
 		String columnSpecsStr = columnSpecs == null? "Null" : columnSpecs.toString();
 		String tableSpecsStr = tableSpecs == null? "Null" : tableSpecs.toString();
@@ -37,50 +50,90 @@ public class Query {
 				+ "		"+expressionStr +"\n";
 	}
 	
-
+	/**
+	 * Adds a column to the columnSpecs
+	 * @param columnSpec	ColumnSpecs of desired column
+	 */
 	public void addColumnSpec(ColumnSpec columnSpec) {
 		this.columnSpecs.add(columnSpec);
 	}
 	
+	/**
+	 * Sets the tableSpecs for this query
+	 * @param tableSpecs		TableSpec for the tables to select from
+	 */
 	public void setTableSpecs(TableSpec tableSpecs) {
 		this.tableSpecs = tableSpecs;
 	}
 	
+	/**
+	 * Sets the necessary expression
+	 * @param e		Expression
+	 */
 	public void setExpression(Expression e) {
 		this.expression = e;
 	}
 	
+	/**
+	 * Returns the SQL command this query was based on.
+	 */
 	public String toSQL() {
 		return sql;
 	}
 	
+	/**
+	 * Sets the SQL command this query was based on.
+	 */
 	public void setSQL(String sql) {
 		this.sql = sql;
 	}
 	
+	/**
+	 * Resolves any table name aliases into a map (alias->name)
+	 * based on AS phrases in the FROM part of the query.
+	 * @return		A map that can be indexed using an alias (e.g. t)
+	 * 				to find the real table name (e.g. Table0) from a clause
+	 * 				FROM Table0 AS t.
+	 */
 	public  HashMap<String,String> findTableNameAliases() {
 		return (tableSpecs.findTableNameAliases());
 	}
 	
+	/**
+	 * Returns all table names used in this query.
+	 */
 	public ArrayList<String> tableNames(){
 		return (tableSpecs.getName());
 	}
 	
+	/**
+	 * Returns the tableSpec of this query.
+	 */
 	public TableSpec getTableSpecs() {
 		return this.tableSpecs;
 	}
 
-
+	/**
+	 * Returns the table that is a result of the SELECT and JOIN operations
+	 * @param tables						List of tables 
+	 * @throws InvalidQueryException		See SimpleTableSpec::resolve and JoinTableSpec::resolve
+	 */
 	public Table resolveFrom(ArrayList<Table> tables) throws InvalidQueryException {
 		return tableSpecs.resolve(tables);
 	}
 	
-
+	/**
+	 * Returns the columnspecs of this query
+	 */
 	public ArrayList<ColumnSpec> getColumnSpecs() {
 		return this.columnSpecs;
 	}
 	
-	
+	/**
+	 * Selects a number of columns from a table based on columnspecs
+	 * @param oldTable				Initial table
+	 * @param tableNameAliases		Map (alias->name) of table name aliases
+	 */
 	public ComputedTable selectColumns(Table oldTable, HashMap<String,String> tableNameAliases) throws InvalidNameException {
 		ArrayList<Column> cols = oldTable.getColumns();
 		ArrayList<Column> newCols = new ArrayList<>();
@@ -88,16 +141,11 @@ public class Query {
 			for (ColumnSpec spec : getColumnSpecs()) {
 				//Given a columnSpec tableName.columnName,
 				//A column should be kept if:
-				//1. a columnSpec is tableName.columnName
-				//2. a columnSpec is tableNameAlias.columnName and 
-				//	 an alias tableNameAlias -> tableName exists.
-
-				//DebugPrinter.print("ColumnSpec: "+tableNameAliases.get(spec.getCellID().getRowID())+"."+spec.getCellID().getcolumnName());
-				//DebugPrinter.print("Column name: "+c.getName());
+				//a columnSpec is tableNameAlias.columnName and 
+				//an alias tableNameAlias -> tableName exists.
 				if ((tableNameAliases.get(spec.getCellID().getRowID())+"."+spec.getCellID().getcolumnName()).equals(c.getName())) {
 					//Keep column
 					newCols.add(c);
-					DebugPrinter.print(c.getName()+" added.");
 				}
 			}
 			
@@ -114,7 +162,14 @@ public class Query {
 
 	}
 	
-	public Table resolveWhere(Table table, HashMap<String, String> tableNames) {
+	/**
+	 * Removes any rows that do not fulfill the WHERE expression of this query
+	 * @param table						Initial table
+	 * @param tableNames				Map (alias->name) of table name aliases
+	 * @return							New Table where every rows fulfills the WHERE expression 
+	 * @throws InvalidQueryException 	Error when evaluating the expression on a certain row
+	 */
+	public Table resolveWhere(Table table, HashMap<String, String> tableNames) throws InvalidQueryException {
 		ArrayList<Integer> keep = new ArrayList<Integer>();
 		ArrayList<Table> t = new ArrayList<Table>(Arrays.asList(table));
 		for (int i=0;i < table.getRows();i++) {
