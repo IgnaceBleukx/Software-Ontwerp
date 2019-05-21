@@ -13,7 +13,7 @@ import java.util.function.BiConsumer;
 import javax.naming.CommunicationException;
 
 import Utils.GeometricUtils;
-
+import Utils.DebugPrinter;
 public class QueryTextField extends TextField {
 
 	/**
@@ -54,14 +54,17 @@ public class QueryTextField extends TextField {
 		g.setClip(new Rectangle(i[0],i[1],i[2],i[3]));
 		for (String word : words) {
 			g.setColor(Color.black);
-			if (sqlSyntax.contains(word.toUpperCase()))
+			if (sqlSyntax.contains(word))
 				g.setColor(Color.BLUE);
 			g.drawString(word, x, y);
 			x += metrics.stringWidth(word) + 3;
 		}
+		if (this.getText().endsWith(" ")){
+			x+= 3;
+		}
 		g.setColor(Color.BLACK);
 		if(isSelected())
-			g.drawString("<", x, y);
+			g.drawString("<", x-3, y);
 		g.setClip(oldClip);
 
 	}
