@@ -47,7 +47,7 @@ public abstract class Table {
 	public abstract String getQueryString();
 	
 	/**
-	 * a list of tables whose queries reference this table
+	 * A list of tables whose queries reference this table
 	 */
 	private ArrayList<ComputedTable> queryReferenceTables = new ArrayList<ComputedTable>();
 	

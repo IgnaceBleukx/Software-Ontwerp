@@ -501,7 +501,7 @@ public class Tablr {
 	
 	/**
 	 * Executes a query from a given SQL command.
-	 * Returns the table
+	 * Replaces the given table with a computated table containing the result of the query.
 	 * @throws InvalidNameException 
 	 * @throws InvalidQueryException 
 	 */
@@ -516,7 +516,6 @@ public class Tablr {
 		int index = getTables().indexOf(t);
 		newTable.setName(t.getName());
 		
-		Table oldTable = domainFacade.getTables().get(index);
 		domainFacade.replaceTable(index, newTable);
 		
 		//Closes any window that containing
@@ -540,12 +539,13 @@ public class Tablr {
 	public void tableChanged(Table changingTable, ComputedTable computed) throws InvalidNameException, InvalidQueryException {
 		for (int i = 0; i < changingTable.getReferences().size(); i++) {
 			ComputedTable toChange = changingTable.getReferences().get(i);
-			if(toChange == computed) {
+			if(toChange.equals(computed)) {
 				replaceTableFromQuery(toChange.getQueryString(), toChange);
 				removeTable(computed);
 			}
 		}		
 	}
+	
 
 	public void notifyKeyListener(int keyCode, char keyChar) {
 		windowManager.notifyKeyListener(keyCode, keyChar);
