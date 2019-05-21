@@ -282,10 +282,12 @@ public class DomainFacade {
 	 * @throws InvalidNameException 
 	 */
 	public void removeColumn(Table table, int index) {
+		DebugPrinter.print("Removing column");
 		ArrayList<ComputedTable> cTables = new ArrayList<ComputedTable>();
 		Column column = table.getColumns().get(index);
 		getTables().stream().filter(t -> t instanceof ComputedTable).forEach(t -> {
 			if (t.queryContainsColumn(column)){
+				DebugPrinter.print("Query contains column");
 				cTables.add((ComputedTable) t);
 			}
 		});
