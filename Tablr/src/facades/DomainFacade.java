@@ -113,14 +113,17 @@ public class DomainFacade {
 	 * Remove tables from the list of tables
 	 * @param table		Table to remove
 	 */
-	public void removeTable(Table table) {		
+	public void removeTable(StoredTable table) {		
 		int index = tables.indexOf(table);
+		ArrayList<ComputedTable> cTables = new ArrayList<ComputedTable>(table.getReferences());
 		execute(new Command() {
 			public void execute() { 		
+				cTables.stream().forEach(t -> tables.remove(t));
 				tables.remove(table);
 			}
 			public void undo() { 
-				addTableAt(table,index); 
+				addTableAt(table,index);
+				cTables.stream().forEach(t -> tables.add(t));
 			}
 		});
 		
