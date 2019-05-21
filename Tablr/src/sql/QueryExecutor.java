@@ -4,6 +4,7 @@ import java.awt.List;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
+import java.util.stream.Collectors;
 
 import Utils.DebugPrinter;
 import domain.Column;
@@ -29,6 +30,12 @@ public class QueryExecutor {
 		//return a null table
 		if (q == null)
 			return null;
+		
+		HashMap<Table, ArrayList<String>> columnNames = new HashMap<Table,ArrayList<String>>();
+		for (Table table : tables){
+			ArrayList<String> names = new ArrayList<String>(table.getColumnNames());
+			columnNames.put(table, names);
+		}
 		
 		//Order of execution:
 		//1. Get necessary tables (FROM+JOIN)
@@ -60,6 +67,13 @@ public class QueryExecutor {
 		t.printTable();
 		DebugPrinter.print("==== ");
 
+		//Restoring columns to original names
+		for(Table table : tables){
+			for (int i=0;i<table.getColumns().size();i++){
+				table.getColumns().get(i).setName(columnNames.get(table).get(i));
+			}
+		}
+		
 		return t2;
 	}
 	
