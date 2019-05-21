@@ -3,6 +3,7 @@ package facades;
 import java.awt.event.KeyEvent;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.function.Consumer;
 import java.util.stream.Collectors;
 
 import Utils.DebugPrinter;
@@ -49,7 +50,19 @@ public class DomainFacade {
 	 * @param table		Table to add
 	 */
 	public void addTable(Table table) {
-		this.tables.add(table);
+		execute(new Command() {			
+			public void execute() { 
+				tables.add(table);	
+				DebugPrinter.print(table); 
+			}
+	
+			public void undo() { 
+				tables.remove(table);
+			}
+			public String toString() {
+				return "AddTable";
+			}
+		});
 	}
 	
 	/**
@@ -58,7 +71,19 @@ public class DomainFacade {
 	 * @param index 	The index on which the table must be added.
 	 */
 	private void addTableAt(Table table, int index) {
-		tables.add(index, table);
+		execute(new Command() {			
+			public void execute() { 
+				tables.add(index, table);
+				DebugPrinter.print(table); 
+			}
+	
+			public void undo() { 
+				tables.remove(table);
+			}
+			public String toString() {
+				return "AddTableAt";
+			}
+		});
 	}
 
 	/**
@@ -70,7 +95,7 @@ public class DomainFacade {
 		
 		execute(new Command() {			
 			public void execute() { 		
-				addTable(table);
+				tables.add(table);
 				DebugPrinter.print(table); 
 			}
 	
@@ -93,8 +118,8 @@ public class DomainFacade {
 		ArrayList<ComputedTable> cTables = new ArrayList<ComputedTable>(table.getReferences());
 		execute(new Command() {
 			public void execute() { 		
-				getTablesPure().remove(table);
 				cTables.stream().forEach(t -> tables.remove(t));
+				tables.remove(table);
 			}
 			public void undo() { 
 				addTableAt(table,index);
@@ -104,6 +129,25 @@ public class DomainFacade {
 		
 	}
 	
+	/**
+	 * Remove tables from the list of tables
+	 * @param int		Index of table to remove
+	 */
+	public void removeTable(int index) {
+		Table table = tables.get(index);
+		if (table instanceof ComputedTable) {
+			removeTable((ComputedTable)table);
+			return;
+		}
+		execute(new Command() {
+			public void execute() { 		
+				tables.remove(table);
+			}
+			public void undo() { 
+				addTableAt(table,index); 
+			}
+		});
+	}
 
 	/**
 	 * Remove computed tables from the list of tables (extra functionality of references)
@@ -113,9 +157,9 @@ public class DomainFacade {
 		int index = tables.indexOf(table);
 		execute(new Command() {
 			public void execute() { 		
-				getTablesPure().remove(table);
+				tables.remove(table);
 				for (int i = 0; i < getTablesPure().size(); i++) {
-					getTablesPure().get(i).removeReference(table);
+					tables.get(i).removeReference(table);
 				}
 			}
 			public void undo() { 
@@ -541,7 +585,8 @@ public class DomainFacade {
 	}
 	
 	void replaceTable(int index, Table newTable) {
-		tables.set(index, newTable);
+		removeTable(index);
+		addTableAt(newTable, index);
 	}
 
 	/**
@@ -558,8 +603,4 @@ public class DomainFacade {
 			}
 		}
 	}
-
-	public void tableChanged(Table changingTable) {
-	}
-
 }

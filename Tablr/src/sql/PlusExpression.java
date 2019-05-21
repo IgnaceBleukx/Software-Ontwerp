@@ -12,29 +12,29 @@ import exceptions.InvalidQueryException;
  * two subexpressions
  *
  */
-public class PlusExpression extends Expression<Double> {
+public class PlusExpression extends Expression<Integer> {
 	/**
 	 * Creates a new PlusExpression
 	 * @param expression1 	Left subexpression
 	 * @param expression2	Right subexpression
 	 */
-	public PlusExpression(Expression<Double> expression1, Expression<Double> expression2) {
+	public PlusExpression(Expression<Integer> expression1, Expression<Integer> expression2) {
 		this.expression1 = expression1;
 		this.expression2 = expression2;
 	}
 	
-	private Expression<Double> expression1;
-	private Expression<Double> expression2;
+	private Expression<Integer> expression1;
+	private Expression<Integer> expression2;
 	
 	/**
 	 * Evaluates this SumExpression to the sum of its parts.
 	 */
-	public Double eval(ArrayList<Table> tables, int rowNb, HashMap<String,String> tableNames) throws InvalidQueryException {
-		double val1;
-		double val2;
+	public Integer eval(ArrayList<Table> tables, int rowNb, HashMap<String,String> tableNames) throws InvalidQueryException {
+		int val1;
+		int val2;
 		try {
-			val1 = (Double)expression1.eval(tables, rowNb, tableNames);
-			val2 = (Double)expression2.eval(tables, rowNb, tableNames);
+			val1 = (Integer)expression1.eval(tables, rowNb, tableNames);
+			val2 = (Integer)expression2.eval(tables, rowNb, tableNames);
 		} catch (ClassCastException e) {
 			throw new InvalidQueryException("Invalid types in for + operator");
 		}
