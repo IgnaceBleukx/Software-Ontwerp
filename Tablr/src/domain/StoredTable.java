@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 
 import javax.management.RuntimeErrorException;
-
+import Utils.DebugPrinter;
 import exceptions.InvalidNameException;
 import sql.ColumnSpec;
 import sql.Query;
@@ -98,6 +98,7 @@ public class StoredTable extends Table {
 
 	@Override
 	protected boolean queryContainsColumn(Column c) {
+		DebugPrinter.print(c.getName());
 		for (int i = 0; i < getReferences().size(); i++) {
 			ComputedTable t = getReferences().get(i);
 			Query q = t.getQuery();
@@ -105,7 +106,8 @@ public class StoredTable extends Table {
 			String tableAlias = tableNames.get(this.getName());
 			for(int j = 0; j < q.getColumnSpecs().size(); j++) {
 				ColumnSpec spec = q.getColumnSpecs().get(j);
-				if (spec.getCellID().getRowID() == tableAlias && spec.getCellID().getcolumnName() == c.getName()) {
+				DebugPrinter.print(spec);
+				if (spec.getCellID().getRowID().equals(tableAlias) && spec.getCellID().getcolumnName().equals(c.getName())) {
 					return true;
 				}
 			}
