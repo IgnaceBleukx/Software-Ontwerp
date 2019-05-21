@@ -107,9 +107,11 @@ public class TableRowsModeUI extends UI {
 			//Updating legend:
 			ArrayList<String> columnNames = getTablr().getColumnNames(table);
 			//Column added
-			
 			if (finalLegend.getElements().stream().filter(e -> !(e instanceof Dragger)).count() < columnNames.size()){
-				Text text = new Text(finalLegend.getEndX()-2,finalLegend.getY(),standardCellWidth,20,columnNames.get(columnNames.size()-1));
+				ArrayList<String> legendNames = new ArrayList<String>(finalLegend.getElements().stream().filter(e -> !(e instanceof Dragger)).map(e -> ((Text) e).getText()).collect(Collectors.toList()));
+				ArrayList<String> columnNamesCopy = new ArrayList<String>(columnNames);
+				columnNamesCopy.removeAll(legendNames);
+				Text text = new Text(finalLegend.getEndX()-2,finalLegend.getY(),standardCellWidth,20,columnNamesCopy.get(0));
 				Dragger drag = new Dragger(text.getEndX()-2,finalLegend.getY(),4,20);
 				finalLegend.addElement(text);
 				finalLegend.addElement(drag);
@@ -138,11 +140,10 @@ public class TableRowsModeUI extends UI {
 				DebugPrinter.print(finalLegend.getElements());
 			}
 			//Update columnnames
-			else {
-				for (int i=0;i<columnNames.size();i++) {
-					((Text) finalLegend.getElements().get(2*i)).setText(columnNames.get(i));
-				}
+			for (int i=0;i<columnNames.size();i++) {
+				((Text) finalLegend.getElements().get(2*i)).setText(columnNames.get(i));
 			}
+		
 			finalLegend.setWidth(finalLegend.getElements().stream().filter(e -> !(e instanceof Dragger)).mapToInt(e -> e.getWidth()).sum()+2);
 
 			addUIElement(loadTable(table, finalLegend));

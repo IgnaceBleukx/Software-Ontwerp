@@ -412,7 +412,7 @@ public class Tablr {
 	 * Called when the domain has changed. Runs all necessary actions.
 	 */
 	public void domainChanged(Table table){
-		DomainChangedListeners.stream().forEach(l -> l.accept(table));
+		new ArrayList<Consumer<Table>>(DomainChangedListeners).stream().forEach(l -> l.accept(table));
 	}
 	
 	/**

@@ -291,9 +291,9 @@ public class DomainFacade {
 			}
 		});
 		execute(new Command(){
-			Column column;
+			Column column = getColumns(table).get(index);
 			public void execute() { 
-				column = table.removeColumn(index);
+				table.removeColumn(index);
 				cTables.stream().forEach(t -> {
 					getTablesPure().remove(t);
 					for (int i = 0; i < getTablesPure().size(); i++) {
