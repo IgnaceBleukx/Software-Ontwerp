@@ -17,6 +17,7 @@ import exceptions.InvalidNameException;
 import exceptions.InvalidQueryException;
 import exceptions.InvalidTypeException;
 import facades.Tablr;
+import Utils.DebugPrinter;
 import domain.ComputedTable;
 
 public class DomainTests {
@@ -270,7 +271,7 @@ public class DomainTests {
 	public void ChangeColumnNameTableWithReferences(){
 		Tablr tablr = new Tablr();
 		tablr.addEmptyTable();
-		Table table = tablr.getTables().get(0);
+		StoredTable table = (StoredTable) tablr.getTables().get(0);
 		ArrayList<Cell<?>> c0Values = new ArrayList<Cell<?>>();
 		c0Values.add(new Cell<Integer>(1));
 		c0Values.add(new Cell<Integer>(2));
@@ -282,12 +283,11 @@ public class DomainTests {
 		try {
 			tablr.replaceTableFromQuery(SQLParser.parseQuery("SELECT t.Column0 AS c0 FROM Table0 AS t WHERE TRUE" ), secondTable);
 		} catch (InvalidNameException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		} catch (InvalidQueryException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
+		DebugPrinter.print("Changing Column name");
 		tablr.setColumnName(table.getColumns().get(0), "InvalidName");
 	}
 	
@@ -307,10 +307,8 @@ public class DomainTests {
 		try {
 			tablr.replaceTableFromQuery(SQLParser.parseQuery("SELECT t.Column0 AS c0 FROM Table0 AS t WHERE TRUE" ), secondTable);
 		} catch (InvalidNameException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		} catch (InvalidQueryException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		ComputedTable cTable = (ComputedTable) tablr.getTables().get(1);

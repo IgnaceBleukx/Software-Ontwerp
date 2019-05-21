@@ -239,7 +239,7 @@ public class TableDesignModeUI extends UI {
 			int i = index;
 			uiRow.addKeyboardListener(127,() -> {
 				
-				//TODO: remove computedtables with 
+				//TODO: remove computedtables with
 				//queries that refer to this column!
 				if(uiRow.isSelected()){
 					try {

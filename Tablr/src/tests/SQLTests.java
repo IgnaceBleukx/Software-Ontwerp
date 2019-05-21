@@ -15,16 +15,23 @@ import org.junit.Test;
 import canvaswindow.CanvasWindow;
 import canvaswindow.MyCanvasWindow;
 import Utils.DebugPrinter;
+import sql.ANDExpression;
 import sql.BooleanExpression;
+import sql.BracketExpression;
 import sql.CellIDExpression;
 import sql.ColumnSpec;
 import sql.EqualsExpression;
+import sql.GreaterThanExpression;
 import sql.JoinTableSpec;
+import sql.MinusExpression;
 import sql.NumberExpression;
+import sql.ORExpression;
+import sql.PlusExpression;
 import sql.Query;
 import sql.QueryExecutor;
 import sql.SQLParser;
 import sql.SimpleTableSpec;
+import sql.SmallerThanExpression;
 import sql.StringExpression;
 import sql.TableSpec;
 
@@ -166,7 +173,12 @@ public class SQLTests {
 		String query = "SELECT t.colA AS a FROM Table1 AS t WHERE (t.colA >5 AND t.colA < 10)";
 		Query q = SQLParser.parseQuery(query);
 		ComputedTable t = QueryExecutor.executeQuery(q, tables);
-		t.printTable();
+		//t.printTable();
+		assertEquals(3,t.getRows());
+		assertEquals(7,t.getColumns().get(0).getValueAt(0));
+		assertEquals(8,t.getColumns().get(0).getValueAt(1));
+		assertEquals(9,t.getColumns().get(0).getValueAt(2));
+
 	}
 	
 	@Test
@@ -175,7 +187,7 @@ public class SQLTests {
 		String query = "SELECT movie.title AS title FROM movies AS movie WHERE movie.imdb_score > 7";
 	    Query q = SQLParser.parseQuery(query);
 	    Table table = QueryExecutor.executeQuery(q, tables);
-	    table.printTable();
+	    //table.printTable();
 	    assertEquals("Star Wars",table.getColumns().get(0).getValueAt(0));
 	    assertEquals("WALL.E", table.getColumns().get(0).getValueAt(1));
 	}
@@ -189,7 +201,7 @@ public class SQLTests {
 						"WHERE enrollment.course_id = \"SWOP\"";
 		Query q = SQLParser.parseQuery(query);
 		Table table = QueryExecutor.executeQuery(q, tables);
-		table.printTable();
+		//table.printTable();
 		assertEquals("Piet",table.getColumns().get(0).getValueAt(0));
 		assertEquals("Joris",table.getColumns().get(0).getValueAt(1));
 		assertEquals("Korneel",table.getColumns().get(0).getValueAt(2));
@@ -231,13 +243,209 @@ public class SQLTests {
 		assertEquals(t.getColumns().get(1).getValueAt(0),1);
 	}
 	
+
 	@Test
-	public void testBasic() {
-		MyCanvasWindow myCW = new MyCanvasWindow("Test");
-		CanvasWindow.replayRecording("Tablr/recordings/Queries/test.test", myCW);
-		myCW.getTablr().getTables().stream().forEach((t) -> t.printTable());
+	public void testBasicArithmicExpression() throws InvalidQueryException {
+		//(7-(5+2)
+		NumberExpression n7 = new NumberExpression(7);
+		NumberExpression n5 = new NumberExpression(5);
+		NumberExpression n2 = new NumberExpression(2);
+		BracketExpression<Integer> ex = new BracketExpression<>(
+				new MinusExpression(n7, new PlusExpression(n5, n2)));
+		assertEquals(Integer.valueOf(0),ex.eval(null, 0, null));
+		
+		//7+5+2
+		PlusExpression ex2 = new PlusExpression(n7, new PlusExpression(n5,n2));
+		assertEquals(ex2.eval(null, 0, null),Integer.valueOf(14));
 	}
 	
+	@Test
+	public void testLogicalExpressions() throws InvalidQueryException {
+		//(true && false) || true
+		//Expected: true
+		BooleanExpression t = new BooleanExpression(true);
+		BooleanExpression f = new BooleanExpression(false);
+		ORExpression e = new ORExpression(new ANDExpression(t, f), t);
+		assertEquals(true,e.eval(null, 0, null));
+		
+		//(true || true) && false
+		//Expected: false
+		ANDExpression e2 = new ANDExpression(new ORExpression(t, t), f);
+		assertEquals(false, e2.eval(null, 0, null));
+	}
+	
+	@Test
+	public void testBasicCompareExpression() throws InvalidQueryException {
+		//7 > 5
+		NumberExpression n7 = new NumberExpression(7);
+		NumberExpression n5 = new NumberExpression(5);
+		assertTrue(new GreaterThanExpression(n7,n5).eval(null,0,null));
+		assertFalse(new SmallerThanExpression(n7, n5).eval(null, 0, null));
+	}
+	
+	@Test (expected = InvalidQueryException.class)
+	public void testInvalidCellIdType() throws InvalidNameException, InvalidQueryException {
+		ArrayList<Table> tables = createExampleTablesStudents();
+		Query q = SQLParser.parseQuery(
+				"SELECT students.student_id AS res FROM students AS students WHERE students.name > 7");
+		//name > 7 mag niet werken
+		QueryExecutor.executeQuery(q, tables);
+	}
+	
+	@Test 
+	public void testValidCellIdType() throws InvalidNameException, InvalidQueryException {
+		ArrayList<Table> tables = createExampleTablesStudents();
+		Query q = SQLParser.parseQuery(
+				"SELECT students.name AS res FROM students AS students WHERE students.name = \"Joris\"");
+		ComputedTable res = QueryExecutor.executeQuery(q, tables);
+		assertEquals(1, res.getRows());
+		assertEquals(1, res.getColumns().size());
+		assertEquals("Joris",(String)res.getColumns().get(0).getCells().get(0).getValue());
+	}
+	
+	@Test
+	public void testNestedJoinsSameTable() throws InvalidNameException, InvalidQueryException {
+		ArrayList<Table> tables = createExampleTablesStudents();
+		Query q = SQLParser.parseQuery(
+				"SELECT students1.name AS res FROM students AS students1 INNER JOIN students AS students2 ON students1.student_id = students2.student_id INNER JOIN students AS students3 ON students2.student_id = students3.student_id WHERE TRUE");
+		ComputedTable res = QueryExecutor.executeQuery(q, tables);
+		//res.printTable();
+		
+		assertEquals(4, res.getRows());
+		assertEquals(1, res.getColumns().size());
+		assertEquals("Jan",(String)res.getColumns().get(0).getCells().get(0).getValue());
+		assertEquals("Piet",(String)res.getColumns().get(0).getCells().get(1).getValue());
+		assertEquals("Joris",(String)res.getColumns().get(0).getCells().get(2).getValue());
+		assertEquals("Korneel",(String)res.getColumns().get(0).getCells().get(3).getValue());
+	}
+	
+	
+
+	
+	@Test
+	public void testSomeQueries() throws InvalidNameException, InvalidQueryException {
+		ArrayList<Table> tables = createExampleTablesStudents();
+		Query q = SQLParser.parseQuery(
+				"SELECT students.name AS name, students.program AS program, enrollments.course_id AS course_id FROM students AS students INNER JOIN enrollments AS enrollments ON students.student_id = enrollments.student_id WHERE TRUE");
+		ComputedTable res = QueryExecutor.executeQuery(q, tables);
+		//res.printTable();
+		
+		assertEquals(8,res.getRows());
+		assertEquals(3,res.getColumns().size());
+		assertEquals("Jan",res.getColumns().get(0).getCells().get(0).getValue());
+		assertEquals("Piet",res.getColumns().get(0).getCells().get(3).getValue());
+		assertEquals("Korneel",res.getColumns().get(0).getCells().get(6).getValue());
+		
+		assertEquals("BVP",res.getColumns().get(2).getCells().get(0).getValue());
+		assertEquals("AB",res.getColumns().get(2).getCells().get(3).getValue());
+		assertEquals("BVP",res.getColumns().get(2).getCells().get(6).getValue());
+
+	}
+	
+	@Test
+	public void testToStrings() {
+		//(true && false) || true
+		//Expected: true
+		BooleanExpression t = new BooleanExpression(true);
+		BooleanExpression f = new BooleanExpression(false);
+		ORExpression e = new ORExpression(new ANDExpression(t, f), t);
+		assertEquals(e.toString(),"OrExpression(ANDExpression(BooleanExpression(true) AND BooleanExpression(false)) OR BooleanExpression(true))");
+		
+		//(7-(5+2)
+		NumberExpression n7 = new NumberExpression(7);
+		NumberExpression n5 = new NumberExpression(5);
+		NumberExpression n2 = new NumberExpression(2);
+		BracketExpression<Integer> ex = new BracketExpression<>(
+				new MinusExpression(n7, new PlusExpression(n5, n2)));
+		assertEquals(ex.toString(),"BracketExpression(MinusExpression(NumberExpression(7) - PlusExpression(NumberExpression(5) + NumberExpression(2))))");
+		
+		//7 > 5, 7 < 5
+		GreaterThanExpression ex2 = new GreaterThanExpression(n7,n5);
+		SmallerThanExpression ex3 = new SmallerThanExpression(n7, n5);
+		assertEquals(ex2.toString(),"GreaterThanExpression(NumberExpression(7) > NumberExpression(5))");
+		assertEquals(ex3.toString(),"SmallerThanExpression(NumberExpression(7) < NumberExpression(5))");
+
+	}
+	
+	@Test
+	public void testCellIDExpressionMultipleTables() {
+		ArrayList<Table> tables = createExampleTablesStudents();
+		
+		//Manually renaming columns, this is how they would 
+		//appear during query execution
+		tables.get(0).getColumns().stream().forEach((c)->c.setName("students.students."+c.getName()));
+		HashMap<String,String> aliases  = new HashMap<>();
+		aliases.put("students", "students");
+		CellIDExpression e = new CellIDExpression("students", "name");
+		assertEquals("Jan", (String)e.eval(tables, 0, aliases));
+		assertEquals("Piet", (String)e.eval(tables, 1, aliases));
+		assertEquals("Joris", (String)e.eval(tables, 2, aliases));
+
+	}
+	
+	
+	
+//  ________________________________________________________
+//  ________________________________________________________
+//	  _____     _     _           
+//	  |_   _|_ _| |__ | | ___  ___ 
+//	    | |/ _` | '_ \| |/ _ \/ __|
+//	    | | (_| | |_) | |  __/\__ \
+//	    |_|\__,_|_.__/|_|\___||___/
+//  ________________________________________________________
+//  ________________________________________________________	
+	
+	/**
+	 * Table:
+	 * colA	 colB    colC    	 colD
+	 *  1	 true  	 ""    "test@email.1.com"
+	 *  null false "test2"        ""
+	 *  3	 null  "test3" "test@email.3.com"
+	 *	4	 null  "test4" "test@email.4.com"
+	 * @throws InvalidNameException 
+	 */
+	public Table createTableMixedTypes() throws InvalidNameException {
+		Cell<Integer> A1 = new Cell<Integer>(1);
+		Cell<Integer> A2 = new Cell<Integer>(null);
+		Cell<Integer> A3 = new Cell<Integer>(3);
+		Cell<Integer> A4 = new Cell<Integer>(4);
+		
+		Column colA = new Column("colA",new ArrayList<Cell<?>>(Arrays.asList(A1,A2,A3,A4)),Type.INTEGER,0);
+		
+		Cell<Boolean> B1 = new Cell<Boolean>(true);
+		Cell<Boolean> B2 = new Cell<Boolean>(false);
+		Cell<Boolean> B3 = new Cell<Boolean>(null);
+		Cell<Boolean> B4 = new Cell<Boolean>(null);
+		
+		Column colB = new Column("colB",new ArrayList<Cell<?>>(Arrays.asList(B1,B2,B3,B4)),Type.INTEGER,0);
+	
+		
+		Cell<String> C1 = new Cell<String>("");
+		Cell<String> C2 = new Cell<String>("test2");
+		Cell<String> C3 = new Cell<String>("test3");
+		Cell<String> C4 = new Cell<String>("test4");
+	
+		Column colC = new Column("colC",new ArrayList<Cell<?>>(Arrays.asList(C1,C2,C3,C4)),Type.INTEGER,0);
+	
+		Cell<String> D1 = new Cell<String>("test@email.1.com");
+		Cell<String> D2 = new Cell<String>("");
+		Cell<String> D3 = new Cell<String>("test@email.3.com");
+		Cell<String> D4 = new Cell<String>("test@email.4.com");
+		
+		Column colD = new Column("colD",new ArrayList<Cell<?>>(Arrays.asList(D1,D2,D3,D4)),Type.INTEGER,0);
+	
+		StoredTable table = new StoredTable("Table1");
+		table.addColumn(colA);
+		table.addColumn(colB);
+		table.addColumn(colC);
+		table.addColumn(colD);
+		
+		//table.printTable();
+		
+		return table;
+		
+	}
+
 	/**
 	 * Creates a list of Tables containing two Tables:
 	 * Table1
@@ -421,58 +629,7 @@ public class SQLTests {
 		tables.add(table1);
 		return tables;
 	}
-	
-	/**
-	 * Table:
-	 * colA	 colB    colC    	 colD
-	 *  1	 true  	 ""    "test@email.1.com"
-	 *  null false "test2"        ""
-	 *  3	 null  "test3" "test@email.3.com"
-	 *	4	 null  "test4" "test@email.4.com"
-	 * @throws InvalidNameException 
-	 */
-	public Table createTableMixedTypes() throws InvalidNameException {
-		Cell<Integer> A1 = new Cell<Integer>(1);
-		Cell<Integer> A2 = new Cell<Integer>(null);
-		Cell<Integer> A3 = new Cell<Integer>(3);
-		Cell<Integer> A4 = new Cell<Integer>(4);
-		
-		Column colA = new Column("colA",new ArrayList<Cell<?>>(Arrays.asList(A1,A2,A3,A4)),Type.INTEGER,0);
-		
-		Cell<Boolean> B1 = new Cell<Boolean>(true);
-		Cell<Boolean> B2 = new Cell<Boolean>(false);
-		Cell<Boolean> B3 = new Cell<Boolean>(null);
-		Cell<Boolean> B4 = new Cell<Boolean>(null);
-		
-		Column colB = new Column("colB",new ArrayList<Cell<?>>(Arrays.asList(B1,B2,B3,B4)),Type.INTEGER,0);
 
-		
-		Cell<String> C1 = new Cell<String>("");
-		Cell<String> C2 = new Cell<String>("test2");
-		Cell<String> C3 = new Cell<String>("test3");
-		Cell<String> C4 = new Cell<String>("test4");
-
-		Column colC = new Column("colC",new ArrayList<Cell<?>>(Arrays.asList(C1,C2,C3,C4)),Type.INTEGER,0);
-
-		Cell<String> D1 = new Cell<String>("test@email.1.com");
-		Cell<String> D2 = new Cell<String>("");
-		Cell<String> D3 = new Cell<String>("test@email.3.com");
-		Cell<String> D4 = new Cell<String>("test@email.4.com");
-		
-		Column colD = new Column("colD",new ArrayList<Cell<?>>(Arrays.asList(D1,D2,D3,D4)),Type.INTEGER,0);
-
-		StoredTable table = new StoredTable("Table1");
-		table.addColumn(colA);
-		table.addColumn(colB);
-		table.addColumn(colC);
-		table.addColumn(colD);
-		
-		table.printTable();
-		
-		return table;
-		
-	}
-	
 	/**
 	 * This method returns an arraylist of one table containing movie titles and imdb_scores
 	 * @return
@@ -504,10 +661,31 @@ public class SQLTests {
 		tables.add(movies);
 		return tables;
 	}
-	
+
 	/**
 	 * This method returns an array list with two tables, one containing student information and one containing enrollments information
-	 * @return
+	 * Table "students" 
+	 *   name        	  student_id	       program
+	 *    Jan				12345			Informatica
+	 *    Piet				23456		    Schakeljaar Toegepaste Informatica	
+	 *    Joris				34567			Informatica
+	 *    Korneel			45678			Fysica
+	 *    
+	 * Table "enrollments"
+	 *   student_id			 course_id
+	 *     23456			    SWOP
+	 *     45678				BVP
+	 *     23456				AB
+	 *     34567				SWOP
+	 *     12345				BVP
+	 *     12345				AB
+	 *     45678				SWOP
+	 *     23456				BVP
+	 *     12346				SWOP
+	 *     
+	 *    
+	 *   
+	 *      
 	 */
 	public ArrayList<Table> createExampleTablesStudents(){
 		ArrayList<Table> tables = new ArrayList<Table>();

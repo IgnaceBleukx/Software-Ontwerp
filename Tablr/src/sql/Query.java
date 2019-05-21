@@ -143,8 +143,8 @@ public class Query {
 				//A column should be kept if:
 				//a columnSpec is tableNameAlias.columnName and 
 				//an alias tableNameAlias -> tableName exists.
-				DebugPrinter.print(tableNameAliases.get(spec.getCellID().getRowID())+"."+spec.getCellID().getcolumnName());
-				DebugPrinter.print(c.getName());
+				//DebugPrinter.print(tableNameAliases.get(spec.getCellID().getRowID())+"."+spec.getCellID().getcolumnName());
+				//DebugPrinter.print(c.getName());
 				if ((tableNameAliases.get(spec.getCellID().getRowID())+"."+spec.getCellID().getcolumnName()).equals(c.getName())) {
 					//Keep column
 					newCols.add(c);
@@ -157,6 +157,9 @@ public class Query {
 		for (int i=0; i<getColumnSpecs().size(); i++) {
 			newCols.get(i).setName(getColumnSpecs().get(i).getName());
 		}
+		
+		int keep = getColumnSpecs().size();
+		newCols = new ArrayList<Column>(newCols.subList(0, keep));
 		
 		ComputedTable newTable = new ComputedTable("Result",this);
 		newTable.addAllColumns(newCols);

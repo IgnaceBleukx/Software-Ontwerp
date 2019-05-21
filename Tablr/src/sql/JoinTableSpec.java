@@ -117,6 +117,8 @@ public class JoinTableSpec extends TableSpec {
 		Column leftColumn = columnsLeft.
 							stream().
 							filter(c -> {
+								DebugPrinter.print("Found: "+c.getName());
+								DebugPrinter.print("Searching for: "+tableNameLeft+"."+columnNameLeft);
 								return c.getName().equals(tableNameLeft+"."+columnNameLeft);
 							})
 							.findFirst().
@@ -155,7 +157,7 @@ public class JoinTableSpec extends TableSpec {
 					.filter((c)->!c.getName().equals(tableNameRight+"."+columnNameRight))
 					.forEach((c) -> createDuplicateColumn(tableNameRight,c,newColumns));
 		
-		StoredTable t = new StoredTable("t");
+		StoredTable t = new StoredTable(left.getName());
 		t.addAllColumns(newColumns);
 		
 		//Build new table from the list of matches (i1,i2)
@@ -166,7 +168,7 @@ public class JoinTableSpec extends TableSpec {
 			newRow.addAll(rightCells);
 			t.addRow(newRow);
 		}
-		
+		DebugPrinter.print("End JOIN");
 		return t;
 	}
 	
