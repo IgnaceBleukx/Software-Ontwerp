@@ -16,6 +16,7 @@ import uielements.UIElement;
 import uielements.UIRow;
 import uielements.VoidElement;
 import domain.StoredTable;
+import domain.ComputedTable;
 import domain.Table;
 import exceptions.InvalidNameException;
 import exceptions.InvalidQueryException;
@@ -209,7 +210,10 @@ public class TablesModeUI extends UI {
 			deleteButton.addKeyboardListener(127, () -> {
 				if (currRow.isSelected() && list.getError() == false) {
 					list.removeElement((UIElement) currRow); //Remove row from ListView
-					tablr.removeTable(curr); //Remove table from list of tables
+					if(curr instanceof StoredTable)//Remove table from 
+						tablr.removeTable((StoredTable) curr);
+					if (curr instanceof ComputedTable)
+						tablr.removeTable((ComputedTable) curr);
 				}
 			});
 			

@@ -120,7 +120,7 @@ public class Tablr {
 	 * Removes a given table from the domain.
 	 * @param t		Table to delete.
 	 */
-	public void removeTable(Table t) {
+	public void removeTable(StoredTable t) {
 		domainFacade.removeTable(t);
 		windowManager.tableRemoved(t);
 		domainChanged(null);
@@ -537,6 +537,8 @@ public class Tablr {
 	}
 	
 	public void tableChanged(Table changingTable, ComputedTable computed) throws InvalidNameException, InvalidQueryException {
+		if (changingTable == null)
+			return;
 		for (int i = 0; i < changingTable.getReferences().size(); i++) {
 			ComputedTable toChange = changingTable.getReferences().get(i);
 			if(toChange.equals(computed)) {
