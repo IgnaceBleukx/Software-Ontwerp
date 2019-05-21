@@ -278,7 +278,7 @@ public class DomainTests {
 		c0Values.add(new Cell<Integer>(3));
 		c0Values.add(new Cell<Integer>(4));
 		table.addColumn(new Column("Column0",c0Values,Type.INTEGER,null));
-		
+		Column c = table.getColumns().get(0);
 		Table secondTable = tablr.addEmptyTable();
 		try {
 			tablr.replaceTableFromQuery(SQLParser.parseQuery("SELECT t.Column0 AS c0 FROM Table0 AS t WHERE TRUE" ), secondTable);
@@ -288,7 +288,7 @@ public class DomainTests {
 			e.printStackTrace();
 		}
 		DebugPrinter.print("Changing Column name");
-		tablr.setColumnName(table.getColumns().get(0), "InvalidName");
+		tablr.setColumnName(c, "InvalidName");
 	}
 	
 	@Test

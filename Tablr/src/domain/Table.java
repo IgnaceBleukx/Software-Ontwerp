@@ -147,10 +147,12 @@ public abstract class Table {
 	 */
 	public void addColumn(Column column) {
 		this.columns.add(column);
+		column.setTable(this);
 	}
 	
 	public void addColumnAt(Column column, int index) {
 		this.columns.add(index,column);
+		column.setTable(this);
 	}
 	
 	/**

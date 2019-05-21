@@ -538,7 +538,7 @@ public class Tablr {
 		domainChanged(newTable);
 	}
 	
-	public void tableChanged(Table changingTable, ComputedTable computed) throws InvalidNameException, InvalidQueryException {
+	private void tableChanged(Table changingTable, ComputedTable computed) throws InvalidNameException, InvalidQueryException {
 		if (changingTable == null)
 			return;
 		for (int i = 0; i < changingTable.getReferences().size(); i++) {
