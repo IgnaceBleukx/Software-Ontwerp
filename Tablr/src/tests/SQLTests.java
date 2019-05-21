@@ -16,15 +16,20 @@ import canvaswindow.CanvasWindow;
 import canvaswindow.MyCanvasWindow;
 import Utils.DebugPrinter;
 import sql.BooleanExpression;
+import sql.BracketExpression;
 import sql.CellIDExpression;
 import sql.ColumnSpec;
 import sql.EqualsExpression;
+import sql.GreaterThanExpression;
 import sql.JoinTableSpec;
+import sql.MinusExpression;
 import sql.NumberExpression;
+import sql.PlusExpression;
 import sql.Query;
 import sql.QueryExecutor;
 import sql.SQLParser;
 import sql.SimpleTableSpec;
+import sql.SmallerThanExpression;
 import sql.StringExpression;
 import sql.TableSpec;
 
@@ -505,9 +510,99 @@ public class SQLTests {
 		return tables;
 	}
 	
+	@Test
+	public void testBasicArithmicExpression() throws InvalidQueryException {
+		//(7-(5+2)
+		NumberExpression n7 = new NumberExpression(7);
+		NumberExpression n5 = new NumberExpression(5);
+		NumberExpression n2 = new NumberExpression(2);
+		BracketExpression<Integer> ex = new BracketExpression<>(
+				new MinusExpression(n7, new PlusExpression(n5, n2)));
+		assertEquals(Integer.valueOf(0),ex.eval(null, 0, null));
+		
+		//7+5+2
+		PlusExpression ex2 = new PlusExpression(n7, new PlusExpression(n5,n2));
+		assertEquals(ex2.eval(null, 0, null),Integer.valueOf(14));
+	}
+	
+	@Test
+	public void testBasicCompareExpression() throws InvalidQueryException {
+		//7 > 5
+		NumberExpression n7 = new NumberExpression(7);
+		NumberExpression n5 = new NumberExpression(5);
+		assertTrue(new GreaterThanExpression(n7,n5).eval(null,0,null));
+		assertFalse(new SmallerThanExpression(n7, n5).eval(null, 0, null));
+	}
+	
+	@Test (expected = InvalidQueryException.class)
+	public void testInvalidCellIdType() throws InvalidNameException, InvalidQueryException {
+		ArrayList<Table> tables = createExampleTablesStudents();
+		Query q = SQLParser.parseQuery(
+				"SELECT students.student_id AS res FROM students AS students WHERE students.name > 7");
+		//name > 7 mag niet werken
+		QueryExecutor.executeQuery(q, tables);
+	}
+	
+	@Test 
+	public void testValidCellIdType() throws InvalidNameException, InvalidQueryException {
+		ArrayList<Table> tables = createExampleTablesStudents();
+		Query q = SQLParser.parseQuery(
+				"SELECT students.name AS res FROM students AS students WHERE students.name = \"Joris\"");
+		ComputedTable res = QueryExecutor.executeQuery(q, tables);
+		assertEquals(1, res.getRows());
+		assertEquals(1, res.getColumns().size());
+		assertEquals("Joris",(String)res.getColumns().get(0).getCells().get(0).getValue());
+	}
+	
+	@Test
+	public void testNestedJoinsSameTable() throws InvalidNameException, InvalidQueryException {
+		ArrayList<Table> tables = createExampleTablesStudents();
+		Query q = SQLParser.parseQuery(
+				"SELECT students1.name AS res FROM students AS students1 INNER JOIN students AS students2 ON students1.student_id = students2.student_id INNER JOIN students AS students3 ON students2.student_id = students3.student_id WHERE TRUE");
+		ComputedTable res = QueryExecutor.executeQuery(q, tables);
+		res.printTable();
+		
+		assertEquals(4, res.getRows());
+		assertEquals(1, res.getColumns().size());
+		assertEquals("Joris",(String)res.getColumns().get(0).getCells().get(0).getValue());
+		assertEquals("Joris",(String)res.getColumns().get(1).getCells().get(0).getValue());
+		assertEquals("Joris",(String)res.getColumns().get(2).getCells().get(0).getValue());
+
+	}
+	
+	@Test
+	public void testNestedJoinsDifferentTable() throws InvalidNameException, InvalidQueryException {
+		ArrayList<Table> tables = createExampleTablesStudents();
+		Query q = SQLParser.parseQuery(
+				"SELECT students1.name AS res FROM students AS students1 INNER JOIN students AS students2 ON students1.student_id = students2.student_id INNER JOIN students AS students3 ON students2.student_id = students3.student_id WHERE students1.name = \"Joris\"");
+		ComputedTable res = QueryExecutor.executeQuery(q, tables);
+		res.printTable();
+	}
+	
 	/**
 	 * This method returns an array list with two tables, one containing student information and one containing enrollments information
-	 * @return
+	 * Table "students" 
+	 *   name        	  student_id	       program
+	 *    Jan				12345			Informatica
+	 *    Piet				23456		    Schakeljaar Toegepaste Informatica	
+	 *    Joris				34567			Informatica
+	 *    Korneel			45678			Fysica
+	 *    
+	 * Table "enrollments"
+	 *   student_id			 course_id
+	 *     23456			    SWOP
+	 *     45678				BVP
+	 *     23456				AB
+	 *     34567				SWOP
+	 *     12345				BVP
+	 *     12345				AB
+	 *     45678				SWOP
+	 *     23456				BVP
+	 *     12346				SWOP
+	 *     
+	 *    
+	 *   
+	 *      
 	 */
 	public ArrayList<Table> createExampleTablesStudents(){
 		ArrayList<Table> tables = new ArrayList<Table>();

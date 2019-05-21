@@ -57,7 +57,7 @@ public class QueryExecutor {
 		ComputedTable t2 = q.selectColumns(t, tableNames);
 		
 		DebugPrinter.print("==== Final table after SELECT: ");
-		t.printTable();
+		t2.printTable();
 		DebugPrinter.print("==== ");
 
 		return t2;
