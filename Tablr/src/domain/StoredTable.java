@@ -97,7 +97,7 @@ public class StoredTable extends Table {
 	}
 
 	@Override
-	protected boolean queryContainsColumn(Column c) {
+	public boolean queryContainsColumn(Column c) {
 		DebugPrinter.print(c.getName());
 		for (int i = 0; i < getReferences().size(); i++) {
 			ComputedTable t = getReferences().get(i);

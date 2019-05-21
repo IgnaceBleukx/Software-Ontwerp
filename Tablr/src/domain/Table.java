@@ -208,5 +208,5 @@ public abstract class Table {
 	 * @param column: the column to check out
 	 * @return
 	 */
-	protected abstract boolean queryContainsColumn(Column column);
+	public abstract boolean queryContainsColumn(Column column);
 }

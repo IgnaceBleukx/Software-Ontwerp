@@ -238,14 +238,31 @@ public class DomainFacade {
 	 * @throws InvalidNameException 
 	 */
 	public void removeColumn(Table table, int index) {
+		ArrayList<ComputedTable> cTables = new ArrayList<ComputedTable>();
+		Column column = table.getColumns().get(index);
+		getTables().stream().filter(t -> t instanceof ComputedTable).forEach(t -> {
+			if (t.queryContainsColumn(column)){
+				cTables.add((ComputedTable) t);
+			}
+		});
 		execute(new Command(){
 			Column column;
 			public void execute() { 
-				column = table.removeColumn(index); 
+				column = table.removeColumn(index);
+				cTables.stream().forEach(t -> {
+					getTablesPure().remove(table);
+					for (int i = 0; i < getTablesPure().size(); i++) {
+						getTablesPure().get(i).removeReference(t);
+					}
+				});
 			}
 			
 			public void undo() { 
 				table.addColumnAt(column, index);
+				cTables.stream().forEach(t -> {
+					tables.add(t);
+					addReferenceTables(t);
+				});
 			}	
 		});
 	}
@@ -489,8 +506,6 @@ public class DomainFacade {
 	
 	
 	// Command methods to fix undo and redo
-
-	
 	public interface Command {
 		void execute();
 		void undo();

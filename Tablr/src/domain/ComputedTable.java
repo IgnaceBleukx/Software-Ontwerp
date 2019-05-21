@@ -24,7 +24,7 @@ public class ComputedTable extends Table {
 	}
 
 	@Override
-	protected boolean queryContainsColumn(Column column) {
+	public boolean queryContainsColumn(Column column) {
 		return false;
 	}
 }
