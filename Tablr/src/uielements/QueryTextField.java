@@ -59,6 +59,9 @@ public class QueryTextField extends TextField {
 			g.drawString(word, x, y);
 			x += metrics.stringWidth(word) + 3;
 		}
+		
+//		String regex = "\\s+$";
+//		int diff = getText().length() - getText().replaceAll(regex, "").length();
 		if (this.getText().endsWith(" ")){
 			x+= 3;
 		}

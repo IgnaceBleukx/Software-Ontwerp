@@ -176,11 +176,11 @@ public class TablesModeUI extends UI {
 			currRow.addElement(queryLabel);
 			
 			queryLabel.addDeselectionListener(()-> {
-				DebugPrinter.print("Executing query");
 				for (UIElement e : getElements()){
 					if (e.getError()) return;
 				}
 				try {
+					DebugPrinter.print("Executing query");
 					tablr.replaceTableFromQuery(queryLabel.getText(), curr);
 				} catch (InvalidQueryException e3) {
 					DebugPrinter.print("Invalid query: ERROR");
@@ -266,6 +266,10 @@ public class TablesModeUI extends UI {
 			
 			//Listen for text input in query field
 			queryLabel.addKeyboardListener(-1,() ->{
+				if (queryLabel.getText().trim().length() == 0 && queryLabel.getText().length() != 0) {
+					queryLabel.isError();
+					return;
+				}
 				try {
 					SQLParser.parseQuery(queryLabel.getText());
 					if (queryLabel.getError())
