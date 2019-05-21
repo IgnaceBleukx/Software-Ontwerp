@@ -9,6 +9,7 @@ import java.util.HashMap;
 import domain.*;
 import exceptions.InvalidNameException;
 import exceptions.InvalidQueryException;
+import facades.Tablr;
 
 import org.junit.Test;
 
@@ -528,10 +529,14 @@ public class SQLTests {
 		
 		ArrayList<Column> cols1 = new ArrayList<Column>();
 		cols1.add(colA);
+		colA.setTable(table1);
 		cols1.add(colB);
+		colB.setTable(table1);
 		ArrayList<Column> cols2 = new ArrayList<Column>();
 		cols2.add(colC);
+		colC.setTable(table2);
 		cols2.add(colD);
+		colD.setTable(table2);
 		
 		table1.addAllColumns(cols1);
 		table2.addAllColumns(cols2);
