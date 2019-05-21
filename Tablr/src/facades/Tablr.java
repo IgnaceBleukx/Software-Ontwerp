@@ -529,9 +529,6 @@ public class Tablr {
 		domainFacade.addReferenceTables(newTable); //adds this table as a referencing table to the tables it requires
 		//add listener: if a table is changed, check if this computed table is built on that table and adjust if necessary.
 		addDomainChangedListener((Table changingTable) -> {try {
-			if (!this.getTables().contains(newTable)) {
-				return;
-			}
 			DebugPrinter.print(getTables());
 			DebugPrinter.print("Tablr contains newTable"); 
 			tableChanged(changingTable, newTable);
