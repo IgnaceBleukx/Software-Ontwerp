@@ -41,14 +41,14 @@ public class CellIDExpression extends Expression<Object> {
 			table = tables.get(0);
 			colName = columnName;
 		}
-		else {
+		else { 
 			table = tables.stream().filter(t -> t.getName().equals(rowID)).findFirst().orElseThrow(() -> new RuntimeException("Table " + rowID + "not found"));
 			colName = rowID+"."+columnName;
 		}
 		Column col = table.getColumns().stream().filter(c -> {
 			String tableName = tableNames.get(rowID);
-			DebugPrinter.print("Found: "+c.getName());
-			DebugPrinter.print("Searched for: "+tableName+"."+colName);
+			//DebugPrinter.print("Found: "+c.getName());
+			//DebugPrinter.print("Searched for: "+tableName+"."+colName);
 
 			return c.getName().equals(tableName+"."+colName);
 		})
