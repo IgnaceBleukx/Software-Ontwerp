@@ -7,13 +7,18 @@ import java.util.List;
 
 import org.junit.Test;
 
+import sqlparser.SQLParser;
 import domain.Cell;
 import domain.Column;
 import domain.StoredTable;
 import domain.Table;
 import domain.Type;
 import exceptions.InvalidNameException;
+import exceptions.InvalidQueryException;
 import exceptions.InvalidTypeException;
+import facades.Tablr;
+import Utils.DebugPrinter;
+import domain.ComputedTable;
 
 public class DomainTests {
 	
@@ -261,6 +266,56 @@ public class DomainTests {
 		assertEquals(null, Column.nextValueBoolean(false, true));
 		assertEquals(true, Column.nextValueBoolean(false, false));
 	}
+
+	@Test (expected = InvalidNameException.class)
+	public void ChangeColumnNameTableWithReferences(){
+		Tablr tablr = new Tablr();
+		tablr.addEmptyTable();
+		StoredTable table = (StoredTable) tablr.getTables().get(0);
+		ArrayList<Cell<?>> c0Values = new ArrayList<Cell<?>>();
+		c0Values.add(new Cell<Integer>(1));
+		c0Values.add(new Cell<Integer>(2));
+		c0Values.add(new Cell<Integer>(3));
+		c0Values.add(new Cell<Integer>(4));
+		table.addColumn(new Column("Column0",c0Values,Type.INTEGER,null));
+		
+		Table secondTable = tablr.addEmptyTable();
+		try {
+			tablr.replaceTableFromQuery(SQLParser.parseQuery("SELECT t.Column0 AS c0 FROM Table0 AS t WHERE TRUE" ), secondTable);
+		} catch (InvalidNameException e) {
+			e.printStackTrace();
+		} catch (InvalidQueryException e) {
+			e.printStackTrace();
+		}
+		DebugPrinter.print("Changing Column name");
+		tablr.setColumnName(table.getColumns().get(0), "InvalidName");
+	}
+	
+	@Test
+	public void RemoveTableWithReferences(){
+		Tablr tablr = new Tablr();
+		tablr.addEmptyTable();
+		StoredTable table = (StoredTable) tablr.getTables().get(0);
+		ArrayList<Cell<?>> c0Values = new ArrayList<Cell<?>>();
+		c0Values.add(new Cell<Integer>(1));
+		c0Values.add(new Cell<Integer>(2));
+		c0Values.add(new Cell<Integer>(3));
+		c0Values.add(new Cell<Integer>(4));
+		table.addColumn(new Column("Column0",c0Values,Type.INTEGER,null));
+		
+		StoredTable secondTable = tablr.addEmptyTable();
+		try {
+			tablr.replaceTableFromQuery(SQLParser.parseQuery("SELECT t.Column0 AS c0 FROM Table0 AS t WHERE TRUE" ), secondTable);
+		} catch (InvalidNameException e) {
+			e.printStackTrace();
+		} catch (InvalidQueryException e) {
+			e.printStackTrace();
+		}
+		ComputedTable cTable = (ComputedTable) tablr.getTables().get(1);
+		tablr.removeTable(table);
+		assertFalse(tablr.getTables().contains(cTable));
+	}
+
 }
 
 

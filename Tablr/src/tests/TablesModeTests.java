@@ -50,8 +50,6 @@ public class TablesModeTests {
 	
 	/**
 	 * use case 4.2: Edit table name
-	 * TODO: Laatste 4 lijnen werken nog niet
-	 * 
 	 */
 	@Test
 	public void useCase2() {

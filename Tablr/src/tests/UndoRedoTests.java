@@ -36,9 +36,9 @@ public class UndoRedoTests {
 	public void undoRedoRemoveTable() {
 		Tablr t = new Tablr();
 		//Add some tables
-		Table table0 = t.addEmptyTable();
-		Table table1 = t.addEmptyTable();
-		Table table2 = t.addEmptyTable();
+		StoredTable table0 = t.addEmptyTable();
+		StoredTable table1 = t.addEmptyTable();
+		StoredTable table2 = t.addEmptyTable();
 		//Rempove table 1
 		t.removeTable(table1);
 		
