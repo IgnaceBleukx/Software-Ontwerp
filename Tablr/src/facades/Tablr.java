@@ -501,7 +501,7 @@ public class Tablr {
 	
 	/**
 	 * Executes a query from a given SQL command.
-	 * Replaces the given table with a computated table containing the result of the query.
+	 * Returns the table
 	 * @throws InvalidNameException 
 	 * @throws InvalidQueryException 
 	 */
@@ -541,13 +541,11 @@ public class Tablr {
 			return;
 		for (int i = 0; i < changingTable.getReferences().size(); i++) {
 			ComputedTable toChange = changingTable.getReferences().get(i);
-			if(toChange.equals(computed)) {
+			if(toChange == computed) {
 				replaceTableFromQuery(toChange.getQueryString(), toChange);
-				removeTable(computed);
 			}
 		}		
 	}
-	
 
 	public void notifyKeyListener(int keyCode, char keyChar) {
 		windowManager.notifyKeyListener(keyCode, keyChar);
