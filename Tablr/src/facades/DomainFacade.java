@@ -96,7 +96,6 @@ public class DomainFacade {
 		execute(new Command() {			
 			public void execute() { 		
 				tables.add(table);
-				DebugPrinter.print(table); 
 			}
 	
 			public void undo() { 
@@ -296,7 +295,7 @@ public class DomainFacade {
 			public void execute() { 
 				column = table.removeColumn(index);
 				cTables.stream().forEach(t -> {
-					getTablesPure().remove(table);
+					getTablesPure().remove(t);
 					for (int i = 0; i < getTablesPure().size(); i++) {
 						getTablesPure().get(i).removeReference(t);
 					}

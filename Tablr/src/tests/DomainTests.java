@@ -292,7 +292,7 @@ public class DomainTests {
 	}
 	
 	@Test
-	public void RemoveTableWithReferences(){
+	public void removeTableWithReferences(){
 		Tablr tablr = new Tablr();
 		tablr.addEmptyTable();
 		StoredTable table = (StoredTable) tablr.getTables().get(0);
@@ -316,6 +316,32 @@ public class DomainTests {
 		assertFalse(tablr.getTables().contains(cTable));
 	}
 
+	@Test
+	public void removeColumnWithReferences() {
+		Tablr tablr = new Tablr();
+		tablr.addEmptyTable();
+		StoredTable table = (StoredTable) tablr.getTables().get(0);
+		ArrayList<Cell<?>> c0Values = new ArrayList<Cell<?>>();
+		c0Values.add(new Cell<Integer>(1));
+		c0Values.add(new Cell<Integer>(2));
+		c0Values.add(new Cell<Integer>(3));
+		c0Values.add(new Cell<Integer>(4));
+		table.addColumn(new Column("Column0",c0Values,Type.INTEGER,null));
+		
+		StoredTable secondTable = tablr.addEmptyTable();
+		try {
+			tablr.replaceTableFromQuery(SQLParser.parseQuery("SELECT t.Column0 AS c0 FROM Table0 AS t WHERE TRUE" ), secondTable);
+		} catch (InvalidNameException e) {
+			e.printStackTrace();
+		} catch (InvalidQueryException e) {
+			e.printStackTrace();
+		}
+		ComputedTable cTable = (ComputedTable) tablr.getTables().get(1);
+		tablr.removeColumn(table, 0);
+		assertEquals(1,tablr.getTables().size());
+		assertFalse(tablr.getTables().contains(cTable));
+	}
+	
 }
 
 

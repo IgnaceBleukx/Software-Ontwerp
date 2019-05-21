@@ -114,6 +114,10 @@ public class StoredTable extends Table {
 			}
 			
 		}
+		for(ComputedTable t : getReferences()) {
+			if (t.queryContainsColumn(c))
+				return true;
+		}
 		return false;
 	}
 }
