@@ -179,6 +179,8 @@ public class TablesModeUI extends UI {
 				for (UIElement e : getElements()){
 					if (e.getError()) return;
 				}
+				if (queryLabel.getText().trim().length()==0)
+					return;
 				try {
 					DebugPrinter.print("Executing query");
 					tablr.replaceTableFromQuery(queryLabel.getText(), curr);

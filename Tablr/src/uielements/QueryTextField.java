@@ -60,11 +60,13 @@ public class QueryTextField extends TextField {
 			x += metrics.stringWidth(word) + 3;
 		}
 		
-//		String regex = "\\s+$";
-//		int diff = getText().length() - getText().replaceAll(regex, "").length();
-		if (this.getText().endsWith(" ")){
-			x+= 3;
-		}
+		String regex = "\\s+$";
+		int diff = getText().length() - getText().replaceAll(regex, "").length();
+		x+= 3*diff;
+		
+		//		if (this.getText().endsWith(" ")){
+//			x+= 3;
+//		}
 		g.setColor(Color.BLACK);
 		if(isSelected())
 			g.drawString("<", x-3, y);
