@@ -147,10 +147,12 @@ public abstract class Table {
 	 */
 	public void addColumn(Column column) {
 		this.columns.add(column);
+		column.setTable(this);
 	}
 	
 	public void addColumnAt(Column column, int index) {
 		this.columns.add(index,column);
+		column.setTable(this);
 	}
 	
 	/**
@@ -208,5 +210,5 @@ public abstract class Table {
 	 * @param column: the column to check out
 	 * @return
 	 */
-	protected abstract boolean queryContainsColumn(Column column);
+	public abstract boolean queryContainsColumn(Column column);
 }

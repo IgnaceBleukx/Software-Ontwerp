@@ -26,6 +26,7 @@ import ui.TablesModeUI;
 import ui.UI;
 import uielements.ListView;
 import uielements.UIElement;
+import tests.SQLTests;
 
 /**
  * Class holding all methods that are used by UIs to modify the domain.
@@ -412,7 +413,8 @@ public class Tablr {
 	 * Called when the domain has changed. Runs all necessary actions.
 	 */
 	public void domainChanged(Table table){
-		DomainChangedListeners.stream().forEach(l -> l.accept(table));
+		new ArrayList<Consumer<Table>>(DomainChangedListeners).stream().forEach(l -> l.accept(table));
+		
 	}
 	
 	/**
@@ -483,11 +485,15 @@ public class Tablr {
 	}
 
 	public void undo(){
+		if (windowManager.getLockedElement() != null || windowManager.hasElementInError())
+			return;
 		domainFacade.undo();
 		domainChanged(null);
 	}
 	
 	public void redo(){
+		if (windowManager.getLockedElement() != null || windowManager.hasElementInError())
+			return;
 		domainFacade.redo();
 		domainChanged(null);
 	}
@@ -529,6 +535,8 @@ public class Tablr {
 		domainFacade.addReferenceTables(newTable); //adds this table as a referencing table to the tables it requires
 		//add listener: if a table is changed, check if this computed table is built on that table and adjust if necessary.
 		addDomainChangedListener((Table changingTable) -> {try {
+			DebugPrinter.print(getTables());
+			DebugPrinter.print("Tablr contains newTable"); 
 			tableChanged(changingTable, newTable);
 		} catch (InvalidNameException | InvalidQueryException e) {}
 		});
@@ -536,7 +544,10 @@ public class Tablr {
 		domainChanged(newTable);
 	}
 	
-	public void tableChanged(Table changingTable, ComputedTable computed) throws InvalidNameException, InvalidQueryException {
+	private void tableChanged(Table changingTable, ComputedTable computed) throws InvalidNameException, InvalidQueryException {
+		DebugPrinter.print("ChangingTable and ComputedTable ");
+		changingTable.printTable(); 
+		computed.printTable();
 		if (changingTable == null)
 			return;
 		for (int i = 0; i < changingTable.getReferences().size(); i++) {
@@ -550,6 +561,17 @@ public class Tablr {
 	public void notifyKeyListener(int keyCode, char keyChar) {
 		windowManager.notifyKeyListener(keyCode, keyChar);
 		
+	}
+	
+	public void loadSampleTables() {
+		ArrayList<Table> tables = domainFacade.loadSampleTables();
+		for (Table t: tables) {
+			windowManager.addTableRowsModeUI(t, new TableRowsModeUI(0, 300, 300, 300, this));
+			windowManager.addTableDesignModeUI(t, new TableDesignModeUI(0, 300, 300, 300, this));
+			windowManager.addFormModeUI(t, new FormsModeUI(0, 300, 300, 300, this));
+		}
+
+		domainChanged(null);
 	}
 	
 }

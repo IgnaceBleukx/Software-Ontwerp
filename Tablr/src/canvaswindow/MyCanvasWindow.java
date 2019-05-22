@@ -189,7 +189,17 @@ public class MyCanvasWindow extends CanvasWindow {
 		for (UIElement e : new ArrayList<UIElement>(ui.getElements())) {
 			try {
 				e.handleKeyboardEvent(keyCode, keyChar);
-				if (Character.isLetterOrDigit(keyChar) || keyCode == 8 || keyChar == '@' || keyChar == '.') {
+				if (Character.isLetterOrDigit(keyChar) || 
+						keyCode == 8 || 
+						keyChar == '@' || 
+						keyChar == '.' || 
+						keyChar == '=' || 
+						keyChar == '>' || 
+						keyChar == '<' ||
+						keyChar == ',' ||
+						keyChar == '=' ||
+						keyChar == '_' ||
+						keyChar == '"') {
 					e.handleKeyboardEvent(-1, Character.MIN_VALUE);
 				}
 				

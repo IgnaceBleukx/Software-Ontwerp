@@ -493,6 +493,13 @@ public class UI {
 	}
 	
 	/**
+	 * Deactivates the UI, meaning it will not be drawn on the canvas (but still stored)
+	 */
+	public void deactivate() {
+		active = false;
+	}
+	
+	/**
 	 * Deactivates this UI, meaning it will no longer be drawn on the canvas, but its contents will be preserved.
 	 */
 	public void terminate() {
@@ -628,6 +635,14 @@ public class UI {
 		elements.stream().forEach(e -> clonedElements.add(e.clone()));
 		clone.elements = clonedElements;
 		return clone;
+	}
+
+	public boolean getError() {
+		for (UIElement e : getElements()) {
+			if (e.getError())
+				return true;
+		}
+		return false;
 	}
 }
 

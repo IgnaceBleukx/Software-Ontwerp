@@ -153,6 +153,14 @@ public class TablesModeUI extends UI {
 			}
 		});
 		
+		//Ctrl+L loads sample tables from SQLTests
+		list.addKeyboardListener(76, () -> {
+			if (!getWindowManager().recentCtrl())
+				return;
+			tablr.loadSampleTables();
+			
+		});
+		
 		
 		int y = list.getY();
 		for (int i=0;i<tables.size();i++) { 
@@ -179,6 +187,8 @@ public class TablesModeUI extends UI {
 				for (UIElement e : getElements()){
 					if (e.getError()) return;
 				}
+				if (queryLabel.getText().trim().length()==0)
+					return;
 				try {
 					DebugPrinter.print("Executing query");
 					tablr.replaceTableFromQuery(queryLabel.getText(), curr);

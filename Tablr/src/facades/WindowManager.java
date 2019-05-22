@@ -46,20 +46,25 @@ public class WindowManager {
 //				}
 //			}
 //		});
-		keyListener.addKeyboardListener(85, () -> {
-			if (recentCtrl()) {
+		keyListener.addKeyboardListener(90, () -> {
+			if (recentCtrl() && recentShift()) {
+				DebugPrinter.print("REDO");
+				tablr.redo();
+			}
+			
+			else if (recentCtrl()) {
 				DebugPrinter.print("UNDO");
 				tablr.undo();
 			}
 
 			
 		});
-		keyListener.addKeyboardListener(82,() -> {
-			if (recentCtrl()) {
-				DebugPrinter.print("REDO");
-				tablr.redo();
-			}
-		});
+//		keyListener.addKeyboardListener(82,() -> {
+//			if (recentCtrl()) {
+//				DebugPrinter.print("REDO");
+//				tablr.redo();
+//			}
+//		});
 	}
 	
 	public Tablr getTablr() {
@@ -453,16 +458,44 @@ public class WindowManager {
 
 	/**
 	 * Called when a Table has been removed from the domain.
-	 * This removes all UIs depending on the removed tables.
+	 * This deactivates all UIs depending on the removed tables.
 	 * @param t
 	 */
-	public void tableRemoved(Table t) {
-		uis.remove(t);
+	public void tableRemoved(Table t) { //TODO: nu worden uis wel nooit meer gedelete, ook niet als de tabel definitief weg is (dwz undo zijn creation en dan new command). Solution ergens bij execute new command in domainfacade oplossen?
+		FormsModeUI ui = null;
+		ArrayList<FormsModeUI> formUIs = getFormsModeUIs(t);
+		ArrayList<TableRowsModeUI> rowUIs = getTableRowsUIs(t);
+		ArrayList<TableDesignModeUI> designUIs = getTableDesignModeUIs(t);
+		if (uis.isEmpty()) throw new RuntimeException("No FormModeUI for the table " + t);
+		for (FormsModeUI formMode : formUIs) {
+			if (formMode.isActive()) {
+				formMode.deactivate();
+			}
+		}
+		for (TableRowsModeUI rowMode : rowUIs) {
+			if (rowMode.isActive()) {
+				rowMode.deactivate();
+			}
+		}
+		for (TableDesignModeUI designMode : designUIs) {
+			if (designMode.isActive()) {
+				designMode.deactivate();
+			}
+		}
 	}
 
 	public void notifyKeyListener(int keyCode, char keyChar) {
 		keyListener.handleKeyboardEvent(keyCode, keyChar);
 		
+	}
+	
+	public boolean hasElementInError() {
+		for (UI ui : getUIs()) {
+			if (ui.getError()) {
+				return true;
+			}
+		}
+		return false;
 	}
 }
 

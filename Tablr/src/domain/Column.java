@@ -290,8 +290,8 @@ public class Column {
 	 * This method sets the table of the current column, as well as the table of all its containing cells.
 	 * @param table
 	 */
-	public void setTable(Table table) {
-		this.table = table;
+	public void setTable(Table t) {
+		this.table = t;
 	}
 	
 

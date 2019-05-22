@@ -19,6 +19,10 @@ import sql.ColumnSpec;
 import sql.Query;
 import sql.QueryExecutor;
 import sql.SQLParser;
+import tests.SQLTests;
+import ui.FormsModeUI;
+import ui.TableDesignModeUI;
+import ui.TableRowsModeUI;
 import ui.UI;
 
 /**
@@ -71,19 +75,8 @@ public class DomainFacade {
 	 * @param index 	The index on which the table must be added.
 	 */
 	private void addTableAt(Table table, int index) {
-		execute(new Command() {			
-			public void execute() { 
-				tables.add(index, table);
-				DebugPrinter.print(table); 
-			}
-	
-			public void undo() { 
-				tables.remove(table);
-			}
-			public String toString() {
-				return "AddTableAt";
-			}
-		});
+			tables.add(index, table);
+			DebugPrinter.print(table); 
 	}
 
 	/**
@@ -96,7 +89,6 @@ public class DomainFacade {
 		execute(new Command() {			
 			public void execute() { 		
 				tables.add(table);
-				DebugPrinter.print(table); 
 			}
 	
 			public void undo() { 
@@ -117,8 +109,10 @@ public class DomainFacade {
 		int index = tables.indexOf(table);
 		ArrayList<ComputedTable> cTables = new ArrayList<ComputedTable>(table.getReferences());
 		execute(new Command() {
-			public void execute() { 		
+			public void execute() {
+				DebugPrinter.print(table);
 				cTables.stream().forEach(t -> tables.remove(t));
+				DebugPrinter.print(table);
 				tables.remove(table);
 			}
 			public void undo() { 
@@ -282,14 +276,33 @@ public class DomainFacade {
 	 * @throws InvalidNameException 
 	 */
 	public void removeColumn(Table table, int index) {
+		DebugPrinter.print("Removing column");
+		ArrayList<ComputedTable> cTables = new ArrayList<ComputedTable>();
+		Column column = table.getColumns().get(index);
+		getTables().stream().filter(t -> t instanceof ComputedTable).forEach(t -> {
+			if (t.queryContainsColumn(column)){
+				DebugPrinter.print("Query contains column");
+				cTables.add((ComputedTable) t);
+			}
+		});
 		execute(new Command(){
-			Column column;
+			Column column = getColumns(table).get(index);
 			public void execute() { 
-				column = table.removeColumn(index); 
+				table.removeColumn(index);
+				cTables.stream().forEach(t -> {
+					getTablesPure().remove(t);
+					for (int i = 0; i < getTablesPure().size(); i++) {
+						getTablesPure().get(i).removeReference(t);
+					}
+				});
 			}
 			
 			public void undo() { 
 				table.addColumnAt(column, index);
+				cTables.stream().forEach(t -> {
+					tables.add(t);
+					addReferenceTables(t);
+				});
 			}	
 		});
 	}
@@ -533,8 +546,6 @@ public class DomainFacade {
 	
 	
 	// Command methods to fix undo and redo
-
-	
 	public interface Command {
 		void execute();
 		void undo();
@@ -587,5 +598,27 @@ public class DomainFacade {
 				table.addReference(ct);
 			}
 		}
+	}
+
+	public ArrayList<Table> loadSampleTables() {
+		ArrayList<Table> newTables = new ArrayList<>();
+		SQLTests t =  new SQLTests();
+		newTables.addAll(t.createExampleTablesMovie());
+		newTables.addAll(t.createExampleTablesStudents());
+		newTables.addAll(t.createTables1());
+		newTables.addAll(t.createTables2());
+		newTables.add(t.createTableMixedTypes());
+		
+		newTables.get(0).setName("Movies");
+		newTables.get(1).setName("Students");
+		newTables.get(2).setName("Enrollments");
+		newTables.get(3).setName("IntTable1");
+		newTables.get(4).setName("IntTable2");
+		newTables.get(5).setName("IntTable3");
+		newTables.get(6).setName("MixedTypes");
+		this.tables = newTables;
+		return newTables;
+
+		
 	}
 }
