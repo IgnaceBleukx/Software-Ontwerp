@@ -469,6 +469,15 @@ public class WindowManager {
 		keyListener.handleKeyboardEvent(keyCode, keyChar);
 		
 	}
+	
+	public boolean hasElementInError() {
+		for (UI ui : getUIs()) {
+			if (ui.getError()) {
+				return true;
+			}
+		}
+		return false;
+	}
 }
 
 
