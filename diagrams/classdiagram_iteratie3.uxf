@@ -1,0 +1,397 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<diagram program="umlet" version="14.3.0">
+  <zoom_level>7</zoom_level>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>301</x>
+      <y>7</y>
+      <w>259</w>
+      <h>490</h>
+    </coordinates>
+    <panel_attributes>Tablr
+--
+DomainChangedListeners: List&lt;Runnable&gt;
+
+TitleChangeRunnables: List&lt;Runnable&gt;
+Title: String
+--
+setActiveTable()
+addEmptyTable()
+getTables()
+getUIAt()
+removeTable()
+getTablesByName()
+addEmptyColumn()
+setColumnName()
+addRow()
+getColumnType()
+getColumnName()
+getSelectionLock()
+releaseSelectionLock()
+getLock()
+releaseLock()
+setColumnType()
+
+
+loadTableRowsModeUI()
+loadTableDesignModeUI()
+loadFormsModeUI()
+
+changeTitle()
+domainChanged()
+addDomainChangedListener()
+paint()
+getSelectedUI()
+selectUI()
+getLockedElement()
+
+controlPressed()
+shiftPressed()
+
+undo()
+redo()
+
+replaceTableFromQuery()
+
+</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>441</x>
+      <y>574</y>
+      <w>189</w>
+      <h>308</h>
+    </coordinates>
+    <panel_attributes>WindowManager
+--
+hardLockedElement: UIElement
+lockedSelectedElement: UIElement
+
+--
+addTableDesignModeUI()
+addTableRowsModeUI()
+addTablesModeUI()
+loadTableDesignModeUI()
+loadTableRowsModeUI()
+loadTablesModeUI()
+getUIs()
+clearUIAt()
+selectUI()
+selectNewUI()
+getLockedElement()
+selectElement()
+
+</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>217</x>
+      <y>574</y>
+      <w>189</w>
+      <h>252</h>
+    </coordinates>
+    <panel_attributes>DomainFacade
+--
+addEmptyTable()
+removeTable()
+setActiveTable()
+
+addRow()
+getRows()
+removeRow()
+addEmptyColumn()
+getColumns()
+getColumnNames()
+getDefaultValue()
+setColumnName()
+setColumnType()
+toggleBlanks()
+
+
+
+
+</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>483</x>
+      <y>490</y>
+      <w>42</w>
+      <h>98</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;-
+m1=1..1</panel_attributes>
+    <additional_attributes>10.0;120.0;10.0;10.0</additional_attributes>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>357</x>
+      <y>490</y>
+      <w>42</w>
+      <h>98</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;-
+m1=1..1</panel_attributes>
+    <additional_attributes>10.0;120.0;10.0;10.0</additional_attributes>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>0</x>
+      <y>644</y>
+      <w>70</w>
+      <h>28</h>
+    </coordinates>
+    <panel_attributes>Table
+</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>49</x>
+      <y>595</y>
+      <w>182</w>
+      <h>63</h>
+    </coordinates>
+    <panel_attributes>                  tables
+lt=&lt;-
+                
+m1=0..*
+</panel_attributes>
+    <additional_attributes>10.0;70.0;10.0;10.0;240.0;10.0</additional_attributes>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>63</x>
+      <y>644</y>
+      <w>168</w>
+      <h>35</h>
+    </coordinates>
+    <panel_attributes>activeTable
+lt=&lt;-
+m1=1..1</panel_attributes>
+    <additional_attributes>10.0;20.0;220.0;20.0</additional_attributes>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>784</x>
+      <y>574</y>
+      <w>175</w>
+      <h>182</h>
+    </coordinates>
+    <panel_attributes>UI
+--
+x: Int
+y: Int
+width: Int
+height: Int
+active: Boolean
+isSelected: Boolean
+--
+addUIElement()
+containsPoint()
+select()
+deselect()
+locatedAt()
+move()
+paint()
+resize()
+
+
+
+</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>553</x>
+      <y>343</y>
+      <w>280</w>
+      <h>245</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;-
+m1=1..1
+tablr</panel_attributes>
+    <additional_attributes>10.0;20.0;380.0;20.0;380.0;330.0</additional_attributes>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>623</x>
+      <y>623</y>
+      <w>175</w>
+      <h>35</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;-
+selectedUI
+m1=1..1</panel_attributes>
+    <additional_attributes>230.0;20.0;10.0;20.0</additional_attributes>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>721</x>
+      <y>812</y>
+      <w>133</w>
+      <h>49</h>
+    </coordinates>
+    <panel_attributes>TablesModeUI
+--
+loadUI()
+loadFromTables()</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>763</x>
+      <y>882</y>
+      <w>133</w>
+      <h>49</h>
+    </coordinates>
+    <panel_attributes>TableRowsModeUI
+--
+loadUI()
+loadTable()
+</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>833</x>
+      <y>959</y>
+      <w>133</w>
+      <h>56</h>
+    </coordinates>
+    <panel_attributes>TableDesignModeUI
+--
+loadUI()
+loadColumnAttributes()</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>805</x>
+      <y>749</y>
+      <w>21</w>
+      <h>77</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;&lt;-</panel_attributes>
+    <additional_attributes>10.0;10.0;10.0;90.0</additional_attributes>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>868</x>
+      <y>749</y>
+      <w>21</w>
+      <h>147</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;&lt;-</panel_attributes>
+    <additional_attributes>10.0;10.0;10.0;190.0</additional_attributes>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>931</x>
+      <y>749</y>
+      <w>21</w>
+      <h>224</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;&lt;-</panel_attributes>
+    <additional_attributes>10.0;10.0;10.0;300.0</additional_attributes>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>623</x>
+      <y>826</y>
+      <w>112</w>
+      <h>35</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;-
+m1=0..*
+tablesModeUIs</panel_attributes>
+    <additional_attributes>140.0;20.0;10.0;20.0</additional_attributes>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>581</x>
+      <y>875</y>
+      <w>196</w>
+      <h>56</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;-
+m1=0..*
+tableRowsModeUIs</panel_attributes>
+    <additional_attributes>260.0;50.0;10.0;50.0;10.0;10.0</additional_attributes>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>483</x>
+      <y>875</y>
+      <w>364</w>
+      <h>140</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;-
+m1=0..*
+tableDesignModeUIs</panel_attributes>
+    <additional_attributes>500.0;170.0;10.0;170.0;10.0;10.0</additional_attributes>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>1064</x>
+      <y>595</y>
+      <w>168</w>
+      <h>28</h>
+    </coordinates>
+    <panel_attributes>/UIElement/
+
+
+</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>952</x>
+      <y>595</y>
+      <w>126</w>
+      <h>35</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;-
+m1=0..*
+elements</panel_attributes>
+    <additional_attributes>160.0;20.0;10.0;20.0</additional_attributes>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>553</x>
+      <y>245</y>
+      <w>560</w>
+      <h>364</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;-
+tablr
+m1=1..1</panel_attributes>
+    <additional_attributes>10.0;20.0;780.0;20.0;780.0;500.0</additional_attributes>
+  </element>
+</diagram>

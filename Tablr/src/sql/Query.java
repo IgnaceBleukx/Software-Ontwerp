@@ -92,7 +92,7 @@ public class Query {
 	 * Resolves any table name aliases into a map (alias->name)
 	 * based on AS phrases in the FROM part of the query.
 	 * @return		A map that can be indexed using an alias (e.g. t)
-	 * 				to find the real table name (e.g. Table0) from a clause
+	 * 				to find the real table name (e.g. Table0) from Returns the columnspecs of this querya clause
 	 * 				FROM Table0 AS t.
 	 */
 	public  HashMap<String,String> findTableNameAliases() {

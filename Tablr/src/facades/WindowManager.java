@@ -461,7 +461,7 @@ public class WindowManager {
 	 * This deactivates all UIs depending on the removed tables.
 	 * @param t
 	 */
-	public void tableRemoved(Table t) { //TODO: nu worden uis wel nooit meer gedelete, ook niet als de tabel definitief weg is (dwz undo zijn creation en dan new command). Solution ergens bij execute new command in domainfacade oplossen?
+	public void tableRemoved(Table t) { 
 		FormsModeUI ui = null;
 		ArrayList<FormsModeUI> formUIs = getFormsModeUIs(t);
 		ArrayList<TableRowsModeUI> rowUIs = getTableRowsUIs(t);
@@ -483,7 +483,8 @@ public class WindowManager {
 			}
 		}
 	}
-
+	
+		
 	public void notifyKeyListener(int keyCode, char keyChar) {
 		keyListener.handleKeyboardEvent(keyCode, keyChar);
 		
