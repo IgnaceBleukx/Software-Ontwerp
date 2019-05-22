@@ -6,7 +6,6 @@ package sql;
  * e.g t.Column1 AS result.
  * In this example, t.Column1 is a CellIDExpression,
  * and result is a name given to the resulting column.
- * @author quinten
  *
  */
 public class ColumnSpec {
