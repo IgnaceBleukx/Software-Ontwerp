@@ -493,6 +493,13 @@ public class UI {
 	}
 	
 	/**
+	 * Deactivates the UI, meaning it will not be drawn on the canvas (but still stored)
+	 */
+	public void deactivate() {
+		active = false;
+	}
+	
+	/**
 	 * Deactivates this UI, meaning it will no longer be drawn on the canvas, but its contents will be preserved.
 	 */
 	public void terminate() {

@@ -197,7 +197,9 @@ public class MyCanvasWindow extends CanvasWindow {
 						keyChar == '>' || 
 						keyChar == '<' ||
 						keyChar == ',' ||
-						keyChar == '=') {
+						keyChar == '=' ||
+						keyChar == '_' ||
+						keyChar == '"') {
 					e.handleKeyboardEvent(-1, Character.MIN_VALUE);
 				}
 				
