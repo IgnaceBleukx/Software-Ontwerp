@@ -132,7 +132,8 @@ public class TextField extends UIElement {
 				|| keyChar == ' '
 				|| keyChar == '<'
 				|| keyChar == '>'
-				|| keyChar == ',') && isSelected()) {
+				|| keyChar == ','
+				|| keyChar == '=') && isSelected()) {
 			setText(getText()+keyChar);
 		}
 		
