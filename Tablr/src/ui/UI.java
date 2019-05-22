@@ -636,6 +636,14 @@ public class UI {
 		clone.elements = clonedElements;
 		return clone;
 	}
+
+	public boolean getError() {
+		for (UIElement e : getElements()) {
+			if (e.getError())
+				return true;
+		}
+		return false;
+	}
 }
 
 

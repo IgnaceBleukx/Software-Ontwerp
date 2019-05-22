@@ -485,11 +485,15 @@ public class Tablr {
 	}
 
 	public void undo(){
+		if (windowManager.getLockedElement() != null || windowManager.hasElementInError())
+			return;
 		domainFacade.undo();
 		domainChanged(null);
 	}
 	
 	public void redo(){
+		if (windowManager.getLockedElement() != null || windowManager.hasElementInError())
+			return;
 		domainFacade.redo();
 		domainChanged(null);
 	}
