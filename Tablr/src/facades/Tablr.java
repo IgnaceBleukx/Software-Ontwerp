@@ -414,6 +414,7 @@ public class Tablr {
 	 */
 	public void domainChanged(Table table){
 		new ArrayList<Consumer<Table>>(DomainChangedListeners).stream().forEach(l -> l.accept(table));
+		
 	}
 	
 	/**
@@ -484,14 +485,14 @@ public class Tablr {
 	}
 
 	public void undo(){
-		if (windowManager.getLockedElement() != null)
+		if (windowManager.getLockedElement() != null || windowManager.hasElementInError())
 			return;
 		domainFacade.undo();
 		domainChanged(null);
 	}
 	
 	public void redo(){
-		if (windowManager.getLockedElement() != null)
+		if (windowManager.getLockedElement() != null || windowManager.hasElementInError())
 			return;
 		domainFacade.redo();
 		domainChanged(null);
@@ -544,6 +545,9 @@ public class Tablr {
 	}
 	
 	private void tableChanged(Table changingTable, ComputedTable computed) throws InvalidNameException, InvalidQueryException {
+		DebugPrinter.print("ChangingTable and ComputedTable ");
+		changingTable.printTable(); 
+		computed.printTable();
 		if (changingTable == null)
 			return;
 		for (int i = 0; i < changingTable.getReferences().size(); i++) {
