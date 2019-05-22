@@ -75,19 +75,8 @@ public class DomainFacade {
 	 * @param index 	The index on which the table must be added.
 	 */
 	private void addTableAt(Table table, int index) {
-		execute(new Command() {			
-			public void execute() { 
-				tables.add(index, table);
-				DebugPrinter.print(table); 
-			}
-	
-			public void undo() { 
-				tables.remove(table);
-			}
-			public String toString() {
-				return "AddTableAt";
-			}
-		});
+			tables.add(index, table);
+			DebugPrinter.print(table); 
 	}
 
 	/**
@@ -120,8 +109,10 @@ public class DomainFacade {
 		int index = tables.indexOf(table);
 		ArrayList<ComputedTable> cTables = new ArrayList<ComputedTable>(table.getReferences());
 		execute(new Command() {
-			public void execute() { 		
+			public void execute() {
+				DebugPrinter.print(table);
 				cTables.stream().forEach(t -> tables.remove(t));
+				DebugPrinter.print(table);
 				tables.remove(table);
 			}
 			public void undo() { 
