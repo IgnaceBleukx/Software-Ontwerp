@@ -7,7 +7,6 @@ import java.util.List;
 
 import org.junit.Test;
 
-import sqlparser.SQLParser;
 import domain.Cell;
 import domain.Column;
 import domain.StoredTable;
@@ -281,7 +280,7 @@ public class DomainTests {
 		Column c = table.getColumns().get(0);
 		Table secondTable = tablr.addEmptyTable();
 		try {
-			tablr.replaceTableFromQuery(SQLParser.parseQuery("SELECT t.Column0 AS c0 FROM Table0 AS t WHERE TRUE" ), secondTable);
+			tablr.replaceTableFromQuery("SELECT t.Column0 AS c0 FROM Table0 AS t WHERE TRUE", secondTable);
 		} catch (InvalidNameException e) {
 			e.printStackTrace();
 		} catch (InvalidQueryException e) {
@@ -305,7 +304,7 @@ public class DomainTests {
 		
 		StoredTable secondTable = tablr.addEmptyTable();
 		try {
-			tablr.replaceTableFromQuery(SQLParser.parseQuery("SELECT t.Column0 AS c0 FROM Table0 AS t WHERE TRUE" ), secondTable);
+			tablr.replaceTableFromQuery("SELECT t.Column0 AS c0 FROM Table0 AS t WHERE TRUE", secondTable);
 		} catch (InvalidNameException e) {
 			e.printStackTrace();
 		} catch (InvalidQueryException e) {
@@ -330,7 +329,7 @@ public class DomainTests {
 		
 		StoredTable secondTable = tablr.addEmptyTable();
 		try {
-			tablr.replaceTableFromQuery(SQLParser.parseQuery("SELECT t.Column0 AS c0 FROM Table0 AS t WHERE TRUE" ), secondTable);
+			tablr.replaceTableFromQuery("SELECT t.Column0 AS c0 FROM Table0 AS t WHERE TRUE" , secondTable);
 		} catch (InvalidNameException e) {
 			e.printStackTrace();
 		} catch (InvalidQueryException e) {
