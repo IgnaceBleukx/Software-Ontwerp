@@ -153,6 +153,14 @@ public class TablesModeUI extends UI {
 			}
 		});
 		
+		//Ctrl+L loads sample tables from SQLTests
+		list.addKeyboardListener(76, () -> {
+			if (!getWindowManager().recentCtrl())
+				return;
+			tablr.loadSampleTables();
+			
+		});
+		
 		
 		int y = list.getY();
 		for (int i=0;i<tables.size();i++) { 

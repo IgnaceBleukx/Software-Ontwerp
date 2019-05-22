@@ -19,6 +19,10 @@ import sql.ColumnSpec;
 import sql.Query;
 import sql.QueryExecutor;
 import sql.SQLParser;
+import tests.SQLTests;
+import ui.FormsModeUI;
+import ui.TableDesignModeUI;
+import ui.TableRowsModeUI;
 import ui.UI;
 
 /**
@@ -603,5 +607,27 @@ public class DomainFacade {
 				table.addReference(ct);
 			}
 		}
+	}
+
+	public ArrayList<Table> loadSampleTables() {
+		ArrayList<Table> newTables = new ArrayList<>();
+		SQLTests t =  new SQLTests();
+		newTables.addAll(t.createExampleTablesMovie());
+		newTables.addAll(t.createExampleTablesStudents());
+		newTables.addAll(t.createTables1());
+		newTables.addAll(t.createTables2());
+		newTables.add(t.createTableMixedTypes());
+		
+		newTables.get(0).setName("Movies");
+		newTables.get(1).setName("Students");
+		newTables.get(2).setName("Enrollments");
+		newTables.get(3).setName("IntTable1");
+		newTables.get(4).setName("IntTable2");
+		newTables.get(5).setName("IntTable3");
+		newTables.get(6).setName("MixedTypes");
+		this.tables = newTables;
+		return newTables;
+
+		
 	}
 }

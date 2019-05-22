@@ -26,6 +26,7 @@ import ui.TablesModeUI;
 import ui.UI;
 import uielements.ListView;
 import uielements.UIElement;
+import tests.SQLTests;
 
 /**
  * Class holding all methods that are used by UIs to modify the domain.
@@ -552,6 +553,17 @@ public class Tablr {
 	public void notifyKeyListener(int keyCode, char keyChar) {
 		windowManager.notifyKeyListener(keyCode, keyChar);
 		
+	}
+	
+	public void loadSampleTables() {
+		ArrayList<Table> tables = domainFacade.loadSampleTables();
+		for (Table t: tables) {
+			windowManager.addTableRowsModeUI(t, new TableRowsModeUI(0, 300, 300, 300, this));
+			windowManager.addTableDesignModeUI(t, new TableDesignModeUI(0, 300, 300, 300, this));
+			windowManager.addFormModeUI(t, new FormsModeUI(0, 300, 300, 300, this));
+		}
+
+		domainChanged(null);
 	}
 	
 }
