@@ -39,7 +39,7 @@ public class UndoRedoTests {
 		StoredTable table0 = t.addEmptyTable();
 		StoredTable table1 = t.addEmptyTable();
 		StoredTable table2 = t.addEmptyTable();
-		//Rempove table 1
+		//Remove table 1
 		t.removeTable(table1);
 		assertEquals(2,t.getTables().size());
 		
@@ -51,7 +51,6 @@ public class UndoRedoTests {
 		assertTrue(t.getTables().contains(table2));
 		assertEquals(1,t.getTables().indexOf(table1));
 		
-		DebugPrinter.print(t.getTables());
 		//Redo the removing of table1
 		t.redo();
 		assertEquals(2,t.getTables().size());
