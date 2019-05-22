@@ -46,20 +46,25 @@ public class WindowManager {
 //				}
 //			}
 //		});
-		keyListener.addKeyboardListener(85, () -> {
-			if (recentCtrl()) {
+		keyListener.addKeyboardListener(90, () -> {
+			if (recentCtrl() && recentShift()) {
+				DebugPrinter.print("REDO");
+				tablr.redo();
+			}
+			
+			else if (recentCtrl()) {
 				DebugPrinter.print("UNDO");
 				tablr.undo();
 			}
 
 			
 		});
-		keyListener.addKeyboardListener(82,() -> {
-			if (recentCtrl()) {
-				DebugPrinter.print("REDO");
-				tablr.redo();
-			}
-		});
+//		keyListener.addKeyboardListener(82,() -> {
+//			if (recentCtrl()) {
+//				DebugPrinter.print("REDO");
+//				tablr.redo();
+//			}
+//		});
 	}
 	
 	public Tablr getTablr() {
