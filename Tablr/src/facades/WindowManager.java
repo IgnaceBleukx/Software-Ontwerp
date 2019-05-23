@@ -10,6 +10,7 @@ import java.util.Set;
 import java.util.stream.Collectors;
 
 import Utils.DebugPrinter;
+import domain.ComputedTable;
 import domain.StoredTable;
 import domain.Table;
 import exceptions.InvalidNameException;
@@ -463,7 +464,6 @@ public class WindowManager {
 	 * @param t
 	 */
 	public void tableRemoved(Table t) { 
-		FormsModeUI ui = null;
 		ArrayList<FormsModeUI> formUIs = getFormsModeUIs(t);
 		ArrayList<TableRowsModeUI> rowUIs = getTableRowsUIs(t);
 		ArrayList<TableDesignModeUI> designUIs = getTableDesignModeUIs(t);
@@ -498,6 +498,23 @@ public class WindowManager {
 			}
 		}
 		return false;
+	}
+
+	public void tableChanged(Table t, Table newTable) {
+		ArrayList<FormsModeUI> formUIs = getFormsModeUIs(t);
+		ArrayList<TableRowsModeUI> rowUIs = getTableRowsUIs(t);
+		ArrayList<TableDesignModeUI> designUIs = getTableDesignModeUIs(t);
+		if (uis.isEmpty()) throw new RuntimeException("No FormModeUI for the table " + t);
+		uis.remove(t);
+		uis.put(newTable, new ArrayList<UI>());
+		for (FormsModeUI formMode : formUIs) {
+			formMode.loadUI(newTable);
+			this.uis.get(newTable).add(formMode);
+		}
+		for (TableRowsModeUI rowMode : rowUIs) {
+			rowMode.loadUI(newTable);
+			this.uis.get(newTable).add(rowMode);
+		}
 	}
 }
 

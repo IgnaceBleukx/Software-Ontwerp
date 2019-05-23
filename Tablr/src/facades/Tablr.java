@@ -520,10 +520,9 @@ public class Tablr {
 		newTable.setName(t.getName());
 		
 		domainFacade.replaceTable(index,newTable);
-		windowManager.tableRemoved(t);
+		windowManager.tableChanged(t, newTable);
 		//Closes any window that containing
 		//values of the overwritten table.
-		windowManager.tableRemoved(t);
 		
 		windowManager.addTableDesignModeUI(newTable, new TableDesignModeUI(300,0,300,300,this));
 		windowManager.addTableRowsModeUI(newTable, new TableRowsModeUI(300, 300, 300, 300, this));
