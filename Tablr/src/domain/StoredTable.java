@@ -42,6 +42,34 @@ public class StoredTable extends Table {
 			return null;
 		}
  	}
+ 	
+
+	public void addColumnAt(Column column, int index) {
+		this.columns.add(index,column);
+		column.setTable(this);
+	}
+ 	
+	
+	
+	/**
+	 * This method adds a row with values to the bottom of the current table
+	 * @param values 	The values to add to fill the new row.
+	 */
+	public void addFilledRowAt(ArrayList<Object> values,int i) {
+		int index = 0;
+		for (Object v : values) {
+			getColumns().get(index++).addCellAt(new Cell(v),i);
+		}
+	}
+	
+	/**
+	 * Adds a given column to the table
+	 * @param column
+	 */
+	public void addColumn(Column column) {
+		this.columns.add(column);
+		column.setTable(this);
+	}
 
 	/**
 	 * This method returns the next standard column name for the current table.
@@ -98,7 +126,7 @@ public class StoredTable extends Table {
 	}
 	
 	/**
-	 * This method checks if any of the references contain the given column.
+	 * This method checks if any of the derived tables contain the given column.
 	 */
 	@Override
 	public boolean queryContainsColumn(Column c) {
@@ -121,7 +149,7 @@ public class StoredTable extends Table {
 //			}
 //			
 //		}
-		for(ComputedTable t : getDerivatives()) {
+		for(ComputedTable t : getDerivedTables()) {
 			if (t.queryContainsColumn(c))
 				return true;
 		}

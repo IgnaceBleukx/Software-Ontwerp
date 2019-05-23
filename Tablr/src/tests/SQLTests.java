@@ -642,7 +642,7 @@ public class SQLTests {
 	 */
 	public ArrayList<Table> createExampleTablesMovie() throws InvalidNameException{
 		ArrayList<Table> tables = new ArrayList<Table>();
-		Table movies = new StoredTable("movies");
+		StoredTable movies = new StoredTable("movies");
 		ArrayList<Cell<?>> titles = new ArrayList<Cell<?>>();
 		titles.add(new Cell<String>("Star Wars"));
 		titles.add(new Cell<String>("Pulp Fiction"));
@@ -695,7 +695,7 @@ public class SQLTests {
 	public ArrayList<Table> createExampleTablesStudents(){
 		ArrayList<Table> tables = new ArrayList<Table>();
 		//First table
-		Table students = new StoredTable("students");
+		StoredTable students = new StoredTable("students");
 		ArrayList<Cell<?>> studentNames =new ArrayList<Cell<?>>();
 		studentNames.add(new Cell<String>("Jan"));
 		studentNames.add(new Cell<String>("Piet"));
@@ -723,7 +723,7 @@ public class SQLTests {
 		tables.add(students);
 		
 		//Second table
-		Table enrollments = new StoredTable("enrollments");
+		StoredTable enrollments = new StoredTable("enrollments");
 		ArrayList<Cell<?>> enrollments_student_ids = new ArrayList<Cell<?>>();
 		enrollments_student_ids.add(new Cell<Integer>(23456));
 		enrollments_student_ids.add(new Cell<Integer>(45678));

@@ -183,7 +183,7 @@ public class Query {
 			}
 		}
 		
-		Table resolved = new StoredTable("t");
+		StoredTable resolved = new StoredTable("t");
 		for (Column c : table.getColumns()) {
 			ArrayList<Cell<?>> newVals = new ArrayList<Cell<?>>();
 			for (int index : keep) {

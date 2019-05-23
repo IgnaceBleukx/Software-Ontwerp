@@ -51,30 +51,35 @@ public abstract class Table {
 	 */
 	private ArrayList<ComputedTable> derivedTables = new ArrayList<ComputedTable>();
 	
-	public void addDerivative(ComputedTable t) {
+	public void addDerivedTable(ComputedTable t) {
 		derivedTables.add(t);
 	}
 	
-	public void removeDerivative(ComputedTable t){
+	public void removeDerivedTable(ComputedTable t){
 		derivedTables.remove(t);
 	}
 	
-	public ArrayList<ComputedTable> removeDerivatives() {
-		ArrayList<ComputedTable> references = new ArrayList<ComputedTable>(getDerivatives());
-		for (ComputedTable ref : getDerivatives()) {
-			removeDerivative(ref);
+	public ArrayList<ComputedTable> removeDerivedTables() {
+		ArrayList<ComputedTable> references = new ArrayList<ComputedTable>(getDerivedTables());
+		for (ComputedTable ref : getDerivedTables()) {
+			removeDerivedTable(ref);
 		}
 		return references;
 	}
 	
-	public void addDerivatives(ArrayList<ComputedTable> references) {
+	public void addDerivedTables(ArrayList<ComputedTable> references) {
 		derivedTables.addAll(references);
 	}
 	
-	public ArrayList<ComputedTable> getDerivatives(){
+	public ArrayList<ComputedTable> getDerivedTables(){
 		return new ArrayList<ComputedTable>(derivedTables);
 	}
 	
+	
+	/**
+	 * Loads a list of Columns into this StoredTable
+	 * @param c		List<> of Columns
+	 */
 	public void addAllColumns(ArrayList<Column> c) {
 		this.columns = new ArrayList<Column>(c);
 	}
@@ -153,19 +158,9 @@ public abstract class Table {
 		return (!isStoredTable());
 	}
 
-	/**
-	 * Adds a given column to the table
-	 * @param column
-	 */
-	public void addColumn(Column column) {
-		this.columns.add(column);
-		column.setTable(this);
-	}
+
 	
-	public void addColumnAt(Column column, int index) {
-		this.columns.add(index,column);
-		column.setTable(this);
-	}
+
 	
 	/**
 	 * Clones this table
@@ -185,16 +180,7 @@ public abstract class Table {
 				.collect(Collectors.toList()));
 	}
 	
-	/**
-	 * This method adds a row with values to the bottom of the current table
-	 * @param values 	The values to add to fill the new row.
-	 */
-	public void addFilledRowAt(ArrayList<Object> values,int i) {
-		int index = 0;
-		for (Object v : values) {
-			getColumns().get(index++).addCellAt(new Cell(v),i);
-		}
-	}
+
 	
 	/**
 	 * Prints the table in a somewhat readable form
