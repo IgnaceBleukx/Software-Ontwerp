@@ -14,8 +14,6 @@ public class Program {
 		         
 		       //  mcw.recordSession("recordings/VerticalScrollBar/test.test");
 		      });
-		      
-		      
 	}
 	
 }

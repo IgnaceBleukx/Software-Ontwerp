@@ -111,7 +111,7 @@ public class DomainFacade {
 	 */
 	public void removeTable(StoredTable table) {		
 		int index = tables.indexOf(table);
-		ArrayList<ComputedTable> cTables = new ArrayList<ComputedTable>(table.getReferences());
+		ArrayList<ComputedTable> cTables = new ArrayList<ComputedTable>(table.getDerivatives());
 		execute(new Command() {
 			public void execute() {
 				DebugPrinter.print(table);
@@ -161,7 +161,7 @@ public class DomainFacade {
 			public void execute() { 		
 				tables.remove(table);
 				for (int i = 0; i < getTablesPure().size(); i++) {
-					tables.get(i).removeReference(table);
+					tables.get(i).removeDerivative(table);
 				}
 				domainChangedListener.accept(null);
 			}
@@ -306,7 +306,7 @@ public class DomainFacade {
 				cTables.stream().forEach(t -> {
 					getTablesPure().remove(t);
 					for (int i = 0; i < getTablesPure().size(); i++) {
-						getTablesPure().get(i).removeReference(t);
+						getTablesPure().get(i).removeDerivative(t);
 					}
 				}); 
 				domainChangedListener.accept(table);
@@ -617,15 +617,15 @@ public class DomainFacade {
 	
 	void replaceTable(int index, Table newTable) {
 		Table oldTable = getTables().get(index);
-		ArrayList<ComputedTable> oldReferences = oldTable.getReferences();
+		ArrayList<ComputedTable> oldReferences = oldTable.getDerivatives();
 		execute(new Command(){
 			
 			public void execute() {
-				ArrayList<ComputedTable> cTables = oldTable.getReferences();
+				ArrayList<ComputedTable> cTables = oldTable.getDerivatives();
 				if (oldTable instanceof ComputedTable) {
 					tables.remove(oldTable);
 					for (int i = 0; i < getTablesPure().size(); i++) {
-						tables.get(i).removeReference((ComputedTable) oldTable);
+						tables.get(i).removeDerivative((ComputedTable) oldTable);
 					}
 				}
 				else if(oldTable instanceof StoredTable) {
@@ -637,11 +637,11 @@ public class DomainFacade {
 
 			@Override
 			public void undo() {
-				ArrayList<ComputedTable> cTables = newTable.getReferences();
+				ArrayList<ComputedTable> cTables = newTable.getDerivatives();
 				if (newTable instanceof ComputedTable) {
 					tables.remove(newTable);
 					for (int i = 0; i < getTablesPure().size(); i++) {
-						tables.get(i).removeReference((ComputedTable) newTable);
+						tables.get(i).removeDerivative((ComputedTable) newTable);
 					}
 				}
 				else if(newTable instanceof StoredTable) {
@@ -670,7 +670,7 @@ public class DomainFacade {
 		for (int i = 0; i < tables.size(); i++) {
 			Table table = tables.get(i);
 			if(nameList.contains(table.getName())) {
-				table.addReference(ct);
+				table.addDerivative(ct);
 			}
 		}
 	}

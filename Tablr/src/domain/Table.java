@@ -49,30 +49,30 @@ public abstract class Table {
 	/**
 	 * A list of tables whose queries reference this table
 	 */
-	private ArrayList<ComputedTable> queryReferenceTables = new ArrayList<ComputedTable>();
+	private ArrayList<ComputedTable> derivedTables = new ArrayList<ComputedTable>();
 	
-	public void addReference(ComputedTable t) {
-		queryReferenceTables.add(t);
+	public void addDerivative(ComputedTable t) {
+		derivedTables.add(t);
 	}
 	
-	public void removeReference(ComputedTable t){
-		queryReferenceTables.remove(t);
+	public void removeDerivative(ComputedTable t){
+		derivedTables.remove(t);
 	}
 	
-	public ArrayList<ComputedTable> removeReferences() {
-		ArrayList<ComputedTable> references = new ArrayList<ComputedTable>(getReferences());
-		for (ComputedTable ref : getReferences()) {
-			removeReference(ref);
+	public ArrayList<ComputedTable> removeDerivatives() {
+		ArrayList<ComputedTable> references = new ArrayList<ComputedTable>(getDerivatives());
+		for (ComputedTable ref : getDerivatives()) {
+			removeDerivative(ref);
 		}
 		return references;
 	}
 	
-	public void addReferences(ArrayList<ComputedTable> references) {
-		queryReferenceTables.addAll(references);
+	public void addDerivatives(ArrayList<ComputedTable> references) {
+		derivedTables.addAll(references);
 	}
 	
-	public ArrayList<ComputedTable> getReferences(){
-		return new ArrayList<ComputedTable>(queryReferenceTables);
+	public ArrayList<ComputedTable> getDerivatives(){
+		return new ArrayList<ComputedTable>(derivedTables);
 	}
 	
 	public void addAllColumns(ArrayList<Column> c) {
