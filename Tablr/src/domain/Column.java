@@ -94,7 +94,7 @@ public class Column {
 	
 	/**
 	 * Holds the Type of the Column
-	 * default value: String
+	 * Default value: String
 	 */
 	private Type type = Type.STRING;
 	
@@ -443,10 +443,20 @@ public class Column {
 		return true;
 	}
 
+	/**
+	 * Returns the value of the cell at the given index in the column
+	 * @param rowN 	The index of the row
+	 * @return 		The value of the cell at the given index
+	 */
 	public Object getValueAt(int rowN) {
 		return cells.get(rowN).getValue();
 	}
 
+	/**
+	 * Returns the value of the cell at the given index in the column in a string format
+	 * @param rowN 	The index of the row
+	 * @return 		The value of the cell at the given index in string format
+	 */
 	public String getValueAtString(int rowN) {
 		return cells.get(rowN).getValueString();
 	}

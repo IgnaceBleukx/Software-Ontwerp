@@ -546,8 +546,6 @@ public class Tablr {
 	
 	private void tableChanged(Table changingTable, ComputedTable computed) throws InvalidNameException, InvalidQueryException {
 		DebugPrinter.print("ChangingTable and ComputedTable ");
-		changingTable.printTable(); 
-		computed.printTable();
 		if (changingTable == null)
 			return;
 		for (int i = 0; i < changingTable.getReferences().size(); i++) {

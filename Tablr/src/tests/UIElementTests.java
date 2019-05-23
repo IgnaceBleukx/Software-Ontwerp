@@ -204,7 +204,7 @@ public class UIElementTests {
 //		myCW.handleMouseEvent(MouseEvent.MOUSE_PRESSED, 293, 105, 1);
 //		myCW.handleMouseEvent(MouseEvent.MOUSE_DRAGGED, 293, 145, 1);
 		
-		CanvasWindow.replayRecording("./recordings/VerticalScrollBarTest/test.test", myCW);
+		CanvasWindow.replayRecording("./recordings/verticalScrollBarTest/test.test", myCW);
 		
 		//Check the name of the first shown table
 		TextField t = (TextField) tablr.getUIAt(75, 55).locatedAt(75, 55);

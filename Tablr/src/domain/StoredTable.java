@@ -96,6 +96,9 @@ public class StoredTable extends Table {
 		}
 	}
 
+	/**
+	 * This method checks if any of the references contain the given column.
+	 */
 	@Override
 	public boolean queryContainsColumn(Column c) {
 		DebugPrinter.print(c.getName() + " " + getReferences());
