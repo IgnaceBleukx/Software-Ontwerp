@@ -312,7 +312,7 @@ public class WindowManager {
 	}
 
 	public void paint(Graphics g) {
-		getUIs().stream().filter(ui -> ui.isActive()).forEach(ui -> ui.paint(g));
+		for(int i = UIHistory.size() - 1; i >=0; i--) { if(UIHistory.get(i).isActive()) UIHistory.get(i).paint(g);}
 		if (selectedUI != null) selectedUI.paint(g);
  	}
 	
@@ -347,6 +347,7 @@ public class WindowManager {
 		}
 		this.selectedUI = u;
 		if (u != null) {
+			UIHistory.remove(u);
 			UIHistory.add(0,u);
 			u.select();
 		}
