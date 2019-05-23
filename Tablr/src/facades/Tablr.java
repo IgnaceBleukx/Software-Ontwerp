@@ -508,8 +508,9 @@ public class Tablr {
 	 * @throws InvalidQueryException 
 	 */
 	public void replaceTableFromQuery(String query, Table t) throws InvalidQueryException, InvalidNameException {
-		Query q = SQLParser.parseQuery(query);		
+		Query q = SQLParser.parseQuery(query);	
 		ComputedTable newTable = QueryExecutor.executeQuery(q, getTables());
+		DebugPrinter.print(newTable);
 		if (newTable == null)
 			return;
 		newTable.setQuery(q);
@@ -518,8 +519,8 @@ public class Tablr {
 		int index = getTables().indexOf(t);
 		newTable.setName(t.getName());
 		
-		domainFacade.replaceTable(index, newTable);
-		
+		domainFacade.replaceTable(index,newTable);
+		windowManager.tableRemoved(t);
 		//Closes any window that containing
 		//values of the overwritten table.
 		windowManager.tableRemoved(t);
@@ -534,7 +535,6 @@ public class Tablr {
 			tableChanged(changingTable, newTable);
 		} catch (InvalidNameException | InvalidQueryException e) {}
 		});
-		
 		domainChanged(newTable);
 	}
 	

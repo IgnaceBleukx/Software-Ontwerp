@@ -59,8 +59,20 @@ public abstract class Table {
 		queryReferenceTables.remove(t);
 	}
 	
+	public ArrayList<ComputedTable> removeReferences() {
+		ArrayList<ComputedTable> references = new ArrayList<ComputedTable>(getReferences());
+		for (ComputedTable ref : getReferences()) {
+			removeReference(ref);
+		}
+		return references;
+	}
+	
+	public void addReferences(ArrayList<ComputedTable> references) {
+		queryReferenceTables.addAll(references);
+	}
+	
 	public ArrayList<ComputedTable> getReferences(){
-		return queryReferenceTables;
+		return new ArrayList<ComputedTable>(queryReferenceTables);
 	}
 	
 	public void addAllColumns(ArrayList<Column> c) {
@@ -211,4 +223,6 @@ public abstract class Table {
 	 * @return
 	 */
 	public abstract boolean queryContainsColumn(Column column);
+
+	
 }

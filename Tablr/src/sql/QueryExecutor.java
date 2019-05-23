@@ -9,6 +9,7 @@ import java.util.stream.Collectors;
 import Utils.DebugPrinter;
 import domain.Column;
 import domain.ComputedTable;
+import domain.StoredTable;
 import domain.Table;
 import exceptions.InvalidNameException;
 import exceptions.InvalidQueryException;
@@ -35,6 +36,11 @@ public class QueryExecutor {
 		for (Table table : tables){
 			ArrayList<String> names = new ArrayList<String>(table.getColumnNames());
 			columnNames.put(table, names);
+		}
+		//Delete references of tables
+		HashMap<Table,ArrayList<ComputedTable>> tableReferences = new HashMap<Table,ArrayList<ComputedTable>>();
+		for (Table table : tables) {
+			tableReferences.put(table,table.removeReferences());
 		}
 		
 		//Order of execution:
@@ -72,6 +78,10 @@ public class QueryExecutor {
 			for (int i=0;i<table.getColumns().size();i++){
 				table.getColumns().get(i).setName(columnNames.get(table).get(i));
 			}
+		}
+		//Restoring table references
+		for (Table table : tables) {
+			table.addReferences(tableReferences.get(table));
 		}
 		
 		return t2;

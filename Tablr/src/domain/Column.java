@@ -80,7 +80,6 @@ public class Column {
 	 * @param name 		The name to be checked.
 	 */
 	public boolean isValidName(String name){
-		DebugPrinter.print(getTable());
 		if (this.getTable() == null) return true;		
 		if (name == "") return false;
 		if (getTable().queryContainsColumn(this)) 
