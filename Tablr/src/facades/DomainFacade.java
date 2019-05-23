@@ -57,11 +57,13 @@ public class DomainFacade {
 		execute(new Command() {			
 			public void execute() { 
 				tables.add(table);	
-				DebugPrinter.print(table); 
+				DebugPrinter.print(table);
+				domainChangedListener.accept(table);
 			}
 	
 			public void undo() { 
 				tables.remove(table);
+				domainChangedListener.accept(null);
 			}
 			public String toString() {
 				return "AddTable";
@@ -86,13 +88,15 @@ public class DomainFacade {
 		String name = nextTableName();
 		StoredTable table = new StoredTable(name);
 		
-		execute(new Command() {			
+		execute(new Command() {
 			public void execute() { 		
 				tables.add(table);
+				domainChangedListener.accept(table);
 			}
 	
 			public void undo() { 
 				tables.remove(table);
+				domainChangedListener.accept(null);
 			}
 			public String toString() {
 				return "AddEmptyTable";
@@ -114,10 +118,12 @@ public class DomainFacade {
 				cTables.stream().forEach(t -> tables.remove(t));
 				DebugPrinter.print(table);
 				tables.remove(table);
+				domainChangedListener.accept(null);
 			}
 			public void undo() { 
 				addTableAt(table,index);
 				cTables.stream().forEach(t -> tables.add(t));
+				domainChangedListener.accept(table);
 			}
 		});
 		
@@ -136,9 +142,11 @@ public class DomainFacade {
 		execute(new Command() {
 			public void execute() { 		
 				tables.remove(table);
+				domainChangedListener.accept(null);
 			}
 			public void undo() { 
-				addTableAt(table,index); 
+				addTableAt(table,index);
+				domainChangedListener.accept(table);
 			}
 		});
 	}
@@ -155,10 +163,12 @@ public class DomainFacade {
 				for (int i = 0; i < getTablesPure().size(); i++) {
 					tables.get(i).removeReference(table);
 				}
+				domainChangedListener.accept(null);
 			}
 			public void undo() { 
 				addTableAt(table,index);
 				addReferenceTables(table);
+				domainChangedListener.accept(table);
 			}
 		});
 		
@@ -174,9 +184,11 @@ public class DomainFacade {
 		String currentName = t.getName();
 		execute(new Command() {
 			public void execute() { 		
-				t.setName(newName);;
+				t.setName(newName);	;
 			}
-			public void undo() { t.setName(currentName); }
+			public void undo() { 
+				t.setName(currentName);
+			}
 		});
 	}
 
@@ -248,8 +260,10 @@ public class DomainFacade {
 	public void addEmptyColumn(StoredTable table, Type type, Object defaultValue) {	
 		execute(new Command() {
 			Column column = null;
-			public void execute() { column = table.addEmptyColumn(type, defaultValue); }
-			public void undo() { table.removeColumn(column);}
+			public void execute() { column = table.addEmptyColumn(type, defaultValue); 
+			domainChangedListener.accept(table);}
+			public void undo() { table.removeColumn(column); 
+			domainChangedListener.accept(table);}
 		});
 	}
 
@@ -294,7 +308,8 @@ public class DomainFacade {
 					for (int i = 0; i < getTablesPure().size(); i++) {
 						getTablesPure().get(i).removeReference(t);
 					}
-				});
+				}); 
+				domainChangedListener.accept(table);
 			}
 			
 			public void undo() { 
@@ -302,7 +317,8 @@ public class DomainFacade {
 				cTables.stream().forEach(t -> {
 					tables.add(t);
 					addReferenceTables(t);
-				});
+				}); 
+				domainChangedListener.accept(table);
 			}	
 		});
 		return cTables;
@@ -342,10 +358,12 @@ public class DomainFacade {
 	public void toggleColumnType(Column col) {
 		execute(new Command() {
 			public void execute() { 
-					col.setNextType();
-			 }
+				col.setNextType(); 
+				domainChangedListener.accept(col.getTable());
+			}
 			public void undo() { 
-				col.setPreviousType();
+				col.setPreviousType(); 
+				domainChangedListener.accept(col.getTable());
 			}
 		});
 	}
@@ -367,6 +385,7 @@ public class DomainFacade {
 		execute(new Command() {
 			public void execute() { 		
 				col.toggleBlanks();
+				domainChangedListener.accept(col.getTable());
 			}			
 			public void undo() { 
 				try {
@@ -376,6 +395,7 @@ public class DomainFacade {
 					undoStack.remove(this);
 					nbCommandsUndone--;
 				}
+				domainChangedListener.accept(col.getTable());
 			}
 		});
 	}
@@ -389,10 +409,12 @@ public class DomainFacade {
 	public void setColumnType(Column col, Type type){
 		execute(new Command() {
 			public void execute() { 
-				col.setColumnType(type);
+				col.setColumnType(type); 
+				domainChangedListener.accept(col.getTable());
 			}
 			public void undo() { 
 				col.setColumnType(Column.getPreviousType(type));
+				domainChangedListener.accept(col.getTable());
 			}
 		});
 		}
@@ -424,7 +446,7 @@ public class DomainFacade {
 		execute(new Command() {
 				String prev = col.getDefault() == null ? null : col.getDefault().toString();	
 				public void execute() { col.setDefaultValue(col.getColumnType().parseValue(def)); }
-				public void undo() { col.setDefaultValue(col.getColumnType().parseValue(prev)); }
+				public void undo() { col.setDefaultValue(col.getColumnType().parseValue(prev));}
 			});
 		}
 
@@ -434,8 +456,10 @@ public class DomainFacade {
 	 */
 	public void toggleDefault(Column col) {
 		execute(new Command() {
-				public void execute() { col.toggleDefaultBoolean(); }
-				public void undo() { col.togglePreviousDefaultBoolean(); }
+				public void execute() { col.toggleDefaultBoolean();  
+				domainChangedListener.accept(col.getTable());}
+				public void undo() { col.togglePreviousDefaultBoolean();  
+				domainChangedListener.accept(col.getTable());}
 			});
 		}
 
@@ -446,8 +470,10 @@ public class DomainFacade {
 	public void addRow(StoredTable table) {
 		execute(new Command() {
 			int index = table.getRows();
-			public void execute() { table.addRow(); }
-			public void undo() { table.removeRow(index);}
+			public void execute() { table.addRow();  
+			domainChangedListener.accept(table);}
+			public void undo() { table.removeRow(index); 
+			domainChangedListener.accept(table);}
 		});
 	}
 	
@@ -472,10 +498,12 @@ public class DomainFacade {
 		ArrayList<Object> rowValues = getRowValues(table,index);
 		execute(new Command(){
 			public void execute() {
-				table.removeRow(index);
+				table.removeRow(index); 
+				domainChangedListener.accept(table);
 			}
 			public void undo() {
-				table.addFilledRowAt(rowValues,index);
+				table.addFilledRowAt(rowValues,index); 
+				domainChangedListener.accept(table);
 			}			
 		});
 	}
@@ -502,10 +530,11 @@ public class DomainFacade {
 	}
 	
 	/**
-	 * changes the value of a cell in a column
+	 * changes the value of a cell in a column and returns the table it changed
 	 * @param col					Column
 	 * @param i						Index
 	 * @param string				New Value
+	 * @return 
 	 * @throws ClassCastException	The new value is not valid for the column's type
 	 */
 	public void changeCellValue(Column col, int i, String string) throws ClassCastException {
@@ -536,8 +565,11 @@ public class DomainFacade {
 	public void toggleCellValueBoolean(Column col, int i) {
 		try {
 			execute(new Command() {
-				public void execute() { col.toggleCellValueBoolean(i); DebugPrinter.print("toggle value boolean"); }
-				public void undo() {  col.togglePreviousCellValueBoolean(i);  }
+				public void execute() { col.toggleCellValueBoolean(i); 
+				domainChangedListener.accept(col.getTable());
+				DebugPrinter.print("toggle value boolean"); }
+				public void undo() {  col.togglePreviousCellValueBoolean(i);  
+				domainChangedListener.accept(col.getTable());}
 			});
 		} catch (InvalidNameException e) {
 			throw new RuntimeException("InvalidNameException while toggeling cell value boolean");
@@ -554,6 +586,8 @@ public class DomainFacade {
 	
 	private ArrayList<Command> undoStack = new ArrayList<>();
 	int nbCommandsUndone = 0;
+
+	private Consumer<Table> domainChangedListener;
 	
 	void undo(){
 		DebugPrinter.print(undoStack);
@@ -561,11 +595,11 @@ public class DomainFacade {
 		if(undoStack.size() > nbCommandsUndone) {
 			undoStack.get(undoStack.size() - ++nbCommandsUndone).undo();
 		}
-		DebugPrinter.print(undoStack);
 	}
 	
 	void redo(){
 		DebugPrinter.print(undoStack);
+		DebugPrinter.print(nbCommandsUndone);
 		if(nbCommandsUndone > 0)
 			undoStack.get(undoStack.size() - nbCommandsUndone--).execute();
 	}
@@ -622,4 +656,9 @@ public class DomainFacade {
 
 		
 	}
+
+	public void setDomainChangedListener(Consumer<Table> r) {
+		this.domainChangedListener = r;
+	}
+
 }

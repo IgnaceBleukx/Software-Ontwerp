@@ -45,6 +45,8 @@ public class Tablr {
 	public Tablr() {
 		domainFacade = new DomainFacade();
 		windowManager = new WindowManager(this);
+		domainFacade.setDomainChangedListener((Table changingTable) -> {
+			domainChanged(changingTable);});
 	}
 	
 	/**
@@ -287,7 +289,6 @@ public class Tablr {
 	 */
 	public void toggleColumnType(Column col) throws InvalidTypeException {
 		domainFacade.toggleColumnType(col);
-		domainChanged(col.getTable());
 	}
 	
 	/**
@@ -364,7 +365,6 @@ public class Tablr {
 	 */
 	public void toggleDefault(Column col) {
 		domainFacade.toggleDefault(col);
-		domainChanged(col.getTable());
 	}
 	
 	/**
@@ -391,7 +391,6 @@ public class Tablr {
 	 */
 	public void setColumnType(Column col, Type type) throws InvalidTypeException {
 		domainFacade.setColumnType(col,type);
-		domainChanged(col.getTable());
 	}
 	
 	/**
@@ -407,7 +406,6 @@ public class Tablr {
 	 */
 	public void toggleCellValueBoolean(Column col, int i) {
 		domainFacade.toggleCellValueBoolean(col,i);
-		domainChanged(col.getTable());
 	}
 
 	/**
@@ -415,7 +413,6 @@ public class Tablr {
 	 */
 	public void domainChanged(Table table){
 		new ArrayList<Consumer<Table>>(DomainChangedListeners).stream().forEach(l -> l.accept(table));
-		
 	}
 	
 	/**
@@ -489,14 +486,12 @@ public class Tablr {
 		if (windowManager.getLockedElement() != null || windowManager.hasElementInError())
 			return;
 		domainFacade.undo();
-		domainChanged(null);
 	}
 	
 	public void redo(){
 		if (windowManager.getLockedElement() != null || windowManager.hasElementInError())
 			return;
 		domainFacade.redo();
-		domainChanged(null);
 	}
 	
 	/**
@@ -536,8 +531,6 @@ public class Tablr {
 		domainFacade.addReferenceTables(newTable); //adds this table as a referencing table to the tables it requires
 		//add listener: if a table is changed, check if this computed table is built on that table and adjust if necessary.
 		addDomainChangedListener((Table changingTable) -> {try {
-			DebugPrinter.print(getTables());
-			DebugPrinter.print("Tablr contains newTable"); 
 			tableChanged(changingTable, newTable);
 		} catch (InvalidNameException | InvalidQueryException e) {}
 		});
@@ -569,7 +562,6 @@ public class Tablr {
 			windowManager.addTableDesignModeUI(t, new TableDesignModeUI(0, 300, 300, 300, this));
 			windowManager.addFormModeUI(t, new FormsModeUI(0, 300, 300, 300, this));
 		}
-
 		domainChanged(null);
 	}
 	
