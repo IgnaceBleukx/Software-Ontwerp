@@ -256,7 +256,8 @@ public class Tablr {
 	 * @throws InvalidNameException 
 	 */
 	public void removeColumn(Table table, int index) throws InvalidNameException {
-		domainFacade.removeColumn(table, index);
+		ArrayList<ComputedTable> computeds = domainFacade.removeColumn(table, index);
+		computeds.stream().forEach(t -> {windowManager.tableRemoved(t);});
 		domainChanged(table);
 	}
 	
