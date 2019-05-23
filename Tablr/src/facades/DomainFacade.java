@@ -159,7 +159,7 @@ public class DomainFacade {
 				}
 			}
 			public void undo() { 
-				addTableAt(table,index); 
+				addTableAt(table,index);
 				addReferenceTables(table);
 			}
 		});
@@ -277,7 +277,7 @@ public class DomainFacade {
 	 * @param index		Index
 	 * @throws InvalidNameException 
 	 */
-	public void removeColumn(Table table, int index) {
+	public ArrayList<ComputedTable> removeColumn(Table table, int index) {
 		DebugPrinter.print("Removing column");
 		ArrayList<ComputedTable> cTables = new ArrayList<ComputedTable>();
 		Column column = table.getColumns().get(index);
@@ -307,6 +307,7 @@ public class DomainFacade {
 				});
 			}	
 		});
+		return cTables;
 	}
 
 	/**
