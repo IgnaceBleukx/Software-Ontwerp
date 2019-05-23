@@ -525,7 +525,7 @@ public class Tablr {
 		newTable.setName(t.getName());
 		
 		domainFacade.replaceTable(index,newTable);
-		
+		windowManager.tableRemoved(t);
 		//Closes any window that containing
 		//values of the overwritten table.
 		windowManager.tableRemoved(t);

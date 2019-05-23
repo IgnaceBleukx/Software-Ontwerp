@@ -96,7 +96,7 @@ public class StoredTable extends Table {
 			getColumns().get(i).addCell(c.get(i));
 		}
 	}
-
+	
 	/**
 	 * This method checks if any of the references contain the given column.
 	 */
