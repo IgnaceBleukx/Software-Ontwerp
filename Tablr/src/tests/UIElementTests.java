@@ -6,6 +6,7 @@ import java.awt.event.KeyEvent;
 import java.awt.event.MouseEvent;
 import java.io.File;
 import java.io.IOException;
+import java.util.concurrent.TimeUnit;
 
 import javax.imageio.ImageIO;
 
@@ -856,7 +857,7 @@ public class UIElementTests {
 		myCW.handleMouseEvent(MouseEvent.MOUSE_CLICKED, 100, 150,2);
 		//Open a first forms mode ui for the table
 		myCW.handleMouseEvent(MouseEvent.MOUSE_CLICKED, 25, 55, 1);
-		myCW.handleKeyEvent(1, 17, ' ');
+		myCW.handleKeyEvent(KeyEvent.KEY_PRESSED, 17, ' ');
 		myCW.handleKeyEvent(1, 70, ' ');
 		
 
