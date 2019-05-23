@@ -51,27 +51,27 @@ public abstract class Table {
 	 */
 	private ArrayList<ComputedTable> derivedTables = new ArrayList<ComputedTable>();
 	
-	public void addDerivative(ComputedTable t) {
+	public void addDerivedTable(ComputedTable t) {
 		derivedTables.add(t);
 	}
 	
-	public void removeDerivative(ComputedTable t){
+	public void removeDerivedTable(ComputedTable t){
 		derivedTables.remove(t);
 	}
 	
-	public ArrayList<ComputedTable> removeDerivatives() {
-		ArrayList<ComputedTable> references = new ArrayList<ComputedTable>(getDerivatives());
-		for (ComputedTable ref : getDerivatives()) {
-			removeDerivative(ref);
+	public ArrayList<ComputedTable> removeDerivedTables() {
+		ArrayList<ComputedTable> references = new ArrayList<ComputedTable>(getDerivedTables());
+		for (ComputedTable ref : getDerivedTables()) {
+			removeDerivedTable(ref);
 		}
 		return references;
 	}
 	
-	public void addDerivatives(ArrayList<ComputedTable> references) {
+	public void addDerivedTables(ArrayList<ComputedTable> references) {
 		derivedTables.addAll(references);
 	}
 	
-	public ArrayList<ComputedTable> getDerivatives(){
+	public ArrayList<ComputedTable> getDerivedTables(){
 		return new ArrayList<ComputedTable>(derivedTables);
 	}
 	

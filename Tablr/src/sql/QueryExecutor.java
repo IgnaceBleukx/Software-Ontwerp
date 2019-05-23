@@ -40,7 +40,7 @@ public class QueryExecutor {
 		//Delete references of tables
 		HashMap<Table,ArrayList<ComputedTable>> tableReferences = new HashMap<Table,ArrayList<ComputedTable>>();
 		for (Table table : tables) {
-			tableReferences.put(table,table.removeDerivatives());
+			tableReferences.put(table,table.removeDerivedTables());
 		}
 		
 		//Order of execution:
@@ -81,7 +81,7 @@ public class QueryExecutor {
 		}
 		//Restoring table references
 		for (Table table : tables) {
-			table.addDerivatives(tableReferences.get(table));
+			table.addDerivedTables(tableReferences.get(table));
 		}
 		
 		return t2;

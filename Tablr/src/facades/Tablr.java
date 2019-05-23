@@ -541,8 +541,8 @@ public class Tablr {
 		DebugPrinter.print("ChangingTable and ComputedTable ");
 		if (changingTable == null)
 			return;
-		for (int i = 0; i < changingTable.getDerivatives().size(); i++) {
-			ComputedTable toChange = changingTable.getDerivatives().get(i);
+		for (int i = 0; i < changingTable.getDerivedTables().size(); i++) {
+			ComputedTable toChange = changingTable.getDerivedTables().get(i);
 			if(toChange == computed) {
 				replaceTableFromQuery(toChange.getQueryString(), toChange);
 			}

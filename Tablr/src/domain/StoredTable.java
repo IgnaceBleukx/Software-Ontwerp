@@ -121,7 +121,7 @@ public class StoredTable extends Table {
 //			}
 //			
 //		}
-		for(ComputedTable t : getDerivatives()) {
+		for(ComputedTable t : getDerivedTables()) {
 			if (t.queryContainsColumn(c))
 				return true;
 		}
