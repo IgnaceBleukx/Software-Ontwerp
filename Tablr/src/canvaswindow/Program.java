@@ -12,7 +12,7 @@ public class Program {
 		         ////Voor het maken van nieuwe recodings: 
 		         //maak de passende folder manueel aan en verander in de volgende lijn het pad
 		         
-		         mcw.recordSession("recordings/VerticalScrollListenersUITableTest/test.test");
+		       //  mcw.recordSession("recordings/VerticalScrollBar/test.test");
 		      });
 		      
 		      
