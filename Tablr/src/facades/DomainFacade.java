@@ -74,7 +74,7 @@ public class DomainFacade {
 	 * @param table 	The table to be added to the list of tables.
 	 * @param index 	The index on which the table must be added.
 	 */
-	private void addTableAt(Table table, int index) {
+	void addTableAt(Table table, int index) {
 			tables.add(index, table);
 			DebugPrinter.print(table); 
 	}
@@ -131,16 +131,18 @@ public class DomainFacade {
 		Table table = tables.get(index);
 		if (table instanceof ComputedTable) {
 			removeTable((ComputedTable)table);
-			return;
 		}
-		execute(new Command() {
-			public void execute() { 		
-				tables.remove(table);
-			}
-			public void undo() { 
-				addTableAt(table,index); 
-			}
-		});
+		else if (table instanceof StoredTable) {
+			removeTable((StoredTable) table);
+		}
+//		execute(new Command() {
+//			public void execute() { 		
+//				tables.remove(table);
+//			}
+//			public void undo() { 
+//				addTableAt(table,index); 
+//			}
+//		});
 	}
 
 	/**
@@ -581,8 +583,48 @@ public class DomainFacade {
 	}
 	
 	void replaceTable(int index, Table newTable) {
-		removeTable(index);
-		addTableAt(newTable, index);
+		Table oldTable = getTables().get(index);
+		ArrayList<ComputedTable> oldReferences = oldTable.getReferences();
+		execute(new Command(){
+			
+			public void execute() {
+				ArrayList<ComputedTable> cTables = oldTable.getReferences();
+				if (oldTable instanceof ComputedTable) {
+					tables.remove(oldTable);
+					for (int i = 0; i < getTablesPure().size(); i++) {
+						tables.get(i).removeReference((ComputedTable) oldTable);
+					}
+				}
+				else if(oldTable instanceof StoredTable) {
+					cTables.stream().forEach(t -> tables.remove(t));
+					tables.remove(oldTable);
+				}
+				tables.add(newTable);
+			}
+
+			@Override
+			public void undo() {
+				ArrayList<ComputedTable> cTables = newTable.getReferences();
+				if (newTable instanceof ComputedTable) {
+					tables.remove(newTable);
+					for (int i = 0; i < getTablesPure().size(); i++) {
+						tables.get(i).removeReference((ComputedTable) newTable);
+					}
+				}
+				else if(newTable instanceof StoredTable) {
+					cTables.stream().forEach(t -> tables.remove(t));
+					tables.remove(oldTable);
+				}
+				tables.add(oldTable);
+				if (oldTable instanceof ComputedTable) {
+					addReferenceTables((ComputedTable) oldTable);
+				}
+				else if (oldTable instanceof StoredTable) {
+					oldReferences.stream().forEach(t -> tables.add(t));
+				}
+			}
+			
+		});
 	}
 
 	/**
