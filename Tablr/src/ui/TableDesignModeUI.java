@@ -136,6 +136,7 @@ public class TableDesignModeUI extends UI {
 			getElements().remove(ll.orElseThrow(() -> new RuntimeException("No Listview in UI")));
 			this.addUIElement(loadColumnAttributes(table));
 			titleBar.setText("Table Design Mode: " + table.getName());
+			tablr.checkDeleted(t);
 		});
 		
 		titleBar.addKeyboardListener(10, () -> { //Ctrl+Enter, create new Table Rows subwindow.

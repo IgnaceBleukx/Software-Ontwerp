@@ -126,7 +126,7 @@ public class Tablr {
 	public void removeTable(StoredTable t) {
 		domainFacade.removeTable(t);
 		windowManager.tableRemoved(t);
-		domainChanged(null);
+		domainChanged(t);
 	}
 	
 	/**
@@ -136,7 +136,7 @@ public class Tablr {
 	public void removeTable(ComputedTable t) {
 		domainFacade.removeTable(t);
 		windowManager.tableRemoved(t);
-		domainChanged(null);
+		domainChanged(t);
 	}
 	
 	/**
@@ -516,25 +516,21 @@ public class Tablr {
 		newTable.setQuery(q);
 		DebugPrinter.print("Added new table");
 		newTable.printTable();
-		int index = getTables().indexOf(t);
+		int index = getTables().indexOf(t); //TODO: hier zit em. t zit niet noodzakelijk meer in getTables(): namelijk als
 		newTable.setName(t.getName());
+		System.out.println("BOOOOOM");
 		
 		domainFacade.replaceTable(index,newTable);
 		windowManager.tableChanged(t, newTable);
+		System.out.println("BOOOOOM");
 		//Closes any window that containing
 		//values of the overwritten table.
 		
-		windowManager.addTableDesignModeUI(newTable, new TableDesignModeUI(300,0,300,300,this));
-		windowManager.addTableRowsModeUI(newTable, new TableRowsModeUI(300, 300, 300, 300, this));
-		windowManager.addFormModeUI(newTable,new FormsModeUI(0,300,300,300,this));
-		
-		domainFacade.addReferenceTables(newTable); //adds this table as a referencing table to the tables it requires
 		//add listener: if a table is changed, check if this computed table is built on that table and adjust if necessary.
 		addDomainChangedListener((Table changingTable) -> {try {
 			tableChanged(changingTable, newTable);
 		} catch (InvalidNameException | InvalidQueryException e) {}
 		});
-		domainChanged(newTable);
 	}
 	
 	private void tableChanged(Table changingTable, ComputedTable computed) throws InvalidNameException, InvalidQueryException {
@@ -562,6 +558,16 @@ public class Tablr {
 			windowManager.addFormModeUI(t, new FormsModeUI(0, 300, 300, 300, this));
 		}
 		domainChanged(null);
+	}
+	
+	/**
+	 * check if table t is deleted and if yes, remove it and all windows associated with it.
+	 * @param t
+	 */
+	public void checkDeleted(Table t) {
+		if (domainFacade.isDeleted(t)) {
+			windowManager.tableRemoved(t);
+		}
 	}
 	
 }

@@ -3,6 +3,7 @@ package facades;
 import java.awt.event.KeyEvent;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.function.BiConsumer;
 import java.util.function.Consumer;
 import java.util.stream.Collectors;
 
@@ -109,7 +110,7 @@ public class DomainFacade {
 	 * Remove tables from the list of tables
 	 * @param table		Table to remove
 	 */
-	public void removeTable(StoredTable table) {		
+	public void removeTable(StoredTable table) {
 		int index = tables.indexOf(table);
 		ArrayList<ComputedTable> cTables = new ArrayList<ComputedTable>(table.getDerivedTables());
 		execute(new Command() {
@@ -118,7 +119,7 @@ public class DomainFacade {
 				cTables.stream().forEach(t -> tables.remove(t));
 				DebugPrinter.print(table);
 				tables.remove(table);
-				domainChangedListener.accept(null);
+				domainChangedListener.accept(table);
 			}
 			public void undo() { 
 				addTableAt(table,index);
@@ -135,10 +136,10 @@ public class DomainFacade {
 	 */
 	public void removeTable(int index) {
 		Table table = tables.get(index);
-		if (table instanceof ComputedTable) {
-			removeTable((ComputedTable)table);
+		if (table.isComputedTable()) {
+			removeTable((ComputedTable) table);
 		}
-		else if (table instanceof StoredTable) {
+		else if (table.isStoredTable()) {
 			removeTable((StoredTable) table);
 		}
 //		execute(new Command() {
@@ -163,7 +164,7 @@ public class DomainFacade {
 				for (int i = 0; i < getTablesPure().size(); i++) {
 					tables.get(i).removeDerivedTable(table);
 				}
-				domainChangedListener.accept(null);
+				domainChangedListener.accept(table);
 			}
 			public void undo() { 
 				addTableAt(table,index);
@@ -293,7 +294,7 @@ public class DomainFacade {
 		DebugPrinter.print("Removing column");
 		ArrayList<ComputedTable> cTables = new ArrayList<ComputedTable>();
 		Column column = table.getColumns().get(index);
-		getTables().stream().filter(t -> t instanceof ComputedTable).forEach(t -> {
+		getTables().stream().filter(t -> t.isComputedTable()).forEach(t -> {
 			if (t.queryContainsColumn(column)){
 				DebugPrinter.print("Query contains column");
 				cTables.add((ComputedTable) t);
@@ -615,49 +616,57 @@ public class DomainFacade {
 		undoStack.remove(undoStack.size()-1);
 	}
 	
-	void replaceTable(int index, Table newTable) {
+	/**
+	 * a method to replace a table with another one: is used to update computed tables when their information from their query changes, or to change from a stored to a computed table.
+	 * @param index
+	 * @param newTable
+	 */
+	void replaceTable(int index, ComputedTable newTable) {
 		Table oldTable = getTables().get(index);
-		ArrayList<ComputedTable> oldReferences = oldTable.getDerivedTables();
-		execute(new Command(){
-			
-			public void execute() {
-				ArrayList<ComputedTable> cTables = oldTable.getDerivedTables();
-				if (oldTable instanceof ComputedTable) {
-					tables.remove(oldTable);
+		ArrayList<ComputedTable> oldDerivedTables = oldTable.getDerivedTables();
+		ArrayList<Table> oldTables = getTables();
+		if(oldTable.isStoredTable()) {	//We do make a command when replacing a StoredTable with a ComputedTable, but when updating a ComputedTable we don't need that.
+			execute(new Command(){
+				@Override
+				public void execute() {
+					oldDerivedTables.stream().forEach(t -> tables.remove(t));
+					tables.remove(index);
+					tables.add(oldTables.indexOf(oldTable), newTable);
+					System.out.println("BOOOOOM");
+					domainChangedListener.accept(oldTable);
+					addReferenceTables(newTable); //adds this table as a referencing table to the tables it requires
+					}
+				
+				@Override
+				public void undo() {
+					oldDerivedTables.stream().forEach(t -> tables.add(t));
+					tables.remove(index);
+					tables.add(oldTables.indexOf(oldTable), newTable);
+					domainChangedListener.accept(newTable);
 					for (int i = 0; i < getTablesPure().size(); i++) {
-						tables.get(i).removeDerivedTable((ComputedTable) oldTable);
+						tables.get(i).removeDerivedTable(newTable);
 					}
 				}
-				else if(oldTable instanceof StoredTable) {
-					cTables.stream().forEach(t -> tables.remove(t));
-					tables.remove(oldTable);
-				}
-				tables.add(newTable);
+			});
+		}
+		else {
+			tables.remove(index);
+			tables.add(oldTables.indexOf(oldTable), newTable);
+			for (int i = 0; i < getTablesPure().size(); i++) {
+				tables.get(i).removeDerivedTable((ComputedTable) oldTable);
 			}
-
-			@Override
-			public void undo() {
-				ArrayList<ComputedTable> cTables = newTable.getDerivedTables();
-				if (newTable instanceof ComputedTable) {
-					tables.remove(newTable);
-					for (int i = 0; i < getTablesPure().size(); i++) {
-						tables.get(i).removeDerivedTable((ComputedTable) newTable);
-					}
-				}
-				else if(newTable instanceof StoredTable) {
-					cTables.stream().forEach(t -> tables.remove(t));
-					tables.remove(oldTable);
-				}
-				tables.add(oldTable);
-				if (oldTable instanceof ComputedTable) {
-					addReferenceTables((ComputedTable) oldTable);
-				}
-				else if (oldTable instanceof StoredTable) {
-					oldReferences.stream().forEach(t -> tables.add(t));
-				}
-			}
-			
-		});
+			domainChangedListener.accept(newTable);
+		}
+	}
+	
+	/**
+	 * a method to check if a table t still exists in the domain
+	 * @param t
+	 * @return
+	 */
+	public boolean isDeleted(Table t) {
+		if(!tables.contains(t)) return true;
+		else return false;
 	}
 
 	/**

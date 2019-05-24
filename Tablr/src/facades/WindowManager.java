@@ -508,12 +508,19 @@ public class WindowManager {
 		uis.remove(t);
 		uis.put(newTable, new ArrayList<UI>());
 		for (FormsModeUI formMode : formUIs) {
+			addFormModeUI(t, formMode.clone());
 			formMode.loadUI(newTable);
 			this.uis.get(newTable).add(formMode);
 		}
 		for (TableRowsModeUI rowMode : rowUIs) {
+			addTableRowsModeUI(t, rowMode.clone());
 			rowMode.loadUI(newTable);
 			this.uis.get(newTable).add(rowMode);
+		}
+		if(t instanceof StoredTable) {
+			for (TableDesignModeUI designMode : designUIs) {
+				addTableDesignModeUI(t, designMode.clone());
+			}
 		}
 	}
 }

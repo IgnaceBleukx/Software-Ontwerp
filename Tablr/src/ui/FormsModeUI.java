@@ -136,6 +136,7 @@ public class FormsModeUI extends UI {
 			
 			//Load new listview from table
 			addUIElement(getForm(table));
+			tablr.checkDeleted(t);
 		});
 		
 	}

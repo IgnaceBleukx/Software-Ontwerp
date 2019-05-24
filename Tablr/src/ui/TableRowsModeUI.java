@@ -148,6 +148,7 @@ public class TableRowsModeUI extends UI {
 
 			addUIElement(loadTable(table, finalLegend));
 			titleBar.setText("Table Rows Mode: " + table.getName());
+			tablr.checkDeleted(t);
 		});
 		
 		titleBar.addKeyboardListener(10, () -> { //Ctrl+Enter, create new Table Design subwindow. 

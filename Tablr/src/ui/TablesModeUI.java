@@ -121,6 +121,7 @@ public class TablesModeUI extends UI {
 			
 			//Load new ListView from tables
 			addUIElement(loadFromTables());
+			tablr.checkDeleted(t);
 		});
 	}
 	
