@@ -220,7 +220,7 @@ public class TableDesignModeUI extends UI {
 				});
 			}
 			
-			UIRow uiRow = new UIRow(list.getX() ,currentHeight, list.getWidth()-list.getScrollBarWidth(), 30,elmts);
+			UIRow uiRow = new UIRow(list.getX() ,currentHeight, getLegend().getWidth(), 30,elmts);
 			currentHeight += 30;
 			list.addElement(uiRow);			
 			

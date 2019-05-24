@@ -632,6 +632,44 @@ public class UIElementTests {
 	}
 	
 	@Test
+	public void resizeLegendFormsMode() {
+		//Load window
+		MyCanvasWindow myCW = new MyCanvasWindow("Tables Mode");
+		Tablr tablr = myCW.getTablr();
+		
+		//Create a new tables mode subwindow
+		myCW.handleKeyEvent(1, 17, ' ');
+		myCW.handleKeyEvent(1, 84, ' ');
+		//Add a table
+		myCW.handleMouseEvent(MouseEvent.MOUSE_CLICKED, 100, 150,2);
+		//Open a first forms mode ui for the table
+		myCW.handleMouseEvent(MouseEvent.MOUSE_CLICKED, 25, 55, 1);
+		myCW.handleKeyEvent(KeyEvent.KEY_PRESSED, 17, ' ');
+		myCW.handleKeyEvent(1, 70, ' ');
+		//Open design mode
+		myCW.handleMouseEvent(MouseEvent.MOUSE_CLICKED,70,50,2);
+		myCW.handleMouseEvent(MouseEvent.MOUSE_CLICKED,500,150,2);
+		//Add a row in forms mode
+		myCW.handleMouseEvent(MouseEvent.MOUSE_CLICKED, 150, 500, 1);
+		myCW.handleKeyEvent(KeyEvent.KEY_PRESSED,17,' ');
+		myCW.handleKeyEvent(1, 78, 'n');
+		
+		//Resize legend
+		int colNameLabelWidth = tablr.getUIAt(150,500).locatedAt(40, 328).getWidth();
+		int valLabelX = tablr.getUIAt(150,500).locatedAt(182, 324).getX();
+		int colNameWidth = tablr.getUIAt(150, 500).locatedAt(40,345).getWidth();
+		int valX = tablr.getUIAt(150,500).locatedAt(173, 350).getX();
+		myCW.handleMouseEvent(MouseEvent.MOUSE_PRESSED, 83, 323, 1);
+		myCW.handleMouseEvent(MouseEvent.MOUSE_DRAGGED,103,232,1);
+		
+		assertEquals(20, tablr.getUIAt(150,500).locatedAt(40, 328).getWidth() - colNameLabelWidth);
+		assertEquals(20, tablr.getUIAt(150,500).locatedAt(182, 324).getX() - valLabelX);
+		assertEquals(20, tablr.getUIAt(150, 500).locatedAt(40,345).getWidth() - colNameWidth);
+		assertEquals(20, tablr.getUIAt(150,500).locatedAt(173, 350).getX() - valX);
+		
+	}
+	
+	@Test
 	public void resizeLegendTablesMode() {
 		// Load the window
 		MyCanvasWindow myCW = new MyCanvasWindow("Tables Mode");
