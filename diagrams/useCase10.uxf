@@ -16,20 +16,6 @@
   <element>
     <id>UMLClass</id>
     <coordinates>
-      <x>700</x>
-      <y>140</y>
-      <w>220</w>
-      <h>80</h>
-    </coordinates>
-    <panel_attributes>*Table rows Mode*
---
-The application is in Table Rows mode for some table.
-style=wordwrap</panel_attributes>
-    <additional_attributes/>
-  </element>
-  <element>
-    <id>UMLClass</id>
-    <coordinates>
       <x>940</x>
       <y>290</y>
       <w>130</w>
