@@ -4,147 +4,45 @@
   <element>
     <id>UMLUseCase</id>
     <coordinates>
-      <x>580</x>
-      <y>120</y>
+      <x>440</x>
+      <y>160</y>
       <w>200</w>
       <h>50</h>
     </coordinates>
-    <panel_attributes>Use case 4.10: Delete Row
+    <panel_attributes>Use case 4.10: Change value
 </panel_attributes>
     <additional_attributes/>
   </element>
   <element>
     <id>UMLClass</id>
     <coordinates>
-      <x>840</x>
-      <y>100</y>
+      <x>700</x>
+      <y>140</y>
       <w>220</w>
       <h>80</h>
     </coordinates>
-    <panel_attributes>*Table row Mode*
+    <panel_attributes>*Table rows Mode*
 --
-The application is in Table Rows mode for some table
+The application is in Table Rows mode for some table.
 style=wordwrap</panel_attributes>
     <additional_attributes/>
-  </element>
-  <element>
-    <id>UMLActor</id>
-    <coordinates>
-      <x>70</x>
-      <y>170</y>
-      <w>60</w>
-      <h>110</h>
-    </coordinates>
-    <panel_attributes>Actor</panel_attributes>
-    <additional_attributes/>
-  </element>
-  <element>
-    <id>Relation</id>
-    <coordinates>
-      <x>90</x>
-      <y>270</y>
-      <w>30</w>
-      <h>490</h>
-    </coordinates>
-    <panel_attributes>lt=.</panel_attributes>
-    <additional_attributes>10.0;470.0;10.0;10.0</additional_attributes>
-  </element>
-  <element>
-    <id>Relation</id>
-    <coordinates>
-      <x>90</x>
-      <y>290</y>
-      <w>280</w>
-      <h>40</h>
-    </coordinates>
-    <panel_attributes>lt=&lt;-
-Click on margin left of column</panel_attributes>
-    <additional_attributes>260.0;20.0;10.0;20.0</additional_attributes>
-  </element>
-  <element>
-    <id>Relation</id>
-    <coordinates>
-      <x>340</x>
-      <y>280</y>
-      <w>30</w>
-      <h>480</h>
-    </coordinates>
-    <panel_attributes>lt=.</panel_attributes>
-    <additional_attributes>10.0;460.0;10.0;10.0</additional_attributes>
-  </element>
-  <element>
-    <id>UMLClass</id>
-    <coordinates>
-      <x>280</x>
-      <y>240</y>
-      <w>150</w>
-      <h>30</h>
-    </coordinates>
-    <panel_attributes>MyCanvasWindow</panel_attributes>
-    <additional_attributes/>
-  </element>
-  <element>
-    <id>Relation</id>
-    <coordinates>
-      <x>790</x>
-      <y>270</y>
-      <w>30</w>
-      <h>490</h>
-    </coordinates>
-    <panel_attributes>lt=.</panel_attributes>
-    <additional_attributes>10.0;470.0;10.0;10.0</additional_attributes>
-  </element>
-  <element>
-    <id>Relation</id>
-    <coordinates>
-      <x>520</x>
-      <y>370</y>
-      <w>300</w>
-      <h>40</h>
-    </coordinates>
-    <panel_attributes>lt=&lt;-
-getUIAt(x,y)</panel_attributes>
-    <additional_attributes>280.0;20.0;10.0;20.0</additional_attributes>
-  </element>
-  <element>
-    <id>Relation</id>
-    <coordinates>
-      <x>790</x>
-      <y>410</y>
-      <w>240</w>
-      <h>40</h>
-    </coordinates>
-    <panel_attributes>lt=&lt;-
-locatedAt(x,y)</panel_attributes>
-    <additional_attributes>220.0;20.0;10.0;20.0</additional_attributes>
-  </element>
-  <element>
-    <id>Relation</id>
-    <coordinates>
-      <x>1000</x>
-      <y>270</y>
-      <w>30</w>
-      <h>500</h>
-    </coordinates>
-    <panel_attributes>lt=.</panel_attributes>
-    <additional_attributes>10.0;480.0;10.0;10.0</additional_attributes>
   </element>
   <element>
     <id>UMLClass</id>
     <coordinates>
       <x>940</x>
-      <y>240</y>
+      <y>290</y>
       <w>130</w>
       <h>30</h>
     </coordinates>
-    <panel_attributes>Button</panel_attributes>
+    <panel_attributes>TextField</panel_attributes>
     <additional_attributes/>
   </element>
   <element>
     <id>UMLClass</id>
     <coordinates>
-      <x>700</x>
-      <y>240</y>
+      <x>680</x>
+      <y>290</y>
       <w>180</w>
       <h>30</h>
     </coordinates>
@@ -154,89 +52,21 @@ locatedAt(x,y)</panel_attributes>
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>520</x>
-      <y>280</y>
-      <w>30</w>
-      <h>480</h>
-    </coordinates>
-    <panel_attributes>lt=.</panel_attributes>
-    <additional_attributes>10.0;460.0;10.0;10.0</additional_attributes>
-  </element>
-  <element>
-    <id>Relation</id>
-    <coordinates>
-      <x>340</x>
-      <y>330</y>
-      <w>210</w>
+      <x>60</x>
+      <y>340</y>
+      <w>280</w>
       <h>50</h>
     </coordinates>
     <panel_attributes>lt=&lt;-
-handleMouseEvent()
-</panel_attributes>
-    <additional_attributes>190.0;20.0;10.0;20.0</additional_attributes>
-  </element>
-  <element>
-    <id>UMLClass</id>
-    <coordinates>
-      <x>470</x>
-      <y>240</y>
-      <w>140</w>
-      <h>30</h>
-    </coordinates>
-    <panel_attributes>Tablr</panel_attributes>
-    <additional_attributes/>
-  </element>
-  <element>
-    <id>Relation</id>
-    <coordinates>
-      <x>520</x>
-      <y>460</y>
-      <w>510</w>
-      <h>40</h>
-    </coordinates>
-    <panel_attributes>lt=&lt;-
-notifyNewSelected()</panel_attributes>
-    <additional_attributes>10.0;20.0;490.0;20.0</additional_attributes>
-  </element>
-  <element>
-    <id>UMLClass</id>
-    <coordinates>
-      <x>1180</x>
-      <y>240</y>
-      <w>140</w>
-      <h>30</h>
-    </coordinates>
-    <panel_attributes>UIElement</panel_attributes>
-    <additional_attributes/>
-  </element>
-  <element>
-    <id>Relation</id>
-    <coordinates>
-      <x>1240</x>
-      <y>260</y>
-      <w>30</w>
-      <h>510</h>
-    </coordinates>
-    <panel_attributes>lt=.</panel_attributes>
-    <additional_attributes>10.0;490.0;10.0;10.0</additional_attributes>
-  </element>
-  <element>
-    <id>Relation</id>
-    <coordinates>
-      <x>90</x>
-      <y>530</y>
-      <w>280</w>
-      <h>40</h>
-    </coordinates>
-    <panel_attributes>lt=&lt;-
-User pressed Delete</panel_attributes>
+User enters a new value in a cell 
+and pressed Enter</panel_attributes>
     <additional_attributes>260.0;20.0;10.0;20.0</additional_attributes>
   </element>
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>340</x>
-      <y>560</y>
+      <x>310</x>
+      <y>360</y>
       <w>210</w>
       <h>40</h>
     </coordinates>
@@ -247,8 +77,8 @@ handleKeyEvent()</panel_attributes>
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>520</x>
-      <y>580</y>
+      <x>490</x>
+      <y>400</y>
       <w>300</w>
       <h>40</h>
     </coordinates>
@@ -259,38 +89,218 @@ getActiveUI()</panel_attributes>
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>790</x>
-      <y>600</y>
-      <w>240</w>
-      <h>50</h>
-    </coordinates>
-    <panel_attributes>lt=&lt;-
-invoke on all elements:
-handleKeyEvent()</panel_attributes>
-    <additional_attributes>220.0;20.0;10.0;20.0</additional_attributes>
-  </element>
-  <element>
-    <id>Relation</id>
-    <coordinates>
-      <x>520</x>
-      <y>650</y>
-      <w>510</w>
+      <x>490</x>
+      <y>470</y>
+      <w>530</w>
       <h>40</h>
     </coordinates>
     <panel_attributes>lt=&lt;-
-removeRow()</panel_attributes>
-    <additional_attributes>10.0;20.0;490.0;20.0</additional_attributes>
+changeCellValue()</panel_attributes>
+    <additional_attributes>10.0;20.0;510.0;20.0</additional_attributes>
   </element>
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>520</x>
-      <y>690</y>
-      <w>750</w>
+      <x>990</x>
+      <y>310</y>
+      <w>30</w>
+      <h>320</h>
+    </coordinates>
+    <panel_attributes>lt=.</panel_attributes>
+    <additional_attributes>10.0;300.0;10.0;10.0</additional_attributes>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>0</x>
+      <y>610</y>
+      <w>1150</w>
+      <h>140</h>
+    </coordinates>
+    <panel_attributes/>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>0</x>
+      <y>610</y>
+      <w>50</w>
+      <h>30</h>
+    </coordinates>
+    <panel_attributes>alt
+</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>Text</id>
+    <coordinates>
+      <x>70</x>
+      <y>620</y>
+      <w>190</w>
+      <h>100</h>
+    </coordinates>
+    <panel_attributes>[If the entered value is invalid]
+style=wordwrap</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>480</x>
+      <y>680</y>
+      <w>540</w>
+      <h>40</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;-
+getLock()</panel_attributes>
+    <additional_attributes>10.0;20.0;520.0;20.0</additional_attributes>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>990</x>
+      <y>590</y>
+      <w>30</w>
+      <h>180</h>
+    </coordinates>
+    <panel_attributes>lt=.</panel_attributes>
+    <additional_attributes>10.0;160.0;10.0;10.0</additional_attributes>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>490</x>
+      <y>330</y>
+      <w>30</w>
+      <h>440</h>
+    </coordinates>
+    <panel_attributes>lt=.</panel_attributes>
+    <additional_attributes>10.0;420.0;10.0;10.0</additional_attributes>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>760</x>
+      <y>330</y>
+      <w>30</w>
+      <h>440</h>
+    </coordinates>
+    <panel_attributes>lt=.</panel_attributes>
+    <additional_attributes>10.0;420.0;10.0;10.0</additional_attributes>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>310</x>
+      <y>330</y>
+      <w>30</w>
+      <h>440</h>
+    </coordinates>
+    <panel_attributes>lt=.</panel_attributes>
+    <additional_attributes>10.0;420.0;10.0;10.0</additional_attributes>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>60</x>
+      <y>330</y>
+      <w>30</w>
+      <h>440</h>
+    </coordinates>
+    <panel_attributes>lt=.</panel_attributes>
+    <additional_attributes>10.0;420.0;10.0;10.0</additional_attributes>
+  </element>
+  <element>
+    <id>UMLActor</id>
+    <coordinates>
+      <x>30</x>
+      <y>220</y>
+      <w>60</w>
+      <h>110</h>
+    </coordinates>
+    <panel_attributes>User</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>250</x>
+      <y>290</y>
+      <w>150</w>
+      <h>30</h>
+    </coordinates>
+    <panel_attributes>MyCanvasWindow</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>440</x>
+      <y>290</y>
+      <w>140</w>
+      <h>30</h>
+    </coordinates>
+    <panel_attributes>Tablr</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>760</x>
+      <y>420</y>
+      <w>260</w>
+      <h>50</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;-
+invoke handleKeyEvent()
+on all elements</panel_attributes>
+    <additional_attributes>240.0;20.0;10.0;20.0</additional_attributes>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>990</x>
+      <y>640</y>
+      <w>170</w>
+      <h>60</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;-
+  setError()</panel_attributes>
+    <additional_attributes>10.0;40.0;80.0;40.0;80.0;10.0;10.0;10.0</additional_attributes>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>1130</x>
+      <y>290</y>
+      <w>130</w>
+      <h>30</h>
+    </coordinates>
+    <panel_attributes>UIElement</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>490</x>
+      <y>520</y>
+      <w>720</w>
       <h>40</h>
     </coordinates>
     <panel_attributes>lt=&lt;-
 domainChanged()</panel_attributes>
-    <additional_attributes>730.0;20.0;10.0;20.0</additional_attributes>
+    <additional_attributes>700.0;20.0;10.0;20.0</additional_attributes>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>1180</x>
+      <y>310</y>
+      <w>30</w>
+      <h>460</h>
+    </coordinates>
+    <panel_attributes>lt=.</panel_attributes>
+    <additional_attributes>10.0;440.0;10.0;10.0</additional_attributes>
   </element>
 </diagram>

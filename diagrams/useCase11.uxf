@@ -4,36 +4,34 @@
   <element>
     <id>UMLUseCase</id>
     <coordinates>
-      <x>450</x>
-      <y>160</y>
+      <x>580</x>
+      <y>120</y>
       <w>200</w>
       <h>50</h>
     </coordinates>
-    <panel_attributes>Use case 4.8: Delete Column
+    <panel_attributes>Use case 4.11: Delete Row
 </panel_attributes>
     <additional_attributes/>
   </element>
   <element>
     <id>UMLClass</id>
     <coordinates>
-      <x>710</x>
-      <y>140</y>
+      <x>840</x>
+      <y>100</y>
       <w>220</w>
       <h>80</h>
     </coordinates>
-    <panel_attributes>*Table design Mode*
+    <panel_attributes>*Table row Mode*
 --
-The application is in Table Design mode for some table.
-style=wordwrap
-
-</panel_attributes>
+The application is in Table Rows mode for some table
+style=wordwrap</panel_attributes>
     <additional_attributes/>
   </element>
   <element>
     <id>UMLActor</id>
     <coordinates>
-      <x>20</x>
-      <y>220</y>
+      <x>70</x>
+      <y>170</y>
       <w>60</w>
       <h>110</h>
     </coordinates>
@@ -43,8 +41,8 @@ style=wordwrap
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>40</x>
-      <y>320</y>
+      <x>90</x>
+      <y>270</y>
       <w>30</w>
       <h>490</h>
     </coordinates>
@@ -54,8 +52,8 @@ style=wordwrap
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>40</x>
-      <y>340</y>
+      <x>90</x>
+      <y>290</y>
       <w>280</w>
       <h>40</h>
     </coordinates>
@@ -66,8 +64,8 @@ Click on margin left of column</panel_attributes>
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>290</x>
-      <y>330</y>
+      <x>340</x>
+      <y>280</y>
       <w>30</w>
       <h>480</h>
     </coordinates>
@@ -77,8 +75,8 @@ Click on margin left of column</panel_attributes>
   <element>
     <id>UMLClass</id>
     <coordinates>
-      <x>230</x>
-      <y>290</y>
+      <x>280</x>
+      <y>240</y>
       <w>150</w>
       <h>30</h>
     </coordinates>
@@ -88,8 +86,8 @@ Click on margin left of column</panel_attributes>
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>740</x>
-      <y>320</y>
+      <x>790</x>
+      <y>270</y>
       <w>30</w>
       <h>490</h>
     </coordinates>
@@ -99,8 +97,8 @@ Click on margin left of column</panel_attributes>
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>470</x>
-      <y>420</y>
+      <x>520</x>
+      <y>370</y>
       <w>300</w>
       <h>40</h>
     </coordinates>
@@ -111,8 +109,8 @@ getUIAt(x,y)</panel_attributes>
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>740</x>
-      <y>460</y>
+      <x>790</x>
+      <y>410</y>
       <w>240</w>
       <h>40</h>
     </coordinates>
@@ -123,8 +121,8 @@ locatedAt(x,y)</panel_attributes>
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>950</x>
-      <y>320</y>
+      <x>1000</x>
+      <y>270</y>
       <w>30</w>
       <h>500</h>
     </coordinates>
@@ -134,8 +132,8 @@ locatedAt(x,y)</panel_attributes>
   <element>
     <id>UMLClass</id>
     <coordinates>
-      <x>890</x>
-      <y>290</y>
+      <x>940</x>
+      <y>240</y>
       <w>130</w>
       <h>30</h>
     </coordinates>
@@ -145,8 +143,8 @@ locatedAt(x,y)</panel_attributes>
   <element>
     <id>UMLClass</id>
     <coordinates>
-      <x>650</x>
-      <y>290</y>
+      <x>700</x>
+      <y>240</y>
       <w>180</w>
       <h>30</h>
     </coordinates>
@@ -156,8 +154,8 @@ locatedAt(x,y)</panel_attributes>
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>470</x>
-      <y>330</y>
+      <x>520</x>
+      <y>280</y>
       <w>30</w>
       <h>480</h>
     </coordinates>
@@ -167,8 +165,8 @@ locatedAt(x,y)</panel_attributes>
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>290</x>
-      <y>380</y>
+      <x>340</x>
+      <y>330</y>
       <w>210</w>
       <h>50</h>
     </coordinates>
@@ -180,8 +178,8 @@ handleMouseEvent()
   <element>
     <id>UMLClass</id>
     <coordinates>
-      <x>420</x>
-      <y>290</y>
+      <x>470</x>
+      <y>240</y>
       <w>140</w>
       <h>30</h>
     </coordinates>
@@ -191,8 +189,8 @@ handleMouseEvent()
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>470</x>
-      <y>510</y>
+      <x>520</x>
+      <y>460</y>
       <w>510</w>
       <h>40</h>
     </coordinates>
@@ -203,8 +201,8 @@ notifyNewSelected()</panel_attributes>
   <element>
     <id>UMLClass</id>
     <coordinates>
-      <x>1130</x>
-      <y>290</y>
+      <x>1180</x>
+      <y>240</y>
       <w>140</w>
       <h>30</h>
     </coordinates>
@@ -214,8 +212,8 @@ notifyNewSelected()</panel_attributes>
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>1190</x>
-      <y>310</y>
+      <x>1240</x>
+      <y>260</y>
       <w>30</w>
       <h>510</h>
     </coordinates>
@@ -225,8 +223,8 @@ notifyNewSelected()</panel_attributes>
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>40</x>
-      <y>580</y>
+      <x>90</x>
+      <y>530</y>
       <w>280</w>
       <h>40</h>
     </coordinates>
@@ -237,8 +235,8 @@ User pressed Delete</panel_attributes>
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>290</x>
-      <y>610</y>
+      <x>340</x>
+      <y>560</y>
       <w>210</w>
       <h>40</h>
     </coordinates>
@@ -249,8 +247,8 @@ handleKeyEvent()</panel_attributes>
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>470</x>
-      <y>630</y>
+      <x>520</x>
+      <y>580</y>
       <w>300</w>
       <h>40</h>
     </coordinates>
@@ -261,8 +259,8 @@ getActiveUI()</panel_attributes>
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>740</x>
-      <y>650</y>
+      <x>790</x>
+      <y>600</y>
       <w>240</w>
       <h>50</h>
     </coordinates>
@@ -274,20 +272,20 @@ handleKeyEvent()</panel_attributes>
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>470</x>
-      <y>700</y>
+      <x>520</x>
+      <y>650</y>
       <w>510</w>
       <h>40</h>
     </coordinates>
     <panel_attributes>lt=&lt;-
-removeColumn()</panel_attributes>
+removeRow()</panel_attributes>
     <additional_attributes>10.0;20.0;490.0;20.0</additional_attributes>
   </element>
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>470</x>
-      <y>740</y>
+      <x>520</x>
+      <y>690</y>
       <w>750</w>
       <h>40</h>
     </coordinates>
