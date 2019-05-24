@@ -655,6 +655,7 @@ public class DomainFacade {
 			for (int i = 0; i < getTablesPure().size(); i++) {
 				tables.get(i).removeDerivedTable((ComputedTable) oldTable);
 			}
+			addReferenceTables(newTable);
 			domainChangedListener.accept(newTable);
 		}
 	}
