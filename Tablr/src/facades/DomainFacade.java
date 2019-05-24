@@ -643,6 +643,7 @@ public class DomainFacade {
 					tables.remove(index);
 					tables.add(oldTables.indexOf(oldTable), oldTable);
 					oldDerivedTables.stream().forEach(t -> tables.add(t));
+					DebugPrinter.print(oldDerivedTables);
 					domainChangedListener.accept(newTable);
 				}
 			});
