@@ -643,18 +643,14 @@ public class DomainFacade {
 					tables.remove(index);
 					tables.add(oldTables.indexOf(oldTable), oldTable);
 					domainChangedListener.accept(newTable);
-					for (int i = 0; i < getTablesPure().size(); i++) {
-						tables.get(i).removeDerivedTable(newTable);
-					}
+					tables.stream().forEach(t -> t.removeDerivedTable(newTable));
 				}
 			});
 		}
 		else {
 			tables.remove(index);
 			tables.add(oldTables.indexOf(oldTable), newTable);
-			for (int i = 0; i < getTablesPure().size(); i++) {
-				tables.get(i).removeDerivedTable((ComputedTable) oldTable);
-			}
+			tables.stream().forEach(t -> t.removeDerivedTable((ComputedTable) oldTable));
 			addReferenceTables(newTable);
 			domainChangedListener.accept(newTable);
 		}
