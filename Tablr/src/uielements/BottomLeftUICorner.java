@@ -45,6 +45,9 @@ public class BottomLeftUICorner extends UIEdge {
 		this.move(0,delta);
 	}
 
+	/**
+	 * Clones this object
+	 */
 	@Override
 	public BottomLeftUICorner clone(){
 		return new BottomLeftUICorner(getX(),getY(),getWidth(),getHeight());
