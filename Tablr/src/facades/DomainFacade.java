@@ -639,18 +639,18 @@ public class DomainFacade {
 				
 				@Override
 				public void undo() {
-					oldDerivedTables.stream().forEach(t -> tables.add(t));
+					tables.stream().forEach(t -> t.removeDerivedTable(newTable));
 					tables.remove(index);
 					tables.add(oldTables.indexOf(oldTable), oldTable);
+					oldDerivedTables.stream().forEach(t -> tables.add(t));
 					domainChangedListener.accept(newTable);
-					tables.stream().forEach(t -> t.removeDerivedTable(newTable));
 				}
 			});
 		}
 		else {
 			tables.remove(index);
-			tables.add(oldTables.indexOf(oldTable), newTable);
 			tables.stream().forEach(t -> t.removeDerivedTable((ComputedTable) oldTable));
+			tables.add(oldTables.indexOf(oldTable), newTable);
 			addReferenceTables(newTable);
 			domainChangedListener.accept(newTable);
 		}

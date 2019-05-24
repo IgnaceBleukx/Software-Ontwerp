@@ -82,6 +82,7 @@ public class Column {
 	public boolean isValidName(String name){
 		if (this.getTable() == null) return true;		
 		if (name == "") return false;
+		DebugPrinter.print((getTable()).getDerivedTables());
 		if (getTable().queryContainsColumn(this)) 
 			return (this.getName().equals(name));
 		
