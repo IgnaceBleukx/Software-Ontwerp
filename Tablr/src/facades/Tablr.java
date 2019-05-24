@@ -539,7 +539,7 @@ public class Tablr {
 			return;
 		for (int i = 0; i < changingTable.getDerivedTables().size(); i++) {
 			ComputedTable toChange = changingTable.getDerivedTables().get(i);
-			if(toChange == computed) {
+			if(toChange.equals(computed)) {
 				replaceTableFromQuery(toChange.getQueryString(), toChange);
 			}
 		}		
