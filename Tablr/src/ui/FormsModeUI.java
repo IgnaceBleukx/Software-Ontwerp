@@ -24,8 +24,21 @@ import uielements.UIElement;
 import uielements.UIRow;
 import uielements.VoidElement;
 
+/**
+ * Class containing a FormsModeUI. A FormsModeUI can be used 
+ * to visualize and edit a Table row by row.
+ *
+ */
 public class FormsModeUI extends UI {
 
+	/**
+	 * Creates a new FormsModeUI
+	 * @param x				x coordinate
+	 * @param y				y coordinate
+	 * @param width			width	
+	 * @param height		height
+	 * @param tablr			Tablr reference
+	 */
 	public FormsModeUI(int x, int y, int width, int height, Tablr tablr) {
 		super(x, y, width, height);
 		this.setTablr(tablr);
@@ -36,6 +49,10 @@ public class FormsModeUI extends UI {
 		});
 	}
 		
+	/**
+	 * Loads the forms mode UI from a given Table
+	 * @param table		Table
+	 */
 	public void loadUI(Table table) {
 		setActive();
 		UIRow legend = getLegend();
@@ -141,22 +158,46 @@ public class FormsModeUI extends UI {
 		
 	}
 	
+	/**
+	 * Returns the legend of this FormsModeUI.
+	 * The legend contains all Column names.
+	 */
 	private UIRow getLegend() {
 		return (UIRow) getElements().stream().filter(e -> e instanceof UIRow).findFirst().orElse(null);
 	}
 	
+	/**
+	 * Reloads the UI from a Table
+	 * @param table		Table
+	 */
 	private void reloadListView(Table table) {
 		Optional<UIElement> list = this.getElements().stream().filter(e -> e instanceof ListView).findFirst();
 		this.elements.remove(list.orElseThrow(() -> new RuntimeException()));
 		this.addUIElement(getForm(table));
 	}
 	
+	/**
+	 * Returns the ListView with the contents of the FormsModeUI
+	 * @return
+	 */
 	private ListView getListView() {
 		return (ListView) elements.stream().filter(e -> e instanceof ListView).findFirst().orElse(null);
 	}
+	
+	/**
+	 * Row number within Table
+	 */
 	private int rowNumber=0;
+	
+	/**
+	 * Height of each cell.
+	 */
 	private static final int cellHeight = 35;
 	
+	/**
+	 * Returns a ListView containing the contents of row i, i=rowNumber
+	 * @param table		Table to select row from
+	 */
 	private ListView getForm(Table table) {
 		ListView list = new ListView(getX()+edgeW,getLegend().getEndY(), getWidth()-2*edgeW,getEndY()-edgeW-getLegend().getEndY(),new ArrayList<UIElement>());
 			
@@ -222,6 +263,9 @@ public class FormsModeUI extends UI {
 		return list;
 	}
 	
+	/**
+	 * Clones this FormsModeUI
+	 */
 	@Override
 	public FormsModeUI clone() {
 		FormsModeUI clone = new FormsModeUI(getX(),getY(),getWidth(),getHeight(),getTablr());
@@ -230,6 +274,9 @@ public class FormsModeUI extends UI {
 		return clone;
 	}
 	
+	/**
+	 * Returns a string representation of the FormsModeUI
+	 */
 	@Override
 	public String toString() {
 		return "FormsUI : X="+getX() + " Y="+getY() + " W=" +getWidth() + " H="+getHeight();

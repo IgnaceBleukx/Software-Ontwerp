@@ -21,7 +21,11 @@ import uielements.UIElement;
 import uielements.UIRow;
 import uielements.VoidElement;
 
-
+/**
+ * Class containing a UI.
+ * A UI contains UIElements
+ *
+ */
 public class UI {
 	
 	/**
@@ -613,22 +617,39 @@ public class UI {
 		elements.stream().forEach(e -> e.resizeB(delta));
 	}
 	
+	/**
+	 * Actions performed when a column is resized.
+	 */
 	protected ArrayList<BiConsumer<Integer,Integer>> columnResizeListeners = new ArrayList<BiConsumer<Integer,Integer>>();
 	
+	/**
+	 * Actions performed when a column is resized.
+	 * @return
+	 */
 	public ArrayList<BiConsumer<Integer,Integer>> getColumnResizeListeners(){
 		return new ArrayList<BiConsumer<Integer, Integer>>(columnResizeListeners);
 	}
 	
+	/**
+	 * When a column is resized, perform necessary changes.
+	 * @param delta			how much the column was resized
+	 * @param index			which column has been resized
+	 */
 	public void columnChanged(int delta, int index) {
 		columnResizeListeners.stream().forEach(l -> l.accept(delta, index));
 	}
 	
+	/**
+	 * Returns a string representation of this UI.
+	 */
 	@Override
 	public String toString() {
 		return "UI : X="+getX() + " Y="+getY() + " W=" +getWidth() + " H="+getHeight();
 	}
 
-	@Override
+	/**
+	 * Clones this UI.
+	 */
 	public UI clone(){
 		UI clone = new UI(getX(),getY(),getWidth(),getHeight());
 		ArrayList<UIElement> clonedElements = new ArrayList<UIElement>();
@@ -637,6 +658,9 @@ public class UI {
 		return clone;
 	}
 
+	/**
+	 * Returns whether an Element in this UI is in error.
+	 */
 	public boolean getError() {
 		for (UIElement e : getElements()) {
 			if (e.getError())

@@ -23,6 +23,11 @@ import exceptions.InvalidQueryException;
 import facades.Tablr;
 import sql.SQLParser;
 
+/**
+ * Class containing a TablesModeUI. In a TablesModeUI,
+ * the user can create, rename, delete and open tables.
+ *
+ */
 public class TablesModeUI extends UI {
 	
 	/**
@@ -312,6 +317,9 @@ public class TablesModeUI extends UI {
 		return list;
 	}
 	
+	/**
+	 * Clones this UI
+	 */
 	@Override
 	public TablesModeUI clone(){
 		TablesModeUI clone = new TablesModeUI(getX(),getY(),getWidth(),getHeight(), getTablr());
@@ -320,6 +328,9 @@ public class TablesModeUI extends UI {
 		return clone;
 	}
 	
+	/**
+	 * Returns a string representation of this UI.
+	 */
 	@Override
 	public String toString() {
 		return "TablesmodeUI : X="+getX() + " Y="+getY() + " W=" +getWidth() + " H="+getHeight();

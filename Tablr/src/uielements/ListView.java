@@ -344,6 +344,9 @@ public class ListView extends UIElement {
 		return clone;
 	}
 
+	/**
+	 * Clones this object
+	 */
 	public void addHorizontalScrollListener(Consumer<Integer> f) {
 		scrollBarH.addScrollListener(f);
 		

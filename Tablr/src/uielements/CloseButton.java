@@ -79,6 +79,9 @@ public class CloseButton extends Button {
 		
 	}
 
+	/**
+	 * Clones this object
+	 */
 	@Override
 	public CloseButton clone(){
 		return new CloseButton(getX(),getY(),getWidth(),getHeight(),crossSize);

@@ -1,22 +1,28 @@
 package domain;
 
 import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Map;
-
-import javax.management.RuntimeErrorException;
-import Utils.DebugPrinter;
 import exceptions.InvalidNameException;
-import sql.ColumnSpec;
-import sql.Query;
 
+/**
+ * Class containing a StoredTable.
+ * A StoredTable is created manually and can be
+ * edited.
+ *
+ */
 public class StoredTable extends Table {
 
+	/**
+	 * Creates a new StoredTable with a given name
+	 * @param name		Name of the StoredTable
+	 */
 	public StoredTable(String name) {
 		super(name);
-		
 	}
 
+	/**
+	 * Returns the SQL Query this StoredTable
+	 * was based on. A StoredTable always has a query String ""
+	 */
 	@Override
 	public String getQueryString() {
 		return "";
@@ -43,7 +49,11 @@ public class StoredTable extends Table {
 		}
  	}
  	
-
+ 	/**
+ 	 * Adds a Column at a certain position.
+ 	 * @param column		Column to add	
+ 	 * @param index			Index to add the Column at
+ 	 */
 	public void addColumnAt(Column column, int index) {
 		this.columns.add(index,column);
 		column.setTable(this);
@@ -88,8 +98,6 @@ public class StoredTable extends Table {
 		}
 		return name;
 	}
-	
-	
 
 	
 	/**
@@ -130,25 +138,7 @@ public class StoredTable extends Table {
 	 */
 	@Override
 	public boolean queryContainsColumn(Column c) {
-//		DebugPrinter.print(c.getName() + " " + getReferences());
-//		for (int i = 0; i < getReferences().size(); i++) {
-//			ComputedTable t = getReferences().get(i);
-//			Query q = t.getQuery();
-//			HashMap<String, String> tableNames = q.findTableNameAliases();
-//			String tableAlias = tableNames.entrySet().stream()
-//						.filter(entry ->this.getName()
-//						.equals(entry.getValue()))
-//						.map(Map.Entry::getKey).findFirst().orElse(null);
-//			DebugPrinter.print(tableAlias);
-//			for(int j = 0; j < q.getColumnSpecs().size(); j++) {
-//				ColumnSpec spec = q.getColumnSpecs().get(j);
-//				DebugPrinter.print(spec);
-//				if (spec.getCellID().getRowID().equals(tableAlias) && spec.getCellID().getcolumnName().equals(c.getName())) {
-//					return true;
-//				}
-//			}
-//			
-//		}
+
 		for(ComputedTable t : getDerivedTables()) {
 			if (t.queryContainsColumn(c))
 				return true;

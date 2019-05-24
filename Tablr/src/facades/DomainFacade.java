@@ -32,10 +32,7 @@ import ui.UI;
  * and not directly via this class.
  */
 public class DomainFacade {
-	
-//	TODO: toggleBlanks fixen: checkbox moet rood worden bij default is leeg en dan klikken op checkbox
-//			removeRow de undo action is nog niet in orde!!
-	
+		
 	/**
 	 * Tables
 	 */
@@ -142,14 +139,6 @@ public class DomainFacade {
 		else if (table.isStoredTable()) {
 			removeTable((StoredTable) table);
 		}
-//		execute(new Command() {
-//			public void execute() { 		
-//				tables.remove(table);
-//			}
-//			public void undo() { 
-//				addTableAt(table,index); 
-//			}
-//		});
 	}
 
 	/**
@@ -579,17 +568,35 @@ public class DomainFacade {
 	
 	
 	
-	// Command methods to fix undo and redo
+	/**
+	 * Interface of a Command.
+	 * A Command can be undone and redone.
+	 */
 	public interface Command {
 		void execute();
 		void undo();
 	}
 	
+	/**
+	 * Undo Stack: list of Commands in order
+	 * to undo them.
+	 */
 	private ArrayList<Command> undoStack = new ArrayList<>();
+	
+	/**
+	 * Number of Commands that have been undone.
+	 */
 	int nbCommandsUndone = 0;
 
+	/**
+	 * Actions that occur when a certain
+	 * Table has changed.
+	 */
 	private Consumer<Table> domainChangedListener;
 	
+	/**
+	 * Undoes the last Command executed.
+	 */
 	void undo(){
 		DebugPrinter.print(undoStack);
 		DebugPrinter.print(nbCommandsUndone);
@@ -598,13 +605,21 @@ public class DomainFacade {
 		}
 	}
 	
+	/**
+	 * Execute the last Command that was undone.
+	 */
 	void redo(){
 		DebugPrinter.print(undoStack);
 		DebugPrinter.print(nbCommandsUndone);
 		if(nbCommandsUndone > 0)
 			undoStack.get(undoStack.size() - nbCommandsUndone--).execute();
 	}
-
+	
+	
+	/**
+	 * Executes a command
+	 * @param command		Command to execute
+	 */
 	void execute(Command command){
 		for(; nbCommandsUndone > 0; nbCommandsUndone--)
 			undoStack.remove(undoStack.size() - 1);
@@ -612,6 +627,9 @@ public class DomainFacade {
 		command.execute();
 	}
 	
+	/**
+	 * Removes a Command from the Undo stack.
+	 */
 	public void removeLastCommand() {
 		undoStack.remove(undoStack.size()-1);
 	}
@@ -680,7 +698,11 @@ public class DomainFacade {
 			}
 		}
 	}
-
+	
+	/**
+	 * Loads a list of Sample tables and
+	 * returns them
+	 */
 	public ArrayList<Table> loadSampleTables() {
 		ArrayList<Table> newTables = new ArrayList<>();
 		SQLTests t =  new SQLTests();
@@ -699,8 +721,6 @@ public class DomainFacade {
 		newTables.get(6).setName("MixedTypes");
 		this.tables = newTables;
 		return newTables;
-
-		
 	}
 
 	public void setDomainChangedListener(Consumer<Table> r) {

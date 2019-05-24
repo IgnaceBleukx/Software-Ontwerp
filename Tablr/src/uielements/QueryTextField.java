@@ -14,6 +14,13 @@ import javax.naming.CommunicationException;
 
 import Utils.GeometricUtils;
 import Utils.DebugPrinter;
+
+/**
+ * Class containing a QueryTextField. A QueryTextField differs
+ * from a normal TextField in that it supports Syntax Coloring for 
+ * SQL queries.
+ *
+ */
 public class QueryTextField extends TextField {
 
 	/**
@@ -63,10 +70,7 @@ public class QueryTextField extends TextField {
 		String regex = "\\s+$";
 		int diff = getText().length() - getText().replaceAll(regex, "").length();
 		x+= 3*diff;
-		
-		//		if (this.getText().endsWith(" ")){
-//			x+= 3;
-//		}
+
 		g.setColor(Color.BLACK);
 		if(isSelected())
 			g.drawString("<", x-3, y);
@@ -75,6 +79,10 @@ public class QueryTextField extends TextField {
 	}
 		
 
+	
+	/**
+	 * Clones this object
+	 */
 	@Override
 	public QueryTextField clone(){
 		return new QueryTextField(getX(),getY(),getWidth(),getHeight(),getText());

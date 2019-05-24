@@ -214,6 +214,9 @@ public class UITable extends UIElement {
 		new ArrayList<BiConsumer<Integer,Integer>>(dragListeners).stream().forEach(r -> r.accept(x, y));
 	}
 	
+	/**
+	 * Selects a new element
+	 */
 	@Override
 	public void selectElement(UIElement e) {
 		if (e==this) 
@@ -226,6 +229,9 @@ public class UITable extends UIElement {
 		}
 	}
 	
+	/**
+	 * Sets the UI
+	 */
 	@Override
 	public void setUI(UI ui) {
 		this.ui = ui;
@@ -235,6 +241,9 @@ public class UITable extends UIElement {
 		scrollBarH.setUI(ui);
 	}
 	
+	/**
+	 * Whether this element is in error
+	 */
 	@Override
 	public boolean getError() {
 		for (UIElement e : this.rows) {
@@ -244,6 +253,9 @@ public class UITable extends UIElement {
 		return false;
 	}
 	
+	/**
+	 * Move
+	 */
 	@Override
 	public void move(int deltaX, int deltaY) {
 		setX(getX() + deltaX);
@@ -254,6 +266,9 @@ public class UITable extends UIElement {
 		scrollBarV.move(deltaX, deltaY);
 	}
 	
+	/**
+	 * Resize to the left
+	 */
 	@Override
 	public void resizeL(int deltaX){
 		this.setWidth(getWidth()-deltaX);
@@ -264,6 +279,10 @@ public class UITable extends UIElement {
 		scrollBarH.resizeL(deltaX);
 		updateScrollBars();
 	}
+	
+	/**
+	 * Resize to the right
+	 */
 	@Override
 	public void resizeR(int deltaX){
 		UIElement border = null;
@@ -282,6 +301,10 @@ public class UITable extends UIElement {
 		scrollBarH.resizeR(deltaX);
 		updateScrollBars();
 	}
+	
+	/**
+	 * Resize to the bottom
+	 */
 	@Override
 	public void resizeB(int deltaY){
 		UIElement border = null;
@@ -299,6 +322,10 @@ public class UITable extends UIElement {
 		scrollBarH.resizeB(deltaY);
 		updateScrollBars();
 	}
+	
+	/**
+	 * Resize to the top
+	 */
 	@Override
 	public void resizeT(int deltaY){
 		this.setHeight(getHeight()-deltaY);
@@ -310,6 +337,9 @@ public class UITable extends UIElement {
 		updateScrollBars();
 	}
 	
+	/**
+	 * Clones this object
+	 */
 	@Override
 	public UITable clone(){
 		ArrayList<UIRow> clonedRows = new ArrayList<UIRow>();

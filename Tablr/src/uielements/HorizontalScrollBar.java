@@ -112,7 +112,10 @@ public class HorizontalScrollBar extends ScrollBar {
 	public void resizeB(int deltaY){
 		this.move(0, deltaY);
 	}
-
+	
+	/**
+	 * Clones this object
+	 */
 	public HorizontalScrollBar clone(){
 		return new HorizontalScrollBar(getX(),getY(),getWidth(),getHeight());
 	}

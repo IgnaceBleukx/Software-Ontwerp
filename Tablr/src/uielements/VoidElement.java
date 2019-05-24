@@ -5,6 +5,11 @@ import java.awt.Graphics;
 import java.util.ArrayList;
 import java.util.HashMap;
 
+/**
+ * VoidElement is invisible but can react to Keyboard Input
+ * @author quinten
+ *
+ */
 public class VoidElement extends UIElement{
 
 	public VoidElement(int x, int y, int w, int h, Color c) {
@@ -50,7 +55,7 @@ public class VoidElement extends UIElement{
 		
 		new HashMap<Integer, ArrayList<Runnable>>(keyboardListeners).get(keyCode).stream().forEach(l -> l.run());
 	}
-
+	
 	@Override
 	public VoidElement clone(){
 		return new VoidElement(getX(),getY(),getWidth(),getHeight(),color);

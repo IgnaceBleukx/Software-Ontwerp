@@ -15,6 +15,9 @@ public class TopUIEdge extends UIEdge {
 	public void resizeB(int deltaH){
 	}
 
+	/**
+	 * Clones this object
+	 */
 	@Override
 	public TopUIEdge clone(){
 		return new TopUIEdge(getX(),getY(),getWidth(),getHeight());

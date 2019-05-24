@@ -22,6 +22,11 @@ import domain.Table;
 import domain.Type;
 import facades.Tablr;
 
+/**
+ * Class containing a TableRowsModeUI. In a TableRowsModeUI,
+ * the user can edit Cell values directly.
+ *
+ */
 public class TableRowsModeUI extends UI {
 	
 	ArrayList<Integer> cellWidth = new ArrayList<>();
@@ -278,6 +283,10 @@ public class TableRowsModeUI extends UI {
 		return uiTable;
 	}
 	
+	
+	/**
+	 * Clones this UI
+	 */
 	@Override
 	public TableRowsModeUI clone(){
 		TableRowsModeUI clone = new TableRowsModeUI(getX(),getY(),getWidth(),getHeight(),getTablr());
@@ -286,6 +295,9 @@ public class TableRowsModeUI extends UI {
 		return clone;
 	}
 	
+	/**
+	 * Returns a string representation of this UI
+	 */
 	@Override
 	public String toString() {
 		return "RowsUI : X="+getX() + " Y="+getY() + " W=" +getWidth() + " H="+getHeight();

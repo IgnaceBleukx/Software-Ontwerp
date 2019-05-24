@@ -24,6 +24,9 @@ public class TopRightUICorner extends UIEdge {
 	public void resizeB(int delta){
 	}
 
+	/**
+	 * Clones this object
+	 */
 	@Override
 	public TopRightUICorner clone(){
 		return new TopRightUICorner(getX(),getY(),getWidth(),getHeight());

@@ -4,7 +4,9 @@ import Utils.BooleanCaster;
 
 /**
  * Possible values for a cell.
- * Order: EMAIL, INTEGER, BOOLEAN, STRING
+ * Order: EMAIL, INTEGER, BOOLEAN, STRING.
+ * Contains implementations of parseValue, that
+ * parse a String to the correct Value.
  */
 public enum Type {
 	
