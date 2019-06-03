@@ -22,13 +22,22 @@ import facades.Tablr;
 import domain.Table;
 
 /**
- * Create a new TableDesignModeUI
- *
- */
+ * Class containing a TableDesignModeUI. In a TableDesignModeUI,
+ * the user can edit column names, types and default values.
+ * */
 public class TableDesignModeUI extends UI {
 	
 	private int margin = getWidth() / 15;
 
+	/**
+	 * Creates a new TableDesignModeUI. In a TableDesignModeUI,
+	 * the user can edit column names, types and default values.
+	 * @param x		X coordinate
+	 * @param y		Y coordinate
+	 * @param w		width
+	 * @param h		height
+	 * @param t		Tablr reference
+	 */
 	public TableDesignModeUI(int x, int y, int w, int h,Tablr t) {
 		super(x,y,w,h);
 		this.setTablr(t);
@@ -39,6 +48,10 @@ public class TableDesignModeUI extends UI {
 		
 	}
 	
+	/**
+	 * Loads the necessary UIelements into the UI
+	 * @param table		Table to load design mode from.
+	 */
 	public void loadUI(StoredTable table){
 		setActive();
 		UIRow legend = getLegend();
@@ -334,6 +347,9 @@ public class TableDesignModeUI extends UI {
 		return list;
 	}
 	
+	/**
+	 * Clones this TableDesignModeUI
+	 */
 	@Override
 	public TableDesignModeUI clone(){
 		TableDesignModeUI clone = new TableDesignModeUI(getX(),getY(),getWidth(),getHeight(),getTablr());
@@ -343,6 +359,9 @@ public class TableDesignModeUI extends UI {
 		return clone;
 	}
 	
+	/**
+	 * Returns a string representation of this object.
+	 */
 	@Override
 	public String toString() {
 		return "DesignUI : X="+getX() + " Y="+getY() + " W=" +getWidth() + " H="+getHeight();

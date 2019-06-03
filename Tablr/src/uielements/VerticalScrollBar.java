@@ -7,7 +7,6 @@ import Utils.Rounder;
 
 /**
  * The Vertical scrollbar must always be placed on the right hand side of the items. 
- * @author r0674255
  *
  */
 public class VerticalScrollBar extends ScrollBar{
@@ -97,6 +96,9 @@ public class VerticalScrollBar extends ScrollBar{
 	
 	}
 
+	/**
+	 * Clones this object
+	 */
 	@Override
 	public VerticalScrollBar clone(){
 		return new VerticalScrollBar(getX(),getY(),getWidth(),getHeight());

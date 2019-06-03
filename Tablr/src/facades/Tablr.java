@@ -66,19 +66,33 @@ public class Tablr {
 		return (domainFacade.getColumns(t).size() == 0);
 	}
 	
-
+	/**
+	 * Adds a tables mode UI
+	 */
 	public void addTablesModeUI() {
 		windowManager.addTablesModeUI();
 	}
 	
+	/**
+	 * Loads a Table Rows Mode UI for a certain Table.
+	 * @param table		Table
+	 */
 	public void loadTableRowsModeUI(Table table){
 		windowManager.loadTableRowsModeUI(table);
 	}
 	
+	/**
+	 * Loads a Forms Mode UI for a certain Table
+	 * @param table		Table
+	 */
 	public void loadFormsModeUI(Table table) {
 		windowManager.loadFormsModeUI(table);
 	}
 	
+	/**
+	 * Loads a Table Design Mode UI for a certain Table
+	 * @param table		Table
+	 */
 	public void loadTableDesignModeUI(StoredTable table) {
 		windowManager.loadTableDesignModeUI(table);
 	}
@@ -96,6 +110,9 @@ public class Tablr {
 		return t;
 	}
 	
+	/**
+	 * Returns the Query of a Table
+	 */
 	public String getTableQuery(Table table) {
 		return domainFacade.getTableQuery(table);
 	}
@@ -455,22 +472,37 @@ public class Tablr {
 		return windowManager.getLockedElement();
 	}
 	
+	/**
+	 * Returns a list containing all TablesModeUIs
+	 */
 	public ArrayList<TablesModeUI> getTablesModeUIs() {
 		return windowManager.getTablesModeUIs();
 	}
 	
+	/**
+	 * Returns a list containing all TableDesignModeUIs
+	 */
 	public ArrayList<TableDesignModeUI> getTableDesignUIs(Table table) {
 		return windowManager.getTableDesignModeUIs(table);
 	}
 	
+	/**
+	 * Returns a list containing all TableRowsModeUIs
+	 */
 	public ArrayList<TableRowsModeUI> getTableRowsUIs(Table table) {
 		return windowManager.getTableRowsUIs(table);
 	}
 	
+	/**
+	 * Returns a list containing all FormsModeUIs
+	 */
 	public ArrayList<FormsModeUI> getFormsModeUIs(Table table){
 		return windowManager.getFormsModeUIs(table);
 	}
 	
+	/**
+	 * Returns all UIs
+	 */
 	public ArrayList<UI> getUIs(){
 		return windowManager.getUIs();
 	}
@@ -482,6 +514,10 @@ public class Tablr {
 		windowManager.controlPressed();
 	}
 
+	/**
+	 * Undoes the last Command executed, 
+	 * unless some object is in error.
+	 */
 	public void undo(){
 		if (windowManager.getLockedElement() != null || windowManager.hasElementInError())
 			return;
@@ -489,6 +525,10 @@ public class Tablr {
 		domainChanged(null);
 	}
 	
+	/**
+	 * Redoes the last Command that was undone,
+	 * unless some object is in error.
+	 */
 	public void redo(){
 		if (windowManager.getLockedElement() != null || windowManager.hasElementInError())
 			return;
@@ -520,11 +560,9 @@ public class Tablr {
 		newTable.printTable();
 		int index = getTables().indexOf(t); //TODO: hier zit em. t zit niet noodzakelijk meer in getTables(): namelijk als
 		newTable.setName(t.getName());
-		System.out.println("BOOOOOM");
 		
 		domainFacade.replaceTable(index,newTable);
 		windowManager.tableChanged(t, newTable);
-		System.out.println("BOOOOOM");
 		//Closes any window that containing
 		//values of the overwritten table.
 		
@@ -535,8 +573,16 @@ public class Tablr {
 		});
 	}
 	
+	/**
+	 * Updates a ComputedTable that was derived from a StoredTable when the 
+	 * StoredTable changes.
+	 * @param changingTable				StoredTable that changed
+	 * @param computed					ComputedTable to update
+	 * @throws InvalidNameException
+	 * @throws InvalidQueryException	Query is invalid. Should not happen
+	 * 									if the Query was valid before the domain change.
+	 */
 	private void tableChanged(Table changingTable, ComputedTable computed) throws InvalidNameException, InvalidQueryException {
-		DebugPrinter.print("ChangingTable and ComputedTable ");
 		if (changingTable == null)
 			return;
 		for (int i = 0; i < changingTable.getDerivedTables().size(); i++) {
@@ -546,12 +592,20 @@ public class Tablr {
 			}
 		}		
 	}
-
+	
+	/**
+	 * Notifies the windowManager that a KeyEvent has happened.
+	 * @param keyCode	keyCode of KeyEvent
+	 * @param keyChar	keyChar of KeyEvent
+	 */
 	public void notifyKeyListener(int keyCode, char keyChar) {
 		windowManager.notifyKeyListener(keyCode, keyChar);
 		
 	}
 	
+	/**
+	 * Loads a list of SampleTables into the Domain.
+	 */
 	public void loadSampleTables() {
 		ArrayList<Table> tables = domainFacade.loadSampleTables();
 		for (Table t: tables) {

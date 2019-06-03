@@ -57,6 +57,9 @@ abstract class UIEdge extends UIElement {
 		g.fillRect(getX(), getY(), getWidth(), getHeight());
 	}
 
+	/**
+	 * Clones this object
+	 */
 	@Override
 	public abstract UIEdge clone();
 }

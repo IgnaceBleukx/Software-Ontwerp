@@ -153,6 +153,9 @@ public class TextField extends UIElement {
 		new ArrayList<BiConsumer<Integer,Integer>>(dragListeners).stream().forEach(r -> r.accept(x, y));
 	}
 
+	/**
+	 * Clones this object
+	 */
 	@Override
 	public TextField clone(){
 		return new TextField(getX(),getY(),getWidth(),getHeight(),getText());

@@ -132,10 +132,19 @@ public class MyCanvasWindow extends CanvasWindow {
 		repaint();
 	}
 
-	// Date that keeps track of the last time a 'Ctrl' button is clicked
+	/**
+	Date that keeps track of the last time a 'Ctrl' button is clicked
+	*/
 	private Date ctrlTimestamp = null;
+	
 	private int milliSecondsWaiting = 1000;
-
+	
+	/**
+	 * Checks whether Ctrl has been pressed.
+	 * Updates the Ctrl timer and opens a
+	 * Tables subwindow if necessary.
+	 * @param keyCode	KeyCode of the Keyboard Event
+	 */
 	private void checkCtrlT(int keyCode) {
 		// 17 is Ctrl
 		if (keyCode == 17) {

@@ -1,5 +1,15 @@
 package domain;
 
+/**
+ * Class containing a Cell.
+ * A Cell is a simple objects that holds a Value.
+ * Cells can be added to Columns, however the Cell
+ * is not aware of this (i.e. it's a unidirectional
+ * assocation).
+ *
+ * @param <T>	Type of the Value this cell Holds.
+ * 				Can be String, Boolean, Integer
+ */
 public class Cell<T> {
 
 	/**

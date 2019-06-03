@@ -20,7 +20,10 @@ import exceptions.InvalidQueryException;
  */
 public class QueryExecutor {
 	/**
-	 * Executes a query
+	 * Executes a query according to the standard order of SQL operations.
+	 * 1. FROM
+	 * 2. WHERE
+	 * 3. SELECT
 	 * @param q							Query
 	 * @param tables					List of tables
 	 * @return							ComputedTable containing the result of the query
@@ -54,19 +57,17 @@ public class QueryExecutor {
 		
 		// --> tableSpecs
 		//2. Filter rows (WHERE)
+		// --> expression
 		t = q.resolveWhere(t,tableNames);
 		
 		DebugPrinter.print("==== Temporary table after WHERE: ");
 		t.printTable();
 		DebugPrinter.print("====");
-		// --> expression
+
+		
+		
 		//3. Return columns (SELECT)
 		// --> columnSpecs
-		
-		//[
-		//	 ColumnSpec(cellIDExpression(student.name) AS name), 
-		//   ColumnSpec(cellIDExpression(student.program) AS program)
-		//]
 		ComputedTable t2 = q.selectColumns(t, tableNames);
 		
 		DebugPrinter.print("==== Final table after SELECT: ");

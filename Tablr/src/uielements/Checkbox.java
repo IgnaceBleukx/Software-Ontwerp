@@ -124,6 +124,9 @@ public class Checkbox extends UIElement {
 		this.move(deltaW, 0);
 	}
 
+	/**
+	 * Clones this object
+	 */
 	@Override
 	public Checkbox clone(){
 		return new Checkbox(getX(),getY(),getWidth(),getHeight(),value);

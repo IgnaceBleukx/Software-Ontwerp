@@ -30,23 +30,14 @@ import uielements.VoidElement;
 public class WindowManager {
 	private Tablr tablr;
 	
+	/**
+	 * Creates a new WindowManager
+	 * @param c		Tablr instance
+	 */
 	public WindowManager(Tablr c) {
 		tablr = c;
 		keyListener = new VoidElement(-1, -1, 300, 300, null);
 		
-//		// 'Z' is pressed
-//		keyListener.addKeyboardListener(90, () -> {
-//			System.out.println("Z is pressed");
-//			if (recentCtrl()) {
-//				if(recentShift()) {
-//					DebugPrinter.print("CTRL + SHIFT + Z is pressed");
-//					tablr.redo();
-//				} else {
-//					System.out.println("CTRL + Z is pressed in windowmanager");
-//					tablr.undo();
-//				}
-//			}
-//		});
 		keyListener.addKeyboardListener(90, () -> {
 			if (recentCtrl() && recentShift()) {
 				DebugPrinter.print("REDO");
@@ -60,19 +51,25 @@ public class WindowManager {
 
 			
 		});
-//		keyListener.addKeyboardListener(82,() -> {
-//			if (recentCtrl()) {
-//				DebugPrinter.print("REDO");
-//				tablr.redo();
-//			}
-//		});
+
 	}
 	
+	/**
+	 * Returns Tablr
+	 */
 	public Tablr getTablr() {
 		return tablr;
 	}
 	
+	/**
+	 * Map (Table->UI) containing all UI's, ordered by their
+	 * table.
+	 */
 	private HashMap<Table,ArrayList<UI>> uis = new HashMap<Table,ArrayList<UI>>();
+	
+	/**
+	 * VoidElement to listen to KeyEvents globally.
+	 */
 	private VoidElement keyListener = null;
 	
 	/**
@@ -85,7 +82,9 @@ public class WindowManager {
 	 */
 	private UI prevSelectedUI;
 
-	
+	/**
+	 * Returns all UI's
+	 */
 	public ArrayList<UI> getUIs() {
 		ArrayList<UI> allUIs = new ArrayList<>();
 		this.uis.values().stream().forEach(l -> allUIs.addAll(l));
@@ -101,6 +100,9 @@ public class WindowManager {
 		return elements;
 	}
 	
+	/**
+	 * Adds a Tables Mode UI
+	 */
 	public void addTablesModeUI() {
 		TablesModeUI ui = null;
 		if (!uis.containsKey(null)) {
@@ -123,25 +125,37 @@ public class WindowManager {
 		loadTablesModeUI(ui);
 		ui.move(-ui.getX(), -ui.getY());
 	}
-
+	
+	/**
+	 * Adds a Tables Design Mode UI
+	 */
 	public void addTableDesignModeUI(Table table, TableDesignModeUI ui){
 		if (!uis.containsKey(table))
 			uis.put(table, new ArrayList<UI>());
 		this.uis.get(table).add(ui);
 	}
 	
+	/**
+	 * Adds a Table Rows Mode UI
+	 */
 	public void addTableRowsModeUI(Table table, TableRowsModeUI ui){
 		if (!uis.containsKey(table))
 			uis.put(table, new ArrayList<UI>());
 		this.uis.get(table).add(ui);
 	}
 
+	/**
+	 * Adds a Forms Mode UI
+	 */
 	public void addFormModeUI(Table table, FormsModeUI ui){
 		if(!uis.containsKey(table)) 
 			uis.put(table, new ArrayList<UI>());
 		this.uis.get(table).add(ui);
 	}
 	
+	/**
+	 * Loads a Tables Mode UI
+	 */
 	public void loadTablesModeUI(TablesModeUI ui){
 		ui.setTablr(tablr);
 		ui.setWindowManager(this);
@@ -150,6 +164,10 @@ public class WindowManager {
 		lastLoad = System.currentTimeMillis();
 	}
 
+	/**
+	 * Loads a Table Design Mode UI for a given Table
+	 * @param table		Table
+	 */
 	public void loadTableDesignModeUI(StoredTable table){
 		TableDesignModeUI ui = null;
 		ArrayList<TableDesignModeUI> uis = getTableDesignModeUIs(table);
@@ -178,6 +196,10 @@ public class WindowManager {
 		lastLoad = System.currentTimeMillis();
 	}
 
+	/**
+	 * Loads a Table Rows Mode UI for a given table.
+	 * @param table		Table
+	 */
 	public void loadTableRowsModeUI(Table table){
 		TableRowsModeUI ui = null;
 		ArrayList<TableRowsModeUI> uis = getTableRowsUIs(table);
@@ -206,6 +228,10 @@ public class WindowManager {
 		lastLoad = System.currentTimeMillis();
 	}
 	
+	/**
+	 * Loads a Forms Mode UI
+	 * @param table		Table
+	 */
 	public void loadFormsModeUI(Table table) {
 		DebugPrinter.print("Loading FormsModeUI");
 		FormsModeUI ui = null;
@@ -277,67 +303,128 @@ public class WindowManager {
 		return null;
 	}
 	
+	/**
+	 * History in which UIs were activated, is used
+	 * to re-activate the previous one when the current
+	 * UI is closed.
+	 */
 	private ArrayList<UI> UIHistory = new ArrayList<UI>();
 	
+	/**
+	 * Selects a new UIElement
+	 * @param e
+	 */
 	public void newSelected(UIElement e) {
 		getAllElements().stream().forEach(el -> el.selectElement(e));
 	}
 	
+	/**
+	 * Sets the selection lock on an element e
+	 * @param e
+	 */
 	public void getSelectionLock(UIElement e) {
 		this.lockedSelectedElement = e;
 	}
 	
+	/**
+	 * Releases the selection lock from an element e
+	 * @param e
+	 */
 	public void releaseSelectionLock(UIElement e) {
 		if (lockedSelectedElement != e)
 			throw new IllegalArgumentException("Trying to release selection lock from non-selected element");
 		lockedSelectedElement = null;
 	}
 	
+	/**
+	 * Clears the UI at a certain position (x,y)
+	 * @param x
+	 * @param y
+	 */
 	public void clearUIAt(int x,int y) {
 		getUIAt(x,y).clear();
 	}
-
+	
+	/**
+	 * Sets the lock on an Element
+	 * @param e
+	 */
 	public void getLock(UIElement e) {
 		hardLockedElement = e;
 	}
 
+	/**
+	 * Releases an Element from the lock
+	 * @param e
+	 */
 	public void releaseLock(UIElement e) {
 		if (hardLockedElement != e)
 			throw new IllegalArgumentException("Trying to release hard lock from non-selected element");
 		hardLockedElement = null;	
 	}
 
-
+	/**
+	 * Returns all UI elements at a position
+	 * @param x
+	 * @param y
+	 */
 	public ArrayList<UIElement> getElementsUIAt(int x, int y) {
 		return new ArrayList<UIElement>(getUIAt(x,y).getElements());
 	}
 
+	/**
+	 * Paints the UIs in the correct order on the Canvas.
+	 * @param g		Graphics object
+	 */
 	public void paint(Graphics g) {
 		for(int i = UIHistory.size() - 1; i >=0; i--) { if(UIHistory.get(i).isActive()) UIHistory.get(i).paint(g);}
 		if (selectedUI != null) selectedUI.paint(g);
  	}
 	
+	/**
+	 * Returns all TablesModeUIs
+	 */
 	public ArrayList<TablesModeUI> getTablesModeUIs() {
 		return new ArrayList<TablesModeUI>(uis.get(null).stream().map(u -> (TablesModeUI) u).collect(Collectors.toList()));
 	}
 	
+	/**
+	 * Returns all DesignModeUIs for a given Table
+	 * @param table		Table
+	 */
 	public ArrayList<TableDesignModeUI> getTableDesignModeUIs(Table table) {
 		DebugPrinter.print(uis.get(table));
 		return new ArrayList<TableDesignModeUI>(uis.get(table).stream().filter(u -> u instanceof TableDesignModeUI).map(u -> (TableDesignModeUI) u).collect(Collectors.toList()));
 	}
 	
+	/**
+	 * Returns all Table Rows Mode UIs for a given Table
+	 * @param table		Table
+	 */
 	public ArrayList<TableRowsModeUI> getTableRowsUIs(Table table) {
 		return new ArrayList<TableRowsModeUI>(uis.get(table).stream().filter(u -> u instanceof TableRowsModeUI).map(u -> (TableRowsModeUI) u).collect(Collectors.toList()));
 	}
 	
+	/**
+	 * Returns all FormsModeUIs for a given Table
+	 * @param table		Table
+	 */
 	public ArrayList<FormsModeUI> getFormsModeUIs(Table table){
 		return new ArrayList<FormsModeUI>(uis.get(table).stream().filter(ui -> ui instanceof FormsModeUI).map(ui -> (FormsModeUI) ui).collect(Collectors.toList()));
 	}
 
+	/**
+	 * Returns the selected UI
+	 * @return
+	 */
 	public UI getSelectedUI() {
 		return this.selectedUI;
 	}
 	
+	/**
+	 * Selects a new UI
+	 * @param u		UI
+	 */
 	public void selectUI(UI u) {
 		if (u != null && u.equals(selectedUI))
 			return;
@@ -485,12 +572,17 @@ public class WindowManager {
 		}
 	}
 	
-		
+	/**
+	 * Notifies that a KeyEvent has occured
+	 */
 	public void notifyKeyListener(int keyCode, char keyChar) {
 		keyListener.handleKeyboardEvent(keyCode, keyChar);
 		
 	}
 	
+	/**
+	 * Returns true if some element in the program is in Error
+	 */
 	public boolean hasElementInError() {
 		for (UI ui : getUIs()) {
 			if (ui.getError()) {
@@ -500,6 +592,11 @@ public class WindowManager {
 		return false;
 	}
 
+	/**
+	 * Updates all necessary UI's when a Table changes.
+	 * @param t				Old table
+	 * @param newTable		New Table
+	 */
 	public void tableChanged(Table t, Table newTable) {
 		ArrayList<FormsModeUI> formUIs = getFormsModeUIs(t);
 		ArrayList<TableRowsModeUI> rowUIs = getTableRowsUIs(t);

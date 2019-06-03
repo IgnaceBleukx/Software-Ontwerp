@@ -28,6 +28,9 @@ public class BottomUIEdge extends UIEdge {
 		this.move(0, deltaH);
 	}
 
+	/**
+	 * Clones this object
+	 */
 	@Override
 	public BottomUIEdge clone(){
 		return new BottomUIEdge(getX(), getY(),getWidth(),getHeight());

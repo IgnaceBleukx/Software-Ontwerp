@@ -5,7 +5,12 @@ import java.util.stream.Collectors;
 
 import exceptions.InvalidNameException;
 
-
+/**
+ * Class containing a Table.
+ * A Table is a collection of Columns with a name
+ * and comes in two variants: Stored and Computed.
+ *
+ */
 public abstract class Table {
 	
 	/**
@@ -51,14 +56,26 @@ public abstract class Table {
 	 */
 	private ArrayList<ComputedTable> derivedTables = new ArrayList<ComputedTable>();
 	
+	/**
+	 * Adds a table to the list of derived tables
+	 * @param t		Table
+	 */
 	public void addDerivedTable(ComputedTable t) {
 		derivedTables.add(t);
 	}
 	
+	/**
+	 * Removes a table from the list of derived tables
+	 * @param t		Table
+	 */
 	public void removeDerivedTable(ComputedTable t){
 		derivedTables.remove(t);
 	}
 	
+	/**
+	 * Removes a list of tables from the list of derived tables.
+	 * @return		List of tables
+	 */
 	public ArrayList<ComputedTable> removeDerivedTables() {
 		ArrayList<ComputedTable> references = new ArrayList<ComputedTable>(getDerivedTables());
 		for (ComputedTable ref : getDerivedTables()) {
@@ -67,10 +84,18 @@ public abstract class Table {
 		return references;
 	}
 	
+	/**
+	 * Adds a list of tables to the list of derived tables.
+	 * @param references		List of Tables
+	 */
 	public void addDerivedTables(ArrayList<ComputedTable> references) {
 		derivedTables.addAll(references);
 	}
 	
+	/**
+	 * Returns a list of all tables that are derived
+	 * from this Table
+	 */
 	public ArrayList<ComputedTable> getDerivedTables(){
 		return new ArrayList<ComputedTable>(derivedTables);
 	}
@@ -158,9 +183,6 @@ public abstract class Table {
 		return (!isStoredTable());
 	}
 
-
-	
-
 	
 	/**
 	 * Clones this table
@@ -171,6 +193,11 @@ public abstract class Table {
 		return t;
 	}
 	
+	/**
+	 * Returns the Cells that occur at a certain index
+	 * @param i				Index
+	 * @param ignoreCol		Ignore the cells of this column
+	 */
 	public ArrayList<Cell> getRowByIndex(int i,String ignoreCol) {
 		return new ArrayList<Cell>(
 				getColumns()

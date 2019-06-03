@@ -22,7 +22,9 @@ public class RightUIEdge extends UIEdge {
 	}
 
 	
-
+	/**
+	 * Clones this object
+	 */
 	@Override
 	public RightUIEdge clone(){
 		return new RightUIEdge(getX(),getY(),getWidth(),getHeight());

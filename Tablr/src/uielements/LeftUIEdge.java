@@ -28,6 +28,9 @@ public class LeftUIEdge extends UIEdge {
 		
 	}
 
+	/**
+	 * Clones this object
+	 */
 	@Override
 	public LeftUIEdge clone(){
 		return new LeftUIEdge(getX(),getY(),getWidth(),getHeight());

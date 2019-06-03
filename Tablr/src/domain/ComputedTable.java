@@ -7,13 +7,30 @@ import Utils.DebugPrinter;
 import sql.ColumnSpec;
 import sql.Query;
 
+/**
+ * Class containing a ComputedTable.
+ * A ComputedTable is the result of executing a 
+ * query and should not be edited directly.
+ * Use StoredTable for an editable Table.
+ *
+ */
 public class ComputedTable extends Table {
 
+	/**
+	 * Creates a new ComputedTable.
+	 * ComputedTables are created by the QueryExecutor
+	 * and should normally not be created manually.
+	 * @param name		Name of the Table
+	 * @param query		The Query this ComputedTable is based on.
+	 */
 	public ComputedTable(String name, Query query) {
 		super(name);
 	}
 
-	
+	/**
+	 * Returns the SQL string this ComputedTable
+	 * is the result of.
+	 */
 	@Override
 	public String getQueryString() {
 		return q.toSQL();

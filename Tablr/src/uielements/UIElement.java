@@ -18,7 +18,10 @@ import Utils.DebugPrinter;
 import facades.Tablr;
 import ui.UI;
 
-
+/**
+ * Class containing a UIElement
+ *
+ */
 public abstract class UIElement {
 	
 	@Override
@@ -446,6 +449,9 @@ public abstract class UIElement {
 		return dragging;
 	}
 
+	/**
+	 * Clones this object
+	 */
 	@Override
 	public abstract UIElement clone();
 

@@ -14,6 +14,10 @@ import java.util.stream.Stream;
 import Utils.Rounder;
 import ui.UI;
 
+/**
+ * UIRow
+ *
+ */
 public class UIRow extends UIElement {
 
 	/**
@@ -177,6 +181,11 @@ public class UIRow extends UIElement {
 			resize.resizeL(deltaW);
 	}
 	
+	/**
+	 * Resizes an element
+	 * @param deltaW
+	 * @param index
+	 */
 	public void resizeElementR(int deltaW,int index){
 		elements.sort((UIElement e1, UIElement e2) -> e1.getX() - e2.getX());
 		List<UIElement> toMove = elements.subList(index +1, elements.size());
@@ -189,6 +198,10 @@ public class UIRow extends UIElement {
 		this.setWidth(getWidth()+deltaW);
 	}
 	
+	/**
+	 * Removes an element
+	 * @param index
+	 */
 	public void removeElementAt(int index){
 		UIElement toRemove = elements.get(index);
 		if (!(toRemove instanceof Dragger)) {
@@ -197,6 +210,9 @@ public class UIRow extends UIElement {
 		elements.remove(toRemove);
 	}
 	
+	/**
+	 * Clones this object
+	 */
 	@Override
 	public UIRow clone(){
 		ArrayList<UIElement> clonedElements = new ArrayList<UIElement>();

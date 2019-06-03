@@ -140,6 +140,9 @@ public abstract class ScrollBar extends UIElement{
 		scrollBar.move(deltaX, deltaY);
 	}
 
+	/**
+	 * Clones this object
+	 */
 	@Override
 	public abstract ScrollBar clone();
 }

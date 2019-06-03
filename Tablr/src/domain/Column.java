@@ -8,7 +8,12 @@ import exceptions.BlankException;
 import exceptions.InvalidNameException;
 import exceptions.InvalidTypeException;
 
-
+/**
+ * Class containing a Column.
+ * A Column contaings a number of Cells
+ * and has a unique name within its Table.
+ *
+ */
 public class Column {
 	
 	/**
