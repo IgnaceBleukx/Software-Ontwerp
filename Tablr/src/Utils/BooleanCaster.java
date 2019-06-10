@@ -11,12 +11,12 @@ public class BooleanCaster {
 	 * @return		The boolean interpretation of the string
 	 */
 	public static Boolean cast(String s) {
-		if (s.toLowerCase().equals("true"))
+		if (s.equals(""))
+				return null;
+		else if (s.toLowerCase().equals("true"))
 			return true;
 		else if (s.toLowerCase().equals("false"))
 			return false;
-		else if (s.equals(""))
-			return null;
 			
 		throw new ClassCastException("Unable to cast string to boolean: "+s);
 	}

@@ -190,7 +190,7 @@ public class Query {
 				newVals.add(new Cell(c.getValueAt(index)));
 			}
 			try {
-				resolved.addColumn(new Column(c.getName(),newVals));
+				resolved.addColumn(new Column(c.getName(),newVals,c.getColumnType(),c.getDefault()));
 			} catch (InvalidNameException e) {
 				e.printStackTrace();
 			}
