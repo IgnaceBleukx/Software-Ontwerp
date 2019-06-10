@@ -398,12 +398,13 @@ public class DomainFacade {
 	 */
 	public void setColumnType(Column col, Type type){
 		execute(new Command() {
+			Type oldType = col.getColumnType();
 			public void execute() { 
 				col.setColumnType(type); 
 				domainChangedListener.accept(col.getTable());
 			}
 			public void undo() { 
-				col.setColumnType(Column.getPreviousType(type));
+				col.setColumnType(oldType);
 				domainChangedListener.accept(col.getTable());
 			}
 		});
